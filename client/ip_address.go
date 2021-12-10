@@ -30,3 +30,17 @@ func (c *Client) GetIPAddresses(ctx context.Context, id string) (*IPAddress, err
 
 	return &res, nil
 }
+
+func (c *Client) CreateIPAddress(ctx context.Context, ip_address *IPAddress) (*IPAddress, error) {
+	req, err := http.NewRequest("PUT", fmt.Sprintf("%s/rest/ip/address", c.HostURL), nil)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	res := IPAddress{}
+	if err := c.sendRequest(req, &res); err != nil {
+		return nil, err
+	}
+
+	return &res, nil
+}
