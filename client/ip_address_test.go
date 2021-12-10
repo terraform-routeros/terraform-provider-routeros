@@ -1,7 +1,6 @@
 package client
 
 import (
-	"context"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -9,8 +8,7 @@ import (
 
 func TestGetIpAddress(t *testing.T) {
 	c := NewClient("BLAH", "BLAH", "BLAH", true)
-	ctx := context.Background()
-	res, err := c.GetIPAddresses(ctx, "*4")
+	res, err := c.GetIPAddresses("*4")
 	assert.Nil(t, err, "expecting nil error")
 	assert.NotNil(t, res, "expecting non-nil result")
 }
