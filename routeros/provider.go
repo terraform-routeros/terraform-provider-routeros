@@ -39,7 +39,7 @@ func Provider(client *roscl.Client) *schema.Provider {
 			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
-			"ros_ip_address": resourceIPAddress(),
+			"routeros_ip_address": resourceIPAddress(),
 		},
 	}
 

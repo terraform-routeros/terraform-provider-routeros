@@ -68,12 +68,11 @@ func (c *Client) sendRequest(req *http.Request, v interface{}) error {
 
 		return fmt.Errorf("unknown error, status code: %d", res.StatusCode)
 	}
-	body, err := ioutil.ReadAll(res.Body)
-	fmt.Println(body)
-	var result interface{}
-	if err = json.Unmarshal(body, &v); err != nil {
-		return err
+	body, _ := ioutil.ReadAll(res.Body)
+	if len(body) != 0 {
+		if err = json.Unmarshal(body, &v); err != nil {
+			return err
+		}
 	}
-	fmt.Println(result)
 	return nil
 }
