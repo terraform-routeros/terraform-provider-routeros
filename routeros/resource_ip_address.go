@@ -85,7 +85,7 @@ func resourceIPAddressRead(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceIPAddressUpdate(d *schema.ResourceData, m interface{}) error {
-	c := m.(roscl.Client)
+	c := m.(*roscl.Client)
 	ipaddr, err := c.GetIPAddresses(d.Id())
 
 	if err != nil {
@@ -109,7 +109,7 @@ func resourceIPAddressUpdate(d *schema.ResourceData, m interface{}) error {
 }
 
 func resourceIPAddressDelete(d *schema.ResourceData, m interface{}) error {
-	c := m.(roscl.Client)
+	c := m.(*roscl.Client)
 	err := c.DeleteIPAddress(d.Id())
 	if err != nil {
 		return fmt.Errorf("error deleting ip address: %s", err.Error())
