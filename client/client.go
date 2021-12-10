@@ -26,10 +26,6 @@ type errorResponse struct {
 	Message string `json:"message"`
 }
 
-type successResponse struct {
-	Data interface{}
-}
-
 func NewClient(hosturl string, username string, password string, insecure bool) *Client {
 	return &Client{
 		HostURL:  hosturl,

@@ -1,7 +1,6 @@
 package client
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -21,11 +20,8 @@ func TestCreateIpAddress(t *testing.T) {
 	ipaddr.Interface = "VLAN_71_BACKUP_WAN"
 	ipaddr.Network = "10.1.71.0"
 	ipaddr.Disabled = "yes"
-	res, err := c.CreateIPAddress(ipaddr)
-	if err != nil {
-		fmt.Errorf("Failed to create IP address: %s", err.Error())
-	}
-	fmt.Println(res)
+	_, err := c.CreateIPAddress(ipaddr)
+	assert.Nil(t, err, "Expecting a nil error")
 }
 
 func TestDeleteIpAddress(t *testing.T) {
