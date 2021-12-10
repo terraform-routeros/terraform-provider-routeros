@@ -10,10 +10,10 @@ import (
 
 func resourceIPAddress() *schema.Resource {
 	return &schema.Resource{
-		CreateContext: resourceIPAddressCreate,
-		ReadContext:   resourceIPAddressRead,
-		UpdateContext: resourceIPAddressUpdate,
-		DeleteContext: resourceIPAddressDelete,
+		Create: resourceIPAddressCreate,
+		Read:   resourceIPAddressRead,
+		Update: resourceIPAddressUpdate,
+		Delete: resourceIPAddressDelete,
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
 		},
@@ -62,9 +62,57 @@ func resourceIPAddressCreate(d *schema.ResourceData, m interface{}) error {
 
 	res, err := c.CreateIPAddress(ip_addr)
 	if err != nil {
-		return fmt.Errorf("Error creating IP address: %s", err.Error())
+		return fmt.Errorf("error creating ip address: %s", err.Error())
 	}
 
 	d.SetId(res.ID)
+	return nil
+}
+
+func resourceIPAddressRead(d *schema.ResourceData, m interface{}) error {
+	c := m.(*roscl.Client)
+	ipaddr, err := c.GetIPAddresses(d.Id())
+
+	if err != nil {
+		return fmt.Errorf("error fetching ip address: %s", err.Error())
+	}
+
+	d.SetId(ipaddr.ID)
+
+	return nil
+
+}
+
+func resourceIPAddressUpdate(d *schema.ResourceData, m interface{}) error {
+	c := m.(roscl.Client)
+	ipaddr, err := c.GetIPAddresses(d.Id())
+
+	if err != nil {
+		return fmt.Errorf("error updating ip address: %s", err.Error())
+	}
+	ipaddr.Address = d.Get("address").(string)
+	ipaddr.Comment = d.Get("comment").(string)
+	ipaddr.Interface = d.Get("interface").(string)
+	ipaddr.Disabled = d.Get("disabled").(bool)
+	ipaddr.Network = d.Get("network").(string)
+
+	res, err := c.UpdateIPAddress(d.Id(), ipaddr)
+
+	if err != nil {
+		return fmt.Errorf("error updating ip address: %s", err.Error())
+	}
+
+	d.SetId(res.ID)
+
+	return nil
+}
+
+func resourceIPAddressDelete(d *schema.ResourceData, m interface{}) error {
+	c := m.(roscl.Client)
+	err := c.DeleteIPAddress(d.Id())
+	if err != nil {
+		return fmt.Errorf("error deleting ip address: %s", err.Error())
+	}
+	d.SetId("")
 	return nil
 }

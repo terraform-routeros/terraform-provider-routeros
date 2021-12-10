@@ -1,6 +1,8 @@
 package client
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"net/http"
 )
@@ -31,7 +33,11 @@ func (c *Client) GetIPAddresses(id string) (*IPAddress, error) {
 }
 
 func (c *Client) CreateIPAddress(ip_address *IPAddress) (*IPAddress, error) {
-	req, err := http.NewRequest("PUT", fmt.Sprintf("%s/rest/ip/address", c.HostURL), nil)
+	reqBody, err := json.Marshal(ip_address)
+	if err != nil {
+		return nil, err
+	}
+	req, err := http.NewRequest("PUT", fmt.Sprintf("%s/rest/ip/address", c.HostURL), bytes.NewBuffer(reqBody))
 	if err != nil {
 		return nil, err
 	}
@@ -41,4 +47,34 @@ func (c *Client) CreateIPAddress(ip_address *IPAddress) (*IPAddress, error) {
 	}
 
 	return &res, nil
+}
+
+func (c *Client) UpdateIPAddress(id string, ip_address *IPAddress) (*IPAddress, error) {
+	reqBody, err := json.Marshal(ip_address)
+	if err != nil {
+		return nil, err
+	}
+	req, err := http.NewRequest("PATCH", fmt.Sprintf("%s/rest/ip/address/%s", c.HostURL, id), bytes.NewBuffer(reqBody))
+	if err != nil {
+		return nil, err
+	}
+	res := IPAddress{}
+	if err := c.sendRequest(req, &res); err != nil {
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+func (c *Client) DeleteIPAddress(id string) error {
+	req, err := http.NewRequest("DELETE", fmt.Sprintf("%s/rest/ip/address/%s", c.HostURL, id), nil)
+	if err != nil {
+		return err
+	}
+	res := IPAddress{}
+	if err := c.sendRequest(req, &res); err != nil {
+		return err
+	}
+
+	return nil
 }
