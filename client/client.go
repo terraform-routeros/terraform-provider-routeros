@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
+	"strconv"
 	"time"
 )
 
@@ -43,6 +45,15 @@ func NewClient(hosturl string, username string, password string, insecure bool) 
 			},
 		},
 	}
+}
+
+func GetCredentialsFromEnvVar() (host string, username string, password string, insecure bool) {
+	host = os.Getenv("ROS_HOSTURL")
+	username = os.Getenv("ROS_USERNAME")
+	password = os.Getenv("ROS_PASSWORD")
+	insecure_str := os.Getenv("ROS_INSECURE")
+	insecure, _ = strconv.ParseBool(insecure_str)
+	return host, username, password, insecure
 }
 
 func (c *Client) sendRequest(req *http.Request, v interface{}) error {
