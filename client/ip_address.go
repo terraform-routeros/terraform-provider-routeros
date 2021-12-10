@@ -8,14 +8,14 @@ import (
 )
 
 type IPAddress struct {
-	ID              string `json:".id"`
-	ActualInterface string `json:"actual-interface"`
+	ID              string `json:".id,omitempty"`
+	ActualInterface string `json:"actual-interface,omitempty"`
 	Address         string `json:"address"`
-	Comment         string `json:"comment"`
-	Disabled        bool   `json:"disabled"`
-	Dynamic         string `json:"dynamic"`
+	Comment         string `json:"comment,omitempty"`
+	Disabled        string `json:"disabled"`
+	Dynamic         string `json:"dynamic,omitempty"`
 	Interface       string `json:"interface"`
-	Invalid         string `json:"invalid"`
+	Invalid         string `json:"invalid,omitempty"`
 	Network         string `json:"network"`
 }
 

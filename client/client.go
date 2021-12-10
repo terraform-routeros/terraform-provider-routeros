@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"time"
 )
@@ -48,12 +49,16 @@ func (c *Client) sendRequest(req *http.Request, v interface{}) error {
 	req.Header.Set("Content-Type", "application/json")
 	req.SetBasicAuth(c.Username, c.Password)
 
+	fmt.Println(req)
+
 	res, err := c.HTTPClient.Do(req)
 	if err != nil {
 		return err
 	}
 
 	defer res.Body.Close()
+
+	fmt.Println(res.StatusCode)
 
 	if res.StatusCode < http.StatusOK || res.StatusCode >= http.StatusBadRequest {
 		var errRes errorResponse
@@ -63,13 +68,12 @@ func (c *Client) sendRequest(req *http.Request, v interface{}) error {
 
 		return fmt.Errorf("unknown error, status code: %d", res.StatusCode)
 	}
-
-	fullResponse := successResponse{
-		Data: v,
-	}
-	if err = json.NewDecoder(res.Body).Decode(&fullResponse); err != nil {
+	body, err := ioutil.ReadAll(res.Body)
+	fmt.Println(body)
+	var result interface{}
+	if err = json.Unmarshal(body, &v); err != nil {
 		return err
 	}
-
+	fmt.Println(result)
 	return nil
 }

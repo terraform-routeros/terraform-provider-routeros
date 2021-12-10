@@ -2,6 +2,7 @@ package routeros
 
 import (
 	"fmt"
+	"strconv"
 
 	roscl "github.com/gnewbury1/terraform-provider-routeros/client"
 
@@ -56,7 +57,7 @@ func resourceIPAddressCreate(d *schema.ResourceData, m interface{}) error {
 
 	ip_addr.Address = address
 	ip_addr.Comment = comment
-	ip_addr.Disabled = disabled
+	ip_addr.Disabled = strconv.FormatBool(disabled)
 	ip_addr.Interface = network_interface
 	ip_addr.Network = network
 
@@ -93,7 +94,7 @@ func resourceIPAddressUpdate(d *schema.ResourceData, m interface{}) error {
 	ipaddr.Address = d.Get("address").(string)
 	ipaddr.Comment = d.Get("comment").(string)
 	ipaddr.Interface = d.Get("interface").(string)
-	ipaddr.Disabled = d.Get("disabled").(bool)
+	ipaddr.Disabled = strconv.FormatBool(d.Get("disabled").(bool))
 	ipaddr.Network = d.Get("network").(string)
 
 	res, err := c.UpdateIPAddress(d.Id(), ipaddr)

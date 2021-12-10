@@ -32,7 +32,7 @@ func Provider(client *roscl.Client) *schema.Provider {
 			},
 			"insecure": {
 				Type:        schema.TypeBool,
-				Required:    false,
+				Optional:    true,
 				Default:     false,
 				DefaultFunc: schema.EnvDefaultFunc("ROS_INSECURE", nil),
 				Description: "Whether to verify the SSL certificate or not",
