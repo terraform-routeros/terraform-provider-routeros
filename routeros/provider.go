@@ -53,6 +53,12 @@ func Provider(client *roscl.Client) *schema.Provider {
 		password := d.Get("password").(string)
 		insecure := d.Get("insecure").(bool)
 
-		return roscl.NewClient
+		return roscl.NewClient(hosturl, username, password, insecure), nil
 	}
+
+	return provider
+}
+
+func NewProvider() *schema.Provider {
+	return Provider(nil)
 }
