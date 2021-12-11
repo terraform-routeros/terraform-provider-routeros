@@ -9,7 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
-func Provider(client *roscl.Client) *schema.Provider {
+func Provider() *schema.Provider {
 	provider := &schema.Provider{
 		Schema: map[string]*schema.Schema{
 			"hosturl": {
@@ -21,7 +21,7 @@ func Provider(client *roscl.Client) *schema.Provider {
 			"username": {
 				Type:        schema.TypeString,
 				Required:    true,
-				DefaultFunc: schema.EnvDefaultFunc("ROS_USER", nil),
+				DefaultFunc: schema.EnvDefaultFunc("ROS_USERNAME", nil),
 				Description: "Username for the ROS user",
 			},
 			"password": {
@@ -34,7 +34,7 @@ func Provider(client *roscl.Client) *schema.Provider {
 				Type:        schema.TypeBool,
 				Optional:    true,
 				Default:     false,
-				DefaultFunc: schema.EnvDefaultFunc("ROS_INSECURE", nil),
+				DefaultFunc: schema.EnvDefaultFunc("ROS_INSECURE", false),
 				Description: "Whether to verify the SSL certificate or not",
 			},
 		},
@@ -46,9 +46,6 @@ func Provider(client *roscl.Client) *schema.Provider {
 	}
 
 	provider.ConfigureContextFunc = func(ctx context.Context, d *schema.ResourceData) (interface{}, diag.Diagnostics) {
-		if client != nil {
-			return client, nil
-		}
 
 		hosturl := d.Get("hosturl").(string)
 		username := d.Get("username").(string)
@@ -62,5 +59,5 @@ func Provider(client *roscl.Client) *schema.Provider {
 }
 
 func NewProvider() *schema.Provider {
-	return Provider(nil)
+	return Provider()
 }

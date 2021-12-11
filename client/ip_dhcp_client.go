@@ -28,6 +28,11 @@ type DhcpClient struct {
 }
 
 func (c *Client) CreateDhcpClient(dhcp_client *DhcpClient) (*DhcpClient, error) {
+	if dhcp_client.AddDefaultRoute == "true" {
+		dhcp_client.AddDefaultRoute = "yes"
+	} else {
+		dhcp_client.AddDefaultRoute = "no"
+	}
 	reqBody, err := json.Marshal(dhcp_client)
 	if err != nil {
 		return nil, err

@@ -23,7 +23,7 @@ func resourceDhcpClient() *schema.Resource {
 			"add_default_route": {
 				Type:     schema.TypeBool,
 				Optional: true,
-				Default:  true,
+				Default:  false,
 			},
 			"address": {
 				Type:     schema.TypeString,
@@ -32,7 +32,7 @@ func resourceDhcpClient() *schema.Resource {
 			"default_route_distance": {
 				Type:     schema.TypeInt,
 				Optional: true,
-				Computed: true,
+				Default:  0,
 			},
 			"dhcp_options": {
 				Type:     schema.TypeString,
@@ -51,7 +51,6 @@ func resourceDhcpClient() *schema.Resource {
 			},
 			"dynamic": {
 				Type:     schema.TypeBool,
-				Optional: true,
 				Computed: true,
 			},
 			"expires_after": {
@@ -60,7 +59,6 @@ func resourceDhcpClient() *schema.Resource {
 			},
 			"gateway": {
 				Type:     schema.TypeString,
-				Optional: true,
 				Computed: true,
 			},
 			"interface": {
@@ -108,8 +106,6 @@ func resourceDhcpClientCreate(d *schema.ResourceData, m interface{}) error {
 	dhcp_client.DhcpOptions = d.Get("dhcp_options").(string)
 	dhcp_client.DhcpServer = d.Get("dhcp_server").(string)
 	dhcp_client.Disabled = strconv.FormatBool(d.Get("disabled").(bool))
-	dhcp_client.Dynamic = strconv.FormatBool(d.Get("dynamic").(bool))
-	dhcp_client.Gateway = d.Get("gateway").(string)
 	dhcp_client.Interface = d.Get("interface").(string)
 	dhcp_client.PrimaryDNS = d.Get("primary_dns").(string)
 	dhcp_client.SecondaryDNS = d.Get("secondary_dns").(string)
