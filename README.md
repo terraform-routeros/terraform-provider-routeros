@@ -6,7 +6,7 @@ This provider is intended to be used with Router OS 7 and above. It makes use of
 
 ## Usage
 
-Please refer to the [documentation](docs/index.md)
+Please refer to the [documentation](docs/)
 
 ## Changelog
 
