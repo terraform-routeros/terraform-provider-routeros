@@ -34,8 +34,53 @@ func resourceInterfaceVlan() *schema.Resource {
 				Required: true,
 			},
 			"vlan_id": {
-				Type:     schema.TypeString,
+				Type:     schema.TypeInt,
 				Required: true,
+			},
+			"arp": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"arp_timeout": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"l2mtu": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"loop_protect": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"loop_protect_disable_time": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"loop_protect_send_interval": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"loop_protect_status": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"mac_address": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"mtu": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"running": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"use-service-tag": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
 			},
 		},
 	}
@@ -57,7 +102,7 @@ func resourceInterfaceVlanCreate(d *schema.ResourceData, m interface{}) error {
 	}
 
 	d.SetId(res.ID)
-	return nil
+	return resourceInterfaceVlanRead(d, m)
 }
 
 func resourceInterfaceVlanRead(d *schema.ResourceData, m interface{}) error {
@@ -68,7 +113,32 @@ func resourceInterfaceVlanRead(d *schema.ResourceData, m interface{}) error {
 		return fmt.Errorf("error fetching vlan: %s", err.Error())
 	}
 
+	l2_mtu, err := strconv.Atoi(vlan.L2Mtu)
+	if err != nil {
+		return err
+	}
+
+	mtu, err := strconv.Atoi(vlan.Mtu)
+	if err != nil {
+		return err
+	}
+	use_service_tag, _ := strconv.ParseBool(vlan.UseServiceTag)
+
 	d.SetId(vlan.ID)
+	d.Set("name", vlan.Name)
+	d.Set("interface", vlan.Interface)
+	d.Set("vlan_id", vlan.VlanID)
+	d.Set("disabled", vlan.Disabled)
+	d.Set("arp", vlan.Arp)
+	d.Set("arp_timeout", vlan.ArpTimeout)
+	d.Set("l2mtu", l2_mtu)
+	d.Set("loop_protect", vlan.LoopProtect)
+	d.Set("loop_protect_disable_time", vlan.LoopProtectDisableTime)
+	d.Set("loop_protect_send_interval", vlan.LoopProtectSendInterval)
+	d.Set("loop_protect_status", vlan.LoopProtectStatus)
+	d.Set("mac_address", vlan.MacAddress)
+	d.Set("mtu", mtu)
+	d.Set("use_service_tag", use_service_tag)
 
 	return nil
 
