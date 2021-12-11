@@ -6,13 +6,7 @@ This provider is intended to be used with Router OS 7 and above. It makes use of
 
 ## Usage
 
-```terraform
-provider "routeros" {
-    hosturl  = "https://my.router.lan"
-    username = "user"
-    password = "password
-}
-```
+Please refer to the [documentation](docs/index.md)
 
 ## Changelog
 
