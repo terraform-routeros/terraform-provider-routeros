@@ -72,12 +72,13 @@ func resourceInterfaceVlan() *schema.Resource {
 			"mtu": {
 				Type:     schema.TypeInt,
 				Optional: true,
+				Default:  1500,
 			},
 			"running": {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
-			"use-service-tag": {
+			"use_service_tag": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Default:  false,
@@ -118,17 +119,23 @@ func resourceInterfaceVlanRead(d *schema.ResourceData, m interface{}) error {
 		return err
 	}
 
+	vlan_id, _ := strconv.Atoi(vlan.VlanID)
+
+	disabled, _ := strconv.ParseBool(vlan.Disabled)
+
 	mtu, err := strconv.Atoi(vlan.Mtu)
 	if err != nil {
 		return err
 	}
 	use_service_tag, _ := strconv.ParseBool(vlan.UseServiceTag)
 
+	running, _ := strconv.ParseBool(vlan.Running)
+
 	d.SetId(vlan.ID)
 	d.Set("name", vlan.Name)
 	d.Set("interface", vlan.Interface)
-	d.Set("vlan_id", vlan.VlanID)
-	d.Set("disabled", vlan.Disabled)
+	d.Set("vlan_id", vlan_id)
+	d.Set("disabled", disabled)
 	d.Set("arp", vlan.Arp)
 	d.Set("arp_timeout", vlan.ArpTimeout)
 	d.Set("l2mtu", l2_mtu)
@@ -139,6 +146,7 @@ func resourceInterfaceVlanRead(d *schema.ResourceData, m interface{}) error {
 	d.Set("mac_address", vlan.MacAddress)
 	d.Set("mtu", mtu)
 	d.Set("use_service_tag", use_service_tag)
+	d.Set("running", running)
 
 	return nil
 
