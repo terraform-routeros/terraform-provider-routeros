@@ -4,7 +4,7 @@
 
 This provider is intended to be used with Router OS 7 and above. It makes use of the REST API introduced with Router OS v7.
 
-### Todo for 0.1.0 (initial release)
+### Todo for 0.1.0 (initial pre-release)
 
 #### Resources:
 - [ ] Add resources for following objects normally found under `/ip`
