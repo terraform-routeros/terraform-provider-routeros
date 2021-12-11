@@ -46,8 +46,8 @@ func (c *Client) CreateVLAN(vlan *VLAN) (*VLAN, error) {
 	return &res, nil
 }
 
-func (c *Client) ReadVLAN(name string) (*VLAN, error) {
-	req, err := http.NewRequest("GET", fmt.Sprintf("%s/rest/interface/vlan/%s", c.HostURL, name), nil)
+func (c *Client) ReadVLAN(id string) (*VLAN, error) {
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/rest/interface/vlan/%s", c.HostURL, id), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -60,12 +60,12 @@ func (c *Client) ReadVLAN(name string) (*VLAN, error) {
 	return &res, nil
 }
 
-func (c *Client) UpdateVLAN(name string, vlan *VLAN) (*VLAN, error) {
+func (c *Client) UpdateVLAN(id string, vlan *VLAN) (*VLAN, error) {
 	reqBody, err := json.Marshal(vlan)
 	if err != nil {
 		return nil, err
 	}
-	req, err := http.NewRequest("PATCH", fmt.Sprintf("%s/rest/interface/vlan/%s", c.HostURL, name), bytes.NewBuffer(reqBody))
+	req, err := http.NewRequest("PATCH", fmt.Sprintf("%s/rest/interface/vlan/%s", c.HostURL, id), bytes.NewBuffer(reqBody))
 	if err != nil {
 		return nil, err
 	}
@@ -77,8 +77,8 @@ func (c *Client) UpdateVLAN(name string, vlan *VLAN) (*VLAN, error) {
 	return &res, nil
 }
 
-func (c *Client) DeleteVLAN(name string) error {
-	req, err := http.NewRequest("DELETE", fmt.Sprintf("%s/rest/interface/vlan/%s", c.HostURL, name), nil)
+func (c *Client) DeleteVLAN(id string) error {
+	req, err := http.NewRequest("DELETE", fmt.Sprintf("%s/rest/interface/vlan/%s", c.HostURL, id), nil)
 	if err != nil {
 		return err
 	}
