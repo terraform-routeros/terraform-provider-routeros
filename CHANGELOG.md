@@ -1,10 +1,9 @@
-# Terraform Provider RouterOS
+# Changelog
 
-## Purpose
+## Pre-release
 
-This provider is intended to be used with Router OS 7 and above. It makes use of the REST API introduced with Router OS v7.
-
-### Todo for 0.1.0 (initial release)
+### 0.1.0
+Todo for 0.1.0:
 
 #### Resources:
 - [ ] Add resources for following objects normally found under `/ip`
@@ -23,11 +22,3 @@ This provider is intended to be used with Router OS 7 and above. It makes use of
 - [ ] Add interface list as data object
 - [ ] Add route list as data object
 - [ ] Add IP address list as data object
-
-## Usage
-
-Please refer to the [documentation](docs/)
-
-## Changelog
-
-See [changelog.md](changelog.md)
