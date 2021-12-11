@@ -23,7 +23,7 @@ func resourceDhcpClient() *schema.Resource {
 			"add_default_route": {
 				Type:     schema.TypeBool,
 				Optional: true,
-				Computed: true,
+				Default:  true,
 			},
 			"address": {
 				Type:     schema.TypeString,
