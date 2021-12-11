@@ -86,11 +86,7 @@ func resourceIPAddressRead(d *schema.ResourceData, m interface{}) error {
 
 func resourceIPAddressUpdate(d *schema.ResourceData, m interface{}) error {
 	c := m.(*roscl.Client)
-	ipaddr, err := c.GetIPAddresses(d.Id())
-
-	if err != nil {
-		return fmt.Errorf("error updating ip address: %s", err.Error())
-	}
+	ipaddr := new(roscl.IPAddress)
 	ipaddr.Address = d.Get("address").(string)
 	ipaddr.Comment = d.Get("comment").(string)
 	ipaddr.Interface = d.Get("interface").(string)
