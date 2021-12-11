@@ -104,7 +104,7 @@ func resourceDhcpClientCreate(d *schema.ResourceData, m interface{}) error {
 	dhcp_client := new(roscl.DhcpClient)
 
 	dhcp_client.AddDefaultRoute = strconv.FormatBool(d.Get("add_default_route").(bool))
-	dhcp_client.DefaultRouteDistance = strconv.FormatInt(d.Get("default_route_distance").(int64), 10)
+	dhcp_client.DefaultRouteDistance = strconv.Itoa(d.Get("default_route_distance").(int))
 	dhcp_client.DhcpOptions = d.Get("dhcp_options").(string)
 	dhcp_client.DhcpServer = d.Get("dhcp_server").(string)
 	dhcp_client.Disabled = strconv.FormatBool(d.Get("disabled").(bool))

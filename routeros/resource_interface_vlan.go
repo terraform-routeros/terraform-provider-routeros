@@ -153,7 +153,7 @@ func resourceInterfaceVlanUpdate(d *schema.ResourceData, m interface{}) error {
 	vlan_obj.Name = d.Get("name").(string)
 	vlan_obj.Disabled = strconv.FormatBool(d.Get("disabled").(bool))
 	vlan_obj.Interface = d.Get("interface").(string)
-	vlan_obj.VlanID = strconv.FormatInt(d.Get("vlan_id").(int64), 10)
+	vlan_obj.VlanID = strconv.Itoa(d.Get("vlan_id").(int))
 
 	res, err := c.UpdateVLAN(d.Id(), vlan_obj)
 
