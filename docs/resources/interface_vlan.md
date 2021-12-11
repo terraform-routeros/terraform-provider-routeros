@@ -32,7 +32,7 @@ description: |-
 
 - **arp** (String)
 - **arp_timeout** (String)
-- **l2mtu** (Number)
+- **l2mtu** (String)
 - **loop_protect** (String)
 - **loop_protect_disable_time** (String)
 - **loop_protect_send_interval** (String)
