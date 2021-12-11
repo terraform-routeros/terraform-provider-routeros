@@ -46,7 +46,7 @@ func resourceInterfaceVlan() *schema.Resource {
 				Computed: true,
 			},
 			"l2mtu": {
-				Type:     schema.TypeInt,
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"loop_protect": {
@@ -114,11 +114,6 @@ func resourceInterfaceVlanRead(d *schema.ResourceData, m interface{}) error {
 		return fmt.Errorf("error fetching vlan: %s", err.Error())
 	}
 
-	l2_mtu, err := strconv.Atoi(vlan.L2Mtu)
-	if err != nil {
-		return err
-	}
-
 	vlan_id, _ := strconv.Atoi(vlan.VlanID)
 
 	disabled, _ := strconv.ParseBool(vlan.Disabled)
@@ -138,7 +133,7 @@ func resourceInterfaceVlanRead(d *schema.ResourceData, m interface{}) error {
 	d.Set("disabled", disabled)
 	d.Set("arp", vlan.Arp)
 	d.Set("arp_timeout", vlan.ArpTimeout)
-	d.Set("l2mtu", l2_mtu)
+	d.Set("l2mtu", vlan.L2Mtu)
 	d.Set("loop_protect", vlan.LoopProtect)
 	d.Set("loop_protect_disable_time", vlan.LoopProtectDisableTime)
 	d.Set("loop_protect_send_interval", vlan.LoopProtectSendInterval)
