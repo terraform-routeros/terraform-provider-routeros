@@ -13,8 +13,8 @@ type IPPool struct {
 	Ranges string `json:"ranges,omitempty"`
 }
 
-func (c *Client) CreateIPPool(dhcp_server *IPPool) (*IPPool, error) {
-	reqBody, err := json.Marshal(dhcp_server)
+func (c *Client) CreateIPPool(ip_pool *IPPool) (*IPPool, error) {
+	reqBody, err := json.Marshal(ip_pool)
 	if err != nil {
 		return nil, err
 	}
@@ -44,8 +44,8 @@ func (c *Client) ReadIPPool(id string) (*IPPool, error) {
 	return &res, nil
 }
 
-func (c *Client) UpdateIPPool(id string, dhcp_server *IPPool) (*IPPool, error) {
-	reqBody, err := json.Marshal(dhcp_server)
+func (c *Client) UpdateIPPool(id string, ip_pool *IPPool) (*IPPool, error) {
+	reqBody, err := json.Marshal(ip_pool)
 	if err != nil {
 		return nil, err
 	}
@@ -60,8 +60,8 @@ func (c *Client) UpdateIPPool(id string, dhcp_server *IPPool) (*IPPool, error) {
 	return &res, nil
 }
 
-func (c *Client) DeleteIPPool(dhcp_server *IPPool) error {
-	id := dhcp_server.ID
+func (c *Client) DeleteIPPool(ip_pool *IPPool) error {
+	id := ip_pool.ID
 	req, err := http.NewRequest("DELETE", fmt.Sprintf("%s/rest/ip/pool/%s", c.HostURL, id), nil)
 	if err != nil {
 		return err
