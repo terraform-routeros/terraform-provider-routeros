@@ -10,7 +10,7 @@ This provider is intended to be used with Router OS 7 and above. It makes use of
 - [ ] Add resources for following objects normally found under `/ip`
     - [x] IP addresses (Completed 2021-12-10)
     - [x] DHCP client (Completed 2021-12-11)
-    - [ ] DHCP server
+    - [x] DHCP server (completed 2021-12-12)
     - [ ] Pools
     - [ ] Routes
 - [x] Add resources for the following objects normally found under `/interface`

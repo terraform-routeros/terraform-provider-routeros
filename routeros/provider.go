@@ -41,6 +41,7 @@ func Provider() *schema.Provider {
 		ResourcesMap: map[string]*schema.Resource{
 			"routeros_ip_address":     resourceIPAddress(),
 			"routeros_ip_dhcp_client": resourceDhcpClient(),
+			"routeros_ip_dhcp_server": resourceDhcpServer(),
 			"routeros_interface_vlan": resourceInterfaceVlan(),
 		},
 	}
@@ -60,4 +61,26 @@ func Provider() *schema.Provider {
 
 func NewProvider() *schema.Provider {
 	return Provider()
+}
+
+// Add these two functions as some of the RouterOS API treat bool string as "yes" and "no" rather than "true" and "false" (Eg, /ip/dhcp-client/add-default-route).
+// Seems to be an API inconsistentcy, as others accept "true" and "false"
+func BoolStringYesNo(boolstring string) string {
+	var new_bool_string string
+	if boolstring == "true" {
+		new_bool_string = "yes"
+	} else if boolstring == "false" {
+		new_bool_string = "no"
+	}
+	return new_bool_string
+}
+
+func BoolStringTrueFalse(boolstring string) string {
+	var new_bool_string string
+	if boolstring == "yes" {
+		new_bool_string = "true"
+	} else if boolstring == "no" {
+		new_bool_string = "false"
+	}
+	return new_bool_string
 }

@@ -32,7 +32,7 @@ func resourceDhcpClient() *schema.Resource {
 			"default_route_distance": {
 				Type:     schema.TypeInt,
 				Optional: true,
-				Default:  0,
+				Default:  1,
 			},
 			"dhcp_options": {
 				Type:     schema.TypeString,
@@ -101,7 +101,7 @@ func resourceDhcpClientCreate(d *schema.ResourceData, m interface{}) error {
 	c := m.(*roscl.Client)
 	dhcp_client := new(roscl.DhcpClient)
 
-	dhcp_client.AddDefaultRoute = strconv.FormatBool(d.Get("add_default_route").(bool))
+	dhcp_client.AddDefaultRoute = BoolStringYesNo(strconv.FormatBool(d.Get("add_default_route").(bool)))
 	dhcp_client.DefaultRouteDistance = strconv.Itoa(d.Get("default_route_distance").(int))
 	dhcp_client.DhcpOptions = d.Get("dhcp_options").(string)
 	dhcp_client.DhcpServer = d.Get("dhcp_server").(string)
@@ -129,8 +129,8 @@ func resourceDhcpClientRead(d *schema.ResourceData, m interface{}) error {
 		return fmt.Errorf("error fetching dhcp_client: %s", err.Error())
 	}
 
-	add_default_route, _ := strconv.ParseBool(res.AddDefaultRoute)
-	default_route_distance, _ := strconv.Atoi(res.DefaultRouteDistance)
+	add_default_route, _ := strconv.ParseBool(BoolStringTrueFalse(res.AddDefaultRoute))
+	//default_route_distance, _ := strconv.Atoi(res.DefaultRouteDistance)
 	disabled, _ := strconv.ParseBool(res.Disabled)
 	dynamic, _ := strconv.ParseBool(res.Dynamic)
 	invalid, _ := strconv.ParseBool(res.Invalid)
@@ -140,7 +140,8 @@ func resourceDhcpClientRead(d *schema.ResourceData, m interface{}) error {
 	d.SetId(res.ID)
 	d.Set("add_default_route", add_default_route)
 	d.Set("address", res.Address)
-	d.Set("default_route_distance", default_route_distance)
+	// Default route distance returns as empty when the dhcp-client is searching. This produces inconsistent results, so we allow to _set_, but not _read_
+	//d.Set("default_route_distance", default_route_distance)
 	d.Set("dhcp_options", res.DhcpOptions)
 	d.Set("dhcp_server", res.DhcpServer)
 	d.Set("disabled", disabled)
