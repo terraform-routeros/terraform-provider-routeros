@@ -16,8 +16,8 @@ This provider is intended to be used with Router OS 7 and above. It makes use of
 - [x] Add resources for the following objects normally found under `/interface`
     - [x] VLANs (Completed 2021-12-11)
     - [ ] Bridge (_In Progress 2021-12-12_)
-        - [ ] Ports
-        - [ ] VLAN
+        - [ ] Ports (_In Progress 2021-12-12_)
+        - [ ] VLAN (_In Progress 2021-12-12_)
 
 #### Data:
 - [ ] Add interface list as data object
