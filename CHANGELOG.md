@@ -14,7 +14,7 @@ Todo for 0.1.0:
     - [x] Routes (Completed 2021-12-12)
 - [x] Add resources for the following objects normally found under `/interface`
     - [x] VLANs (Completed 2021-12-11)
-    - [ ] Bridge
+    - [ ] Bridge (_In Progress 2021-12-12_)
         - [ ] Ports
         - [ ] VLAN
 
