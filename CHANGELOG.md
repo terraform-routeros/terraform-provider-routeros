@@ -9,8 +9,8 @@ Todo for 0.1.0:
 - [ ] Add resources for following objects normally found under `/ip`
     - [x] IP addresses (Completed 2021-12-10)
     - [x] DHCP client (Completed 2021-12-11)
-    - [ ] DHCP server
-    - [ ] Pools
+    - [x] DHCP server (completed 2021-12-12)
+    - [x] Pools (Completed 2021-12-12)
     - [ ] Routes
 - [x] Add resources for the following objects normally found under `/interface`
     - [x] VLANs (Completed 2021-12-11)

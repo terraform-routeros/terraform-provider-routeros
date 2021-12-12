@@ -11,7 +11,7 @@ This provider is intended to be used with Router OS 7 and above. It makes use of
     - [x] IP addresses (Completed 2021-12-10)
     - [x] DHCP client (Completed 2021-12-11)
     - [x] DHCP server (completed 2021-12-12)
-    - [ ] Pools
+    - [x] Pools (Completed 2021-12-12)
     - [ ] Routes
 - [x] Add resources for the following objects normally found under `/interface`
     - [x] VLANs (Completed 2021-12-11)
