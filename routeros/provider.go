@@ -43,6 +43,7 @@ func Provider() *schema.Provider {
 			"routeros_ip_dhcp_client": resourceDhcpClient(),
 			"routeros_ip_dhcp_server": resourceDhcpServer(),
 			"routeros_ip_pool":        resourceIPPool(),
+			"routeros_ip_route":       resourceIPRoute(),
 			"routeros_interface_vlan": resourceInterfaceVlan(),
 		},
 	}
