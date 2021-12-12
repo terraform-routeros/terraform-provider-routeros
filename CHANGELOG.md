@@ -16,7 +16,7 @@ Todo for 0.1.0:
     - [x] VLANs (Completed 2021-12-11)
     - [ ] Bridge (_In Progress 2021-12-12_)
         - [ ] Ports (_In Progress 2021-12-12_)
-        - [ ] VLAN (_In Progress 2021-12-12_)
+        - [x] VLAN (Completed 2021-12-12)
 
 #### Data:
 - [ ] Add interface list as data object

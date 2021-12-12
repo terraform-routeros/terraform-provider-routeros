@@ -17,7 +17,7 @@ This provider is intended to be used with Router OS 7 and above. It makes use of
     - [x] VLANs (Completed 2021-12-11)
     - [ ] Bridge (_In Progress 2021-12-12_)
         - [ ] Ports (_In Progress 2021-12-12_)
-        - [ ] VLAN (_In Progress 2021-12-12_)
+        - [x] VLAN (Completed 2021-12-12)
 
 #### Data:
 - [ ] Add interface list as data object

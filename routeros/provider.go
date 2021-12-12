@@ -2,6 +2,7 @@ package routeros
 
 import (
 	"context"
+	"fmt"
 
 	roscl "github.com/gnewbury1/terraform-provider-routeros/client"
 
@@ -39,12 +40,13 @@ func Provider() *schema.Provider {
 			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
-			"routeros_ip_address":     resourceIPAddress(),
-			"routeros_ip_dhcp_client": resourceDhcpClient(),
-			"routeros_ip_dhcp_server": resourceDhcpServer(),
-			"routeros_ip_pool":        resourceIPPool(),
-			"routeros_ip_route":       resourceIPRoute(),
-			"routeros_interface_vlan": resourceInterfaceVlan(),
+			"routeros_ip_address":            resourceIPAddress(),
+			"routeros_ip_dhcp_client":        resourceDhcpClient(),
+			"routeros_ip_dhcp_server":        resourceDhcpServer(),
+			"routeros_ip_pool":               resourceIPPool(),
+			"routeros_ip_route":              resourceIPRoute(),
+			"routeros_interface_vlan":        resourceInterfaceVlan(),
+			"routeros_interface_bridge_vlan": resourceInterfaceBridgeVlan(),
 		},
 	}
 
@@ -85,4 +87,20 @@ func BoolStringTrueFalse(boolstring string) string {
 		new_bool_string = "false"
 	}
 	return new_bool_string
+}
+
+func ConvSInterfaceToSString(slice []interface{}) []string {
+	string_slice := make([]string, len(slice))
+	for k, v := range slice {
+		string_slice[k] = fmt.Sprint(v)
+	}
+	return string_slice
+}
+
+func ConvSStringToSInterface(slice []string) []interface{} {
+	interface_slice := make([]interface{}, len(slice))
+	for k, v := range slice {
+		interface_slice[k] = v
+	}
+	return interface_slice
 }
