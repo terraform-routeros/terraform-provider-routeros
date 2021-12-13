@@ -8,7 +8,9 @@ description: |-
 
 # routeros_ip_addresses (Data Source)
 
-
+```terraform
+data "routeros_ip_addresses" "addresses" {}
+```
 
 
 
