@@ -149,7 +149,6 @@ func resourceInterfaceBridgePort() *schema.Resource {
 			},
 			"point_to_point_port": {
 				Type:     schema.TypeBool,
-				Optional: true,
 				Computed: true,
 			},
 			"port_number": {
@@ -213,7 +212,7 @@ func resourceInterfaceBridgePortCreate(d *schema.ResourceData, m interface{}) er
 	c := m.(*roscl.Client)
 
 	bridge_port := new(roscl.InterfaceBridgePort)
-	bridge_port.AutoIsolate = strconv.FormatBool(d.Get("autoisolate").(bool))
+	bridge_port.AutoIsolate = strconv.FormatBool(d.Get("auto_isolate").(bool))
 	bridge_port.BpduGuard = strconv.FormatBool(d.Get("bpdu_guard").(bool))
 	bridge_port.Bridge = d.Get("bridge").(string)
 	bridge_port.BroadcastFlood = strconv.FormatBool(d.Get("broadcast_flood").(bool))
@@ -229,7 +228,6 @@ func resourceInterfaceBridgePortCreate(d *schema.ResourceData, m interface{}) er
 	bridge_port.Learn = d.Get("learn").(string)
 	bridge_port.PathCost = strconv.Itoa(d.Get("path_cost").(int))
 	bridge_port.PointToPoint = d.Get("point_to_point").(string)
-	bridge_port.PointToPointPort = strconv.FormatBool(d.Get("point_to_point_port").(bool))
 	bridge_port.Priority = d.Get("priority").(string)
 	bridge_port.Pvid = strconv.Itoa(d.Get("pvid").(int))
 	bridge_port.RestrictedRole = strconv.FormatBool(d.Get("restricted_role").(bool))
@@ -397,7 +395,7 @@ func resourceInterfaceBridgePortUpdate(d *schema.ResourceData, m interface{}) er
 	c := m.(*roscl.Client)
 
 	bridge_port := new(roscl.InterfaceBridgePort)
-	bridge_port.AutoIsolate = strconv.FormatBool(d.Get("autoisolate").(bool))
+	bridge_port.AutoIsolate = strconv.FormatBool(d.Get("auto_isolate").(bool))
 	bridge_port.BpduGuard = strconv.FormatBool(d.Get("bpdu_guard").(bool))
 	bridge_port.Bridge = d.Get("bridge").(string)
 	bridge_port.BroadcastFlood = strconv.FormatBool(d.Get("broadcast_flood").(bool))
@@ -413,7 +411,6 @@ func resourceInterfaceBridgePortUpdate(d *schema.ResourceData, m interface{}) er
 	bridge_port.Learn = d.Get("learn").(string)
 	bridge_port.PathCost = strconv.Itoa(d.Get("path_cost").(int))
 	bridge_port.PointToPoint = d.Get("point_to_point").(string)
-	bridge_port.PointToPointPort = strconv.FormatBool(d.Get("point_to_point_port").(bool))
 	bridge_port.Priority = d.Get("priority").(string)
 	bridge_port.Pvid = strconv.Itoa(d.Get("pvid").(int))
 	bridge_port.RestrictedRole = strconv.FormatBool(d.Get("restricted_role").(bool))
