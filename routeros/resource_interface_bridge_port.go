@@ -3,7 +3,6 @@ package routeros
 import (
 	"fmt"
 	"strconv"
-	"strings"
 
 	roscl "github.com/gnewbury1/terraform-provider-routeros/client"
 
@@ -125,6 +124,87 @@ func resourceInterfaceBridgePort() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"learn": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"learning": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"multicast_router": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"path_cost": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
+			"point_to_point": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"point_to_point_port": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"port_number": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"priority": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"pvid": {
+				Type:     schema.TypeInt,
+				Required: true,
+			},
+			"restricted_role": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"restricted_tcn": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"role": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"sending_rstp": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"status": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"tag_stacking": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"trusted": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"unknown_multicast_flood": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"unknown_unicast_flood": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 		},
 	}
 }
@@ -132,57 +212,182 @@ func resourceInterfaceBridgePort() *schema.Resource {
 func resourceInterfaceBridgePortCreate(d *schema.ResourceData, m interface{}) error {
 	c := m.(*roscl.Client)
 
-	untagged := strings.Join(ConvSInterfaceToSString(d.Get("untagged").([]interface{})), ",")
-	tagged := strings.Join(ConvSInterfaceToSString(d.Get("tagged").([]interface{})), ",")
-
 	bridge_port := new(roscl.InterfaceBridgePort)
+	bridge_port.AutoIsolate = strconv.FormatBool(d.Get("autoisolate").(bool))
+	bridge_port.BpduGuard = strconv.FormatBool(d.Get("bpdu_guard").(bool))
 	bridge_port.Bridge = d.Get("bridge").(string)
+	bridge_port.BroadcastFlood = strconv.FormatBool(d.Get("broadcast_flood").(bool))
 	bridge_port.Disabled = strconv.FormatBool(d.Get("disabled").(bool))
-	bridge_port.Tagged = tagged
-	bridge_port.Untagged = untagged
-	bridge_port.VlanIds = strconv.Itoa(d.Get("vlan_id").(int))
+	bridge_port.Edge = d.Get("edge").(string)
+	bridge_port.FastLeave = strconv.FormatBool(d.Get("fast_leave").(bool))
+	bridge_port.FrameTypes = d.Get("frame_types").(string)
+	bridge_port.Horizon = d.Get("horizon").(string)
+	bridge_port.Hw = strconv.FormatBool(d.Get("hw").(bool))
+	bridge_port.IngressFiltering = strconv.FormatBool(d.Get("ingress_filtering").(bool))
+	bridge_port.Interface = d.Get("interface").(string)
+	bridge_port.InternalPathCost = strconv.Itoa(d.Get("internal_path_cost").(int))
+	bridge_port.Learn = d.Get("learn").(string)
+	bridge_port.PathCost = strconv.Itoa(d.Get("path_cost").(int))
+	bridge_port.PointToPoint = d.Get("point_to_point").(string)
+	bridge_port.PointToPointPort = strconv.FormatBool(d.Get("point_to_point_port").(bool))
+	bridge_port.Priority = d.Get("priority").(string)
+	bridge_port.Pvid = strconv.Itoa(d.Get("pvid").(int))
+	bridge_port.RestrictedRole = strconv.FormatBool(d.Get("restricted_role").(bool))
+	bridge_port.RestrictedTcn = strconv.FormatBool(d.Get("restricted_tcn").(bool))
+	bridge_port.TagStacking = strconv.FormatBool(d.Get("tag_stacking").(bool))
+	bridge_port.Trusted = strconv.FormatBool(d.Get("trusted").(bool))
 
 	res, err := c.CreateInterfaceBridgePort(bridge_port)
 	if err != nil {
 		return fmt.Errorf("error creating ip pool: %s", err.Error())
 	}
 
-	current_tagged := ConvSStringToSInterface(strings.Split(res.CurrentTagged, ","))
-	current_untagged := ConvSStringToSInterface(strings.Split(res.CurrentUntagged, ","))
-	dynamic, _ := strconv.ParseBool(bridge_port.Dynamic)
+	auto_isolate, _ := strconv.ParseBool(res.AutoIsolate)
+	bpdu_guard, _ := strconv.ParseBool(res.BpduGuard)
+	broadcast_flood, _ := strconv.ParseBool(res.BroadcastFlood)
+	disabled, _ := strconv.ParseBool(res.Disabled)
+	edge_port, _ := strconv.ParseBool(res.EdgePort)
+	edge_port_discovery, _ := strconv.ParseBool(res.EdgePortDiscovery)
+	external_fdb_status, _ := strconv.ParseBool(res.ExternalFdbStatus)
+	fast_leave, _ := strconv.ParseBool(res.FastLeave)
+	forwarding, _ := strconv.ParseBool(res.Forwarding)
+	hw, _ := strconv.ParseBool(res.Hw)
+	hw_offload, _ := strconv.ParseBool(res.HwOffload)
+	inactive, _ := strconv.ParseBool(res.Inactive)
+	ingress_filtering, _ := strconv.ParseBool(res.IngressFiltering)
+	internal_path_cost, _ := strconv.Atoi(res.InternalPathCost)
+	learning, _ := strconv.ParseBool(res.Learning)
+	path_cost, _ := strconv.Atoi(res.PathCost)
+	point_to_point_port, _ := strconv.ParseBool(res.PointToPointPort)
+	port_number, _ := strconv.Atoi(res.PortNumber)
+	pvid, _ := strconv.Atoi(res.Pvid)
+	restricted_role, _ := strconv.ParseBool(res.RestrictedRole)
+	restricted_tcn, _ := strconv.ParseBool(res.RestrictedTcn)
+	tag_stacking, _ := strconv.ParseBool(res.TagStacking)
+	trusted, _ := strconv.ParseBool(res.Trusted)
+	unknown_multicast_flood, _ := strconv.ParseBool(res.UnknownMulticastFlood)
+	unknown_unicast_flood, _ := strconv.ParseBool(res.UnknownUnicastFlood)
 
 	d.SetId(res.ID)
-	d.Set("current_tagged", current_tagged)
-	d.Set("current_untagged", current_untagged)
-	d.Set("dynamic", dynamic)
+	d.Set("nextid", res.Nextid)
+	d.Set("auto_isolate", auto_isolate)
+	d.Set("bpdu_guard", bpdu_guard)
+	d.Set("bridge", res.Bridge)
+	d.Set("broadcast_flood", broadcast_flood)
+	d.Set("debug_info", res.DebugInfo)
+	d.Set("disabled", disabled)
+	d.Set("edge", res.Edge)
+	d.Set("edge_port", edge_port)
+	d.Set("edge_port_discovery", edge_port_discovery)
+	d.Set("external_fdb_status", external_fdb_status)
+	d.Set("fast_leave", fast_leave)
+	d.Set("forwarding", forwarding)
+	d.Set("frame_types", res.FrameTypes)
+	d.Set("horizon", res.Horizon)
+	d.Set("hw", hw)
+	d.Set("hw_offload", hw_offload)
+	d.Set("hw_offload_group", res.HwOffloadGroup)
+	d.Set("inactive", inactive)
+	d.Set("ingress_filtering", ingress_filtering)
+	d.Set("interface", res.Interface)
+	d.Set("internal_path_cost", internal_path_cost)
+	d.Set("learn", res.Learn)
+	d.Set("learning", learning)
+	d.Set("multicast_router", res.MulticastRouter)
+	d.Set("path_cost", path_cost)
+	d.Set("point_to_point", res.PointToPoint)
+	d.Set("point_to_point_port", point_to_point_port)
+	d.Set("port_number", port_number)
+	d.Set("priority", res.Priority)
+	d.Set("pvid", pvid)
+	d.Set("restricted_role", restricted_role)
+	d.Set("restricted_tcn", restricted_tcn)
+	d.Set("role", res.Role)
+	d.Set("sending_rstp", res.SendingRstp)
+	d.Set("status", res.Status)
+	d.Set("tag_stacking", tag_stacking)
+	d.Set("trusted", trusted)
+	d.Set("unknown_multicast_flood", unknown_multicast_flood)
+	d.Set("unknown_unicast_flood", unknown_unicast_flood)
+
 	return nil
 }
 
 func resourceInterfaceBridgePortRead(d *schema.ResourceData, m interface{}) error {
 	c := m.(*roscl.Client)
-	bridge_port, err := c.ReadInterfaceBridgePort(d.Id())
+	res, err := c.ReadInterfaceBridgePort(d.Id())
 
 	if err != nil {
 		return fmt.Errorf("error fetching ip pool: %s", err.Error())
 	}
 
-	current_tagged := ConvSStringToSInterface(strings.Split(bridge_port.CurrentTagged, ","))
-	current_untagged := ConvSStringToSInterface(strings.Split(bridge_port.CurrentUntagged, ","))
-	tagged := ConvSStringToSInterface(strings.Split(bridge_port.Tagged, ","))
-	untagged := ConvSStringToSInterface(strings.Split(bridge_port.Untagged, ","))
-	vlan_id, _ := strconv.Atoi(bridge_port.VlanIds)
-	disabled, _ := strconv.ParseBool(bridge_port.Disabled)
-	dynamic, _ := strconv.ParseBool(bridge_port.Dynamic)
+	auto_isolate, _ := strconv.ParseBool(res.AutoIsolate)
+	bpdu_guard, _ := strconv.ParseBool(res.BpduGuard)
+	broadcast_flood, _ := strconv.ParseBool(res.BroadcastFlood)
+	disabled, _ := strconv.ParseBool(res.Disabled)
+	edge_port, _ := strconv.ParseBool(res.EdgePort)
+	edge_port_discovery, _ := strconv.ParseBool(res.EdgePortDiscovery)
+	external_fdb_status, _ := strconv.ParseBool(res.ExternalFdbStatus)
+	fast_leave, _ := strconv.ParseBool(res.FastLeave)
+	forwarding, _ := strconv.ParseBool(res.Forwarding)
+	hw, _ := strconv.ParseBool(res.Hw)
+	hw_offload, _ := strconv.ParseBool(res.HwOffload)
+	inactive, _ := strconv.ParseBool(res.Inactive)
+	ingress_filtering, _ := strconv.ParseBool(res.IngressFiltering)
+	internal_path_cost, _ := strconv.Atoi(res.InternalPathCost)
+	learning, _ := strconv.ParseBool(res.Learning)
+	path_cost, _ := strconv.Atoi(res.PathCost)
+	point_to_point_port, _ := strconv.ParseBool(res.PointToPointPort)
+	port_number, _ := strconv.Atoi(res.PortNumber)
+	pvid, _ := strconv.Atoi(res.Pvid)
+	restricted_role, _ := strconv.ParseBool(res.RestrictedRole)
+	restricted_tcn, _ := strconv.ParseBool(res.RestrictedTcn)
+	tag_stacking, _ := strconv.ParseBool(res.TagStacking)
+	trusted, _ := strconv.ParseBool(res.Trusted)
+	unknown_multicast_flood, _ := strconv.ParseBool(res.UnknownMulticastFlood)
+	unknown_unicast_flood, _ := strconv.ParseBool(res.UnknownUnicastFlood)
 
-	d.SetId(bridge_port.ID)
-	d.Set("bridge", bridge_port.Bridge)
-	d.Set("current_tagged", current_tagged)
-	d.Set("current_untagged", current_untagged)
+	d.SetId(res.ID)
+	d.Set("nextid", res.Nextid)
+	d.Set("auto_isolate", auto_isolate)
+	d.Set("bpdu_guard", bpdu_guard)
+	d.Set("bridge", res.Bridge)
+	d.Set("broadcast_flood", broadcast_flood)
+	d.Set("debug_info", res.DebugInfo)
 	d.Set("disabled", disabled)
-	d.Set("dynamic", dynamic)
-	d.Set("tagged", tagged)
-	d.Set("untagged", untagged)
-	d.Set("vlan_id", vlan_id)
+	d.Set("edge", res.Edge)
+	d.Set("edge_port", edge_port)
+	d.Set("edge_port_discovery", edge_port_discovery)
+	d.Set("external_fdb_status", external_fdb_status)
+	d.Set("fast_leave", fast_leave)
+	d.Set("forwarding", forwarding)
+	d.Set("frame_types", res.FrameTypes)
+	d.Set("horizon", res.Horizon)
+	d.Set("hw", hw)
+	d.Set("hw_offload", hw_offload)
+	d.Set("hw_offload_group", res.HwOffloadGroup)
+	d.Set("inactive", inactive)
+	d.Set("ingress_filtering", ingress_filtering)
+	d.Set("interface", res.Interface)
+	d.Set("internal_path_cost", internal_path_cost)
+	d.Set("learn", res.Learn)
+	d.Set("learning", learning)
+	d.Set("multicast_router", res.MulticastRouter)
+	d.Set("path_cost", path_cost)
+	d.Set("point_to_point", res.PointToPoint)
+	d.Set("point_to_point_port", point_to_point_port)
+	d.Set("port_number", port_number)
+	d.Set("priority", res.Priority)
+	d.Set("pvid", pvid)
+	d.Set("restricted_role", restricted_role)
+	d.Set("restricted_tcn", restricted_tcn)
+	d.Set("role", res.Role)
+	d.Set("sending_rstp", res.SendingRstp)
+	d.Set("status", res.Status)
+	d.Set("tag_stacking", tag_stacking)
+	d.Set("trusted", trusted)
+	d.Set("unknown_multicast_flood", unknown_multicast_flood)
+	d.Set("unknown_unicast_flood", unknown_unicast_flood)
 
 	return nil
 
@@ -192,11 +397,29 @@ func resourceInterfaceBridgePortUpdate(d *schema.ResourceData, m interface{}) er
 	c := m.(*roscl.Client)
 
 	bridge_port := new(roscl.InterfaceBridgePort)
+	bridge_port.AutoIsolate = strconv.FormatBool(d.Get("autoisolate").(bool))
+	bridge_port.BpduGuard = strconv.FormatBool(d.Get("bpdu_guard").(bool))
 	bridge_port.Bridge = d.Get("bridge").(string)
+	bridge_port.BroadcastFlood = strconv.FormatBool(d.Get("broadcast_flood").(bool))
 	bridge_port.Disabled = strconv.FormatBool(d.Get("disabled").(bool))
-	bridge_port.Tagged = strings.Join(d.Get("tagged").([]string), ",")
-	bridge_port.Untagged = strings.Join(d.Get("untagged").([]string), ",")
-	bridge_port.VlanIds = strconv.Itoa(d.Get("vlan_id").(int))
+	bridge_port.Edge = d.Get("edge").(string)
+	bridge_port.FastLeave = strconv.FormatBool(d.Get("fast_leave").(bool))
+	bridge_port.FrameTypes = d.Get("frame_types").(string)
+	bridge_port.Horizon = d.Get("horizon").(string)
+	bridge_port.Hw = strconv.FormatBool(d.Get("hw").(bool))
+	bridge_port.IngressFiltering = strconv.FormatBool(d.Get("ingress_filtering").(bool))
+	bridge_port.Interface = d.Get("interface").(string)
+	bridge_port.InternalPathCost = strconv.Itoa(d.Get("internal_path_cost").(int))
+	bridge_port.Learn = d.Get("learn").(string)
+	bridge_port.PathCost = strconv.Itoa(d.Get("path_cost").(int))
+	bridge_port.PointToPoint = d.Get("point_to_point").(string)
+	bridge_port.PointToPointPort = strconv.FormatBool(d.Get("point_to_point_port").(bool))
+	bridge_port.Priority = d.Get("priority").(string)
+	bridge_port.Pvid = strconv.Itoa(d.Get("pvid").(int))
+	bridge_port.RestrictedRole = strconv.FormatBool(d.Get("restricted_role").(bool))
+	bridge_port.RestrictedTcn = strconv.FormatBool(d.Get("restricted_tcn").(bool))
+	bridge_port.TagStacking = strconv.FormatBool(d.Get("tag_stacking").(bool))
+	bridge_port.Trusted = strconv.FormatBool(d.Get("trusted").(bool))
 
 	res, err := c.UpdateInterfaceBridgePort(d.Id(), bridge_port)
 
@@ -204,7 +427,73 @@ func resourceInterfaceBridgePortUpdate(d *schema.ResourceData, m interface{}) er
 		return fmt.Errorf("error updating ip address: %s", err.Error())
 	}
 
+	auto_isolate, _ := strconv.ParseBool(res.AutoIsolate)
+	bpdu_guard, _ := strconv.ParseBool(res.BpduGuard)
+	broadcast_flood, _ := strconv.ParseBool(res.BroadcastFlood)
+	disabled, _ := strconv.ParseBool(res.Disabled)
+	edge_port, _ := strconv.ParseBool(res.EdgePort)
+	edge_port_discovery, _ := strconv.ParseBool(res.EdgePortDiscovery)
+	external_fdb_status, _ := strconv.ParseBool(res.ExternalFdbStatus)
+	fast_leave, _ := strconv.ParseBool(res.FastLeave)
+	forwarding, _ := strconv.ParseBool(res.Forwarding)
+	hw, _ := strconv.ParseBool(res.Hw)
+	hw_offload, _ := strconv.ParseBool(res.HwOffload)
+	inactive, _ := strconv.ParseBool(res.Inactive)
+	ingress_filtering, _ := strconv.ParseBool(res.IngressFiltering)
+	internal_path_cost, _ := strconv.Atoi(res.InternalPathCost)
+	learning, _ := strconv.ParseBool(res.Learning)
+	path_cost, _ := strconv.Atoi(res.PathCost)
+	point_to_point_port, _ := strconv.ParseBool(res.PointToPointPort)
+	port_number, _ := strconv.Atoi(res.PortNumber)
+	pvid, _ := strconv.Atoi(res.Pvid)
+	restricted_role, _ := strconv.ParseBool(res.RestrictedRole)
+	restricted_tcn, _ := strconv.ParseBool(res.RestrictedTcn)
+	tag_stacking, _ := strconv.ParseBool(res.TagStacking)
+	trusted, _ := strconv.ParseBool(res.Trusted)
+	unknown_multicast_flood, _ := strconv.ParseBool(res.UnknownMulticastFlood)
+	unknown_unicast_flood, _ := strconv.ParseBool(res.UnknownUnicastFlood)
+
 	d.SetId(res.ID)
+	d.Set("nextid", res.Nextid)
+	d.Set("auto_isolate", auto_isolate)
+	d.Set("bpdu_guard", bpdu_guard)
+	d.Set("bridge", res.Bridge)
+	d.Set("broadcast_flood", broadcast_flood)
+	d.Set("debug_info", res.DebugInfo)
+	d.Set("disabled", disabled)
+	d.Set("edge", res.Edge)
+	d.Set("edge_port", edge_port)
+	d.Set("edge_port_discovery", edge_port_discovery)
+	d.Set("external_fdb_status", external_fdb_status)
+	d.Set("fast_leave", fast_leave)
+	d.Set("forwarding", forwarding)
+	d.Set("frame_types", res.FrameTypes)
+	d.Set("horizon", res.Horizon)
+	d.Set("hw", hw)
+	d.Set("hw_offload", hw_offload)
+	d.Set("hw_offload_group", res.HwOffloadGroup)
+	d.Set("inactive", inactive)
+	d.Set("ingress_filtering", ingress_filtering)
+	d.Set("interface", res.Interface)
+	d.Set("internal_path_cost", internal_path_cost)
+	d.Set("learn", res.Learn)
+	d.Set("learning", learning)
+	d.Set("multicast_router", res.MulticastRouter)
+	d.Set("path_cost", path_cost)
+	d.Set("point_to_point", res.PointToPoint)
+	d.Set("point_to_point_port", point_to_point_port)
+	d.Set("port_number", port_number)
+	d.Set("priority", res.Priority)
+	d.Set("pvid", pvid)
+	d.Set("restricted_role", restricted_role)
+	d.Set("restricted_tcn", restricted_tcn)
+	d.Set("role", res.Role)
+	d.Set("sending_rstp", res.SendingRstp)
+	d.Set("status", res.Status)
+	d.Set("tag_stacking", tag_stacking)
+	d.Set("trusted", trusted)
+	d.Set("unknown_multicast_flood", unknown_multicast_flood)
+	d.Set("unknown_unicast_flood", unknown_unicast_flood)
 
 	return nil
 }
