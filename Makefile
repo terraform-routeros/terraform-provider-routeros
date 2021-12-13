@@ -8,6 +8,8 @@ test:
 
 compile:
 	mkdir -p pkg
+	echo "Removing previously built packages"
+	rm -rf pkg/*
 	echo "Compiling for every OS and Platform"
 	GOOS=linux GOARCH=arm go build -o terraform-provider-routeros_v${VERSION} main.go
 	zip pkg/terraform-provider-routeros_${VERSION}_linux_arm.zip terraform-provider-routeros_v${VERSION}

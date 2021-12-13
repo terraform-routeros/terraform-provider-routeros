@@ -48,6 +48,7 @@ func Provider() *schema.Provider {
 			"routeros_interface_vlan":        resourceInterfaceVlan(),
 			"routeros_interface_bridge_vlan": resourceInterfaceBridgeVlan(),
 			"routeros_interface_bridge_port": resourceInterfaceBridgePort(),
+			"routeros_interface_bridge":      resourceInterfaceBridge(),
 		},
 	}
 
