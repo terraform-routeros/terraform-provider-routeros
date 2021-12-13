@@ -72,7 +72,7 @@ func resourceIPAddressCreate(d *schema.ResourceData, m interface{}) error {
 
 func resourceIPAddressRead(d *schema.ResourceData, m interface{}) error {
 	c := m.(*roscl.Client)
-	ipaddr, err := c.GetIPAddresses(d.Id())
+	ipaddr, err := c.GetIPAddress(d.Id())
 
 	if err != nil {
 		return fmt.Errorf("error fetching ip address: %s", err.Error())

@@ -15,14 +15,14 @@ This provider is intended to be used with Router OS 7 and above. It makes use of
     - [x] Routes (Completed 2021-12-12)
 - [x] Add resources for the following objects normally found under `/interface`
     - [x] VLANs (Completed 2021-12-11)
-    - [ ] Bridge
-        - [ ] Ports
-        - [ ] VLAN
+    - [x] Bridge (Completed 2021-12-13)
+        - [x] Ports (Completed 2021-12-13)
+        - [x] VLAN (Completed 2021-12-12)
 
 #### Data:
-- [ ] Add interface list as data object
-- [ ] Add route list as data object
-- [ ] Add IP address list as data object
+- [x] Add interface list as data object (Completed 2021-12-13)
+- [x] Add route list as data object (Completed 2021-12-13)
+- [x] Add IP address list as data object (Completed 2021-12-13)
 
 ## Usage
 
