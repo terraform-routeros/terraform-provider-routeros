@@ -6,9 +6,15 @@ description: |-
   
 ---
 
-# routeros Provider
+# RouterOS v7 Provider
 
-
+```terraform
+provider "routeros" {
+    hosturl  = "https://my.router.lan"
+    username = "myuser"
+    password = "mypassword"
+    insecure = true
+}
 
 
 
@@ -17,10 +23,10 @@ description: |-
 
 ### Required
 
-- **hosturl** (String) URL of the ROS router. Include the scheme (http/https)
-- **password** (String) Password for the ROS user
-- **username** (String) Username for the ROS user
+- **hosturl** (String) URL of the ROS router. Include the scheme (http/https) *Also uses env var `ROS_HOSTURL`*
+- **password** (String) Password for the ROS user *Also uses env var `ROS_PASSWORD`*
+- **username** (String) Username for the ROS user *Also uses env var `ROS_USERNAME`*
 
 ### Optional
 
-- **insecure** (Boolean) Whether to verify the SSL certificate or not
+- **insecure** (Boolean) Whether to verify the SSL certificate or not *Also uses env var `ROS_INSECURE`*
