@@ -19,7 +19,7 @@ type IPAddress struct {
 	Network         string `json:"network"`
 }
 
-func (c *Client) GetIPAddresses(id string) (*IPAddress, error) {
+func (c *Client) GetIPAddress(id string) (*IPAddress, error) {
 	req, err := http.NewRequest("GET", fmt.Sprintf("%s/rest/ip/address/%s", c.HostURL, id), nil)
 	if err != nil {
 		return nil, err

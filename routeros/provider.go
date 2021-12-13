@@ -50,6 +50,9 @@ func Provider() *schema.Provider {
 			"routeros_interface_bridge_port": resourceInterfaceBridgePort(),
 			"routeros_interface_bridge":      resourceInterfaceBridge(),
 		},
+		DataSourcesMap: map[string]*schema.Resource{
+			"routeros_ip_addresses": datasourceIPAddresses(),
+		},
 	}
 
 	provider.ConfigureContextFunc = func(ctx context.Context, d *schema.ResourceData) (interface{}, diag.Diagnostics) {

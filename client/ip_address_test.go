@@ -8,7 +8,7 @@ import (
 
 func TestGetIpAddress(t *testing.T) {
 	c := NewClient(GetCredentialsFromEnvVar())
-	res, err := c.GetIPAddresses("*4")
+	res, err := c.GetIPAddress("*4")
 	assert.Nil(t, err, "expecting nil error")
 	assert.NotNil(t, res, "expecting non-nil result")
 }
