@@ -33,12 +33,11 @@ func datasourceIPRoutes() *schema.Resource {
 						},
 						"distance": {
 							Type:     schema.TypeInt,
-							Optional: true,
-							Default:  1,
+							Computed: true,
 						},
 						"dst_address": {
 							Type:     schema.TypeString,
-							Required: true,
+							Computed: true,
 						},
 						"dynamic": {
 							Type:     schema.TypeBool,
@@ -50,7 +49,7 @@ func datasourceIPRoutes() *schema.Resource {
 						},
 						"gateway": {
 							Type:     schema.TypeString,
-							Required: true,
+							Computed: true,
 						},
 						"hw_offloaded": {
 							Type:     schema.TypeBool,
@@ -66,13 +65,11 @@ func datasourceIPRoutes() *schema.Resource {
 						},
 						"pref_src": {
 							Type:     schema.TypeString,
-							Optional: true,
-							Default:  "",
+							Computed: true,
 						},
 						"routing_table": {
 							Type:     schema.TypeString,
-							Optional: true,
-							Default:  "main",
+							Computed: true,
 						},
 						"scope": {
 							Type:     schema.TypeInt,
