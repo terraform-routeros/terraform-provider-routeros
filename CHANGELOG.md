@@ -19,6 +19,6 @@ Todo for 0.1.0:
         - [x] VLAN (Completed 2021-12-12)
 
 #### Data:
-- [ ] Add interface list as data object
+- [x] Add interface list as data object (Completed 2021-12-13)
 - [x] Add route list as data object (Completed 2021-12-13)
 - [x] Add IP address list as data object (Completed 2021-12-13)

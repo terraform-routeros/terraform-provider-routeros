@@ -20,7 +20,7 @@ This provider is intended to be used with Router OS 7 and above. It makes use of
         - [x] VLAN (Completed 2021-12-12)
 
 #### Data:
-- [ ] Add interface list as data object
+- [x] Add interface list as data object (Completed 2021-12-13)
 - [x] Add route list as data object (Completed 2021-12-13)
 - [x] Add IP address list as data object (Completed 2021-12-13)
 
