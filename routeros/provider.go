@@ -52,6 +52,7 @@ func Provider() *schema.Provider {
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"routeros_ip_addresses": datasourceIPAddresses(),
+			"routeros_ip_routes":    datasourceIPRoutes(),
 		},
 	}
 
