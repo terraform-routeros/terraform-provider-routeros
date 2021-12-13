@@ -31,5 +31,7 @@ resource "routeros_ip_address" "address" {
 - **comment** (String)
 - **disabled** (Boolean)
 - **id** (String) The ID of this resource.
+- **dynamic** (Boolean)
+- **invalid** (Boolean)
 
 

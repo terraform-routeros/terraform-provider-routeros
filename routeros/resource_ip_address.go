@@ -24,6 +24,10 @@ func resourceIPAddress() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"actual_interface": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"comment": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -37,6 +41,10 @@ func resourceIPAddress() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"invalid": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"network": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -46,39 +54,59 @@ func resourceIPAddress() *schema.Resource {
 }
 
 func resourceIPAddressCreate(d *schema.ResourceData, m interface{}) error {
-	address := d.Get("address").(string)
-	comment := d.Get("comment").(string)
-	disabled := d.Get("disabled").(bool)
-	network_interface := d.Get("interface").(string)
-	network := d.Get("network").(string)
-
 	c := m.(*roscl.Client)
 	ip_addr := new(roscl.IPAddress)
 
-	ip_addr.Address = address
-	ip_addr.Comment = comment
-	ip_addr.Disabled = strconv.FormatBool(disabled)
-	ip_addr.Interface = network_interface
-	ip_addr.Network = network
+	ip_addr.Address = d.Get("address").(string)
+	ip_addr.Comment = d.Get("comment").(string)
+	ip_addr.Disabled = strconv.FormatBool(d.Get("disabled").(bool))
+	ip_addr.Interface = d.Get("interface").(string)
+	ip_addr.Network = d.Get("network").(string)
+	ip_addr.ActualInterface = d.Get("actual_interface").(string)
+	ip_addr.Invalid = strconv.FormatBool(d.Get("invalid").(bool))
 
 	res, err := c.CreateIPAddress(ip_addr)
 	if err != nil {
 		return fmt.Errorf("error creating ip address: %s", err.Error())
 	}
 
+	disabled, _ := strconv.ParseBool(res.Disabled)
+	dynamic, _ := strconv.ParseBool(res.Dynamic)
+	invalid, _ := strconv.ParseBool(res.Invalid)
+
 	d.SetId(res.ID)
+	d.Set("address", res.Address)
+	d.Set("comment", res.Comment)
+	d.Set("disabled", disabled)
+	d.Set("interface", res.Interface)
+	d.Set("network", res.Network)
+	d.Set("actual_interface", res.ActualInterface)
+	d.Set("dynamic", dynamic)
+	d.Set("invalid", invalid)
 	return nil
 }
 
 func resourceIPAddressRead(d *schema.ResourceData, m interface{}) error {
 	c := m.(*roscl.Client)
-	ipaddr, err := c.GetIPAddress(d.Id())
+	res, err := c.GetIPAddress(d.Id())
 
 	if err != nil {
 		return fmt.Errorf("error fetching ip address: %s", err.Error())
 	}
 
-	d.SetId(ipaddr.ID)
+	disabled, _ := strconv.ParseBool(res.Disabled)
+	dynamic, _ := strconv.ParseBool(res.Dynamic)
+	invalid, _ := strconv.ParseBool(res.Invalid)
+
+	d.SetId(res.ID)
+	d.Set("address", res.Address)
+	d.Set("comment", res.Comment)
+	d.Set("disabled", disabled)
+	d.Set("interface", res.Interface)
+	d.Set("network", res.Network)
+	d.Set("actual_interface", res.ActualInterface)
+	d.Set("dynamic", dynamic)
+	d.Set("invalid", invalid)
 
 	return nil
 
@@ -86,21 +114,35 @@ func resourceIPAddressRead(d *schema.ResourceData, m interface{}) error {
 
 func resourceIPAddressUpdate(d *schema.ResourceData, m interface{}) error {
 	c := m.(*roscl.Client)
-	ipaddr := new(roscl.IPAddress)
-	ipaddr.Address = d.Get("address").(string)
-	ipaddr.Comment = d.Get("comment").(string)
-	ipaddr.Interface = d.Get("interface").(string)
-	ipaddr.Disabled = strconv.FormatBool(d.Get("disabled").(bool))
-	ipaddr.Network = d.Get("network").(string)
+	ip_addr := new(roscl.IPAddress)
 
-	res, err := c.UpdateIPAddress(d.Id(), ipaddr)
+	ip_addr.Address = d.Get("address").(string)
+	ip_addr.Comment = d.Get("comment").(string)
+	ip_addr.Disabled = strconv.FormatBool(d.Get("disabled").(bool))
+	ip_addr.Interface = d.Get("interface").(string)
+	ip_addr.Network = d.Get("network").(string)
+	ip_addr.ActualInterface = d.Get("actual_interface").(string)
+	ip_addr.Invalid = strconv.FormatBool(d.Get("invalid").(bool))
+
+	res, err := c.UpdateIPAddress(d.Id(), ip_addr)
 
 	if err != nil {
 		return fmt.Errorf("error updating ip address: %s", err.Error())
 	}
 
-	d.SetId(res.ID)
+	disabled, _ := strconv.ParseBool(res.Disabled)
+	dynamic, _ := strconv.ParseBool(res.Dynamic)
+	invalid, _ := strconv.ParseBool(res.Invalid)
 
+	d.SetId(res.ID)
+	d.Set("address", res.Address)
+	d.Set("comment", res.Comment)
+	d.Set("disabled", disabled)
+	d.Set("interface", res.Interface)
+	d.Set("network", res.Network)
+	d.Set("actual_interface", res.ActualInterface)
+	d.Set("dynamic", dynamic)
+	d.Set("invalid", invalid)
 	return nil
 }
 
