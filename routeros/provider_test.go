@@ -19,8 +19,7 @@ func init() {
 
 func testAccPreCheck(t *testing.T) {
 	if os.Getenv("ROS_HOSTURL") == "" ||
-		os.Getenv("ROS_USERNAME") == "" ||
-		os.Getenv("ROS_PASSWORD") == "" {
+		os.Getenv("ROS_USERNAME") == "" {
 		t.Fatal("Environment variables must be set for testing")
 	}
 }
