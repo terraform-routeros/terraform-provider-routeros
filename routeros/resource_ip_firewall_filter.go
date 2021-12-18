@@ -52,7 +52,7 @@ func resourceIPFirewallFilter() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
-			"conneciton_mark": {
+			"connection_mark": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -63,7 +63,7 @@ func resourceIPFirewallFilter() *schema.Resource {
 				Computed: true,
 			},
 			"connection_rate": {
-				Type:     schema.TypeInt,
+				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
@@ -158,7 +158,7 @@ func resourceIPFirewallFilter() *schema.Resource {
 				Computed: true,
 			},
 			"ingress_priority": {
-				Type:     schema.TypeString,
+				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
 			},
@@ -262,7 +262,7 @@ func resourceIPFirewallFilter() *schema.Resource {
 				Computed: true,
 			},
 			"random": {
-				Type:     schema.TypeInt,
+				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
@@ -272,6 +272,11 @@ func resourceIPFirewallFilter() *schema.Resource {
 				Computed: true,
 			},
 			"routing_table": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"routing_mark": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -342,7 +347,7 @@ func resourceIPFirewallFilterCreate(d *schema.ResourceData, m interface{}) error
 	firewall_filter.ConnectionLimit = d.Get("connection_limit").(string)
 	firewall_filter.ConnectionMark = d.Get("connection_mark").(string)
 	firewall_filter.ConnectionNatState = d.Get("connection_nat_state").(string)
-	firewall_filter.ConnectionRate = strconv.Itoa(d.Get("connection_rate").(int))
+	firewall_filter.ConnectionRate = d.Get("connection_rate").(string)
 	firewall_filter.ConnectionState = d.Get("connection_state").(string)
 	firewall_filter.ConnectionType = d.Get("connection_type").(string)
 	firewall_filter.Content = d.Get("content").(string)
@@ -353,7 +358,6 @@ func resourceIPFirewallFilterCreate(d *schema.ResourceData, m interface{}) error
 	firewall_filter.DstAddressType = d.Get("dst_address_type").(string)
 	firewall_filter.DstLimit = d.Get("dst_limit").(string)
 	firewall_filter.DstPort = d.Get("dst_port").(string)
-	firewall_filter.Dynamic = strconv.FormatBool(d.Get("dynamic").(bool))
 	firewall_filter.Fragment = BoolStringYesNo(strconv.FormatBool(d.Get("fragment").(bool)))
 	firewall_filter.HotSpot = d.Get("hotspot").(string)
 	firewall_filter.IcmpOptions = d.Get("icmp_options").(string)
@@ -381,7 +385,7 @@ func resourceIPFirewallFilterCreate(d *schema.ResourceData, m interface{}) error
 	firewall_filter.Priority = strconv.Itoa(d.Get("priority").(int))
 	firewall_filter.Protocol = d.Get("protocol").(string)
 	firewall_filter.Psd = d.Get("psd").(string)
-	firewall_filter.Random = strconv.Itoa(d.Get("random").(int))
+	firewall_filter.Random = d.Get("random").(string)
 	firewall_filter.RejectWith = d.Get("reject_with").(string)
 	firewall_filter.RoutingTable = d.Get("routing_table").(string)
 	firewall_filter.RoutingMark = d.Get("routing_mark").(string)
@@ -402,7 +406,6 @@ func resourceIPFirewallFilterCreate(d *schema.ResourceData, m interface{}) error
 	}
 
 	bytes, _ := strconv.Atoi(res.Bytes)
-	connection_rate, _ := strconv.Atoi(res.ConnectionRate)
 	disabled, _ := strconv.ParseBool(res.Disabled)
 	dscp, _ := strconv.Atoi(res.Dscp)
 	dynamic, _ := strconv.ParseBool(res.Dynamic)
@@ -410,7 +413,6 @@ func resourceIPFirewallFilterCreate(d *schema.ResourceData, m interface{}) error
 	ingress_priority, _ := strconv.Atoi(res.IngressPriority)
 	log, _ := strconv.ParseBool(res.Log)
 	priority, _ := strconv.Atoi(res.Priority)
-	random, _ := strconv.Atoi(res.Random)
 
 	d.SetId(res.ID)
 	d.Set("action", res.Action)
@@ -422,7 +424,7 @@ func resourceIPFirewallFilterCreate(d *schema.ResourceData, m interface{}) error
 	d.Set("connection_limit", res.ConnectionLimit)
 	d.Set("connection_mark", res.ConnectionMark)
 	d.Set("connection_nat_state", res.ConnectionNatState)
-	d.Set("connection_rate", connection_rate)
+	d.Set("connection_rate", res.ConnectionRate)
 	d.Set("connection_state", res.ConnectionState)
 	d.Set("connection_type", res.ConnectionType)
 	d.Set("content", res.Content)
@@ -461,7 +463,7 @@ func resourceIPFirewallFilterCreate(d *schema.ResourceData, m interface{}) error
 	d.Set("priority", priority)
 	d.Set("protocol", res.Protocol)
 	d.Set("psd", res.Psd)
-	d.Set("random", random)
+	d.Set("random", res.Random)
 	d.Set("reject_with", res.RejectWith)
 	d.Set("routing_table", res.RoutingTable)
 	d.Set("routing_mark", res.RoutingMark)
@@ -488,7 +490,6 @@ func resourceIPFirewallFilterRead(d *schema.ResourceData, m interface{}) error {
 	}
 
 	bytes, _ := strconv.Atoi(res.Bytes)
-	connection_rate, _ := strconv.Atoi(res.ConnectionRate)
 	disabled, _ := strconv.ParseBool(res.Disabled)
 	dscp, _ := strconv.Atoi(res.Dscp)
 	dynamic, _ := strconv.ParseBool(res.Dynamic)
@@ -496,7 +497,6 @@ func resourceIPFirewallFilterRead(d *schema.ResourceData, m interface{}) error {
 	ingress_priority, _ := strconv.Atoi(res.IngressPriority)
 	log, _ := strconv.ParseBool(res.Log)
 	priority, _ := strconv.Atoi(res.Priority)
-	random, _ := strconv.Atoi(res.Random)
 
 	d.SetId(res.ID)
 	d.Set("action", res.Action)
@@ -508,7 +508,7 @@ func resourceIPFirewallFilterRead(d *schema.ResourceData, m interface{}) error {
 	d.Set("connection_limit", res.ConnectionLimit)
 	d.Set("connection_mark", res.ConnectionMark)
 	d.Set("connection_nat_state", res.ConnectionNatState)
-	d.Set("connection_rate", connection_rate)
+	d.Set("connection_rate", res.ConnectionRate)
 	d.Set("connection_state", res.ConnectionState)
 	d.Set("connection_type", res.ConnectionType)
 	d.Set("content", res.Content)
@@ -547,7 +547,7 @@ func resourceIPFirewallFilterRead(d *schema.ResourceData, m interface{}) error {
 	d.Set("priority", priority)
 	d.Set("protocol", res.Protocol)
 	d.Set("psd", res.Psd)
-	d.Set("random", random)
+	d.Set("random", res.Random)
 	d.Set("reject_with", res.RejectWith)
 	d.Set("routing_table", res.RoutingTable)
 	d.Set("routing_mark", res.RoutingMark)
@@ -577,7 +577,7 @@ func resourceIPFirewallFilterUpdate(d *schema.ResourceData, m interface{}) error
 	firewall_filter.ConnectionLimit = d.Get("connection_limit").(string)
 	firewall_filter.ConnectionMark = d.Get("connection_mark").(string)
 	firewall_filter.ConnectionNatState = d.Get("connection_nat_state").(string)
-	firewall_filter.ConnectionRate = strconv.Itoa(d.Get("connection_rate").(int))
+	firewall_filter.ConnectionRate = d.Get("connection_rate").(string)
 	firewall_filter.ConnectionState = d.Get("connection_state").(string)
 	firewall_filter.ConnectionType = d.Get("connection_type").(string)
 	firewall_filter.Content = d.Get("content").(string)
@@ -588,7 +588,6 @@ func resourceIPFirewallFilterUpdate(d *schema.ResourceData, m interface{}) error
 	firewall_filter.DstAddressType = d.Get("dst_address_type").(string)
 	firewall_filter.DstLimit = d.Get("dst_limit").(string)
 	firewall_filter.DstPort = d.Get("dst_port").(string)
-	firewall_filter.Dynamic = strconv.FormatBool(d.Get("dynamic").(bool))
 	firewall_filter.Fragment = BoolStringYesNo(strconv.FormatBool(d.Get("fragment").(bool)))
 	firewall_filter.HotSpot = d.Get("hotspot").(string)
 	firewall_filter.IcmpOptions = d.Get("icmp_options").(string)
@@ -616,7 +615,7 @@ func resourceIPFirewallFilterUpdate(d *schema.ResourceData, m interface{}) error
 	firewall_filter.Priority = strconv.Itoa(d.Get("priority").(int))
 	firewall_filter.Protocol = d.Get("protocol").(string)
 	firewall_filter.Psd = d.Get("psd").(string)
-	firewall_filter.Random = strconv.Itoa(d.Get("random").(int))
+	firewall_filter.Random = d.Get("random").(string)
 	firewall_filter.RejectWith = d.Get("reject_with").(string)
 	firewall_filter.RoutingTable = d.Get("routing_table").(string)
 	firewall_filter.RoutingMark = d.Get("routing_mark").(string)
@@ -638,7 +637,6 @@ func resourceIPFirewallFilterUpdate(d *schema.ResourceData, m interface{}) error
 	}
 
 	bytes, _ := strconv.Atoi(res.Bytes)
-	connection_rate, _ := strconv.Atoi(res.ConnectionRate)
 	disabled, _ := strconv.ParseBool(res.Disabled)
 	dscp, _ := strconv.Atoi(res.Dscp)
 	dynamic, _ := strconv.ParseBool(res.Dynamic)
@@ -646,7 +644,6 @@ func resourceIPFirewallFilterUpdate(d *schema.ResourceData, m interface{}) error
 	ingress_priority, _ := strconv.Atoi(res.IngressPriority)
 	log, _ := strconv.ParseBool(res.Log)
 	priority, _ := strconv.Atoi(res.Priority)
-	random, _ := strconv.Atoi(res.Random)
 
 	d.SetId(res.ID)
 	d.Set("action", res.Action)
@@ -658,7 +655,7 @@ func resourceIPFirewallFilterUpdate(d *schema.ResourceData, m interface{}) error
 	d.Set("connection_limit", res.ConnectionLimit)
 	d.Set("connection_mark", res.ConnectionMark)
 	d.Set("connection_nat_state", res.ConnectionNatState)
-	d.Set("connection_rate", connection_rate)
+	d.Set("connection_rate", res.ConnectionRate)
 	d.Set("connection_state", res.ConnectionState)
 	d.Set("connection_type", res.ConnectionType)
 	d.Set("content", res.Content)
@@ -697,7 +694,7 @@ func resourceIPFirewallFilterUpdate(d *schema.ResourceData, m interface{}) error
 	d.Set("priority", priority)
 	d.Set("protocol", res.Protocol)
 	d.Set("psd", res.Psd)
-	d.Set("random", random)
+	d.Set("random", res.Random)
 	d.Set("reject_with", res.RejectWith)
 	d.Set("routing_table", res.RoutingTable)
 	d.Set("routing_mark", res.RoutingMark)
