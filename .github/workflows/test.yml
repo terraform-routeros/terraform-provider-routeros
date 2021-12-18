@@ -21,7 +21,6 @@ jobs:
         # Test against RouterOS v7
         routeros_version:
           - "7.1"
-          - "7.1rc7"
         legacy_bgp_support: [true]
 
     steps:
@@ -63,7 +62,7 @@ jobs:
 
     services:
       routeros:
-        image: gnewbury/docker-routeros:${{ matrix.routeros_version }}
+        image: gnewbury/routeros:${{ matrix.routeros_version }}
         ports:
           - 443:443
         volumes:
