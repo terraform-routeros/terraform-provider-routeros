@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-type IPFirewallFilterRule struct {
+type IPFirewallFilter struct {
 	ID                      string `json:".id,omitempty"`
 	Action                  string `json:"action,omitempty"`
 	AddressListTimeout      string `json:"address-list-timeout,omitempty"`
@@ -76,7 +76,7 @@ type IPFirewallFilterRule struct {
 	Ttl                     string `json:"ttl,omitempty"`
 }
 
-func (c *Client) CreateIPFirewallFilterRule(ip_pool *IPFirewallFilterRule) (*IPFirewallFilterRule, error) {
+func (c *Client) CreateIPFirewallFilter(ip_pool *IPFirewallFilter) (*IPFirewallFilter, error) {
 	reqBody, err := json.Marshal(ip_pool)
 	if err != nil {
 		return nil, err
@@ -87,7 +87,7 @@ func (c *Client) CreateIPFirewallFilterRule(ip_pool *IPFirewallFilterRule) (*IPF
 		return nil, err
 	}
 
-	res := IPFirewallFilterRule{}
+	res := IPFirewallFilter{}
 	if c.sendRequest(req, &res); err != nil {
 		return nil, err
 	}
@@ -95,19 +95,19 @@ func (c *Client) CreateIPFirewallFilterRule(ip_pool *IPFirewallFilterRule) (*IPF
 	return &res, nil
 }
 
-func (c *Client) ReadIPFirewallFilterRule(id string) (*IPFirewallFilterRule, error) {
+func (c *Client) ReadIPFirewallFilter(id string) (*IPFirewallFilter, error) {
 	req, err := http.NewRequest("GET", fmt.Sprintf("%s/rest/ip/firewall/filter/%s", c.HostURL, id), nil)
 	if err != nil {
 		return nil, err
 	}
-	res := IPFirewallFilterRule{}
+	res := IPFirewallFilter{}
 	if c.sendRequest(req, &res); err != nil {
 		return nil, err
 	}
 	return &res, nil
 }
 
-func (c *Client) UpdateIPFirewallFilterRule(id string, ip_pool *IPFirewallFilterRule) (*IPFirewallFilterRule, error) {
+func (c *Client) UpdateIPFirewallFilter(id string, ip_pool *IPFirewallFilter) (*IPFirewallFilter, error) {
 	reqBody, err := json.Marshal(ip_pool)
 	if err != nil {
 		return nil, err
@@ -116,21 +116,21 @@ func (c *Client) UpdateIPFirewallFilterRule(id string, ip_pool *IPFirewallFilter
 	if err != nil {
 		return nil, err
 	}
-	res := IPFirewallFilterRule{}
+	res := IPFirewallFilter{}
 	if c.sendRequest(req, &res); err != nil {
 		return nil, err
 	}
 	return &res, nil
 }
 
-func (c *Client) DeleteIPFirewallFilterRule(ip_pool *IPFirewallFilterRule) error {
+func (c *Client) DeleteIPFirewallFilter(ip_pool *IPFirewallFilter) error {
 	id := ip_pool.ID
 	req, err := http.NewRequest("DELETE", fmt.Sprintf("%s/rest/ip/firewall/filter/%s", c.HostURL, id), nil)
 	if err != nil {
 		return err
 	}
 
-	res := IPFirewallFilterRule{}
+	res := IPFirewallFilter{}
 	if err := c.sendRequest(req, &res); err != nil {
 		return err
 	}
