@@ -14,6 +14,8 @@ This provider is intended to be used with Router OS 7 and above. It makes use of
 - IP
     - DHCP Client
     - DHCP Server
+    - Firewall
+        - Filter
     - Pool
     - Route
 
