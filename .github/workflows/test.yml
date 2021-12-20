@@ -32,7 +32,7 @@ jobs:
 
       - name: Setup routeros
         run: |
-          sshpass -p "" ssh -o StrictHostKeyChecking=no admin@127.0.0.1 -p 2222 /certificate add name=root-cert common-name=MyRouter days-valid=3650 key-usage=key-cert-sign,crl-sign
+          sshpass -p "" ssh -vvv -o StrictHostKeyChecking=no admin@127.0.0.1 -p 2222 "/certificate add name=root-cert common-name=MyRouter days-valid=3650 key-usage=key-cert-sign,crl-sign"
           sshpass -p "" ssh -o StrictHostKeyChecking=no admin@127.0.0.1 -p 2222 /certificate sign root-cert
           sshpass -p "" ssh -o StrictHostKeyChecking=no admin@127.0.0.1 -p 2222 /certificate add name=https-cert common-name=MyRouter days-valid=3650
           sshpass -p "" ssh -o StrictHostKeyChecking=no admin@127.0.0.1 -p 2222 /certificate sign ca=root-cert https-cert
