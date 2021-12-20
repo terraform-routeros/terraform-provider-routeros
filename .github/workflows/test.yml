@@ -71,7 +71,7 @@ jobs:
 
     services:
       routeros:
-        image: gnewbury/routeros:${{ matrix.routeros_version }}
+        image: ghcr.io/gnewbury1/mikrotik/routeros:${{ matrix.routeros_version }}
         ports:
           - 443:443
           - 22:2222
