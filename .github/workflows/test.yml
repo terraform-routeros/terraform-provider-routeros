@@ -74,7 +74,7 @@ jobs:
         image: gnewbury/routeros:${{ matrix.routeros_version }}
         ports:
           - 443:443
-          - 22:2222
+          - 2222:22
         volumes:
           - /dev/net/tun:/dev/net/tun
         options: >-
