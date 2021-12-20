@@ -32,11 +32,11 @@ jobs:
 
       - name: Setup routeros
         run: |
-          sshpass -p "" ssh -o StrictHostChecking=no admin@127.0.0.1:2222 /certificate add name=root-cert common-name=MyRouter days-valid=3650 key-usage=key-cert-sign,crl-sign
-          sshpass -p "" ssh -o StrictHostChecking=no admin@127.0.0.1:2222 /certificate sign root-cert
-          sshpass -p "" ssh -o StrictHostChecking=no admin@127.0.0.1:2222 /certificate add name=https-cert common-name=MyRouter days-valid=3650
-          sshpass -p "" ssh -o StrictHostChecking=no admin@127.0.0.1:2222 /certificate sign ca=root-cert https-cert
-          sshpass -p "" ssh -o StrictHostChecking=no admin@127.0.0.1:2222 /ip service set www-ssl certificate=https-cert disabled=no
+          sshpass -p "" ssh -o StrictHostKeyChecking=no admin@127.0.0.1:2222 /certificate add name=root-cert common-name=MyRouter days-valid=3650 key-usage=key-cert-sign,crl-sign
+          sshpass -p "" ssh -o StrictHostKeyChecking=no admin@127.0.0.1:2222 /certificate sign root-cert
+          sshpass -p "" ssh -o StrictHostKeyChecking=no admin@127.0.0.1:2222 /certificate add name=https-cert common-name=MyRouter days-valid=3650
+          sshpass -p "" ssh -o StrictHostKeyChecking=no admin@127.0.0.1:2222 /certificate sign ca=root-cert https-cert
+          sshpass -p "" ssh -o StrictHostKeyChecking=no admin@127.0.0.1:2222 /ip service set www-ssl certificate=https-cert disabled=no
 
       - name: Check out code into the Go module directory
         uses: actions/checkout@v2.3.4
