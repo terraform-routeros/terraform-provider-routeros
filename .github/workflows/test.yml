@@ -32,7 +32,7 @@ jobs:
 
       - name: Setup routeros
         run: |
-          apk add --update --nocache sshpass
+          apt-get install -y sshpass
           sshpass -p "" -o StrictHostChecking=no admin@127.0.0.1:2222 /certificate add name=root-cert common-name=MyRouter days-valid=3650 key-usage=key-cert-sign,crl-sign
           sshpass -p "" -o StrictHostChecking=no admin@127.0.0.1:2222 /certificate sign root-cert
           sshpass -p "" -o StrictHostChecking=no admin@127.0.0.1:2222 /certificate add name=https-cert common-name=MyRouter days-valid=3650
