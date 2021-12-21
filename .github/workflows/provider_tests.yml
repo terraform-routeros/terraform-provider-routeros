@@ -27,6 +27,8 @@ jobs:
         # Test against RouterOS v7
         routeros_version:
           - "7.1"
+          - "7.1.1"
+          - "7.2rc1"
         legacy_bgp_support: [true]
 
     steps:
