@@ -32,11 +32,12 @@ jobs:
 
       - name: Setup routeros
         run: |
-          sshpass -p "" ssh -vvv -o StrictHostKeyChecking=no admin@127.0.0.1 -p 2222 "/certificate add name=root-cert common-name=MyRouter days-valid=3650 key-usage=key-cert-sign,crl-sign"
-          sshpass -p "" ssh -o StrictHostKeyChecking=no admin@127.0.0.1 -p 2222 /certificate sign root-cert
-          sshpass -p "" ssh -o StrictHostKeyChecking=no admin@127.0.0.1 -p 2222 /certificate add name=https-cert common-name=MyRouter days-valid=3650
-          sshpass -p "" ssh -o StrictHostKeyChecking=no admin@127.0.0.1 -p 2222 /certificate sign ca=root-cert https-cert
-          sshpass -p "" ssh -o StrictHostKeyChecking=no admin@127.0.0.1 -p 2222 /ip service set www-ssl certificate=https-cert disabled=no
+          sudo pip3 install routeros_api
+          python3 .github/scripts/setup_routeros.py
+        env:
+          ROS_USERNAME: admin
+          ROS_PASSWORD: ''
+          ROS_IP_ADDRESS: 127.0.0.1
 
       - name: Check out code into the Go module directory
         uses: actions/checkout@v2.3.4
@@ -73,7 +74,7 @@ jobs:
         image: gnewbury/routeros:${{ matrix.routeros_version }}
         ports:
           - 443:443
-          - 2222:22
+          - 8728:8728
         volumes:
           - /dev/net/tun:/dev/net/tun
         options: >-
