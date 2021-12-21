@@ -53,7 +53,7 @@ provider "routeros" {
 
 resource "routeros_interface_bridge_port" "test_port" {
 	bridge    = "bridge"
-	interface = "ether2"
+	interface = "ether1"
 	pvid 	  = 200
 	disabled  = true
   }
