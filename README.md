@@ -1,5 +1,7 @@
 # Terraform Provider RouterOS
 
+![testing workflow](https://github.com/gnewbury1/terraform-provider-routeros/actions/workflows/test.yml/badge.svg?branch=main)
+
 ## Purpose
 
 This provider is intended to be used with Router OS 7 and above. It makes use of the REST API introduced with Router OS v7.
