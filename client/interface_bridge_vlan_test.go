@@ -10,8 +10,8 @@ func CreateInterfaceBridgeVlanTestObjects() (*InterfaceBridgeVlan, error) {
 	c := NewClient(GetCredentialsFromEnvVar())
 	bridge_vlan := new(InterfaceBridgeVlan)
 	bridge_vlan.Bridge = "bridge"
-	bridge_vlan.Untagged = "sfp-sfpplus1"
-	bridge_vlan.Tagged = "bridge,ether1"
+	bridge_vlan.Untagged = "ether1"
+	bridge_vlan.Tagged = "bridge"
 	bridge_vlan.Disabled = "false"
 	bridge_vlan.VlanIds = "200"
 	res, err := c.CreateInterfaceBridgeVlan(bridge_vlan)
@@ -25,8 +25,8 @@ func TestCreateInterfaceBridgeVlan(t *testing.T) {
 	c := NewClient(GetCredentialsFromEnvVar())
 	bridge_vlan := new(InterfaceBridgeVlan)
 	bridge_vlan.Bridge = "bridge"
-	bridge_vlan.Untagged = "sfp-sfpplus1"
-	bridge_vlan.Tagged = "bridge,ether1"
+	bridge_vlan.Untagged = "ether1"
+	bridge_vlan.Tagged = "bridge"
 	bridge_vlan.Disabled = "false"
 	bridge_vlan.VlanIds = "200"
 	res, err := c.CreateInterfaceBridgeVlan(bridge_vlan)

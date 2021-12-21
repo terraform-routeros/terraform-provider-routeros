@@ -53,8 +53,8 @@ provider "routeros" {
 
 resource "routeros_interface_bridge_vlan" "test_vlan" {
 	bridge   = "bridge"
-	untagged = ["sfp-sfpplus1"]
-	tagged	 = ["bridge","ether1"]
+	untagged = ["ether1"]
+	tagged	 = ["bridge"]
 	vlan_id  = 200
   }
 
