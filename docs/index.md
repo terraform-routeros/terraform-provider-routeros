@@ -8,6 +8,14 @@ description: |-
 
 # RouterOS v7 Provider
 
+## Tested RouterOS versions:
+
+- 7.1
+- 7.1.1
+- 7.2rc1
+
+## Usage
+
 ```terraform
 provider "routeros" {
     hosturl  = "https://my.router.lan"
