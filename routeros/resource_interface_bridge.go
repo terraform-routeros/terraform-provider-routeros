@@ -231,7 +231,6 @@ func resourceInterfaceBridgeRead(d *schema.ResourceData, m interface{}) error {
 	}
 
 	actual_mtu, _ := strconv.Atoi(res.ActualMtu)
-	arp, _ := strconv.ParseBool(res.Arp)
 	auto_mac, _ := strconv.ParseBool(res.AutoMac)
 	dhcp_snooping, _ := strconv.ParseBool(res.DhcpSnooping)
 	disabled, _ := strconv.ParseBool(res.Disabled)
@@ -248,7 +247,7 @@ func resourceInterfaceBridgeRead(d *schema.ResourceData, m interface{}) error {
 	d.Set("actual_mtu", actual_mtu)
 	d.Set("admin_mac", res.AdminMac)
 	d.Set("ageing_time", res.AgeingTime)
-	d.Set("arp", arp)
+	d.Set("arp", res.Arp)
 	d.Set("arp_timeout", res.ArpTimeout)
 	d.Set("auto_mac", auto_mac)
 	d.Set("comment", res.Comment)
