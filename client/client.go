@@ -70,6 +70,7 @@ func (c *Client) sendRequest(req *http.Request, v interface{}) error {
 	if res.StatusCode < http.StatusOK || res.StatusCode >= http.StatusBadRequest {
 		var errRes errorResponse
 		if err = json.NewDecoder(res.Body).Decode(&errRes); err == nil {
+			fmt.Printf(errRes.Detail)
 			return errors.New(errRes.Detail)
 		}
 
