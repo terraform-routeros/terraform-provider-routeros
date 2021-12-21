@@ -35,6 +35,12 @@ provider "routeros" {
 
 For more in-depth documentation about each of the resources and datasources, please read the [documentation on Hashicorp's Provider registry](https://registry.terraform.io/providers/GNewbury1/routeros/latest/docs)
 
+### Tested RouterOS versions
+
+- 7.1
+- 7.1.1
+- 7.2rc1
+
 ## Changelog and Roadmap
 
 For a detailed changelog, please see the [changelog.md](changelog.md).
