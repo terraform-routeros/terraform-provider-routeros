@@ -50,6 +50,7 @@ func Provider() *schema.Provider {
 			"routeros_interface_bridge_vlan": resourceInterfaceBridgeVlan(),
 			"routeros_interface_bridge_port": resourceInterfaceBridgePort(),
 			"routeros_interface_bridge":      resourceInterfaceBridge(),
+			"routeros_interface_wireguard":   resourceInterfaceWireguard(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"routeros_ip_addresses": datasourceIPAddresses(),

@@ -39,8 +39,9 @@ func resourceInterfaceWireguard() *schema.Resource {
 				Required: true,
 			},
 			"private_key": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:      schema.TypeString,
+				Computed:  true,
+				Sensitive: true,
 			},
 			"public_key": {
 				Type:     schema.TypeString,
@@ -60,27 +61,52 @@ func resourceInterfaceWireguardCreate(d *schema.ResourceData, m interface{}) err
 	interface_wireguard := new(roscl.InterfaceWireguard)
 	interface_wireguard.Name = d.Get("name").(string)
 	interface_wireguard.Disabled = strconv.FormatBool(d.Get("disabled").(bool))
+	interface_wireguard.ListenPort = strconv.Itoa(d.Get("listen_port").(int))
+	interface_wireguard.Mtu = strconv.Itoa(d.Get("mtu").(int))
 
 	res, err := c.CreateInterfaceWireguard(interface_wireguard)
 	if err != nil {
 		return fmt.Errorf("error creating ip pool: %s", err.Error())
 	}
 
+	disabled, _ := strconv.ParseBool(res.Disabled)
+	listen_port, _ := strconv.Atoi(res.ListenPort)
+	mtu, _ := strconv.Atoi(res.Mtu)
+	running, _ := strconv.ParseBool(res.Running)
+
 	d.SetId(res.ID)
+	d.Set("disabled", disabled)
+	d.Set("listen_port", listen_port)
+	d.Set("mtu", mtu)
+	d.Set("running", running)
+	d.Set("name", res.Name)
+	d.Set("private_key", res.PrivateKey)
+	d.Set("public_key", res.PublicKey)
+
 	return nil
 }
 
 func resourceInterfaceWireguardRead(d *schema.ResourceData, m interface{}) error {
 	c := m.(*roscl.Client)
-	interface_wireguard, err := c.ReadInterfaceWireguard(d.Id())
+	res, err := c.ReadInterfaceWireguard(d.Id())
 
 	if err != nil {
 		return fmt.Errorf("error fetching ip pool: %s", err.Error())
 	}
 
-	d.SetId(interface_wireguard.ID)
-	d.Set("name", interface_wireguard.Name)
-	d.Set("ranges", interface_wireguard.Ranges)
+	disabled, _ := strconv.ParseBool(res.Disabled)
+	listen_port, _ := strconv.Atoi(res.ListenPort)
+	mtu, _ := strconv.Atoi(res.Mtu)
+	running, _ := strconv.ParseBool(res.Running)
+
+	d.SetId(res.ID)
+	d.Set("disabled", disabled)
+	d.Set("listen_port", listen_port)
+	d.Set("mtu", mtu)
+	d.Set("running", running)
+	d.Set("name", res.Name)
+	d.Set("private_key", res.PrivateKey)
+	d.Set("public_key", res.PublicKey)
 
 	return nil
 
@@ -90,7 +116,9 @@ func resourceInterfaceWireguardUpdate(d *schema.ResourceData, m interface{}) err
 	c := m.(*roscl.Client)
 	interface_wireguard := new(roscl.InterfaceWireguard)
 	interface_wireguard.Name = d.Get("name").(string)
-	interface_wireguard.Ranges = d.Get("ranges").(string)
+	interface_wireguard.Disabled = strconv.FormatBool(d.Get("disabled").(bool))
+	interface_wireguard.ListenPort = strconv.Itoa(d.Get("listen_port").(int))
+	interface_wireguard.Mtu = strconv.Itoa(d.Get("mtu").(int))
 
 	res, err := c.UpdateInterfaceWireguard(d.Id(), interface_wireguard)
 
@@ -98,7 +126,19 @@ func resourceInterfaceWireguardUpdate(d *schema.ResourceData, m interface{}) err
 		return fmt.Errorf("error updating ip address: %s", err.Error())
 	}
 
+	disabled, _ := strconv.ParseBool(res.Disabled)
+	listen_port, _ := strconv.Atoi(res.ListenPort)
+	mtu, _ := strconv.Atoi(res.Mtu)
+	running, _ := strconv.ParseBool(res.Running)
+
 	d.SetId(res.ID)
+	d.Set("disabled", disabled)
+	d.Set("listen_port", listen_port)
+	d.Set("mtu", mtu)
+	d.Set("running", running)
+	d.Set("name", res.Name)
+	d.Set("private_key", res.PrivateKey)
+	d.Set("public_key", res.PublicKey)
 
 	return nil
 }
