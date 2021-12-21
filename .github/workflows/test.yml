@@ -33,6 +33,8 @@ jobs:
       - name: Setup routeros
         run: |
           sudo pip3 install routeros_api
+          ls -alh
+          pwd
           python3 .github/scripts/setup_routeros.py
         env:
           ROS_USERNAME: admin
