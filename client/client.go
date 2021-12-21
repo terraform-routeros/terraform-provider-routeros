@@ -3,6 +3,7 @@ package client
 import (
 	"crypto/tls"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -69,7 +70,7 @@ func (c *Client) sendRequest(req *http.Request, v interface{}) error {
 	if res.StatusCode < http.StatusOK || res.StatusCode >= http.StatusBadRequest {
 		var errRes errorResponse
 		if err = json.NewDecoder(res.Body).Decode(&errRes); err == nil {
-			return fmt.Errorf("%s - %s", errRes.Message, errRes.Detail)
+			return errors.New(errRes.Detail)
 		}
 
 		return fmt.Errorf("unknown error, status code: %d", res.StatusCode)
