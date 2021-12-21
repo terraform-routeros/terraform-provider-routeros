@@ -53,7 +53,7 @@ provider "routeros" {
 
 resource "routeros_interface_bridge_port" "test_port" {
 	bridge    = "bridge"
-	interface = "sfp-sfpplus1"
+	interface = "ether2"
 	pvid 	  = 200
 	disabled  = true
   }

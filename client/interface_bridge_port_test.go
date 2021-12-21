@@ -10,7 +10,7 @@ func CreateInterfaceBridgePortTestObjects() (*InterfaceBridgePort, error) {
 	c := NewClient(GetCredentialsFromEnvVar())
 	bridge_port := new(InterfaceBridgePort)
 	bridge_port.Bridge = "bridge"
-	bridge_port.Interface = "sfp-sfpplus1"
+	bridge_port.Interface = "ether2"
 	bridge_port.Disabled = "false"
 	bridge_port.Pvid = "10"
 	res, err := c.CreateInterfaceBridgePort(bridge_port)
