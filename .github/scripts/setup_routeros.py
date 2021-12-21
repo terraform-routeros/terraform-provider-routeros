@@ -42,6 +42,9 @@ def main():
     pools = api.get_resource("/ip/pool")
     pools.add(name="dhcp", ranges="192.168.88.100-192.168.88.200")
 
+    wireguard = api.get_resource("/interface/wireguard")
+    wireguard.add(name="wg1")
+
     # Output the list of interfaces
 
     print(api.get_resource("/interface").get())
