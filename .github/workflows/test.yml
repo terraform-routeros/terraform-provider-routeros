@@ -30,6 +30,9 @@ jobs:
           go-version: ${{ matrix.go }}
         id: go
 
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2.3.4
+
       - name: Setup routeros
         run: |
           sudo pip3 install routeros_api
@@ -40,9 +43,6 @@ jobs:
           ROS_USERNAME: admin
           ROS_PASSWORD: ''
           ROS_IP_ADDRESS: 127.0.0.1
-
-      - name: Check out code into the Go module directory
-        uses: actions/checkout@v2.3.4
 
       - name: Get dependencies
         run: | 
