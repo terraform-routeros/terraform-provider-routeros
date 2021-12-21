@@ -9,6 +9,9 @@ def main():
     connection = routeros_api.RouterOsApiPool(ip_addr, username=user, password=pswd, port=8728, plaintext_login=True)
     api = connection.get_api()
 
+    bridge = api.get_resource("/interface/bridge")
+    bridge.add(name="bridge")
+
     certificate = api.get_resource("/certificate")
     certificate.add(name="root-cert", common_name="MyRouter", days_valid="3650", key_usage="key-cert-sign,crl-sign")
     certificate.add(name="https-cert", common_name="MyRouter", days_valid="3650")
