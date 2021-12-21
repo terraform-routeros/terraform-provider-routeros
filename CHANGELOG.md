@@ -10,6 +10,7 @@
 #### Misc:
 - Updated documentation and readme
 - Added Github Actions to test code in pull requests to `main` and to branches matching `release/*`
+    - CI tests check ROS versions `7.1`, `7.1.1`, and `7.2rc1`
 - Added Github Actions to publish a release
 
 ### 0.2.1 (2021-12-21)
