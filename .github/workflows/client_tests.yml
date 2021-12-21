@@ -2,12 +2,18 @@ name: Go Client Tests
 on:
   push:
     branches:
-      - main
-      - release/*
+      - 'main'
+      - 'release/*'
+    paths:
+      - 'main.go'
+      - 'client/*.go'
   pull_request:
     branches:
-      - main
-      - release/*
+      - 'main'
+      - 'release/*'
+    paths:
+      - 'main.go'
+      - 'client/*.go'
 jobs:
   build:
     name: Build
