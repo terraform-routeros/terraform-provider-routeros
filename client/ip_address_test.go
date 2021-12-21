@@ -16,9 +16,9 @@ func TestGetIpAddress(t *testing.T) {
 func TestCreateIpAddress(t *testing.T) {
 	c := NewClient(GetCredentialsFromEnvVar())
 	ipaddr := new(IPAddress)
-	ipaddr.Address = "10.1.71.5/24"
-	ipaddr.Interface = "VLAN_71_BACKUP_WAN"
-	ipaddr.Network = "10.1.71.0"
+	ipaddr.Address = "192.168.88.1/24"
+	ipaddr.Interface = "bridge"
+	ipaddr.Network = "192.168.88.0"
 	ipaddr.Disabled = "yes"
 	_, err := c.CreateIPAddress(ipaddr)
 	assert.Nil(t, err, "Expecting a nil error")
