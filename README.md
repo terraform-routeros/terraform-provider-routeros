@@ -10,7 +10,7 @@ This repository implements two things:
 - Go client to use with RouterOS v7 REST API
 - Terraform provider which makes use of said go client
 
-This is to allow configuration of Mikrotik's RouterOS at scale using Terraform. Please note that this provider is still in development, so functionality is missing in some areas. Have a look at [the documentation]([documentation on Hashicorp's Provider registry](https://registry.terraform.io/providers/GNewbury1/routeros/latest/docs)) for functionality that has been implemented. If there is a particular function you'd like to see, please raise an issue to it can be added to the [roadmap](https://github.com/users/GNewbury1/projects/2).
+This is to allow configuration of Mikrotik's RouterOS at scale using Terraform. Please note that this provider is still in development, so functionality is missing in some areas. Have a look at [the documentation](https://registry.terraform.io/providers/GNewbury1/routeros/latest/docs)) for functionality that has been implemented. If there is a particular function you'd like to see, please raise an issue to it can be added to the [roadmap](https://github.com/users/GNewbury1/projects/2).
 
 ## Using the provider
 
