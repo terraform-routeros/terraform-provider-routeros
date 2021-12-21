@@ -49,8 +49,8 @@ jobs:
           ROS_PASSWORD: ''
           ROS_IP_ADDRESS: 127.0.0.1
 
-      - name: Run provider tests
-        run: go test ./routeros
+      - name: Run client tests
+        run: go test ./client
         env:
           ROS_HOSTURL: https://127.0.0.1
           ROS_USERNAME: admin
@@ -59,8 +59,8 @@ jobs:
           TF_ACC: 1
           LEGACY_BGP_SUPPORT: ${{ matrix.legacy_bgp_support }}
 
-      - name: Run client tests
-        run: go test ./client
+      - name: Run provider tests
+        run: go test ./routeros
         env:
           ROS_HOSTURL: https://127.0.0.1
           ROS_USERNAME: admin
