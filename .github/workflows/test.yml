@@ -33,23 +33,21 @@ jobs:
       - name: Check out code into the Go module directory
         uses: actions/checkout@v2.3.4
 
-      - name: Setup routeros
-        run: |
-          sudo pip3 install routeros_api
-          ls -alh
-          pwd
-          python3 .github/scripts/setup_routeros.py
-        env:
-          ROS_USERNAME: admin
-          ROS_PASSWORD: ''
-          ROS_IP_ADDRESS: 127.0.0.1
-
       - name: Get dependencies
         run: | 
           go mod download
 
       - name: Build
         run: go build -v .
+
+      - name: Set up RouterOS
+        run: |
+          sudo pip3 install routeros_api
+          python3 .github/scripts/setup_routeros.py
+        env:
+          ROS_USERNAME: admin
+          ROS_PASSWORD: ''
+          ROS_IP_ADDRESS: 127.0.0.1
 
       - name: Run provider tests
         run: go test ./routeros
