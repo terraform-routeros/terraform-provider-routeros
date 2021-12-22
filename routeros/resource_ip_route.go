@@ -1,7 +1,7 @@
 package routeros
 
 import (
-	"fmt"
+	"log"
 	"strconv"
 
 	roscl "github.com/gnewbury1/terraform-provider-routeros/client"
@@ -103,7 +103,9 @@ func resourceIPRouteCreate(d *schema.ResourceData, m interface{}) error {
 
 	res, err := c.CreateIPRoute(ip_route)
 	if err != nil {
-		return fmt.Errorf("error creating ip pool: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a PUT request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	d.SetId(res.ID)
@@ -115,7 +117,9 @@ func resourceIPRouteRead(d *schema.ResourceData, m interface{}) error {
 	ip_route, err := c.ReadIPRoute(d.Id())
 
 	if err != nil {
-		return fmt.Errorf("error fetching ip pool: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a GET request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	active, _ := strconv.ParseBool(ip_route.Active)
@@ -164,7 +168,9 @@ func resourceIPRouteUpdate(d *schema.ResourceData, m interface{}) error {
 	res, err := c.UpdateIPRoute(d.Id(), ip_route)
 
 	if err != nil {
-		return fmt.Errorf("error updating ip address: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a PATCH request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	d.SetId(res.ID)
@@ -177,7 +183,9 @@ func resourceIPRouteDelete(d *schema.ResourceData, m interface{}) error {
 	ip_route, _ := c.ReadIPRoute(d.Id())
 	err := c.DeleteIPRoute(ip_route)
 	if err != nil {
-		return fmt.Errorf("error deleting ip address: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a DELETE request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 	d.SetId("")
 	return nil

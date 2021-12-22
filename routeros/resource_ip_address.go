@@ -1,7 +1,7 @@
 package routeros
 
 import (
-	"fmt"
+	"log"
 	"strconv"
 
 	roscl "github.com/gnewbury1/terraform-provider-routeros/client"
@@ -67,7 +67,9 @@ func resourceIPAddressCreate(d *schema.ResourceData, m interface{}) error {
 
 	res, err := c.CreateIPAddress(ip_addr)
 	if err != nil {
-		return fmt.Errorf("error creating ip address: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a PUT request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	disabled, _ := strconv.ParseBool(res.Disabled)
@@ -91,7 +93,9 @@ func resourceIPAddressRead(d *schema.ResourceData, m interface{}) error {
 	res, err := c.GetIPAddress(d.Id())
 
 	if err != nil {
-		return fmt.Errorf("error fetching ip address: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a GET request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	disabled, _ := strconv.ParseBool(res.Disabled)
@@ -127,7 +131,9 @@ func resourceIPAddressUpdate(d *schema.ResourceData, m interface{}) error {
 	res, err := c.UpdateIPAddress(d.Id(), ip_addr)
 
 	if err != nil {
-		return fmt.Errorf("error updating ip address: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a PATCH request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	disabled, _ := strconv.ParseBool(res.Disabled)
@@ -150,7 +156,9 @@ func resourceIPAddressDelete(d *schema.ResourceData, m interface{}) error {
 	c := m.(*roscl.Client)
 	err := c.DeleteIPAddress(d.Id())
 	if err != nil {
-		return fmt.Errorf("error deleting ip address: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a DELETE request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 	d.SetId("")
 	return nil

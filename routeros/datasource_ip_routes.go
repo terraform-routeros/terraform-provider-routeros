@@ -1,7 +1,7 @@
 package routeros
 
 import (
-	"fmt"
+	"log"
 	"strconv"
 
 	roscl "github.com/gnewbury1/terraform-provider-routeros/client"
@@ -99,7 +99,9 @@ func datasourceIPRoutesRead(d *schema.ResourceData, m interface{}) error {
 	res, err := c.ReadIPRoutes()
 
 	if err != nil {
-		return fmt.Errorf("error fetching ip routees: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a GET request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	routes := make([]map[string]interface{}, len(res))

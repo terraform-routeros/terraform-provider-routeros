@@ -1,7 +1,7 @@
 package routeros
 
 import (
-	"fmt"
+	"log"
 	"strconv"
 	"strings"
 
@@ -91,7 +91,9 @@ func resourceInterfaceWireguardPeerCreate(d *schema.ResourceData, m interface{})
 
 	res, err := c.CreateInterfaceWireguardPeer(interface_wireguard_peer)
 	if err != nil {
-		return fmt.Errorf("error creating ip pool: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a PUT request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	allowed_addresses_output := ConvSStringToSInterface(strings.Split(res.AllowedAddress, ","))
@@ -119,7 +121,9 @@ func resourceInterfaceWireguardPeerRead(d *schema.ResourceData, m interface{}) e
 	res, err := c.ReadInterfaceWireguardPeer(d.Id())
 
 	if err != nil {
-		return fmt.Errorf("error fetching ip pool: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a GET request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	allowed_addresses_output := ConvSStringToSInterface(strings.Split(res.AllowedAddress, ","))
@@ -158,7 +162,9 @@ func resourceInterfaceWireguardPeerUpdate(d *schema.ResourceData, m interface{})
 	res, err := c.UpdateInterfaceWireguardPeer(d.Id(), interface_wireguard_peer)
 
 	if err != nil {
-		return fmt.Errorf("error updating ip address: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a PATCH request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	allowed_addresses_output := ConvSStringToSInterface(strings.Split(res.AllowedAddress, ","))
@@ -186,7 +192,9 @@ func resourceInterfaceWireguardPeerDelete(d *schema.ResourceData, m interface{})
 	interface_wireguard_peer, _ := c.ReadInterfaceWireguardPeer(d.Id())
 	err := c.DeleteInterfaceWireguardPeer(interface_wireguard_peer)
 	if err != nil {
-		return fmt.Errorf("error deleting ip address: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a DELETE request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 	d.SetId("")
 	return nil

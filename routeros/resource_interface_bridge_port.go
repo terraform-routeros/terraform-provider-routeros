@@ -1,7 +1,7 @@
 package routeros
 
 import (
-	"fmt"
+	"log"
 	"strconv"
 
 	roscl "github.com/gnewbury1/terraform-provider-routeros/client"
@@ -237,7 +237,9 @@ func resourceInterfaceBridgePortCreate(d *schema.ResourceData, m interface{}) er
 
 	res, err := c.CreateInterfaceBridgePort(bridge_port)
 	if err != nil {
-		return fmt.Errorf("error creating ip pool: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a PUT request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	auto_isolate, _ := strconv.ParseBool(res.AutoIsolate)
@@ -316,7 +318,9 @@ func resourceInterfaceBridgePortRead(d *schema.ResourceData, m interface{}) erro
 	res, err := c.ReadInterfaceBridgePort(d.Id())
 
 	if err != nil {
-		return fmt.Errorf("error fetching ip pool: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a GET request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	auto_isolate, _ := strconv.ParseBool(res.AutoIsolate)
@@ -421,7 +425,9 @@ func resourceInterfaceBridgePortUpdate(d *schema.ResourceData, m interface{}) er
 	res, err := c.UpdateInterfaceBridgePort(d.Id(), bridge_port)
 
 	if err != nil {
-		return fmt.Errorf("error updating ip address: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a PUT request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	auto_isolate, _ := strconv.ParseBool(res.AutoIsolate)
@@ -500,7 +506,9 @@ func resourceInterfaceBridgePortDelete(d *schema.ResourceData, m interface{}) er
 	bridge_port, _ := c.ReadInterfaceBridgePort(d.Id())
 	err := c.DeleteInterfaceBridgePort(bridge_port)
 	if err != nil {
-		return fmt.Errorf("error deleting ip address: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a DELETE request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 	d.SetId("")
 	return nil
