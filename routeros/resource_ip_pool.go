@@ -1,7 +1,7 @@
 package routeros
 
 import (
-	"fmt"
+	"log"
 
 	roscl "github.com/gnewbury1/terraform-provider-routeros/client"
 
@@ -40,7 +40,9 @@ func resourceIPPoolCreate(d *schema.ResourceData, m interface{}) error {
 
 	res, err := c.CreateIPPool(ip_pool)
 	if err != nil {
-		return fmt.Errorf("error creating ip pool: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a PUT request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	d.SetId(res.ID)
@@ -52,7 +54,9 @@ func resourceIPPoolRead(d *schema.ResourceData, m interface{}) error {
 	ip_pool, err := c.ReadIPPool(d.Id())
 
 	if err != nil {
-		return fmt.Errorf("error fetching ip pool: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a GET request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	d.SetId(ip_pool.ID)
@@ -72,7 +76,9 @@ func resourceIPPoolUpdate(d *schema.ResourceData, m interface{}) error {
 	res, err := c.UpdateIPPool(d.Id(), ip_pool)
 
 	if err != nil {
-		return fmt.Errorf("error updating ip address: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a PATCH request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	d.SetId(res.ID)
@@ -85,7 +91,9 @@ func resourceIPPoolDelete(d *schema.ResourceData, m interface{}) error {
 	ip_pool, _ := c.ReadIPPool(d.Id())
 	err := c.DeleteIPPool(ip_pool)
 	if err != nil {
-		return fmt.Errorf("error deleting ip address: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a DELETE request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 	d.SetId("")
 	return nil

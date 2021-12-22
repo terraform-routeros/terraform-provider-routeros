@@ -1,7 +1,7 @@
 package routeros
 
 import (
-	"fmt"
+	"log"
 	"strconv"
 	"strings"
 
@@ -85,7 +85,9 @@ func resourceInterfaceBridgeVlanCreate(d *schema.ResourceData, m interface{}) er
 
 	res, err := c.CreateInterfaceBridgeVlan(bridge_vlan)
 	if err != nil {
-		return fmt.Errorf("error creating ip pool: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a PUT request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	current_tagged := ConvSStringToSInterface(strings.Split(res.CurrentTagged, ","))
@@ -104,7 +106,9 @@ func resourceInterfaceBridgeVlanRead(d *schema.ResourceData, m interface{}) erro
 	bridge_vlan, err := c.ReadInterfaceBridgeVlan(d.Id())
 
 	if err != nil {
-		return fmt.Errorf("error fetching ip pool: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a GET request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	current_tagged := ConvSStringToSInterface(strings.Split(bridge_vlan.CurrentTagged, ","))
@@ -142,7 +146,9 @@ func resourceInterfaceBridgeVlanUpdate(d *schema.ResourceData, m interface{}) er
 	res, err := c.UpdateInterfaceBridgeVlan(d.Id(), bridge_vlan)
 
 	if err != nil {
-		return fmt.Errorf("error updating ip address: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a PATCH request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	d.SetId(res.ID)
@@ -155,7 +161,9 @@ func resourceInterfaceBridgeVlanDelete(d *schema.ResourceData, m interface{}) er
 	bridge_vlan, _ := c.ReadInterfaceBridgeVlan(d.Id())
 	err := c.DeleteInterfaceBridgeVlan(bridge_vlan)
 	if err != nil {
-		return fmt.Errorf("error deleting ip address: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a DELETE request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 	d.SetId("")
 	return nil
