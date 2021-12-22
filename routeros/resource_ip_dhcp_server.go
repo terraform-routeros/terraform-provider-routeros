@@ -1,7 +1,7 @@
 package routeros
 
 import (
-	"fmt"
+	"log"
 	"strconv"
 
 	roscl "github.com/gnewbury1/terraform-provider-routeros/client"
@@ -84,7 +84,9 @@ func resourceDhcpServerCreate(d *schema.ResourceData, m interface{}) error {
 
 	res, err := c.CreateDhcpServer(dhcp_server)
 	if err != nil {
-		return fmt.Errorf("error creating dhcp server: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a PUT request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	d.SetId(res.ID)
@@ -96,7 +98,9 @@ func resourceDhcpServerRead(d *schema.ResourceData, m interface{}) error {
 	res, err := c.ReadDhcpServer(d.Id())
 
 	if err != nil {
-		return fmt.Errorf("error fetching dhcp server: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a GET request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	authoritative, _ := strconv.ParseBool(BoolStringTrueFalse(res.Authoritative))
@@ -135,7 +139,9 @@ func resourceDhcpServerUpdate(d *schema.ResourceData, m interface{}) error {
 	res, err := c.UpdateDhcpServer(d.Id(), dhcp_server)
 
 	if err != nil {
-		return fmt.Errorf("error updating dhcp server: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a PATCH request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	d.SetId(res.ID)
@@ -148,7 +154,9 @@ func resourceDhcpServerDelete(d *schema.ResourceData, m interface{}) error {
 	dhcp_server, _ := c.ReadDhcpServer(d.Id())
 	err := c.DeleteDhcpServer(dhcp_server)
 	if err != nil {
-		return fmt.Errorf("error deleting ip address: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a DELETE request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 	d.SetId("")
 	return nil

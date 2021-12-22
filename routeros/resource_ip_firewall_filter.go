@@ -1,7 +1,7 @@
 package routeros
 
 import (
-	"fmt"
+	"log"
 	"strconv"
 
 	roscl "github.com/gnewbury1/terraform-provider-routeros/client"
@@ -402,7 +402,9 @@ func resourceIPFirewallFilterCreate(d *schema.ResourceData, m interface{}) error
 
 	res, err := c.CreateIPFirewallFilter(firewall_filter)
 	if err != nil {
-		return fmt.Errorf("error creating firewall filter rule: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a PUT request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	bytes, _ := strconv.Atoi(res.Bytes)
@@ -486,7 +488,9 @@ func resourceIPFirewallFilterRead(d *schema.ResourceData, m interface{}) error {
 	res, err := c.ReadIPFirewallFilter(d.Id())
 
 	if err != nil {
-		return fmt.Errorf("error fetching firewall filter rule: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a GET request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	bytes, _ := strconv.Atoi(res.Bytes)
@@ -633,7 +637,9 @@ func resourceIPFirewallFilterUpdate(d *schema.ResourceData, m interface{}) error
 	res, err := c.UpdateIPFirewallFilter(d.Id(), firewall_filter)
 
 	if err != nil {
-		return fmt.Errorf("error updating firewall filter rule: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a PATCH request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	bytes, _ := strconv.Atoi(res.Bytes)
@@ -717,7 +723,9 @@ func resourceIPFirewallFilterDelete(d *schema.ResourceData, m interface{}) error
 	firewall_filter, _ := c.ReadIPFirewallFilter(d.Id())
 	err := c.DeleteIPFirewallFilter(firewall_filter)
 	if err != nil {
-		return fmt.Errorf("error deleting firewall filter rule: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a DELETE request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 	d.SetId("")
 	return nil

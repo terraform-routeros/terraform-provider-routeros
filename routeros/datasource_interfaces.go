@@ -1,7 +1,7 @@
 package routeros
 
 import (
-	"fmt"
+	"log"
 	"strconv"
 
 	roscl "github.com/gnewbury1/terraform-provider-routeros/client"
@@ -127,7 +127,9 @@ func datasourceInterfacesRead(d *schema.ResourceData, m interface{}) error {
 	res, err := c.ReadInterfaces()
 
 	if err != nil {
-		return fmt.Errorf("error fetching interfaces: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a GET request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	interfaces := make([]map[string]interface{}, len(res))
