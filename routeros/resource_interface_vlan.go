@@ -1,7 +1,7 @@
 package routeros
 
 import (
-	"fmt"
+	"log"
 	"strconv"
 
 	roscl "github.com/gnewbury1/terraform-provider-routeros/client"
@@ -99,7 +99,9 @@ func resourceInterfaceVlanCreate(d *schema.ResourceData, m interface{}) error {
 
 	res, err := c.CreateVLAN(vlan_obj)
 	if err != nil {
-		return fmt.Errorf("error creating vlan: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a PUT request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	d.SetId(res.ID)
@@ -111,7 +113,9 @@ func resourceInterfaceVlanRead(d *schema.ResourceData, m interface{}) error {
 	vlan, err := c.ReadVLAN(d.Id())
 
 	if err != nil {
-		return fmt.Errorf("error fetching vlan: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a GET request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	vlan_id, _ := strconv.Atoi(vlan.VlanID)
@@ -158,7 +162,9 @@ func resourceInterfaceVlanUpdate(d *schema.ResourceData, m interface{}) error {
 	res, err := c.UpdateVLAN(d.Id(), vlan_obj)
 
 	if err != nil {
-		return fmt.Errorf("error updating vlan: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a PATCH request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	d.SetId(res.ID)
@@ -170,7 +176,9 @@ func resourceInterfaceVlanDelete(d *schema.ResourceData, m interface{}) error {
 	c := m.(*roscl.Client)
 	err := c.DeleteVLAN(d.Id())
 	if err != nil {
-		return fmt.Errorf("error deleting vlan: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a DELETE request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 	d.SetId("")
 	return nil

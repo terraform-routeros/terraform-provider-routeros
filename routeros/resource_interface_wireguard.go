@@ -1,7 +1,7 @@
 package routeros
 
 import (
-	"fmt"
+	"log"
 	"strconv"
 
 	roscl "github.com/gnewbury1/terraform-provider-routeros/client"
@@ -66,7 +66,9 @@ func resourceInterfaceWireguardCreate(d *schema.ResourceData, m interface{}) err
 
 	res, err := c.CreateInterfaceWireguard(interface_wireguard)
 	if err != nil {
-		return fmt.Errorf("error creating ip pool: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a PUT request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	disabled, _ := strconv.ParseBool(res.Disabled)
@@ -91,7 +93,9 @@ func resourceInterfaceWireguardRead(d *schema.ResourceData, m interface{}) error
 	res, err := c.ReadInterfaceWireguard(d.Id())
 
 	if err != nil {
-		return fmt.Errorf("error fetching ip pool: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a GET request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	disabled, _ := strconv.ParseBool(res.Disabled)
@@ -123,7 +127,9 @@ func resourceInterfaceWireguardUpdate(d *schema.ResourceData, m interface{}) err
 	res, err := c.UpdateInterfaceWireguard(d.Id(), interface_wireguard)
 
 	if err != nil {
-		return fmt.Errorf("error updating ip address: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a PATCH request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	disabled, _ := strconv.ParseBool(res.Disabled)
@@ -148,7 +154,9 @@ func resourceInterfaceWireguardDelete(d *schema.ResourceData, m interface{}) err
 	interface_wireguard, _ := c.ReadInterfaceWireguard(d.Id())
 	err := c.DeleteInterfaceWireguard(interface_wireguard)
 	if err != nil {
-		return fmt.Errorf("error deleting ip address: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a DELETE request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 	d.SetId("")
 	return nil

@@ -1,7 +1,7 @@
 package routeros
 
 import (
-	"fmt"
+	"log"
 	"strconv"
 
 	roscl "github.com/gnewbury1/terraform-provider-routeros/client"
@@ -175,7 +175,9 @@ func resourceInterfaceBridgeCreate(d *schema.ResourceData, m interface{}) error 
 
 	res, err := c.CreateInterfaceBridge(bridge)
 	if err != nil {
-		return fmt.Errorf("error creating ip pool: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a PUT request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	actual_mtu, _ := strconv.Atoi(res.ActualMtu)
@@ -227,7 +229,9 @@ func resourceInterfaceBridgeRead(d *schema.ResourceData, m interface{}) error {
 	res, err := c.ReadInterfaceBridge(d.Id())
 
 	if err != nil {
-		return fmt.Errorf("error fetching ip pool: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a GET request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	actual_mtu, _ := strconv.Atoi(res.ActualMtu)
@@ -305,7 +309,9 @@ func resourceInterfaceBridgeUpdate(d *schema.ResourceData, m interface{}) error 
 	res, err := c.UpdateInterfaceBridge(d.Id(), bridge)
 
 	if err != nil {
-		return fmt.Errorf("error updating ip address: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a PATCH request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 
 	actual_mtu, _ := strconv.Atoi(res.ActualMtu)
@@ -357,7 +363,9 @@ func resourceInterfaceBridgeDelete(d *schema.ResourceData, m interface{}) error 
 	bridge, _ := c.ReadInterfaceBridge(d.Id())
 	err := c.DeleteInterfaceBridge(bridge)
 	if err != nil {
-		return fmt.Errorf("error deleting ip address: %s", err.Error())
+		log.Println("[ERROR] An error was encountered while sending a DELETE request to the API")
+		log.Fatal(err.Error())
+		return err
 	}
 	d.SetId("")
 	return nil
