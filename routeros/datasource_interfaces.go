@@ -133,8 +133,9 @@ func datasourceInterfacesRead(d *schema.ResourceData, m interface{}) error {
 	}
 
 	interfaces := make([]map[string]interface{}, len(res))
-	ros_interface := make(map[string]interface{})
+
 	for k, v := range res {
+		ros_interface := make(map[string]interface{})
 		ros_interface["id"] = v.ID
 		ros_interface["actual_mtu"], _ = strconv.Atoi(v.ActualMtu)
 		ros_interface["default_name"] = v.DefaultName

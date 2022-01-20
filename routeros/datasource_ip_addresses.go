@@ -69,8 +69,8 @@ func datasourceIPAddressesRead(d *schema.ResourceData, m interface{}) error {
 	}
 
 	addresses := make([]map[string]interface{}, len(res))
-	address := make(map[string]interface{})
 	for k, v := range res {
+		address := make(map[string]interface{})
 		address["id"] = v.ID
 		address["actual_interface"] = v.ActualInterface
 		address["address"] = v.Address
