@@ -105,8 +105,8 @@ func datasourceIPRoutesRead(d *schema.ResourceData, m interface{}) error {
 	}
 
 	routes := make([]map[string]interface{}, len(res))
-	route := make(map[string]interface{})
 	for k, v := range res {
+		route := make(map[string]interface{})
 		route["id"] = v.ID
 		route["active"], _ = strconv.ParseBool(v.Active)
 		route["dhcp"], _ = strconv.ParseBool(v.Dhcp)
