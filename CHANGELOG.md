@@ -2,7 +2,13 @@
 
 ## Pre-release
 
-### 0.3.0 (Upcoming)
+### 0.3.2
+- [#47](https://github.com/GNewbury1/terraform-provider-routeros/issues/47) - Fixed issue where datasources would return arrays contain the wrong value. Contribution by [deveth0](https://github.com/deveth0/) with [pull request #48](https://github.com/GNewbury1/terraform-provider-routeros/pull/48)
+
+### 0.3.1
+- Added error logging
+
+### 0.3.0 
 #### Features:
 - Added ability to manage Wireguard interfaces
 - Added ability to manage Wireguard peers
