@@ -53,6 +53,7 @@ func Provider() *schema.Provider {
 			"routeros_interface_wireguard":      resourceInterfaceWireguard(),
 			"routeros_interface_wireguard_peer": resourceInterfaceWireguardPeer(),
 			"routeros_interface_list":           resourceInterfaceList(),
+			"routeros_interface_list_member":    resourceInterfaceListMember(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"routeros_ip_addresses": datasourceIPAddresses(),
