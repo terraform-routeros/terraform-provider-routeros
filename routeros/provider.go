@@ -54,6 +54,7 @@ func Provider() *schema.Provider {
 			"routeros_interface_wireguard_peer": resourceInterfaceWireguardPeer(),
 			"routeros_capsman_channel":          resourceCapsManChannel(),
 			"routeros_capsman_datapath":         resourceCapsManDatapath(),
+			"routeros_capsman_security":         resourceCapsManSecurity(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"routeros_ip_addresses": datasourceIPAddresses(),
