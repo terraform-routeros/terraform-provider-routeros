@@ -56,30 +56,3 @@ resource "routeros_capsman_manager" "test_manager" {
 
 `
 }
-
-func testAccCheckCapsManManagerDestroy(s *terraform.State) error {
-	c := testAccProvider.Meta().(*client.Client)
-	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "routeros_capsman_manager" {
-			continue
-		}
-		id := rs.Primary.ID
-		req, err := http.NewRequest("GET", fmt.Sprintf("%s/caps-man/manager/%s", c.HostURL, id), nil)
-		if err != nil {
-			return err
-		}
-		req.Header.Set("Content-Type", "application/json")
-		req.SetBasicAuth(c.Username, c.Password)
-
-		res, err := c.HTTPClient.Do(req)
-		if err != nil {
-			return nil
-		}
-		if res.StatusCode != 404 {
-			return fmt.Errorf("capsman manager id %s has been found", id)
-		}
-		return nil
-	}
-
-	return nil
-}
