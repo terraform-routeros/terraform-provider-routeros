@@ -40,11 +40,23 @@ func resourceCapsManDatapath() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"interface_list": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"l2mtu": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"local_forwarding": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
 			"client_to_client_forwarding": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"mtu": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -74,6 +86,9 @@ func resourceCapsManDatapathCreate(d *schema.ResourceData, m interface{}) error 
 	datapath_obj.BridgeCost = d.Get("bridge_cost").(string)
 	datapath_obj.Comment = d.Get("comment").(string)
 	datapath_obj.BridgeHorizon = d.Get("bridge_horizon").(string)
+	datapath_obj.InterfaceList = d.Get("interface_list").(string)
+	datapath_obj.L2MTU = d.Get("l2mtu").(string)
+	datapath_obj.MTU = d.Get("mtu").(string)
 	datapath_obj.LocalForwarding = d.Get("local_forwarding").(string)
 	datapath_obj.ClientToClientForwarding = d.Get("client_to_client_forwarding").(string)
 	datapath_obj.OpenFlowSwitch = d.Get("openflow_switch").(string)
@@ -109,6 +124,9 @@ func resourceCapsManDatapathRead(d *schema.ResourceData, m interface{}) error {
 	d.Set("bridge", datapath.Bridge)
 	d.Set("comment", datapath.Comment)
 	d.Set("bridge_horizon", datapath.BridgeHorizon)
+	d.Set("interface_list", datapath.BridgeHorizon)
+	d.Set("l2mtu", datapath.BridgeHorizon)
+	d.Set("mtu", datapath.BridgeHorizon)
 	d.Set("client_to_client_forwarding", datapath.ClientToClientForwarding)
 	d.Set("openflow_switch", datapath.OpenFlowSwitch)
 	d.Set("vlan_mode", datapath.VlanMode)
@@ -127,6 +145,9 @@ func resourceCapsManDatapathUpdate(d *schema.ResourceData, m interface{}) error 
 	datapath_obj.BridgeCost = d.Get("bridge_cost").(string)
 	datapath_obj.Comment = d.Get("comment").(string)
 	datapath_obj.BridgeHorizon = d.Get("bridge_horizon").(string)
+	datapath_obj.InterfaceList = d.Get("interface_list").(string)
+	datapath_obj.L2MTU = d.Get("l2mtu").(string)
+	datapath_obj.MTU = d.Get("mtu").(string)
 	datapath_obj.LocalForwarding = d.Get("local_forwarding").(string)
 	datapath_obj.ClientToClientForwarding = d.Get("client_to_client_forwarding").(string)
 	datapath_obj.OpenFlowSwitch = d.Get("openflow_switch").(string)

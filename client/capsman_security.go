@@ -11,6 +11,8 @@ type CapsManSecurity struct {
 	ID                  string `json:".id,omitempty"`
 	Comment             string `json:"comment,omitempty"`
 	GroupEncryption     string `json:"group-encryption,omitempty"`
+	AuthenticationTypes string `json:"authentication-types,omitempty"`
+	EapMethods          string `json:"eap-methods,omitempty"`
 	EapRadiusAccounting string `json:"eap-radius-accounting,omitempty"`
 	Encryption          string `json:"encryption,omitempty"`
 	GroupKeyUpdate      string `json:"group-key-update,omitempty"`

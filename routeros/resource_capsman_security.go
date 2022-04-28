@@ -23,6 +23,14 @@ func resourceCapsManSecurity() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"authentication_types": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"eap_methods": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"eap_radius_accounting": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -66,6 +74,8 @@ func resourceCapsManSecurityCreate(d *schema.ResourceData, m interface{}) error 
 
 	security_obj.Name = d.Get("name").(string)
 	security_obj.GroupEncryption = d.Get("group_encryption").(string)
+	security_obj.AuthenticationTypes = d.Get("authentication_types").(string)
+	security_obj.EapMethods = d.Get("eap_methods").(string)
 	security_obj.EapRadiusAccounting = d.Get("eap_radius_accounting").(string)
 	security_obj.Comment = d.Get("comment").(string)
 	security_obj.Encryption = d.Get("encryption").(string)
@@ -97,6 +107,8 @@ func resourceCapsManSecurityRead(d *schema.ResourceData, m interface{}) error {
 
 	d.SetId(security.ID)
 	d.Set("name", security.Name)
+	d.Set("authentication_types", security.AuthenticationTypes)
+	d.Set("eap_methods", security.EapMethods)
 	d.Set("eap_radius_accounting", security.EapRadiusAccounting)
 	d.Set("group_encryption", security.GroupEncryption)
 	d.Set("comment", security.Comment)
@@ -115,6 +127,8 @@ func resourceCapsManSecurityUpdate(d *schema.ResourceData, m interface{}) error 
 
 	security_obj.Name = d.Get("name").(string)
 	security_obj.GroupEncryption = d.Get("group_encryption").(string)
+	security_obj.AuthenticationTypes = d.Get("authentication_types").(string)
+	security_obj.EapMethods = d.Get("eap_methods").(string)
 	security_obj.EapRadiusAccounting = d.Get("eap_radius_accounting").(string)
 	security_obj.Comment = d.Get("comment").(string)
 	security_obj.Encryption = d.Get("encryption").(string)

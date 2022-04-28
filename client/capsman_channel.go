@@ -8,15 +8,19 @@ import (
 )
 
 type CapsManChannel struct {
-	ID               string `json:".id,omitempty"`
-	Comment          string `json:"comment,omitempty"`
-	SaveSelected     string `json:"save-selected,omitempty"`
-	Width            string `json:"width,omitempty"`
-	Band             string `json:"band,omitempty"`
-	ExtensionChannel string `json:"extension-channel,omitempty"`
-	Frequency        string `json:"frequency,omitempty"`
-	TXPower          string `json:"tx-power,omitempty"`
-	Name             string `json:"name"`
+	ID                  string `json:".id,omitempty"`
+	Comment             string `json:"comment,omitempty"`
+	SaveSelected        string `json:"save-selected,omitempty"`
+	Width               string `json:"width,omitempty"`
+	Band                string `json:"band,omitempty"`
+	ExtensionChannel    string `json:"extension-channel,omitempty"`
+	Frequency           string `json:"frequency,omitempty"`
+	TXPower             string `json:"tx-power,omitempty"`
+	ControlChannelWidth string `json:"control-channel-width,omitempty"`
+	ReselectInterval    string `json:"reselect-interval,omitempty"`
+	SecondaryFrequency  string `json:"secondary-frequency,omitempty"`
+	SkipDfsChannels     string `json:"skip-dfs-channels,omitempty"`
+	Name                string `json:"name"`
 }
 
 func (c *Client) CreateCapsManChannel(channel *CapsManChannel) (*CapsManChannel, error) {

@@ -14,7 +14,10 @@ type CapsManDatapath struct {
 	BridgeCost               string `json:"bridge-cost,omitempty"`
 	BridgeHorizon            string `json:"bridge-horizon,omitempty"`
 	ClientToClientForwarding string `json:"client-to-client-forwarding,omitempty"`
+	InterfaceList            string `json:"interface-list,omitempty"`
+	L2MTU                    string `json:"l2mtu,omitempty"`
 	LocalForwarding          string `json:"local-forwarding,omitempty"`
+	MTU                      string `json:"mtu,omitempty"`
 	OpenFlowSwitch           string `json:"openflow-switch,omitempty"`
 	VlanID                   string `json:"vlan-id,omitempty"`
 	VlanMode                 string `json:"vlan-mode,omitempty"`
