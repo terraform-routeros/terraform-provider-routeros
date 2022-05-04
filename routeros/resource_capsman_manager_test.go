@@ -2,10 +2,8 @@ package routeros
 
 import (
 	"fmt"
-	"net/http"
 	"testing"
 
-	"github.com/gnewbury1/terraform-provider-routeros/client"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
