@@ -22,18 +22,22 @@ func resourceCapsManSecurity() *schema.Resource {
 			"group_encryption": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"authentication_types": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"eap_methods": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"eap_radius_accounting": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"name": {
 				Type:     schema.TypeString,
@@ -42,26 +46,32 @@ func resourceCapsManSecurity() *schema.Resource {
 			"comment": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"encryption": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"passphrase": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"group_key_update": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"tls_certificate": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"tls_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 		},
 	}

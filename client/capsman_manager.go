@@ -40,6 +40,17 @@ func (c *Client) UpdateCapsManManager(manager *CapsManManager) (*CapsManManager,
 	if err != nil {
 		return nil, err
 	}
+	//POST request in this case returns empty list
+	var data []string
+	if err := c.sendRequest(req, &data); err != nil {
+		return nil, err
+	}
+	// Get the data
+	req, err = http.NewRequest("GET", fmt.Sprintf("%s/rest/caps-man/manager", c.HostURL), nil)
+	if err != nil {
+		return nil, err
+	}
+
 	res := CapsManManager{}
 	if err := c.sendRequest(req, &res); err != nil {
 		return nil, err

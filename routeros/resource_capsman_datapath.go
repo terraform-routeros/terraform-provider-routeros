@@ -23,10 +23,12 @@ func resourceCapsManDatapath() *schema.Resource {
 			"bridge": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"bridge_cost": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"name": {
 				Type:     schema.TypeString,
@@ -35,42 +37,52 @@ func resourceCapsManDatapath() *schema.Resource {
 			"comment": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"bridge_horizon": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"interface_list": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"l2mtu": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"local_forwarding": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"client_to_client_forwarding": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"mtu": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"openflow_switch": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"vlan_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"vlan_id": {
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
 			},
 		},
 	}
@@ -93,7 +105,10 @@ func resourceCapsManDatapathCreate(d *schema.ResourceData, m interface{}) error 
 	datapath_obj.ClientToClientForwarding = d.Get("client_to_client_forwarding").(string)
 	datapath_obj.OpenFlowSwitch = d.Get("openflow_switch").(string)
 	datapath_obj.VlanMode = d.Get("vlan_mode").(string)
-	datapath_obj.VlanID = strconv.Itoa(d.Get("vlan_id").(int))
+	vlan_id, is_set := d.GetOk("vlan_id")
+	if is_set {
+		datapath_obj.VlanID = strconv.Itoa(vlan_id.(int))
+	}
 
 	res, err := c.CreateCapsManDatapath(datapath_obj)
 	if err != nil {
@@ -152,7 +167,10 @@ func resourceCapsManDatapathUpdate(d *schema.ResourceData, m interface{}) error 
 	datapath_obj.ClientToClientForwarding = d.Get("client_to_client_forwarding").(string)
 	datapath_obj.OpenFlowSwitch = d.Get("openflow_switch").(string)
 	datapath_obj.VlanMode = d.Get("vlan_mode").(string)
-	datapath_obj.VlanID = strconv.Itoa(d.Get("vlan_id").(int))
+	vlan_id, is_set := d.GetOk("vlan_id")
+	if is_set {
+		datapath_obj.VlanID = strconv.Itoa(vlan_id.(int))
+	}
 
 	res, err := c.UpdateCapsManDatapath(d.Id(), datapath_obj)
 

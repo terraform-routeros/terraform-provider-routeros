@@ -11,8 +11,10 @@ import (
 
 func resourceCapsManManager() *schema.Resource {
 	return &schema.Resource{
+		Create: resourceCapsManManagerUpdate,
 		Read:   resourceCapsManManagerRead,
 		Update: resourceCapsManManagerUpdate,
+		Delete: resourceCapsManManagerDelete,
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
 		},
@@ -21,31 +23,32 @@ func resourceCapsManManager() *schema.Resource {
 			"enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
-				Computed: true,
+				Default:  false,
 			},
 			"upgrade_policy": {
 				Type:     schema.TypeString,
-				Required: true,
-				Computed: true,
+				Optional: true,
+				Default:  "none",
 			},
 			"certificate": {
 				Type:     schema.TypeString,
 				Optional: true,
-				Computed: true,
+				Default:  "none",
 			},
 			"ca_certificate": {
 				Type:     schema.TypeString,
 				Optional: true,
-				Computed: true,
+				Default:  "none",
 			},
 			"require_peer_certificate": {
 				Type:     schema.TypeBool,
 				Optional: true,
-				Computed: true,
+				Default:  false,
 			},
 			"package_path": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 		},
 	}
@@ -64,7 +67,7 @@ func resourceCapsManManagerRead(d *schema.ResourceData, m interface{}) error {
 	require_peer_certificate, _ := strconv.ParseBool(manager.RequirePeerCertificate)
 	enabled, _ := strconv.ParseBool(manager.Enabled)
 
-	d.SetId(d.Id())
+	d.SetId("1")
 	d.Set("upgrade_policy", manager.UpgradePolicy)
 	d.Set("enabled", enabled)
 	d.Set("certificate", manager.Certificate)
@@ -90,12 +93,31 @@ func resourceCapsManManagerUpdate(d *schema.ResourceData, m interface{}) error {
 	_, err := c.UpdateCapsManManager(manager_obj)
 
 	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a PATCH request to the API")
+		log.Println("[ERROR] An error was encountered while sending a POST request to the API")
 		log.Fatal(err.Error())
 		return err
 	}
 
-	d.SetId(d.Id())
+	d.SetId("1")
+
+	return nil
+}
+
+func resourceCapsManManagerDelete(d *schema.ResourceData, m interface{}) error {
+	c := m.(*roscl.Client)
+	manager_obj := new(roscl.CapsManManager)
+
+	manager_obj.Enabled = "false"
+
+	_, err := c.UpdateCapsManManager(manager_obj)
+
+	if err != nil {
+		log.Println("[ERROR] An error was encountered while sending a POST request to the API")
+		log.Fatal(err.Error())
+		return err
+	}
+
+	d.SetId("")
 
 	return nil
 }

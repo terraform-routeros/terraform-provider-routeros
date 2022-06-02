@@ -27,26 +27,31 @@ func resourceCapsManProvisioning() *schema.Resource {
 			"common_name_regexp": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"name_prefix": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"comment": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"hw_supported_modes": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"ip_address_ranges": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"identity_regexp": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"master_configuration": {
 				Type:     schema.TypeString,
@@ -66,6 +71,7 @@ func resourceCapsManProvisioning() *schema.Resource {
 			"slave_configurations": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 		},
 	}

@@ -28,10 +28,12 @@ func resourceCapsManChannel() *schema.Resource {
 			"width": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"control_channel_width": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"name": {
 				Type:     schema.TypeString,
@@ -40,36 +42,42 @@ func resourceCapsManChannel() *schema.Resource {
 			"comment": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"band": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"reselect_interval": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"extension_channel": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"frequency": {
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
 			},
 			"secondary_frequency": {
-				Type:     schema.TypeInt,
+				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
 			"tx_power": {
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
 			},
-			"skip_dfs_channel": {
+			"skip_dfs_channels": {
 				Type:     schema.TypeBool,
 				Optional: true,
-				Computed: true,
+				Default:  false,
 			},
 		},
 	}
@@ -81,7 +89,10 @@ func resourceCapsManChannelCreate(d *schema.ResourceData, m interface{}) error {
 	channel_obj := new(roscl.CapsManChannel)
 
 	channel_obj.Name = d.Get("name").(string)
-	channel_obj.SaveSelected = strconv.FormatBool(d.Get("save_selected").(bool))
+	save_selected, is_set := d.GetOk("save_selected")
+	if is_set {
+		channel_obj.SaveSelected = strconv.FormatBool(save_selected.(bool))
+	}
 	channel_obj.SkipDfsChannels = strconv.FormatBool(d.Get("skip_dfs_channels").(bool))
 	channel_obj.Width = d.Get("width").(string)
 	channel_obj.ControlChannelWidth = d.Get("control_channel_width").(string)
@@ -89,9 +100,15 @@ func resourceCapsManChannelCreate(d *schema.ResourceData, m interface{}) error {
 	channel_obj.Band = d.Get("band").(string)
 	channel_obj.ExtensionChannel = d.Get("extension_channel").(string)
 	channel_obj.ReselectInterval = d.Get("reselect_interval").(string)
-	channel_obj.Frequency = strconv.Itoa(d.Get("frequency").(int))
-	channel_obj.SecondaryFrequency = strconv.Itoa(d.Get("secondary_frequency").(int))
-	channel_obj.TXPower = strconv.Itoa(d.Get("tx_power").(int))
+	frequency, is_set := d.GetOk("frequency")
+	if is_set {
+		channel_obj.Frequency = strconv.Itoa(frequency.(int))
+	}
+	channel_obj.SecondaryFrequency = d.Get("secondary_frequency").(string)
+	tx_power, is_set := d.GetOk("tx_power")
+	if is_set {
+		channel_obj.TXPower = strconv.Itoa(tx_power.(int))
+	}
 
 	res, err := c.CreateCapsManChannel(channel_obj)
 	if err != nil {
@@ -115,7 +132,6 @@ func resourceCapsManChannelRead(d *schema.ResourceData, m interface{}) error {
 	}
 
 	frequency, _ := strconv.Atoi(channel.Frequency)
-	secondary_frequency, _ := strconv.Atoi(channel.SecondaryFrequency)
 	save_selected, _ := strconv.ParseBool(channel.SaveSelected)
 	skip_dfs_channels, _ := strconv.ParseBool(channel.SkipDfsChannels)
 	tx_power, _ := strconv.Atoi(channel.TXPower)
@@ -130,7 +146,7 @@ func resourceCapsManChannelRead(d *schema.ResourceData, m interface{}) error {
 	d.Set("band", channel.Band)
 	d.Set("extension_channel", channel.ExtensionChannel)
 	d.Set("frequency", frequency)
-	d.Set("secondary_frequency", secondary_frequency)
+	d.Set("secondary_frequency", channel.SecondaryFrequency)
 	d.Set("tx_power", tx_power)
 
 	return nil
@@ -142,7 +158,10 @@ func resourceCapsManChannelUpdate(d *schema.ResourceData, m interface{}) error {
 	channel_obj := new(roscl.CapsManChannel)
 
 	channel_obj.Name = d.Get("name").(string)
-	channel_obj.SaveSelected = strconv.FormatBool(d.Get("save_selected").(bool))
+	save_selected, is_set := d.GetOk("save_selected")
+	if is_set {
+		channel_obj.SaveSelected = strconv.FormatBool(save_selected.(bool))
+	}
 	channel_obj.SkipDfsChannels = strconv.FormatBool(d.Get("skip_dfs_channels").(bool))
 	channel_obj.Width = d.Get("width").(string)
 	channel_obj.ControlChannelWidth = d.Get("control_channel_width").(string)
@@ -150,9 +169,15 @@ func resourceCapsManChannelUpdate(d *schema.ResourceData, m interface{}) error {
 	channel_obj.Band = d.Get("band").(string)
 	channel_obj.ExtensionChannel = d.Get("extension_channel").(string)
 	channel_obj.ReselectInterval = d.Get("reselect_interval").(string)
-	channel_obj.Frequency = strconv.Itoa(d.Get("frequency").(int))
-	channel_obj.SecondaryFrequency = strconv.Itoa(d.Get("secondary_frequency").(int))
-	channel_obj.TXPower = strconv.Itoa(d.Get("tx_power").(int))
+	frequency, is_set := d.GetOk("frequency")
+	if is_set {
+		channel_obj.Frequency = strconv.Itoa(frequency.(int))
+	}
+	channel_obj.SecondaryFrequency = d.Get("secondary_frequency").(string)
+	tx_power, is_set := d.GetOk("tx_power")
+	if is_set {
+		channel_obj.TXPower = strconv.Itoa(tx_power.(int))
+	}
 
 	res, err := c.UpdateCapsManChannel(d.Id(), channel_obj)
 
