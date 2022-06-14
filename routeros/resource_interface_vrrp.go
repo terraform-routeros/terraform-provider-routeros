@@ -21,16 +21,19 @@ func resourceInterfaceVrrp() *schema.Resource {
 
 		Schema: map[string]*schema.Schema{
 			"arp": {
-				Type:     schema.TypeBool,
+				Type:     schema.TypeString,
 				Optional: true,
+				Default:  "enabled",
 			},
 			"v3_protocol": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Default:  "ipv4",
 			},
 			"authentication": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Default:  "none",
 			},
 			"interface": {
 				Type:     schema.TypeString,
@@ -65,15 +68,17 @@ func resourceInterfaceVrrp() *schema.Resource {
 			"sync_connection_tracking": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Default:  "false",
 			},
 			"vrid": {
 				Type:     schema.TypeInt,
 				Optional: true,
-				Default:  1500,
+				Default:  1,
 			},
 			"interval": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Default:  "1s",
 			},
 			"name": {
 				Type:     schema.TypeString,
@@ -83,6 +88,7 @@ func resourceInterfaceVrrp() *schema.Resource {
 			"preemption_mode": {
 				Type:     schema.TypeBool,
 				Optional: true,
+				Default:  true,
 			},
 			"version": {
 				Type:     schema.TypeInt,
@@ -90,8 +96,9 @@ func resourceInterfaceVrrp() *schema.Resource {
 				Default:  3,
 			},
 			"arp_timeout": {
-				Type:     schema.TypeInt,
+				Type:     schema.TypeString,
 				Optional: true,
+				Default:  "auto",
 			},
 		},
 	}
@@ -102,8 +109,8 @@ func resourceInterfaceVrrpCreate(d *schema.ResourceData, m interface{}) error {
 
 	interface_vrrp := new(roscl.InterfaceVrrp)
 	interface_vrrp.Name = d.Get("name").(string)
-	interface_vrrp.Arp = strconv.FormatBool(d.Get("arp").(bool))
-	interface_vrrp.ArpTimeout = strconv.Itoa(d.Get("arp_timeout").(int))
+	interface_vrrp.Arp = d.Get("arp").(string)
+	interface_vrrp.ArpTimeout = d.Get("arp_timeout").(string)
 	interface_vrrp.Mtu = strconv.Itoa(d.Get("mtu").(int))
 	interface_vrrp.V3Protocol = d.Get("v3_protocol").(string)
 	interface_vrrp.Authentication = d.Get("authentication").(string)
@@ -140,21 +147,19 @@ func resourceInterfaceVrrpRead(d *schema.ResourceData, m interface{}) error {
 		return err
 	}
 
-	arp, _ := strconv.ParseBool(res.Arp)
 	priority, _ := strconv.Atoi(res.Priority)
 	mtu, _ := strconv.Atoi(res.Mtu)
 	vrid, _ := strconv.Atoi(res.Vrid)
 	version, _ := strconv.Atoi(res.Version)
-	arp_timeout, _ := strconv.Atoi(res.ArpTimeout)
 	preemption_mode, _ := strconv.ParseBool(res.PreemptionMode)
 
 	d.SetId(res.ID)
-	d.Set("arp", arp)
+	d.Set("arp", res.Arp)
 	d.Set("priority", priority)
 	d.Set("mtu", mtu)
 	d.Set("vrid", vrid)
 	d.Set("version", version)
-	d.Set("arp_timeout", arp_timeout)
+	d.Set("arp_timeout", res.ArpTimeout)
 	d.Set("preemption_mode", preemption_mode)
 	d.Set("v3_protocol", res.V3Protocol)
 	d.Set("authentication", res.Authentication)
@@ -175,8 +180,8 @@ func resourceInterfaceVrrpUpdate(d *schema.ResourceData, m interface{}) error {
 	c := m.(*roscl.Client)
 	interface_vrrp := new(roscl.InterfaceVrrp)
 	interface_vrrp.Name = d.Get("name").(string)
-	interface_vrrp.Arp = strconv.FormatBool(d.Get("arp").(bool))
-	interface_vrrp.ArpTimeout = strconv.Itoa(d.Get("arp_timeout").(int))
+	interface_vrrp.Arp = d.Get("arp").(string)
+	interface_vrrp.ArpTimeout = d.Get("arp_timeout").(string)
 	interface_vrrp.Mtu = strconv.Itoa(d.Get("mtu").(int))
 	interface_vrrp.V3Protocol = d.Get("v3_protocol").(string)
 	interface_vrrp.Authentication = d.Get("authentication").(string)

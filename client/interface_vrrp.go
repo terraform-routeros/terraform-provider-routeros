@@ -23,7 +23,7 @@ type InterfaceVrrp struct {
 	Vrid                   string `json:"vrid,omitempty"`
 	Interval               string `json:"interval,omitempty"`
 	Name                   string `json:"name,omitempty"`
-	PreemptionMode         string `json:"preemption-mode ,omitempty"`
+	PreemptionMode         string `json:"preemption-mode,omitempty"`
 	Version                string `json:"version,omitempty"`
 	ArpTimeout             string `json:"arp-timeout,omitempty"`
 }
