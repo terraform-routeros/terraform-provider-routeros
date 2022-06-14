@@ -52,7 +52,7 @@ provider "routeros" {
 	insecure = true
 }
 
-resource "routeros_interface_list" "list_test" {
+resource "routeros_interface_list" "test_list" {
 	name      = "List_TEST"
 }
 `

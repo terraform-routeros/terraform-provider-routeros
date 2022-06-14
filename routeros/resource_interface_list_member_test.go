@@ -52,7 +52,7 @@ provider "routeros" {
 	insecure = true
 }
 
-resource "routeros_interface_list_member" "list_member_test" {
+resource "routeros_interface_list_member" "test_list_member" {
 	interface      = "ether1"
 	list           = "list"
 }
