@@ -43,6 +43,7 @@ func resourceDhcpServerNetwork() *schema.Resource {
 			"dns_none": {
 				Type:     schema.TypeBool,
 				Optional: true,
+				Default:  "false",
 			},
 			"dns_server": {
 				Type:     schema.TypeString,
@@ -55,10 +56,12 @@ func resourceDhcpServerNetwork() *schema.Resource {
 			"gateway": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Default:  "0.0.0.0",
 			},
 			"netmask": {
 				Type:     schema.TypeInt,
 				Optional: true,
+				Default:  0,
 			},
 			"next_server": {
 				Type:     schema.TypeString,
