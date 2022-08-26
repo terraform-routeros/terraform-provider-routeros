@@ -11,18 +11,25 @@ import (
 const testDatasourceIpAddressesAddress = "data.routeros_ip_addresses.addresses"
 
 func TestAccDatasourceIpAddressesTest_basic(t *testing.T) {
-	resource.Test(t, resource.TestCase{
-		PreCheck:  func() { testAccPreCheck(t) },
-		Providers: testAccProviders,
-		Steps: []resource.TestStep{
-			{
-				Config: testAccDatasourceIpAddressesConfig(),
-				Check: resource.ComposeTestCheckFunc(
-					testAccCheckDatasourceIpAddressesExists(testDatasourceIpAddressesAddress),
-				),
-			},
-		},
-	})
+	for _, name := range testNames {
+		testSetTransportEnv(t, name)
+		t.Run(name, func(t *testing.T) {
+
+			resource.Test(t, resource.TestCase{
+				PreCheck:  func() { testAccPreCheck(t) },
+				Providers: testAccProviders,
+				Steps: []resource.TestStep{
+					{
+						Config: testAccDatasourceIpAddressesConfig(),
+						Check: resource.ComposeTestCheckFunc(
+							testAccCheckDatasourceIpAddressesExists(testDatasourceIpAddressesAddress),
+						),
+					},
+				},
+			})
+
+		})
+	}
 }
 
 func testAccCheckDatasourceIpAddressesExists(name string) resource.TestCheckFunc {

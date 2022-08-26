@@ -1,5 +1,10 @@
 # Changelog
 
+## Release
+
+### 1.0.0
+- Deep project refactoring. Added support for new modules and work via API/REST.
+
 ## Pre-release
 
 ### 0.3.2
