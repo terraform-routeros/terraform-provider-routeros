@@ -1,185 +1,74 @@
 package routeros
 
 import (
-	"log"
-	"strconv"
-
-	roscl "github.com/gnewbury1/terraform-provider-routeros/client"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
 
-func resourceInterfaceVlan() *schema.Resource {
+// ResourceInterfaceVlan https://wiki.mikrotik.com/wiki/Manual:Interface/VLAN
+func ResourceInterfaceVlan() *schema.Resource {
+	resSchema := map[string]*schema.Schema{
+		MetaResourcePath: PropResourcePath("/interface/vlan"),
+		MetaId:           PropId(Id),
+
+		KeyArp:        PropArpRw,
+		KeyArpTimeout: PropArpTimeoutRw,
+		KeyComment:    PropCommentRw,
+		KeyDisabled:   PropDisabledRw,
+		KeyInterface:  PropInterfaceRw,
+		KeyL2Mtu:      PropL2MtuRo,
+		"loop_protect": {
+			Type:         schema.TypeString,
+			Optional:     true,
+			Default:      "default",
+			ValidateFunc: validation.StringInSlice([]string{"default", "on", "off"}, false),
+		},
+		"loop_protect_disable_time": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Default:          "5m",
+			ValidateFunc:     ValidationTime,
+			DiffSuppressFunc: TimeEquall,
+		},
+		"loop_protect_send_interval": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Default:          "5s",
+			ValidateFunc:     ValidationTime,
+			DiffSuppressFunc: TimeEquall,
+		},
+		"loop_protect_status": {
+			Type:     schema.TypeString,
+			Computed: true,
+		},
+		"mac_address": {
+			Type:     schema.TypeString,
+			Computed: true,
+		},
+		KeyMtu:     PropMtuRw(1500),
+		KeyName:    PropNameRw,
+		KeyRunning: PropRunningRo,
+		"use_service_tag": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Default:  false,
+		},
+		"vlan_id": {
+			Type:     schema.TypeInt,
+			Required: true,
+		},
+	}
+
 	return &schema.Resource{
-		Create: resourceInterfaceVlanCreate,
-		Read:   resourceInterfaceVlanRead,
-		Update: resourceInterfaceVlanUpdate,
-		Delete: resourceInterfaceVlanDelete,
+		CreateContext: DefaultCreate(resSchema),
+		ReadContext:   DefaultRead(resSchema),
+		UpdateContext: DefaultUpdate(resSchema),
+		DeleteContext: DefaultDelete(resSchema),
+
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
 		},
 
-		Schema: map[string]*schema.Schema{
-			"disabled": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  false,
-			},
-			"interface": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"name": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"vlan_id": {
-				Type:     schema.TypeInt,
-				Required: true,
-			},
-			"arp": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"arp_timeout": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"l2mtu": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"loop_protect": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"loop_protect_disable_time": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"loop_protect_send_interval": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"loop_protect_status": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"mac_address": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"mtu": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Default:  1500,
-			},
-			"running": {
-				Type:     schema.TypeBool,
-				Computed: true,
-			},
-			"use_service_tag": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  false,
-			},
-		},
+		Schema: resSchema,
 	}
-}
-
-func resourceInterfaceVlanCreate(d *schema.ResourceData, m interface{}) error {
-
-	c := m.(*roscl.Client)
-	vlan_obj := new(roscl.VLAN)
-
-	vlan_obj.Name = d.Get("name").(string)
-	vlan_obj.Disabled = strconv.FormatBool(d.Get("disabled").(bool))
-	vlan_obj.Interface = d.Get("interface").(string)
-	vlan_obj.VlanID = strconv.Itoa(d.Get("vlan_id").(int))
-
-	res, err := c.CreateVLAN(vlan_obj)
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a PUT request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-
-	d.SetId(res.ID)
-	return resourceInterfaceVlanRead(d, m)
-}
-
-func resourceInterfaceVlanRead(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-	vlan, err := c.ReadVLAN(d.Id())
-
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a GET request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-
-	vlan_id, _ := strconv.Atoi(vlan.VlanID)
-
-	disabled, _ := strconv.ParseBool(vlan.Disabled)
-
-	mtu, err := strconv.Atoi(vlan.Mtu)
-	if err != nil {
-		return err
-	}
-	use_service_tag, _ := strconv.ParseBool(vlan.UseServiceTag)
-
-	running, _ := strconv.ParseBool(vlan.Running)
-
-	d.SetId(vlan.ID)
-	d.Set("name", vlan.Name)
-	d.Set("interface", vlan.Interface)
-	d.Set("vlan_id", vlan_id)
-	d.Set("disabled", disabled)
-	d.Set("arp", vlan.Arp)
-	d.Set("arp_timeout", vlan.ArpTimeout)
-	d.Set("l2mtu", vlan.L2Mtu)
-	d.Set("loop_protect", vlan.LoopProtect)
-	d.Set("loop_protect_disable_time", vlan.LoopProtectDisableTime)
-	d.Set("loop_protect_send_interval", vlan.LoopProtectSendInterval)
-	d.Set("loop_protect_status", vlan.LoopProtectStatus)
-	d.Set("mac_address", vlan.MacAddress)
-	d.Set("mtu", mtu)
-	d.Set("use_service_tag", use_service_tag)
-	d.Set("running", running)
-
-	return nil
-
-}
-
-func resourceInterfaceVlanUpdate(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-	vlan_obj := new(roscl.VLAN)
-	vlan_obj.Name = d.Get("name").(string)
-	vlan_obj.Disabled = strconv.FormatBool(d.Get("disabled").(bool))
-	vlan_obj.Interface = d.Get("interface").(string)
-	vlan_obj.VlanID = strconv.Itoa(d.Get("vlan_id").(int))
-
-	res, err := c.UpdateVLAN(d.Id(), vlan_obj)
-
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a PATCH request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-
-	d.SetId(res.ID)
-
-	return nil
-}
-
-func resourceInterfaceVlanDelete(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-	err := c.DeleteVLAN(d.Id())
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a DELETE request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-	d.SetId("")
-	return nil
 }

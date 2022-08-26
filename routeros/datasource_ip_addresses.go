@@ -1,24 +1,23 @@
 package routeros
 
 import (
-	"log"
-	"strconv"
-
-	roscl "github.com/gnewbury1/terraform-provider-routeros/client"
-
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"context"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
-func datasourceIPAddresses() *schema.Resource {
+func DatasourceIPAddresses() *schema.Resource {
 	return &schema.Resource{
-		Read: datasourceIPAddressesRead,
+		ReadContext: datasourceIPAddressesRead,
 		Schema: map[string]*schema.Schema{
 			"addresses": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						MetaResourcePath: PropResourcePath("/ip/address"),
+						MetaId:           PropId(Id),
+
 						"id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -39,10 +38,7 @@ func datasourceIPAddresses() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
-						"interface": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
+						KeyInterface: PropInterfaceRw,
 						"invalid": {
 							Type:     schema.TypeBool,
 							Computed: true,
@@ -58,35 +54,14 @@ func datasourceIPAddresses() *schema.Resource {
 	}
 }
 
-func datasourceIPAddressesRead(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-	res, err := c.ReadIPAddresses()
+func datasourceIPAddressesRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	s := DatasourceIPAddresses().Schema
+	path := s["addresses"].Elem.(*schema.Resource).Schema[MetaResourcePath].Default.(string)
 
+	res, err := ReadItems(nil, path, m.(Client))
 	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a GET request to the API")
-		log.Fatal(err.Error())
-		return err
+		return diag.FromErr(err)
 	}
 
-	addresses := make([]map[string]interface{}, len(res))
-	for k, v := range res {
-		address := make(map[string]interface{})
-		address["id"] = v.ID
-		address["actual_interface"] = v.ActualInterface
-		address["address"] = v.Address
-		address["disabled"], _ = strconv.ParseBool(v.Disabled)
-		address["dynamic"], _ = strconv.ParseBool(v.Dynamic)
-		address["interface"] = v.Interface
-		address["invalid"], _ = strconv.ParseBool(v.Invalid)
-		address["network"] = v.Network
-		addresses[k] = address
-	}
-
-	d.SetId(resource.UniqueId())
-	if err := d.Set("addresses", addresses); err != nil {
-		return err
-	}
-
-	return nil
-
+	return MikrotikResourceDataToTerraformDatasource(res, "addresses", s, d)
 }

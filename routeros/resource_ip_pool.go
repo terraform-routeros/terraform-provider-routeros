@@ -1,100 +1,43 @@
 package routeros
 
 import (
-	"log"
-
-	roscl "github.com/gnewbury1/terraform-provider-routeros/client"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
-func resourceIPPool() *schema.Resource {
+// ResourceIPPool https://help.mikrotik.com/docs/display/ROS/IP+Pools
+func ResourceIPPool() *schema.Resource {
+	resSchema := map[string]*schema.Schema{
+		MetaResourcePath: PropResourcePath("/ip/pool"),
+		MetaId:           PropId(Id),
+
+		KeyComment: PropCommentRw,
+		KeyName:    PropNameRw,
+		"next_pool": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "When address is acquired from pool that has no free addresses, and next-pool property is set " +
+				"to another pool, then next IP address will be acquired from next-pool.",
+		},
+		"ranges": {
+			Type:     schema.TypeList,
+			Required: true,
+			Elem: &schema.Schema{
+				Type: schema.TypeString,
+			},
+			Description: `IP address list of non-overlapping IP address ranges in form of: ` +
+				`["from1-to1", "from2-to2", ..., "fromN-toN"]. ` +
+				`For example, ["10.0.0.1-10.0.0.27", "10.0.0.32-10.0.0.47"]`,
+		},
+	}
 	return &schema.Resource{
-		Create: resourceIPPoolCreate,
-		Read:   resourceIPPoolRead,
-		Update: resourceIPPoolUpdate,
-		Delete: resourceIPPoolDelete,
+		CreateContext: DefaultCreate(resSchema),
+		ReadContext:   DefaultRead(resSchema),
+		UpdateContext: DefaultUpdate(resSchema),
+		DeleteContext: DefaultDelete(resSchema),
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
 		},
 
-		Schema: map[string]*schema.Schema{
-			"name": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"ranges": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-		},
+		Schema: resSchema,
 	}
-}
-
-func resourceIPPoolCreate(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-
-	ip_pool := new(roscl.IPPool)
-	ip_pool.Name = d.Get("name").(string)
-	ip_pool.Ranges = d.Get("ranges").(string)
-
-	res, err := c.CreateIPPool(ip_pool)
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a PUT request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-
-	d.SetId(res.ID)
-	return nil
-}
-
-func resourceIPPoolRead(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-	ip_pool, err := c.ReadIPPool(d.Id())
-
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a GET request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-
-	d.SetId(ip_pool.ID)
-	d.Set("name", ip_pool.Name)
-	d.Set("ranges", ip_pool.Ranges)
-
-	return nil
-
-}
-
-func resourceIPPoolUpdate(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-	ip_pool := new(roscl.IPPool)
-	ip_pool.Name = d.Get("name").(string)
-	ip_pool.Ranges = d.Get("ranges").(string)
-
-	res, err := c.UpdateIPPool(d.Id(), ip_pool)
-
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a PATCH request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-
-	d.SetId(res.ID)
-
-	return nil
-}
-
-func resourceIPPoolDelete(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-	ip_pool, _ := c.ReadIPPool(d.Id())
-	err := c.DeleteIPPool(ip_pool)
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a DELETE request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-	d.SetId("")
-	return nil
 }

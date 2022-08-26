@@ -2,32 +2,37 @@ package routeros
 
 import (
 	"fmt"
-	"net/http"
 	"testing"
 
-	"github.com/gnewbury1/terraform-provider-routeros/client"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
-const testVlanAddress = "routeros_interface_vlan.vlan900"
+const testVlanAddress = "routeros_vlan.vlan900"
 const testVlanName = "VLAN_900_TEST"
 
-func TestAccInterfaceVlanTest_basic(t *testing.T) {
-	resource.Test(t, resource.TestCase{
-		PreCheck:     func() { testAccPreCheck(t) },
-		Providers:    testAccProviders,
-		CheckDestroy: testAccCheckInterfaceVlanDestroy,
-		Steps: []resource.TestStep{
-			{
-				Config: testAccInterfaceVlanConfig(),
-				Check: resource.ComposeTestCheckFunc(
-					testAccCheckInterfaceVlanExists(testVlanAddress),
-					resource.TestCheckResourceAttr(testVlanAddress, "name", testVlanName),
-				),
-			},
-		},
-	})
+func TestAccInterfaceVlanTest(t *testing.T) {
+	for _, name := range testNames {
+		testSetTransportEnv(t, name)
+		t.Run(name, func(t *testing.T) {
+
+			resource.Test(t, resource.TestCase{
+				PreCheck:     func() { testAccPreCheck(t) },
+				Providers:    testAccProviders,
+				CheckDestroy: testCheckResourceDestroy("/interface/vlan", "routeros_vlan"),
+				Steps: []resource.TestStep{
+					{
+						Config: testAccInterfaceVlanConfig(),
+						Check: resource.ComposeTestCheckFunc(
+							testAccCheckInterfaceVlanExists(testVlanAddress),
+							resource.TestCheckResourceAttr(testVlanAddress, "name", testVlanName),
+						),
+					},
+				},
+			})
+
+		})
+	}
 }
 
 func testAccCheckInterfaceVlanExists(name string) resource.TestCheckFunc {
@@ -52,38 +57,11 @@ provider "routeros" {
 	insecure = true
 }
 
-resource "routeros_interface_vlan" "vlan900" {
+resource "routeros_vlan" "vlan900" {
 	name      = "VLAN_900_TEST"
 	vlan_id   = 900
 	disabled  = true
 	interface = "bridge"
 }
 `
-}
-
-func testAccCheckInterfaceVlanDestroy(s *terraform.State) error {
-	c := testAccProvider.Meta().(*client.Client)
-	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "routeros_interface_vlan" {
-			continue
-		}
-		id := rs.Primary.ID
-		req, err := http.NewRequest("GET", fmt.Sprintf("%s/interface/vlan/%s", c.HostURL, id), nil)
-		if err != nil {
-			return err
-		}
-		req.Header.Set("Content-Type", "application/json")
-		req.SetBasicAuth(c.Username, c.Password)
-
-		res, err := c.HTTPClient.Do(req)
-		if err != nil {
-			return nil
-		}
-		if res.StatusCode != 404 {
-			return fmt.Errorf("vlan id %s has been found", id)
-		}
-		return nil
-	}
-
-	return nil
 }

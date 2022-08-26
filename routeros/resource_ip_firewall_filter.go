@@ -1,732 +1,389 @@
 package routeros
 
 import (
-	"log"
-	"strconv"
-
-	roscl "github.com/gnewbury1/terraform-provider-routeros/client"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+	"regexp"
 )
 
-func resourceIPFirewallFilter() *schema.Resource {
+// ResourceIPFirewallFilter https://wiki.mikrotik.com/wiki/Manual:IP/Firewall/Filter
+func ResourceIPFirewallFilter() *schema.Resource {
+	resSchema := map[string]*schema.Schema{
+		MetaResourcePath: PropResourcePath("/ip/firewall/filter"),
+		MetaId:           PropId(Id),
+
+		"action": {
+			Type:        schema.TypeString,
+			Required:    true,
+			Description: "Action to take if a packet is matched by the rule",
+			ValidateFunc: validation.StringInSlice([]string{
+				"accept", "add-dst-to-address-list", "add-src-to-address-list", "drop", "fasttrack-connection",
+				"jump", "log", "passthrough", "reject", "return", "tarpit",
+			}, false),
+		},
+		"address_list_timeout": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Default:  "none-dynamic",
+			Description: "Time interval after which the address will be removed from the address list specified by " +
+				"address-list parameter. Used in conjunction with add-dst-to-address-list or add-src-to-address-list " +
+				"actions.",
+		},
+		"bytes": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "The total amount of bytes matched by the rule.",
+		},
+		"chain": {
+			Type:     schema.TypeString,
+			Required: true,
+			Description: "Specifies to which chain rule will be added. If the input does not match the name of an " +
+				"already defined chain, a new chain will be created.",
+		},
+		KeyComment: PropCommentRw,
+		"connection_bytes": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Matches packets only if a given amount of bytes has been transfered through the particular " +
+				"connection.",
+		},
+		"connection_limit": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Matches connections per address or address block after given value is reached. Should be " +
+				"used together with connection-state=new and/or with tcp-flags=syn because matcher is very resource " +
+				"intensive.",
+		},
+		"connection_mark": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Matches packets marked via mangle facility with particular connection mark. If no-mark is " +
+				"set, rule will match any unmarked connection.",
+		},
+		"connection_nat_state": {
+			Type:         schema.TypeString,
+			Optional:     true,
+			Description:  "Can match connections that are srcnatted, dstnatted or both.",
+			ValidateFunc: validation.StringInSlice([]string{"srcnat", "dstnat"}, false),
+		},
+		// See comment for the "path_cost" field in resource_interface_bridge_port.go file.
+		"connection_rate": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Connection Rate is a firewall matcher that allow to capture traffic based on present speed " +
+				"of the connection (0..4294967295).",
+		},
+		"connection_state": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Interprets the connection tracking analysis data for a particular packet.",
+			ValidateFunc: validation.StringInSlice([]string{
+				"estabilished", "invalid", "new", "related", "untracked",
+			}, false),
+		},
+		"connection_type": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Matches packets from related connections based on information from their connection " +
+				"tracking helpers.",
+			ValidateFunc: validation.StringInSlice([]string{
+				"ftp", "h323", "irc", "pptp", "quake3", "sip", "tftp",
+			}, false),
+		},
+		"content": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Match packets that contain specified text.",
+		},
+		KeyDisabled: PropDisabledRw,
+		"dscp": {
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Description:  "Matches DSCP IP header field.",
+			ValidateFunc: validation.IntBetween(0, 63),
+		},
+		"dst_address": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Matches packets which destination is equal to specified IP or falls into specified IP range.",
+		},
+		"dst_address_list": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Matches destination address of a packet against user-defined address list.",
+		},
+		"dst_address_type": {
+			Type:         schema.TypeString,
+			Optional:     true,
+			Description:  "Matches destination address type.",
+			ValidateFunc: validation.StringInSlice([]string{"unicast", "local", "broadcast", "multicast"}, false),
+		},
+		"dst_limit": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Matches packets until a given rate is exceeded.",
+		},
+		"dst_port": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "List of destination port numbers or port number ranges.",
+		},
+		KeyDynamic: PropDynamicRo,
+		"fragment": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "Matches fragmented packets. First (starting) fragment does not count. If connection tracking " +
+				"is enabled there will be no fragments as system automatically assembles every packet",
+		},
+		"hotspot": {
+			Type:         schema.TypeString,
+			Optional:     true,
+			Description:  "Matches packets received from HotSpot clients against various HotSpot matchers.",
+			ValidateFunc: validation.StringInSlice([]string{"auth", "from-client", "http", "local-dst", "to-client"}, false),
+		},
+		"icmp_options": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Matches ICMP type: code fields.",
+		},
+		"in_bridge_port": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Actual interface the packet has entered the router if the incoming interface is a bridge. " +
+				"Works only if use-ip-firewall is enabled in bridge settings.",
+		},
+		"in_bridge_port_list": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Set of interfaces defined in interface list. Works the same as in-bridge-port.",
+		},
+		"in_interface": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Interface the packet has entered the router.",
+		},
+		"in_interface_list": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Set of interfaces defined in interface list. Works the same as in-interface.",
+		},
+		"ingress_priority": {
+			Type:     schema.TypeInt,
+			Optional: true,
+			Description: "Matches the priority of an ingress packet. Priority may be derived from VLAN, WMM, DSCP, " +
+				"or MPLS EXP bit.",
+			ValidateFunc: validation.IntBetween(0, 63),
+		},
+		"invalid": {
+			Type:     schema.TypeBool,
+			Computed: true,
+		},
+		"ipsec_policy": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Matches the policy used by IPsec. Value is written in the following format: direction, policy.",
+			ValidateFunc: validation.StringMatch(regexp.MustCompile(`^(in|out)\s?,\s?(ipsec|none)$`),
+				"Value must be written in the following format: direction, policy."),
+		},
+		"ipv4_options": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Matches IPv4 header options.",
+			ValidateFunc: validation.StringInSlice([]string{
+				"any", "loose-source-routing", "no-record-route", "no-router-alert", "no-source-routing",
+				"no-timestamp", "none", "record-route", "router-alert", "strict-source-routing", "timestamp",
+			}, false),
+		},
+		"jump_target": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Name of the target chain to jump to. Applicable only if action=jump.",
+		},
+		"layer7_protocol": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Layer7 filter name.",
+		},
+		"limit": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Matches packets up to a limited rate (packet rate or bit rate). A rule using this matcher " +
+				"will match until this limit is reached. Parameters are written in the following format: " +
+				"rate[/time],burst:mode.",
+		},
+		"log": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Default:     false,
+			Description: "Add a message to the system log.",
+		},
+		"log_prefix": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Adds specified text at the beginning of every log message. Applicable if action=log or " +
+				"log=yes configured.",
+		},
+		"nth": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Matches every nth packet: nth=2,1 rule will match every first packet of 2, hence, 50% of " +
+				"all the traffic that is matched by the rule",
+		},
+		"out_bridge_port": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Actual interface the packet is leaving the router if the outgoing interface is a bridge. " +
+				"Works only if use-ip-firewall is enabled in bridge settings.",
+		},
+		"out_bridge_port_list": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Set of interfaces defined in interface list. Works the same as out-bridge-port.",
+		},
+		"out_interface": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Interface the packet is leaving the router.",
+		},
+		"out_interface_list": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Set of interfaces defined in interface list. Works the same as out-interface.",
+		},
+		"packets": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "The total amount of packets matched by the rule.",
+		},
+		"packet_mark": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Matches packets marked via mangle facility with particular packet mark. If no-mark is set, " +
+				"the rule will match any unmarked packet.",
+		},
+		"packet_size": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Matches packets of specified size or size range in bytes.",
+		},
+		"per_connection_classifier": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "PCC matcher allows dividing traffic into equal streams with the ability to keep packets " +
+				"with a specific set of options in one particular stream.",
+		},
+		"port": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Matches if any (source or destination) port matches the specified list of ports or port " +
+				"ranges. Applicable only if protocol is TCP or UDP",
+		},
+		"priority": {
+			Type:     schema.TypeInt,
+			Optional: true,
+			Description: "Matches the packet's priority after a new priority has been set. Priority may be derived from " +
+				"VLAN, WMM, DSCP, MPLS EXP bit, or from the priority that has been set using the set-priority action.",
+			ValidateFunc: validation.IntBetween(0, 63),
+		},
+		"protocol": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Matches particular IP protocol specified by protocol name or number.",
+		},
+		"psd": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Attempts to detect TCP and UDP scans. Parameters are in the following format WeightThreshold, " +
+				"DelayThreshold, LowPortWeight, HighPortWeight.",
+		},
+		"random": {
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Description:  "Matches packets randomly with a given probability.",
+			ValidateFunc: validation.IntBetween(1, 99),
+		},
+		"reject_with": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Specifies ICMP error to be sent back if the packet is rejected. Applicable if action=reject.",
+			ValidateFunc: validation.StringInSlice([]string{
+				"icmp-admin-prohibited", "icmp-net-prohibited", "icmp-protocol-unreachable", "icmp-host-prohibited",
+				"icmp-network-unreachable", "tcp-reset", "icmp-host-unreachable", "icmp-port-unreachable",
+			}, false),
+		},
+		"routing_table": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Matches packets which destination address is resolved in specific a routing table.",
+		},
+		"routing_mark": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Matches packets marked by mangle facility with particular routing mark.",
+		},
+		"src_address": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Matches packets which source is equal to specified IP or falls into a specified IP range.",
+		},
+		"src_address_list": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Matches source address of a packet against user-defined address list.",
+		},
+		"src_address_type": {
+			Type:         schema.TypeString,
+			Optional:     true,
+			Description:  "Matches source address type.",
+			ValidateFunc: validation.StringInSlice([]string{"unicast", "local", "broadcast", "multicast"}, false),
+		},
+		"src_port": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "List of source ports and ranges of source ports. Applicable only if a protocol is TCP or UDP.",
+		},
+		"src_mac_address": {
+			Type:         schema.TypeString,
+			Optional:     true,
+			Description:  "Matches source MAC address of the packet.",
+			ValidateFunc: validation.IsMACAddress,
+		},
+		"tcp_flags": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Matches specified TCP flags.",
+		},
+		"tcp_mss": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Matches TCP MSS value of an IP packet.",
+		},
+		"time": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Allows to create a filter based on the packets' arrival time and date or, for locally " +
+				"generated packets, departure time and date.",
+		},
+		"tls_host": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Allows matching HTTPS traffic based on TLS SNI hostname.",
+		},
+		"ttl": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Matches packets TTL value.",
+		},
+	}
 	return &schema.Resource{
-		Create: resourceIPFirewallFilterCreate,
-		Read:   resourceIPFirewallFilterRead,
-		Update: resourceIPFirewallFilterUpdate,
-		Delete: resourceIPFirewallFilterDelete,
+		CreateContext: DefaultCreate(resSchema),
+		ReadContext:   DefaultRead(resSchema),
+		UpdateContext: DefaultUpdate(resSchema),
+		DeleteContext: DefaultDelete(resSchema),
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
 		},
 
-		Schema: map[string]*schema.Schema{
-			"action": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"address_list_timeout": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"bytes": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"chain": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"comment": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"connection_bytes": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"connection_limit": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"connection_mark": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"connection_nat_state": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"connection_rate": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"connection_state": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"connection_type": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"content": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"disabled": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  false,
-			},
-			"dscp": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Computed: true,
-			},
-			"dst_address": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"dst_address_list": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"dst_address_type": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"dst_limit": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"dst_port": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"dynamic": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Computed: true,
-			},
-			"fragment": {
-				Type:     schema.TypeBool, //This is a yes/no bool rather than a true/false bool
-				Optional: true,
-				Computed: true,
-			},
-			"hotspot": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"icmp_options": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"in_bridge_port": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"in_bridge_port_list": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"in_interface": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"in_interface_list": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"ingress_priority": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Computed: true,
-			},
-			"invalid": {
-				Type:     schema.TypeBool,
-				Computed: true,
-			},
-			"ipsec_policy": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"ipv4_options": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"jump_target": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"layer7_protocol": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"limit": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"log": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  false,
-			},
-			"log_prefix": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"nth": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"out_bridge_port": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"out_bridge_port_list": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"out_interface": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"out_interface_list": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"packet_mark": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"packet_size": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"per_connection_classifier": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"port": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"priority": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Computed: true,
-			},
-			"protocol": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"psd": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"random": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"reject_with": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"routing_table": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"routing_mark": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"src_address": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"src_address_list": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"src_address_type": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"src_port": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"src_mac_address": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"tcp_flags": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"tcp_mss": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"time": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"tls_host": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"ttl": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-		},
+		Schema: resSchema,
 	}
-}
-
-func resourceIPFirewallFilterCreate(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-
-	firewall_filter := new(roscl.IPFirewallFilter)
-	firewall_filter.Action = d.Get("action").(string)
-	firewall_filter.AddressListTimeout = d.Get("address_list_timeout").(string)
-	firewall_filter.Chain = d.Get("chain").(string)
-	firewall_filter.Comment = d.Get("comment").(string)
-	firewall_filter.ConnectionBytes = d.Get("connection_bytes").(string)
-	firewall_filter.ConnectionLimit = d.Get("connection_limit").(string)
-	firewall_filter.ConnectionMark = d.Get("connection_mark").(string)
-	firewall_filter.ConnectionNatState = d.Get("connection_nat_state").(string)
-	firewall_filter.ConnectionRate = d.Get("connection_rate").(string)
-	firewall_filter.ConnectionState = d.Get("connection_state").(string)
-	firewall_filter.ConnectionType = d.Get("connection_type").(string)
-	firewall_filter.Content = d.Get("content").(string)
-	firewall_filter.Disabled = strconv.FormatBool(d.Get("disabled").(bool))
-	firewall_filter.Dscp = strconv.Itoa(d.Get("dscp").(int))
-	firewall_filter.DstAddress = d.Get("dst_address").(string)
-	firewall_filter.DstAddressList = d.Get("dst_address_list").(string)
-	firewall_filter.DstAddressType = d.Get("dst_address_type").(string)
-	firewall_filter.DstLimit = d.Get("dst_limit").(string)
-	firewall_filter.DstPort = d.Get("dst_port").(string)
-	firewall_filter.Fragment = BoolStringYesNo(strconv.FormatBool(d.Get("fragment").(bool)))
-	firewall_filter.HotSpot = d.Get("hotspot").(string)
-	firewall_filter.IcmpOptions = d.Get("icmp_options").(string)
-	firewall_filter.InBridgePort = d.Get("in_bridge_port").(string)
-	firewall_filter.InBridgePortList = d.Get("in_bridge_port_list").(string)
-	firewall_filter.InInterface = d.Get("in_interface").(string)
-	firewall_filter.InInterfaceList = d.Get("in_interface_list").(string)
-	firewall_filter.IngressPriority = strconv.Itoa(d.Get("ingress_priority").(int))
-	firewall_filter.IpsecPolicy = d.Get("ipsec_policy").(string)
-	firewall_filter.Ipv4Options = d.Get("ipv4_options").(string)
-	firewall_filter.JumpTarget = d.Get("jump_target").(string)
-	firewall_filter.Layer7Protocol = d.Get("layer7_protocol").(string)
-	firewall_filter.Limit = d.Get("limit").(string)
-	firewall_filter.Log = strconv.FormatBool(d.Get("log").(bool))
-	firewall_filter.LogPrefix = d.Get("log_prefix").(string)
-	firewall_filter.Nth = d.Get("nth").(string)
-	firewall_filter.OutBridgePort = d.Get("out_bridge_port").(string)
-	firewall_filter.OutBridgePortList = d.Get("out_bridge_port_list").(string)
-	firewall_filter.OutInterface = d.Get("out_interface").(string)
-	firewall_filter.OutInterfaceList = d.Get("out_interface_list").(string)
-	firewall_filter.PacketMark = d.Get("packet_mark").(string)
-	firewall_filter.PacketSize = d.Get("packet_size").(string)
-	firewall_filter.PerConnectionClassifier = d.Get("per_connection_classifier").(string)
-	firewall_filter.Port = d.Get("port").(string)
-	firewall_filter.Priority = strconv.Itoa(d.Get("priority").(int))
-	firewall_filter.Protocol = d.Get("protocol").(string)
-	firewall_filter.Psd = d.Get("psd").(string)
-	firewall_filter.Random = d.Get("random").(string)
-	firewall_filter.RejectWith = d.Get("reject_with").(string)
-	firewall_filter.RoutingTable = d.Get("routing_table").(string)
-	firewall_filter.RoutingMark = d.Get("routing_mark").(string)
-	firewall_filter.SrcAddress = d.Get("src_address").(string)
-	firewall_filter.SrcAddressList = d.Get("src_address_list").(string)
-	firewall_filter.SrcAddressType = d.Get("src_address_type").(string)
-	firewall_filter.SrcPort = d.Get("src_port").(string)
-	firewall_filter.SrcMacAddress = d.Get("src_mac_address").(string)
-	firewall_filter.TcpFlags = d.Get("tcp_flags").(string)
-	firewall_filter.TcpMss = d.Get("tcp_mss").(string)
-	firewall_filter.Time = d.Get("time").(string)
-	firewall_filter.TlsHost = d.Get("tls_host").(string)
-	firewall_filter.Ttl = d.Get("ttl").(string)
-
-	res, err := c.CreateIPFirewallFilter(firewall_filter)
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a PUT request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-
-	bytes, _ := strconv.Atoi(res.Bytes)
-	disabled, _ := strconv.ParseBool(res.Disabled)
-	dscp, _ := strconv.Atoi(res.Dscp)
-	dynamic, _ := strconv.ParseBool(res.Dynamic)
-	fragment, _ := strconv.ParseBool(BoolStringTrueFalse(res.Fragment))
-	ingress_priority, _ := strconv.Atoi(res.IngressPriority)
-	log, _ := strconv.ParseBool(res.Log)
-	priority, _ := strconv.Atoi(res.Priority)
-
-	d.SetId(res.ID)
-	d.Set("action", res.Action)
-	d.Set("address_list_timeout", res.AddressListTimeout)
-	d.Set("bytes", bytes)
-	d.Set("chain", res.Chain)
-	d.Set("comment", res.Comment)
-	d.Set("connection_bytes", res.ConnectionBytes)
-	d.Set("connection_limit", res.ConnectionLimit)
-	d.Set("connection_mark", res.ConnectionMark)
-	d.Set("connection_nat_state", res.ConnectionNatState)
-	d.Set("connection_rate", res.ConnectionRate)
-	d.Set("connection_state", res.ConnectionState)
-	d.Set("connection_type", res.ConnectionType)
-	d.Set("content", res.Content)
-	d.Set("disabled", disabled)
-	d.Set("dscp", dscp)
-	d.Set("dst_address", res.DstAddress)
-	d.Set("dst_address_list", res.DstAddressList)
-	d.Set("dst_address_type", res.DstAddressType)
-	d.Set("dst_limit", res.DstLimit)
-	d.Set("dst_port", res.DstPort)
-	d.Set("dynamic", dynamic)
-	d.Set("fragment", fragment)
-	d.Set("hotspot", res.HotSpot)
-	d.Set("icmp_options", res.IcmpOptions)
-	d.Set("in_bridge_port", res.InBridgePort)
-	d.Set("in_bridge_port_list", res.InBridgePortList)
-	d.Set("in_interface", res.InInterface)
-	d.Set("in_interface_list", res.InInterfaceList)
-	d.Set("ingress_priority", ingress_priority)
-	d.Set("ipsec_policy", res.IpsecPolicy)
-	d.Set("ipv4_options", res.Ipv4Options)
-	d.Set("jump_target", res.JumpTarget)
-	d.Set("layer7_protocol", res.Layer7Protocol)
-	d.Set("limit", res.Limit)
-	d.Set("log", log)
-	d.Set("log_prefix", res.LogPrefix)
-	d.Set("nth", res.Nth)
-	d.Set("out_bridge_port", res.OutBridgePort)
-	d.Set("out_bridge_port_list", res.OutBridgePortList)
-	d.Set("out_interface", res.OutInterface)
-	d.Set("out_interface_list", res.OutInterfaceList)
-	d.Set("packet_mark", res.PacketMark)
-	d.Set("packet_size", res.PacketSize)
-	d.Set("per_connection_classifier", res.PerConnectionClassifier)
-	d.Set("port", res.Port)
-	d.Set("priority", priority)
-	d.Set("protocol", res.Protocol)
-	d.Set("psd", res.Psd)
-	d.Set("random", res.Random)
-	d.Set("reject_with", res.RejectWith)
-	d.Set("routing_table", res.RoutingTable)
-	d.Set("routing_mark", res.RoutingMark)
-	d.Set("src_address", res.SrcAddress)
-	d.Set("src_address_list", res.SrcAddressList)
-	d.Set("src_address_type", res.SrcAddressType)
-	d.Set("src_port", res.Port)
-	d.Set("src_mac_address", res.SrcMacAddress)
-	d.Set("tcp_flags", res.TcpFlags)
-	d.Set("tcp_mss", res.TcpMss)
-	d.Set("time", res.Time)
-	d.Set("tls_host", res.TlsHost)
-	d.Set("ttl", res.Ttl)
-
-	return nil
-}
-
-func resourceIPFirewallFilterRead(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-	res, err := c.ReadIPFirewallFilter(d.Id())
-
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a GET request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-
-	bytes, _ := strconv.Atoi(res.Bytes)
-	disabled, _ := strconv.ParseBool(res.Disabled)
-	dscp, _ := strconv.Atoi(res.Dscp)
-	dynamic, _ := strconv.ParseBool(res.Dynamic)
-	fragment, _ := strconv.ParseBool(BoolStringTrueFalse(res.Fragment))
-	ingress_priority, _ := strconv.Atoi(res.IngressPriority)
-	log, _ := strconv.ParseBool(res.Log)
-	priority, _ := strconv.Atoi(res.Priority)
-
-	d.SetId(res.ID)
-	d.Set("action", res.Action)
-	d.Set("address_list_timeout", res.AddressListTimeout)
-	d.Set("bytes", bytes)
-	d.Set("chain", res.Chain)
-	d.Set("comment", res.Comment)
-	d.Set("connection_bytes", res.ConnectionBytes)
-	d.Set("connection_limit", res.ConnectionLimit)
-	d.Set("connection_mark", res.ConnectionMark)
-	d.Set("connection_nat_state", res.ConnectionNatState)
-	d.Set("connection_rate", res.ConnectionRate)
-	d.Set("connection_state", res.ConnectionState)
-	d.Set("connection_type", res.ConnectionType)
-	d.Set("content", res.Content)
-	d.Set("disabled", disabled)
-	d.Set("dscp", dscp)
-	d.Set("dst_address", res.DstAddress)
-	d.Set("dst_address_list", res.DstAddressList)
-	d.Set("dst_address_type", res.DstAddressType)
-	d.Set("dst_limit", res.DstLimit)
-	d.Set("dst_port", res.DstPort)
-	d.Set("dynamic", dynamic)
-	d.Set("fragment", fragment)
-	d.Set("hotspot", res.HotSpot)
-	d.Set("icmp_options", res.IcmpOptions)
-	d.Set("in_bridge_port", res.InBridgePort)
-	d.Set("in_bridge_port_list", res.InBridgePortList)
-	d.Set("in_interface", res.InInterface)
-	d.Set("in_interface_list", res.InInterfaceList)
-	d.Set("ingress_priority", ingress_priority)
-	d.Set("ipsec_policy", res.IpsecPolicy)
-	d.Set("ipv4_options", res.Ipv4Options)
-	d.Set("jump_target", res.JumpTarget)
-	d.Set("layer7_protocol", res.Layer7Protocol)
-	d.Set("limit", res.Limit)
-	d.Set("log", log)
-	d.Set("log_prefix", res.LogPrefix)
-	d.Set("nth", res.Nth)
-	d.Set("out_bridge_port", res.OutBridgePort)
-	d.Set("out_bridge_port_list", res.OutBridgePortList)
-	d.Set("out_interface", res.OutInterface)
-	d.Set("out_interface_list", res.OutInterfaceList)
-	d.Set("packet_mark", res.PacketMark)
-	d.Set("packet_size", res.PacketSize)
-	d.Set("per_connection_classifier", res.PerConnectionClassifier)
-	d.Set("port", res.Port)
-	d.Set("priority", priority)
-	d.Set("protocol", res.Protocol)
-	d.Set("psd", res.Psd)
-	d.Set("random", res.Random)
-	d.Set("reject_with", res.RejectWith)
-	d.Set("routing_table", res.RoutingTable)
-	d.Set("routing_mark", res.RoutingMark)
-	d.Set("src_address", res.SrcAddress)
-	d.Set("src_address_list", res.SrcAddressList)
-	d.Set("src_address_type", res.SrcAddressType)
-	d.Set("src_port", res.Port)
-	d.Set("src_mac_address", res.SrcMacAddress)
-	d.Set("tcp_flags", res.TcpFlags)
-	d.Set("tcp_mss", res.TcpMss)
-	d.Set("time", res.Time)
-	d.Set("tls_host", res.TlsHost)
-	d.Set("ttl", res.Ttl)
-
-	return nil
-
-}
-
-func resourceIPFirewallFilterUpdate(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-	firewall_filter := new(roscl.IPFirewallFilter)
-	firewall_filter.Action = d.Get("action").(string)
-	firewall_filter.AddressListTimeout = d.Get("address_list_timeout").(string)
-	firewall_filter.Chain = d.Get("chain").(string)
-	firewall_filter.Comment = d.Get("comment").(string)
-	firewall_filter.ConnectionBytes = d.Get("connection_bytes").(string)
-	firewall_filter.ConnectionLimit = d.Get("connection_limit").(string)
-	firewall_filter.ConnectionMark = d.Get("connection_mark").(string)
-	firewall_filter.ConnectionNatState = d.Get("connection_nat_state").(string)
-	firewall_filter.ConnectionRate = d.Get("connection_rate").(string)
-	firewall_filter.ConnectionState = d.Get("connection_state").(string)
-	firewall_filter.ConnectionType = d.Get("connection_type").(string)
-	firewall_filter.Content = d.Get("content").(string)
-	firewall_filter.Disabled = strconv.FormatBool(d.Get("disabled").(bool))
-	firewall_filter.Dscp = strconv.Itoa(d.Get("dscp").(int))
-	firewall_filter.DstAddress = d.Get("dst_address").(string)
-	firewall_filter.DstAddressList = d.Get("dst_address_list").(string)
-	firewall_filter.DstAddressType = d.Get("dst_address_type").(string)
-	firewall_filter.DstLimit = d.Get("dst_limit").(string)
-	firewall_filter.DstPort = d.Get("dst_port").(string)
-	firewall_filter.Fragment = BoolStringYesNo(strconv.FormatBool(d.Get("fragment").(bool)))
-	firewall_filter.HotSpot = d.Get("hotspot").(string)
-	firewall_filter.IcmpOptions = d.Get("icmp_options").(string)
-	firewall_filter.InBridgePort = d.Get("in_bridge_port").(string)
-	firewall_filter.InBridgePortList = d.Get("in_bridge_port_list").(string)
-	firewall_filter.InInterface = d.Get("in_interface").(string)
-	firewall_filter.InInterfaceList = d.Get("in_interface_list").(string)
-	firewall_filter.IngressPriority = strconv.Itoa(d.Get("ingress_priority").(int))
-	firewall_filter.IpsecPolicy = d.Get("ipsec_policy").(string)
-	firewall_filter.Ipv4Options = d.Get("ipv4_options").(string)
-	firewall_filter.JumpTarget = d.Get("jump_target").(string)
-	firewall_filter.Layer7Protocol = d.Get("layer7_protocol").(string)
-	firewall_filter.Limit = d.Get("limit").(string)
-	firewall_filter.Log = strconv.FormatBool(d.Get("log").(bool))
-	firewall_filter.LogPrefix = d.Get("log_prefix").(string)
-	firewall_filter.Nth = d.Get("nth").(string)
-	firewall_filter.OutBridgePort = d.Get("out_bridge_port").(string)
-	firewall_filter.OutBridgePortList = d.Get("out_bridge_port_list").(string)
-	firewall_filter.OutInterface = d.Get("out_interface").(string)
-	firewall_filter.OutInterfaceList = d.Get("out_interface_list").(string)
-	firewall_filter.PacketMark = d.Get("packet_mark").(string)
-	firewall_filter.PacketSize = d.Get("packet_size").(string)
-	firewall_filter.PerConnectionClassifier = d.Get("per_connection_classifier").(string)
-	firewall_filter.Port = d.Get("port").(string)
-	firewall_filter.Priority = strconv.Itoa(d.Get("priority").(int))
-	firewall_filter.Protocol = d.Get("protocol").(string)
-	firewall_filter.Psd = d.Get("psd").(string)
-	firewall_filter.Random = d.Get("random").(string)
-	firewall_filter.RejectWith = d.Get("reject_with").(string)
-	firewall_filter.RoutingTable = d.Get("routing_table").(string)
-	firewall_filter.RoutingMark = d.Get("routing_mark").(string)
-	firewall_filter.SrcAddress = d.Get("src_address").(string)
-	firewall_filter.SrcAddressList = d.Get("src_address_list").(string)
-	firewall_filter.SrcAddressType = d.Get("src_address_type").(string)
-	firewall_filter.SrcPort = d.Get("src_port").(string)
-	firewall_filter.SrcMacAddress = d.Get("src_mac_address").(string)
-	firewall_filter.TcpFlags = d.Get("tcp_flags").(string)
-	firewall_filter.TcpMss = d.Get("tcp_mss").(string)
-	firewall_filter.Time = d.Get("time").(string)
-	firewall_filter.TlsHost = d.Get("tls_host").(string)
-	firewall_filter.Ttl = d.Get("ttl").(string)
-
-	res, err := c.UpdateIPFirewallFilter(d.Id(), firewall_filter)
-
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a PATCH request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-
-	bytes, _ := strconv.Atoi(res.Bytes)
-	disabled, _ := strconv.ParseBool(res.Disabled)
-	dscp, _ := strconv.Atoi(res.Dscp)
-	dynamic, _ := strconv.ParseBool(res.Dynamic)
-	fragment, _ := strconv.ParseBool(BoolStringTrueFalse(res.Fragment))
-	ingress_priority, _ := strconv.Atoi(res.IngressPriority)
-	log, _ := strconv.ParseBool(res.Log)
-	priority, _ := strconv.Atoi(res.Priority)
-
-	d.SetId(res.ID)
-	d.Set("action", res.Action)
-	d.Set("address_list_timeout", res.AddressListTimeout)
-	d.Set("bytes", bytes)
-	d.Set("chain", res.Chain)
-	d.Set("comment", res.Comment)
-	d.Set("connection_bytes", res.ConnectionBytes)
-	d.Set("connection_limit", res.ConnectionLimit)
-	d.Set("connection_mark", res.ConnectionMark)
-	d.Set("connection_nat_state", res.ConnectionNatState)
-	d.Set("connection_rate", res.ConnectionRate)
-	d.Set("connection_state", res.ConnectionState)
-	d.Set("connection_type", res.ConnectionType)
-	d.Set("content", res.Content)
-	d.Set("disabled", disabled)
-	d.Set("dscp", dscp)
-	d.Set("dst_address", res.DstAddress)
-	d.Set("dst_address_list", res.DstAddressList)
-	d.Set("dst_address_type", res.DstAddressType)
-	d.Set("dst_limit", res.DstLimit)
-	d.Set("dst_port", res.DstPort)
-	d.Set("dynamic", dynamic)
-	d.Set("fragment", fragment)
-	d.Set("hotspot", res.HotSpot)
-	d.Set("icmp_options", res.IcmpOptions)
-	d.Set("in_bridge_port", res.InBridgePort)
-	d.Set("in_bridge_port_list", res.InBridgePortList)
-	d.Set("in_interface", res.InInterface)
-	d.Set("in_interface_list", res.InInterfaceList)
-	d.Set("ingress_priority", ingress_priority)
-	d.Set("ipsec_policy", res.IpsecPolicy)
-	d.Set("ipv4_options", res.Ipv4Options)
-	d.Set("jump_target", res.JumpTarget)
-	d.Set("layer7_protocol", res.Layer7Protocol)
-	d.Set("limit", res.Limit)
-	d.Set("log", log)
-	d.Set("log_prefix", res.LogPrefix)
-	d.Set("nth", res.Nth)
-	d.Set("out_bridge_port", res.OutBridgePort)
-	d.Set("out_bridge_port_list", res.OutBridgePortList)
-	d.Set("out_interface", res.OutInterface)
-	d.Set("out_interface_list", res.OutInterfaceList)
-	d.Set("packet_mark", res.PacketMark)
-	d.Set("packet_size", res.PacketSize)
-	d.Set("per_connection_classifier", res.PerConnectionClassifier)
-	d.Set("port", res.Port)
-	d.Set("priority", priority)
-	d.Set("protocol", res.Protocol)
-	d.Set("psd", res.Psd)
-	d.Set("random", res.Random)
-	d.Set("reject_with", res.RejectWith)
-	d.Set("routing_table", res.RoutingTable)
-	d.Set("routing_mark", res.RoutingMark)
-	d.Set("src_address", res.SrcAddress)
-	d.Set("src_address_list", res.SrcAddressList)
-	d.Set("src_address_type", res.SrcAddressType)
-	d.Set("src_port", res.Port)
-	d.Set("src_mac_address", res.SrcMacAddress)
-	d.Set("tcp_flags", res.TcpFlags)
-	d.Set("tcp_mss", res.TcpMss)
-	d.Set("time", res.Time)
-	d.Set("tls_host", res.TlsHost)
-	d.Set("ttl", res.Ttl)
-
-	return nil
-}
-
-func resourceIPFirewallFilterDelete(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-	firewall_filter, _ := c.ReadIPFirewallFilter(d.Id())
-	err := c.DeleteIPFirewallFilter(firewall_filter)
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a DELETE request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-	d.SetId("")
-	return nil
 }

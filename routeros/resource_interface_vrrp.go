@@ -1,224 +1,204 @@
 package routeros
 
 import (
-	"log"
-	"strconv"
-
-	roscl "github.com/gnewbury1/terraform-provider-routeros/client"
-
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+	"regexp"
 )
 
-func resourceInterfaceVrrp() *schema.Resource {
+/*
+  {
+    ".id": "*54",
+    "arp": "enabled",
+    "arp-timeout": "auto",
+    "authentication": "none",
+    "disabled": "false",
+    "group-master": "",
+    "interface": "vlan55",
+    "interval": "1s",
+    "invalid": "false",
+    "mac-address": "00:00:5E:00:01:01",
+    "master": "true",
+    "mtu": "1500",
+    "name": "vrrp1",
+    "on-backup": "",
+    "on-fail": "",
+    "on-master": "",
+    "password": "",
+    "preemption-mode": "true",
+    "priority": "100",
+    "running": "true",
+    "sync-connection-tracking": "false",
+    "v3-protocol": "ipv4",
+    "version": "3",
+    "vrid": "1"
+  }
+*/
+
+// ResourceInterfaceVrrp https://help.mikrotik.com/docs/display/ROS/VRRP
+func ResourceInterfaceVrrp() *schema.Resource {
+	resSchema := map[string]*schema.Schema{
+		MetaResourcePath: PropResourcePath("/interface/vrrp"),
+		MetaId:           PropId(Id),
+
+		KeyArp:        PropArpRw,
+		KeyArpTimeout: PropArpTimeoutRw,
+		"authentication": {
+			Type:         schema.TypeString,
+			Optional:     true,
+			Default:      "none",
+			Description:  "Authentication method to use for VRRP advertisement packets.",
+			ValidateFunc: validation.StringInSlice([]string{"ah", "none", "simple"}, false),
+		},
+		KeyComment:  PropCommentRw,
+		KeyDisabled: PropDisabledRw,
+		"group_master": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Default:     "none",
+			Description: "Allows combining multiple VRRP interfaces to maintain the same VRRP status within the group.",
+			// Maybe this is a bug, but for the 'none' value, the Mikrotik ROS 7.5 returns an empty string.
+			DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+				if old == new {
+					return true
+				}
+
+				if new == "none" && old == "" {
+					return true
+				}
+				return false
+			},
+		},
+		KeyInterface: PropInterfaceRw,
+		"interval": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Default:     "1s",
+			Description: "VRRP update interval in seconds. Defines how often master sends advertisement packets.",
+			ValidateFunc: validation.StringMatch(regexp.MustCompile(`^(\d+(ms|s|M)?)+$`),
+				"expected hello interval 10ms..4m15s"),
+		},
+		"invalid": {
+			Type:     schema.TypeBool,
+			Computed: true,
+		},
+		"mac_address": {
+			Type:     schema.TypeString,
+			Computed: true,
+		},
+		KeyMtu:  PropMtuRw(1500),
+		KeyName: PropNameRw,
+		"on_fail": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Script to execute when the node fails.",
+		},
+		"on_backup": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Script to execute when the node is switched to the backup state.",
+		},
+		"on_master": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Script to execute when the node is switched to master state.",
+		},
+		"password": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Password required for authentication. Can be ignored if authentication is not used.",
+		},
+		"preemption_mode": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Default:  true,
+			Description: "Whether the master node always has the priority. When set to 'no' the backup node will not " +
+				"be elected to be a master until the current master fails, even if the backup node has higher priority " +
+				"than the current master. This setting is ignored if the owner router becomes available",
+		},
+		"priority": {
+			Type:     schema.TypeInt,
+			Optional: true,
+			Default:  100,
+			Description: "Priority of VRRP node used in Master election algorithm. A higher number means higher " +
+				"priority. '255' is reserved for the router that owns VR IP and '0' is reserved for the Master router " +
+				"to indicate that it is releasing responsibility.",
+			ValidateFunc: validation.IntBetween(1, 254),
+		},
+		"remote_address": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Specifies the remote address of the other VRRP router for syncing connection tracking. " +
+				"If not set, the system autodetects the remote address via VRRP. The remote address is used only if " +
+				"sync-connection-tracking=yes.Sync connection tracking uses UDP port 8275.",
+			ValidateFunc: validation.IsIPv4Address,
+		},
+		"running": {
+			Type:     schema.TypeBool,
+			Computed: true,
+		},
+		"sync_connection_tracking": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Description: "Synchronize connection tracking entries from Master to Backup device.",
+		},
+		"v3_protocol": {
+			Type:         schema.TypeString,
+			Optional:     true,
+			Default:      "ipv4",
+			Description:  "A protocol that will be used by VRRPv3. Valid only if the version is 3.",
+			ValidateFunc: validation.StringInSlice([]string{"ipv4", "ipv6"}, false),
+		},
+		"version": {
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Default:      3,
+			Description:  "Which VRRP version to use.",
+			ValidateFunc: validation.IntBetween(2, 3),
+		},
+		"vrid": {
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Default:      1,
+			Description:  "Virtual Router identifier. Each Virtual router must have a unique id number.",
+			ValidateFunc: validation.IntBetween(1, 255),
+		},
+	}
+
 	return &schema.Resource{
-		Create: resourceInterfaceVrrpCreate,
-		Read:   resourceInterfaceVrrpRead,
-		Update: resourceInterfaceVrrpUpdate,
-		Delete: resourceInterfaceVrrpDelete,
+		CreateContext: DefaultValidateCreate(resSchema, func(d *schema.ResourceData) diag.Diagnostics {
+			if d.Get("remote_address").(string) != "" && !d.Get("sync_connection_tracking").(bool) {
+				return diag.Diagnostics{
+					{
+						Severity: diag.Warning,
+						Summary:  "sync_connection_tracking not enabled",
+						Detail: "The remote address is used only if sync-connection-tracking=yes. " +
+							"The field will be omitted in the returned response.",
+					},
+				}
+			}
+			return nil
+		}),
+		ReadContext: DefaultRead(resSchema),
+		UpdateContext: DefaultValidateUpdate(resSchema, func(d *schema.ResourceData) diag.Diagnostics {
+			if d.Get("remote_address").(string) != "" && !d.Get("sync_connection_tracking").(bool) {
+				return diag.Diagnostics{
+					{
+						Severity: diag.Warning,
+						Summary:  "sync_connection_tracking not enabled",
+						Detail: "The remote address is used only if sync-connection-tracking=yes. " +
+							"The field will be omitted in the returned response.",
+					},
+				}
+			}
+			return nil
+		}),
+		DeleteContext: DefaultDelete(resSchema),
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
 		},
 
-		Schema: map[string]*schema.Schema{
-			"arp": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Default:  "enabled",
-			},
-			"v3_protocol": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Default:  "ipv4",
-			},
-			"authentication": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Default:  "none",
-			},
-			"interface": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"priority": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Default:  100,
-			},
-			"mtu": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Default:  1500,
-			},
-			"password": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"on_fail": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"on_master": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"on_backup": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"sync_connection_tracking": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Default:  "false",
-			},
-			"vrid": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Default:  1,
-			},
-			"interval": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Default:  "1s",
-			},
-			"name": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"preemption_mode": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  true,
-			},
-			"version": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Default:  3,
-			},
-			"arp_timeout": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Default:  "auto",
-			},
-		},
+		Schema: resSchema,
 	}
-}
-
-func resourceInterfaceVrrpCreate(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-
-	interface_vrrp := new(roscl.InterfaceVrrp)
-	interface_vrrp.Name = d.Get("name").(string)
-	interface_vrrp.Arp = d.Get("arp").(string)
-	interface_vrrp.ArpTimeout = d.Get("arp_timeout").(string)
-	interface_vrrp.Mtu = strconv.Itoa(d.Get("mtu").(int))
-	interface_vrrp.V3Protocol = d.Get("v3_protocol").(string)
-	interface_vrrp.Authentication = d.Get("authentication").(string)
-	interface_vrrp.Interface = d.Get("interface").(string)
-	interface_vrrp.Password = d.Get("password").(string)
-	interface_vrrp.Priority = strconv.Itoa(d.Get("priority").(int))
-	interface_vrrp.OnFail = d.Get("on_fail").(string)
-	interface_vrrp.OnMaster = d.Get("on_master").(string)
-	interface_vrrp.OnBackup = d.Get("on_backup").(string)
-	interface_vrrp.SyncConnectionTracking = d.Get("sync_connection_tracking").(string)
-	interface_vrrp.Vrid = strconv.Itoa(d.Get("vrid").(int))
-	interface_vrrp.Interval = d.Get("interval").(string)
-	interface_vrrp.PreemptionMode = strconv.FormatBool(d.Get("preemption_mode").(bool))
-	interface_vrrp.Version = strconv.Itoa(d.Get("version").(int))
-
-	res, err := c.CreateInterfaceVrrp(interface_vrrp)
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a PUT request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-
-	d.SetId(res.ID)
-	return nil
-}
-
-func resourceInterfaceVrrpRead(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-	res, err := c.ReadInterfaceVrrp(d.Id())
-
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a GET request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-
-	priority, _ := strconv.Atoi(res.Priority)
-	mtu, _ := strconv.Atoi(res.Mtu)
-	vrid, _ := strconv.Atoi(res.Vrid)
-	version, _ := strconv.Atoi(res.Version)
-	preemption_mode, _ := strconv.ParseBool(res.PreemptionMode)
-
-	d.SetId(res.ID)
-	d.Set("arp", res.Arp)
-	d.Set("priority", priority)
-	d.Set("mtu", mtu)
-	d.Set("vrid", vrid)
-	d.Set("version", version)
-	d.Set("arp_timeout", res.ArpTimeout)
-	d.Set("preemption_mode", preemption_mode)
-	d.Set("v3_protocol", res.V3Protocol)
-	d.Set("authentication", res.Authentication)
-	d.Set("interface", res.Interface)
-	d.Set("password", res.Password)
-	d.Set("on_fail", res.OnFail)
-	d.Set("on_master", res.OnMaster)
-	d.Set("on_backup", res.OnBackup)
-	d.Set("name", res.Name)
-	d.Set("sync_connection_tracking", res.SyncConnectionTracking)
-	d.Set("interval", res.Interval)
-
-	return nil
-
-}
-
-func resourceInterfaceVrrpUpdate(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-	interface_vrrp := new(roscl.InterfaceVrrp)
-	interface_vrrp.Name = d.Get("name").(string)
-	interface_vrrp.Arp = d.Get("arp").(string)
-	interface_vrrp.ArpTimeout = d.Get("arp_timeout").(string)
-	interface_vrrp.Mtu = strconv.Itoa(d.Get("mtu").(int))
-	interface_vrrp.V3Protocol = d.Get("v3_protocol").(string)
-	interface_vrrp.Authentication = d.Get("authentication").(string)
-	interface_vrrp.Interface = d.Get("interface").(string)
-	interface_vrrp.Password = d.Get("password").(string)
-	interface_vrrp.Priority = strconv.Itoa(d.Get("priority").(int))
-	interface_vrrp.OnFail = d.Get("on_fail").(string)
-	interface_vrrp.OnMaster = d.Get("on_master").(string)
-	interface_vrrp.OnBackup = d.Get("on_backup").(string)
-	interface_vrrp.SyncConnectionTracking = d.Get("sync_connection_tracking").(string)
-	interface_vrrp.Vrid = strconv.Itoa(d.Get("vrid").(int))
-	interface_vrrp.Interval = d.Get("interval").(string)
-	interface_vrrp.PreemptionMode = strconv.FormatBool(d.Get("preemption_mode").(bool))
-	interface_vrrp.Version = strconv.Itoa(d.Get("version").(int))
-
-	res, err := c.UpdateInterfaceVrrp(d.Id(), interface_vrrp)
-
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a PATCH request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-
-	d.SetId(res.ID)
-
-	return nil
-}
-
-func resourceInterfaceVrrpDelete(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-	interface_vrrp, _ := c.ReadInterfaceVrrp(d.Id())
-	err := c.DeleteInterfaceVrrp(interface_vrrp)
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a DELETE request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-	d.SetId("")
-	return nil
 }
