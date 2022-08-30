@@ -5,7 +5,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
+	"io"
+	"log"
 	"net/http"
 	"os"
 	"strconv"
@@ -56,7 +57,8 @@ func (c *Client) sendRequest(req *http.Request, v interface{}) error {
 	req.Header.Set("Content-Type", "application/json")
 	req.SetBasicAuth(c.Username, c.Password)
 
-	fmt.Println(req)
+	// Prevent data leaks.
+	//fmt.Println(req)
 
 	res, err := c.HTTPClient.Do(req)
 	if err != nil {
@@ -65,18 +67,19 @@ func (c *Client) sendRequest(req *http.Request, v interface{}) error {
 
 	defer res.Body.Close()
 
-	fmt.Println(res.StatusCode)
+	//fmt.Println(res.StatusCode)
 
 	if res.StatusCode < http.StatusOK || res.StatusCode >= http.StatusBadRequest {
 		var errRes errorResponse
 		if err = json.NewDecoder(res.Body).Decode(&errRes); err == nil {
-			fmt.Printf(errRes.Detail)
+			log.Printf("[ERROR] Response status code: %v, error: %v/%v/%v", res.StatusCode,
+				errRes.Detail, errRes.Error, errRes.Message)
 			return errors.New(errRes.Detail)
 		}
 
 		return fmt.Errorf("unknown error, status code: %d", res.StatusCode)
 	}
-	body, _ := ioutil.ReadAll(res.Body)
+	body, _ := io.ReadAll(res.Body)
 	if len(body) != 0 {
 		if err = json.Unmarshal(body, &v); err != nil {
 			return err
