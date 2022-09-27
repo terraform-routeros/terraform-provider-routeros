@@ -17,7 +17,7 @@ var testAccProviders map[string]*schema.Provider
 var testAccProvider *schema.Provider
 var testNames = []string{"API", "REST"}
 
-var reHost = regexp.MustCompile(`//(.*?)(:|$)`)
+var reHost = regexp.MustCompile(`^(?:\S+://)?(\S+?)(?::\d+)*$`)
 
 func init() {
 	testAccProvider = Provider()
