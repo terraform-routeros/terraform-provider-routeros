@@ -38,11 +38,11 @@ For more in-depth documentation about each of the resources and datasources, ple
 
 ### Tested RouterOS versions
 
-- 7.5 (stable)
+- go 1.17 and ROS 7.5 (stable)
 
 ## Changelog
 
-For a detailed changelog, please see the [changelog.md](changelog.md).
+For a detailed changelog, please see the [changelog](CHANGELOG.md).
 
 ## Contributing
 This version of the module greatly simplifies the process of adding new resources.
