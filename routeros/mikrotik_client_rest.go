@@ -81,7 +81,7 @@ func (c *RestClient) SendRequest(method crudMethod, url *URL, item MikrotikItem,
 	}
 	body, _ := io.ReadAll(res.Body)
 
-	tflog.Debug(c.ctx, "response body: ", string(body))
+	tflog.Debug(c.ctx, "response body: "+string(body))
 
 	if len(body) != 0 {
 		if err = json.Unmarshal(body, &result); err != nil {
