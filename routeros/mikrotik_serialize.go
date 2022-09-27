@@ -75,7 +75,7 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 		}
 
 		// Skip all read-only properties.
-		if terraformMetadata.Computed {
+		if terraformMetadata.Computed && !terraformMetadata.Optional {
 			continue
 		}
 
