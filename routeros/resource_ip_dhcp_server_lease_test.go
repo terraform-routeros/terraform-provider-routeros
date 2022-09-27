@@ -12,11 +12,12 @@ const testIpDhcpServerLease = "routeros_dhcp_server_lease.test_dhcp_lease"
 
 func TestAccIpDhcpServerLeaseTest_basic(t *testing.T) {
 	for _, name := range testNames {
-		testSetTransportEnv(t, name)
 		t.Run(name, func(t *testing.T) {
-
 			resource.Test(t, resource.TestCase{
-				PreCheck:     func() { testAccPreCheck(t) },
+				PreCheck: func() {
+					testAccPreCheck(t)
+					testSetTransportEnv(t, name)
+				},
 				Providers:    testAccProviders,
 				CheckDestroy: testCheckResourceDestroy("/ip/dhcp-server/lease", "routeros_dhcp_server_lease"),
 				Steps: []resource.TestStep{
@@ -24,7 +25,7 @@ func TestAccIpDhcpServerLeaseTest_basic(t *testing.T) {
 						Config: testAccIpDhcpServerLeaseConfig(),
 						Check: resource.ComposeTestCheckFunc(
 							testAccCheckIpDhcpServerLeaseExists(testIpDhcpServerLease),
-							resource.TestCheckResourceAttr(testIpDhcpServerLease, "address", "172.16.3.44"),
+							resource.TestCheckResourceAttr(testIpDhcpServerLease, "address", "192.168.88.33"),
 							resource.TestCheckResourceAttr(testIpDhcpServerLease, "mac_address", "AA:BB:CC:DD:EE:FF"),
 							resource.TestCheckResourceAttr(testIpDhcpServerLease, "block_access", "true"),
 						),
@@ -59,7 +60,7 @@ provider "routeros" {
 }
 
 resource "routeros_dhcp_server_lease" "test_dhcp_lease" {
-	address 	 = "172.16.3.44"
+	address 	 = "192.168.88.33"
 	mac_address	 = "AA:BB:CC:DD:EE:FF"
 	block_access = true
   }

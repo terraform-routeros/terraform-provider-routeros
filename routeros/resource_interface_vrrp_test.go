@@ -12,11 +12,12 @@ const testInterfaceVrrpAddress = "routeros_vrrp.test_vrrp_interface"
 
 func TestAccInterfaceVrrpTest_basic(t *testing.T) {
 	for _, name := range testNames {
-		testSetTransportEnv(t, name)
 		t.Run(name, func(t *testing.T) {
-
 			resource.Test(t, resource.TestCase{
-				PreCheck:     func() { testAccPreCheck(t) },
+				PreCheck: func() {
+					testAccPreCheck(t)
+					testSetTransportEnv(t, name)
+				},
 				Providers:    testAccProviders,
 				CheckDestroy: testCheckResourceDestroy("/interface/vrrp", "routeros_vrrp"),
 				Steps: []resource.TestStep{

@@ -12,11 +12,12 @@ const testIpDhcpServerNetworkAddress = "routeros_dhcp_server_network.test_dhcp"
 
 func TestAccIpDhcpServerNetworkTest_basic(t *testing.T) {
 	for _, name := range testNames {
-		testSetTransportEnv(t, name)
 		t.Run(name, func(t *testing.T) {
-
 			resource.Test(t, resource.TestCase{
-				PreCheck:     func() { testAccPreCheck(t) },
+				PreCheck: func() {
+					testAccPreCheck(t)
+					testSetTransportEnv(t, name)
+				},
 				Providers:    testAccProviders,
 				CheckDestroy: testCheckResourceDestroy("/ip/dhcp-server/network", "routeros_dhcp_server_network"),
 				Steps: []resource.TestStep{

@@ -12,11 +12,12 @@ const testIPFirewallFilterAddress = "routeros_firewall_filter.rule"
 
 func TestAccIPFirewallFilterTest_basic(t *testing.T) {
 	for _, name := range testNames {
-		testSetTransportEnv(t, name)
 		t.Run(name, func(t *testing.T) {
-
 			resource.Test(t, resource.TestCase{
-				PreCheck:     func() { testAccPreCheck(t) },
+				PreCheck: func() {
+					testAccPreCheck(t)
+					testSetTransportEnv(t, name)
+				},
 				Providers:    testAccProviders,
 				CheckDestroy: testCheckResourceDestroy("/ip/firewall/filter", "routeros_firewall_filter"),
 				Steps: []resource.TestStep{

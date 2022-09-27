@@ -11,11 +11,12 @@ const testSystemSchedulerTask = "routeros_scheduler.test_task"
 
 func TestAccSystemSchedulerTest_basic(t *testing.T) {
 	for _, name := range testNames {
-		testSetTransportEnv(t, name)
 		t.Run(name, func(t *testing.T) {
-
 			resource.Test(t, resource.TestCase{
-				PreCheck:     func() { testAccPreCheck(t) },
+				PreCheck: func() {
+					testAccPreCheck(t)
+					testSetTransportEnv(t, name)
+				},
 				Providers:    testAccProviders,
 				CheckDestroy: testCheckResourceDestroy("/system/scheduler", "routeros_scheduler"),
 				Steps: []resource.TestStep{

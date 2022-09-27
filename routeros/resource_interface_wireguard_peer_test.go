@@ -14,11 +14,12 @@ const testInterfaceWireguardPeerAddress = "routeros_wireguard_peer.wg_peer"
 
 func TestAccInterfaceWireguardPeerTest_basic(t *testing.T) {
 	for _, name := range testNames {
-		testSetTransportEnv(t, name)
 		t.Run(name, func(t *testing.T) {
-
 			resource.Test(t, resource.TestCase{
-				PreCheck:     func() { testAccPreCheck(t) },
+				PreCheck: func() {
+					testAccPreCheck(t)
+					testSetTransportEnv(t, name)
+				},
 				Providers:    testAccProviders,
 				CheckDestroy: testCheckResourceDestroy("/interface/wireguard/peers", "routeros_wireguard_peer"),
 				Steps: []resource.TestStep{

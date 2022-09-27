@@ -12,11 +12,12 @@ const testDatasourceInterfaces = "data.routeros_interfaces.interfaces"
 
 func TestAccDatasourceInterfacesTest_basic(t *testing.T) {
 	for _, name := range testNames {
-		testSetTransportEnv(t, name)
 		t.Run(name, func(t *testing.T) {
-
 			resource.Test(t, resource.TestCase{
-				PreCheck:  func() { testAccPreCheck(t) },
+				PreCheck: func() {
+					testAccPreCheck(t)
+					testSetTransportEnv(t, name)
+				},
 				Providers: testAccProviders,
 				Steps: []resource.TestStep{
 					{
