@@ -110,13 +110,13 @@ func NewClient(ctx context.Context, d *schema.ResourceData) (interface{}, diag.D
 		} else {
 			api.Client, err = routeros.Dial(api.HostURL, api.Username, api.Password)
 		}
-		// The synchronous client has an infinite wait issue
-		// when an error occurs while creating multiple resources.
-		api.Async()
-
 		if err != nil {
 			return nil, diag.FromErr(err)
 		}
+
+		// The synchronous client has an infinite wait issue
+		// when an error occurs while creating multiple resources.
+		api.Async()
 
 		return api, nil
 	}
