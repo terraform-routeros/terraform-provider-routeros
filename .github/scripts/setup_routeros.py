@@ -32,14 +32,8 @@ def main():
                                       {"id": bytes(http_cert_id, "utf-8"), "ca": b"root-cert"})
     services = api.get_resource("/ip/service")
     for x in services.get():
-        if x['name'] in ['api-ssl', 'www-ssl']:
-            services.set(id=x['id'], certificate="https-cert", disabled="false")
-
-
-    www_ssl_service_id = [x['id']
-                          for x in services if x['name'] == 'www-ssl'][0]
-    ip_service.set(id=www_ssl_service_id,
-                   certificate="https-cert", disabled="false")
+        if x['name'] in ['www-ssl', 'api-ssl']:
+            services.set(id=x['id'],certificate="https-cert", disabled="false")
 
     # Create a DHCP pool
 
