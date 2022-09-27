@@ -69,6 +69,7 @@ jobs:
         image: vaerhme/routeros:v${{ matrix.routeros_version }}
         ports:
           - 443:443
+          - 8728:8728
           - 8729:8729
         volumes:
           - /dev/net/tun:/dev/net/tun
