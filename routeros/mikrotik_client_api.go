@@ -24,6 +24,7 @@ var (
 		crudRead:   "/print",
 		crudUpdate: "/set",
 		crudDelete: "/remove",
+		crudPost:   "/set",
 	}
 )
 
@@ -51,6 +52,10 @@ func (c *ApiClient) SendRequest(method crudMethod, url *URL, item MikrotikItem, 
 	}
 
 	tflog.Debug(c.ctx, "response body: "+resp.String())
+
+	if result == nil {
+		return nil
+	}
 
 	// Unmarshal
 

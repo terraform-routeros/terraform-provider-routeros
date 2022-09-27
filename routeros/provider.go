@@ -66,6 +66,7 @@ func Provider() *schema.Provider {
 			"routeros_vrrp":                ResourceInterfaceVrrp(),
 			"routeros_wireguard":           ResourceInterfaceWireguard(),
 			"routeros_wireguard_peer":      ResourceInterfaceWireguardPeer(),
+			"routeros_identity":            ResourceSystemIdentity(),
 			"routeros_scheduler":           ResourceSystemScheduler(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{

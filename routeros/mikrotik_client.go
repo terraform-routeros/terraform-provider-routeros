@@ -27,6 +27,7 @@ const (
 	crudRead
 	crudUpdate
 	crudDelete
+	crudPost
 )
 
 func NewClient(ctx context.Context, d *schema.ResourceData) (interface{}, diag.Diagnostics) {

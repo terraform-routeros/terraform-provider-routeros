@@ -31,6 +31,7 @@ var (
 		crudRead:   "GET",
 		crudUpdate: "PATCH",
 		crudDelete: "DELETE",
+		crudPost:   "POST",
 	}
 )
 
@@ -83,7 +84,7 @@ func (c *RestClient) SendRequest(method crudMethod, url *URL, item MikrotikItem,
 
 	tflog.Debug(c.ctx, "response body: "+string(body))
 
-	if len(body) != 0 {
+	if len(body) != 0 && result != nil {
 		if err = json.Unmarshal(body, &result); err != nil {
 			return err
 		}
