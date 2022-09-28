@@ -18,10 +18,16 @@ func Provider() *schema.Provider {
 				Type:        schema.TypeString,
 				Required:    true,
 				DefaultFunc: schema.MultiEnvDefaultFunc([]string{"ROS_HOSTURL", "MIKROTIK_HOST"}, nil),
-				Description: "URL of the MikroTik router, default is TLS connection to REST.<br>" +
-					"API: api[s]://host[:port]<br>REST: [http[s]://]host<br>" +
-					"api://router.local; apis://router.local:8729<br>" +
-					"http://127.0.0.1; https://router.local; router.local",
+				Description: `URL of the MikroTik router, default is TLS connection to REST.    
+	* API: api[s]://host[:port]
+		* api://router.local
+		* apis://router.local:8729
+	* REST: [http[s]://]host
+		* http://127.0.0.1
+		* https://router.local
+		* router.local
+		* 127.0.0.1
+`,
 			},
 			"username": {
 				Type:        schema.TypeString,

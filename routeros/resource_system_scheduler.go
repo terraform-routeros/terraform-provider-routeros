@@ -46,18 +46,17 @@ func ResourceSystemScheduler() *schema.Resource {
 					"password", "sniff", "sensitive", "romon", "dude"}, false),
 			},
 			Description: `List of applicable policies:
-** dude - Policy that grants rights to log in to dude server.			
-** ftp - Policy that grants full rights to log in remotely via FTP, to read/write/erase files and to transfer files from/to the router. Should be used together with read/write policies.
-** password - Policy that grants rights to change the password.
-** policy - Policy that grants user management rights. Should be used together with the write policy. Allows also to see global variables created by other users (requires also 'test' policy).
-** read - Policy that grants read access to the router's configuration. All console commands that do not alter router's configuration are allowed. Doesn't affect FTP.
-** reboot - Policy that allows rebooting the router.
-** romon - Policy that grants rights to connect to RoMon server.
-** sensitive - Policy that grants rights to change "hide sensitive" option, if this policy is disabled sensitive information is not displayed.
-** sniff - Policy that grants rights to use packet sniffer tool.
-** test - Policy that grants rights to run ping, traceroute, bandwidth-test, wireless scan, snooper, and other test commands.
-** write - Policy that grants write access to the router's configuration, except for user management. This policy does not allow to read the configuration, so make sure to enable read policy as well.
-
+    * dude - Policy that grants rights to log in to dude server.  
+    * ftp - Policy that grants full rights to log in remotely via FTP, to read/write/erase files and to transfer files from/to the router. Should be used together with read/write policies.  
+    * password - Policy that grants rights to change the password.  
+    * policy - Policy that grants user management rights. Should be used together with the write policy. Allows also to see global variables created by other users (requires also 'test' policy).  
+    * read - Policy that grants read access to the router's configuration. All console commands that do not alter router's configuration are allowed. Doesn't affect FTP.  
+    * reboot - Policy that allows rebooting the router.  
+    * romon - Policy that grants rights to connect to RoMon server.  
+    * sensitive - Policy that grants rights to change "hide sensitive" option, if this policy is disabled sensitive information is not displayed.  
+    * sniff - Policy that grants rights to use packet sniffer tool.  
+    * test - Policy that grants rights to run ping, traceroute, bandwidth-test, wireless scan, snooper, and other test commands.  
+    * write - Policy that grants write access to the router's configuration, except for user management. This policy does not allow to read the configuration, so make sure to enable read policy as well.  
 policy = ["ftp", "read", "write"]
 `,
 		},
