@@ -62,6 +62,7 @@ resource "routeros_scheduler" "test_task" {
 	name = "TestTask"
 	on_event="script1"
 	disabled = true
+    policy = ["ftp", "read", "write"]
 }
 `
 }
