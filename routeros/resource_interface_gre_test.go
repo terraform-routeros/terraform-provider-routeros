@@ -19,8 +19,8 @@ func TestAccInterfaceGreTest_basic(t *testing.T) {
 					testAccPreCheck(t)
 					testSetTransportEnv(t, name)
 				},
-				Providers:    testAccProviders,
-				CheckDestroy: testCheckResourceDestroy("/interface/gre", "routeros_gre"),
+				ProviderFactories: testAccProviderFactories,
+				CheckDestroy:      testCheckResourceDestroy("/interface/gre", "routeros_gre"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccInterfaceGreConfig(),

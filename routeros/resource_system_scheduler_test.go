@@ -17,8 +17,8 @@ func TestAccSystemSchedulerTest_basic(t *testing.T) {
 					testAccPreCheck(t)
 					testSetTransportEnv(t, name)
 				},
-				Providers:    testAccProviders,
-				CheckDestroy: testCheckResourceDestroy("/system/scheduler", "routeros_scheduler"),
+				ProviderFactories: testAccProviderFactories,
+				CheckDestroy:      testCheckResourceDestroy("/system/scheduler", "routeros_scheduler"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccSystemSchedulerConfig(),

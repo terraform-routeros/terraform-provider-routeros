@@ -17,7 +17,7 @@ func TestAccSystemIdentityTest_basic(t *testing.T) {
 					testAccPreCheck(t)
 					testSetTransportEnv(t, name)
 				},
-				Providers: testAccProviders,
+				ProviderFactories: testAccProviderFactories,
 				Steps: []resource.TestStep{
 					{
 						Config: testAccSystemIdentityConfig("TestRouter_" + name),

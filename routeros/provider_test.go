@@ -13,16 +13,18 @@ import (
 	"testing"
 )
 
-var testAccProviders map[string]*schema.Provider
 var testAccProvider *schema.Provider
+var testAccProviderFactories map[string]func() (*schema.Provider, error)
 var testNames = []string{"API", "REST"}
 
 var reHost = regexp.MustCompile(`^(?:\S+://)?(\S+?)(?::\d+)*$`)
 
 func init() {
 	testAccProvider = Provider()
-	testAccProviders = map[string]*schema.Provider{
-		"routeros": testAccProvider,
+	testAccProviderFactories = map[string]func() (*schema.Provider, error){
+		"routeros": func() (*schema.Provider, error) {
+			return testAccProvider, nil
+		},
 	}
 }
 

@@ -18,8 +18,8 @@ func TestAccIpPoolTest_basic(t *testing.T) {
 					testAccPreCheck(t)
 					testSetTransportEnv(t, name)
 				},
-				Providers:    testAccProviders,
-				CheckDestroy: testCheckResourceDestroy("/ip/pool", "routeros_ip_pool"),
+				ProviderFactories: testAccProviderFactories,
+				CheckDestroy:      testCheckResourceDestroy("/ip/pool", "routeros_ip_pool"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccIpPoolConfig(),

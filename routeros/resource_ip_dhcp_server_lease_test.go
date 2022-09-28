@@ -18,8 +18,8 @@ func TestAccIpDhcpServerLeaseTest_basic(t *testing.T) {
 					testAccPreCheck(t)
 					testSetTransportEnv(t, name)
 				},
-				Providers:    testAccProviders,
-				CheckDestroy: testCheckResourceDestroy("/ip/dhcp-server/lease", "routeros_dhcp_server_lease"),
+				ProviderFactories: testAccProviderFactories,
+				CheckDestroy:      testCheckResourceDestroy("/ip/dhcp-server/lease", "routeros_dhcp_server_lease"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccIpDhcpServerLeaseConfig(),

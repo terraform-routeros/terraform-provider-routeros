@@ -18,8 +18,8 @@ func TestAccIPFirewallFilterTest_basic(t *testing.T) {
 					testAccPreCheck(t)
 					testSetTransportEnv(t, name)
 				},
-				Providers:    testAccProviders,
-				CheckDestroy: testCheckResourceDestroy("/ip/firewall/filter", "routeros_firewall_filter"),
+				ProviderFactories: testAccProviderFactories,
+				CheckDestroy:      testCheckResourceDestroy("/ip/firewall/filter", "routeros_firewall_filter"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccIPFirewallFilterConfig(),

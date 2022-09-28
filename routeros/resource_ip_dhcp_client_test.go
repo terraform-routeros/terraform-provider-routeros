@@ -18,8 +18,8 @@ func TestAccIpDhcpClientTest_basic(t *testing.T) {
 					testAccPreCheck(t)
 					testSetTransportEnv(t, name)
 				},
-				Providers:    testAccProviders,
-				CheckDestroy: testCheckResourceDestroy("/ip/dhcp-client", "routeros_dhcp_client"),
+				ProviderFactories: testAccProviderFactories,
+				CheckDestroy:      testCheckResourceDestroy("/ip/dhcp-client", "routeros_dhcp_client"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccIpDhcpClientConfig(),

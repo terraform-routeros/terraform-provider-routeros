@@ -19,8 +19,8 @@ func TestAccInterfaceVlanTest(t *testing.T) {
 					testAccPreCheck(t)
 					testSetTransportEnv(t, name)
 				},
-				Providers:    testAccProviders,
-				CheckDestroy: testCheckResourceDestroy("/interface/vlan", "routeros_vlan"),
+				ProviderFactories: testAccProviderFactories,
+				CheckDestroy:      testCheckResourceDestroy("/interface/vlan", "routeros_vlan"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccInterfaceVlanConfig(),

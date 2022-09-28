@@ -20,8 +20,8 @@ func TestAccInterfaceWireguardPeerTest_basic(t *testing.T) {
 					testAccPreCheck(t)
 					testSetTransportEnv(t, name)
 				},
-				Providers:    testAccProviders,
-				CheckDestroy: testCheckResourceDestroy("/interface/wireguard/peers", "routeros_wireguard_peer"),
+				ProviderFactories: testAccProviderFactories,
+				CheckDestroy:      testCheckResourceDestroy("/interface/wireguard/peers", "routeros_wireguard_peer"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccInterfaceWireguardPeerConfig(),
@@ -97,7 +97,7 @@ func Test_resourceInterfaceWireguardPeerAllowedIPRegexp(t *testing.T) {
 		},
 	}
 
-	re := regexp.MustCompile(`^$|^(\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\/([1-2][0-9]|3[0-2]))?)$`)
+	re := regexp.MustCompile(`^$|^(\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(/([1-2][0-9]|3[0-2]))?)$`)
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

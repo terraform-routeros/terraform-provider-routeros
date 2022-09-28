@@ -18,8 +18,8 @@ func TestAccIpDnsRecordTest_basic(t *testing.T) {
 					testAccPreCheck(t)
 					testSetTransportEnv(t, name)
 				},
-				Providers:    testAccProviders,
-				CheckDestroy: testCheckResourceDestroy("/ip/dns/static", "routeros_dns_record"),
+				ProviderFactories: testAccProviderFactories,
+				CheckDestroy:      testCheckResourceDestroy("/ip/dns/static", "routeros_dns_record"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccIpDnsRecordConfig(),

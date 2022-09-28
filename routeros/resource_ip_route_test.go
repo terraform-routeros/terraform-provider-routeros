@@ -18,8 +18,8 @@ func TestAccIpRouteTest_basic(t *testing.T) {
 					testAccPreCheck(t)
 					testSetTransportEnv(t, name)
 				},
-				Providers:    testAccProviders,
-				CheckDestroy: testCheckResourceDestroy("/ip/route", "routeros_ip_route"),
+				ProviderFactories: testAccProviderFactories,
+				CheckDestroy:      testCheckResourceDestroy("/ip/route", "routeros_ip_route"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccIpRouteConfig(),

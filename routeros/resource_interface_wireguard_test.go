@@ -18,8 +18,8 @@ func TestAccInterfaceWireguardTest_basic(t *testing.T) {
 					testAccPreCheck(t)
 					testSetTransportEnv(t, name)
 				},
-				Providers:    testAccProviders,
-				CheckDestroy: testCheckResourceDestroy("/interface/wireguard", "routeros_wireguard"),
+				ProviderFactories: testAccProviderFactories,
+				CheckDestroy:      testCheckResourceDestroy("/interface/wireguard", "routeros_wireguard"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccInterfaceWireguardConfig(),

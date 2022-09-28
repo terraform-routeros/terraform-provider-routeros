@@ -18,8 +18,8 @@ func TestAccInterfaceBridgePortTest_basic(t *testing.T) {
 					testAccPreCheck(t)
 					testSetTransportEnv(t, name)
 				},
-				Providers:    testAccProviders,
-				CheckDestroy: testCheckResourceDestroy("/interface/bridge/port", "routeros_bridge_port"),
+				ProviderFactories: testAccProviderFactories,
+				CheckDestroy:      testCheckResourceDestroy("/interface/bridge/port", "routeros_bridge_port"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccInterfaceBridgePortConfig(),

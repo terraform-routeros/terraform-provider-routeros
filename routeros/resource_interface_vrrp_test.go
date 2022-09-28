@@ -18,8 +18,8 @@ func TestAccInterfaceVrrpTest_basic(t *testing.T) {
 					testAccPreCheck(t)
 					testSetTransportEnv(t, name)
 				},
-				Providers:    testAccProviders,
-				CheckDestroy: testCheckResourceDestroy("/interface/vrrp", "routeros_vrrp"),
+				ProviderFactories: testAccProviderFactories,
+				CheckDestroy:      testCheckResourceDestroy("/interface/vrrp", "routeros_vrrp"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccInterfaceVrrpConfig(),

@@ -18,8 +18,8 @@ func TestAccInterfaceBridgeVlanTest_basic(t *testing.T) {
 					testAccPreCheck(t)
 					testSetTransportEnv(t, name)
 				},
-				Providers:    testAccProviders,
-				CheckDestroy: testCheckResourceDestroy("/interface/bridge/vlan", "routeros_bridge_vlan"),
+				ProviderFactories: testAccProviderFactories,
+				CheckDestroy:      testCheckResourceDestroy("/interface/bridge/vlan", "routeros_bridge_vlan"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccInterfaceBridgeVlanConfig(),
