@@ -46,7 +46,7 @@ func testSetTransportEnv(t *testing.T, testName string) {
 func testAccPreCheck(t *testing.T) {
 	if os.Getenv("ROS_HOSTURL") == "" ||
 		os.Getenv("ROS_USERNAME") == "" {
-		t.Fatal("Environment variables must be set for testing")
+		t.Fatal("Environment variables (ROS_HOSTURL & ROS_USERNAME) must be set for testing")
 	}
 
 	for _, v := range Provider().ResourcesMap {
