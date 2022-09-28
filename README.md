@@ -1,8 +1,6 @@
 # Terraform Provider RouterOS
 
-![client testing workflow](https://github.com/vaerh/terraform-provider-routeros/actions/workflows/client_tests.yml/badge.svg?branch=main)
-
-![provider testing workflow](https://github.com/vaerh/terraform-provider-routeros/actions/workflows/provider_tests.yml/badge.svg?branch=main)
+![module testing workflow](https://github.com/vaerh/terraform-provider-routeros/actions/workflows/module_testing.yml/badge.svg?branch=main)
 
 ## Purpose
 
