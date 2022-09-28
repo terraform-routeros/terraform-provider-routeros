@@ -1,0 +1,30 @@
+---
+page_title: "Provider: RouterOS"
+description: |-
+  Yet another Mikrotik provider for managing Mikrotik RouterOS devices.
+---
+
+# {{ .ProviderShortName | upper }} Provider
+
+The provider supports TLS connection to Mikrotik devices and uses the classic API or modern REST for this.
+
+Before using the provider, you must correctly specify the connection URL and credentials.
+
+N.B. If you don't specify a URL scheme, then the default connection will be TLS to 443 REST port.
+
+## Requirements
+
+* RouterOS v6.45.2+ (For access via classic API)
+* RouterOS v7.1beta4+ (For access via REST API)
+
+## Thanks to
+[@GNewbury1](https://github.com/GNewbury1) https://github.com/GNewbury1/terraform-provider-routeros
+
+[@ddelnano](https://github.com/ddelnano) https://github.com/ddelnano/terraform-provider-mikrotik
+
+{{ if .HasExample -}}
+## Example Usage
+{{ tffile .ExampleFile }}
+{{- end }}
+
+{{ .SchemaMarkdown | trimspace }}

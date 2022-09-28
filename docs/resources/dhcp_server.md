@@ -1,4 +1,4 @@
-# routeros_ip_address (Resource)
+# routeros_dhcp_server (Resource)
 
 
 
@@ -8,20 +8,23 @@
 
 ### Required
 
-- `address` (String) IP address.
 - `interface` (String) Name of the interface.
+- `name` (String)
 
 ### Optional
 
 - `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
 - `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
+- `address_pool` (String) IP pool, from which to take IP addresses for the clients. If set to static-only, then only the clients that have a static lease (added in lease submenu) will be allowed.
+- `authoritative` (String) Option changes the way how a server responds to DHCP requests.
 - `comment` (String)
 - `disabled` (Boolean)
-- `network` (String) IP address for the network. For point-to-point links it should be the address of the remote end. Starting from v5RC6 this parameter is configurable only for addresses with /32 netmask (point to point links)
+- `lease_script` (String) A script that will be executed after a lease is assigned or de-assigned.
+- `lease_time` (String) The time that a client may use the assigned address. The client will try to renew this address after half of this time and will request a new address after the time limit expires.
+- `use_radius` (Boolean)
 
 ### Read-Only
 
-- `actual_interface` (String) Name of the actual interface the logical one is bound to.
 - `dynamic` (Boolean) Configuration item created by software, not by management interface. It is not exported, and cannot be directly modified.
 - `id` (String) The ID of this resource.
 - `invalid` (Boolean)

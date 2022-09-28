@@ -1,5 +1,5 @@
-# routeros_ip_address (Resource)
-
+# routeros_dns_record (Resource)
+Creates a DNS record on the MikroTik device.
 
 
 
@@ -8,8 +8,8 @@
 
 ### Required
 
-- `address` (String) IP address.
-- `interface` (String) Name of the interface.
+- `address` (String) The A record to be returend from the DNS hostname.
+- `name` (String) The name of the DNS hostname to be created.
 
 ### Optional
 
@@ -17,13 +17,11 @@
 - `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `comment` (String)
 - `disabled` (Boolean)
-- `network` (String) IP address for the network. For point-to-point links it should be the address of the remote end. Starting from v5RC6 this parameter is configurable only for addresses with /32 netmask (point to point links)
+- `ttl` (String) The ttl of the DNS record.
 
 ### Read-Only
 
-- `actual_interface` (String) Name of the actual interface the logical one is bound to.
 - `dynamic` (Boolean) Configuration item created by software, not by management interface. It is not exported, and cannot be directly modified.
 - `id` (String) The ID of this resource.
-- `invalid` (Boolean)
 
 

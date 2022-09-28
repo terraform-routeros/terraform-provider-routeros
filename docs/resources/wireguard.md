@@ -1,4 +1,4 @@
-# routeros_ip_pool (Resource)
+# routeros_wireguard (Resource)
 
 
 
@@ -8,18 +8,22 @@
 
 ### Required
 
+- `listen_port` (Number) Port for WireGuard service to listen on for incoming sessions.
 - `name` (String)
-- `ranges` (List of String) IP address list of non-overlapping IP address ranges in form of: ["from1-to1", "from2-to2", ..., "fromN-toN"]. For example, ["10.0.0.1-10.0.0.27", "10.0.0.32-10.0.0.47"]
 
 ### Optional
 
 - `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
 - `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `comment` (String)
-- `next_pool` (String) When address is acquired from pool that has no free addresses, and next-pool property is set to another pool, then next IP address will be acquired from next-pool.
+- `disabled` (Boolean)
+- `mtu` (Number) Layer3 Maximum transmission unit
+- `private_key` (String, Sensitive) A base64 private key. If not specified, it will be automatically generated upon interface creation.
 
 ### Read-Only
 
 - `id` (String) The ID of this resource.
+- `public_key` (String) A base64 public key is calculated from the private key.
+- `running` (Boolean)
 
 
