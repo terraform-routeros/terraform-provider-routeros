@@ -34,7 +34,7 @@ func PropResourcePath(p string) *schema.Schema {
 		Type:        schema.TypeString,
 		Optional:    true,
 		Default:     p,
-		Description: "Resource path for CRUD operations.",
+		Description: "<em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>",
 		DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
 			return true
 		},
@@ -47,7 +47,7 @@ func PropId(t IdType) *schema.Schema {
 		Type:        schema.TypeInt,
 		Optional:    true,
 		Default:     int(t),
-		Description: "Resource ID.",
+		Description: "<em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>",
 		DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
 			return true
 		},
