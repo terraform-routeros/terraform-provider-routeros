@@ -23,7 +23,6 @@ jobs:
       matrix:
         experimental: [false]
         go:
-          - 1.16
           - 1.17
         os: [ubuntu-latest]
         routeros_version:
