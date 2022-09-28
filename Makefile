@@ -3,8 +3,7 @@ VERSION=0.1.0
 all: compile checksum clean
 
 test:
-	/usr/bin/go test -timeout 30s github.com/gnewbury1/terraform-provider-routeros/client
-	/usr/bin/go test -timeout 30s github.com/gnewbury1/terraform-provider-routeros/routeros
+	/usr/bin/go test -timeout 30s github.com/vaerh/terraform-provider-routeros/routeros
 
 compile:
 	mkdir -p pkg
