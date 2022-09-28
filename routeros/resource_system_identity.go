@@ -1,6 +1,5 @@
 package routeros
 
-import "C"
 import (
 	"context"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
