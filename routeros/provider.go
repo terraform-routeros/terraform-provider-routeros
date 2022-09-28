@@ -44,7 +44,7 @@ func Provider() *schema.Provider {
 			"ca_certificate": {
 				Type:        schema.TypeString,
 				Optional:    true,
-				DefaultFunc: schema.EnvDefaultFunc("MIKROTIK_CA_CERTIFICATE", ""),
+				DefaultFunc: schema.MultiEnvDefaultFunc([]string{"ROS_CA_CERTIFICATE", "MIKROTIK_CA_CERTIFICATE"}, nil),
 				Description: "Path to MikroTik's certificate authority file.",
 			},
 			"insecure": {
