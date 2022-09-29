@@ -22,18 +22,24 @@ func Provider() *schema.Provider {
 	* API: api[s]://host[:port]
 		* api://router.local
 		* apis://router.local:8729
-	* REST: [http[s]://]host
-		* http://127.0.0.1
+	* REST: https://host
 		* https://router.local
 		* router.local
-		* 127.0.0.1
+		* 127.0.0.1  
+
+
+	export ROS_HOSTURL=router.local or export MIKROTIK_HOST=router.local
 `,
 			},
 			"username": {
 				Type:        schema.TypeString,
 				Required:    true,
 				DefaultFunc: schema.MultiEnvDefaultFunc([]string{"ROS_USERNAME", "MIKROTIK_USER"}, nil),
-				Description: "Username for the MikroTik WEB/Winbox.",
+				Description: `Username for the MikroTik WEB/Winbox.
+
+
+	export ROS_USERNAME=admin or export MIKROTIK_USER=admin
+`,
 			},
 			"password": {
 				Type:        schema.TypeString,

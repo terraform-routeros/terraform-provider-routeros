@@ -24,7 +24,7 @@ terraform {
 }
 
 provider "routeros" {
-  hosturl  = "(http|https|api|apis)://my.router.local[:port]"
+  hosturl  = "(https|api|apis)://my.router.local[:port]"
   username = "my_username"
   password = "my_super_secret_password"
 }

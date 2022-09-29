@@ -78,8 +78,6 @@ func NewClient(ctx context.Context, d *schema.ResourceData) (interface{}, diag.D
 	// Parse URL.
 	switch routerUrl.Scheme {
 	case "https":
-	case "http":
-		useTLS = false
 	case "apis":
 		routerUrl.Scheme = ""
 		if routerUrl.Port() == "" {
@@ -132,12 +130,9 @@ func NewClient(ctx context.Context, d *schema.ResourceData) (interface{}, diag.D
 
 	rest.Client = &http.Client{
 		Timeout: time.Minute,
-	}
-
-	if useTLS {
-		rest.Client.Transport = &http.Transport{
+		Transport: &http.Transport{
 			TLSClientConfig: &tlsConf,
-		}
+		},
 	}
 
 	return rest, nil
