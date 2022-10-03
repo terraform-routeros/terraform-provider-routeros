@@ -37,7 +37,7 @@ func ReadItems(id *ItemId, resourcePath string, c Client) (*[]MikrotikItem, erro
 
 	url := &URL{Path: resourcePath}
 
-	// If the 'id' is n22il, then this is a Datasource reading (resource Path only).
+	// If the 'id' is nil, then this is a Datasource reading (resource Path only).
 	if id != nil {
 		// REST: prevent 404 'Not Found' error by direct resource request (/interface/vlan/*39).
 		// Error occurs when a resource has been deleted outside terraform control.
@@ -46,6 +46,27 @@ func ReadItems(id *ItemId, resourcePath string, c Client) (*[]MikrotikItem, erro
 		// /interface/vlan?.id=*39
 		url.Query = []string{"?" + id.Type.String() + "=" + id.Value}
 	}
+
+	var res []MikrotikItem
+	err := c.SendRequest(crudRead, url, nil, &res)
+
+	return &res, err
+}
+
+func ReadItemsFiltered(filter []string, resourcePath string, c Client) (*[]MikrotikItem, error) {
+	if resourcePath == "" {
+		return nil, errEmptyPath
+	}
+
+	// Filter format: name=value
+	// REST query: name=value; name=value
+	// API  query: ?=name=value; ?=name=value
+	if c.GetTransport() == TransportAPI {
+		for i, s := range filter {
+			filter[i] = "?=" + s
+		}
+	}
+	url := &URL{Path: resourcePath, Query: filter}
 
 	var res []MikrotikItem
 	err := c.SendRequest(crudRead, url, nil, &res)

@@ -10,14 +10,15 @@ func DatasourceInterfaces() *schema.Resource {
 	return &schema.Resource{
 		ReadContext: datasourceInterfacesRead,
 		Schema: map[string]*schema.Schema{
+			MetaResourcePath: PropResourcePath("/interface"),
+			MetaId:           PropId(Id),
+
+			KeyFilter: PropFilterRw,
 			"interfaces": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						MetaResourcePath: PropResourcePath("/interface"),
-						MetaId:           PropId(Id),
-
 						"id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -144,9 +145,9 @@ func DatasourceInterfaces() *schema.Resource {
 
 func datasourceInterfacesRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	s := DatasourceInterfaces().Schema
-	path := s["interfaces"].Elem.(*schema.Resource).Schema[MetaResourcePath].Default.(string)
+	path := s[MetaResourcePath].Default.(string)
 
-	res, err := ReadItems(nil, path, m.(Client))
+	res, err := ReadItemsFiltered(buildReadFilter(d.Get(KeyFilter).(map[string]interface{})), path, m.(Client))
 	if err != nil {
 		return diag.FromErr(err)
 	}

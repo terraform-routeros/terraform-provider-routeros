@@ -10,14 +10,15 @@ func DatasourceIPAddresses() *schema.Resource {
 	return &schema.Resource{
 		ReadContext: datasourceIPAddressesRead,
 		Schema: map[string]*schema.Schema{
+			MetaResourcePath: PropResourcePath("/ip/address"),
+			MetaId:           PropId(Id),
+
+			KeyFilter: PropFilterRw,
 			"addresses": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						MetaResourcePath: PropResourcePath("/ip/address"),
-						MetaId:           PropId(Id),
-
 						"id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -56,9 +57,9 @@ func DatasourceIPAddresses() *schema.Resource {
 
 func datasourceIPAddressesRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	s := DatasourceIPAddresses().Schema
-	path := s["addresses"].Elem.(*schema.Resource).Schema[MetaResourcePath].Default.(string)
+	path := s[MetaResourcePath].Default.(string)
 
-	res, err := ReadItems(nil, path, m.(Client))
+	res, err := ReadItemsFiltered(buildReadFilter(d.Get(KeyFilter).(map[string]interface{})), path, m.(Client))
 	if err != nil {
 		return diag.FromErr(err)
 	}

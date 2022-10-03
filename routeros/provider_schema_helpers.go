@@ -1,6 +1,7 @@
 package routeros
 
 import (
+	"fmt"
 	"github.com/hashicorp/go-cty/cty"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -96,6 +97,12 @@ var (
 		Computed: true,
 		Description: "Configuration item created by software, not by management interface. It is not exported, " +
 			"and cannot be directly modified.",
+	}
+	PropFilterRw = &schema.Schema{
+		Type:        schema.TypeMap,
+		Optional:    true,
+		Elem:        schema.TypeString,
+		Description: "Additional request filtering options.",
 	}
 	PropInterfaceRw = &schema.Schema{
 		Type:        schema.TypeString,
@@ -230,3 +237,13 @@ var (
 		return iOld == iNew
 	}
 )
+
+func buildReadFilter(m map[string]interface{}) []string {
+	var res []string
+
+	for fieldName, fieldValue := range m {
+		res = append(res, fmt.Sprintf("%v=%v", fieldName, fieldValue))
+	}
+
+	return res
+}
