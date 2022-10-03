@@ -1,6 +1,8 @@
 package routeros
 
 import (
+	"github.com/hashicorp/go-cty/cty"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	"regexp"
@@ -117,13 +119,40 @@ var (
 	}
 )
 
-func PropMtuRw(defaultMtu int) *schema.Schema {
+// PropMtuRw MTU value can be integer or 'auto'.
+func PropMtuRw() *schema.Schema {
 	return &schema.Schema{
-		Type:         schema.TypeInt,
-		Optional:     true,
-		Default:      defaultMtu,
-		ValidateFunc: validation.IntBetween(0, 65535),
-		Description:  "Layer3 Maximum transmission unit",
+		Type:     schema.TypeString,
+		Computed: true,
+		Optional: true,
+		ValidateDiagFunc: func(i interface{}, path cty.Path) diag.Diagnostics {
+			v := i.(string)
+			if v == "auto" {
+				return nil
+			}
+
+			mtu, err := strconv.ParseInt(v, 0, 64)
+			if err != nil {
+				return diag.Diagnostics{
+					{
+						Severity: diag.Error,
+						Summary:  "Expected MTU value to be integer or 'auto'",
+					},
+				}
+			}
+
+			if mtu < 0 || mtu > 65535 {
+				return diag.Diagnostics{
+					{
+						Severity: diag.Error,
+						Summary:  "Expected MTU value to be in the range (0 - 65535), got " + v,
+					},
+				}
+			}
+
+			return nil
+		},
+		Description: "Layer3 Maximum transmission unit ('auto', 0 .. 65535)",
 	}
 }
 

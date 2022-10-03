@@ -87,7 +87,7 @@ func ResourceInterfaceVrrp() *schema.Resource {
 			Type:     schema.TypeString,
 			Computed: true,
 		},
-		KeyMtu:  PropMtuRw(1500),
+		KeyMtu:  PropMtuRw(),
 		KeyName: PropNameRw,
 		"on_fail": {
 			Type:        schema.TypeString,

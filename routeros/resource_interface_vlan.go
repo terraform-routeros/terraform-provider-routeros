@@ -45,7 +45,7 @@ func ResourceInterfaceVlan() *schema.Resource {
 			Type:     schema.TypeString,
 			Computed: true,
 		},
-		KeyMtu:     PropMtuRw(1500),
+		KeyMtu:     PropMtuRw(),
 		KeyName:    PropNameRw,
 		KeyRunning: PropRunningRo,
 		"use_service_tag": {

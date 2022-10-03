@@ -32,7 +32,7 @@ func ResourceInterfaceWireguard() *schema.Resource {
 			Description:  "Port for WireGuard service to listen on for incoming sessions.",
 			ValidateFunc: validation.IntBetween(1, 65535),
 		},
-		KeyMtu:  PropMtuRw(1420),
+		KeyMtu:  PropMtuRw(),
 		KeyName: PropNameRw,
 		"private_key": {
 			Type:      schema.TypeString,

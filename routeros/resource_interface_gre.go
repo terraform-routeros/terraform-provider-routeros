@@ -129,7 +129,7 @@ func ResourceInterfaceGre() *schema.Resource {
 			Default:      "0.0.0.0",
 			ValidateFunc: validation.IsIPv4Address,
 		},
-		KeyMtu:  PropMtuRw(1476),
+		KeyMtu:  PropMtuRw(),
 		KeyName: PropNameRw,
 		"remote_address": {
 			Type:         schema.TypeString,
