@@ -5,7 +5,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"io"
 	"net/http"
 )
@@ -48,13 +47,13 @@ func (c *RestClient) SendRequest(method crudMethod, url *URL, item MikrotikItem,
 			return err
 		}
 
-		tflog.Debug(c.ctx, "request body:  "+string(b))
+		ColorizedDebug(c.ctx, "request body:  "+string(b))
 		data = bytes.NewBuffer(b)
 	}
 
 	// https://mikrotik + /rest + /interface/vlan + ? + .id=*39
 	requestUrl := c.HostURL + "/rest" + url.GetRestURL()
-	tflog.Debug(c.ctx, restMethodName[method]+" request URL:  "+requestUrl)
+	ColorizedDebug(c.ctx, restMethodName[method]+" request URL:  "+requestUrl)
 
 	req, err := http.NewRequest(restMethodName[method], requestUrl, data)
 	if err != nil {
@@ -82,7 +81,7 @@ func (c *RestClient) SendRequest(method crudMethod, url *URL, item MikrotikItem,
 	}
 	body, _ := io.ReadAll(res.Body)
 
-	tflog.Debug(c.ctx, "response body: "+string(body))
+	ColorizedDebug(c.ctx, "response body: "+string(body))
 
 	if len(body) != 0 && result != nil {
 		if err = json.Unmarshal(body, &result); err != nil {

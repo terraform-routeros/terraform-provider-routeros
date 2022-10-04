@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"github.com/go-routeros/routeros"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"reflect"
 	"strings"
 )
@@ -44,14 +43,14 @@ func (c *ApiClient) SendRequest(method crudMethod, url *URL, item MikrotikItem, 
 	for fieldName, fieldValue := range item {
 		cmd = append(cmd, fmt.Sprintf("=%s=%s", fieldName, fieldValue))
 	}
-	tflog.Debug(c.ctx, "request body:  "+strings.Join(cmd, " "))
+	ColorizedDebug(c.ctx, "request body:  "+strings.Join(cmd, " "))
 
 	resp, err := c.RunArgs(cmd)
 	if err != nil {
 		return err
 	}
 
-	tflog.Debug(c.ctx, "response body: "+resp.String())
+	ColorizedDebug(c.ctx, "response body: "+resp.String())
 
 	if result == nil {
 		return nil
