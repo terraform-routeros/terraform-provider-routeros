@@ -13,6 +13,7 @@ func DatasourceFirewallFilter() *schema.Resource {
 			MetaResourcePath: PropResourcePath("/ip/firewall/filter"),
 			MetaId:           PropId(Id),
 
+			KeyFilter: PropFilterRw,
 			"rules": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -278,9 +279,9 @@ func DatasourceFirewallFilter() *schema.Resource {
 
 func datasourceFirewallFilterRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	s := DatasourceFirewallFilter().Schema
-	path := s["rules"].Elem.(*schema.Resource).Schema[MetaResourcePath].Default.(string)
+	path := s[MetaResourcePath].Default.(string)
 
-	res, err := ReadItems(nil, path, m.(Client))
+	res, err := ReadItemsFiltered(buildReadFilter(d.Get(KeyFilter).(map[string]interface{})), path, m.(Client))
 	if err != nil {
 		return diag.FromErr(err)
 	}
