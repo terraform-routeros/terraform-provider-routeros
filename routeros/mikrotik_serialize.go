@@ -157,8 +157,10 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 				Severity: diag.Warning,
 				Summary:  "Field not found",
 				Detail: "[MikrotikResourceDataToTerraform] The field was lost during the Schema development: " +
-					terraformSnakeName,
+					terraformSnakeName + " <<<= " + mikrotikValue,
 			})
+			// Or panic.
+			return diags
 		}
 
 		switch s[terraformSnakeName].Type {
@@ -227,6 +229,8 @@ func MikrotikResourceDataToTerraformDatasource(items *[]MikrotikItem, resourceDa
 			Detail: "[MikrotikResourceDataToTerraformDatasource] the datasource Schema field was lost during " +
 				"development: " + resourceDataKeyName,
 		})
+		// Or panic.
+		return diags
 	}
 	s = sv.Elem.(*schema.Resource).Schema
 
@@ -257,8 +261,10 @@ func MikrotikResourceDataToTerraformDatasource(items *[]MikrotikItem, resourceDa
 					Severity: diag.Warning,
 					Summary:  "Field not found",
 					Detail: "[MikrotikResourceDataToTerraformDatasource] the field was lost during the Schema development: " +
-						terraformSnakeName,
+						terraformSnakeName + " <<<= " + mikrotikValue,
 				})
+				// Or panic.
+				return diags
 			}
 
 			var propValue interface{}
