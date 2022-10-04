@@ -22,7 +22,7 @@
 - `disabled` (Boolean)
 - `group_master` (String) Allows combining multiple VRRP interfaces to maintain the same VRRP status within the group.
 - `interval` (String) VRRP update interval in seconds. Defines how often master sends advertisement packets.
-- `mtu` (Number) Layer3 Maximum transmission unit
+- `mtu` (String) Layer3 Maximum transmission unit ('auto', 0 .. 65535)
 - `on_backup` (String) Script to execute when the node is switched to the backup state.
 - `on_fail` (String) Script to execute when the node fails.
 - `on_master` (String) Script to execute when the node is switched to master state.

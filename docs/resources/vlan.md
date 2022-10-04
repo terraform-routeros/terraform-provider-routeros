@@ -23,7 +23,7 @@
 - `loop_protect` (String)
 - `loop_protect_disable_time` (String)
 - `loop_protect_send_interval` (String)
-- `mtu` (Number) Layer3 Maximum transmission unit
+- `mtu` (String) Layer3 Maximum transmission unit ('auto', 0 .. 65535)
 - `use_service_tag` (Boolean)
 
 ### Read-Only

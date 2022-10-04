@@ -17,7 +17,7 @@
 - `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `comment` (String)
 - `disabled` (Boolean)
-- `mtu` (Number) Layer3 Maximum transmission unit
+- `mtu` (String) Layer3 Maximum transmission unit ('auto', 0 .. 65535)
 - `private_key` (String, Sensitive) A base64 private key. If not specified, it will be automatically generated upon interface creation.
 
 ### Read-Only
