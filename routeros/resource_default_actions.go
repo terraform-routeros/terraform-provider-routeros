@@ -2,6 +2,7 @@ package routeros
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
@@ -10,30 +11,25 @@ import (
 
 type DataValidateFunc func(d *schema.ResourceData) diag.Diagnostics
 
-// Dynamic search for a resource identifier by its name.
-func dynamicIdLookup(idType IdType, path string, c Client, d *schema.ResourceData) (string, diag.Diagnostics) {
+var errorNoLongerExists = errors.New("resource no longer exists")
 
-	// d.Id() == '.id'.value
-	if idType == Id {
-		return d.Id(), nil
-	}
-
-	// d.Id() == 'name'.value
+// Dynamic resource ID lookup to save us from situations where we are trying to delete a resource
+// that has been destroyed outside of Terraform.
+func dynamicIdLookup(idType IdType, path string, c Client, d *schema.ResourceData) (string, error) {
 	// Dynamic lookup id.
-	res, err := ReadItems(&ItemId{Name, d.Id()}, path, c)
+	res, err := ReadItems(&ItemId{idType, d.Id()}, path, c)
 	if err != nil {
-		return "", diag.FromErr(err)
+		// API/REST client error.
+		return "", err
 	}
 
 	// Resource not found.
 	if len(*res) == 0 {
-		//d.SetId("")
-		return "", diag.Diagnostics{diag.Diagnostic{
-			Severity: diag.Error,
-			Summary:  fmt.Sprintf("update error: resource not found by name = %v", d.Id()),
-		}}
+		d.SetId("")
+		return "", errorNoLongerExists
 	}
-	return (*res)[0].GetID(Name), nil
+
+	return (*res)[0].GetID(idType), nil
 }
 
 // ResourceCreate Creation of a resource in accordance with the TF Schema.
@@ -57,6 +53,8 @@ func ResourceCreate(ctx context.Context, s map[string]*schema.Schema, d *schema.
 		}
 	}
 
+	// At this time, we have a successfully created resource,
+	// regardless of the success of its reading.
 	switch metadata.IdType {
 	case Id:
 		// Response ID.
@@ -78,7 +76,8 @@ func ResourceCreate(ctx context.Context, s map[string]*schema.Schema, d *schema.
 			return diag.Diagnostics{
 				diag.Diagnostic{
 					Severity: diag.Error,
-					Summary:  "Mikrotik resource not found for ID '" + res.GetID(Id) + "'",
+					Summary: fmt.Sprintf("Mikrotik resource path='%v' id='%v' not found",
+						metadata.Path, res.GetID(Id)),
 				},
 			}
 		}
@@ -117,10 +116,12 @@ func ResourceUpdate(ctx context.Context, s map[string]*schema.Schema, d *schema.
 
 	// d.Id() can be the name of a resource or its identifier.
 	// Mikrotik only operates on resource ID!
-	id, diags := dynamicIdLookup(metadata.IdType, metadata.Path, m.(Client), d)
-	if diags != nil {
+	id, err := dynamicIdLookup(metadata.IdType, metadata.Path, m.(Client), d)
+	if err != nil {
+		// There is nothing to update, because resource id not found
+		// or some other error.
 		tflog.Error(ctx, ErrorMsgPatch)
-		return diags
+		return diag.FromErr(err)
 	}
 
 	res, err := UpdateItem(&ItemId{Id, id}, metadata.Path, item, m.(Client))
@@ -136,10 +137,21 @@ func ResourceUpdate(ctx context.Context, s map[string]*schema.Schema, d *schema.
 func ResourceDelete(ctx context.Context, s map[string]*schema.Schema, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	metadata := GetMetadata(s)
 
-	id, diags := dynamicIdLookup(metadata.IdType, metadata.Path, m.(Client), d)
-	if diags != nil {
-		tflog.Error(ctx, ErrorMsgPatch)
-		return diags
+	id, err := dynamicIdLookup(metadata.IdType, metadata.Path, m.(Client), d)
+	if err != nil {
+		if err != errorNoLongerExists {
+			tflog.Error(ctx, ErrorMsgDelete)
+			return diag.FromErr(err)
+		}
+
+		// We inform the user that the resource no longer exists.
+		d.SetId("")
+		return diag.Diagnostics{
+			diag.Diagnostic{
+				Severity: diag.Warning,
+				Summary:  errorNoLongerExists.Error(),
+			},
+		}
 	}
 
 	if err := DeleteItem(&ItemId{metadata.IdType, id}, metadata.Path, m.(Client)); err != nil {
@@ -147,8 +159,6 @@ func ResourceDelete(ctx context.Context, s map[string]*schema.Schema, d *schema.
 		return diag.FromErr(err)
 	}
 
-	// d.SetId("") is automatically called assuming delete returns no errors, but
-	// it is added here for explicitness.
 	d.SetId("")
 	return nil
 }
