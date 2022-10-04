@@ -16,18 +16,20 @@ const (
 )
 
 const (
-	KeyActualMtu  = "actual_mtu"
-	KeyArp        = "arp"
-	KeyArpTimeout = "arp_timeout"
-	KeyComment    = "comment"
-	KeyDynamic    = "dynamic"
-	KeyDisabled   = "disabled"
-	KeyInterface  = "interface"
-	KeyInvalid    = "invalid"
-	KeyL2Mtu      = "l2mtu"
-	KeyMtu        = "mtu"
-	KeyName       = "name"
-	KeyRunning    = "running"
+	KeyActualMtu   = "actual_mtu"
+	KeyArp         = "arp"
+	KeyArpTimeout  = "arp_timeout"
+	KeyComment     = "comment"
+	KeyDynamic     = "dynamic"
+	KeyDisabled    = "disabled"
+	KeyFilter      = "filter"
+	KeyInterface   = "interface"
+	KeyInvalid     = "invalid"
+	KeyL2Mtu       = "l2mtu"
+	KeyMtu         = "mtu"
+	KeyName        = "name"
+	KeyPlaceBefore = "place_before"
+	KeyRunning     = "running"
 )
 
 // PropResourcePath Resource path property.
@@ -112,6 +114,16 @@ var (
 	PropNameRw = &schema.Schema{
 		Type:     schema.TypeString,
 		Required: true,
+	}
+	PropPlaceBefore = &schema.Schema{
+		Type:     schema.TypeString,
+		Optional: true,
+		ForceNew: true,
+		Description: `Before which position the rule will be inserted.
+
+	> Please check the effect of this option, as it does not work as you think!
+	> Best way to use in conjunction with a data source. See example.
+`,
 	}
 	PropRunningRo = &schema.Schema{
 		Type:     schema.TypeBool,

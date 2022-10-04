@@ -281,6 +281,7 @@ func ResourceIPFirewallNat() *schema.Resource {
 			Description: "PCC matcher allows dividing traffic into equal streams with the ability to keep packets " +
 				"with a specific set of options in one particular stream.",
 		},
+		KeyPlaceBefore: PropPlaceBefore,
 		"port": {
 			Type:     schema.TypeString,
 			Optional: true,
