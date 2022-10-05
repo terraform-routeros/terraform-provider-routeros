@@ -244,6 +244,11 @@ func ResourceIPFirewallMangle() *schema.Resource {
 			Description: "Adds specified text at the beginning of every log message. Applicable if action=log or " +
 				"log=yes configured.",
 		},
+		"new_connection_mark": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Sets a new connection-mark value.",
+		},
 		"new_dscp": {
 			Type:         schema.TypeInt,
 			Optional:     true,
