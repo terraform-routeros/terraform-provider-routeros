@@ -1,8 +1,10 @@
 package routeros
 
-import "github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+import (
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+)
 
-func getFirewallFilterSchema() *schema.Schema {
+func getFirewallMangleSchema() *schema.Schema {
 	return &schema.Schema{
 		Type:     schema.TypeList,
 		Computed: true,
@@ -15,6 +17,10 @@ func getFirewallFilterSchema() *schema.Schema {
 					Computed: true,
 				},
 				"action": {
+					Type:     schema.TypeString,
+					Computed: true,
+				},
+				"address_list": {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
@@ -146,10 +152,6 @@ func getFirewallFilterSchema() *schema.Schema {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
-				"hw_offload": {
-					Type:     schema.TypeBool,
-					Computed: true,
-				},
 				"layer7_protocol": {
 					Type:     schema.TypeString,
 					Computed: true,
@@ -163,6 +165,34 @@ func getFirewallFilterSchema() *schema.Schema {
 					Computed: true,
 				},
 				"log_prefix": {
+					Type:     schema.TypeString,
+					Computed: true,
+				},
+				"new_connection_mark": {
+					Type:     schema.TypeString,
+					Computed: true,
+				},
+				"new_dscp": {
+					Type:     schema.TypeInt,
+					Computed: true,
+				},
+				"new_mss": {
+					Type:     schema.TypeInt,
+					Computed: true,
+				},
+				"new_packet_mark": {
+					Type:     schema.TypeString,
+					Computed: true,
+				},
+				"new_priority": {
+					Type:     schema.TypeString,
+					Computed: true,
+				},
+				"new_routing_mark": {
+					Type:     schema.TypeString,
+					Computed: true,
+				},
+				"new_ttl": {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
@@ -198,16 +228,16 @@ func getFirewallFilterSchema() *schema.Schema {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
+				"passthrough": {
+					Type:     schema.TypeBool,
+					Computed: true,
+				},
 				"per_connection_classifier": {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
 				"port": {
 					Type:     schema.TypeString,
-					Computed: true,
-				},
-				"priority": {
-					Type:     schema.TypeInt,
 					Computed: true,
 				},
 				"protocol": {
@@ -222,15 +252,11 @@ func getFirewallFilterSchema() *schema.Schema {
 					Type:     schema.TypeInt,
 					Computed: true,
 				},
-				"reject_with": {
-					Type:     schema.TypeString,
-					Computed: true,
-				},
-				"routing_table": {
-					Type:     schema.TypeString,
-					Computed: true,
-				},
 				"routing_mark": {
+					Type:     schema.TypeString,
+					Computed: true,
+				},
+				"route_dst": {
 					Type:     schema.TypeString,
 					Computed: true,
 				},

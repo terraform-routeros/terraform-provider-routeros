@@ -1,8 +1,10 @@
 package routeros
 
-import "github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+import (
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+)
 
-func getFirewallFilterSchema() *schema.Schema {
+func getFirewallNatSchema() *schema.Schema {
 	return &schema.Schema{
 		Type:     schema.TypeList,
 		Computed: true,
@@ -15,6 +17,10 @@ func getFirewallFilterSchema() *schema.Schema {
 					Computed: true,
 				},
 				"action": {
+					Type:     schema.TypeString,
+					Computed: true,
+				},
+				"address_list": {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
@@ -46,15 +52,7 @@ func getFirewallFilterSchema() *schema.Schema {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
-				"connection_nat_state": {
-					Type:     schema.TypeString,
-					Computed: true,
-				},
 				"connection_rate": {
-					Type:     schema.TypeString,
-					Computed: true,
-				},
-				"connection_state": {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
@@ -146,10 +144,6 @@ func getFirewallFilterSchema() *schema.Schema {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
-				"hw_offload": {
-					Type:     schema.TypeBool,
-					Computed: true,
-				},
 				"layer7_protocol": {
 					Type:     schema.TypeString,
 					Computed: true,
@@ -222,16 +216,13 @@ func getFirewallFilterSchema() *schema.Schema {
 					Type:     schema.TypeInt,
 					Computed: true,
 				},
-				"reject_with": {
-					Type:     schema.TypeString,
-					Computed: true,
-				},
-				"routing_table": {
-					Type:     schema.TypeString,
-					Computed: true,
-				},
+
 				"routing_mark": {
 					Type:     schema.TypeString,
+					Computed: true,
+				},
+				"same_not_by_dst": {
+					Type:     schema.TypeBool,
 					Computed: true,
 				},
 				"src_address": {
@@ -254,10 +245,6 @@ func getFirewallFilterSchema() *schema.Schema {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
-				"tcp_flags": {
-					Type:     schema.TypeString,
-					Computed: true,
-				},
 				"tcp_mss": {
 					Type:     schema.TypeString,
 					Computed: true,
@@ -266,7 +253,11 @@ func getFirewallFilterSchema() *schema.Schema {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
-				"tls_host": {
+				"to_addresses": {
+					Type:     schema.TypeString,
+					Computed: true,
+				},
+				"to_ports": {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
