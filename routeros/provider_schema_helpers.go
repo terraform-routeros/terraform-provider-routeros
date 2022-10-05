@@ -126,10 +126,9 @@ var (
 		Type:     schema.TypeString,
 		Optional: true,
 		ForceNew: true,
-		Description: `Before which position the rule will be inserted.
-
-	> Please check the effect of this option, as it does not work as you think!
-	> Best way to use in conjunction with a data source. See example.
+		Description: `Before which position the rule will be inserted.  
+	> Please check the effect of this option, as it does not work as you think!  
+	> Best way to use in conjunction with a data source. See [example](../data-sources/firewall.md#example-usage).  
 `,
 	}
 	PropRunningRo = &schema.Schema{

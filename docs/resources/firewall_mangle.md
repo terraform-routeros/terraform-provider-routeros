@@ -68,10 +68,9 @@
 - `packet_size` (String) Matches packets of specified size or size range in bytes.
 - `passthrough` (Boolean) Whether to let the packet to pass further (like action passthrough) into the firewall or not (property only valid some actions).
 - `per_connection_classifier` (String) PCC matcher allows dividing traffic into equal streams with the ability to keep packets with a specific set of options in one particular stream.
-- `place_before` (String) Before which position the rule will be inserted.
-
-	> Please check the effect of this option, as it does not work as you think!
-	> Best way to use in conjunction with a data source. See example.
+- `place_before` (String) Before which position the rule will be inserted.  
+	> Please check the effect of this option, as it does not work as you think!  
+	> Best way to use in conjunction with a data source. See [example](../data-sources/firewall.md#example-usage).
 - `port` (String) Matches if any (source or destination) port matches the specified list of ports or port ranges. Applicable only if protocol is TCP or UDP
 - `protocol` (String) Matches particular IP protocol specified by protocol name or number.
 - `psd` (String) Attempts to detect TCP and UDP scans. Parameters are in the following format WeightThreshold, DelayThreshold, LowPortWeight, HighPortWeight.
