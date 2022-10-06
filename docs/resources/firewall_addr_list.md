@@ -17,7 +17,10 @@
 - `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `comment` (String)
 - `disabled` (Boolean)
-- `timeout` (String) Time after address will be removed from address list. If timeout is not specified, the address will be stored into the address list permanently.
+- `timeout` (String) Time after address will be removed from address list. If timeout is not specified,
+the address will be stored into the address list permanently.  
+	> Please plan your work logic based on the fact that after the timeout    
+	> the resource has been destroyed outside of Terraform.
 
 ### Read-Only
 

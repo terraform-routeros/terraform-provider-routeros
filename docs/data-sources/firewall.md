@@ -8,9 +8,17 @@ This datasource contains all supported firewall resources:
 ## Example Usage
 ```terraform
 data "routeros_firewall" "fw" {
-  rules = {
-    chain = "input"
-    comment = "rule_2"
+  rules {
+    filter = {
+      chain = "input"
+      comment = "rule_2"
+    }
+  }
+
+  rules {
+    filter = {
+      chain = "forward"
+    }
   }
 
   nat {}

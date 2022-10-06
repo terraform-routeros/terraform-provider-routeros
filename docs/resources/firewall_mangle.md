@@ -8,7 +8,7 @@
 
 ### Required
 
-- `action` (String) Action to take if a packet is matched by the rule
+- `action` (String) Action to take if a packet is matched by the rule.
 - `chain` (String) Specifies to which chain rule will be added. If the input does not match the name of an already defined chain, a new chain will be created.
 
 ### Optional
