@@ -24,16 +24,18 @@ import (
 // ResourceIPFirewallMangle https://wiki.mikrotik.com/wiki/Manual:IP/Firewall/Mangle
 func ResourceIPFirewallMangle() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
-		MetaResourcePath: PropResourcePath("/ip/firewall/filter"),
+		MetaResourcePath: PropResourcePath("/ip/firewall/mangle"),
 		MetaId:           PropId(Id),
 
 		"action": {
 			Type:        schema.TypeString,
 			Required:    true,
-			Description: "Action to take if a packet is matched by the rule",
+			Description: "Action to take if a packet is matched by the rule.",
 			ValidateFunc: validation.StringInSlice([]string{
-				"accept", "add-dst-to-address-list", "add-src-to-address-list", "drop", "fasttrack-connection",
-				"jump", "log", "passthrough", "reject", "return", "tarpit",
+				"accept", "add-dst-to-address-list", "add-src-to-address-list", "change-dscp", "change-mss",
+				"change-ttl", "clear-df", "fasttrack-connection", "jump", "log", "mark-connection", "mark-packet",
+				"mark-routing", "passthrough ", "return", "route", "set-priority", "sniff-pc", "sniff-tzsp",
+				"strip-ipv4-options",
 			}, false),
 		},
 		"address_list": {
@@ -332,6 +334,7 @@ func ResourceIPFirewallMangle() *schema.Resource {
 		"passthrough": {
 			Type:     schema.TypeBool,
 			Optional: true,
+			Computed: true,
 			Description: "Whether to let the packet to pass further (like action passthrough) into the " +
 				"firewall or not (property only valid some actions).",
 		},
