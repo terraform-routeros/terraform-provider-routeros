@@ -8,7 +8,7 @@ import (
 func ResourceDnsRecord() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/dns/static"),
-		MetaId:           PropId(Id),
+		MetaId:           PropId(Name),
 
 		"address": {
 			Type:        schema.TypeString,

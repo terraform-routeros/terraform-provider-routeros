@@ -111,15 +111,7 @@ func DeleteItem(id *ItemId, resourcePath string, c Client) error {
 		// /interface/vlan/*39
 		url.Path += "/" + id.Value
 	} else {
-		// Transport API.
-		switch id.Type {
-		case Id:
-			url.Query = []string{"=.id=" + id.Value}
-		case Name:
-			url.Query = []string{"=numbers=" + id.Value}
-		default:
-			return fmt.Errorf("the behavior for the key '%s' is not defined", id.Type.String())
-		}
+		url.Query = []string{"=.id=" + id.Value}
 	}
 
 	return c.SendRequest(crudDelete, url, nil, &MikrotikItem{})

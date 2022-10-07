@@ -14,7 +14,7 @@ type DataValidateFunc func(d *schema.ResourceData) diag.Diagnostics
 var errorNoLongerExists = errors.New("resource no longer exists")
 
 // Dynamic resource ID lookup to save us from situations where we are trying to delete a resource
-// that has been destroyed outside of Terraform.
+// that has been destroyed outside of Terraform. Always returns only the internal Mikrotik id!
 func dynamicIdLookup(idType IdType, path string, c Client, d *schema.ResourceData) (string, error) {
 	// Dynamic lookup id.
 	res, err := ReadItems(&ItemId{idType, d.Id()}, path, c)
@@ -29,7 +29,7 @@ func dynamicIdLookup(idType IdType, path string, c Client, d *schema.ResourceDat
 		return "", errorNoLongerExists
 	}
 
-	return (*res)[0].GetID(idType), nil
+	return (*res)[0].GetID(Id), nil
 }
 
 // ResourceCreate Creation of a resource in accordance with the TF Schema.
@@ -154,7 +154,7 @@ func ResourceDelete(ctx context.Context, s map[string]*schema.Schema, d *schema.
 		}
 	}
 
-	if err := DeleteItem(&ItemId{metadata.IdType, id}, metadata.Path, m.(Client)); err != nil {
+	if err := DeleteItem(&ItemId{Id, id}, metadata.Path, m.(Client)); err != nil {
 		tflog.Error(ctx, ErrorMsgDelete)
 		return diag.FromErr(err)
 	}
