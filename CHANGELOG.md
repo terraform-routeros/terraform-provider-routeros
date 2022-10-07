@@ -1,5 +1,11 @@
 # Changelog
 
+### 1.1.0
+- Added support:
+    - Firewall address-list.
+    - Firewall mangle.
+    - Firewall NAT.
+
 ## Release
 
 ### 1.0.0
