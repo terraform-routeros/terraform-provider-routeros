@@ -40,7 +40,7 @@ import (
 func ResourceInterfaceVrrp() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/vrrp"),
-		MetaId:           PropId(Id),
+		MetaId:           PropId(Name),
 
 		KeyArp:        PropArpRw,
 		KeyArpTimeout: PropArpTimeoutRw,
@@ -107,6 +107,7 @@ func ResourceInterfaceVrrp() *schema.Resource {
 		"password": {
 			Type:        schema.TypeString,
 			Optional:    true,
+			Sensitive:   true,
 			Description: "Password required for authentication. Can be ignored if authentication is not used.",
 		},
 		"preemption_mode": {

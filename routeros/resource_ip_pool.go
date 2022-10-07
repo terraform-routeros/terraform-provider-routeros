@@ -8,7 +8,7 @@ import (
 func ResourceIPPool() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/pool"),
-		MetaId:           PropId(Id),
+		MetaId:           PropId(Name),
 
 		KeyComment: PropCommentRw,
 		KeyName:    PropNameRw,

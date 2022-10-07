@@ -9,7 +9,7 @@ import (
 func ResourceInterfaceBridge() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/bridge"),
-		MetaId:           PropId(Id),
+		MetaId:           PropId(Name),
 
 		KeyActualMtu: PropActualMtuRo,
 		"admin_mac": {

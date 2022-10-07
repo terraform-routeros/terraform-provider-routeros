@@ -9,7 +9,7 @@ import (
 func ResourceInterfaceVlan() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/vlan"),
-		MetaId:           PropId(Id),
+		MetaId:           PropId(Name),
 
 		KeyArp:        PropArpRw,
 		KeyArpTimeout: PropArpTimeoutRw,

@@ -16,7 +16,7 @@ import (
 func ResourceInterfaceGre() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/gre"),
-		MetaId:           PropId(Id),
+		MetaId:           PropId(Name),
 
 		KeyActualMtu: PropActualMtuRo,
 		"allow_fast_path": {
@@ -71,9 +71,10 @@ func ResourceInterfaceGre() *schema.Resource {
 				"from tunnelled traffic.",
 		},
 		"ipsec_secret": {
-			Type:     schema.TypeString,
-			Optional: true,
-			Default:  "",
+			Type:      schema.TypeString,
+			Optional:  true,
+			Default:   "",
+			Sensitive: true,
 			Description: "When secret is specified, router adds dynamic IPsec peer to remote-address with " +
 				"pre-shared key and policy (by default phase2 uses sha1/aes128cbc).",
 		},

@@ -22,7 +22,7 @@ import (
 func ResourceInterfaceWireguard() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/wireguard"),
-		MetaId:           PropId(Id),
+		MetaId:           PropId(Name),
 
 		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,

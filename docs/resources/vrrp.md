@@ -26,7 +26,7 @@
 - `on_backup` (String) Script to execute when the node is switched to the backup state.
 - `on_fail` (String) Script to execute when the node fails.
 - `on_master` (String) Script to execute when the node is switched to master state.
-- `password` (String) Password required for authentication. Can be ignored if authentication is not used.
+- `password` (String, Sensitive) Password required for authentication. Can be ignored if authentication is not used.
 - `preemption_mode` (Boolean) Whether the master node always has the priority. When set to 'no' the backup node will not be elected to be a master until the current master fails, even if the backup node has higher priority than the current master. This setting is ignored if the owner router becomes available
 - `priority` (Number) Priority of VRRP node used in Master election algorithm. A higher number means higher priority. '255' is reserved for the router that owns VR IP and '0' is reserved for the Master router to indicate that it is releasing responsibility.
 - `remote_address` (String) Specifies the remote address of the other VRRP router for syncing connection tracking. If not set, the system autodetects the remote address via VRRP. The remote address is used only if sync-connection-tracking=yes.Sync connection tracking uses UDP port 8275.

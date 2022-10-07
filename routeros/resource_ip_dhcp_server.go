@@ -9,7 +9,7 @@ import (
 func ResourceDhcpServer() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/dhcp-server"),
-		MetaId:           PropId(Id),
+		MetaId:           PropId(Name),
 
 		"address_pool": {
 			Type:     schema.TypeString,
