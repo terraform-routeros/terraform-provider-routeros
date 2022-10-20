@@ -28,9 +28,9 @@ jobs:
         os: [ubuntu-latest]
         # Test against RouterOS v7
         routeros_version:
-          - "7.1"
-          - "7.1.1"
-          - "7.2rc1"
+          - "7.4.1"
+          - "7.5"
+          - "7.6"
         legacy_bgp_support: [true]
 
     steps:
