@@ -39,9 +39,9 @@ For more in-depth documentation about each of the resources and datasources, ple
 
 | ROS Version | Go Version               | Terraform Version         | Provider Version          |
 | ----------- | ------------------------ | ------------------------- | ------------------------- |
-| `7.4.1`     | <ul><li>`1.16`</li></ul> | <ul><li>`1.3.3`</li></ul> | <ul><li>`0.3.3`</li></ul> |
-| `7.5`       | <ul><li>`1.16`</li></ul> | <ul><li>`1.3.3`</li></ul> | <ul><li>`0.3.3`</li></ul> |
-| `7.6`       | <ul><li>`1.16`</li></ul> | <ul><li>`1.3.3`</li></ul> | <ul><li>`0.3.3`</li></ul> |
+| `7.4.1`     | <ul><li>`1.18`</li></ul> | <ul><li>`1.3.3`</li></ul> | <ul><li>`0.3.3`</li></ul> |
+| `7.5`       | <ul><li>`1.18`</li></ul> | <ul><li>`1.3.3`</li></ul> | <ul><li>`0.3.3`</li></ul> |
+| `7.6`       | <ul><li>`1.18`</li></ul> | <ul><li>`1.3.3`</li></ul> | <ul><li>`0.3.3`</li></ul> |
 
 ## Changelog and Roadmap
 
