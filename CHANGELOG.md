@@ -2,6 +2,18 @@
 
 ## Pre-release
 
+
+### 0.3.3
+
+#### Bug Fixes
+- [#50](https://github.com/GNewbury1/terraform-provider-routeros/issues/50) - Fixed issue where password was displayed in plaintext on stdout
+
+#### Tests
+- Updated tests to test latest three versions of ROS (`7.4.1`, `7.5`, `7.6`)
+
+#### Misc
+- Set `password` field in provider to `Sensitive: true`
+
 ### 0.3.2
 - [#47](https://github.com/GNewbury1/terraform-provider-routeros/issues/47) - Fixed issue where datasources would return arrays contain the wrong value. Contribution by [deveth0](https://github.com/deveth0/) with [pull request #48](https://github.com/GNewbury1/terraform-provider-routeros/pull/48)
 
