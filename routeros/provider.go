@@ -30,6 +30,7 @@ func Provider() *schema.Provider {
 				Optional:    true,
 				DefaultFunc: schema.EnvDefaultFunc("ROS_PASSWORD", nil),
 				Description: "Password for the ROS user",
+				Sensitive:   true,
 			},
 			"insecure": {
 				Type:        schema.TypeBool,
