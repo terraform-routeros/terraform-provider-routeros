@@ -11,6 +11,9 @@
 #### Tests
 - Updated tests to test latest three versions of ROS (`7.4.1`, `7.5`, `7.6`)
 
+#### CI
+- Updated Go version provider is built with to 1.18 to support `windows/arm64`
+
 #### Misc
 - Set `password` field in provider to `Sensitive: true`
 
