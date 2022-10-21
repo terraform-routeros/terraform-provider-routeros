@@ -3,12 +3,18 @@
 page_title: "routeros_interface_bridge Resource - terraform-provider-routeros"
 subcategory: "interface"
 description: |-
+  RouterOS Bridge Interface resource
   
 ---
 
 # routeros_interface_bridge (Resource)
 
-
+```terraform
+resource "routeros_interface_bridge" "bridge" {
+  name           = "bridge"
+  vlan_filtering = true
+}
+```
 
 
 
