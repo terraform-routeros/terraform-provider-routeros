@@ -2,6 +2,11 @@
 
 ## Pre-release
 
+### 0.3.4
+
+#### Docs
+- Updated docs for provider to show on the Terraform Provider page
+
 
 ### 0.3.3
 
