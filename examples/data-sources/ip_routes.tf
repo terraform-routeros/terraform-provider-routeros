@@ -1,0 +1,1 @@
+data "routeros_ip_routes" "ip_routes" {}

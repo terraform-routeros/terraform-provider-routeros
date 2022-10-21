@@ -1,0 +1,1 @@
+data "routeros_interfaces" "interfaces" {}
