@@ -37,8 +37,8 @@ type InterfaceBridge struct {
 	VlanFiltering     string `json:"vlan-filtering,omitempty"`
 }
 
-func (c *Client) CreateInterfaceBridge(ip_route *InterfaceBridge) (*InterfaceBridge, error) {
-	reqBody, err := json.Marshal(ip_route)
+func (c *Client) CreateInterfaceBridge(interface_bridge *InterfaceBridge) (*InterfaceBridge, error) {
+	reqBody, err := json.Marshal(interface_bridge)
 	if err != nil {
 		return nil, err
 	}
