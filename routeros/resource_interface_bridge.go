@@ -189,6 +189,9 @@ func resourceInterfaceBridgeCreate(d *schema.ResourceData, m interface{}) error 
 	ingress_filtering, _ := strconv.ParseBool(res.IngressFiltering)
 	l2mtu, _ := strconv.Atoi(res.L2Mtu)
 	pvid, _ := strconv.Atoi(res.Pvid)
+	if pvid == 0 {
+		pvid = 1
+	}
 	running, _ := strconv.ParseBool(res.Running)
 	transmit_hold_count, _ := strconv.Atoi(res.TransmitHoldCount)
 	vlan_filtering, _ := strconv.ParseBool(res.VlanFiltering)
@@ -243,6 +246,9 @@ func resourceInterfaceBridgeRead(d *schema.ResourceData, m interface{}) error {
 	ingress_filtering, _ := strconv.ParseBool(res.IngressFiltering)
 	l2mtu, _ := strconv.Atoi(res.L2Mtu)
 	pvid, _ := strconv.Atoi(res.Pvid)
+	if pvid == 0 {
+		pvid = 1
+	}
 	running, _ := strconv.ParseBool(res.Running)
 	transmit_hold_count, _ := strconv.Atoi(res.TransmitHoldCount)
 	vlan_filtering, _ := strconv.ParseBool(res.VlanFiltering)
