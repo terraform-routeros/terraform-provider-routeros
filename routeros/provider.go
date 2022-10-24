@@ -54,6 +54,8 @@ func Provider() *schema.Provider {
 			"routeros_interface_bridge":         resourceInterfaceBridge(),
 			"routeros_interface_wireguard":      resourceInterfaceWireguard(),
 			"routeros_interface_wireguard_peer": resourceInterfaceWireguardPeer(),
+			"routeros_interface_list":           resourceInterfaceList(),
+			"routeros_interface_list_member":    resourceInterfaceListMember(),
 			"routeros_interface_vrrp":           resourceInterfaceVrrp(),
 			"routeros_system_identity":          resourceSystemIdentity(),
 		},

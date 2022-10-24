@@ -47,6 +47,9 @@ def main():
     wireguard = api.get_resource("/interface/wireguard")
     wireguard.add(name="wg1")
 
+    # Create a interface list
+    list = api.get_resource("/interface/list")
+    list.add(name="list")
     # Output the list of interfaces
 
     print(api.get_resource("/interface").get())
