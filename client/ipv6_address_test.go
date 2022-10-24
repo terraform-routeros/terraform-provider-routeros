@@ -21,9 +21,9 @@ func CreateIpv6AddressTestObjects() (*IPv6Address, error) {
 
 func TestGetIpv6Address(t *testing.T) {
 	c := NewClient(GetCredentialsFromEnvVar())
-	ipaddr, err := CreateIpAddressTestObjects()
+	ipaddr, err := CreateIpv6AddressTestObjects()
 	assert.Nil(t, err, "expecting nil error")
-	res, err := c.GetIPAddress(ipaddr.ID)
+	res, err := c.GetIPv6Address(ipaddr.ID)
 	assert.Nil(t, err, "expecting nil error")
 	assert.NotNil(t, res, "expecting non-nil result")
 	assert.Equal(t, res.Address, ipaddr.Address)
