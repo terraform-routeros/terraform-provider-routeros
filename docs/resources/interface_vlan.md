@@ -8,11 +8,12 @@ description: |-
 
 # routeros_interface_vlan (Resource)
 
+
 ```terraform
 resource "routeros_interface_vlan" "interface_vlan" {
-    interface = "bridge"
-    name      = "VLAN_TEST"
-    vlan_id   = 50
+  interface = "bridge"
+  name      = "VLAN_TEST"
+  vlan_id   = 50
 }
 ```
 
@@ -22,27 +23,27 @@ resource "routeros_interface_vlan" "interface_vlan" {
 
 ### Required
 
-- **interface** (String)
-- **name** (String)
-- **vlan_id** (Number)
+- `interface` (String)
+- `name` (String)
+- `vlan_id` (Number)
 
 ### Optional
 
-- **disabled** (Boolean)
-- **id** (String) The ID of this resource.
-- **mtu** (Number)
-- **use_service_tag** (Boolean)
+- `disabled` (Boolean)
+- `mtu` (Number)
+- `use_service_tag` (Boolean)
 
 ### Read-Only
 
-- **arp** (String)
-- **arp_timeout** (String)
-- **l2mtu** (String)
-- **loop_protect** (String)
-- **loop_protect_disable_time** (String)
-- **loop_protect_send_interval** (String)
-- **loop_protect_status** (String)
-- **mac_address** (String)
-- **running** (Boolean)
+- `arp` (String)
+- `arp_timeout` (String)
+- `id` (String) The ID of this resource.
+- `l2mtu` (String)
+- `loop_protect` (String)
+- `loop_protect_disable_time` (String)
+- `loop_protect_send_interval` (String)
+- `loop_protect_status` (String)
+- `mac_address` (String)
+- `running` (Boolean)
 
 

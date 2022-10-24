@@ -8,11 +8,12 @@ description: |-
 
 # routeros_ip_address (Resource)
 
+
 ```terraform
 resource "routeros_ip_address" "address" {
-    address   = "10.0.0.1"
-    interface = "bridge"
-    network   = "10.0.0.0/24
+  address   = "10.0.0.1"
+  interface = "bridge"
+  network   = "10.0.0.0/24"
 }
 ```
 
@@ -22,16 +23,19 @@ resource "routeros_ip_address" "address" {
 
 ### Required
 
-- **address** (String)
-- **interface** (String)
-- **network** (String)
+- `address` (String)
+- `interface` (String)
+- `network` (String)
 
 ### Optional
 
-- **comment** (String)
-- **disabled** (Boolean)
-- **id** (String) The ID of this resource.
-- **dynamic** (Boolean)
-- **invalid** (Boolean)
+- `comment` (String)
+- `disabled` (Boolean)
+
+### Read-Only
+
+- `actual_interface` (String)
+- `id` (String) The ID of this resource.
+- `invalid` (Boolean)
 
 

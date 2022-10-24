@@ -8,10 +8,11 @@ description: |-
 
 # routeros_ip_pool (Resource)
 
-```
+
+```terraform
 resource "routeros_ip_pool" "pool" {
-    name   = "my_ip_pool"
-    ranges = "10.0.0.100-10.0.0.200"
+  name   = "my_ip_pool"
+  ranges = "10.0.0.100-10.0.0.200"
 }
 ```
 
@@ -21,11 +22,11 @@ resource "routeros_ip_pool" "pool" {
 
 ### Required
 
-- **name** (String)
-- **ranges** (String)
+- `name` (String)
+- `ranges` (String)
 
-### Optional
+### Read-Only
 
-- **id** (String) The ID of this resource.
+- `id` (String) The ID of this resource.
 
 

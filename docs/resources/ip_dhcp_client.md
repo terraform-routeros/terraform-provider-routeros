@@ -8,9 +8,10 @@ description: |-
 
 # routeros_ip_dhcp_client (Resource)
 
+
 ```terraform
 resource "routeros_ip_dhcp_client" "client" {
-    interface = "bridge"
+  interface = "bridge"
 }
 ```
 
@@ -20,28 +21,28 @@ resource "routeros_ip_dhcp_client" "client" {
 
 ### Required
 
-- **interface** (String)
+- `interface` (String)
 
 ### Optional
 
-- **add_default_route** (Boolean)
-- **default_route_distance** (Number)
-- **dhcp_options** (String)
-- **dhcp_server** (String)
-- **disabled** (Boolean)
-- **id** (String) The ID of this resource.
-- **primary_dns** (String)
-- **secondary_dns** (String)
-- **use_peer_dns** (Boolean)
-- **use_peer_ntp** (Boolean)
+- `add_default_route` (Boolean)
+- `default_route_distance` (Number)
+- `dhcp_options` (String)
+- `dhcp_server` (String)
+- `disabled` (Boolean)
+- `primary_dns` (String)
+- `secondary_dns` (String)
+- `use_peer_dns` (Boolean)
+- `use_peer_ntp` (Boolean)
 
 ### Read-Only
 
-- **address** (String)
-- **dynamic** (Boolean)
-- **expires_after** (String)
-- **gateway** (String)
-- **invalid** (Boolean)
-- **status** (String)
+- `address` (String)
+- `dynamic` (Boolean)
+- `expires_after` (String)
+- `gateway` (String)
+- `id` (String) The ID of this resource.
+- `invalid` (Boolean)
+- `status` (String)
 
 

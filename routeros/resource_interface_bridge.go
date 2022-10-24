@@ -126,7 +126,7 @@ func resourceInterfaceBridge() *schema.Resource {
 			"pvid": {
 				Type:     schema.TypeInt,
 				Optional: true,
-				Default:  0,
+				Default:  1,
 			},
 			"running": {
 				Type:     schema.TypeBool,
@@ -167,9 +167,9 @@ func resourceInterfaceBridgeCreate(d *schema.ResourceData, m interface{}) error 
 	bridge.ProtocolMode = d.Get("protocol_mode").(string)
 	bridge.TransmitHoldCount = strconv.Itoa(d.Get("transmit_hold_count").(int))
 	bridge.VlanFiltering = strconv.FormatBool(d.Get("vlan_filtering").(bool))
+	bridge.Pvid = strconv.Itoa(d.Get("pvid").(int))
 
 	if d.Get("vlan_filtering").(bool) {
-		bridge.Pvid = strconv.Itoa(d.Get("pvid").(int))
 		bridge.FrameTypes = d.Get("frame_types").(string)
 	}
 
@@ -189,6 +189,9 @@ func resourceInterfaceBridgeCreate(d *schema.ResourceData, m interface{}) error 
 	ingress_filtering, _ := strconv.ParseBool(res.IngressFiltering)
 	l2mtu, _ := strconv.Atoi(res.L2Mtu)
 	pvid, _ := strconv.Atoi(res.Pvid)
+	if pvid == 0 {
+		pvid = 1
+	}
 	running, _ := strconv.ParseBool(res.Running)
 	transmit_hold_count, _ := strconv.Atoi(res.TransmitHoldCount)
 	vlan_filtering, _ := strconv.ParseBool(res.VlanFiltering)
@@ -243,6 +246,9 @@ func resourceInterfaceBridgeRead(d *schema.ResourceData, m interface{}) error {
 	ingress_filtering, _ := strconv.ParseBool(res.IngressFiltering)
 	l2mtu, _ := strconv.Atoi(res.L2Mtu)
 	pvid, _ := strconv.Atoi(res.Pvid)
+	if pvid == 0 {
+		pvid = 1
+	}
 	running, _ := strconv.ParseBool(res.Running)
 	transmit_hold_count, _ := strconv.Atoi(res.TransmitHoldCount)
 	vlan_filtering, _ := strconv.ParseBool(res.VlanFiltering)

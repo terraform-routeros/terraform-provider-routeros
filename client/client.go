@@ -56,16 +56,12 @@ func (c *Client) sendRequest(req *http.Request, v interface{}) error {
 	req.Header.Set("Content-Type", "application/json")
 	req.SetBasicAuth(c.Username, c.Password)
 
-	fmt.Println(req)
-
 	res, err := c.HTTPClient.Do(req)
 	if err != nil {
 		return err
 	}
 
 	defer res.Body.Close()
-
-	fmt.Println(res.StatusCode)
 
 	if res.StatusCode < http.StatusOK || res.StatusCode >= http.StatusBadRequest {
 		var errRes errorResponse

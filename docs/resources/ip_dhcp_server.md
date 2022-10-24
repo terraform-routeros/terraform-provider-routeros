@@ -8,12 +8,12 @@ description: |-
 
 # routeros_ip_dhcp_server (Resource)
 
-```terraform
 
+```terraform
 resource "routeros_ip_dhcp_server" "server" {
-    address_pool = "my_address_pool"
-    interface    = "bridge"
-    name         = "bridge_dhcp"
+  address_pool = "my_address_pool"
+  interface    = "bridge"
+  name         = "bridge_dhcp"
 }
 ```
 
@@ -23,22 +23,22 @@ resource "routeros_ip_dhcp_server" "server" {
 
 ### Required
 
-- **address_pool** (String)
-- **interface** (String)
-- **name** (String)
+- `address_pool` (String)
+- `interface` (String)
+- `name` (String)
 
 ### Optional
 
-- **authoritative** (Boolean)
-- **disabled** (Boolean)
-- **id** (String) The ID of this resource.
-- **lease_script** (String)
-- **lease_time** (String)
-- **use_radius** (Boolean)
+- `authoritative` (Boolean)
+- `disabled` (Boolean)
+- `lease_script` (String)
+- `lease_time` (String)
+- `use_radius` (Boolean)
 
 ### Read-Only
 
-- **dynamic** (Boolean)
-- **invalid** (Boolean)
+- `dynamic` (Boolean)
+- `id` (String) The ID of this resource.
+- `invalid` (Boolean)
 
 

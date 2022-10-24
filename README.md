@@ -14,7 +14,7 @@ This is to allow configuration of Mikrotik's RouterOS at scale using Terraform. 
 
 ## Using the provider
 
-To get started with the provider, include the following in your Terraform manifests:
+To get started with the provider, you first need to enable the REST API on your router. [You can follow the Mikrotik documentation on this](https://help.mikrotik.com/docs/display/ROS/REST+API), but the gist is to create an SSL cert (in `/system/certificates`) andenable the `web-ssl` service (in `/ip/services`) which uses that certificate. After that, include the following in your Terraform manifests:
 
 ```terraform
 terraform {
@@ -35,11 +35,13 @@ provider "routeros" {
 
 For more in-depth documentation about each of the resources and datasources, please read the [documentation on Hashicorp's Provider registry](https://registry.terraform.io/providers/GNewbury1/routeros/latest/docs)
 
-### Tested RouterOS versions
+### Versions tested
 
-- 7.1
-- 7.1.1
-- 7.2rc1
+| ROS Version | Go Version               | Terraform Version         | Provider Version                                          |
+| ----------- | ------------------------ | ------------------------- | --------------------------------------------------------- |
+| `7.4.1`     | <ul><li>`1.18`</li></ul> | <ul><li>`1.3.3`</li></ul> | <ul><li>`0.3.3`</li><li>`0.3.4`</li><li>`0.3.5`</li></ul> |
+| `7.5`       | <ul><li>`1.18`</li></ul> | <ul><li>`1.3.3`</li></ul> | <ul><li>`0.3.3`</li><li>`0.3.4`</li><li>`0.3.5`</li></ul> |
+| `7.6`       | <ul><li>`1.18`</li></ul> | <ul><li>`1.3.3`</li></ul> | <ul><li>`0.3.3`</li><li>`0.3.4`</li><li>`0.3.5`</li></ul> |
 
 ## Changelog and Roadmap
 

@@ -10,9 +10,9 @@ description: |-
 
 ```terraform
 resource "routeros_interface_bridge_port" "bridge_port" {
-    bridge    = "bridge"
-    interface = "ether5"
-    pvid      = "50"
+  bridge    = "bridge"
+  interface = "ether5"
+  pvid      = "50"
 }
 ```
 
@@ -23,53 +23,53 @@ resource "routeros_interface_bridge_port" "bridge_port" {
 
 ### Required
 
-- **bridge** (String)
-- **interface** (String)
-- **pvid** (Number)
+- `bridge` (String)
+- `interface` (String)
+- `pvid` (Number)
 
 ### Optional
 
-- **auto_isolate** (Boolean)
-- **bpdu_guard** (Boolean)
-- **broadcast_flood** (Boolean)
-- **comment** (Boolean)
-- **disabled** (Boolean)
-- **edge** (String)
-- **fast_leave** (Boolean)
-- **frame_types** (String)
-- **horizon** (String)
-- **hw** (Boolean)
-- **id** (String) The ID of this resource.
-- **ingress_filtering** (Boolean)
-- **internal_path_cost** (Number)
-- **learn** (String)
-- **path_cost** (Number)
-- **point_to_point** (String)
-- **priority** (String)
-- **restricted_role** (Boolean)
-- **restricted_tcn** (Boolean)
-- **tag_stacking** (Boolean)
-- **trusted** (Boolean)
+- `auto_isolate` (Boolean)
+- `bpdu_guard` (Boolean)
+- `broadcast_flood` (Boolean)
+- `comment` (Boolean)
+- `disabled` (Boolean)
+- `edge` (String)
+- `fast_leave` (Boolean)
+- `frame_types` (String)
+- `horizon` (String)
+- `hw` (Boolean)
+- `ingress_filtering` (Boolean)
+- `internal_path_cost` (Number)
+- `learn` (String)
+- `path_cost` (Number)
+- `point_to_point` (String)
+- `priority` (String)
+- `restricted_role` (Boolean)
+- `restricted_tcn` (Boolean)
+- `tag_stacking` (Boolean)
+- `trusted` (Boolean)
 
 ### Read-Only
 
-- **debug_info** (String)
-- **edge_port** (Boolean)
-- **edge_port_discovery** (Boolean)
-- **external_fdb_status** (Boolean)
-- **forwarding** (Boolean)
-- **hw_offload** (Boolean)
-- **hw_offload_group** (String)
-- **inactive** (Boolean)
-- **learning** (Boolean)
-- **multicast_router** (String)
-- **nextid** (String)
-- **point_to_point_port** (Boolean)
-- **port_number** (Number)
-- **role** (String)
-- **sending_rstp** (String)
-- **status** (String)
-- **unknown_multicast_flood** (Boolean)
-- **unknown_unicast_flood** (Boolean)
+- `debug_info` (String)
+- `edge_port` (Boolean)
+- `edge_port_discovery` (Boolean)
+- `external_fdb_status` (Boolean)
+- `forwarding` (Boolean)
+- `hw_offload` (Boolean)
+- `hw_offload_group` (String)
+- `id` (String) The ID of this resource.
+- `inactive` (Boolean)
+- `learning` (Boolean)
+- `multicast_router` (String)
+- `nextid` (String)
+- `point_to_point_port` (Boolean)
+- `port_number` (Number)
+- `role` (String)
+- `sending_rstp` (String)
+- `status` (String)
+- `unknown_multicast_flood` (Boolean)
+- `unknown_unicast_flood` (Boolean)
 
 
