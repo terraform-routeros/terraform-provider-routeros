@@ -48,7 +48,6 @@ func Provider() *schema.Provider {
 			"routeros_ip_pool":                  resourceIPPool(),
 			"routeros_ip_route":                 resourceIPRoute(),
 			"routeros_ip_firewall_filter":       resourceIPFirewallFilter(),
-			"routeros_ipv6_neighbor_discovery":  resourceIPv6NeighborDiscovery(),
 			"routeros_interface_vlan":           resourceInterfaceVlan(),
 			"routeros_interface_bridge_vlan":    resourceInterfaceBridgeVlan(),
 			"routeros_interface_bridge_port":    resourceInterfaceBridgePort(),
