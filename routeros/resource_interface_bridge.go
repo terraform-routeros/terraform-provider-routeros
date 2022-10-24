@@ -126,7 +126,7 @@ func resourceInterfaceBridge() *schema.Resource {
 			"pvid": {
 				Type:     schema.TypeInt,
 				Optional: true,
-				Default:  0,
+				Default:  1,
 			},
 			"running": {
 				Type:     schema.TypeBool,
