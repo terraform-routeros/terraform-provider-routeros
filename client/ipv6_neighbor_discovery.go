@@ -11,20 +11,19 @@ type IPv6NeighborDiscovery struct {
 	ID                          string `json:".id,omitempty"`
 	AdvertiseDNS                string `json:"advertise-dns,omitempty"`
 	AdvertiseMACAddress         string `json:"advertise-mac-address,omitempty"`
-	Default                     string `json:"default"`
-	Disabled                    string `json:"disabled"`
-	DNS                         string `json:"dns"`
-	HopLimit                    string `json:"hop-limit"`
-	Interface                   string `json:"interface"`
+	Disabled                    string `json:"disabled,omitempty"`
+	DNS                         string `json:"dns,omitempty"`
+	HopLimit                    string `json:"hop-limit,omitempty"`
+	Interface                   string `json:"interface,omitempty"`
 	Invalid                     string `json:"invalid,omitempty"`
-	ManagedAddressConfiguration string `json:"managed-address-configuration"`
-	MTU                         string `json:"mtu"`
-	OtherConfiguration          string `json:"other-configuration"`
-	RADelay                     string `json:"ra-delay"`
-	RAInterval                  string `json:"ra-interval"`
-	RALifetime                  string `json:"ra-lifetime"`
-	ReachableTime               string `json:"reachable-time"`
-	RetransmitInterval          string `json:"retransmit-interval"`
+	ManagedAddressConfiguration string `json:"managed-address-configuration,omitempty"`
+	MTU                         string `json:"mtu,omitempty"`
+	OtherConfiguration          string `json:"other-configuration,omitempty"`
+	RADelay                     string `json:"ra-delay,omitempty"`
+	RAInterval                  string `json:"ra-interval,omitempty"`
+	RALifetime                  string `json:"ra-lifetime,omitempty"`
+	ReachableTime               string `json:"reachable-time,omitempty"`
+	RetransmitInterval          string `json:"retransmit-interval,omitempty"`
 }
 
 func (c *Client) GetIPv6NeighborDiscovery(id string) (*IPv6NeighborDiscovery, error) {
