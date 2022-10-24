@@ -1,10 +1,19 @@
 # Changelog
 
+## 0.4.0
+
+### Features
+- [PR #51](https://github.com/GNewbury1/terraform-provider-routeros/pull/51) - Add ability to set the identity of the router
+- [PR #52](https://github.com/GNewbury1/terraform-provider-routeros/pull/52) - Add ability to manage CAPsMAN
+
+### Docs
+- [PR #77](https://github.com/GNewbury1/terraform-provider-routeros/pull/77) - Modify README to include instructions to enable REST API
+- 
 
 ## 0.3.5
 
 ### Bug Fixes
-- [#73](https://github.com/GNewbury1/terraform-provider-routeros/issues/73) - Fixed issue where PVID for `/interface/bridge` was defaulting to `0` rather than `1`.
+- [Issue #73](https://github.com/GNewbury1/terraform-provider-routeros/issues/73) - Fixed issue where PVID for `/interface/bridge` was defaulting to `0` rather than `1`.
 
 ## 0.3.4
 
@@ -15,7 +24,7 @@
 ## 0.3.3
 
 ### Bug Fixes
-- [#50](https://github.com/GNewbury1/terraform-provider-routeros/issues/50) - Fixed issue where password was displayed in plaintext on stdout
+- [Issue #50](https://github.com/GNewbury1/terraform-provider-routeros/issues/50) - Fixed issue where password was displayed in plaintext on stdout
 
 ### Tests
 - Updated tests to test latest three versions of ROS (`7.4.1`, `7.5`, `7.6`)
@@ -27,7 +36,7 @@
 - Set `password` field in provider to `Sensitive: true`
 
 ## 0.3.2
-- [#47](https://github.com/GNewbury1/terraform-provider-routeros/issues/47) - Fixed issue where datasources would return arrays contain the wrong value. Contribution by [deveth0](https://github.com/deveth0/) with [pull request #48](https://github.com/GNewbury1/terraform-provider-routeros/pull/48)
+- [Issue #47](https://github.com/GNewbury1/terraform-provider-routeros/issues/47) - Fixed issue where datasources would return arrays contain the wrong value. Contribution by [deveth0](https://github.com/deveth0/) with [pull request #48](https://github.com/GNewbury1/terraform-provider-routeros/pull/48)
 
 ## 0.3.1
 - Added error logging
