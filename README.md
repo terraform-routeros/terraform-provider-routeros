@@ -39,13 +39,13 @@ For more in-depth documentation about each of the resources and datasources, ple
 
 | ROS Version | Go Version               | Terraform Version         | Provider Version                                          |
 | ----------- | ------------------------ | ------------------------- | --------------------------------------------------------- |
-| `7.4.1`     | <ul><li>`1.18`</li></ul> | <ul><li>`1.3.3`</li></ul> | <ul><li>`0.3.3`</li><li>`0.3.4`</li><li>`0.3.5`</li></ul> |
-| `7.5`       | <ul><li>`1.18`</li></ul> | <ul><li>`1.3.3`</li></ul> | <ul><li>`0.3.3`</li><li>`0.3.4`</li><li>`0.3.5`</li></ul> |
-| `7.6`       | <ul><li>`1.18`</li></ul> | <ul><li>`1.3.3`</li></ul> | <ul><li>`0.3.3`</li><li>`0.3.4`</li><li>`0.3.5`</li></ul> |
+| `7.4.1`     | <ul><li>`1.18`</li></ul> | <ul><li>`1.3.3`</li></ul> | <ul><li>`0.3.3`</li><li>`0.3.4`</li><li>`0.3.5`</li><li>`0.4.0`</li></ul> |
+| `7.5`       | <ul><li>`1.18`</li></ul> | <ul><li>`1.3.3`</li></ul> | <ul><li>`0.3.3`</li><li>`0.3.4`</li><li>`0.3.5`</li><li>`0.4.0`</li></ul> |
+| `7.6`       | <ul><li>`1.18`</li></ul> | <ul><li>`1.3.3`</li></ul> | <ul><li>`0.3.3`</li><li>`0.3.4`</li><li>`0.3.5`</li><li>`0.4.0`</li></ul> |
 
 ## Changelog and Roadmap
 
-For a detailed changelog, please see the [changelog.md](changelog.md).
+For a detailed changelog, please see the [changelog.md](CHANGELOG.md).
 For a roadmap, please see [the github project](https://github.com/users/GNewbury1/projects/2) I created to cover this. To get things added to the roadmap (such as bugs or features), please raise an issue and describe what needs to be fixed/implemented. As you can imagine, I can only test in the environment I have, which may not work in the environment you have.
 
 ## Contributing

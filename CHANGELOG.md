@@ -8,7 +8,7 @@
 
 ### Docs
 - [PR #77](https://github.com/GNewbury1/terraform-provider-routeros/pull/77) - Modify README to include instructions to enable REST API
-- 
+- [PR #79](https://github.com/GNewbury1/terraform-provider-routeros/pull/79) - Add provider docs for new functionality
 
 ## 0.3.5
 
