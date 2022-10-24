@@ -9,6 +9,7 @@ description: |-
 
 # RouterOS Provider
 
+To get started with the provider, you first need to enable the REST API on your router. [You can follow the Mikrotik documentation on this](https://help.mikrotik.com/docs/display/ROS/REST+API), but the gist is to create an SSL cert (in `/system/certificates`) andenable the `web-ssl` service (in `/ip/services`) which uses that certificate.
 
 
 ## Example Usage
