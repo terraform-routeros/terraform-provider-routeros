@@ -167,9 +167,9 @@ func resourceInterfaceBridgeCreate(d *schema.ResourceData, m interface{}) error 
 	bridge.ProtocolMode = d.Get("protocol_mode").(string)
 	bridge.TransmitHoldCount = strconv.Itoa(d.Get("transmit_hold_count").(int))
 	bridge.VlanFiltering = strconv.FormatBool(d.Get("vlan_filtering").(bool))
+	bridge.Pvid = strconv.Itoa(d.Get("pvid").(int))
 
 	if d.Get("vlan_filtering").(bool) {
-		bridge.Pvid = strconv.Itoa(d.Get("pvid").(int))
 		bridge.FrameTypes = d.Get("frame_types").(string)
 	}
 
