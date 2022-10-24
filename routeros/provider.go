@@ -48,6 +48,7 @@ func Provider() *schema.Provider {
 			"routeros_ip_pool":                  resourceIPPool(),
 			"routeros_ip_route":                 resourceIPRoute(),
 			"routeros_ip_firewall_filter":       resourceIPFirewallFilter(),
+			"routeros_ipv6_address":             resourceIPv6Address(),
 			"routeros_interface_vlan":           resourceInterfaceVlan(),
 			"routeros_interface_bridge_vlan":    resourceInterfaceBridgeVlan(),
 			"routeros_interface_bridge_port":    resourceInterfaceBridgePort(),
@@ -66,9 +67,10 @@ func Provider() *schema.Provider {
 			"routeros_system_identity":          resourceSystemIdentity(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
-			"routeros_ip_addresses": datasourceIPAddresses(),
-			"routeros_ip_routes":    datasourceIPRoutes(),
-			"routeros_interfaces":   datasourceInterfaces(),
+			"routeros_ip_addresses":   datasourceIPAddresses(),
+			"routeros_ip_routes":      datasourceIPRoutes(),
+			"routeros_ipv6_addresses": datasourceIPv6Addresses(),
+			"routeros_interfaces":     datasourceInterfaces(),
 		},
 	}
 

@@ -30,7 +30,8 @@ func resourceIPv6Address() *schema.Resource {
 			},
 			"advertise": {
 				Type:     schema.TypeBool,
-				Required: true,
+				Optional: true,
+				Default:  true,
 			},
 			"comment": {
 				Type:     schema.TypeString,
@@ -70,42 +71,28 @@ func resourceIPv6Address() *schema.Resource {
 
 func resourceIPv6AddressCreate(d *schema.ResourceData, m interface{}) error {
 	c := m.(*roscl.Client)
-	ip_addr := new(roscl.IPAddress)
+	ip_addr := readFromTerraform(d, m)
 
-	ip_addr.Address = d.Get("address").(string)
-	ip_addr.Comment = d.Get("comment").(string)
-	ip_addr.Disabled = strconv.FormatBool(d.Get("disabled").(bool))
-	ip_addr.Interface = d.Get("interface").(string)
-	ip_addr.Network = d.Get("network").(string)
-	ip_addr.ActualInterface = d.Get("actual_interface").(string)
-	ip_addr.Invalid = strconv.FormatBool(d.Get("invalid").(bool))
-
-	res, err := c.CreateIPAddress(ip_addr)
+	res, err := c.CreateIPv6Address(ip_addr)
 	if err != nil {
 		log.Println("[ERROR] An error was encountered while sending a PUT request to the API")
 		log.Fatal(err.Error())
 		return err
 	}
 
-	disabled, _ := strconv.ParseBool(res.Disabled)
-	dynamic, _ := strconv.ParseBool(res.Dynamic)
-	invalid, _ := strconv.ParseBool(res.Invalid)
+	err = writeToTerraform(d, m, res)
 
-	d.SetId(res.ID)
-	d.Set("address", res.Address)
-	d.Set("comment", res.Comment)
-	d.Set("disabled", disabled)
-	d.Set("interface", res.Interface)
-	d.Set("network", res.Network)
-	d.Set("actual_interface", res.ActualInterface)
-	d.Set("dynamic", dynamic)
-	d.Set("invalid", invalid)
+	if err != nil {
+		return err
+	}
+
 	return nil
+
 }
 
 func resourceIPv6AddressRead(d *schema.ResourceData, m interface{}) error {
 	c := m.(*roscl.Client)
-	res, err := c.GetIPAddress(d.Id())
+	res, err := c.GetIPv6Address(d.Id())
 
 	if err != nil {
 		log.Println("[ERROR] An error was encountered while sending a GET request to the API")
@@ -113,19 +100,11 @@ func resourceIPv6AddressRead(d *schema.ResourceData, m interface{}) error {
 		return err
 	}
 
-	disabled, _ := strconv.ParseBool(res.Disabled)
-	dynamic, _ := strconv.ParseBool(res.Dynamic)
-	invalid, _ := strconv.ParseBool(res.Invalid)
+	err = writeToTerraform(d, m, res)
 
-	d.SetId(res.ID)
-	d.Set("address", res.Address)
-	d.Set("comment", res.Comment)
-	d.Set("disabled", disabled)
-	d.Set("interface", res.Interface)
-	d.Set("network", res.Network)
-	d.Set("actual_interface", res.ActualInterface)
-	d.Set("dynamic", dynamic)
-	d.Set("invalid", invalid)
+	if err != nil {
+		return err
+	}
 
 	return nil
 
@@ -133,17 +112,9 @@ func resourceIPv6AddressRead(d *schema.ResourceData, m interface{}) error {
 
 func resourceIPv6AddressUpdate(d *schema.ResourceData, m interface{}) error {
 	c := m.(*roscl.Client)
-	ip_addr := new(roscl.IPAddress)
+	ip_addr := readFromTerraform(d, m)
 
-	ip_addr.Address = d.Get("address").(string)
-	ip_addr.Comment = d.Get("comment").(string)
-	ip_addr.Disabled = strconv.FormatBool(d.Get("disabled").(bool))
-	ip_addr.Interface = d.Get("interface").(string)
-	ip_addr.Network = d.Get("network").(string)
-	ip_addr.ActualInterface = d.Get("actual_interface").(string)
-	ip_addr.Invalid = strconv.FormatBool(d.Get("invalid").(bool))
-
-	res, err := c.UpdateIPAddress(d.Id(), ip_addr)
+	res, err := c.UpdateIPv6Address(d.Id(), ip_addr)
 
 	if err != nil {
 		log.Println("[ERROR] An error was encountered while sending a PATCH request to the API")
@@ -151,30 +122,61 @@ func resourceIPv6AddressUpdate(d *schema.ResourceData, m interface{}) error {
 		return err
 	}
 
-	disabled, _ := strconv.ParseBool(res.Disabled)
-	dynamic, _ := strconv.ParseBool(res.Dynamic)
-	invalid, _ := strconv.ParseBool(res.Invalid)
+	err = writeToTerraform(d, m, res)
 
-	d.SetId(res.ID)
-	d.Set("address", res.Address)
-	d.Set("comment", res.Comment)
-	d.Set("disabled", disabled)
-	d.Set("interface", res.Interface)
-	d.Set("network", res.Network)
-	d.Set("actual_interface", res.ActualInterface)
-	d.Set("dynamic", dynamic)
-	d.Set("invalid", invalid)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
 func resourceIPv6AddressDelete(d *schema.ResourceData, m interface{}) error {
 	c := m.(*roscl.Client)
-	err := c.DeleteIPAddress(d.Id())
+	err := c.DeleteIPv6Address(d.Id())
 	if err != nil {
 		log.Println("[ERROR] An error was encountered while sending a DELETE request to the API")
 		log.Fatal(err.Error())
 		return err
 	}
 	d.SetId("")
+	return nil
+}
+
+func readFromTerraform(d *schema.ResourceData, m interface{}) *roscl.IPv6Address {
+
+	ip_addr := new(roscl.IPv6Address)
+
+	ip_addr.ActualInterface = d.Get("actual_interface").(string)
+	ip_addr.Address = d.Get("address").(string)
+	ip_addr.Advertise = strconv.FormatBool(d.Get("advertise").(bool))
+	ip_addr.Comment = d.Get("comment").(string)
+	ip_addr.Disabled = strconv.FormatBool(d.Get("disabled").(bool))
+	ip_addr.Eui64 = strconv.FormatBool(d.Get("eui64").(bool))
+	ip_addr.FromPool = d.Get("from_pool").(string)
+	ip_addr.Interface = d.Get("interface").(string)
+	ip_addr.NoDad = strconv.FormatBool(d.Get("no_dad").(bool))
+
+	return ip_addr
+}
+
+func writeToTerraform(d *schema.ResourceData, m interface{}, res *roscl.IPv6Address) error {
+
+	disabled, _ := strconv.ParseBool(res.Disabled)
+	invalid, _ := strconv.ParseBool(res.Invalid)
+	eui64, _ := strconv.ParseBool(res.Eui64)
+	no_dad, _ := strconv.ParseBool(res.NoDad)
+
+	d.SetId(res.ID)
+	d.Set("actual_interface", res.ActualInterface)
+	d.Set("address", res.Address)
+	d.Set("comment", res.Comment)
+	d.Set("disabled", disabled)
+	d.Set("eui64", eui64)
+	d.Set("from_pool", res.FromPool)
+	d.Set("interface", res.Interface)
+	d.Set("invalid", invalid)
+	d.Set("no_dad", no_dad)
+
 	return nil
 }

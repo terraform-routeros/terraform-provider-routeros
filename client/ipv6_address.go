@@ -12,6 +12,7 @@ type IPv6Address struct {
 	ActualInterface string `json:"actual-interface,omitempty"`
 	Address         string `json:"address,omitempty"`
 	Advertise       string `json:"advertise,omitempty"`
+	Comment         string `json:"comment,omitempty"`
 	Disabled        string `json:"disabled,omitempty"`
 	Dynamic         string `json:"dynamic,omitempty"`
 	Eui64           string `json:"eui-64,omitempty"`

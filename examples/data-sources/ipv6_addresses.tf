@@ -1,0 +1,1 @@
+data "routeros_ipv6_addresses" "addresses" {}
