@@ -29,10 +29,6 @@ func resourceIPv6NeighborDiscovery() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
-			"default": {
-				Type:     schema.TypeBool,
-				Computed: true,
-			},
 			"disabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -122,7 +118,6 @@ func resourceIPv6NeighborDiscoveryCreate(d *schema.ResourceData, m interface{}) 
 
 	advertiseDNS, _ := strconv.ParseBool(res.AdvertiseDNS)
 	advertiseMACAddress, _ := strconv.ParseBool(res.AdvertiseMACAddress)
-	def, _ := strconv.ParseBool(res.Default)
 	disabled, _ := strconv.ParseBool(res.Disabled)
 	invalid, _ := strconv.ParseBool(res.Invalid)
 	managedAddressConfiguration, _ := strconv.ParseBool(res.ManagedAddressConfiguration)
@@ -131,7 +126,6 @@ func resourceIPv6NeighborDiscoveryCreate(d *schema.ResourceData, m interface{}) 
 	d.SetId(res.ID)
 	d.Set("advertise_dns", advertiseDNS)
 	d.Set("advertise_mac_address", advertiseMACAddress)
-	d.Set("default", def)
 	d.Set("disabled", disabled)
 	d.Set("dns", ConvSStringToSInterface(strings.Split(res.DNS, ",")))
 	d.Set("hop_limit", res.HopLimit)
@@ -160,7 +154,6 @@ func resourceIPv6NeighborDiscoveryRead(d *schema.ResourceData, m interface{}) er
 
 	advertiseDNS, _ := strconv.ParseBool(res.AdvertiseDNS)
 	advertiseMACAddress, _ := strconv.ParseBool(res.AdvertiseMACAddress)
-	def, _ := strconv.ParseBool(res.Default)
 	disabled, _ := strconv.ParseBool(res.Disabled)
 	invalid, _ := strconv.ParseBool(res.Invalid)
 	managedAddressConfiguration, _ := strconv.ParseBool(res.ManagedAddressConfiguration)
@@ -169,7 +162,6 @@ func resourceIPv6NeighborDiscoveryRead(d *schema.ResourceData, m interface{}) er
 	d.SetId(res.ID)
 	d.Set("advertise_dns", advertiseDNS)
 	d.Set("advertise_mac_address", advertiseMACAddress)
-	d.Set("default", def)
 	d.Set("disabled", disabled)
 	d.Set("dns", ConvSStringToSInterface(strings.Split(res.DNS, ",")))
 	d.Set("hop_limit", res.HopLimit)
@@ -218,7 +210,6 @@ func resourceIPv6NeighborDiscoveryUpdate(d *schema.ResourceData, m interface{}) 
 
 	advertiseDNS, _ := strconv.ParseBool(res.AdvertiseDNS)
 	advertiseMACAddress, _ := strconv.ParseBool(res.AdvertiseMACAddress)
-	def, _ := strconv.ParseBool(res.Default)
 	disabled, _ := strconv.ParseBool(res.Disabled)
 	invalid, _ := strconv.ParseBool(res.Invalid)
 	managedAddressConfiguration, _ := strconv.ParseBool(res.ManagedAddressConfiguration)
@@ -227,7 +218,6 @@ func resourceIPv6NeighborDiscoveryUpdate(d *schema.ResourceData, m interface{}) 
 	d.SetId(res.ID)
 	d.Set("advertise_dns", advertiseDNS)
 	d.Set("advertise_mac_address", advertiseMACAddress)
-	d.Set("default", def)
 	d.Set("disabled", disabled)
 	d.Set("dns", ConvSStringToSInterface(strings.Split(res.DNS, ",")))
 	d.Set("hop_limit", res.HopLimit)
