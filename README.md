@@ -37,11 +37,11 @@ For more in-depth documentation about each of the resources and datasources, ple
 
 ### Versions tested
 
-| ROS Version | Go Version               | Terraform Version         | Provider Version          |
-| ----------- | ------------------------ | ------------------------- | ------------------------- |
-| `7.4.1`     | <ul><li>`1.18`</li></ul> | <ul><li>`1.3.3`</li></ul> | <ul><li>`0.3.3`</li></ul> |
-| `7.5`       | <ul><li>`1.18`</li></ul> | <ul><li>`1.3.3`</li></ul> | <ul><li>`0.3.3`</li></ul> |
-| `7.6`       | <ul><li>`1.18`</li></ul> | <ul><li>`1.3.3`</li></ul> | <ul><li>`0.3.3`</li></ul> |
+| ROS Version | Go Version               | Terraform Version         | Provider Version                                          |
+| ----------- | ------------------------ | ------------------------- | --------------------------------------------------------- |
+| `7.4.1`     | <ul><li>`1.18`</li></ul> | <ul><li>`1.3.3`</li></ul> | <ul><li>`0.3.3`</li><li>`0.3.4`</li><li>`0.3.5`</li></ul> |
+| `7.5`       | <ul><li>`1.18`</li></ul> | <ul><li>`1.3.3`</li></ul> | <ul><li>`0.3.3`</li><li>`0.3.4`</li><li>`0.3.5`</li></ul> |
+| `7.6`       | <ul><li>`1.18`</li></ul> | <ul><li>`1.3.3`</li></ul> | <ul><li>`0.3.3`</li><li>`0.3.4`</li><li>`0.3.5`</li></ul> |
 
 ## Changelog and Roadmap
 
