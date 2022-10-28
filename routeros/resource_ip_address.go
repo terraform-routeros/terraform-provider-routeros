@@ -63,7 +63,7 @@ func resourceIPAddressCreate(d *schema.ResourceData, m interface{}) error {
 	ip_addr.Interface = d.Get("interface").(string)
 	ip_addr.Network = d.Get("network").(string)
 	ip_addr.ActualInterface = d.Get("actual_interface").(string)
-	ip_addr.Invalid = strconv.FormatBool(d.Get("invalid").(bool))
+	//ip_addr.Invalid = strconv.FormatBool(d.Get("invalid").(bool))
 
 	res, err := c.CreateIPAddress(ip_addr)
 	if err != nil {
