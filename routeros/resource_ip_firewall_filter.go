@@ -78,7 +78,7 @@ func ResourceIPFirewallFilter() *schema.Resource {
 			Optional:    true,
 			Description: "Interprets the connection tracking analysis data for a particular packet.",
 			ValidateFunc: validation.StringInSlice([]string{
-				"estabilished", "invalid", "new", "related", "untracked",
+				"established", "invalid", "new", "related", "untracked",
 			}, false),
 		},
 		"connection_type": {
