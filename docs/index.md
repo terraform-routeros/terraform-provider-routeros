@@ -72,4 +72,4 @@ resource "routeros_gre" "gre_hq" {
 
 - `ca_certificate` (String) Path to MikroTik's certificate authority file.
 - `insecure` (Boolean) Whether to verify the SSL certificate or not.
-- `password` (String) Password for the MikroTik user.
+- `password` (String, Sensitive) Password for the MikroTik user.
