@@ -3,9 +3,10 @@ package routeros
 import (
 	"context"
 	"fmt"
-	"github.com/go-routeros/routeros"
 	"reflect"
 	"strings"
+
+	"github.com/go-routeros/routeros"
 )
 
 type ApiClient struct {
@@ -58,10 +59,8 @@ func (c *ApiClient) SendRequest(method crudMethod, url *URL, item MikrotikItem, 
 
 	// Unmarshal
 
-	switch result.(type) {
+	switch r := result.(type) {
 	case *MikrotikItem:
-		r := result.(*MikrotikItem)
-
 		// Only ID returned.
 		// !done @ [{`ret` `*7F`}]
 		if len(resp.Re) == 0 {
@@ -76,8 +75,6 @@ func (c *ApiClient) SendRequest(method crudMethod, url *URL, item MikrotikItem, 
 			(*r)[k] = v
 		}
 	case *[]MikrotikItem:
-		r := result.(*[]MikrotikItem)
-
 		// !re
 		for _, sentence := range resp.Re {
 			m := MikrotikItem{}
