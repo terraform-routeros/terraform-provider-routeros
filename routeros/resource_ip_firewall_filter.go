@@ -1,9 +1,10 @@
 package routeros
 
 import (
+	"regexp"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
-	"regexp"
 )
 
 // ResourceIPFirewallFilter https://wiki.mikrotik.com/wiki/Manual:IP/Firewall/Filter
@@ -61,10 +62,10 @@ func ResourceIPFirewallFilter() *schema.Resource {
 				"set, rule will match any unmarked connection.",
 		},
 		"connection_nat_state": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Description:  "Can match connections that are srcnatted, dstnatted or both.",
-			ValidateFunc: validation.StringInSlice([]string{"srcnat", "dstnat"}, false),
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Can match connections that are srcnatted, dstnatted or both.",
+			ValidateDiagFunc: ValidationMultiValInSlice([]string{"srcnat", "dstnat"}, false, true),
 		},
 		// See comment for the "path_cost" field in resource_interface_bridge_port.go file.
 		"connection_rate": {
@@ -77,18 +78,18 @@ func ResourceIPFirewallFilter() *schema.Resource {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Description: "Interprets the connection tracking analysis data for a particular packet.",
-			ValidateFunc: validation.StringInSlice([]string{
+			ValidateDiagFunc: ValidationMultiValInSlice([]string{
 				"established", "invalid", "new", "related", "untracked",
-			}, false),
+			}, false, true),
 		},
 		"connection_type": {
 			Type:     schema.TypeString,
 			Optional: true,
 			Description: "Matches packets from related connections based on information from their connection " +
 				"tracking helpers.",
-			ValidateFunc: validation.StringInSlice([]string{
+			ValidateDiagFunc: ValidationMultiValInSlice([]string{
 				"ftp", "h323", "irc", "pptp", "quake3", "sip", "tftp",
-			}, false),
+			}, false, true),
 		},
 		"content": {
 			Type:        schema.TypeString,
@@ -113,10 +114,10 @@ func ResourceIPFirewallFilter() *schema.Resource {
 			Description: "Matches destination address of a packet against user-defined address list.",
 		},
 		"dst_address_type": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Description:  "Matches destination address type.",
-			ValidateFunc: validation.StringInSlice([]string{"unicast", "local", "broadcast", "multicast"}, false),
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Matches destination address type.",
+			ValidateDiagFunc: ValidationMultiValInSlice([]string{"unicast", "local", "broadcast", "multicast"}, false, true),
 		},
 		"dst_limit": {
 			Type:        schema.TypeString,
@@ -136,10 +137,10 @@ func ResourceIPFirewallFilter() *schema.Resource {
 				"is enabled there will be no fragments as system automatically assembles every packet",
 		},
 		"hotspot": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Description:  "Matches packets received from HotSpot clients against various HotSpot matchers.",
-			ValidateFunc: validation.StringInSlice([]string{"auth", "from-client", "http", "local-dst", "to-client"}, false),
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Matches packets received from HotSpot clients against various HotSpot matchers.",
+			ValidateDiagFunc: ValidationMultiValInSlice([]string{"auth", "from-client", "http", "local-dst", "to-client"}, false, true),
 		},
 		"icmp_options": {
 			Type:        schema.TypeString,
@@ -333,10 +334,10 @@ func ResourceIPFirewallFilter() *schema.Resource {
 			Description: "Matches source address of a packet against user-defined address list.",
 		},
 		"src_address_type": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Description:  "Matches source address type.",
-			ValidateFunc: validation.StringInSlice([]string{"unicast", "local", "broadcast", "multicast"}, false),
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Matches source address type.",
+			ValidateDiagFunc: ValidationMultiValInSlice([]string{"unicast", "local", "broadcast", "multicast"}, false, true),
 		},
 		"src_port": {
 			Type:        schema.TypeString,
@@ -347,7 +348,7 @@ func ResourceIPFirewallFilter() *schema.Resource {
 			Type:         schema.TypeString,
 			Optional:     true,
 			Description:  "Matches source MAC address of the packet.",
-			ValidateFunc: validation.IsMACAddress,
+			ValidateFunc: ValidationMacAddress,
 		},
 		"tcp_flags": {
 			Type:        schema.TypeString,

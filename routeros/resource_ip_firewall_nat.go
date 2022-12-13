@@ -1,9 +1,10 @@
 package routeros
 
 import (
+	"regexp"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
-	"regexp"
 )
 
 /*
@@ -95,9 +96,9 @@ func ResourceIPFirewallNat() *schema.Resource {
 			Optional: true,
 			Description: "Matches packets from related connections based on information from their connection " +
 				"tracking helpers.",
-			ValidateFunc: validation.StringInSlice([]string{
+			ValidateDiagFunc: ValidationMultiValInSlice([]string{
 				"ftp", "h323", "irc", "pptp", "quake3", "sip", "tftp",
-			}, false),
+			}, false, true),
 		},
 		"content": {
 			Type:        schema.TypeString,
@@ -122,10 +123,10 @@ func ResourceIPFirewallNat() *schema.Resource {
 			Description: "Matches destination address of a packet against user-defined address list.",
 		},
 		"dst_address_type": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Description:  "Matches destination address type.",
-			ValidateFunc: validation.StringInSlice([]string{"unicast", "local", "broadcast", "multicast"}, false),
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Matches destination address type.",
+			ValidateDiagFunc: ValidationMultiValInSlice([]string{"unicast", "local", "broadcast", "multicast"}, false, true),
 		},
 		"dst_limit": {
 			Type:        schema.TypeString,
@@ -145,10 +146,10 @@ func ResourceIPFirewallNat() *schema.Resource {
 				"is enabled there will be no fragments as system automatically assembles every packet",
 		},
 		"hotspot": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Description:  "Matches packets received from HotSpot clients against various HotSpot matchers.",
-			ValidateFunc: validation.StringInSlice([]string{"auth", "from-client", "http", "local-dst", "to-client"}, false),
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Matches packets received from HotSpot clients against various HotSpot matchers.",
+			ValidateDiagFunc: ValidationMultiValInSlice([]string{"auth", "from-client", "http", "local-dst", "to-client"}, false, true),
 		},
 		"icmp_options": {
 			Type:        schema.TypeString,
@@ -335,10 +336,10 @@ func ResourceIPFirewallNat() *schema.Resource {
 			Description: "Matches source address of a packet against user-defined address list.",
 		},
 		"src_address_type": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Description:  "Matches source address type.",
-			ValidateFunc: validation.StringInSlice([]string{"unicast", "local", "broadcast", "multicast"}, false),
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Matches source address type.",
+			ValidateDiagFunc: ValidationMultiValInSlice([]string{"unicast", "local", "broadcast", "multicast"}, false, true),
 		},
 		"src_port": {
 			Type:        schema.TypeString,
