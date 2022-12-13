@@ -2,12 +2,14 @@ package routeros
 
 import (
 	"fmt"
+	"regexp"
+	"strconv"
+	"strings"
+
 	"github.com/hashicorp/go-cty/cty"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
-	"regexp"
-	"strconv"
 )
 
 // All metadata fields must be present in each resource schema, and the field type must be string.
@@ -177,12 +179,63 @@ func PropMtuRw() *schema.Schema {
 // Properties validation.
 var (
 	ValidationTime = validation.StringMatch(regexp.MustCompile(`^(\d+[smhdw]?)+$`),
-		"value must be integer[/time],integer 0..4294967295")
+		"value should be integer[/time],integer 0..4294967295")
 	ValidationAutoYesNo = validation.StringInSlice([]string{"auto", "yes", "no"}, false)
 	ValidationIpAddress = validation.StringMatch(
-		regexp.MustCompile(`^$|^(\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(/([1-2][0-9]|3[0-2]))?)$`),
-		"Allowed addresses must be a CIDR IP address or an empty string",
+		regexp.MustCompile(`^$|^!?(\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(/([1-2][0-9]|3[0-2]))?)$`),
+		"Allowed addresses should be a CIDR IP address or an empty string",
 	)
+	ValidationMacAddress = validation.StringMatch(
+		regexp.MustCompile(`^!?\b(?:[0-9A-F]{2}\:){5}(?:[0-9A-F]{2})$`),
+		"Allowed MAC addresses should be [!]AA:BB:CC:DD:EE:FF",
+	)
+
+	// ValidationMultiValInSlice returns a SchemaValidateDiagFunc which works like the StringInSlice function,
+	// but the provided value can be a single value or a comma-separated list of values.
+	// The negative indication of the parameter is also supported by adding "!" before value if mikrotikNegative is true.
+	ValidationMultiValInSlice = func(valid []string, ignoreCase, mikrotikNegative bool) schema.SchemaValidateDiagFunc {
+		return func(v interface{}, path cty.Path) (diags diag.Diagnostics) {
+			val, ok := v.(string)
+
+			if !ok {
+				diags = append(diags, diag.Diagnostic{
+					Severity: diag.Error,
+					Summary:  "Bad value type",
+					Detail:   fmt.Sprintf("Value should be a string: %v (type = %T)", val, val),
+				})
+
+				return
+			}
+
+			if mikrotikNegative {
+				for _, v := range valid {
+					valid = append(valid, "!"+v)
+				}
+			}
+
+			for _, sValue := range strings.Split(val, ",") {
+				ok := false
+				sValue = strings.TrimSpace(sValue)
+
+				for _, sValid := range valid {
+					if sValue == sValid || (ignoreCase && strings.EqualFold(sValue, sValid)) {
+						ok = true
+						break
+					}
+				}
+
+				if !ok {
+					diags = append(diags, diag.Diagnostic{
+						Severity: diag.Error,
+						Summary:  "Bad value",
+						Detail:   fmt.Sprintf("Unexpected value: %v", sValue),
+					})
+				}
+			}
+
+			return
+		}
+	}
 )
 
 // Properties DiffSuppressFunc.
