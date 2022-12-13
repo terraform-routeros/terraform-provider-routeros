@@ -2,13 +2,14 @@ package routeros
 
 import (
 	"fmt"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"reflect"
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 var reMetadataFields = regexp.MustCompile(`^___\S+___$`)
@@ -96,7 +97,7 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 			                # (22 unchanged attributes hidden)
 			            }
 		*/
-		if terraformMetadata.Optional && isEmpty(terraformSnakeName, s, d) {
+		if terraformMetadata.Optional && !d.HasChange(terraformSnakeName) && isEmpty(terraformSnakeName, s, d) {
 			continue
 		}
 
