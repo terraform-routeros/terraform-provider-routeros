@@ -12,7 +12,7 @@ func ResourceDhcpClient() *schema.Resource {
 		MetaId:           PropId(Id),
 
 		"add_default_route": {
-			Type:         schema.TypeBool,
+			Type:         schema.TypeString,
 			Optional:     true,
 			Computed:     true,
 			Description:  "Whether to install default route in routing table received from DHCP server.",
