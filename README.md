@@ -36,7 +36,7 @@ For more in-depth documentation about each of the resources and datasources, ple
 
 ### Tested RouterOS versions
 
-- go 1.17 and ROS 7.5 (stable)
+- go 1.19 and ROS 7.5 & 7.6 (stable)
 
 ## Changelog
 
