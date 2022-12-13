@@ -46,6 +46,7 @@ func Provider() *schema.Provider {
 				Optional:    true,
 				DefaultFunc: schema.MultiEnvDefaultFunc([]string{"ROS_PASSWORD", "MIKROTIK_PASSWORD"}, nil),
 				Description: "Password for the MikroTik user.",
+				Sensitive:   true,
 			},
 			"ca_certificate": {
 				Type:        schema.TypeString,
