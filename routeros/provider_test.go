@@ -2,15 +2,16 @@ package routeros
 
 import (
 	"fmt"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"io"
 	"net/http"
 	"os"
 	"regexp"
 	"strings"
 	"testing"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
 var testAccProvider *schema.Provider
@@ -71,7 +72,6 @@ func checkResourceSchema(s map[string]*schema.Schema, t *testing.T) {
 	if f.Default.(int) < 1 {
 		t.Fatalf("the field '%v' is not defined", MetaId)
 	}
-	return
 }
 
 func testCheckResourceDestroy(resourcePath, resourceType string) resource.TestCheckFunc {
