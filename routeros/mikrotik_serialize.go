@@ -173,8 +173,8 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 			err = d.Set(terraformSnakeName, mikrotikValue)
 
 		case schema.TypeInt:
-			i, err := strconv.Atoi(mikrotikValue)
-			if err != nil {
+			i, e := strconv.Atoi(mikrotikValue)
+			if e != nil {
 				diags = diag.Errorf("%v for '%v' field", err, terraformSnakeName)
 				break
 			}
