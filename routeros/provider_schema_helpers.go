@@ -299,3 +299,12 @@ func buildReadFilter(m map[string]interface{}) []string {
 
 	return res
 }
+
+// Diagnostics
+var DeleteSystemObject = []diag.Diagnostic{{
+	Severity: diag.Warning,
+	Summary:  "Delete operation on a system object.",
+	Detail: "This resource contains system settings and cannot be deleted or reset. " +
+		"This action will remove the object from the Terraform state. " +
+		"See also: 'terraform state rm' https://developer.hashicorp.com/terraform/cli/commands/state/rm",
+}}
