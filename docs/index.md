@@ -12,6 +12,8 @@ Before using the provider, you must correctly specify the connection URL and cre
 
 N.B. If you don't specify a URL scheme, then the default connection will be TLS to 443 REST port.
 
+  > If you are using this provider on x86 arch, you need to be prepared for the fact that you will not be able to set values equal to 4294967295 because an integer overflow occurs.
+
 ## Requirements
 
 * RouterOS v6.45.2+ (For access via classic API)

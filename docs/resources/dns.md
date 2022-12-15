@@ -12,7 +12,7 @@ A MikroTik router with DNS feature enabled can be set as a DNS server for any DN
 - `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `allow_remote_requests` (Boolean) Specifies whether to allow network requests.
 - `cache_max_ttl` (String) Maximum time-to-live for cache records. In other words, cache records will expire unconditionally after cache-max-ttl time. Shorter TTL received from DNS servers are respected. *Default: 1w*
-- `cache_size` (Number) Specifies the size of DNS cache in KiB. *Default: 2048*
+- `cache_size` (Number) Specifies the size of DNS cache in KiB (64..4294967295). *Default: 2048*
 - `max_concurrent_queries` (Number) Specifies how much concurrent queries are allowed. *Default: 100*
 - `max_concurrent_tcp_sessions` (Number) Specifies how much concurrent TCP sessions are allowed. *Default: 20*
 - `max_udp_packet_size` (Number) Maximum size of allowed UDP packet. *Default: 4096*
