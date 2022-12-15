@@ -2,6 +2,7 @@ package routeros
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
@@ -55,7 +56,7 @@ func ResourceSystemIdentity() *schema.Resource {
 			// No delete functionality provided by API for System Identity.
 			// Delete function will remove the object from the Terraform state
 			d.SetId("")
-			return nil
+			return DeleteSystemObject
 		},
 
 		Importer: &schema.ResourceImporter{
