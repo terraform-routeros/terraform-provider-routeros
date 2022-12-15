@@ -1,9 +1,17 @@
 VERSION=$(shell git describe --tags --abbrev=0)
 
-all: compile checksum clean
+.PHONY: docs debug
+
+all: docs compile checksum clean
 
 test:
 	/usr/bin/go test -timeout 30s github.com/vaerh/terraform-provider-routeros/routeros
+
+docs:
+	go generate
+
+debug:
+	go build -gcflags="all=-N -l" -o terraform-provider-routeros_${VERSION} main.go
 
 compile:
 	mkdir -p pkg
