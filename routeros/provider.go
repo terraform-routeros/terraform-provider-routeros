@@ -66,6 +66,7 @@ func Provider() *schema.Provider {
 			"routeros_dhcp_server":         ResourceDhcpServer(),
 			"routeros_dhcp_server_lease":   ResourceDhcpServerLease(),
 			"routeros_dhcp_server_network": ResourceDhcpServerNetwork(),
+			"routeros_dns":                 ResourceDns(),
 			"routeros_dns_record":          ResourceDnsRecord(),
 			"routeros_firewall_addr_list":  ResourceIPFirewallAddrList(),
 			"routeros_firewall_filter":     ResourceIPFirewallFilter(),
