@@ -8,11 +8,12 @@ import (
 
 // https://github.com/xhit/go-str2duration
 var unitMap = map[string]int64{
-	"s": int64(time.Second),
-	"m": int64(time.Minute),
-	"h": int64(time.Hour),
-	"d": int64(time.Hour) * 24,
-	"w": int64(time.Hour) * 168,
+	"ms": int64(time.Millisecond),
+	"s":  int64(time.Second),
+	"m":  int64(time.Minute),
+	"h":  int64(time.Hour),
+	"d":  int64(time.Hour) * 24,
+	"w":  int64(time.Hour) * 168,
 }
 
 func ParseDuration(s string) (time.Duration, error) {
