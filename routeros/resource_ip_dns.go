@@ -51,11 +51,10 @@ func ResourceDns() *schema.Resource {
 			DiffSuppressFunc: TimeEquall,
 		},
 		"cache_size": {
-			Type:         schema.TypeInt,
-			Optional:     true,
-			Computed:     true,
-			Description:  "Specifies the size of DNS cache in KiB. *Default: 2048*",
-			ValidateFunc: validation.IntBetween(64, 4294967295),
+			Type:        schema.TypeInt,
+			Optional:    true,
+			Computed:    true,
+			Description: "Specifies the size of DNS cache in KiB (64..4294967295). *Default: 2048*",
 		},
 		"cache_used": {
 			Type:        schema.TypeInt,
