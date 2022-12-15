@@ -15,7 +15,7 @@ func TestParseDuration(t *testing.T) {
 		want    time.Duration
 		wantErr bool
 	}{
-		{name: "300ms", args: args{"300ms"}, want: time.Duration(0 * time.Second), wantErr: true},
+		{name: "300ms", args: args{"300ms"}, want: time.Duration(300 * time.Millisecond), wantErr: false},
 		{name: "300", args: args{"300"}, want: time.Duration(300 * time.Second), wantErr: false},
 		{name: "300s", args: args{"300s"}, want: time.Duration(300 * time.Second), wantErr: false},
 		{name: "2h45m", args: args{"2h45m"}, want: time.Duration(2*time.Hour + 45*time.Minute), wantErr: false},
