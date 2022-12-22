@@ -19,6 +19,7 @@ func main() {
 	flag.Parse()
 
 	plugin.Serve(&plugin.ServeOpts{
+		ProviderAddr: "vaerh/routeros",
 		ProviderFunc: routeros.NewProvider,
 		Debug:        debug,
 	})
