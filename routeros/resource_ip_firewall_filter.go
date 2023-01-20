@@ -142,6 +142,13 @@ func ResourceIPFirewallFilter() *schema.Resource {
 			Description:      "Matches packets received from HotSpot clients against various HotSpot matchers.",
 			ValidateDiagFunc: ValidationMultiValInSlice([]string{"auth", "from-client", "http", "local-dst", "to-client"}, false, true),
 		},
+		// https://help.mikrotik.com/docs/display/ROS/L3+Hardware+Offloading#L3HardwareOffloading-RoutingFilters
+		// Firewall filter rules have hw-offload option for Fasttrack, allowing fine-tuning connection offloading.
+		"hw_offload": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Description: "Connection offloading for Fasttrack.",
+		},
 		"icmp_options": {
 			Type:        schema.TypeString,
 			Optional:    true,
