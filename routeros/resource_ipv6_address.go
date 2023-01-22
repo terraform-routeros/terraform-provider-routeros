@@ -35,7 +35,7 @@ func ResourceIPv6Address() *schema.Resource {
 			Type:     schema.TypeString,
 			Optional: true,
 			Computed: true,
-			Description: "IPv6 address. Using the eui_64 and from_pool options can transform the original address!" +
+			Description: "IPv6 address. Using the eui_64 and from_pool options can transform the original address! " +
 				"[See docs](https://wiki.mikrotik.com/wiki/Manual:IPv6/Address#Properties)",
 			AtLeastOneOf: []string{"address", "from_pool"},
 			DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
