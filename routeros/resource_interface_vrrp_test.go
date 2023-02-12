@@ -2,31 +2,37 @@ package routeros
 
 import (
 	"fmt"
-	"net/http"
 	"testing"
 
-	"github.com/gnewbury1/terraform-provider-routeros/client"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
-const testInterfaceVrrpAddress = "routeros_interface_vrrp.test_vrrp_interface"
+const testInterfaceVrrpAddress = "routeros_vrrp.test_vrrp_interface"
 
 func TestAccInterfaceVrrpTest_basic(t *testing.T) {
-	resource.Test(t, resource.TestCase{
-		PreCheck:     func() { testAccPreCheck(t) },
-		Providers:    testAccProviders,
-		CheckDestroy: testAccCheckInterfaceVrrpDestroy,
-		Steps: []resource.TestStep{
-			{
-				Config: testAccInterfaceVrrpConfig(),
-				Check: resource.ComposeTestCheckFunc(
-					testAccCheckInterfaceVrrpExists(testInterfaceVrrpAddress),
-					resource.TestCheckResourceAttr(testInterfaceVrrpAddress, "interface", "ether1"),
-				),
-			},
-		},
-	})
+	for _, name := range testNames {
+		t.Run(name, func(t *testing.T) {
+			resource.Test(t, resource.TestCase{
+				PreCheck: func() {
+					testAccPreCheck(t)
+					testSetTransportEnv(t, name)
+				},
+				ProviderFactories: testAccProviderFactories,
+				CheckDestroy:      testCheckResourceDestroy("/interface/vrrp", "routeros_vrrp"),
+				Steps: []resource.TestStep{
+					{
+						Config: testAccInterfaceVrrpConfig(),
+						Check: resource.ComposeTestCheckFunc(
+							testAccCheckInterfaceVrrpExists(testInterfaceVrrpAddress),
+							resource.TestCheckResourceAttr(testInterfaceVrrpAddress, "interface", "ether1"),
+						),
+					},
+				},
+			})
+
+		})
+	}
 }
 
 func testAccCheckInterfaceVrrpExists(name string) resource.TestCheckFunc {
@@ -51,37 +57,10 @@ provider "routeros" {
 	insecure = true
 }
 
-resource "routeros_interface_vrrp" "test_vrrp_interface" {
+resource "routeros_vrrp" "test_vrrp_interface" {
 	name   		= "test_vrrp_interface"
 	interface = "ether1"
   }
 
 `
-}
-
-func testAccCheckInterfaceVrrpDestroy(s *terraform.State) error {
-	c := testAccProvider.Meta().(*client.Client)
-	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "routeros_interface_vrrp" {
-			continue
-		}
-		id := rs.Primary.ID
-		req, err := http.NewRequest("GET", fmt.Sprintf("%s/interface/vrrp/%s", c.HostURL, id), nil)
-		if err != nil {
-			return err
-		}
-		req.Header.Set("Content-Type", "application/json")
-		req.SetBasicAuth(c.Username, c.Password)
-
-		res, err := c.HTTPClient.Do(req)
-		if err != nil {
-			return nil
-		}
-		if res.StatusCode != 404 {
-			return fmt.Errorf("vrrp interface %s has been found", id)
-		}
-		return nil
-	}
-
-	return nil
 }

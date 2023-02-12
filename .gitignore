@@ -1,2 +1,5 @@
 .vscode/*
+.idea
 pkg/*
+terraform-provider-routeros
+terraform.tfstate*

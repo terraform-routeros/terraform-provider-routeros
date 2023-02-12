@@ -1,182 +1,151 @@
 package routeros
 
 import (
-	"log"
-	"strconv"
-
-	roscl "github.com/gnewbury1/terraform-provider-routeros/client"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
-func resourceIPv6Address() *schema.Resource {
+/*
+[
+  {
+    ".id": "*1",
+    "actual-interface": "ether1",
+    "address": "fe80::5605:abff:fecd:1231/64",
+    "advertise": "false",
+    "disabled": "false",
+    "dynamic": "true",
+    "eui-64": "false",
+    "from-pool": "",
+    "interface": "ether1",
+    "invalid": "false",
+    "link-local": "true",
+    "no-dad": "false"
+  }
+]
+*/
+
+// ResourceIPv6Address https://wiki.mikrotik.com/wiki/Manual:IPv6/Address
+func ResourceIPv6Address() *schema.Resource {
+	resSchema := map[string]*schema.Schema{
+		MetaResourcePath: PropResourcePath("/ipv6/address"),
+		MetaId:           PropId(Id),
+
+		"address": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Computed: true,
+			Description: "IPv6 address. Using the eui_64 and from_pool options can transform the original address! " +
+				"[See docs](https://wiki.mikrotik.com/wiki/Manual:IPv6/Address#Properties)",
+			AtLeastOneOf: []string{"address", "from_pool"},
+			DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+				// This check is very dirty, be careful!
+				/* eui_64 == true or from_pool != ""
+
+				  After applying this test step, the plan was not empty.
+
+				  # routeros_ipv6_address.test_v6_address will be updated in-place
+				  ~ resource "routeros_ipv6_address" "test_v6_address" {
+					~ address          = "fc00:3::5c30:77ff:fe61:33ac/64" -> "fc00:3::/64"
+					id               = "*1D"
+					# (9 unchanged attributes hidden)
+				}
+				*/
+
+				if old == new {
+					return true
+				}
+
+				if old == "" || new == "" {
+					return false
+				}
+
+				// k = address, old = fc00:3::5c30:77ff:fe61:33ac/64, new = fc00:3::/64
+
+				// eui_64: true, address: "fc00:3::/64" ===> "fc00:3::/64" -> "fc00:3::5c30:77ff:fe61:33ac/64"
+				addr := strings.SplitN(new, "/", 2)
+				if len(addr) == 2 {
+					addr[1] = "/" + addr[1]
+				}
+
+				if len(addr) == 2 && len(old) >= len(new) {
+					if old[:len(addr[0])] == addr[0] && old[len(old)-len(addr[1]):] == addr[1] {
+						return true
+					}
+				}
+
+				/*
+					/ipv6/pool/print
+					# NAME   PREFIX       PREFIX-LENGTH
+					0 pool1  fc00:3::/62             64
+				*/
+
+				// from_pool: pool1, address: "::1/64" ===>  "::1/64" -> "fc00:3::1/64"
+				if len(old) >= len(new) && strings.HasSuffix(old, new) {
+					return true
+				}
+
+				// eui_64: true, from_pool: pool1, address: "::1/64" ===> "::1/64" -> "fc00:3::5c30:77ff:fe61:33ac/64"
+				// N.B. We consider this a configuration error until such a configuration is encountered by someone.
+				// eui_64: true and from_pool: pool1 ===> "" -> ""
+				return false
+			},
+		},
+		"advertise": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "Whether to enable stateless address configuration. The prefix of that address is " +
+				"automatically advertised to hosts using ICMPv6 protocol. The option is set by default for addresses " +
+				"with prefix length 64.",
+		},
+		"actual_interface": { // RO
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "Name of the actual interface the logical one is bound to.",
+		},
+		KeyComment:  PropCommentRw,
+		KeyDisabled: PropDisabledRw,
+		KeyDynamic:  PropDynamicRo,
+		"eui_64": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Description: "Whether to calculate EUI-64 address and use it as last 64 bits of the IPv6 address.",
+		},
+		"from_pool": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Name of the pool from which prefix will be taken to construct IPv6 address taking last part " +
+				"of the address from address property.",
+			AtLeastOneOf: []string{"address", "from_pool"},
+		},
+		"global": { // RO
+			Type:        schema.TypeBool,
+			Computed:    true,
+			Description: "Whether address is global.",
+		},
+		KeyInterface: PropInterfaceRw,
+		KeyInvalid:   PropInvalidRo,
+		"link_local": { //RO
+			Type:        schema.TypeBool,
+			Computed:    true,
+			Description: "Whether address is link local.",
+		},
+		"no_dad": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "If set indicates that address is anycast address and Duplicate Address Detection should " +
+				"not be performed.",
+		},
+	}
 	return &schema.Resource{
-		Create: resourceIPv6AddressCreate,
-		Read:   resourceIPv6AddressRead,
-		Update: resourceIPv6AddressUpdate,
-		Delete: resourceIPv6AddressDelete,
+		CreateContext: DefaultCreate(resSchema),
+		ReadContext:   DefaultRead(resSchema),
+		UpdateContext: DefaultUpdate(resSchema),
+		DeleteContext: DefaultDelete(resSchema),
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
 		},
 
-		Schema: map[string]*schema.Schema{
-			"actual_interface": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"address": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"advertise": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  true,
-			},
-			"comment": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"disabled": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  false,
-			},
-			"eui64": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  false,
-			},
-			"from_pool": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Default:  "",
-			},
-			"interface": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"invalid": {
-				Type:     schema.TypeBool,
-				Computed: true,
-			},
-			"no_dad": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  false,
-			},
-		},
+		Schema: resSchema,
 	}
-}
-
-func resourceIPv6AddressCreate(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-	ip_addr := readFromTerraform(d, m)
-
-	res, err := c.CreateIPv6Address(ip_addr)
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a PUT request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-
-	err = writeToTerraform(d, m, res)
-
-	if err != nil {
-		return err
-	}
-
-	return nil
-
-}
-
-func resourceIPv6AddressRead(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-	res, err := c.GetIPv6Address(d.Id())
-
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a GET request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-
-	err = writeToTerraform(d, m, res)
-
-	if err != nil {
-		return err
-	}
-
-	return nil
-
-}
-
-func resourceIPv6AddressUpdate(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-	ip_addr := readFromTerraform(d, m)
-
-	res, err := c.UpdateIPv6Address(d.Id(), ip_addr)
-
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a PATCH request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-
-	err = writeToTerraform(d, m, res)
-
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func resourceIPv6AddressDelete(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-	err := c.DeleteIPv6Address(d.Id())
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a DELETE request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-	d.SetId("")
-	return nil
-}
-
-func readFromTerraform(d *schema.ResourceData, m interface{}) *roscl.IPv6Address {
-
-	ip_addr := new(roscl.IPv6Address)
-
-	ip_addr.ActualInterface = d.Get("actual_interface").(string)
-	ip_addr.Address = d.Get("address").(string)
-	ip_addr.Advertise = strconv.FormatBool(d.Get("advertise").(bool))
-	ip_addr.Comment = d.Get("comment").(string)
-	ip_addr.Disabled = strconv.FormatBool(d.Get("disabled").(bool))
-	ip_addr.Eui64 = strconv.FormatBool(d.Get("eui64").(bool))
-	ip_addr.FromPool = d.Get("from_pool").(string)
-	ip_addr.Interface = d.Get("interface").(string)
-	ip_addr.NoDad = strconv.FormatBool(d.Get("no_dad").(bool))
-
-	return ip_addr
-}
-
-func writeToTerraform(d *schema.ResourceData, m interface{}, res *roscl.IPv6Address) error {
-
-	disabled, _ := strconv.ParseBool(res.Disabled)
-	invalid, _ := strconv.ParseBool(res.Invalid)
-	eui64, _ := strconv.ParseBool(res.Eui64)
-	no_dad, _ := strconv.ParseBool(res.NoDad)
-
-	d.SetId(res.ID)
-	d.Set("actual_interface", res.ActualInterface)
-	d.Set("address", res.Address)
-	d.Set("comment", res.Comment)
-	d.Set("disabled", disabled)
-	d.Set("eui64", eui64)
-	d.Set("from_pool", res.FromPool)
-	d.Set("interface", res.Interface)
-	d.Set("invalid", invalid)
-	d.Set("no_dad", no_dad)
-
-	return nil
 }

@@ -1,19 +1,19 @@
 package routeros
 
 import (
-	"log"
-	"strconv"
-
-	roscl "github.com/gnewbury1/terraform-provider-routeros/client"
-
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"context"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
-func datasourceInterfaces() *schema.Resource {
+func DatasourceInterfaces() *schema.Resource {
 	return &schema.Resource{
-		Read: datasourceInterfacesRead,
+		ReadContext: datasourceInterfacesRead,
 		Schema: map[string]*schema.Schema{
+			MetaResourcePath: PropResourcePath("/interface"),
+			MetaId:           PropId(Id),
+
+			KeyFilter: PropFilterRw,
 			"interfaces": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -28,6 +28,10 @@ func datasourceInterfaces() *schema.Resource {
 							Computed: true,
 						},
 						"default_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"comment": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -75,8 +79,9 @@ func datasourceInterfaces() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						// Can be - 'auto'
 						"mtu": {
-							Type:     schema.TypeInt,
+							Type:     schema.TypeString,
 							Computed: true,
 						},
 						"name": {
@@ -91,6 +96,14 @@ func datasourceInterfaces() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"rx_drop": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"rx_error": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"rx_packet": {
 							Type:     schema.TypeInt,
 							Computed: true,
@@ -100,6 +113,14 @@ func datasourceInterfaces() *schema.Resource {
 							Computed: true,
 						},
 						"tx_byte": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"tx_drop": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"tx_error": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
@@ -122,52 +143,14 @@ func datasourceInterfaces() *schema.Resource {
 	}
 }
 
-func datasourceInterfacesRead(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-	res, err := c.ReadInterfaces()
+func datasourceInterfacesRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	s := DatasourceInterfaces().Schema
+	path := s[MetaResourcePath].Default.(string)
 
+	res, err := ReadItemsFiltered(buildReadFilter(d.Get(KeyFilter).(map[string]interface{})), path, m.(Client))
 	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a GET request to the API")
-		log.Fatal(err.Error())
-		return err
+		return diag.FromErr(err)
 	}
 
-	interfaces := make([]map[string]interface{}, len(res))
-
-	for k, v := range res {
-		ros_interface := make(map[string]interface{})
-		ros_interface["id"] = v.ID
-		ros_interface["actual_mtu"], _ = strconv.Atoi(v.ActualMtu)
-		ros_interface["default_name"] = v.DefaultName
-		ros_interface["disabled"], _ = strconv.ParseBool(v.Disabled)
-		ros_interface["fp_rx_byte"], _ = strconv.Atoi(v.FpRxByte)
-		ros_interface["fp_rx_packet"], _ = strconv.Atoi(v.FpRxPacket)
-		ros_interface["fp_tx_byte"], _ = strconv.Atoi(v.FpTxByte)
-		ros_interface["fp_tx_packet"], _ = strconv.Atoi(v.FpTxPacket)
-		ros_interface["l2mtu"], _ = strconv.Atoi(v.L2Mtu)
-		ros_interface["last_link_down_time"] = v.LastLinkDownTime
-		ros_interface["last_link_up_time"] = v.LastLinkUpTime
-		ros_interface["link_downs"], _ = strconv.Atoi(v.LinkDowns)
-		ros_interface["mac_address"] = v.MacAddress
-		ros_interface["max_l2mtu"], _ = strconv.Atoi(v.MaxL2Mtu)
-		ros_interface["mtu"], _ = strconv.Atoi(v.Mtu)
-		ros_interface["name"] = v.Name
-		ros_interface["running"], _ = strconv.ParseBool(v.Running)
-		ros_interface["rx_byte"], _ = strconv.Atoi(v.RxByte)
-		ros_interface["rx_packet"], _ = strconv.Atoi(v.RxPacket)
-		ros_interface["slave"], _ = strconv.ParseBool(v.Slave)
-		ros_interface["tx_byte"], _ = strconv.Atoi(v.TxByte)
-		ros_interface["tx_packet"], _ = strconv.Atoi(v.TxPacket)
-		ros_interface["tx_queue_drop"], _ = strconv.Atoi(v.TxQueueDrop)
-		ros_interface["type"] = v.Type
-		interfaces[k] = ros_interface
-	}
-
-	d.SetId(resource.UniqueId())
-	if err := d.Set("interfaces", interfaces); err != nil {
-		return err
-	}
-
-	return nil
-
+	return MikrotikResourceDataToTerraformDatasource(res, "interfaces", s, d)
 }

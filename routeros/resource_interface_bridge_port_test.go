@@ -2,31 +2,37 @@ package routeros
 
 import (
 	"fmt"
-	"net/http"
 	"testing"
 
-	"github.com/gnewbury1/terraform-provider-routeros/client"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
-const testInterfaceBridgePortAddress = "routeros_interface_bridge_port.test_port"
+const testInterfaceBridgePortAddress = "routeros_bridge_port.test_port"
 
 func TestAccInterfaceBridgePortTest_basic(t *testing.T) {
-	resource.Test(t, resource.TestCase{
-		PreCheck:     func() { testAccPreCheck(t) },
-		Providers:    testAccProviders,
-		CheckDestroy: testAccCheckInterfaceBridgePortDestroy,
-		Steps: []resource.TestStep{
-			{
-				Config: testAccInterfaceBridgePortConfig(),
-				Check: resource.ComposeTestCheckFunc(
-					testAccCheckInterfaceBridgePortExists(testInterfaceBridgePortAddress),
-					resource.TestCheckResourceAttr(testInterfaceBridgePortAddress, "bridge", "bridge"),
-				),
-			},
-		},
-	})
+	for _, name := range testNames {
+		t.Run(name, func(t *testing.T) {
+			resource.Test(t, resource.TestCase{
+				PreCheck: func() {
+					testAccPreCheck(t)
+					testSetTransportEnv(t, name)
+				},
+				ProviderFactories: testAccProviderFactories,
+				CheckDestroy:      testCheckResourceDestroy("/interface/bridge/port", "routeros_bridge_port"),
+				Steps: []resource.TestStep{
+					{
+						Config: testAccInterfaceBridgePortConfig(),
+						Check: resource.ComposeTestCheckFunc(
+							testAccCheckInterfaceBridgePortExists(testInterfaceBridgePortAddress),
+							resource.TestCheckResourceAttr(testInterfaceBridgePortAddress, "bridge", "bridge"),
+						),
+					},
+				},
+			})
+
+		})
+	}
 }
 
 func testAccCheckInterfaceBridgePortExists(name string) resource.TestCheckFunc {
@@ -51,7 +57,7 @@ provider "routeros" {
 	insecure = true
 }
 
-resource "routeros_interface_bridge_port" "test_port" {
+resource "routeros_bridge_port" "test_port" {
 	bridge    = "bridge"
 	interface = "ether1"
 	pvid 	  = 200
@@ -59,31 +65,4 @@ resource "routeros_interface_bridge_port" "test_port" {
   }
 
 `
-}
-
-func testAccCheckInterfaceBridgePortDestroy(s *terraform.State) error {
-	c := testAccProvider.Meta().(*client.Client)
-	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "routeros_ip_route" {
-			continue
-		}
-		id := rs.Primary.ID
-		req, err := http.NewRequest("GET", fmt.Sprintf("%s/interface/bridge/port/%s", c.HostURL, id), nil)
-		if err != nil {
-			return err
-		}
-		req.Header.Set("Content-Type", "application/json")
-		req.SetBasicAuth(c.Username, c.Password)
-
-		res, err := c.HTTPClient.Do(req)
-		if err != nil {
-			return nil
-		}
-		if res.StatusCode != 404 {
-			return fmt.Errorf("ip route %s has been found", id)
-		}
-		return nil
-	}
-
-	return nil
 }

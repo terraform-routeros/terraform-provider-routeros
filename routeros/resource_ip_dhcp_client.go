@@ -1,208 +1,107 @@
 package routeros
 
 import (
-	"log"
-	"strconv"
-
-	roscl "github.com/gnewbury1/terraform-provider-routeros/client"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
 
-func resourceDhcpClient() *schema.Resource {
+// ResourceDhcpClient https://help.mikrotik.com/docs/display/ROS/DHCP#DHCP-DHCPClient
+func ResourceDhcpClient() *schema.Resource {
+	resSchema := map[string]*schema.Schema{
+		MetaResourcePath: PropResourcePath("/ip/dhcp-client"),
+		MetaId:           PropId(Id),
+
+		"add_default_route": {
+			Type:         schema.TypeString,
+			Optional:     true,
+			Computed:     true,
+			Description:  "Whether to install default route in routing table received from DHCP server.",
+			ValidateFunc: validation.StringInSlice([]string{"yes", "no", "special-classless"}, false),
+		},
+		"address": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "IP address and netmask, which is assigned to DHCP Client from the Server.",
+		},
+		KeyComment: PropCommentRw,
+		"default_route_distance": {
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Default:      1,
+			Description:  "Distance of default route. Applicable if add-default-route is set to yes.",
+			ValidateFunc: validation.IntBetween(0, 255),
+			// Default route distance returns as empty when the dhcp-client is searching.
+			// This produces inconsistent results, for this case, we will suppress changes.
+			DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+				if old == new || new == "" {
+					return true
+				}
+				return false
+			},
+		},
+		"dhcp_options": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Default:     "hostname,clientid",
+			Description: "Options that are sent to the DHCP server.",
+		},
+		"dhcp_server": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "The IP address of the DHCP server.",
+		},
+		KeyDisabled: PropDisabledRw,
+		KeyDynamic:  PropDynamicRo,
+		"expires_after": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "A time when the lease expires (specified by the DHCP server).",
+		},
+		"gateway": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "The IP address of the gateway which is assigned by DHCP server.",
+		},
+		KeyInterface: PropInterfaceRw,
+		KeyInvalid:   PropInvalidRo,
+		"primary_dns": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "The IP address of the first DNS resolver, that was assigned by the DHCP server",
+		},
+		"secondary_dns": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "The IP address of the second DNS resolver, assigned by the DHCP server",
+		},
+		"status": {
+			Type:     schema.TypeString,
+			Computed: true,
+		},
+		"use_peer_dns": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Default:  true,
+			Description: "Whether to accept the DNS settings advertised by DHCP Server (will override the settings " +
+				"put in the /ip dns submenu).",
+		},
+		"use_peer_ntp": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Default:  true,
+			Description: "Whether to accept the NTP settings advertised by DHCP Server (will override the settings " +
+				"put in the /system ntp client submenu).",
+		},
+	}
 	return &schema.Resource{
-		Create: resourceDhcpClientCreate,
-		Read:   resourceDhcpClientRead,
-		Update: resourceDhcpClientUpdate,
-		Delete: resourceDhcpClientDelete,
+		CreateContext: DefaultCreate(resSchema),
+		ReadContext:   DefaultRead(resSchema),
+		UpdateContext: DefaultUpdate(resSchema),
+		DeleteContext: DefaultDelete(resSchema),
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
 		},
 
-		Schema: map[string]*schema.Schema{
-			"add_default_route": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  false,
-			},
-			"address": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"default_route_distance": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Default:  1,
-			},
-			"dhcp_options": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"dhcp_server": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"disabled": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  false,
-			},
-			"dynamic": {
-				Type:     schema.TypeBool,
-				Computed: true,
-			},
-			"expires_after": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"gateway": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"interface": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"invalid": {
-				Type:     schema.TypeBool,
-				Computed: true,
-			},
-			"primary_dns": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"secondary_dns": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"status": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"use_peer_dns": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  true,
-			},
-			"use_peer_ntp": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  true,
-			},
-		},
+		Schema: resSchema,
 	}
-}
-
-func resourceDhcpClientCreate(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-	dhcp_client := new(roscl.DhcpClient)
-
-	dhcp_client.AddDefaultRoute = BoolStringYesNo(strconv.FormatBool(d.Get("add_default_route").(bool)))
-	dhcp_client.DefaultRouteDistance = strconv.Itoa(d.Get("default_route_distance").(int))
-	dhcp_client.DhcpOptions = d.Get("dhcp_options").(string)
-	dhcp_client.DhcpServer = d.Get("dhcp_server").(string)
-	dhcp_client.Disabled = strconv.FormatBool(d.Get("disabled").(bool))
-	dhcp_client.Interface = d.Get("interface").(string)
-	dhcp_client.PrimaryDNS = d.Get("primary_dns").(string)
-	dhcp_client.SecondaryDNS = d.Get("secondary_dns").(string)
-	dhcp_client.UsePeerDNS = strconv.FormatBool(d.Get("use_peer_dns").(bool))
-	dhcp_client.UsePeerNtp = strconv.FormatBool(d.Get("use_peer_ntp").(bool))
-
-	res, err := c.CreateDhcpClient(dhcp_client)
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a PUT request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-
-	d.SetId(res.ID)
-	return nil
-}
-
-func resourceDhcpClientRead(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-	res, err := c.ReadDhcpClient(d.Id())
-
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a GET request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-
-	add_default_route, _ := strconv.ParseBool(BoolStringTrueFalse(res.AddDefaultRoute))
-	//default_route_distance, _ := strconv.Atoi(res.DefaultRouteDistance)
-	disabled, _ := strconv.ParseBool(res.Disabled)
-	dynamic, _ := strconv.ParseBool(res.Dynamic)
-	invalid, _ := strconv.ParseBool(res.Invalid)
-	use_peer_dns, _ := strconv.ParseBool(res.UsePeerDNS)
-	use_peer_ntp, _ := strconv.ParseBool(res.UsePeerNtp)
-
-	d.SetId(res.ID)
-	d.Set("add_default_route", add_default_route)
-	d.Set("address", res.Address)
-	// Default route distance returns as empty when the dhcp-client is searching. This produces inconsistent results, so we allow to _set_, but not _read_
-	//d.Set("default_route_distance", default_route_distance)
-	d.Set("dhcp_options", res.DhcpOptions)
-	d.Set("dhcp_server", res.DhcpServer)
-	d.Set("disabled", disabled)
-	d.Set("dynamic", dynamic)
-	d.Set("expires_after", res.ExpiresAfter)
-	d.Set("gateway", res.Gateway)
-	d.Set("interface", res.Interface)
-	d.Set("invalid", invalid)
-	d.Set("primary_dns", res.PrimaryDNS)
-	d.Set("secondary_dns", res.SecondaryDNS)
-	d.Set("status", res.Status)
-	d.Set("use_peer_dns", use_peer_dns)
-	d.Set("use_peer_ntp", use_peer_ntp)
-
-	return nil
-
-}
-
-func resourceDhcpClientUpdate(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-	dhcp_client := new(roscl.DhcpClient)
-
-	dhcp_client.AddDefaultRoute = strconv.FormatBool(d.Get("add_default_route").(bool))
-	dhcp_client.DefaultRouteDistance = strconv.FormatInt(d.Get("default_route_distance").(int64), 10)
-	dhcp_client.DhcpOptions = d.Get("dhcp_options").(string)
-	dhcp_client.DhcpServer = d.Get("dhcp_server").(string)
-	dhcp_client.Disabled = strconv.FormatBool(d.Get("disabled").(bool))
-	dhcp_client.Dynamic = strconv.FormatBool(d.Get("dynamic").(bool))
-	dhcp_client.Gateway = d.Get("gateway").(string)
-	dhcp_client.Interface = d.Get("interface").(string)
-	dhcp_client.PrimaryDNS = d.Get("primary_dns").(string)
-	dhcp_client.SecondaryDNS = d.Get("secondary_dns").(string)
-	dhcp_client.UsePeerDNS = strconv.FormatBool(d.Get("use_peer_dns").(bool))
-	dhcp_client.UsePeerNtp = strconv.FormatBool(d.Get("use_peer_ntp").(bool))
-
-	res, err := c.UpdateDhcpClient(d.Id(), dhcp_client)
-
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a PATCH request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-
-	d.SetId(res.ID)
-
-	return nil
-}
-
-func resourceDhcpClientDelete(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-	dhcp_client, _ := c.ReadDhcpClient(d.Id())
-	err := c.DeleteDhcpClient(dhcp_client)
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a DELETE request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-	d.SetId("")
-	return nil
 }
