@@ -22,9 +22,9 @@ func TestAccCapsManManagerTest_basic(t *testing.T) {
 				CheckDestroy:      testCheckResourceDestroy("/caps-man/manager", "routeros_capsman_manager"),
 				Steps: []resource.TestStep{
 					{
-						Config: testAccInterfaceBridgeConfig(),
+						Config: testAccCapsManManagerConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckInterfaceBridgeExists(testCapsManManagerAddress),
+							testAccCheckCapsManManagerExists(testCapsManManagerAddress),
 							resource.TestCheckResourceAttr(testCapsManManagerAddress, "name", "test_manager"),
 						),
 					},
