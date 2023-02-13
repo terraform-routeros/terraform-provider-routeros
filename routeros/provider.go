@@ -98,6 +98,7 @@ func Provider() *schema.Provider {
 			"routeros_ip_addresses": DatasourceIPAddresses(),
 			"routeros_ip_routes":    DatasourceIPRoutes(),
 			"routeros_firewall":     DatasourceFirewall(),
+			"routeros_ipv6_address": DatasourceIPv6Addresses(),
 		},
 		ConfigureContextFunc: NewClient,
 	}
