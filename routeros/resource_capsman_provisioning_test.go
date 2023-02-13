@@ -24,8 +24,8 @@ func TestAccCapsManProvisioningTest_basic(t *testing.T) {
 					{
 						Config: testAccCapsManProvisioningConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckCapsManProvisioningExists(testInterfaceBridgeAddress),
-							resource.TestCheckResourceAttr(testInterfaceBridgeAddress, "name", "test_provisioning"),
+							testAccCheckCapsManProvisioningExists(testCapsManProvisioningAddress),
+							resource.TestCheckResourceAttr(testCapsManProvisioningAddress, "name", "test_provisioning"),
 						),
 					},
 				},

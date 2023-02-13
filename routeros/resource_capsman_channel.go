@@ -4,7 +4,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
-func resourceCapsManChannel() *schema.Resource {
+func ResourceCapsManChannel() *schema.Resource {
 	// return &schema.Resource{
 	// 	Create: resourceCapsManChannelCreate,
 	// 	Read:   resourceCapsManChannelRead,

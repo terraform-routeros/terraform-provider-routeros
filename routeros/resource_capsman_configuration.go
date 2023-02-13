@@ -4,7 +4,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
-func resourceCapsManConfiguration() *schema.Resource {
+func ResourceCapsManConfiguration() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/caps-man/configuration"),
 		MetaId:           PropId(Name),

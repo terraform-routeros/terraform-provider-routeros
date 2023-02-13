@@ -4,7 +4,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
-func resourceCapsManProvisioning() *schema.Resource {
+func ResourceCapsManProvisioning() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/caps-man/provisioning"),
 		MetaId:           PropId(Name),
