@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "repository": {
         "type": "git",
-        "url": "git+ssh://git@github.com/GNewbury1/terraform-provider-routeros.git"
+        "url": "https://github.com/GNewbury1/terraform-provider-routeros"
     },
     "dependencies": {
         "@semantic-release/changelog": "github:semantic-release/changelog",
