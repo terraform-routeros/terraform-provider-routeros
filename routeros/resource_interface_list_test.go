@@ -9,7 +9,6 @@ import (
 )
 
 const testInterfaceListAddress = "routeros_interface_list.test_list"
-const testInterfaceListName = "List_TEST"
 
 func TestAccInterfaceListTest_basic(t *testing.T) {
 	for _, name := range testNames {
@@ -59,7 +58,7 @@ provider "routeros" {
 }
 
 resource "routeros_interface_list" "test_list" {
-	name      = "List_TEST"
+	name      = "test_list"
 }
 `
 }

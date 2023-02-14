@@ -9,7 +9,6 @@ import (
 )
 
 const testInterfaceListMemberAddress = "routeros_interface_list_member.test_list_member"
-const testInterfaceListMemberInterface = "ether1"
 
 func TestAccInterfaceListMemberTest_basic(t *testing.T) {
 	for _, name := range testNames {

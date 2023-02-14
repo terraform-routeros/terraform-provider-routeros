@@ -8,7 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
-const testIpDhcpClientAddress = "routeros_dhcp_client.test_dhcp"
+const testIpDhcpClientAddress = "routeros_ip_dhcp_client.test_dhcp"
 
 func TestAccIpDhcpClientTest_basic(t *testing.T) {
 	for _, name := range testNames {
@@ -19,7 +19,7 @@ func TestAccIpDhcpClientTest_basic(t *testing.T) {
 					testSetTransportEnv(t, name)
 				},
 				ProviderFactories: testAccProviderFactories,
-				CheckDestroy:      testCheckResourceDestroy("/ip/dhcp-client", "routeros_dhcp_client"),
+				CheckDestroy:      testCheckResourceDestroy("/ip/dhcp-client", "routeros_ip_dhcp_client"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccIpDhcpClientConfig(),
@@ -57,7 +57,7 @@ provider "routeros" {
 	insecure = true
 }
 
-resource "routeros_dhcp_client" "test_dhcp" {
+resource "routeros_ip_dhcp_client" "test_dhcp" {
 	interface = "bridge"
   }
 

@@ -8,7 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
-const testIpDhcpServerLease = "routeros_dhcp_server_lease.test_dhcp_lease"
+const testIpDhcpServerLease = "routeros_ip_dhcp_server_lease.test_dhcp_lease"
 
 func TestAccIpDhcpServerLeaseTest_basic(t *testing.T) {
 	for _, name := range testNames {
@@ -19,7 +19,7 @@ func TestAccIpDhcpServerLeaseTest_basic(t *testing.T) {
 					testSetTransportEnv(t, name)
 				},
 				ProviderFactories: testAccProviderFactories,
-				CheckDestroy:      testCheckResourceDestroy("/ip/dhcp-server/lease", "routeros_dhcp_server_lease"),
+				CheckDestroy:      testCheckResourceDestroy("/ip/dhcp-server/lease", "routeros_i[_dhcp_server_lease"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccIpDhcpServerLeaseConfig(),
@@ -59,7 +59,7 @@ provider "routeros" {
 	insecure = true
 }
 
-resource "routeros_dhcp_server_lease" "test_dhcp_lease" {
+resource "routeros_ip_dhcp_server_lease" "test_dhcp_lease" {
 	address 	 = "192.168.88.33"
 	mac_address	 = "AA:BB:CC:DD:EE:FF"
 	block_access = true

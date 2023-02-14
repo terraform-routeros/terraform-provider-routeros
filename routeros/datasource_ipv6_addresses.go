@@ -20,6 +20,10 @@ func DatasourceIPv6Addresses() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"actual_interface": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -44,7 +48,7 @@ func DatasourceIPv6Addresses() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
-						"eui64": {
+						"eui_64": {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
@@ -84,5 +88,5 @@ func datasourceIPv6AddressesRead(ctx context.Context, d *schema.ResourceData, m 
 		return diag.FromErr(err)
 	}
 
-	return MikrotikResourceDataToTerraformDatasource(res, "ipv6_addresses", s, d)
+	return MikrotikResourceDataToTerraformDatasource(res, "addresses", s, d)
 }

@@ -65,6 +65,7 @@ func Provider() *schema.Provider {
 			"routeros_ip_dhcp_client":         ResourceDhcpClient(),
 			"routeros_ip_dhcp_server":         ResourceDhcpServer(),
 			"routeros_ip_dhcp_server_network": ResourceDhcpServerNetwork(),
+			"routeros_ip_dhcp_server_lease":   ResourceDhcpServerLease(),
 			"routeros_firewall_addr_list":     ResourceIPFirewallAddrList(),
 			"routeros_firewall_filter":        ResourceIPFirewallFilter(),
 			"routeros_firewall_mangle":        ResourceIPFirewallMangle(),
@@ -86,6 +87,8 @@ func Provider() *schema.Provider {
 			"routeros_scheduler":              ResourceSystemScheduler(),
 			"routeros_interface_list":         ResourceInterfaceList(),
 			"routeros_interface_list_member":  ResourceInterfaceListMember(),
+			"routeros_dns":                    ResourceDns(),
+			"routeros_dns_record":             ResourceDnsRecord(),
 
 			// TODO: Review whether capsman resources need updating given wifiwave2.
 			// wifiwave2 is getting support for capsman in 7.8.
@@ -99,11 +102,11 @@ func Provider() *schema.Provider {
 			// "routeros_capsman_security":       ResourceCapsManSecurity(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
-			"routeros_interfaces":   DatasourceInterfaces(),
-			"routeros_ip_addresses": DatasourceIPAddresses(),
-			"routeros_ip_routes":    DatasourceIPRoutes(),
-			"routeros_firewall":     DatasourceFirewall(),
-			"routeros_ipv6_address": DatasourceIPv6Addresses(),
+			"routeros_interfaces":     DatasourceInterfaces(),
+			"routeros_ip_addresses":   DatasourceIPAddresses(),
+			"routeros_ip_routes":      DatasourceIPRoutes(),
+			"routeros_firewall":       DatasourceFirewall(),
+			"routeros_ipv6_addresses": DatasourceIPv6Addresses(),
 		},
 		ConfigureContextFunc: NewClient,
 	}
