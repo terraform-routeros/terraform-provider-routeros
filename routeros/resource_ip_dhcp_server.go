@@ -1,163 +1,63 @@
 package routeros
 
 import (
-	"log"
-	"strconv"
-
-	roscl "github.com/gnewbury1/terraform-provider-routeros/client"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
 
-func resourceDhcpServer() *schema.Resource {
+// ResourceDhcpServer https://help.mikrotik.com/docs/display/ROS/DHCP#DHCP-Leases
+func ResourceDhcpServer() *schema.Resource {
+	resSchema := map[string]*schema.Schema{
+		MetaResourcePath: PropResourcePath("/ip/dhcp-server"),
+		MetaId:           PropId(Name),
+
+		"address_pool": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Default:  "static-only",
+			Description: "IP pool, from which to take IP addresses for the clients. If set to static-only, then only " +
+				"the clients that have a static lease (added in lease submenu) will be allowed.",
+		},
+		"authoritative": {
+			Type:         schema.TypeString,
+			Optional:     true,
+			Default:      "yes",
+			Description:  "Option changes the way how a server responds to DHCP requests.",
+			ValidateFunc: validation.StringInSlice([]string{"after-10sec-delay", "after-2sec-delay", "yes", "no"}, false),
+		},
+		KeyComment:   PropCommentRw,
+		KeyDisabled:  PropDisabledRw,
+		KeyDynamic:   PropDynamicRo,
+		KeyInterface: PropInterfaceRw,
+		KeyInvalid:   PropInvalidRo,
+		"lease_script": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "A script that will be executed after a lease is assigned or de-assigned.",
+		},
+		"lease_time": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Default:  "10m",
+			Description: "The time that a client may use the assigned address. The client will try to renew this " +
+				"address after half of this time and will request a new address after the time limit expires.",
+		},
+		KeyName: PropNameRw,
+		"use_radius": {
+			Type:     schema.TypeBool,
+			Optional: true,
+		},
+		// N.B. Some options have not been added!
+	}
 	return &schema.Resource{
-		Create: resourceDhcpServerCreate,
-		Read:   resourceDhcpServerRead,
-		Update: resourceDhcpServerUpdate,
-		Delete: resourceDhcpServerDelete,
+		CreateContext: DefaultCreate(resSchema),
+		ReadContext:   DefaultRead(resSchema),
+		UpdateContext: DefaultUpdate(resSchema),
+		DeleteContext: DefaultDelete(resSchema),
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
 		},
 
-		Schema: map[string]*schema.Schema{
-			"address_pool": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"authoritative": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  true,
-			},
-			"disabled": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  false,
-			},
-			"dynamic": {
-				Type:     schema.TypeBool,
-				Computed: true,
-			},
-			"interface": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"invalid": {
-				Type:     schema.TypeBool,
-				Computed: true,
-			},
-			"lease_script": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Default:  "",
-			},
-			"lease_time": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Default:  "10m",
-			},
-			"name": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"use_radius": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Default:  false,
-			},
-		},
+		Schema: resSchema,
 	}
-}
-
-func resourceDhcpServerCreate(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-	dhcp_server := new(roscl.DhcpServer)
-
-	dhcp_server.AddressPool = d.Get("address_pool").(string)
-	dhcp_server.Authoritative = BoolStringYesNo(strconv.FormatBool(d.Get("authoritative").(bool)))
-	dhcp_server.Disabled = strconv.FormatBool(d.Get("disabled").(bool))
-	dhcp_server.Interface = d.Get("interface").(string)
-	dhcp_server.LeaseScript = d.Get("lease_script").(string)
-	dhcp_server.LeaseTime = d.Get("lease_time").(string)
-	dhcp_server.Name = d.Get("name").(string)
-	dhcp_server.UseRadius = BoolStringYesNo(strconv.FormatBool(d.Get("use_radius").(bool)))
-
-	res, err := c.CreateDhcpServer(dhcp_server)
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a PUT request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-
-	d.SetId(res.ID)
-	return nil
-}
-
-func resourceDhcpServerRead(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-	res, err := c.ReadDhcpServer(d.Id())
-
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a GET request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-
-	authoritative, _ := strconv.ParseBool(BoolStringTrueFalse(res.Authoritative))
-	disabled, _ := strconv.ParseBool(res.Disabled)
-	dynamic, _ := strconv.ParseBool(res.Dynamic)
-	use_radius, _ := strconv.ParseBool(BoolStringTrueFalse(res.UseRadius))
-
-	d.SetId(res.ID)
-	d.Set("address_pool", res.AddressPool)
-	d.Set("authoritative", authoritative)
-	d.Set("disabled", disabled)
-	d.Set("dynamic", dynamic)
-	d.Set("interface", res.Interface)
-	d.Set("lease_script", res.LeaseScript)
-	d.Set("lease_time", res.LeaseTime)
-	d.Set("name", res.Name)
-	d.Set("use_radius", use_radius)
-
-	return nil
-
-}
-
-func resourceDhcpServerUpdate(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-	dhcp_server := new(roscl.DhcpServer)
-
-	dhcp_server.AddressPool = d.Get("address_pool").(string)
-	dhcp_server.Authoritative = strconv.FormatBool(d.Get("authoritative").(bool))
-	dhcp_server.Disabled = strconv.FormatBool(d.Get("disabled").(bool))
-	dhcp_server.Interface = d.Get("interface").(string)
-	dhcp_server.LeaseScript = d.Get("lease_script").(string)
-	dhcp_server.LeaseTime = d.Get("lease_time").(string)
-	dhcp_server.Name = d.Get("name").(string)
-	dhcp_server.UseRadius = strconv.FormatBool(d.Get("use_radius").(bool))
-
-	res, err := c.UpdateDhcpServer(d.Id(), dhcp_server)
-
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a PATCH request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-
-	d.SetId(res.ID)
-
-	return nil
-}
-
-func resourceDhcpServerDelete(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-	dhcp_server, _ := c.ReadDhcpServer(d.Id())
-	err := c.DeleteDhcpServer(dhcp_server)
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a DELETE request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-	d.SetId("")
-	return nil
 }

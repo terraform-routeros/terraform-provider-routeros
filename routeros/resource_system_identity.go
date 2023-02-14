@@ -1,97 +1,68 @@
 package routeros
 
 import (
-	"log"
+	"context"
 
-	roscl "github.com/gnewbury1/terraform-provider-routeros/client"
-
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
-func resourceSystemIdentity() *schema.Resource {
+/* {"name":"MikroTik"} */
+
+func ResourceSystemIdentity() *schema.Resource {
+	resSchema := map[string]*schema.Schema{
+		MetaResourcePath: PropResourcePath("/system/identity"),
+		MetaId:           PropId(Name),
+
+		KeyName: PropNameRw,
+	}
+
+	resRead := func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+		metadata := GetMetadata(resSchema)
+
+		res := MikrotikItem{}
+		err := m.(Client).SendRequest(crudRead, &URL{Path: metadata.Path}, nil, &res)
+		if err != nil {
+			return diag.FromErr(err)
+		}
+
+		d.SetId(d.Get("name").(string))
+
+		return MikrotikResourceDataToTerraform(res, resSchema, d)
+	}
+
+	resUpdate := func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+		item, metadata := TerraformResourceDataToMikrotik(resSchema, d)
+
+		var resUrl string
+		if m.(Client).GetTransport() == TransportREST {
+			// https://router/rest/system/identity/set
+			resUrl = "/set"
+		}
+
+		err := m.(Client).SendRequest(crudPost, &URL{Path: metadata.Path + resUrl}, item, nil)
+		if err != nil {
+			return diag.FromErr(err)
+		}
+
+		return resRead(ctx, d, m)
+	}
+
 	return &schema.Resource{
-		Create: resourceSystemIdentityCreate,
-		Read:   resourceSystemIdentityRead,
-		Update: resourceSystemIdentityUpdate,
-		Delete: resourceSystemIdentityDelete,
+		CreateContext: resUpdate,
+		ReadContext:   resRead,
+		UpdateContext: resUpdate,
+		DeleteContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+			// No delete functionality provided by API for System Identity.
+			// Delete function will remove the object from the Terraform state
+			d.SetId("")
+			return DeleteSystemObject
+		},
+
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
 		},
 
-		Schema: map[string]*schema.Schema{
-			"name": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-		},
+		Schema: resSchema,
 	}
-}
-
-func resourceSystemIdentityCreate(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-
-	system_identity := new(roscl.SystemIdentity)
-	system_identity.Name = d.Get("name").(string)
-
-	res, err := c.CreateSystemIdentity(system_identity)
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a PUT request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-
-	d.SetId(res.Name)
-	return nil
-}
-
-func resourceSystemIdentityRead(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-	system_identity, err := c.ReadSystemIdentity()
-
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a GET request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-
-	d.SetId(system_identity.Name)
-	d.Set("name", system_identity.Name)
-
-	return nil
-}
-
-func resourceSystemIdentityUpdate(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-
-	system_identity := new(roscl.SystemIdentity)
-	system_identity.Name = d.Get("name").(string)
-
-	res, err := c.UpdateSystemIdentity(system_identity)
-
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a PATCH request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-
-	d.SetId(res.Name)
-
-	return nil
-}
-
-func resourceSystemIdentityDelete(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-
-	system_identity, _ := c.ReadSystemIdentity()
-	err := c.DeleteSystemIdentity(system_identity)
-
-	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a DELETE request to the API")
-		log.Fatal(err.Error())
-		return err
-	}
-
-	d.SetId("")
-
-	return nil
 }

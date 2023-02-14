@@ -2,31 +2,42 @@ package routeros
 
 import (
 	"fmt"
-	"net/http"
 	"testing"
 
-	"github.com/gnewbury1/terraform-provider-routeros/client"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
-const testSystemIdentityName = "routeros_system_identity.myself"
+const testSystemIdentityTask = "routeros_identity.test"
 
 func TestAccSystemIdentityTest_basic(t *testing.T) {
-	resource.Test(t, resource.TestCase{
-		PreCheck:     func() { testAccPreCheck(t) },
-		Providers:    testAccProviders,
-		CheckDestroy: testAccCheckSystemIdentityDestroy,
-		Steps: []resource.TestStep{
-			{
-				Config: testAccSystemIdentityConfig(),
-				Check: resource.ComposeTestCheckFunc(
-					testAccCheckSystemIdentityExists(testSystemIdentityName),
-					resource.TestCheckResourceAttr(testSystemIdentityName, "name", "myself"),
-				),
-			},
-		},
-	})
+	for _, name := range testNames {
+		t.Run(name, func(t *testing.T) {
+			resource.Test(t, resource.TestCase{
+				PreCheck: func() {
+					testAccPreCheck(t)
+					testSetTransportEnv(t, name)
+				},
+				ProviderFactories: testAccProviderFactories,
+				Steps: []resource.TestStep{
+					{
+						Config: testAccSystemIdentityConfig("TestRouter_" + name),
+						Check: resource.ComposeTestCheckFunc(
+							testAccCheckSystemIdentityExists(testSystemIdentityTask),
+							resource.TestCheckResourceAttr(testSystemIdentityTask, "name", "TestRouter_"+name),
+						),
+					},
+					{
+						Config: testAccSystemIdentityConfig("MikroTik"),
+						Check: resource.ComposeTestCheckFunc(
+							resource.TestCheckResourceAttr(testSystemIdentityTask, "name", "MikroTik"),
+						),
+					},
+				},
+			})
+
+		})
+	}
 }
 
 func testAccCheckSystemIdentityExists(name string) resource.TestCheckFunc {
@@ -44,47 +55,15 @@ func testAccCheckSystemIdentityExists(name string) resource.TestCheckFunc {
 	}
 }
 
-func testAccSystemIdentityConfig() string {
-	return `
+func testAccSystemIdentityConfig(name string) string {
+	return fmt.Sprintf(`
 
 provider "routeros" {
-  insecure = true
+	insecure = true
 }
 
-resource "routeros_system_identity" "myself" {
-  name   = "myself"
+resource "routeros_identity" "test" {
+	name = "%v"
 }
-
-`
-}
-
-func testAccCheckSystemIdentityDestroy(s *terraform.State) error {
-	c := testAccProvider.Meta().(*client.Client)
-
-	for _, rs := range s.RootModule().Resources {
-		if rs.Type != "routeros_system_identity" {
-			continue
-		}
-		id := rs.Primary.ID
-		req, err := http.NewRequest("GET", fmt.Sprintf("%s/ip/pool/%s", c.HostURL, id), nil)
-		if err != nil {
-			return err
-		}
-
-		req.Header.Set("Content-Type", "application/json")
-		req.SetBasicAuth(c.Username, c.Password)
-
-		res, err := c.HTTPClient.Do(req)
-		if err != nil {
-			return nil
-		}
-
-		if res.StatusCode != 404 {
-			return fmt.Errorf("dhcp client %s has been found", id)
-		}
-
-		return nil
-	}
-
-	return nil
+`, name)
 }

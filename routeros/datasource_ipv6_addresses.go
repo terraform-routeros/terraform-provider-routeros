@@ -1,24 +1,29 @@
 package routeros
 
 import (
-	"log"
-	"strconv"
+	"context"
 
-	roscl "github.com/gnewbury1/terraform-provider-routeros/client"
-
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
-func datasourceIPv6Addresses() *schema.Resource {
+func DatasourceIPv6Addresses() *schema.Resource {
 	return &schema.Resource{
-		Read: datasourceIPv6AddressesRead,
+		ReadContext: datasourceIPv6AddressesRead,
 		Schema: map[string]*schema.Schema{
+			MetaResourcePath: PropResourcePath("/ipv6/address"),
+			MetaId:           PropId(Id),
+
+			KeyFilter: PropFilterRw,
 			"addresses": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"actual_interface": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -43,7 +48,7 @@ func datasourceIPv6Addresses() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
-						"eui64": {
+						"eui_64": {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
@@ -74,39 +79,14 @@ func datasourceIPv6Addresses() *schema.Resource {
 	}
 }
 
-func datasourceIPv6AddressesRead(d *schema.ResourceData, m interface{}) error {
-	c := m.(*roscl.Client)
-	res, err := c.ReadIPv6Addresses()
+func datasourceIPv6AddressesRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	s := DatasourceIPv6Addresses().Schema
+	path := s[MetaResourcePath].Default.(string)
 
+	res, err := ReadItemsFiltered(buildReadFilter(d.Get(KeyFilter).(map[string]interface{})), path, m.(Client))
 	if err != nil {
-		log.Println("[ERROR] An error was encountered while sending a GET request to the API")
-		log.Fatal(err.Error())
-		return err
+		return diag.FromErr(err)
 	}
 
-	addresses := make([]map[string]interface{}, len(res))
-	for k, v := range res {
-		address := make(map[string]interface{})
-		address["actual_interface"] = v.ActualInterface
-		address["address"] = v.Address
-		address["advertise"], _ = strconv.ParseBool(v.Advertise)
-		address["comment"] = v.Comment
-		address["disabled"], _ = strconv.ParseBool(v.Disabled)
-		address["dynamic"], _ = strconv.ParseBool(v.Dynamic)
-		address["eui64"], _ = strconv.ParseBool(v.Eui64)
-		address["from_pool"] = v.FromPool
-		address["interface"] = v.Interface
-		address["invalid"], _ = strconv.ParseBool(v.Invalid)
-		address["link_local"], _ = strconv.ParseBool(v.LinkLocal)
-		address["no_dad"], _ = strconv.ParseBool(v.NoDad)
-		addresses[k] = address
-	}
-
-	d.SetId(resource.UniqueId())
-	if err := d.Set("addresses", addresses); err != nil {
-		return err
-	}
-
-	return nil
-
+	return MikrotikResourceDataToTerraformDatasource(res, "addresses", s, d)
 }
