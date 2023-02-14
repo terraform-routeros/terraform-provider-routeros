@@ -25,7 +25,7 @@ func TestAccInterfaceListMemberTest_basic(t *testing.T) {
 						Config: testAccInterfaceListMemberConfig(),
 						Check: resource.ComposeTestCheckFunc(
 							testAccCheckInterfaceListMemberExists(testInterfaceListMemberAddress),
-							resource.TestCheckResourceAttr(testInterfaceListMemberAddress, "name", "test_list_member"),
+							resource.TestCheckResourceAttr(testInterfaceListMemberAddress, "interface", "ether1"),
 						),
 					},
 				},

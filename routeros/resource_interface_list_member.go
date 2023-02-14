@@ -7,8 +7,11 @@ import (
 func ResourceInterfaceListMember() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/list/member"),
-		MetaId:           PropId(Name),
-
+		MetaId:           PropId(Id),
+		"id": {
+			Type:     schema.TypeString,
+			Computed: true,
+		},
 		"interface": {
 			Type:     schema.TypeString,
 			Required: true,
