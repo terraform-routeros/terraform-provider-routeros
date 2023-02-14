@@ -1,4 +1,4 @@
-# routeros_dhcp_server_lease (Resource)
+# routeros_ip_dhcp_server_lease (Resource)
 Creates a DHCP lease on the mikrotik device.
 
 
