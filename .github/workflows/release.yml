@@ -5,7 +5,7 @@ name: CI
 on:
   push:
     branches:
-      - '**'
+      - 'main'
     paths:
       - main.go
       - 'routeros/*.go'
@@ -21,14 +21,7 @@ on:
 
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v3
-        with:
-          go-version: 1.19
-      - uses: golangci/golangci-lint-action@v3
+
 
 
   test:
