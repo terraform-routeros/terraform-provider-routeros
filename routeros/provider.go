@@ -62,19 +62,37 @@ func Provider() *schema.Provider {
 			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
-			"routeros_ip_dhcp_client":           ResourceDhcpClient(),
-			"routeros_ip_dhcp_server":           ResourceDhcpServer(),
-			"routeros_ip_dhcp_server_network":   ResourceDhcpServerNetwork(),
-			"routeros_ip_dhcp_server_lease":     ResourceDhcpServerLease(),
-			"routeros_firewall_addr_list":       ResourceIPFirewallAddrList(),
-			"routeros_firewall_filter":          ResourceIPFirewallFilter(),
-			"routeros_firewall_mangle":          ResourceIPFirewallMangle(),
-			"routeros_firewall_nat":             ResourceIPFirewallNat(),
-			"routeros_ip_address":               ResourceIPAddress(),
-			"routeros_ip_pool":                  ResourceIPPool(),
-			"routeros_ip_route":                 ResourceIPRoute(),
-			"routeros_ipv6_address":             ResourceIPv6Address(),
-			"routeros_ipv6_firewall_filter":     ResourceIPv6FirewallFilter(),
+
+			// IP objects
+			"routeros_ip_dhcp_client":         ResourceDhcpClient(),
+			"routeros_ip_dhcp_server":         ResourceDhcpServer(),
+			"routeros_ip_dhcp_server_network": ResourceDhcpServerNetwork(),
+			"routeros_ip_dhcp_server_lease":   ResourceDhcpServerLease(),
+			"routeros_ip_firewall_addr_list":  ResourceIPFirewallAddrList(),
+			"routeros_ip_firewall_filter":     ResourceIPFirewallFilter(),
+			"routeros_ip_firewall_mangle":     ResourceIPFirewallMangle(),
+			"routeros_ip_firewall_nat":        ResourceIPFirewallNat(),
+			"routeros_ip_address":             ResourceIPAddress(),
+			"routeros_ip_pool":                ResourceIPPool(),
+			"routeros_ip_route":               ResourceIPRoute(),
+			"routeros_ip_dns":                 ResourceDns(),
+			"routeros_ip_dns_record":          ResourceDnsRecord(),
+			"routeros_ipv6_address":           ResourceIPv6Address(),
+			"routeros_ipv6_firewall_filter":   ResourceIPv6FirewallFilter(),
+
+			// Aliases for IP objects to retain compatibility between original and fork
+			"routeros_dhcp_client":         ResourceDhcpClient(),
+			"routeros_dhcp_server":         ResourceDhcpServer(),
+			"routeros_dhcp_server_network": ResourceDhcpServerNetwork(),
+			"routeros_dhcp_server_lease":   ResourceDhcpServerLease(),
+			"routeros_firewall_addr_list":  ResourceIPFirewallAddrList(),
+			"routeros_firewall_filter":     ResourceIPFirewallFilter(),
+			"routeros_firewall_mangle":     ResourceIPFirewallMangle(),
+			"routeros_firewall_nat":        ResourceIPFirewallNat(),
+			"routeros_dns":                 ResourceDns(),
+			"routeros_dns_record":          ResourceDnsRecord(),
+
+			// Interface Objects
 			"routeros_interface_bridge":         ResourceInterfaceBridge(),
 			"routeros_interface_bridge_port":    ResourceInterfaceBridgePort(),
 			"routeros_interface_bridge_vlan":    ResourceInterfaceBridgeVlan(),
@@ -83,12 +101,26 @@ func Provider() *schema.Provider {
 			"routeros_interface_vrrp":           ResourceInterfaceVrrp(),
 			"routeros_interface_wireguard":      ResourceInterfaceWireguard(),
 			"routeros_interface_wireguard_peer": ResourceInterfaceWireguardPeer(),
-			"routeros_identity":                 ResourceSystemIdentity(),
-			"routeros_scheduler":                ResourceSystemScheduler(),
 			"routeros_interface_list":           ResourceInterfaceList(),
 			"routeros_interface_list_member":    ResourceInterfaceListMember(),
-			"routeros_dns":                      ResourceDns(),
-			"routeros_dns_record":               ResourceDnsRecord(),
+
+			// Aliases for interface objects to retain compatibility between original and fork
+			"routeros_bridge":         ResourceInterfaceBridge(),
+			"routeros_bridge_port":    ResourceInterfaceBridgePort(),
+			"routeros_bridge_vlan":    ResourceInterfaceBridgeVlan(),
+			"routeros_gre":            ResourceInterfaceGre(),
+			"routeros_vlan":           ResourceInterfaceVlan(),
+			"routeros_vrrp":           ResourceInterfaceVrrp(),
+			"routeros_wireguard":      ResourceInterfaceWireguard(),
+			"routeros_wireguard_peer": ResourceInterfaceWireguardPeer(),
+
+			// System Objects
+			"routeros_system_identity":  ResourceSystemIdentity(),
+			"routeros_system_scheduler": ResourceSystemScheduler(),
+
+			// Aliases for system objects to retain compatibility between original and fork
+			"routeros_identity":  ResourceSystemIdentity(),
+			"routeros_scheduler": ResourceSystemScheduler(),
 
 			// TODO: Review whether capsman resources need updating given wifiwave2.
 			// wifiwave2 is getting support for capsman in 7.8.
