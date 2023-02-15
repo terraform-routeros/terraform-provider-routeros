@@ -8,7 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
-const testVlanAddress = "routeros_vlan.vlan900"
+const testVlanAddress = "routeros_interface_vlan.vlan900"
 const testVlanName = "VLAN_900_TEST"
 
 func TestAccInterfaceVlanTest(t *testing.T) {
@@ -20,7 +20,7 @@ func TestAccInterfaceVlanTest(t *testing.T) {
 					testSetTransportEnv(t, name)
 				},
 				ProviderFactories: testAccProviderFactories,
-				CheckDestroy:      testCheckResourceDestroy("/interface/vlan", "routeros_vlan"),
+				CheckDestroy:      testCheckResourceDestroy("/interface/vlan", "routeros_interface_vlan"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccInterfaceVlanConfig(),
@@ -58,7 +58,7 @@ provider "routeros" {
 	insecure = true
 }
 
-resource "routeros_vlan" "vlan900" {
+resource "routeros_interface_vlan" "vlan900" {
 	name      = "VLAN_900_TEST"
 	vlan_id   = 900
 	disabled  = true

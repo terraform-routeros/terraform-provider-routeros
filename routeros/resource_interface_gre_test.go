@@ -8,7 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
-const testGreAddress = "routeros_gre.gre900"
+const testGreAddress = "routeros_interface_gre.gre900"
 const testGreName = "GRE_900_TEST"
 
 func TestAccInterfaceGreTest_basic(t *testing.T) {
@@ -20,7 +20,7 @@ func TestAccInterfaceGreTest_basic(t *testing.T) {
 					testSetTransportEnv(t, name)
 				},
 				ProviderFactories: testAccProviderFactories,
-				CheckDestroy:      testCheckResourceDestroy("/interface/gre", "routeros_gre"),
+				CheckDestroy:      testCheckResourceDestroy("/interface/gre", "routeros_interface_gre"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccInterfaceGreConfig(),
@@ -59,7 +59,7 @@ provider "routeros" {
 	insecure = true
 }
 
-resource "routeros_gre" "gre900" {
+resource "routeros_interface_gre" "gre900" {
 	name      = "GRE_900_TEST"
 	remote_address = "127.0.0.1"
 	disabled  = true

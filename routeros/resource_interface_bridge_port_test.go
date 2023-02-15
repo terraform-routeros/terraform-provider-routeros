@@ -8,7 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
-const testInterfaceBridgePortAddress = "routeros_bridge_port.test_port"
+const testInterfaceBridgePortAddress = "routeros_interface_bridge_port.test_port"
 
 func TestAccInterfaceBridgePortTest_basic(t *testing.T) {
 	for _, name := range testNames {
@@ -19,7 +19,7 @@ func TestAccInterfaceBridgePortTest_basic(t *testing.T) {
 					testSetTransportEnv(t, name)
 				},
 				ProviderFactories: testAccProviderFactories,
-				CheckDestroy:      testCheckResourceDestroy("/interface/bridge/port", "routeros_bridge_port"),
+				CheckDestroy:      testCheckResourceDestroy("/interface/bridge/port", "routeros_interface_bridge_port"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccInterfaceBridgePortConfig(),
@@ -57,7 +57,7 @@ provider "routeros" {
 	insecure = true
 }
 
-resource "routeros_bridge_port" "test_port" {
+resource "routeros_interface_bridge_port" "test_port" {
 	bridge    = "bridge"
 	interface = "ether1"
 	pvid 	  = 200
