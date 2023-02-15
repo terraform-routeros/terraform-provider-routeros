@@ -1,4 +1,4 @@
-# routeros_gre (Resource)
+# routeros_interface_gre (Resource)
 
 
 

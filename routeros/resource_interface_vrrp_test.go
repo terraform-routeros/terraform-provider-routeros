@@ -8,7 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
-const testInterfaceVrrpAddress = "routeros_vrrp.test_vrrp_interface"
+const testInterfaceVrrpAddress = "routeros_interface_vrrp.test_vrrp_interface"
 
 func TestAccInterfaceVrrpTest_basic(t *testing.T) {
 	for _, name := range testNames {
@@ -19,7 +19,7 @@ func TestAccInterfaceVrrpTest_basic(t *testing.T) {
 					testSetTransportEnv(t, name)
 				},
 				ProviderFactories: testAccProviderFactories,
-				CheckDestroy:      testCheckResourceDestroy("/interface/vrrp", "routeros_vrrp"),
+				CheckDestroy:      testCheckResourceDestroy("/interface/vrrp", "routeros_interface_vrrp"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccInterfaceVrrpConfig(),
@@ -57,7 +57,7 @@ provider "routeros" {
 	insecure = true
 }
 
-resource "routeros_vrrp" "test_vrrp_interface" {
+resource "routeros_interface_vrrp" "test_vrrp_interface" {
 	name   		= "test_vrrp_interface"
 	interface = "ether1"
   }

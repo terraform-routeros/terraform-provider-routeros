@@ -10,7 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
-const testInterfaceWireguardPeerAddress = "routeros_wireguard_peer.wg_peer"
+const testInterfaceWireguardPeerAddress = "routeros_interface_wireguard_peer.wg_peer"
 
 func TestAccInterfaceWireguardPeerTest_basic(t *testing.T) {
 	for _, name := range testNames {
@@ -21,7 +21,7 @@ func TestAccInterfaceWireguardPeerTest_basic(t *testing.T) {
 					testSetTransportEnv(t, name)
 				},
 				ProviderFactories: testAccProviderFactories,
-				CheckDestroy:      testCheckResourceDestroy("/interface/wireguard/peers", "routeros_wireguard_peer"),
+				CheckDestroy:      testCheckResourceDestroy("/interface/wireguard/peers", "routeros_interface_wireguard_peer"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccInterfaceWireguardPeerConfig(),
@@ -59,7 +59,7 @@ provider "routeros" {
 	insecure = true
 }
 
-resource "routeros_wireguard_peer" "wg_peer" {
+resource "routeros_interface_wireguard_peer" "wg_peer" {
 	interface  = "wg1"
 	public_key = "QxC+CTcrDdU5+ny0+2ChUH3NegTrwoVCv53TllI5T0I="
   }

@@ -8,7 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
-const testInterfaceBridgeVlanAddress = "routeros_bridge_vlan.test_vlan"
+const testInterfaceBridgeVlanAddress = "routeros_interface_bridge_vlan.test_vlan"
 
 func TestAccInterfaceBridgeVlanTest_basic(t *testing.T) {
 	for _, name := range testNames {
@@ -19,7 +19,7 @@ func TestAccInterfaceBridgeVlanTest_basic(t *testing.T) {
 					testSetTransportEnv(t, name)
 				},
 				ProviderFactories: testAccProviderFactories,
-				CheckDestroy:      testCheckResourceDestroy("/interface/bridge/vlan", "routeros_bridge_vlan"),
+				CheckDestroy:      testCheckResourceDestroy("/interface/bridge/vlan", "routeros_interface_bridge_vlan"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccInterfaceBridgeVlanConfig(),
@@ -58,7 +58,7 @@ provider "routeros" {
 	insecure = true
 }
 
-resource "routeros_bridge_vlan" "test_vlan" {
+resource "routeros_interface_bridge_vlan" "test_vlan" {
 	bridge   = "bridge"
 	untagged = ["ether1"]
 	tagged	 = ["bridge"]

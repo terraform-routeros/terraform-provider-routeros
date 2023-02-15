@@ -8,7 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
-const testInterfaceWireguardAddress = "routeros_wireguard.test_wg_interface"
+const testInterfaceWireguardAddress = "routeros_interface_wireguard.test_wg_interface"
 
 func TestAccInterfaceWireguardTest_basic(t *testing.T) {
 	for _, name := range testNames {
@@ -19,7 +19,7 @@ func TestAccInterfaceWireguardTest_basic(t *testing.T) {
 					testSetTransportEnv(t, name)
 				},
 				ProviderFactories: testAccProviderFactories,
-				CheckDestroy:      testCheckResourceDestroy("/interface/wireguard", "routeros_wireguard"),
+				CheckDestroy:      testCheckResourceDestroy("/interface/wireguard", "routeros_interface_wireguard"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccInterfaceWireguardConfig(),
@@ -57,7 +57,7 @@ provider "routeros" {
 	insecure = true
 }
 
-resource "routeros_wireguard" "test_wg_interface" {
+resource "routeros_interface_wireguard" "test_wg_interface" {
 	name   		= "test_wg_interface"
 	listen_port = "13231"
   }
