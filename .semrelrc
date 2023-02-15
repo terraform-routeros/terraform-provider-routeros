@@ -1,0 +1,16 @@
+{
+  "plugins": {
+    "commit-analyzer": {
+      "name": "default"
+    },
+    "ci-condition": {
+      "name": "github"
+    },
+    "changelog-generator": {
+      "name": "default"
+    },
+    "provider": {
+      "name": "github"
+    }
+  }
+}
