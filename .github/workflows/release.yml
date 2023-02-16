@@ -21,9 +21,6 @@ on:
 
 
 jobs:
-
-
-
   test:
     name: test
     runs-on: ${{ matrix.os }}
@@ -121,11 +118,20 @@ jobs:
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
-      
-      - name: Release
-        uses: go-semantic-release/action@v1
+
+      - name: Setup node for semantic-release
+        uses: actions/setup-node@v3
         with:
-          hooks: goreleaser
+          node-version: 18
+
+      - name: Install GoReleaser
+        uses: goreleaser/goreleaser-action@v4
+        with:
+          install-only: true
+      
+      # Following example from https://goreleaser.com/cookbooks/semantic-release/#example-semantic-release to combine goreleaser and semantic-release
+      - run: npm ci
+      - run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
