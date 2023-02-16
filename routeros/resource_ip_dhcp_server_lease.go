@@ -11,6 +11,21 @@ func ResourceDhcpServerLease() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/ip/dhcp-server/lease"),
 		MetaId:           PropId(Id),
 
+		"active_address": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "The IP address of the machine currently holding the DHCP lease.",
+		},
+		"active_hostname": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "The hostname of the machine currently holding the DHCP lease.",
+		},
+		"active_mac_address": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "The MAC address of of the machine currently holding the DHCP lease.",
+		},
 		"address": {
 			Type:        schema.TypeString,
 			Required:    true,
