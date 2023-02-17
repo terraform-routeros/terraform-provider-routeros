@@ -52,6 +52,7 @@ jobs:
         ## Use PAT so this action triggers the release pipeline if it pushes a tag
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
           
       # - name: Run GoReleaser
       #   uses: goreleaser/goreleaser-action@v3
