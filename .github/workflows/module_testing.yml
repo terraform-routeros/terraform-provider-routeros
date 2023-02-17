@@ -1,12 +1,5 @@
 name: Go Client Tests
 on:
-  push:
-    branches:
-      - 'main'
-    paths:
-      - 'main.go'
-      - 'routeros/*.go'
-      - '.github/workflows/*.yml'
   pull_request:
     branches:
       - 'main'

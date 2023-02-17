@@ -4,8 +4,12 @@
 name: release
 on:
   push:
-    tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+'
+    branches:
+      - main
+    paths:
+      - main.go
+      - 'routeros/*.go'
+      - '.github/workflows/*.yml'
 jobs:
   goreleaser:
     runs-on: ubuntu-latest
@@ -39,13 +43,22 @@ jobs:
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
-          
-      - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v3
+
+      - uses: actions/setup-node@v3
         with:
-          version: latest
-          args: release --rm-dist
+          node-version: 18
+      - run: npm ci
+      - run: npx semantic-release
+        ## Use PAT so this action triggers the release pipeline if it pushes a tag
         env:
-          GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
-          # GitHub sets this automatically
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      # - name: Run GoReleaser
+      #   uses: goreleaser/goreleaser-action@v3
+      #   with:
+      #     version: latest
+      #     args: release --rm-dist
+      #   env:
+      #     GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
+      #     # GitHub sets this automatically
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
