@@ -122,6 +122,8 @@ func Provider() *schema.Provider {
 			"routeros_identity":  ResourceSystemIdentity(),
 			"routeros_scheduler": ResourceSystemScheduler(),
 
+			"routeros_container": ResourceContainer(),
+
 			// TODO: Review whether capsman resources need updating given wifiwave2.
 			// wifiwave2 is getting support for capsman in 7.8.
 			// Should we support both legacy capsman _and_ wifiwave2 capsman?
