@@ -71,6 +71,11 @@ resource "routeros_interface_bridge" "test_bridge" {
 
 resource "routeros_interface_bridge" "test_bridge_w_space" {
 	name   = "Main bridge"
+	ingress_filtering = true
+	protocol_mode = "rstp"
+	priority = "0x3000"
+	igmp_snooping = true
+	vlan_filtering = true
 }
 
 `
