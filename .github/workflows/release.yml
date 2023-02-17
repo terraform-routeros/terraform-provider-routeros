@@ -29,6 +29,14 @@ jobs:
           fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
           persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
 
+      - name: Import GPG key
+        id: import_gpg
+        uses: crazy-max/ghaction-import-gpg@v5
+        with:
+          # These secrets will need to be configured for the repository:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+
       - name: Release
         id: release
         uses: cycjimmy/semantic-release-action@v3
@@ -50,15 +58,6 @@ jobs:
         uses: actions/setup-go@v3
         with:
           go-version: 1.19
-
-      - name: Import GPG key
-        if: steps.release.outputs.new_release_published == 'true'
-        id: import_gpg
-        uses: crazy-max/ghaction-import-gpg@v5
-        with:
-          # These secrets will need to be configured for the repository:
-          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.PASSPHRASE }}
 
       - name: Run GoReleaser
         if: steps.release.outputs.new_release_published == 'true'
