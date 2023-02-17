@@ -9,6 +9,7 @@ import (
 )
 
 const testInterfaceBridgeAddress = "routeros_interface_bridge.test_bridge"
+const testInterfaceBridgeAddressWithSpace = "routeros_interface_bridge.test_bridge_w_space"
 
 func TestAccInterfaceBridgeTest_basic(t *testing.T) {
 	for _, name := range testNames {
@@ -26,6 +27,13 @@ func TestAccInterfaceBridgeTest_basic(t *testing.T) {
 						Check: resource.ComposeTestCheckFunc(
 							testAccCheckInterfaceBridgeExists(testInterfaceBridgeAddress),
 							resource.TestCheckResourceAttr(testInterfaceBridgeAddress, "name", "test_bridge"),
+						),
+					},
+					{
+						Config: testAccInterfaceBridgeConfig(),
+						Check: resource.ComposeTestCheckFunc(
+							testAccCheckInterfaceBridgeExists(testInterfaceBridgeAddressWithSpace),
+							resource.TestCheckResourceAttr(testInterfaceBridgeAddressWithSpace, "name", "Main bridge"),
 						),
 					},
 				},
@@ -59,7 +67,11 @@ provider "routeros" {
 
 resource "routeros_interface_bridge" "test_bridge" {
 	name   = "test_bridge"
-  }
+}
+
+resource "routeros_interface_bridge" "test_bridge_w_space" {
+	name   = "Main bridge"
+}
 
 `
 }
