@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 )
 
 type RestClient struct {
@@ -52,7 +53,8 @@ func (c *RestClient) SendRequest(method crudMethod, url *URL, item MikrotikItem,
 	}
 
 	// https://mikrotik + /rest + /interface/vlan + ? + .id=*39
-	requestUrl := c.HostURL + "/rest" + url.GetRestURL()
+	// Escaping spaces!
+	requestUrl := c.HostURL + "/rest" + strings.Replace(url.GetRestURL(), " ", "%20", -1)
 	ColorizedDebug(c.ctx, restMethodName[method]+" request URL:  "+requestUrl)
 
 	req, err := http.NewRequest(restMethodName[method], requestUrl, data)
@@ -70,16 +72,20 @@ func (c *RestClient) SendRequest(method crudMethod, url *URL, item MikrotikItem,
 
 	defer func() { _ = res.Body.Close() }()
 
+	body, _ := io.ReadAll(res.Body)
+
 	if res.StatusCode < http.StatusOK || res.StatusCode >= http.StatusBadRequest {
 		var errRes errorResponse
-		if err = json.NewDecoder(res.Body).Decode(&errRes); err == nil {
-			return fmt.Errorf("%v %v returned response - %v: '%v' (%v)",
+
+		ColorizedDebug(c.ctx, fmt.Sprintf("error response body:\n%s", body))
+
+		if err = json.Unmarshal(body, &errRes); err != nil {
+			return fmt.Errorf("json.Unmarshal - %v", err)
+		} else {
+			return fmt.Errorf("%v '%v' returned response code: %v, message: '%v', details: '%v'",
 				restMethodName[method], requestUrl, res.StatusCode, errRes.Message, errRes.Detail)
 		}
-
-		return fmt.Errorf("unknown error, status code: %d", res.StatusCode)
 	}
-	body, _ := io.ReadAll(res.Body)
 
 	ColorizedDebug(c.ctx, "response body: "+string(body))
 

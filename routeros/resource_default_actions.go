@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
@@ -39,7 +38,7 @@ func ResourceCreate(ctx context.Context, s map[string]*schema.Schema, d *schema.
 
 	res, err := CreateItem(item, metadata.Path, m.(Client))
 	if err != nil {
-		tflog.Error(ctx, ErrorMsgPut)
+		ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgPut, err))
 		return diag.FromErr(err)
 	}
 
@@ -69,7 +68,7 @@ func ResourceCreate(ctx context.Context, s map[string]*schema.Schema, d *schema.
 	if m.(Client).GetTransport() == TransportAPI {
 		r, err := ReadItems(&ItemId{Id, res.GetID(Id)}, metadata.Path, m.(Client))
 		if err != nil {
-			tflog.Error(ctx, ErrorMsgPut)
+			ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgPut, err))
 			return diag.FromErr(err)
 		}
 
@@ -96,7 +95,7 @@ func ResourceRead(ctx context.Context, s map[string]*schema.Schema, d *schema.Re
 
 	res, err := ReadItems(&ItemId{metadata.IdType, d.Id()}, metadata.Path, m.(Client))
 	if err != nil {
-		tflog.Error(ctx, ErrorMsgGet)
+		ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgGet, err))
 		return diag.FromErr(err)
 	}
 
@@ -121,13 +120,13 @@ func ResourceUpdate(ctx context.Context, s map[string]*schema.Schema, d *schema.
 	if err != nil {
 		// There is nothing to update, because resource id not found
 		// or some other error.
-		tflog.Error(ctx, ErrorMsgPatch)
+		ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgPatch, err))
 		return diag.FromErr(err)
 	}
 
 	res, err := UpdateItem(&ItemId{Id, id}, metadata.Path, item, m.(Client))
 	if err != nil {
-		tflog.Error(ctx, ErrorMsgPatch)
+		ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgPatch, err))
 		return diag.FromErr(err)
 	}
 
@@ -141,7 +140,7 @@ func ResourceDelete(ctx context.Context, s map[string]*schema.Schema, d *schema.
 	id, err := dynamicIdLookup(metadata.IdType, metadata.Path, m.(Client), d)
 	if err != nil {
 		if err != errorNoLongerExists {
-			tflog.Error(ctx, ErrorMsgDelete)
+			ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgDelete, err))
 			return diag.FromErr(err)
 		}
 
@@ -156,7 +155,7 @@ func ResourceDelete(ctx context.Context, s map[string]*schema.Schema, d *schema.
 	}
 
 	if err := DeleteItem(&ItemId{Id, id}, metadata.Path, m.(Client)); err != nil {
-		tflog.Error(ctx, ErrorMsgDelete)
+		ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgDelete, err))
 		return diag.FromErr(err)
 	}
 

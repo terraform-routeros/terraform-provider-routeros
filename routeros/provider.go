@@ -5,10 +5,10 @@ import (
 )
 
 var (
-	ErrorMsgPut    = "An error was encountered while sending a PUT request to the API"
-	ErrorMsgGet    = "An error was encountered while sending a GET request to the API"
-	ErrorMsgPatch  = "An error was encountered while sending a PATCH request to the API"
-	ErrorMsgDelete = "An error was encountered while sending a DELETE request to the API"
+	ErrorMsgPut    = "An error was encountered while sending a PUT request to the API: %v"
+	ErrorMsgGet    = "An error was encountered while sending a GET request to the API: %v"
+	ErrorMsgPatch  = "An error was encountered while sending a PATCH request to the API: %v"
+	ErrorMsgDelete = "An error was encountered while sending a DELETE request to the API: %v"
 )
 
 func Provider() *schema.Provider {
