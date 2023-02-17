@@ -3,7 +3,7 @@ name: CI Pipeline issue
 about: Bugs with the CI pipeline, either release or testing
 title: ''
 labels: Non-functional
-assignees: GNewbury1
+assignees: ''
 
 ---
 
