@@ -107,6 +107,21 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 			Type:     schema.TypeString,
 			Computed: true,
 		},
+		"designated_bridge": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "Root bridge ID (bridge priority and the bridge MAC address).",
+		},
+		"designated_cost": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "Designated cost.",
+		},
+		"designated_port_number": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "Designated port number.",
+		},
 		KeyDisabled: PropDisabledRw,
 		KeyDynamic:  PropDynamicRo,
 		"edge": {
