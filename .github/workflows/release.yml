@@ -1,65 +1,75 @@
-# This GitHub action can publish assets for release when a tag is created.
-# Currently its setup to run on any tag that matches the pattern "vX.Y.Z" (ie. v0.1.0).
+# This uses an action (crazy-max/ghaction-import-gpg) that assumes you set your
+# private key in the `GPG_PRIVATE_KEY` secret and passphrase in the `PASSPHRASE`
+# secret. If you would rather own your own GPG handling, please fork this action
+# or use an alternative one for key handling.
+#
+# You will need to pass the `--batch` flag to `gpg` in your signing step
+# in `goreleaser` to indicate this is being used in a non-interactive mode.
+#
+name: Release
 
-name: release
 on:
+  workflow_dispatch:
   push:
     branches:
-      - main
-    paths:
-      - main.go
-      - 'routeros/*.go'
-      - '.github/workflows/*.yml'
+      - 'main'
+    tags-ignore:
+      - '**'
+
 jobs:
-  goreleaser:
+
+  release:
+
     runs-on: ubuntu-latest
     steps:
+
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
+          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
 
-      - name: Unshallow
-        run: git fetch --prune --unshallow
+      - name: Release
+        id: release
+        uses: cycjimmy/semantic-release-action@v3
+        # with:
+        #   semantic_version: 17.4.7
+        #   branches: |
+        #     [
+        #       'main'
+        #     ]
+        #   extra_plugins: |
+        #     @semantic-release/commit-analyzer@9.0.2
+        #     @semantic-release/release-notes-generator@9.0.3
+        #     @semantic-release/changelog@5.0.1
+        #     @semantic-release/git@9.0.1
+        #     @semantic-release/github@7.2.3
+        env:
+          GIT_CREDENTIALS: git:${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Go
+        if: steps.release.outputs.new_release_published == 'true'
         uses: actions/setup-go@v3
         with:
-          go-version: '1.19'
-          # check-latest: true
-          cache: true
-
-      - name: Setup Golang caches
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cache/go-build
-            ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
+          go-version: 1.19
 
       - name: Import GPG key
+        if: steps.release.outputs.new_release_published == 'true'
         id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v5
         with:
+          # These secrets will need to be configured for the repository:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
 
-      - uses: actions/setup-node@v3
+      - name: Run GoReleaser
+        if: steps.release.outputs.new_release_published == 'true'
+        uses: goreleaser/goreleaser-action@v3
         with:
-          node-version: 18
-      - run: npm ci
-      - run: npx semantic-release
-        ## Use PAT so this action triggers the release pipeline if it pushes a tag
+          version: latest
+          args: release --rm-dist
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
-          
-      # - name: Run GoReleaser
-      #   uses: goreleaser/goreleaser-action@v3
-      #   with:
-      #     version: latest
-      #     args: release --rm-dist
-      #   env:
-      #     GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
-      #     # GitHub sets this automatically
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # GitHub sets this automatically
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
