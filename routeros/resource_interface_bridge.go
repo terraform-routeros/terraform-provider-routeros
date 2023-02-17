@@ -76,6 +76,11 @@ func ResourceInterfaceBridge() *schema.Resource {
 			Description: "Enables multicast group and port learning to prevent multicast traffic from flooding all " +
 				"interfaces in a bridge.",
 		},
+		"igmp_version": {
+			Type:        schema.TypeInt,
+			Optional:    true,
+			Description: "If IGMP snooping is enabled, this sets the version of IGMP to use",
+		},
 		"ingress_filtering": {
 			Type:     schema.TypeBool,
 			Optional: true,
@@ -86,6 +91,16 @@ func ResourceInterfaceBridge() *schema.Resource {
 				"vlan-filtering is set to yes.",
 		},
 		KeyL2Mtu: PropL2MtuRo,
+		"last_member_interval": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "If IGMP snooping is enabled, this is the interval that the last member was seen.",
+		},
+		"last_member_query_count": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "If IGMP snooping is enabled, this is the query count of the last member.",
+		},
 		"mac_address": {
 			Type:     schema.TypeString,
 			Computed: true,
@@ -97,6 +112,10 @@ func ResourceInterfaceBridge() *schema.Resource {
 			Description: "Changes the Max Age value in BPDU packets, which is transmitted by the root bridge. " +
 				"This property only has effect when protocol-mode is set to stp or rstp. Value: 6s..40s",
 		},
+		"membership_interval": {
+			Type:     schema.TypeString,
+			Optional: true,
+		},
 		"mtu": {
 			Type:     schema.TypeString,
 			Optional: true,
@@ -106,6 +125,14 @@ func ResourceInterfaceBridge() *schema.Resource {
 				"port L2MTU. If a new bridge port is added with L2MTU which is smaller than the actual-mtu " +
 				"of the bridge (set by the mtu property), then manually set value will be ignored and the bridge " +
 				"will act as if mtu=auto is set.",
+		},
+		"multicast_querier": {
+			Type:     schema.TypeBool,
+			Optional: true,
+		},
+		"multicast_router": {
+			Type:     schema.TypeString,
+			Optional: true,
 		},
 		KeyName: PropNameRw,
 		"priority": {
@@ -133,6 +160,26 @@ func ResourceInterfaceBridge() *schema.Resource {
 			ValidateFunc: validation.IntBetween(1, 4094),
 		},
 		KeyRunning: PropRunningRo,
+		"querier_interval": {
+			Type:     schema.TypeString,
+			Optional: true,
+		},
+		"query_interval": {
+			Type:     schema.TypeString,
+			Optional: true,
+		},
+		"query_response_interval": {
+			Type:     schema.TypeString,
+			Optional: true,
+		},
+		"startup_query_count": {
+			Type:     schema.TypeInt,
+			Optional: true,
+		},
+		"startup_query_interval": {
+			Type:     schema.TypeString,
+			Optional: true,
+		},
 		"transmit_hold_count": {
 			Type:         schema.TypeInt,
 			Optional:     true,
