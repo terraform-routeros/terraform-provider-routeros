@@ -108,7 +108,7 @@ func ResourceDhcpServerLease() *schema.Resource {
 			Computed:    true,
 			Description: "Time until lease expires.",
 		},
-		"hostname": {
+		"host_name": {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Description: "The hostname of the device",
