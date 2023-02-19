@@ -3,7 +3,7 @@ name: Documentation Update
 about: Updates and modifications to the documentation
 title: ''
 labels: documentation, Non-functional
-assignees: GNewbury1
+assignees: ''
 
 ---
 

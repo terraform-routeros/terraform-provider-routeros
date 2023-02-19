@@ -16,6 +16,11 @@ func ResourceDhcpServerLease() *schema.Resource {
 			Computed:    true,
 			Description: "The IP address of the machine currently holding the DHCP lease.",
 		},
+		"active_client_id": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "Actual client-id of the client.",
+		},
 		"active_hostname": {
 			Type:        schema.TypeString,
 			Computed:    true,
@@ -31,14 +36,26 @@ func ResourceDhcpServerLease() *schema.Resource {
 			Required:    true,
 			Description: "The IP address of the DHCP lease to be created.",
 		},
-		"address_list": {
+		"address_lists": {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Description: "Address list to which address will be added if lease is bound.",
 		},
-		"address_lists": {
+		"active_server": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "Actual dhcp server, which serves this client.",
+		},
+		"agent_circuit_id": {
 			Type:     schema.TypeString,
 			Computed: true,
+			Description: "Circuit ID of DHCP relay agent. If each character should be valid ASCII text symbol or else " +
+				"this value is displayed as hex dump.",
+		},
+		"agent_remote_id": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "Remote ID, set by DHCP relay agent.",
 		},
 		"allow_dual_stack_queue": {
 			Type:     schema.TypeBool,
@@ -58,10 +75,11 @@ func ResourceDhcpServerLease() *schema.Resource {
 			Description: "Whether to block access for this DHCP client (true|false).",
 		},
 		"blocked": {
-			Type:     schema.TypeBool,
-			Computed: true,
-			//Description: ,
+			Type:        schema.TypeBool,
+			Computed:    true,
+			Description: "Whether the lease is blocked.",
 		},
+		// bridge_port ?
 		"client_id": {
 			Type:        schema.TypeString,
 			Optional:    true,
@@ -85,7 +103,12 @@ func ResourceDhcpServerLease() *schema.Resource {
 			Default:     false,
 			Description: "Whether the dhcp lease is static or dynamic. Dynamic leases are not guaranteed to continue to be assigned to that specific device. Defaults to false.",
 		},
-		"hostname": {
+		"expires_after": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "Time until lease expires.",
+		},
+		"host_name": {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Description: "The hostname of the device",
@@ -112,8 +135,9 @@ func ResourceDhcpServerLease() *schema.Resource {
 			ValidateFunc: validation.IsMACAddress,
 		},
 		"radius": {
-			Type:     schema.TypeString,
-			Computed: true,
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "Shows if this dynamic lease is authenticated by RADIUS or not.",
 		},
 		"rate_limit": {
 			Type:     schema.TypeString,
@@ -127,8 +151,14 @@ func ResourceDhcpServerLease() *schema.Resource {
 			Description: "Server name which serves this client.",
 		},
 		"status": {
-			Type:     schema.TypeString,
-			Computed: true,
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "Lease status.",
+		},
+		"src_mac_address": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "Source MAC address.",
 		},
 		"use_src_mac": {
 			Type:     schema.TypeBool,
