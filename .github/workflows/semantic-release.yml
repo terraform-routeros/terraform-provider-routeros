@@ -31,7 +31,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-      - run: npm ci
+      - run: npm install
       - run: npx semantic-release
         ## Use PAT so this action triggers the release pipeline if it pushes a tag
         env:
