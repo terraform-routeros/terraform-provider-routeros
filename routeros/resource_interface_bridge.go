@@ -188,7 +188,6 @@ func ResourceInterfaceBridge() *schema.Resource {
 			Type:     schema.TypeString,
 			Optional: true,
 			Computed: true,
-			Default:  "temporary-query",
 			Description: "A multicast router port is a port where a multicast router or querier is connected. On " +
 				"this port, unregistered multicast streams and IGMP/MLD membership reports will be sent. This " +
 				"setting changes the state of the multicast router for a bridge interface itself. This property can " +
