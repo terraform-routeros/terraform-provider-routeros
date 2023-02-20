@@ -1,3 +1,10 @@
+# [1.1.0-devel.1](https://github.com/GNewbury1/terraform-provider-routeros/compare/v1.0.8...v1.1.0-devel.1) (2023-02-20)
+
+
+### Features
+
+* **#86:** Add ability to create containers ([d816d50](https://github.com/GNewbury1/terraform-provider-routeros/commit/d816d50ea48511586185af6e2f1254f432de0bb7)), closes [#86](https://github.com/GNewbury1/terraform-provider-routeros/issues/86)
+
 # [1.1.0-devel.1](https://github.com/GNewbury1/terraform-provider-routeros/compare/v1.0.6...v1.1.0-devel.1) (2023-02-17)
 
 
