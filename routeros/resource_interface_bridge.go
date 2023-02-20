@@ -183,6 +183,19 @@ func ResourceInterfaceBridge() *schema.Resource {
 				"Additionally, the igmp-snooping should be disabled/enabled after changing multicast-querier property.",
 			RequiredWith: []string{"igmp_snooping"},
 		},
+		// https://help.mikrotik.com/docs/pages/viewpage.action?pageId=59277403#BridgeIGMP/MLDsnooping-Configurationoptions
+		"multicast_router": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Default:  "temporary-query",
+			Description: "A multicast router port is a port where a multicast router or querier is connected. On " +
+				"this port, unregistered multicast streams and IGMP/MLD membership reports will be sent. This " +
+				"setting changes the state of the multicast router for a bridge interface itself. This property can " +
+				"be used to send IGMP/MLD membership reports and multicast traffic to the bridge interface for further " +
+				"multicast routing or proxying. This property only has an effect when igmp-snooping is set to yes.",
+			ValidateFunc: validation.StringInSlice([]string{"disabled", "permanent", "temporary-query"}, false),
+			RequiredWith: []string{"igmp_snooping"},
+		},
 		KeyName: PropNameRw,
 		"priority": {
 			Type:     schema.TypeString,
