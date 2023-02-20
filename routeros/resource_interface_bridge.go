@@ -183,7 +183,7 @@ func ResourceInterfaceBridge() *schema.Resource {
 				"Additionally, the igmp-snooping should be disabled/enabled after changing multicast-querier property.",
 			RequiredWith: []string{"igmp_snooping"},
 		},
-		// https://help.mikrotik.com/docs/pages/viewpage.action?pageId=59277403#BridgeIGMP/MLDsnooping-Configurationoptions
+		//  https://help.mikrotik.com/docs/pages/viewpage.action?pageId=59277403#BridgeIGMP/MLDsnooping-Configurationoptions
 		"multicast_router": {
 			Type:     schema.TypeString,
 			Optional: true,
