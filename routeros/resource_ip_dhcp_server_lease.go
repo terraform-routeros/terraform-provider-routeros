@@ -86,6 +86,10 @@ func ResourceDhcpServerLease() *schema.Resource {
 			Description: "If specified, must match DHCP 'client identifier' option of the request.",
 		},
 		KeyComment:  PropCommentRw,
+		"detail": {
+			Type:        schema.TypeString,
+			Computed:    true,
+		},
 		KeyDisabled: PropDisabledRw,
 		"dhcp_option": {
 			Type:        schema.TypeString,
@@ -111,6 +115,7 @@ func ResourceDhcpServerLease() *schema.Resource {
 		"host_name": {
 			Type:        schema.TypeString,
 			Optional:    true,
+			Computed:    true,
 			Description: "The hostname of the device",
 		},
 		"insert_queue_before": {
