@@ -1,6 +1,6 @@
 .vscode/*
 .idea
 pkg/*
-terraform-provider-routeros
+terraform-provider-routeros*
 terraform.tfstate*
 node_modules
