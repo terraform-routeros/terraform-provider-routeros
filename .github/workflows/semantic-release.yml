@@ -1,27 +1,38 @@
-# name: semantic-release
-# on:
-#   push:
-#     branches:
-#       - main
-#     paths:
-#       - main.go
-#       - 'routeros/*.go'
-#       - '.github/workflows/*.yml'
-#   workflow_dispatch:
+name: semantic-release
+on:
+  push:
+    branches:
+      - main
+      - devel
+    paths:
+      - main.go
+      - 'routeros/*.go'
+      - '.github/workflows/*.yml'
+  workflow_dispatch:
     
 
 
-# jobs:
-#   semver:
-#     name: semver
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v3
-#       - uses: actions/setup-node@v3
-#         with:
-#           node-version: 18
-#       - run: npm ci
-#       - run: npx semantic-release
-#         ## Use PAT so this action triggers the release pipeline if it pushes a tag
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+jobs:
+  semver:
+    name: semver
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Import GPG key
+        id: import_gpg
+        uses: crazy-max/ghaction-import-gpg@v5
+        with:
+          # These secrets will need to be configured for the repository:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+          
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: npx semantic-release
+        ## Use PAT so this action triggers the release pipeline if it pushes a tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
