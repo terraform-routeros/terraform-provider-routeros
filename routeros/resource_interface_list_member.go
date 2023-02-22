@@ -8,6 +8,12 @@ func ResourceInterfaceListMember() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/list/member"),
 		MetaId:           PropId(Id),
+
+		KeyDisabled: PropDisabledRw,
+		"dynamic": {
+			Type:     schema.TypeBool,
+			Computed: true,
+		},
 		"id": {
 			Type:     schema.TypeString,
 			Computed: true,
