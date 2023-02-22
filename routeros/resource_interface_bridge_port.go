@@ -297,6 +297,12 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 			Computed:    true,
 			Description: "(R/M)STP algorithm assigned role of the port",
 		},
+		// https://wiki.mikrotik.com/wiki/Manual:Interface/Bridge#Bridge_Monitoring
+		"root_path_cost": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "The total cost of the path to the root-bridge.",
+		},
 		"sending_rstp": {
 			Type:     schema.TypeString,
 			Computed: true,
