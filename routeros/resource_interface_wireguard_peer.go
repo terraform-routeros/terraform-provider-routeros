@@ -17,8 +17,8 @@ func ResourceInterfaceWireguardPeer() *schema.Resource {
 				"is allowed and to which outgoing traffic for this peer is directed. The catch-all 0.0.0.0/0 may be " +
 				"specified for matching all IPv4 addresses, and ::/0 may be specified for matching all IPv6 addresses.",
 			Elem: &schema.Schema{
-				Type:         schema.TypeString,
-				ValidateFunc: ValidationIpAddress,
+				Type: schema.TypeString,
+				// ValidateFunc: ValidationIpAddress,
 			},
 		},
 		"current_endpoint_address": {
