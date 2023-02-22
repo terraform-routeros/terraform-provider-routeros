@@ -156,12 +156,12 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 			// panic("[MikrotikResourceDataToTerraform] The field was lost during the Schema development: " + terraformSnakeName)
 			diags = append(diags, diag.Diagnostic{
 				Severity: diag.Warning,
-				Summary:  "Field not found",
-				Detail: "[MikrotikResourceDataToTerraform] The field was lost during the Schema development: " +
-					terraformSnakeName + " <<<= " + mikrotikValue,
+				Summary:  "Field '" + terraformSnakeName + "' not found in the schema",
+				Detail: fmt.Sprintf("[MikrotikResourceDataToTerraform] The field was lost during the Schema development: ▷ '%s': '%s' ◁",
+					terraformSnakeName, mikrotikValue),
 			})
-			// Or panic.
-			return diags
+			// Catch all fields.
+			continue
 		}
 
 		switch s[terraformSnakeName].Type {
@@ -226,9 +226,9 @@ func MikrotikResourceDataToTerraformDatasource(items *[]MikrotikItem, resourceDa
 		//panic("[MikrotikResourceDataToTerraformDatasource] the datasource Schema field was lost during development: " + resourceDataKeyName)
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Warning,
-			Summary:  "Field not found",
-			Detail: "[MikrotikResourceDataToTerraformDatasource] the datasource Schema field was lost during " +
-				"development: " + resourceDataKeyName,
+			Summary:  "Field '" + resourceDataKeyName + "' not found in the schema",
+			Detail: fmt.Sprintf("[MikrotikResourceDataToTerraformDatasource] the datasource Schema field was lost during development: ▷ '%s' ◁",
+				resourceDataKeyName),
 		})
 		// Or panic.
 		return diags
@@ -260,12 +260,12 @@ func MikrotikResourceDataToTerraformDatasource(items *[]MikrotikItem, resourceDa
 				//panic("[MikrotikResourceDataToTerraformDatasource] the field was lost during development.: " + terraformSnakeName)
 				diags = append(diags, diag.Diagnostic{
 					Severity: diag.Warning,
-					Summary:  "Field not found",
-					Detail: "[MikrotikResourceDataToTerraformDatasource] the field was lost during the Schema development: " +
-						terraformSnakeName + " <<<= " + mikrotikValue,
+					Summary:  "Field '" + terraformSnakeName + "' not found in the schema",
+					Detail: fmt.Sprintf("[MikrotikResourceDataToTerraformDatasource] the field was lost during the Schema development: ▷ '%s': '%s' ◁",
+						terraformSnakeName, mikrotikValue),
 				})
-				// Or panic.
-				return diags
+				// Catch all fields.
+				continue
 			}
 
 			var propValue interface{}
