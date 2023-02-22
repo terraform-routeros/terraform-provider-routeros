@@ -8,26 +8,22 @@ func ResourceInterfaceList() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/list"),
 		MetaId:           PropId(Name),
-		"name": {
+
+		"builtin": {
+			Type:     schema.TypeBool,
+			Computed: true,
+		},
+		"comment": PropCommentRw,
+		"dynamic": PropDynamicRo,
+		"exclude": {
 			Type:     schema.TypeString,
-			Required: true,
+			Optional: true,
 		},
 		"include": {
 			Type:     schema.TypeString,
 			Optional: true,
 		},
-		"exclude": {
-			Type:     schema.TypeString,
-			Optional: true,
-		},
-		"comment": {
-			Type:     schema.TypeString,
-			Optional: true,
-		},
-		"dynamic": {
-			Type:     schema.TypeBool,
-			Computed: true,
-		},
+		"name": PropNameRw,
 	}
 
 	return &schema.Resource{
