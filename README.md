@@ -19,7 +19,7 @@ To get started with the provider, you first need to enable the REST API on your 
 terraform {
   required_providers {
     routeros = {
-      source = "GNewbury1/routeros"
+      source = "terraform-routeros/routeros"
     }
   }
 }
@@ -32,7 +32,7 @@ provider "routeros" {
 
 ```
 
-For more in-depth documentation about each of the resources and datasources, please read the [documentation on Hashicorp's Provider registry](https://registry.terraform.io/providers/GNewbury1/routeros/latest/docs)
+For more in-depth documentation about each of the resources and datasources, please read the [documentation on Hashicorp's Provider registry](https://registry.terraform.io/providers/terraform-routeros/routeros/latest/docs)
 
 ### Versions tested
 
