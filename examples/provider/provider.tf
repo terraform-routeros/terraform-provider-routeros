@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     routeros = {
-      source = "GNewbury1/routeros"
+      source = "terraform-routeros/routeros"
     }
   }
 }

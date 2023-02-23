@@ -19,7 +19,7 @@ func main() {
 	flag.Parse()
 
 	plugin.Serve(&plugin.ServeOpts{
-		ProviderAddr: "gnewbury1/routeros",
+		ProviderAddr: "terraform-routeros/routeros",
 		ProviderFunc: routeros.NewProvider,
 		Debug:        debug,
 	})
