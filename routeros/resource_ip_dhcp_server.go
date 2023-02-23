@@ -50,6 +50,7 @@ func ResourceDhcpServer() *schema.Resource {
 		"bootp_support": {
 			Type:         schema.TypeString,
 			Optional:     true,
+			Default:      "static",
 			Description:  "Support for BOOTP clients.",
 			ValidateFunc: validation.StringInSlice([]string{"none", "static", "dynamic"}, false),
 		},
