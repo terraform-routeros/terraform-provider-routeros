@@ -3,7 +3,7 @@ module github.com/gnewbury1/terraform-provider-routeros
 go 1.19
 
 require (
-	github.com/fatih/color v1.13.0
+	github.com/fatih/color v1.14.1
 	github.com/go-routeros/routeros v0.0.0-20210123142807-2a44d57c6730
 	github.com/hashicorp/go-cty v1.4.1-0.20200414143053-d3edf31b6320
 	github.com/hashicorp/terraform-plugin-docs v0.13.0
@@ -43,7 +43,7 @@ require (
 	github.com/huandu/xstrings v1.3.2 // indirect
 	github.com/imdario/mergo v0.3.13 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
-	github.com/mattn/go-isatty v0.0.16 // indirect
+	github.com/mattn/go-isatty v0.0.17 // indirect
 	github.com/mitchellh/cli v1.1.4 // indirect
 	github.com/mitchellh/copystructure v1.2.0 // indirect
 	github.com/mitchellh/go-testing-interface v1.14.1 // indirect
