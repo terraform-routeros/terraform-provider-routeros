@@ -3,7 +3,7 @@
     "version": "1.1.1",
     "repository": {
         "type": "git",
-        "url": "https://github.com/GNewbury1/terraform-provider-routeros"
+        "url": "https://github.com/terraform-routeros/terraform-provider-routeros"
     },
     "dependencies": {
         "@semantic-release/changelog": "^6.0.2",
