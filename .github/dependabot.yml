@@ -4,6 +4,12 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-      time: "03:00
+      time: "03:00"
+    labels:
+      - ":dependencies:"
+  - package-ecosystem: gomod
+    directory: /
+    schedule:
+      interval: daily
     labels:
       - ":dependencies:"
