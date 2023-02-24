@@ -10,7 +10,10 @@
         [
             "@semantic-release/commit-analyzer",
             {
-                "preset": "conventionalcommits"
+                "preset": "conventionalcommits",
+                "releaseRules": [
+                    { "type": "chore", "release": "patch"}
+                ]
             }
         ],
         "@semantic-release/release-notes-generator",
