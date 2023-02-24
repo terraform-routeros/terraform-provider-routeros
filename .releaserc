@@ -10,13 +10,15 @@
         [
             "@semantic-release/commit-analyzer",
             {
-                "preset": "angular",
-                "releaseRules": [
-                    { "type": "chore", "release": "patch"}
-                ]
+                "preset": "conventionalcommits"
             }
         ],
-        "@semantic-release/release-notes-generator",
+        [
+            "@semantic-release/release-notes-generator",
+            {
+                "preset": "conventionalcommits"
+            }
+        ],
         "@semantic-release/changelog",
         [
             "@semantic-release/npm",
