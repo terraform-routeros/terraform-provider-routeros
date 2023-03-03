@@ -1,7 +1,10 @@
 package routeros
 
 import (
+	"regexp"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
 
 // ResourceInterfaceWireguardPeer https://help.mikrotik.com/docs/display/ROS/WireGuard#WireGuard-Peers
@@ -52,13 +55,15 @@ func ResourceInterfaceWireguardPeer() *schema.Resource {
 			Description: "Time in seconds after the last successful handshake.",
 		},
 		"persistent_keepalive": {
-			Type:     schema.TypeInt,
+			Type:     schema.TypeString,
 			Optional: true,
 			Description: "A seconds interval, between 1 and 65535 inclusive, of how often to send an authenticated " +
 				"empty packet to the peer for the purpose of keeping a stateful firewall or NAT mapping valid " +
 				"persistently. For example, if the interface very rarely sends traffic, but it might at anytime " +
 				"receive traffic from a peer, and it is behind NAT, the interface might benefit from having a " +
 				"persistent keepalive interval of 25 seconds.",
+			ValidateFunc: validation.StringMatch(regexp.MustCompile(`^\d+s$`),
+				"value should be an integer between 1 and 65535 inclusive: 5s, 25s, ..."),
 		},
 		"preshared_key": {
 			Type:      schema.TypeString,
