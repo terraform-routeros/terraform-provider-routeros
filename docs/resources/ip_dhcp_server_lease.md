@@ -13,9 +13,7 @@ Creates a DHCP lease on the mikrotik device.
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
-- `address_list` (String) Address list to which address will be added if lease is bound.
+- `address_lists` (String) Address list to which address will be added if lease is bound.
 - `allow_dual_stack_queue` (Boolean) Creates a single simple queue entry for both IPv4 and IPv6 addresses, uses the MAC address and DUID for identification.
 - `always_broadcast` (Boolean) Send all replies as broadcasts.
 - `block_access` (Boolean) Whether to block access for this DHCP client (true|false).
@@ -25,7 +23,7 @@ Creates a DHCP lease on the mikrotik device.
 - `dhcp_option_set` (String) Add additional set of DHCP options.
 - `disabled` (Boolean)
 - `dynamic` (Boolean) Whether the dhcp lease is static or dynamic. Dynamic leases are not guaranteed to continue to be assigned to that specific device. Defaults to false.
-- `hostname` (String) The hostname of the device
+- `host_name` (String) The hostname of the device
 - `insert_queue_before` (String) Specify where to place dynamic simple queue entries for static DCHP leases with rate-limit parameter set.
 - `lease_time` (String) Time that the client may use the address. If set to 0s lease will never expire.
 - `rate_limit` (String) Adds a dynamic simple queue to limit IP's bandwidth to a specified rate. Requires the lease to be static.
@@ -34,11 +32,19 @@ Creates a DHCP lease on the mikrotik device.
 
 ### Read-Only
 
-- `address_lists` (String)
-- `blocked` (Boolean)
+- `active_address` (String) The IP address of the machine currently holding the DHCP lease.
+- `active_client_id` (String) Actual client-id of the client.
+- `active_hostname` (String) The hostname of the machine currently holding the DHCP lease.
+- `active_mac_address` (String) The MAC address of of the machine currently holding the DHCP lease.
+- `active_server` (String) Actual dhcp server, which serves this client.
+- `agent_circuit_id` (String) Circuit ID of DHCP relay agent. If each character should be valid ASCII text symbol or else this value is displayed as hex dump.
+- `agent_remote_id` (String) Remote ID, set by DHCP relay agent.
+- `blocked` (Boolean) Whether the lease is blocked.
+- `expires_after` (String) Time until lease expires.
 - `id` (String) The ID of this resource.
 - `last_seen` (String)
-- `radius` (String)
-- `status` (String)
+- `radius` (String) Shows if this dynamic lease is authenticated by RADIUS or not.
+- `src_mac_address` (String) Source MAC address.
+- `status` (String) Lease status.
 
 

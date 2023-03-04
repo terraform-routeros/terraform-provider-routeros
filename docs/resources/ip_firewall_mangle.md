@@ -1,4 +1,4 @@
-# routeros_ipv6_firewall_filter (Resource)
+# routeros_ip_firewall_mangle (Resource)
 
 
 
@@ -8,16 +8,18 @@
 
 ### Required
 
-- `action` (String) Action to take if a packet is matched by the rule
+- `action` (String) Action to take if a packet is matched by the rule.
 - `chain` (String) Specifies to which chain rule will be added. If the input does not match the name of an already defined chain, a new chain will be created.
 
 ### Optional
 
+- `address_list` (String) Name of the address list to be used. Applicable if action is add-dst-to-address-list or add-src-to-address-list.
 - `address_list_timeout` (String) Time interval after which the address will be removed from the address list specified by address-list parameter. Used in conjunction with add-dst-to-address-list or add-src-to-address-list actions.
 - `comment` (String)
 - `connection_bytes` (String) Matches packets only if a given amount of bytes has been transfered through the particular connection.
 - `connection_limit` (String) Matches connections per address or address block after given value is reached. Should be used together with connection-state=new and/or with tcp-flags=syn because matcher is very resource intensive.
 - `connection_mark` (String) Matches packets marked via mangle facility with particular connection mark. If no-mark is set, rule will match any unmarked connection.
+- `connection_nat_state` (String) Can match connections that are srcnatted, dstnatted or both.
 - `connection_rate` (String) Connection Rate is a firewall matcher that allow to capture traffic based on present speed of the connection (0..4294967295).
 - `connection_state` (String) Interprets the connection tracking analysis data for a particular packet.
 - `connection_type` (String) Matches packets from related connections based on information from their connection tracking helpers.
@@ -29,8 +31,8 @@
 - `dst_address_type` (String) Matches destination address type.
 - `dst_limit` (String) Matches packets until a given rate is exceeded.
 - `dst_port` (String) List of destination port numbers or port number ranges.
-- `headers` (String) Extension headers. Look at the Extras tab in the v6 filter rules.
-- `hop_limit` (String) IPv6 TTL. Look at the Extras tab in the v6 filter rules.
+- `fragment` (Boolean) Matches fragmented packets. First (starting) fragment does not count. If connection tracking is enabled there will be no fragments as system automatically assembles every packet
+- `hotspot` (String) Matches packets received from HotSpot clients against various HotSpot matchers.
 - `icmp_options` (String) Matches ICMP type: code fields.
 - `in_bridge_port` (String) Actual interface the packet has entered the router if the incoming interface is a bridge. Works only if use-ip-firewall is enabled in bridge settings.
 - `in_bridge_port_list` (String) Set of interfaces defined in interface list. Works the same as in-bridge-port.
@@ -38,10 +40,23 @@
 - `in_interface_list` (String) Set of interfaces defined in interface list. Works the same as in-interface.
 - `ingress_priority` (Number) Matches the priority of an ingress packet. Priority may be derived from VLAN, WMM, DSCP, or MPLS EXP bit.
 - `ipsec_policy` (String) Matches the policy used by IPsec. Value is written in the following format: direction, policy.
+- `ipv4_options` (String) Matches IPv4 header options.
 - `jump_target` (String) Name of the target chain to jump to. Applicable only if action=jump.
+- `layer7_protocol` (String) Layer7 filter name.
 - `limit` (String) Matches packets up to a limited rate (packet rate or bit rate). A rule using this matcher will match until this limit is reached. Parameters are written in the following format: rate[/time],burst:mode.
 - `log` (Boolean) Add a message to the system log.
 - `log_prefix` (String) Adds specified text at the beginning of every log message. Applicable if action=log or log=yes configured.
+- `new_connection_mark` (String) Sets a new connection-mark value.
+- `new_dscp` (Number) Sets a new DSCP value for a packet.
+- `new_mss` (Number) Sets a new MSS for a packet.  
+	> Clampt-to-pmtu feature sets (DF) bit in the IP header to dynamically discover the PMTU of a path.  
+	> Host sends all datagrams on that path with the DF bit set until receives ICMP.  
+	> Destination Unreachable messages with a code meaning "fragmentation needed and DF set".    
+	> Upon receipt of such a message, the source host reduces its assumed PMTU for the path.
+- `new_packet_mark` (String) Sets a new packet-mark value.
+- `new_priority` (String) Sets a new priority for a packet. This can be the VLAN, WMM, DSCP or MPLS EXP priority. This property can also be used to set an internal priority.
+- `new_routing_mark` (String) Sets a new routing-mark value.
+- `new_ttl` (String) Sets a new TTL for a packet.
 - `nth` (String) Matches every nth packet: nth=2,1 rule will match every first packet of 2, hence, 50% of all the traffic that is matched by the rule
 - `out_bridge_port` (String) Actual interface the packet is leaving the router if the outgoing interface is a bridge. Works only if use-ip-firewall is enabled in bridge settings.
 - `out_bridge_port_list` (String) Set of interfaces defined in interface list. Works the same as out-bridge-port.
@@ -49,15 +64,16 @@
 - `out_interface_list` (String) Set of interfaces defined in interface list. Works the same as out-interface.
 - `packet_mark` (String) Matches packets marked via mangle facility with particular packet mark. If no-mark is set, the rule will match any unmarked packet.
 - `packet_size` (String) Matches packets of specified size or size range in bytes.
+- `passthrough` (Boolean) Whether to let the packet to pass further (like action passthrough) into the firewall or not (property only valid some actions).
 - `per_connection_classifier` (String) PCC matcher allows dividing traffic into equal streams with the ability to keep packets with a specific set of options in one particular stream.
 - `place_before` (String) Before which position the rule will be inserted.  
 	> Please check the effect of this option, as it does not work as you think!  
 	> Best way to use in conjunction with a data source. See [example](../data-sources/firewall.md#example-usage).
 - `port` (String) Matches if any (source or destination) port matches the specified list of ports or port ranges. Applicable only if protocol is TCP or UDP
-- `priority` (Number) Matches the packet's priority after a new priority has been set. Priority may be derived from VLAN, WMM, DSCP, MPLS EXP bit, or from the priority that has been set using the set-priority action.
 - `protocol` (String) Matches particular IP protocol specified by protocol name or number.
+- `psd` (String) Attempts to detect TCP and UDP scans. Parameters are in the following format WeightThreshold, DelayThreshold, LowPortWeight, HighPortWeight.
 - `random` (Number) Matches packets randomly with a given probability.
-- `reject_with` (String) Specifies ICMP error to be sent back if the packet is rejected. Applicable if action=reject.
+- `route_dst` (String) Matches packets with a specific gateway.
 - `routing_mark` (String) Matches packets marked by mangle facility with particular routing mark.
 - `src_address` (String) Matches packets which source is equal to specified IP or falls into a specified IP range.
 - `src_address_list` (String) Matches source address of a packet against user-defined address list.
@@ -68,6 +84,7 @@
 - `tcp_mss` (String) Matches TCP MSS value of an IP packet.
 - `time` (String) Allows to create a filter based on the packets' arrival time and date or, for locally generated packets, departure time and date.
 - `tls_host` (String) Allows matching HTTPS traffic based on TLS SNI hostname.
+- `ttl` (String) Matches packets TTL value.
 
 ### Read-Only
 
