@@ -13,7 +13,7 @@ func ResourceDhcpServerNetwork() *schema.Resource {
 
 		"address": {
 			Type:        schema.TypeString,
-			Optional:    true,
+			Required:    true,
 			Description: "The network DHCP server(s) will lease addresses from.",
 		},
 		"boot_file_name": {
