@@ -108,8 +108,9 @@ func testCheckResourceDestroy(resourcePath, resourceType string) resource.TestCh
 					return fmt.Errorf("resource %v %s has been found", resourceType, id)
 				}
 			case TransportREST:
+				// Escaping spaces!
 				req, err := http.NewRequest("GET",
-					fmt.Sprintf("%s/rest%s?%s=%s", cRest.HostURL, resourcePath, idName, id), nil)
+					fmt.Sprintf("%s/rest%s?%s=%s", cRest.HostURL, resourcePath, idName, strings.Replace(id, " ", "%20", -1)), nil)
 				if err != nil {
 					return err
 				}
