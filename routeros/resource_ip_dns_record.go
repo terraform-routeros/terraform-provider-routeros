@@ -2,6 +2,7 @@ package routeros
 
 import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
 
 /*
@@ -14,6 +15,14 @@ import (
     "name": "router.lan",
     "ttl": "1d"
   },
+  {
+	".id": "*2",
+  	"address": "2001:db8:1000::1",
+	"disabled": "false",
+	"dynamic": "false",
+	"name": "ipv6.example.com",
+	"ttl": "1d",
+	"type": "AAAA"}
   {
     ".id": "*9",
     "address": "192.168.88.1",
@@ -56,6 +65,14 @@ func ResourceDnsRecord() *schema.Resource {
 			Optional:    true,
 			Computed:    true,
 			Description: "The ttl of the DNS record.",
+		},
+		"type": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Computed:    true,
+			Description: "Type of the DNS record. Available values are: A, AAAA, CNAME, FWD, MX, NS, NXDOMAIN, SRV, TXT",
+			ValidateFunc: validation.StringInSlice([]string{"A", "AAAA", "CNAME", "FWD", "MX", "NS", "NXDOMAIN",
+				"SRV", "TXT "}, false),
 		},
 	}
 	return &schema.Resource{
