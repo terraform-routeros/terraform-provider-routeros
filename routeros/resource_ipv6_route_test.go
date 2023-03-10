@@ -24,7 +24,7 @@ func TestAccIPv6RouteTest_basic(t *testing.T) {
 					{
 						Config: testAccIPv6RouteConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckIPv6RouteExists(testIpRouteAddress),
+							testAccCheckIPv6RouteExists(testIPv6RouteAddress),
 							resource.TestCheckResourceAttr(testIPv6RouteAddress, "distance", "1"),
 							resource.TestCheckResourceAttr(testIPv6RouteAddress, "dst_address", "::/0"),
 							resource.TestCheckResourceAttr(testIPv6RouteAddress, "gateway", "2001:DB8:1000::1"),
