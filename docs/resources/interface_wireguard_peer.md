@@ -29,6 +29,8 @@ resource "routeros_interface_wireguard_peer" "wg_peer" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `allowed_address` (List of String) List of IP (v4 or v6) addresses with CIDR masks from which incoming traffic for this peer is allowed and to which outgoing traffic for this peer is directed. The catch-all 0.0.0.0/0 may be specified for matching all IPv4 addresses, and ::/0 may be specified for matching all IPv6 addresses.
 - `comment` (String)
 - `disabled` (Boolean)
@@ -46,4 +48,10 @@ resource "routeros_interface_wireguard_peer" "wg_peer" {
 - `rx` (String) The total amount of bytes received from the peer.
 - `tx` (String) The total amount of bytes transmitted to the peer.
 
-
+## Import
+Import is supported using the following syntax:
+```shell
+#The ID can be found via API or the terminal
+#The command for the terminal is -> :put [/interface/wireguard/peers get [print show-ids]]
+terraform import routeros_interface_wireguard_peer.wg_peer "*0"
+```

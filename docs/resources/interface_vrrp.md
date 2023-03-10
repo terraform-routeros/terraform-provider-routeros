@@ -19,6 +19,8 @@ resource "routeros_interface_vrrp" "interface_vrrp" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `arp` (String) ARP resolution protocol mode.
 - `arp_timeout` (String) ARP timeout is time how long ARP record is kept in ARP table after no packets are received from IP. Value auto equals to the value of arp-timeout in IP/Settings, default is 30s. Can use postfix ms, s, M, h, d for milliseconds, seconds, minutes, hours or days. If no postfix is set then seconds (s) is used.
 - `authentication` (String) Authentication method to use for VRRP advertisement packets.
@@ -46,4 +48,10 @@ resource "routeros_interface_vrrp" "interface_vrrp" {
 - `mac_address` (String)
 - `running` (Boolean)
 
-
+## Import
+Import is supported using the following syntax:
+```shell
+#The ID can be found via API or the terminal
+#The command for the terminal is -> :put [/interface/vrrp get [print show-ids]]
+terraform import routeros_interface_vrrp.interface_vrrp "*0"
+```

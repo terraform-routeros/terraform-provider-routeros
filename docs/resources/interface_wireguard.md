@@ -19,6 +19,8 @@ resource "routeros_interface_wireguard" "test_wg_interface" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `comment` (String)
 - `disabled` (Boolean)
 - `mtu` (String) Layer3 Maximum transmission unit ('auto', 0 .. 65535)
@@ -30,4 +32,9 @@ resource "routeros_interface_wireguard" "test_wg_interface" {
 - `public_key` (String) A base64 public key is calculated from the private key.
 - `running` (Boolean)
 
-
+## Import
+Import is supported using the following syntax:
+```shell
+# Import with the name of the wireguard interface in case of the example use test_wg_interface
+terraform import routeros_interface_wireguard.test_wg_interface test_wg_interface
+```

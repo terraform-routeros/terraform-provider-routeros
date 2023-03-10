@@ -18,6 +18,8 @@ resource "routeros_interface_bridge" "bridge" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `add_dhcp_option82` (Boolean) Whether to add DHCP Option-82 information (Agent Remote ID and Agent Circuit ID) to DHCP packets. Can be used together with Option-82 capable DHCP server to assign IP addresses and implement policies. This property only has effect when dhcp-snooping is set to yes.
 - `admin_mac` (String) Static MAC address of the bridge. This property only has effect when auto-mac is set to no.
 - `ageing_time` (String) How long a host's information will be kept in the bridge database.
@@ -64,4 +66,9 @@ resource "routeros_interface_bridge" "bridge" {
 - `mac_address` (String)
 - `running` (Boolean)
 
-
+## Import
+Import is supported using the following syntax:
+```shell
+# Import with the name of the bridge in case of the example use bridge
+terraform import routeros_interface_bridge.bridge bridge
+```

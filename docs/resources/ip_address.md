@@ -20,6 +20,8 @@ resource "routeros_ip_address" "address" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `comment` (String)
 - `disabled` (Boolean)
 - `network` (String) IP address for the network. For point-to-point links it should be the address of the remote end. Starting from v5RC6 this parameter is configurable only for addresses with /32 netmask (point to point links)
@@ -34,5 +36,7 @@ resource "routeros_ip_address" "address" {
 ## Import
 Import is supported using the following syntax:
 ```shell
-terraform import routeros_ip_address.address *1
+#The ID can be found via API or the terminal
+#The command for the terminal is -> :put [/ip/address get [print show-ids]]
+terraform import routeros_ip_address.address "*0"
 ```

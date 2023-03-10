@@ -19,6 +19,8 @@ resource "routeros_ip_dhcp_server_network" "dhcp_server_network" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `boot_file_name` (String) Boot filename.
 - `caps_manager` (String) A comma-separated list of IP addresses for one or more CAPsMAN system managers. DHCP Option 138 (capwap) will be used.
 - `comment` (String)
@@ -38,4 +40,10 @@ resource "routeros_ip_dhcp_server_network" "dhcp_server_network" {
 - `dynamic` (Boolean) Configuration item created by software, not by management interface. It is not exported, and cannot be directly modified.
 - `id` (String) The ID of this resource.
 
-
+## Import
+Import is supported using the following syntax:
+```shell
+#The ID can be found via API or the terminal
+#The command for the terminal is -> :put [/ip/dhcp-server/network get [print show-ids]]
+terraform import routeros_ip_dhcp_server_network.dhcp_server_network "*0"
+```
