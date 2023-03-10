@@ -27,7 +27,7 @@ func TestAccIPv6RouteTest_basic(t *testing.T) {
 							testAccCheckIPv6RouteExists(testIPv6RouteAddress),
 							resource.TestCheckResourceAttr(testIPv6RouteAddress, "distance", "1"),
 							resource.TestCheckResourceAttr(testIPv6RouteAddress, "dst_address", "::/0"),
-							resource.TestCheckResourceAttr(testIPv6RouteAddress, "gateway", "2001:DB8:1000::1"),
+							resource.TestCheckResourceAttr(testIPv6RouteAddress, "gateway", "2001:db8:1000::1"),
 						),
 					},
 				},
@@ -62,7 +62,7 @@ provider "routeros" {
 resource "routeros_ipv6_route" "test_route" {
 	distance    = 1
 	dst_address = "::/0"
-	gateway		= "2001:DB8:1000::1"
+	gateway		= "2001:db8:1000::1"
   }
 
 `
