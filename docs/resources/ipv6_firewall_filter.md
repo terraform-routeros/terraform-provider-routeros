@@ -23,8 +23,6 @@ resource "routeros_ipv6_firewall_filter" "rule" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `address_list_timeout` (String) Time interval after which the address will be removed from the address list specified by address-list parameter. Used in conjunction with add-dst-to-address-list or add-src-to-address-list actions.
 - `comment` (String)
 - `connection_bytes` (String) Matches packets only if a given amount of bytes has been transfered through the particular connection.

@@ -19,8 +19,6 @@ resource "routeros_ip_firewall_addr_list" "example_list" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `comment` (String)
 - `disabled` (Boolean)
 - `timeout` (String) Time after address will be removed from address list. If timeout is not specified,

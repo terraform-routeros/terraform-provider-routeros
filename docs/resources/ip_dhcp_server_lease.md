@@ -19,8 +19,6 @@ resource "routeros_ip_dhcp_server_lease" "dhcp_lease" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `address_lists` (String) Address list to which address will be added if lease is bound.
 - `allow_dual_stack_queue` (Boolean) Creates a single simple queue entry for both IPv4 and IPv6 addresses, uses the MAC address and DUID for identification.
 - `always_broadcast` (Boolean) Send all replies as broadcasts.

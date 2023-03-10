@@ -19,10 +19,9 @@ resource "routeros_ip_route" "a_route" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `blackhole` (Boolean) It's a blackhole route.
 - `comment` (String)
+- `disabled` (Boolean)
 - `distance` (Number) Value used in route selection. Routes with smaller distance value are given preference.
 - `pref_src` (String) Which of the local IP addresses to use for locally originated packets that are sent via this route. Value of this property has no effect on forwarded packets. If value of this property is set to IP address that is not local address of this router then the route will be inactive (in ROS v6, ROS v7 allows IP spoofing).
 - `routing_table` (String) Routing table this route belongs to.

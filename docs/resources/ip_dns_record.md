@@ -23,13 +23,12 @@ resource "routeros_ip_dns_record" "regexp_record" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `comment` (String)
 - `disabled` (Boolean)
 - `name` (String) The name of the DNS hostname to be created.
 - `regexp` (String) DNS regexp. Regexp entries are case sensitive, but since DNS requests are not case sensitive, RouterOS converts DNS names to lowercase, you should write regex only with lowercase letters.
 - `ttl` (String) The ttl of the DNS record.
+- `type` (String) Type of the DNS record. Available values are: A, AAAA, CNAME, FWD, MX, NS, NXDOMAIN, SRV, TXT
 
 ### Read-Only
 
