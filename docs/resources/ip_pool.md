@@ -19,6 +19,8 @@ resource "routeros_ip_pool" "pool" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `comment` (String)
 - `next_pool` (String) When address is acquired from pool that has no free addresses, and next-pool property is set to another pool, then next IP address will be acquired from next-pool.
 
@@ -26,4 +28,9 @@ resource "routeros_ip_pool" "pool" {
 
 - `id` (String) The ID of this resource.
 
-
+## Import
+Import is supported using the following syntax:
+```shell
+# Import with the name of the ip pool in case of the example use my_ip_pool
+terraform import routeros_ip_pool.pool my_ip_pool
+```

@@ -6,7 +6,7 @@
 resource "routeros_interface_bridge_vlan" "bridge_vlan" {
   vlan_ids = "50"
   bridge   = "bridge"
-  tagged   = [
+  tagged = [
     "bridge",
     "ether1"
   ]
@@ -26,6 +26,8 @@ resource "routeros_interface_bridge_vlan" "bridge_vlan" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `comment` (String)
 - `disabled` (Boolean)
 - `tagged` (List of String) Interface list with a VLAN tag adding action in egress. This setting accepts comma separated values. E.g. tagged=ether1,ether2.
@@ -38,4 +40,10 @@ resource "routeros_interface_bridge_vlan" "bridge_vlan" {
 - `dynamic` (Boolean) Configuration item created by software, not by management interface. It is not exported, and cannot be directly modified.
 - `id` (String) The ID of this resource.
 
-
+## Import
+Import is supported using the following syntax:
+```shell
+#The ID can be found via API or the terminal
+#The command for the terminal is -> :put [/interface/bridge/vlan get [print show-ids]]
+terraform import routeros_interface_bridge_vlan.bridge_vlan "*0"
+```

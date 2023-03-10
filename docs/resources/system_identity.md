@@ -17,9 +17,16 @@ resource "routeros_system_identity" "identity" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 
 ### Read-Only
 
 - `id` (String) The ID of this resource.
 
-
+## Import
+Import is supported using the following syntax:
+```shell
+#The system identity can not be imported. 
+#Terraform will ignore the current name and will overwrite the current with the one defined in Terraform.
+```

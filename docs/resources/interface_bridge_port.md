@@ -21,6 +21,8 @@ resource "routeros_interface_bridge_port" "bridge_port" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `auto_isolate` (Boolean) When enabled, prevents a port moving from discarding into forwarding state if no BPDUs are received from the neighboring bridge. The port will change into a forwarding state only when a BPDU is received. This property only has an effect when protocol-mode is set to rstp or mstp and edge is set to no.
 - `bpdu_guard` (Boolean) This property has no effect when protocol-mode is set to none.
 - `broadcast_flood` (Boolean) When enabled, bridge floods broadcast traffic to all bridge egress ports. When disabled, drops broadcast traffic on egress ports.
@@ -69,4 +71,10 @@ resource "routeros_interface_bridge_port" "bridge_port" {
 - `sending_rstp` (String) Whether the port is sending RSTP or MSTP BPDU types. A port will transit to STP type when RSTP/MSTP enabled port receives a STP BPDU
 - `status` (String) Port status ('in-bridge' - port is enabled).
 
-
+## Import
+Import is supported using the following syntax:
+```shell
+#The ID can be found via API or the terminal
+#The command for the terminal is -> :put [/interface/bridge/port get [print show-ids]]
+terraform import routeros_interface_bridge_port.bridge_port "*0"
+```

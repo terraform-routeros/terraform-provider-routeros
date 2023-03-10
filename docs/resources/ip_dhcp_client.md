@@ -17,6 +17,8 @@ resource "routeros_ip_dhcp_client" "client" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `add_default_route` (String) Whether to install default route in routing table received from DHCP server.
 - `comment` (String)
 - `default_route_distance` (Number) Distance of default route. Applicable if add-default-route is set to yes.
@@ -38,4 +40,10 @@ resource "routeros_ip_dhcp_client" "client" {
 - `secondary_dns` (String) The IP address of the second DNS resolver, assigned by the DHCP server
 - `status` (String)
 
-
+## Import
+Import is supported using the following syntax:
+```shell
+#The ID can be found via API or the terminal
+#The command for the terminal is -> :put [/ip/dhcp-client get [print show-ids]]
+terraform import routeros_ip_dhcp_client.client "*0"
+```

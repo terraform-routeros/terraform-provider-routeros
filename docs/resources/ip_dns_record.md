@@ -4,13 +4,13 @@ Creates a DNS record on the MikroTik device.
 ## Example Usage
 ```terraform
 resource "routeros_ip_dns_record" "name_record" {
-    name = "router.lan"
-    address = "192.168.88.1"
+  name    = "router.lan"
+  address = "192.168.88.1"
 }
 
 resource "routeros_ip_dns_record" "regexp_record" {
-    regexp = ".*pool.ntp.org"
-    address = "192.168.88.1"
+  regexp  = ".*pool.ntp.org"
+  address = "192.168.88.1"
 }
 ```
 
@@ -23,6 +23,8 @@ resource "routeros_ip_dns_record" "regexp_record" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `comment` (String)
 - `disabled` (Boolean)
 - `name` (String) The name of the DNS hostname to be created.
@@ -34,4 +36,10 @@ resource "routeros_ip_dns_record" "regexp_record" {
 - `dynamic` (Boolean) Configuration item created by software, not by management interface. It is not exported, and cannot be directly modified.
 - `id` (String) The ID of this resource.
 
-
+## Import
+Import is supported using the following syntax:
+```shell
+#The ID can be found via API or the terminal
+#The command for the terminal is -> :put [/ip/dns/static get [print show-ids]]
+terraform import routeros_ip_dns_record.name_record "*0"
+```

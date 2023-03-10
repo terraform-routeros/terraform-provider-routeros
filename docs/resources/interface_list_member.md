@@ -19,6 +19,8 @@ resource "routeros_interface_list_member" "list_member" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `disabled` (Boolean)
 
 ### Read-Only
@@ -26,4 +28,10 @@ resource "routeros_interface_list_member" "list_member" {
 - `dynamic` (Boolean)
 - `id` (String) The ID of this resource.
 
-
+## Import
+Import is supported using the following syntax:
+```shell
+#The ID can be found via API or the terminal
+#The command for the terminal is -> :put [/interface/list/member get [print show-ids]]
+terraform import routeros_interface_list_member.list_member "*0"
+```

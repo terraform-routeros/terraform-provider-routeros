@@ -4,7 +4,7 @@
 ## Example Usage
 ```terraform
 resource "routeros_interface_list" "list" {
-  name           = "my-list"
+  name = "my-list"
 }
 ```
 
@@ -17,6 +17,8 @@ resource "routeros_interface_list" "list" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `comment` (String)
 - `exclude` (String)
 - `include` (String)
@@ -27,4 +29,9 @@ resource "routeros_interface_list" "list" {
 - `dynamic` (Boolean) Configuration item created by software, not by management interface. It is not exported, and cannot be directly modified.
 - `id` (String) The ID of this resource.
 
-
+## Import
+Import is supported using the following syntax:
+```shell
+# Import with the name of the interface list in case of the example use my-list
+terraform import routeros_interface_list.list my-list
+```
