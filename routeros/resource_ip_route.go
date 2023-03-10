@@ -28,6 +28,7 @@ func ResourceIPRoute() *schema.Resource {
 			Computed:    true,
 			Description: "A flag indicates whether the route was added by the DHCP service.",
 		},
+		KeyDisabled: PropDisabledRw,
 		"distance": {
 			Type:         schema.TypeInt,
 			Optional:     true,
