@@ -79,6 +79,7 @@ func Provider() *schema.Provider {
 			"routeros_ip_dns_record":          ResourceDnsRecord(),
 			"routeros_ipv6_address":           ResourceIPv6Address(),
 			"routeros_ipv6_firewall_filter":   ResourceIPv6FirewallFilter(),
+			"routeros_ipv6_route":             ResourceIPv6Route(),
 
 			// Aliases for IP objects to retain compatibility between original and fork
 			"routeros_dhcp_client":         ResourceDhcpClient(),
