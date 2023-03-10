@@ -59,7 +59,7 @@ provider "routeros" {
 	insecure = true
 }
 
-resource "routeros_ip_route" "test_route" {
+resource "routeros_ipv6_route" "test_route" {
 	distance    = 1
 	dst_address = "::/0"
 	gateway		= "2001:DB8:1000::1"
