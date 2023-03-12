@@ -27,12 +27,19 @@
             }
         ],
         [
+            "@semantic-release/exec",
+            {
+                "publishCmd": "make docs"
+            }
+        ],
+        [
             "@semantic-release/git",
             {
                 "assets": [
                     "package.json",
                     "package-lock.json",
-                    "CHANGELOG.md"
+                    "CHANGELOG.md",
+                    "docs"
                 ],
                 "message": "chore(release): ${nextRelease.version}"
             }
