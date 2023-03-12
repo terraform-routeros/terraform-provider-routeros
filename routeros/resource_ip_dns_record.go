@@ -51,6 +51,7 @@ func ResourceDnsRecord() *schema.Resource {
 			Optional:      true,
 			Description:   "The A record to be returend from the DNS hostname.",
 			ConflictsWith: []string{"cname", "forward_to", "mx_exchange", "ns", "srv_target", "text"},
+			ValidateFunc:  validation.IsIPAddress,
 		},
 		"address_list": {
 			Type:     schema.TypeString,
@@ -152,8 +153,8 @@ func ResourceDnsRecord() *schema.Resource {
 		},
 		"type": {
 			Type:        schema.TypeString,
-			Optional:    true,
-			Computed:    true,
+			Required:    true,
+			ForceNew:    true,
 			Description: "Type of the DNS record. Available values are: A, AAAA, CNAME, FWD, MX, NS, NXDOMAIN, SRV, TXT",
 			ValidateFunc: validation.StringInSlice([]string{"A", "AAAA", "CNAME", "FWD", "MX", "NS", "NXDOMAIN",
 				"SRV", "TXT"}, false),

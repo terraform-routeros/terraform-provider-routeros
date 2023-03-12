@@ -26,39 +26,42 @@ func TestAccIpDnsRecordTest_basic(t *testing.T) {
 							testAccCheckIpDnsRecordExists("routeros_dns_record.test_dns_a"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_a", "name", "ipv4"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_a", "address", "127.0.0.1"),
+							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_a", "type", "A"),
 							// A regexp
 							testAccCheckIpDnsRecordExists("routeros_dns_record.test_dns_a_regexp"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_a", "address", "127.0.0.1"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_a_regexp", "regexp", "regexp"),
+							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_a_regexp", "type", "A"),
 							// AAAA
 							testAccCheckIpDnsRecordExists("routeros_dns_record.test_dns_aaaa"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_aaaa", "name", "ipv6"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_aaaa", "address", "ff00::1"),
-							// AAAA "type" is Computed
-							testAccCheckIpDnsRecordExists("routeros_dns_record.test_dns_aaaa_type_computed"),
-							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_aaaa_type_computed", "name", "ipv6_tc"),
-							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_aaaa_type_computed", "address", "ff00::1"),
-							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_aaaa_type_computed", "type", "AAAA"),
+							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_aaaa", "type", "AAAA"),
 							// CNAME
 							testAccCheckIpDnsRecordExists("routeros_dns_record.test_dns_cname"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_cname", "cname", "ipv4"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_cname", "name", "cname"),
+							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_cname", "type", "CNAME"),
 							// FWD
 							testAccCheckIpDnsRecordExists("routeros_dns_record.test_dns_fwd"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_fwd", "name", "fwd"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_fwd", "forward_to", "127.0.0.1"),
+							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_fwd", "type", "FWD"),
 							// MX
 							testAccCheckIpDnsRecordExists("routeros_dns_record.test_dns_mx"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_mx", "name", "mx"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_mx", "mx_exchange", "127.0.0.1"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_mx", "mx_preference", "10"),
+							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_mx", "type", "MX"),
 							// NS
 							testAccCheckIpDnsRecordExists("routeros_dns_record.test_dns_ns"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_ns", "name", "ns"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_ns", "ns", "127.0.0.1"),
+							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_ns", "type", "NS"),
 							// NXDOMAIN
 							testAccCheckIpDnsRecordExists("routeros_dns_record.test_dns_nxdomain"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_nxdomain", "name", "nxdomain"),
+							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_nxdomain", "type", "NXDOMAIN"),
 							// SRV
 							testAccCheckIpDnsRecordExists("routeros_dns_record.test_dns_srv"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_srv", "name", "srv"),
@@ -66,10 +69,12 @@ func TestAccIpDnsRecordTest_basic(t *testing.T) {
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_srv", "srv_priority", "10"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_srv", "srv_target", "127.0.0.1"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_srv", "srv_weight", "100"),
+							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_srv", "type", "SRV"),
 							// TXT
 							testAccCheckIpDnsRecordExists("routeros_dns_record.test_dns_txt"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_txt", "name", "_acme-challenge.yourwebsite.com"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_txt", "text", "dW6MrI3nBy3eJgYWH3QAg1Cwk_TvjFESOuKo+mp6nm1"),
+							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_txt", "type", "TXT"),
 						),
 					},
 				},
@@ -108,12 +113,14 @@ resource "routeros_dns_record" "test_dns_a" {
 	match_subdomain = true
 	name            = "ipv4"
 	ttl             = "8m"
+	type            = "A"
 }
 
 resource "routeros_dns_record" "test_dns_a_regexp" {
 	address         = "127.0.0.1"
 	disabled        = true
 	regexp          = "regexp"
+	type            = "A"
 }
 
 resource "routeros_dns_record" "test_dns_aaaa" {
@@ -124,11 +131,6 @@ resource "routeros_dns_record" "test_dns_aaaa" {
 	name            = "ipv6"
 	ttl             = "8m"
 	type            = "AAAA"
-}
-  
-resource "routeros_dns_record" "test_dns_aaaa_type_computed" {
-	address         = "ff00::1"
-	name            = "ipv6_tc"
 }
   
 resource "routeros_dns_record" "test_dns_cname" {
