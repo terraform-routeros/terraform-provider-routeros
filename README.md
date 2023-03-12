@@ -36,7 +36,7 @@ For more in-depth documentation about each of the resources and datasources, ple
 
 ### Versions tested
 
-- go 1.19 and ROS 7.5, 7.6, 7.7 (stable)
+- go 1.19 and ROS 7.6, 7.7, 7.8 (stable)
 
 ## Changelog
 
