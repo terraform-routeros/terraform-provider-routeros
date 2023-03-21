@@ -4,15 +4,17 @@ import (
 	"context"
 	"crypto/tls"
 	"crypto/x509"
-	"github.com/go-routeros/routeros"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"encoding/hex"
 	"net/http"
 	"net/url"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/go-routeros/routeros"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 type Client interface {
@@ -159,4 +161,21 @@ func (u *URL) GetRestURL() string {
 		q = "?" + q
 	}
 	return u.Path + q
+}
+
+// EscapeChars peterGo https://groups.google.com/g/golang-nuts/c/NiQiAahnl5E/m/U60Sm1of-_YJ
+func EscapeChars(data []byte) []byte {
+	var u = []byte(`\u0000`)
+	//var u = []byte(`U+0000`)
+	var res = make([]byte, 0, len(data))
+
+	for i, ch := range data {
+		if ch < 0x20 {
+			res = append(res, u...)
+			hex.Encode(res[len(res)-2:], data[i:i+1])
+			continue
+		}
+		res = append(res, ch)
+	}
+	return res
 }

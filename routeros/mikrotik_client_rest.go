@@ -91,7 +91,14 @@ func (c *RestClient) SendRequest(method crudMethod, url *URL, item MikrotikItem,
 
 	if len(body) != 0 && result != nil {
 		if err = json.Unmarshal(body, &result); err != nil {
-			return err
+
+			if e, ok := err.(*json.SyntaxError); ok {
+				ColorizedDebug(c.ctx, fmt.Sprintf("json.Unmarshal(response body): syntax error at byte offset %d", e.Offset))
+
+				if err = json.Unmarshal(EscapeChars(body), &result); err != nil {
+					return fmt.Errorf("json.Unmarshal(response body): %v", err)
+				}
+			}
 		}
 	}
 	return nil

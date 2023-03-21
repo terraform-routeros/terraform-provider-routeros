@@ -110,7 +110,6 @@ func ResourceDhcpServerLease() *schema.Resource {
 		},
 		"host_name": {
 			Type:        schema.TypeString,
-			Optional:    true,
 			Computed:    true,
 			Description: "The hostname of the device",
 		},
