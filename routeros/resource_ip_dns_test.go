@@ -21,11 +21,14 @@ func TestAccResourceDnsTest_basic(t *testing.T) {
 				ProviderFactories: testAccProviderFactories,
 				Steps: []resource.TestStep{
 					{
-						Config: testAccResourceDnsConfig(),
+						Config: testAccResourceDnsConfig(0),
 						Check: resource.ComposeTestCheckFunc(
 							testAccCheckResourceDnsExists(testResourceDnsTask),
 							resource.TestCheckResourceAttr(testResourceDnsTask, "allow_remote_requests", "true"),
 						),
+					},
+					{
+						Config: testAccResourceDnsConfig(1),
 					},
 				},
 			})
@@ -49,13 +52,15 @@ func testAccCheckResourceDnsExists(name string) resource.TestCheckFunc {
 	}
 }
 
-func testAccResourceDnsConfig() string {
-	return `
-
+func testAccResourceDnsConfig(n int) string {
+	provider := `
 provider "routeros" {
 	insecure = true
 }
 
+`
+
+	tests := []string{`
 resource "routeros_dns" "test" {
 	allow_remote_requests = true
 	cache_max_ttl = "3d"
@@ -68,6 +73,12 @@ resource "routeros_dns" "test" {
 	servers = "1.1.1.1"
 	use_doh_server = "https://cloudflare-dns.com/dns-query"
 	verify_doh_cert = true
-}
-`
+}`,
+		`
+resource "routeros_ip_dns" "dns-server" {
+	allow_remote_requests = true
+	servers = "2606:4700:4700::1112,1.1.1.2,2606:4700:4700::1002,1.0.0.2"
+}`,
+	}
+	return provider + tests[n]
 }

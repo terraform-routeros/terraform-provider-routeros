@@ -61,6 +61,25 @@ func ResourceDns() *schema.Resource {
 			Computed:    true,
 			Description: "Shows the currently used cache size in KiB.",
 		},
+		"doh_max_concurrent_queries": {
+			Type:        schema.TypeInt,
+			Optional:    true,
+			Computed:    true,
+			Description: "Specifies how many DoH concurrent queries are allowed.",
+		},
+		"doh_max_server_connections": {
+			Type:        schema.TypeInt,
+			Optional:    true,
+			Computed:    true,
+			Description: "Specifies how many concurrent connections to the DoH server are allowed.",
+		},
+		"doh_timeout": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Computed:         true,
+			Description:      "Specifies how long to wait for query response from the DoH server.",
+			DiffSuppressFunc: TimeEquall,
+		},
 		"dynamic_servers": {
 			Type:        schema.TypeString,
 			Computed:    true,
