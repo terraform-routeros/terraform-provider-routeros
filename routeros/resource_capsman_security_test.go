@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testCapsManSecurityAddress = "routeros_capsman_security.test_security"
@@ -51,15 +51,21 @@ func testAccCheckCapsManSecurityExists(name string) resource.TestCheckFunc {
 }
 
 func testAccCapsManSecurityConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
+	return providerConfig + `
 
 resource "routeros_capsman_security" "test_security" {
-	name   = "test_security"
-  }
-
+	name                  = "test_security"
+	comment               = "test_security"
+	authentication_types  = ["wpa-psk", "wpa-eap", "wpa2-psk"] // Unordered items!
+	disable_pmkid         = true
+	eap_methods           = "eap-tls,passthrough"
+	eap_radius_accounting = true
+	encryption            = ["tkip", "aes-ccm"]  // Unordered items!
+	group_encryption      = "aes-ccm"
+	group_key_update      = "1h"
+	passphrase            = "0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDE" // Max length check
+	tls_certificate       = "none"
+	tls_mode              = "verify-certificate"
+}
 `
 }

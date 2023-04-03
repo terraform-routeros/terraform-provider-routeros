@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testCapsManDatapathAddress = "routeros_capsman_datapath.test_datapath"
@@ -25,7 +25,7 @@ func TestAccCapsManDatapathTest_basic(t *testing.T) {
 						Config: testAccCapsManDatapathConfig(),
 						Check: resource.ComposeTestCheckFunc(
 							testAccCheckCapsManDatapathExists(testCapsManDatapathAddress),
-							resource.TestCheckResourceAttr(testInterfaceBridgeAddress, "name", "test_datapath"),
+							resource.TestCheckResourceAttr(testCapsManDatapathAddress, "name", "test_datapath"),
 						),
 					},
 				},
@@ -50,15 +50,24 @@ func testAccCheckCapsManDatapathExists(name string) resource.TestCheckFunc {
 }
 
 func testAccCapsManDatapathConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
+	return providerConfig + `
 
 resource "routeros_capsman_datapath" "test_datapath" {
-	name   = "test_datapath"
-  }
+	name                        = "test_datapath"
+	comment                     = "test_datapath"
+	arp                         = "local-proxy-arp"
+	bridge                      = "bridge"
+	bridge_cost                 = 100
+	bridge_horizon              = 200
+	client_to_client_forwarding = true
+	interface_list              = "static"
+	l2mtu                       = 1450
+	local_forwarding            = true
+	mtu                         = 1500
+	vlan_id                     = 101
+	vlan_mode                   = "no-tag"
+//  openflow_switch             = "aaa"
+}
 
 `
 }

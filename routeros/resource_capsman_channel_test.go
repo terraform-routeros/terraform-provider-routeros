@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testCapsManChannelAddress = "routeros_capsman_channel.test_channel"
@@ -50,15 +50,20 @@ func testAccCheckCapsManChannelExists(name string) resource.TestCheckFunc {
 }
 
 func testAccCapsManChannelConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
+	return providerConfig + `
 
 resource "routeros_capsman_channel" "test_channel" {
-	name   = "test_channel"
-  }
-
+	name                  = "test_channel"
+	comment               = "test_channel"
+	band                  = "2ghz-b/g/n"
+	control_channel_width = "10mhz"
+	extension_channel     = "eCee"
+	frequency             = 2412
+	reselect_interval     = "1h"
+	save_selected         = true
+	secondary_frequency   = "disabled"
+	skip_dfs_channels     = true
+	tx_power              = 20
+}
 `
 }

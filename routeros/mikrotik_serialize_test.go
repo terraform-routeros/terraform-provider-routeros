@@ -1,9 +1,10 @@
 package routeros
 
 import (
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"reflect"
 	"testing"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 var (
@@ -113,6 +114,31 @@ func Test_mikrotikResourceDataToTerraformDatasource(t *testing.T) {
 			if !reflect.DeepEqual(actual, expectedRes[i][key]) {
 				t.Fatalf("bad: (key: %v) expected:%#v\tactual:%#v", key, expectedRes[i][key], actual)
 			}
+		}
+	}
+}
+
+func Test_loadTransformSet(t *testing.T) {
+	testData := []struct {
+		s       string
+		reverse bool
+	}{
+		{`"channel":"channel.config","datapath":"datapath.config"`, false},
+		{`"mikrotik-field-name":"schema-field-name"`, false},
+		{`"channel":"channel.config","datapath":"datapath.config"`, true},
+		{`"mikrotik-field-name":"schema-field-name"`, true},
+	}
+
+	expected := []map[string]string{
+		{"channel": "channel.config", "datapath": "datapath.config"},
+		{"mikrotik-field-name": "schema-field-name"},
+		{"channel.config": "channel", "datapath.config": "datapath"},
+		{"schema-field-name": "mikrotik-field-name"},
+	}
+
+	for i, actual := range testData {
+		if !reflect.DeepEqual(loadTransformSet(actual.s, actual.reverse), expected[i]) {
+			t.Fatalf("bad: (item: %v) expected:%#v\tactual:%#v", i, expected[i], loadTransformSet(actual.s, actual.reverse))
 		}
 	}
 }

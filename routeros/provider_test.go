@@ -9,9 +9,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 var testAccProvider *schema.Provider
@@ -19,6 +19,12 @@ var testAccProviderFactories map[string]func() (*schema.Provider, error)
 var testNames = []string{"API", "REST"}
 
 var reHost = regexp.MustCompile(`^(?:\S+://)?(\S+?)(?::\d+)*$`)
+
+var providerConfig = `
+provider "routeros" {
+	insecure = true
+}
+`
 
 func init() {
 	testAccProvider = Provider()

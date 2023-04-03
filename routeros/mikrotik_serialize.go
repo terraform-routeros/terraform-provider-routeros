@@ -2,17 +2,18 @@ package routeros
 
 import (
 	"fmt"
-	"reflect"
 	"regexp"
 	"strconv"
 	"strings"
+	"sync"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 var reMetadataFields = regexp.MustCompile(`^___\S+___$`)
+var reTransformSet = regexp.MustCompile(`"\s*?(\S+?)\s*?"\s*?:\s*?"\s*?(\S+?)\s*?"`)
 
 // GetMetadata Get item metadata fields from resource schema.
 func GetMetadata(s map[string]*schema.Schema) *MikrotikItemMetadata {
@@ -26,6 +27,9 @@ func GetMetadata(s map[string]*schema.Schema) *MikrotikItemMetadata {
 			case MetaResourcePath:
 				meta.Path = terraformMetadata.Default.(string)
 			default:
+				if meta.Meta == nil {
+					meta.Meta = make(map[string]string)
+				}
 				meta.Meta[terraformSnakeName] = terraformMetadata.Default.(string)
 			}
 		}
@@ -35,30 +39,70 @@ func GetMetadata(s map[string]*schema.Schema) *MikrotikItemMetadata {
 
 func isEmpty(propName string, s map[string]*schema.Schema, d *schema.ResourceData) bool {
 	v := d.Get(propName)
-	switch reflect.TypeOf(v).Kind() {
-	case reflect.String:
+	switch s[propName].Type {
+	case schema.TypeString:
 		if s[propName].Default != nil {
 			return v.(string) == "" && s[propName].Default.(string) == ""
 		}
 		return v.(string) == ""
-	case reflect.Int:
+	case schema.TypeInt:
 		return !d.HasChange(propName)
-	case reflect.Bool:
+	case schema.TypeBool:
 		if s[propName].Default != nil {
 			return s[propName].Default.(bool) == v.(bool)
 		}
 		return v.(bool)
-	case reflect.Slice:
+	case schema.TypeList:
 		return len(v.([]interface{})) == 0
+	case schema.TypeSet:
+		return v.(*schema.Set).Len() == 0
+	case schema.TypeMap:
+		return len(v.(map[string]interface{})) == 0
 	default:
-		panic("[isEmpty] wrong resource type: " + reflect.TypeOf(v).Kind().String())
+		panic("[isEmpty] wrong resource type: " + s[propName].Type.String())
 	}
+}
+
+// loadTransformSet Converting the metadata of the 'MetaTransformSet' field into a map for forward and reverse
+// transformation. This map should be applied before the logical processing of fields at the beginning of
+// serialization/deserialization.
+// Forward transformation for use in the 'MikrotikResourceDataToTerraform' function, reverse transformation for use
+// in the 'TerraformResourceDataToMikrotik' function.
+// s: `"channel":"channel.config","datapath":"datapath.config"` in the Mikrotik (kebab) notation!
+func loadTransformSet(s string, reverse bool) (m map[string]string) {
+	m = make(map[string]string)
+	for _, b := range reTransformSet.FindAllStringSubmatch(s, -1) {
+		if !reverse {
+			m[b[1]] = b[2]
+		} else {
+			m[b[2]] = b[1]
+		}
+	}
+	return
+}
+
+// ListToString Convert List and Set to a delimited string.
+func ListToString(v any) (res string) {
+	for i, elem := range v.([]interface{}) {
+		if i > 0 {
+			res += fmt.Sprintf(",%v", elem)
+		} else {
+			res = fmt.Sprint(elem)
+		}
+	}
+	return
 }
 
 // TerraformResourceDataToMikrotik Marshal Mikrotik resource from TF resource schema.
 func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.ResourceData) (MikrotikItem, *MikrotikItemMetadata) {
 	item := MikrotikItem{}
 	meta := &MikrotikItemMetadata{}
+	var transformSet map[string]string
+
+	// {"channel.config": "channel", "schema-field-name": "mikrotik-field-name"}
+	if ts, ok := s[MetaTransformSet]; ok {
+		transformSet = loadTransformSet(ts.Default.(string), true)
+	}
 
 	// Schema map iteration.
 	for terraformSnakeName, terraformMetadata := range s {
@@ -69,6 +113,8 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 				meta.IdType = IdType(terraformMetadata.Default.(int))
 			case MetaResourcePath:
 				meta.Path = terraformMetadata.Default.(string)
+			case MetaTransformSet:
+				continue
 			default:
 				meta.Meta[terraformSnakeName] = terraformMetadata.Default.(string)
 			}
@@ -106,22 +152,43 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 		mikrotikKebabName := SnakeToKebab(terraformSnakeName)
 		value := d.Get(terraformSnakeName)
 
-		switch reflect.TypeOf(value).Kind() {
-		case reflect.String:
+		switch terraformMetadata.Type {
+		case schema.TypeString:
 			item[mikrotikKebabName] = value.(string)
-		case reflect.Int:
+		case schema.TypeInt:
 			item[mikrotikKebabName] = strconv.Itoa(value.(int))
-		case reflect.Bool:
+		case schema.TypeBool:
 			item[mikrotikKebabName] = BoolToMikrotikJSON(value.(bool))
-		case reflect.Slice:
-			var ss []string
-			for _, iface := range value.([]interface{}) {
-				ss = append(ss, fmt.Sprint(iface))
+		// Used to represent an ordered collection of items.
+		case schema.TypeList:
+			item[mikrotikKebabName] = ListToString(value)
+		// Used to represent an unordered collection of items.
+		case schema.TypeSet:
+			item[mikrotikKebabName] = ListToString(value.(*schema.Set).List())
+		case schema.TypeMap:
+			for k, v := range value.(map[string]interface{}) {
+				// channel + "." + config
+				k = SnakeToKebab(mikrotikKebabName + "." + k)
+				// Field transformation: "channel.config" ---> "channel".
+				if transformSet != nil {
+					if new, ok := transformSet[k]; ok {
+						k = new
+					}
+				}
+
+				s := v.(string)
+				// Conversion of boolean values.
+				if s == "true" {
+					s = "yes"
+				} else if s == "false" {
+					s = "no"
+				}
+
+				item[k] = s
 			}
-			item[mikrotikKebabName] = strings.Join(ss, ",")
 		default:
 			panic(fmt.Sprintf("[TerraformResourceDataToMikrotik] resource type not implemented: %v for '%v'",
-				reflect.TypeOf(value).Kind().String(), terraformSnakeName))
+				terraformMetadata.Type, terraformSnakeName))
 		}
 
 	}
@@ -133,6 +200,16 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Schema, d *schema.ResourceData) diag.Diagnostics {
 	var diags diag.Diagnostics
 	var err error
+	var transformSet map[string]string
+
+	// {"channel": "channel.config", "mikrotik-field-name": "schema-field-name"}
+	if ts, ok := s[MetaTransformSet]; ok {
+		transformSet = loadTransformSet(ts.Default.(string), false)
+	}
+
+	// TypeMaps initialization information storage.
+	// map["channel"] = bool
+	var maps = make(map[string]bool)
 
 	// Incoming map iteration.
 	for mikrotikKebabName, mikrotikValue := range item {
@@ -149,12 +226,30 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 			continue
 		}
 
+		// Mikrotik fields transformation: "channel" ---> "channel.config".
+		// For further use in the map.
+		if transformSet != nil {
+			if new, ok := transformSet[mikrotikKebabName]; ok {
+				mikrotikKebabName = new
+			}
+		}
+
 		// field-name => field_name
 		terraformSnakeName := KebabToSnake(mikrotikKebabName)
+
+		// Composite fields.
+		var subFieldSnakeName string
+		if strings.Contains(terraformSnakeName, ".") {
+			f := strings.SplitN(terraformSnakeName, ".", 2)
+			terraformSnakeName, subFieldSnakeName = f[0], f[1]
+		}
+
 		if _, ok := s[terraformSnakeName]; !ok {
 			// For development.
 			// panic("[MikrotikResourceDataToTerraform] The field was lost during the Schema development: " + terraformSnakeName)
 			diags = append(diags, diag.Diagnostic{
+				// TODO Waiting for TestStep.ExpectWarning https://github.com/hashicorp/terraform-plugin-testing/pull/17
+				// The test response to Warnings has not yet been implemented.
 				Severity: diag.Warning,
 				Summary:  "Field '" + terraformSnakeName + "' not found in the schema",
 				Detail: fmt.Sprintf("[MikrotikResourceDataToTerraform] The field was lost during the Schema development: ▷ '%s': '%s' ◁",
@@ -183,17 +278,55 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 		case schema.TypeBool:
 			err = d.Set(terraformSnakeName, BoolFromMikrotikJSON(mikrotikValue))
 
-		case schema.TypeList:
+		case schema.TypeList, schema.TypeSet:
 			// Don't fill in empty strings.
 			if s[terraformSnakeName].Optional && mikrotikValue == "" {
 				continue
 			}
 
 			var l []interface{}
-			for _, s := range strings.Split(mikrotikValue, ",") {
-				l = append(l, s)
+
+			for _, v := range strings.Split(mikrotikValue, ",") {
+				if s[terraformSnakeName].Elem.(*schema.Schema).Type == schema.TypeInt {
+					i, err := strconv.Atoi(v)
+					if err != nil {
+						diags = diag.Errorf("%v for '%v' field", err, terraformSnakeName)
+						continue
+					}
+
+					l = append(l, i)
+				} else {
+					l = append(l, v)
+				}
 			}
-			err = d.Set(terraformSnakeName, l)
+
+			if err != nil {
+				break // case
+			}
+
+			if s[terraformSnakeName].Type == schema.TypeList {
+				err = d.Set(terraformSnakeName, l)
+			} else {
+				err = d.Set(terraformSnakeName,
+					schema.NewSet(schema.HashSchema(s[terraformSnakeName].Elem.(*schema.Schema)), l))
+			}
+
+		case schema.TypeMap:
+			if mikrotikValue == "yes" {
+				mikrotikValue = "true"
+			} else if mikrotikValue == "no" {
+				mikrotikValue = "false"
+			}
+
+			if _, ok := maps[terraformSnakeName]; !ok {
+				// Create a new map when processing the first incoming field.
+				maps[terraformSnakeName] = true
+				d.Set(terraformSnakeName, map[string]interface{}{subFieldSnakeName: mikrotikValue})
+			} else {
+				m := d.Get(terraformSnakeName).(map[string]interface{})
+				m[subFieldSnakeName] = mikrotikValue
+				d.Set(terraformSnakeName, m)
+			}
 
 		default:
 			// For development.
@@ -202,8 +335,8 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 			diags = append(diags, diag.Diagnostic{
 				Severity: diag.Warning,
 				Summary:  "Can't fill the schema field",
-				Detail: fmt.Sprintf("Resource type not implemented: %v for '%v'",
-					s[terraformSnakeName].Type.String(), mikrotikValue),
+				Detail: fmt.Sprintf("Resource type not implemented: '%v' for '%v'",
+					s[terraformSnakeName].Type.String(), terraformSnakeName),
 			})
 		}
 
@@ -301,6 +434,20 @@ func MikrotikResourceDataToTerraformDatasource(items *[]MikrotikItem, resourceDa
 				}
 				propValue = l
 
+			// TODO Add processing of missing types: List(int), Set, Map
+			case schema.TypeSet:
+				// Don't fill in empty strings.
+				if s[terraformSnakeName].Optional && mikrotikValue == "" {
+					continue
+				}
+
+				var l []interface{}
+				for _, s := range strings.Split(mikrotikValue, ",") {
+					l = append(l, s)
+				}
+				// String sets only (schema.HashString)!
+				propValue = schema.NewSet(schema.HashString, l)
+
 			default:
 				// For development.
 				//panic(fmt.Sprintf("Resource type not implemented: %v for '%v'",
@@ -320,10 +467,34 @@ func MikrotikResourceDataToTerraformDatasource(items *[]MikrotikItem, resourceDa
 		dsItems = append(dsItems, dsItem)
 	}
 
-	d.SetId(resource.UniqueId())
+	d.SetId(UniqueId())
 	if err := d.Set(resourceDataKeyName, dsItems); err != nil {
 		diags = append(diags, diag.FromErr(err)...)
 	}
 
 	return diags
+}
+
+// Copied from terraform-plugin-testing@v1.2.0/helper/resource/id.go
+// Because this functionality is marked deprecated.
+const UniqueIdPrefix = `terraform-`
+
+// idCounter is a monotonic counter for generating ordered unique ids.
+var idMutex sync.Mutex
+var idCounter uint32
+
+func UniqueId() string {
+	return PrefixedUniqueId(UniqueIdPrefix)
+}
+
+func PrefixedUniqueId(prefix string) string {
+	// Be precise to 4 digits of fractional seconds, but remove the dot before the
+	// fractional seconds.
+	timestamp := strings.Replace(
+		time.Now().UTC().Format("20060102150405.0000"), ".", "", 1)
+
+	idMutex.Lock()
+	defer idMutex.Unlock()
+	idCounter++
+	return fmt.Sprintf("%s%s%08x", prefix, timestamp, idCounter)
 }

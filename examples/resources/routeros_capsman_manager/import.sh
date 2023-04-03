@@ -1,0 +1,1 @@
+terraform import routeros_capsman_manager.test_manager .

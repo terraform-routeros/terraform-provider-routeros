@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -163,6 +164,49 @@ func ResourceDelete(ctx context.Context, s map[string]*schema.Schema, d *schema.
 	return nil
 }
 
+// SystemResourceRead The difference from the normal reading is in the method of generation of Id.
+func SystemResourceRead(ctx context.Context, s map[string]*schema.Schema, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	metadata := GetMetadata(s)
+
+	res := MikrotikItem{}
+	err := m.(Client).SendRequest(crudRead, &URL{Path: metadata.Path}, nil, &res)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+    // We make a unique Id, it does not affect the work with the Mikrotik.
+	// Id: /caps-man/manager -> caps-man.manager
+	d.SetId(strings.ReplaceAll(strings.TrimLeft(metadata.Path, "/"), "/", "."))
+
+	return MikrotikResourceDataToTerraform(res, s, d)
+}
+
+// SystemResourceCreateUpdate A resource cannot be created, it can only be changed.
+func SystemResourceCreateUpdate(ctx context.Context, s map[string]*schema.Schema, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	item, metadata := TerraformResourceDataToMikrotik(s, d)
+
+	var resUrl string
+	if m.(Client).GetTransport() == TransportREST {
+		// https://router/rest/system/identity/set
+		// https://router/rest/caps-man/manager/set
+		resUrl = "/set"
+	}
+
+	err := m.(Client).SendRequest(crudPost, &URL{Path: metadata.Path + resUrl}, item, nil)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return SystemResourceRead(ctx, s, d, m)
+}
+
+// SystemResourceDelete Delete function will remove the object from the Terraform state
+// No delete functionality provided by API for System Resources.
+func SystemResourceDelete(ctx context.Context, s map[string]*schema.Schema, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	d.SetId("")
+	return DeleteSystemObject
+}
+
 func DefaultCreate(s map[string]*schema.Schema) schema.CreateContextFunc {
 	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 		return ResourceCreate(ctx, s, d, m)
@@ -206,5 +250,29 @@ func DefaultValidateUpdate(s map[string]*schema.Schema, f DataValidateFunc) sche
 			}
 		}
 		return ResourceUpdate(ctx, s, d, m)
+	}
+}
+
+func DefaultSystemCreate(s map[string]*schema.Schema) schema.CreateContextFunc {
+	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+		return SystemResourceCreateUpdate(ctx, s, d, m)
+	}
+}
+
+func DefaultSystemRead(s map[string]*schema.Schema) schema.ReadContextFunc {
+	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+		return SystemResourceRead(ctx, s, d, m)
+	}
+}
+
+func DefaultSystemUpdate(s map[string]*schema.Schema) schema.UpdateContextFunc {
+	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+		return SystemResourceCreateUpdate(ctx, s, d, m)
+	}
+}
+
+func DefaultSystemDelete(s map[string]*schema.Schema) schema.DeleteContextFunc {
+	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+		return SystemResourceDelete(ctx, s, d, m)
 	}
 }
