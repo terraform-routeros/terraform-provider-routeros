@@ -1,4 +1,4 @@
-module github.com/gnewbury1/terraform-provider-routeros
+module github.com/terraform-routeros/terraform-provider-routeros
 
 go 1.19
 
