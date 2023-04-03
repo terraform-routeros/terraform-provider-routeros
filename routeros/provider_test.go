@@ -20,6 +20,12 @@ var testNames = []string{"API", "REST"}
 
 var reHost = regexp.MustCompile(`^(?:\S+://)?(\S+?)(?::\d+)*$`)
 
+var providerConfig = `
+provider "routeros" {
+	insecure = true
+}
+`
+
 func init() {
 	testAccProvider = Provider()
 	testAccProviderFactories = map[string]func() (*schema.Provider, error){
