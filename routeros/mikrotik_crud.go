@@ -5,7 +5,7 @@ import (
 )
 
 // resource path is '/interface/vlan' etc.
-// resource query is '/id' or '?.is=*39'.
+// resource query is '/id' or '?.id=*39'.
 var (
 	errEmptyId   = fmt.Errorf("the resource id not defined")
 	errEmptyItem = fmt.Errorf("the item is null")
