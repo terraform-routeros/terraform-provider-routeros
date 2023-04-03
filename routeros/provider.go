@@ -126,13 +126,18 @@ func Provider() *schema.Provider {
 			// TODO: Review whether capsman resources need updating given wifiwave2.
 			// wifiwave2 is getting support for capsman in 7.8.
 			// Should we support both legacy capsman _and_ wifiwave2 capsman?
+			// https://help.mikrotik.com/docs/display/ROS/WifiWave2#WifiWave2-WifiWave2CAPsMAN
 
-			// "routeros_capsman_channel":        ResourceCapsManChannel(),
-			// "routeros_capsman_configuration":  ResourceCapsManConfiguration(),
-			// "routeros_capsman_datapath":       ResourceCapsManDatapath(),
-			// "routeros_capsman_manager":        ResourceCapsManManager(),
-			// "routeros_capsman_provisioning":   ResourceCapsManProvisioning(),
-			// "routeros_capsman_security":       ResourceCapsManSecurity(),
+			// CAPsMAN Objects
+			"routeros_capsman_channel":           ResourceCapsManChannel(),
+			"routeros_capsman_configuration":     ResourceCapsManConfiguration(),
+			"routeros_capsman_datapath":          ResourceCapsManDatapath(),
+			"routeros_capsman_aaa":               ResourceCapsManAaa(),
+			"routeros_capsman_manager":           ResourceCapsManManager(),
+			"routeros_capsman_manager_interface": ResourceCapsManManagerInterface(),
+			"routeros_capsman_provisioning":      ResourceCapsManProvisioning(),
+			"routeros_capsman_rates":             ResourceCapsManRates(),
+			"routeros_capsman_security":          ResourceCapsManSecurity(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"routeros_interfaces":     DatasourceInterfaces(),

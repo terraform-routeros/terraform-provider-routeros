@@ -25,7 +25,7 @@ func TestAccCapsManProvisioningTest_basic(t *testing.T) {
 						Config: testAccCapsManProvisioningConfig(),
 						Check: resource.ComposeTestCheckFunc(
 							testAccCheckCapsManProvisioningExists(testCapsManProvisioningAddress),
-							resource.TestCheckResourceAttr(testCapsManProvisioningAddress, "name", "test_provisioning"),
+							resource.TestCheckResourceAttr(testCapsManProvisioningAddress, "name_prefix", "cap-"),
 						),
 					},
 				},
@@ -51,15 +51,21 @@ func testAccCheckCapsManProvisioningExists(name string) resource.TestCheckFunc {
 }
 
 func testAccCapsManProvisioningConfig() string {
-	return `
+	return providerConfig + `
 
-provider "routeros" {
-	insecure = true
+resource "routeros_capsman_configuration" "test_configuration" {
+	name = "cfg1"
 }
 
 resource "routeros_capsman_provisioning" "test_provisioning" {
-	action   = "create-disabled"
-  }
+	master_configuration = "cfg1"
+	action               = "create-disabled"
+	name_prefix          = "cap-"
+
+	depends_on = [
+		routeros_capsman_configuration.test_configuration,
+	]
+}
 
 `
 }
