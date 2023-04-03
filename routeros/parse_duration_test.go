@@ -21,6 +21,7 @@ func TestParseDuration(t *testing.T) {
 		{name: "2h45m", args: args{"2h45m"}, want: time.Duration(2*time.Hour + 45*time.Minute), wantErr: false},
 		{name: "163w4d9h", args: args{"163w4d9h"}, want: time.Duration(98960400 * time.Second), wantErr: false},
 		{name: "27489h", args: args{"27489h"}, want: time.Duration(98960400 * time.Second), wantErr: false},
+		{name: "120ms", args: args{"0.12"}, want: time.Duration(120 * time.Millisecond), wantErr: false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
