@@ -16,6 +16,7 @@ import (
 const (
 	MetaId           = "___id___"
 	MetaResourcePath = "___path___"
+	MetaTransformSet = "___ts___"
 )
 
 const (
@@ -55,6 +56,19 @@ func PropId(t IdType) *schema.Schema {
 		Optional:    true,
 		Default:     int(t),
 		Description: "<em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>",
+		DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+			return true
+		},
+	}
+}
+
+// PropTransformSet
+func PropTransformSet(s string) *schema.Schema {
+	return &schema.Schema{
+		Type:        schema.TypeString,
+		Optional:    true,
+		Default:     s,
+		Description: "<em>A set of transformations for field names. This is an internal service field, setting a value is not required.</em>",
 		DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
 			return true
 		},
