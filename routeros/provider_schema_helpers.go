@@ -17,6 +17,7 @@ const (
 	MetaId           = "___id___"
 	MetaResourcePath = "___path___"
 	MetaTransformSet = "___ts___"
+	MetaSkipFields   = "___skip___"
 )
 
 const (
@@ -64,6 +65,19 @@ func PropId(t IdType) *schema.Schema {
 
 // PropTransformSet
 func PropTransformSet(s string) *schema.Schema {
+	return &schema.Schema{
+		Type:        schema.TypeString,
+		Optional:    true,
+		Default:     s,
+		Description: "<em>A set of transformations for field names. This is an internal service field, setting a value is not required.</em>",
+		DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+			return true
+		},
+	}
+}
+
+// PropSkipFields
+func PropSkipFields(s string) *schema.Schema {
 	return &schema.Schema{
 		Type:        schema.TypeString,
 		Optional:    true,

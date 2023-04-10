@@ -32,6 +32,9 @@ var (
 		crudUpdate: "PATCH",
 		crudDelete: "DELETE",
 		crudPost:   "POST",
+		crudSign:   "POST",
+		crudRemove: "POST",
+		crudRevoke: "POST",
 	}
 )
 

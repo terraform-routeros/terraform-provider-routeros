@@ -25,6 +25,9 @@ var (
 		crudUpdate: "/set",
 		crudDelete: "/remove",
 		crudPost:   "/set",
+		crudSign:   "/sign",
+		crudRemove: "/remove",
+		crudRevoke: "/issued-revoke",
 	}
 )
 

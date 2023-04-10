@@ -116,8 +116,9 @@ func Provider() *schema.Provider {
 			"routeros_wireguard_peer": ResourceInterfaceWireguardPeer(),
 
 			// System Objects
-			"routeros_system_identity":  ResourceSystemIdentity(),
-			"routeros_system_scheduler": ResourceSystemScheduler(),
+			"routeros_system_identity":    ResourceSystemIdentity(),
+			"routeros_system_scheduler":   ResourceSystemScheduler(),
+			"routeros_system_certificate": ResourceSystemCertificate(),
 
 			// Aliases for system objects to retain compatibility between original and fork
 			"routeros_identity":  ResourceSystemIdentity(),
