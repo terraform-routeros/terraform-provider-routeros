@@ -14,6 +14,7 @@ import (
 
 var reMetadataFields = regexp.MustCompile(`^___\S+___$`)
 var reTransformSet = regexp.MustCompile(`"\s*?(\S+?)\s*?"\s*?:\s*?"\s*?(\S+?)\s*?"`)
+var reSkipFields = regexp.MustCompile(`"\s*?(\S+?)\s*?"\s*?`)
 
 // GetMetadata Get item metadata fields from resource schema.
 func GetMetadata(s map[string]*schema.Schema) *MikrotikItemMetadata {
@@ -81,6 +82,15 @@ func loadTransformSet(s string, reverse bool) (m map[string]string) {
 	return
 }
 
+// loadSkipFields A list of fields that will not be serialized and transferred to Mikrotik.
+func loadSkipFields(s string) (m map[string]struct{}) {
+	m = make(map[string]struct{})
+	for _, b := range reSkipFields.FindAllStringSubmatch(s, -1) {
+		m[b[1]] = struct{}{}
+	}
+	return
+}
+
 // ListToString Convert List and Set to a delimited string.
 func ListToString(v any) (res string) {
 	for i, elem := range v.([]interface{}) {
@@ -98,10 +108,16 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 	item := MikrotikItem{}
 	meta := &MikrotikItemMetadata{}
 	var transformSet map[string]string
+	var skipFields map[string]struct{}
 
 	// {"channel.config": "channel", "schema-field-name": "mikrotik-field-name"}
 	if ts, ok := s[MetaTransformSet]; ok {
 		transformSet = loadTransformSet(ts.Default.(string), true)
+	}
+
+	// "field_first", "field_second", "field_third"
+	if sf, ok := s[MetaSkipFields]; ok {
+		skipFields = loadSkipFields(sf.Default.(string))
 	}
 
 	// Schema map iteration.
@@ -113,11 +129,16 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 				meta.IdType = IdType(terraformMetadata.Default.(int))
 			case MetaResourcePath:
 				meta.Path = terraformMetadata.Default.(string)
-			case MetaTransformSet:
+			case MetaTransformSet, MetaSkipFields:
 				continue
 			default:
 				meta.Meta[terraformSnakeName] = terraformMetadata.Default.(string)
 			}
+			continue
+		}
+
+		// Skip the fields specified in the schema.
+		if _, ok := skipFields[terraformSnakeName]; ok {
 			continue
 		}
 
