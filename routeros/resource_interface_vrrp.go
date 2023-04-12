@@ -56,7 +56,7 @@ func ResourceInterfaceVrrp() *schema.Resource {
 		"group_master": {
 			Type:        schema.TypeString,
 			Optional:    true,
-			Default:     "none",
+			Computed:    true,
 			Description: "Allows combining multiple VRRP interfaces to maintain the same VRRP status within the group.",
 			// Maybe this is a bug, but for the 'none' value, the Mikrotik ROS 7.5 returns an empty string.
 			DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
