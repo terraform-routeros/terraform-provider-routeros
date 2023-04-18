@@ -2,8 +2,6 @@ package routeros
 
 import (
 	"context"
-	"crypto/sha1"
-	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -147,49 +145,34 @@ func ResourceDns() *schema.Resource {
 		},
 	}
 
-	resRead := func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-		metadata := GetMetadata(resSchema)
-
-		res := MikrotikItem{}
-		err := m.(Client).SendRequest(crudRead, &URL{Path: metadata.Path}, nil, &res)
-		if err != nil {
-			return diag.FromErr(err)
-		}
-
-		hash := fmt.Sprintf("%x", sha1.Sum([]byte(metadata.Path)))
-
-		d.SetId(hash)
-
-		return MikrotikResourceDataToTerraform(res, resSchema, d)
-	}
-
-	resUpdate := func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-		item, metadata := TerraformResourceDataToMikrotik(resSchema, d)
-
-		var resUrl string
-		if m.(Client).GetTransport() == TransportREST {
-			// https://router/rest/ip/dns/set
-			resUrl = "/set"
-		}
-
-		// Used POST request!
-		err := m.(Client).SendRequest(crudPost, &URL{Path: metadata.Path + resUrl}, item, nil)
-		if err != nil {
-			return diag.FromErr(err)
-		}
-
-		return resRead(ctx, d, m)
-	}
-
 	return &schema.Resource{
 		Description: "A MikroTik router with DNS feature enabled can be set as a DNS server for any DNS-compliant client.",
 
-		CreateContext: resUpdate,
-		ReadContext:   resRead,
-		UpdateContext: resUpdate,
+		CreateContext: DefaultSystemCreate(resSchema),
+		ReadContext:   DefaultSystemRead(resSchema),
+		UpdateContext: DefaultSystemUpdate(resSchema),
 		DeleteContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-			// No delete functionality provided by API for System Identity.
-			// Delete function will remove the object from the Terraform state
+			// Values in the Mikrotik notation!
+			resetFileds := map[string]string{
+				"allow-remote-requests": "no",
+				"servers":               "",
+				"use-doh-server":        "",
+				"verify-doh-cert":       "no",
+			}
+
+			var resUrl string
+			if m.(Client).GetTransport() == TransportREST {
+				// https://router/rest/ip/dns/set
+				resUrl = "/set"
+			}
+
+			// Used POST request!
+			err := m.(Client).SendRequest(crudPost, &URL{Path: resSchema[MetaResourcePath].Default.(string) + resUrl},
+				resetFileds, nil)
+			if err != nil {
+				return diag.FromErr(err)
+			}
+
 			d.SetId("")
 			return DeleteSystemObject
 		},
