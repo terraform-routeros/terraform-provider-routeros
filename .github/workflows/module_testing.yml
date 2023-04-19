@@ -54,7 +54,7 @@ jobs:
           ROS_IP_ADDRESS: 127.0.0.1
 
       - name: Run client tests
-        run: go test -v ./routeros
+        run: go test -timeout 30m -v ./routeros
         env:
           ROS_HOSTURL: https://127.0.0.1
           ROS_USERNAME: admin
