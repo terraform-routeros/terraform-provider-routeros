@@ -53,14 +53,7 @@ func testAccCheckResourceDnsExists(name string) resource.TestCheckFunc {
 }
 
 func testAccResourceDnsConfig(n int) string {
-	provider := `
-provider "routeros" {
-	insecure = true
-}
-
-`
-
-	tests := []string{`
+	return providerConfig + `
 resource "routeros_dns" "test" {
 	allow_remote_requests = true
 	cache_max_ttl = "3d"
@@ -70,15 +63,8 @@ resource "routeros_dns" "test" {
 	max_udp_packet_size = 8192
 	query_server_timeout = "500ms"
 	query_total_timeout = "15"
-	servers = "1.1.1.1"
+	servers = "2606:4700:4700::1112,1.1.1.2,2606:4700:4700::1002,1.0.0.2"
 	use_doh_server = "https://cloudflare-dns.com/dns-query"
 	verify_doh_cert = true
-}`,
-		`
-resource "routeros_ip_dns" "dns-server" {
-	allow_remote_requests = true
-	servers = "2606:4700:4700::1112,1.1.1.2,2606:4700:4700::1002,1.0.0.2"
-}`,
-	}
-	return provider + tests[n]
+}`
 }
