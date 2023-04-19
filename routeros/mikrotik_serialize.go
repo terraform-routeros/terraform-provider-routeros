@@ -282,10 +282,6 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 
 		switch s[terraformSnakeName].Type {
 		case schema.TypeString:
-			// Don't fill in empty strings.
-			if s[terraformSnakeName].Optional && mikrotikValue == "" {
-				continue
-			}
 			err = d.Set(terraformSnakeName, mikrotikValue)
 
 		case schema.TypeInt:
@@ -300,29 +296,35 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 			err = d.Set(terraformSnakeName, BoolFromMikrotikJSON(mikrotikValue))
 
 		case schema.TypeList, schema.TypeSet:
-			// Don't fill in empty strings.
-			if s[terraformSnakeName].Optional && mikrotikValue == "" {
-				continue
-			}
-
 			var l []interface{}
 
-			for _, v := range strings.Split(mikrotikValue, ",") {
-				if s[terraformSnakeName].Elem.(*schema.Schema).Type == schema.TypeInt {
-					i, err := strconv.Atoi(v)
-					if err != nil {
-						diags = diag.Errorf("%v for '%v' field", err, terraformSnakeName)
-						continue
+			// Don't fill in empty strings (preventing a non-empty plan).
+			// |   # routeros_interface_wireguard_peer.wg_peer will be updated in-place
+			// |   ~ resource "routeros_interface_wireguard_peer" "wg_peer" {
+			// |       ~ allowed_address       = [
+			// |           - "",
+			// |         ]
+			// |         id                    = "*2"
+			// |         # (7 unchanged attributes hidden)
+			// |     }
+			if mikrotikValue != "" {
+				for _, v := range strings.Split(mikrotikValue, ",") {
+					if s[terraformSnakeName].Elem.(*schema.Schema).Type == schema.TypeInt {
+						i, err := strconv.Atoi(v)
+						if err != nil {
+							diags = diag.Errorf("%v for '%v' field", err, terraformSnakeName)
+							continue
+						}
+
+						l = append(l, i)
+					} else {
+						l = append(l, v)
 					}
-
-					l = append(l, i)
-				} else {
-					l = append(l, v)
 				}
-			}
 
-			if err != nil {
-				break // case
+				if err != nil {
+					break // case
+				}
 			}
 
 			if s[terraformSnakeName].Type == schema.TypeList {
@@ -426,10 +428,6 @@ func MikrotikResourceDataToTerraformDatasource(items *[]MikrotikItem, resourceDa
 
 			switch s[terraformSnakeName].Type {
 			case schema.TypeString:
-				// Don't fill in empty strings.
-				if s[terraformSnakeName].Optional && mikrotikValue == "" {
-					continue
-				}
 				propValue = mikrotikValue
 
 			case schema.TypeInt:
@@ -444,27 +442,21 @@ func MikrotikResourceDataToTerraformDatasource(items *[]MikrotikItem, resourceDa
 				propValue = BoolFromMikrotikJSON(mikrotikValue)
 
 			case schema.TypeList:
-				// Don't fill in empty strings.
-				if s[terraformSnakeName].Optional && mikrotikValue == "" {
-					continue
-				}
-
 				var l []interface{}
-				for _, s := range strings.Split(mikrotikValue, ",") {
-					l = append(l, s)
+				if mikrotikValue != "" {
+					for _, s := range strings.Split(mikrotikValue, ",") {
+						l = append(l, s)
+					}
 				}
 				propValue = l
 
 			// TODO Add processing of missing types: List(int), Set, Map
 			case schema.TypeSet:
-				// Don't fill in empty strings.
-				if s[terraformSnakeName].Optional && mikrotikValue == "" {
-					continue
-				}
-
 				var l []interface{}
-				for _, s := range strings.Split(mikrotikValue, ",") {
-					l = append(l, s)
+				if mikrotikValue != "" {
+					for _, s := range strings.Split(mikrotikValue, ",") {
+						l = append(l, s)
+					}
 				}
 				// String sets only (schema.HashString)!
 				propValue = schema.NewSet(schema.HashString, l)

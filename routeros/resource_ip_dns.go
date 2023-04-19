@@ -151,6 +151,9 @@ func ResourceDns() *schema.Resource {
 		CreateContext: DefaultSystemCreate(resSchema),
 		ReadContext:   DefaultSystemRead(resSchema),
 		UpdateContext: DefaultSystemUpdate(resSchema),
+		// This behavior when deleting a system resource is the exception rather than the rule.
+		// With existing serialization logic, the best way to avoid undefined DNS service state
+		// is to clear the main fields.
 		DeleteContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 			// Values in the Mikrotik notation!
 			resetFileds := map[string]string{
@@ -174,9 +177,8 @@ func ResourceDns() *schema.Resource {
 			}
 
 			d.SetId("")
-			return DeleteSystemObject
+			return nil
 		},
-
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
 		},
