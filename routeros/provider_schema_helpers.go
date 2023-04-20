@@ -120,7 +120,6 @@ var (
 	PropDisabledRw = &schema.Schema{
 		Type:     schema.TypeBool,
 		Optional: true,
-		Computed: true,
 	}
 	PropDynamicRo = &schema.Schema{
 		Type:     schema.TypeBool,

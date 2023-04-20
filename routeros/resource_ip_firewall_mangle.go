@@ -259,14 +259,16 @@ func ResourceIPFirewallMangle() *schema.Resource {
 			ValidateFunc: validation.IntBetween(0, 63),
 		},
 		"new_mss": {
-			Type:     schema.TypeInt,
+			Type:     schema.TypeString,
 			Optional: true,
 			Description: `Sets a new MSS for a packet.  
-	> Clampt-to-pmtu feature sets (DF) bit in the IP header to dynamically discover the PMTU of a path.  
+	> clamp-to-pmtu feature sets (DF) bit in the IP header to dynamically discover the PMTU of a path.  
 	> Host sends all datagrams on that path with the DF bit set until receives ICMP.  
 	> Destination Unreachable messages with a code meaning "fragmentation needed and DF set".    
 	> Upon receipt of such a message, the source host reduces its assumed PMTU for the path.  
 `,
+			ValidateFunc: validation.StringMatch(regexp.MustCompile(`^(\d+|clamp-to-pmtu)$`),
+				`Value must be a number in quotes or the string "clamp-to-pmtu".`),
 		},
 		"new_packet_mark": {
 			Type:        schema.TypeString,
