@@ -59,8 +59,8 @@ resource "routeros_ip_firewall_mangle" "rule" {
 - `log_prefix` (String) Adds specified text at the beginning of every log message. Applicable if action=log or log=yes configured.
 - `new_connection_mark` (String) Sets a new connection-mark value.
 - `new_dscp` (Number) Sets a new DSCP value for a packet.
-- `new_mss` (Number) Sets a new MSS for a packet.  
-	> Clampt-to-pmtu feature sets (DF) bit in the IP header to dynamically discover the PMTU of a path.  
+- `new_mss` (String) Sets a new MSS for a packet.  
+	> clamp-to-pmtu feature sets (DF) bit in the IP header to dynamically discover the PMTU of a path.  
 	> Host sends all datagrams on that path with the DF bit set until receives ICMP.  
 	> Destination Unreachable messages with a code meaning "fragmentation needed and DF set".    
 	> Upon receipt of such a message, the source host reduces its assumed PMTU for the path.
