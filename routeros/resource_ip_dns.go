@@ -35,7 +35,6 @@ func ResourceDns() *schema.Resource {
 		"allow_remote_requests": {
 			Type:        schema.TypeBool,
 			Optional:    true,
-			Computed:    true,
 			Description: "Specifies whether to allow network requests.",
 		},
 		"cache_max_ttl": {
@@ -124,13 +123,11 @@ func ResourceDns() *schema.Resource {
 		"servers": {
 			Type:        schema.TypeString,
 			Optional:    true,
-			Computed:    true,
 			Description: "List of DNS server IPv4/IPv6 addresses.",
 		},
 		"use_doh_server": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Computed: true,
 			Description: `DNS over HTTPS (DoH) server URL.
 	> Mikrotik strongly suggest not use third-party download links for certificate fetching. 
 	Use the Certificate Authority's own website.
@@ -140,7 +137,6 @@ func ResourceDns() *schema.Resource {
 		"verify_doh_cert": {
 			Type:        schema.TypeBool,
 			Optional:    true,
-			Computed:    true,
 			Description: "DoH certificate verification. [See docs](https://wiki.mikrotik.com/wiki/Manual:IP/DNS#DNS_over_HTTPS).",
 		},
 	}
