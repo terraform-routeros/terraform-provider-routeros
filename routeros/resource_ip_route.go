@@ -38,7 +38,8 @@ func ResourceIPRoute() *schema.Resource {
 		},
 		"dst_address": {
 			Type:         schema.TypeString,
-			Required:     true,
+			Optional:     true,
+			Default:      "0.0.0.0/0", // Without the default setting, a non-empty plan is returned.
 			Description:  "IP prefix of route, specifies destination addresses that this route can be used for.",
 			ValidateFunc: validation.IsCIDR,
 		},
