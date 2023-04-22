@@ -14,7 +14,6 @@ resource "routeros_ip_route" "a_route" {
 
 ### Required
 
-- `dst_address` (String) IP prefix of route, specifies destination addresses that this route can be used for.
 - `gateway` (String) Array of IP addresses or interface names. Specifies which host or interface packets should be sent to (IP | interface | IP%interface | IP@table[, IP | string, [..]]).
 
 ### Optional
@@ -23,6 +22,7 @@ resource "routeros_ip_route" "a_route" {
 - `comment` (String)
 - `disabled` (Boolean)
 - `distance` (Number) Value used in route selection. Routes with smaller distance value are given preference.
+- `dst_address` (String) IP prefix of route, specifies destination addresses that this route can be used for.
 - `pref_src` (String) Which of the local IP addresses to use for locally originated packets that are sent via this route. Value of this property has no effect on forwarded packets. If value of this property is set to IP address that is not local address of this router then the route will be inactive (in ROS v6, ROS v7 allows IP spoofing).
 - `routing_table` (String) Routing table this route belongs to.
 - `scope` (Number) Used in nexthop resolution. Route can resolve nexthop only through routes that have scope less than or equal to the target-scope of this route.
