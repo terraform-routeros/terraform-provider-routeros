@@ -22,6 +22,12 @@ func ResourceIPRoute() *schema.Resource {
 			Default:     false,
 			Description: "It's a blackhole route.",
 		},
+		"check_gateway": {
+			Type:         schema.TypeString,
+			Optional:     true,
+			Description:  "Currently used check-gateway option.",
+			ValidateFunc: validation.StringInSlice([]string{"arp", "bfd", "bfd-multihop", "none", "ping"}, false),
+		},
 		KeyComment: PropCommentRw,
 		"dhcp": {
 			Type:        schema.TypeBool,
