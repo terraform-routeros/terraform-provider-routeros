@@ -19,6 +19,7 @@ resource "routeros_ip_route" "a_route" {
 ### Optional
 
 - `blackhole` (Boolean) It's a blackhole route.
+- `check_gateway` (String) Currently used check-gateway option.
 - `comment` (String)
 - `disabled` (Boolean)
 - `distance` (Number) Value used in route selection. Routes with smaller distance value are given preference.
