@@ -139,6 +139,9 @@ func Provider() *schema.Provider {
 			"routeros_capsman_provisioning":      ResourceCapsManProvisioning(),
 			"routeros_capsman_rates":             ResourceCapsManRates(),
 			"routeros_capsman_security":          ResourceCapsManSecurity(),
+
+			// Routing tables
+			"routeros_routing_table": ResourceRoutingTable(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"routeros_interfaces":     DatasourceInterfaces(),
