@@ -24,6 +24,7 @@ func ResourceRoutingTable() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/routing/table"),
 		MetaId:           PropId(Id),
 
+		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
 		KeyDynamic:  PropDynamicRo,
 		"fib": {
