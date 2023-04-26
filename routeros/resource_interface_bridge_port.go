@@ -178,13 +178,15 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 				"feature that disables hardware offloading. This value is integer '0'..'429496729' or 'none'.",
 		},
 		"hw": {
-			Type:     schema.TypeBool,
-			Computed: true,
-			Optional: true,
+			Type:        schema.TypeBool,
+			Computed:    true,
+			Optional:    true,
+			Description: "Enable or disable Hardware Offloading of the interface.",
 		},
 		"hw_offload": {
-			Type:     schema.TypeBool,
-			Computed: true,
+			Type:        schema.TypeBool,
+			Computed:    true,
+			Description: "Hardware offloading state.",
 		},
 		"hw_offload_group": {
 			Type:        schema.TypeString,
