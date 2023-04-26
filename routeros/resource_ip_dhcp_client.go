@@ -67,12 +67,22 @@ func ResourceDhcpClient() *schema.Resource {
 		"primary_dns": {
 			Type:        schema.TypeString,
 			Computed:    true,
-			Description: "The IP address of the first DNS resolver, that was assigned by the DHCP server",
+			Description: "The IP address of the first DNS resolver, that was assigned by the DHCP server.",
+		},
+		"primary_ntp": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "The IP address of the primary NTP server, assigned by the DHCP server.",
 		},
 		"secondary_dns": {
 			Type:        schema.TypeString,
 			Computed:    true,
-			Description: "The IP address of the second DNS resolver, assigned by the DHCP server",
+			Description: "The IP address of the second DNS resolver, assigned by the DHCP server.",
+		},
+		"secondary_ntp": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "The IP address of the secondary NTP server, assigned by the DHCP server.",
 		},
 		"status": {
 			Type:     schema.TypeString,
