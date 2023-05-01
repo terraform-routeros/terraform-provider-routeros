@@ -100,16 +100,8 @@ func ResourceRoutingTable() *schema.Resource {
 				}
 			}
 
-			// At this time, we have a successfully created resource,
-			// regardless of the success of its reading.
-			switch metadata.IdType {
-			case Id:
-				// Response ID.
-				d.SetId(res.GetID(Id))
-			case Name:
-				// Resource ID.
-				d.SetId(item.GetID(Name))
-			}
+			// Response ID.
+			d.SetId(res.GetID(Id))
 
 			// We ask for information again in the case of API.
 			if m.(Client).GetTransport() == TransportAPI {
@@ -151,8 +143,6 @@ func ResourceRoutingTable() *schema.Resource {
 				}
 			}
 
-			// d.Id() can be the name of a resource or its identifier.
-			// Mikrotik only operates on resource ID!
 			id, err := dynamicIdLookup(metadata.IdType, metadata.Path, m.(Client), d)
 			if err != nil {
 				// There is nothing to update, because resource id not found
