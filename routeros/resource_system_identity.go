@@ -11,7 +11,10 @@ func ResourceSystemIdentity() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/system/identity"),
 		MetaId:           PropId(Name),
 
-		KeyName: PropNameRw,
+		KeyName: {
+			Type:     schema.TypeString,
+			Required: true,
+		},
 	}
 
 	return &schema.Resource{

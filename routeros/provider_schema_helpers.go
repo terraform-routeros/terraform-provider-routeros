@@ -150,6 +150,11 @@ var (
 	PropNameRw = &schema.Schema{
 		Type:     schema.TypeString,
 		Required: true,
+		ForceNew: true,
+		Description: `Changing the name of this resource will force it to be recreated.
+	> The links of other configuration properties to this resource may be lost!
+	> Changing the name of the resource outside of a Terraform will result in a loss of control integrity for that resource!
+`,
 	}
 	PropPlaceBefore = &schema.Schema{
 		Type:     schema.TypeString,
