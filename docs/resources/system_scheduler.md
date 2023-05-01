@@ -5,7 +5,7 @@
 ```terraform
 resource "routeros_system_scheduler" "schedule1" {
   name     = "schedule1"
-  on-event = "script name"
+  on_event = "script name"
 }
 ```
 
@@ -14,7 +14,9 @@ resource "routeros_system_scheduler" "schedule1" {
 
 ### Required
 
-- `name` (String)
+- `name` (String) Changing the name of this resource will force it to be recreated.
+	> The links of other configuration properties to this resource may be lost!
+	> Changing the name of the resource outside of a Terraform will result in a loss of control integrity for that resource!
 - `on_event` (String) Name of the script to execute. It must be presented at /system script.
 
 ### Optional

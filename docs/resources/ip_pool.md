@@ -5,7 +5,7 @@
 ```terraform
 resource "routeros_ip_pool" "pool" {
   name   = "my_ip_pool"
-  ranges = "10.0.0.100-10.0.0.200"
+  ranges = ["10.0.0.100-10.0.0.200"]
 }
 ```
 
@@ -14,7 +14,9 @@ resource "routeros_ip_pool" "pool" {
 
 ### Required
 
-- `name` (String)
+- `name` (String) Changing the name of this resource will force it to be recreated.
+	> The links of other configuration properties to this resource may be lost!
+	> Changing the name of the resource outside of a Terraform will result in a loss of control integrity for that resource!
 - `ranges` (List of String) IP address list of non-overlapping IP address ranges in form of: ["from1-to1", "from2-to2", ..., "fromN-toN"]. For example, ["10.0.0.1-10.0.0.27", "10.0.0.32-10.0.0.47"]
 
 ### Optional

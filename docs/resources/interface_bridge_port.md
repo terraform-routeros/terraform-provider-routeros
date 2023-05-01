@@ -30,7 +30,7 @@ resource "routeros_interface_bridge_port" "bridge_port" {
 - `fast_leave` (Boolean) Enables IGMP Fast leave feature on the port.
 - `frame_types` (String) Specifies allowed ingress frame types on a bridge port. This property only has effect when vlan-filtering is set to yes.
 - `horizon` (String) Use split horizon bridging to prevent bridging loops. Set the same value for group of ports, to prevent them from sending data to ports with the same horizon value. Split horizon is a software feature that disables hardware offloading. This value is integer '0'..'429496729' or 'none'.
-- `hw` (Boolean)
+- `hw` (Boolean) Enable or disable Hardware Offloading of the interface.
 - `ingress_filtering` (Boolean) Enables or disables VLAN ingress filtering, which checks if the ingress port is a member of the received VLAN ID in the bridge VLAN table. Should be used with frame-types to specify if the ingress traffic should be tagged or untagged. This property only has effect when vlan-filtering is set to yes.
 - `internal_path_cost` (Number) Path cost to the interface for MSTI0 inside a region. This property only has effect when protocol-mode is set to mstp.
 - `learn` (String) Changes MAC learning behaviour on a bridge port
@@ -56,7 +56,7 @@ resource "routeros_interface_bridge_port" "bridge_port" {
 - `edge_port_discovery` (Boolean) Whether port is set to automatically detect edge ports.
 - `external_fdb_status` (Boolean) Whether registration table is used instead of forwarding data base.
 - `forwarding` (Boolean) Shows if the port is not blocked by (R/M)STP.
-- `hw_offload` (Boolean)
+- `hw_offload` (Boolean) Hardware offloading state.
 - `hw_offload_group` (String) Switch chip used by the port.
 - `id` (String) The ID of this resource.
 - `inactive` (Boolean)

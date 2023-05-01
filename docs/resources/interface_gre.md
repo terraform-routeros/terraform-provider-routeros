@@ -15,7 +15,9 @@ resource "routeros_interface_gre" "gre_hq" {
 
 ### Required
 
-- `name` (String)
+- `name` (String) Changing the name of this resource will force it to be recreated.
+	> The links of other configuration properties to this resource may be lost!
+	> Changing the name of the resource outside of a Terraform will result in a loss of control integrity for that resource!
 - `remote_address` (String)
 
 ### Optional
