@@ -1,6 +1,9 @@
 package routeros
 
 import (
+	"context"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
@@ -32,13 +35,19 @@ import (
 func ResourceIpService() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/service"),
-		MetaId:           PropId(Id),
+		MetaId:           PropId(Name),
 
 		"address": {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Default:     "",
 			Description: "List of IP/IPv6 prefixes from which the service is accessible.",
+			DiffSuppressFunc: func(k, oldValue, newValue string, d *schema.ResourceData) bool {
+				if oldValue == "" && newValue == "0.0.0.0/0" {
+					return false
+				}
+				return oldValue == newValue
+			},
 		},
 		"certificate": {
 			Type:     schema.TypeString,
@@ -63,7 +72,7 @@ func ResourceIpService() *schema.Resource {
 		},
 		"port": {
 			Type:         schema.TypeInt,
-			Optional:     true,
+			Required:     true,
 			Description:  "The port particular service listens on.",
 			ValidateFunc: validation.IntBetween(1, 65535),
 		},
@@ -81,10 +90,30 @@ func ResourceIpService() *schema.Resource {
 		},
 	}
 
+	resCreateUpdate := func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+		item, metadata := TerraformResourceDataToMikrotik(resSchema, d)
+
+		d.SetId(d.Get("numbers").(string))
+
+		var resUrl string
+		if m.(Client).GetTransport() == TransportREST {
+			// https://router/rest/system/identity/set
+			// https://router/rest/caps-man/manager/set
+			resUrl = "/set"
+		}
+
+		err := m.(Client).SendRequest(crudPost, &URL{Path: metadata.Path + resUrl}, item, nil)
+		if err != nil {
+			return diag.FromErr(err)
+		}
+
+		return ResourceRead(ctx, resSchema, d, m)
+	}
+
 	return &schema.Resource{
-		CreateContext: DefaultSystemCreate(resSchema),
+		CreateContext: resCreateUpdate,
 		ReadContext:   DefaultRead(resSchema),
-		UpdateContext: DefaultSystemUpdate(resSchema),
+		UpdateContext: resCreateUpdate,
 		DeleteContext: DefaultSystemDelete(resSchema),
 
 		Importer: &schema.ResourceImporter{

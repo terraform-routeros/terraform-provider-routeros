@@ -19,13 +19,12 @@ func TestAccIpServiceTest_basic(t *testing.T) {
 					testSetTransportEnv(t, name)
 				},
 				ProviderFactories: testAccProviderFactories,
-				CheckDestroy:      testCheckResourceDestroy("/ip/service", "routeros_ip_service"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccIpServiceConfig(),
 						Check: resource.ComposeTestCheckFunc(
 							testAccCheckIpServiceExists(testIpServiceAddress),
-							resource.TestCheckResourceAttr(testIpServiceAddress, "numbers", "telnet"),
+							resource.TestCheckResourceAttr(testIpServiceAddress, "name", "telnet"),
 						),
 					},
 				},
@@ -55,6 +54,7 @@ func testAccIpServiceConfig() string {
 resource "routeros_ip_service" "telnet" {
 	numbers  = "telnet"
 	disabled = true
+	port     = 23
 }
 `
 }
