@@ -105,6 +105,7 @@ func Provider() *schema.Provider {
 			"routeros_interface_wireguard_peer": ResourceInterfaceWireguardPeer(),
 			"routeros_interface_list":           ResourceInterfaceList(),
 			"routeros_interface_list_member":    ResourceInterfaceListMember(),
+			"routeros_interface_ovpn_server":    ResourceInterfaceOpenVPNServer(),
 
 			// Aliases for interface objects to retain compatibility between original and fork
 			"routeros_bridge":         ResourceInterfaceBridge(),
@@ -143,6 +144,13 @@ func Provider() *schema.Provider {
 
 			// Routing tables
 			"routeros_routing_table": ResourceRoutingTable(),
+
+			// VPN
+			"routeros_ovpn_server": ResourceOpenVPNServer(),
+
+			// PPP
+			"routeros_ppp_profile": ResourcePPPProfile(),
+			"routeros_ppp_secret":  ResourcePPPSecret(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"routeros_interfaces":     DatasourceInterfaces(),
