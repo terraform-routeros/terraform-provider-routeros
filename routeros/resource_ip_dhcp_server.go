@@ -100,7 +100,7 @@ func ResourceDhcpServer() *schema.Resource {
 			Description: "The time that a client may use the assigned address. The client will try to renew this " +
 				"address after half of this time and will request a new address after the time limit expires.",
 		},
-		KeyName: PropNameRw,
+		KeyName: PropNameForceNewRw,
 		"parent_queue": {
 			Type:        schema.TypeString,
 			Optional:    true,

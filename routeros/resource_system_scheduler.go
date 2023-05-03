@@ -22,7 +22,7 @@ func ResourceSystemScheduler() *schema.Resource {
 			Description: "Interval between two script executions, if time interval is set to zero, the script is only " +
 				"executed at its start time, otherwise it is executed repeatedly at the time interval is specified.",
 		},
-		KeyName: PropNameRw,
+		KeyName: PropNameForceNewRw,
 		"next_run": {
 			Type:     schema.TypeString,
 			Computed: true,

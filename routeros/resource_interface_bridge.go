@@ -196,7 +196,7 @@ func ResourceInterfaceBridge() *schema.Resource {
 			ValidateFunc: validation.StringInSlice([]string{"disabled", "permanent", "temporary-query"}, false),
 			RequiredWith: []string{"igmp_snooping"},
 		},
-		KeyName: PropNameRw,
+		KeyName: PropNameForceNewRw,
 		"priority": {
 			Type:     schema.TypeString,
 			Optional: true,

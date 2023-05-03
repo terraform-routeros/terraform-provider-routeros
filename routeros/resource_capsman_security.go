@@ -83,7 +83,7 @@ func ResourceCapsManSecurity() *schema.Resource {
 				"broadcast and multicast frames. property only has effect for Access Points. (30s..1h)",
 			DiffSuppressFunc: TimeEquall,
 		},
-		KeyName: PropNameRw,
+		KeyName: PropNameForceNewRw,
 		// 802.11i specification:
 		// A pass-phrase is a sequence of between 8 and 63 ASCII-encoded characters. The limit of 63 comes from the
 		// desire to distinguish between a pass-phrase and a PSK displayed as 64 hexadecimal characters.

@@ -89,6 +89,15 @@ func PropSkipFields(s string) *schema.Schema {
 	}
 }
 
+// PropName
+func PropName(description string) *schema.Schema {
+	return &schema.Schema{
+		Type:        schema.TypeString,
+		Required:    true,
+		Description: description,
+	}
+}
+
 // Schema properties.
 var (
 	PropActualMtuRo = &schema.Schema{
@@ -147,7 +156,7 @@ var (
 		Computed:    true,
 		Description: "Layer2 Maximum transmission unit.",
 	}
-	PropNameRw = &schema.Schema{
+	PropNameForceNewRw = &schema.Schema{
 		Type:     schema.TypeString,
 		Required: true,
 		ForceNew: true,

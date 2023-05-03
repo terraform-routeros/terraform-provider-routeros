@@ -11,7 +11,7 @@ func ResourceIPPool() *schema.Resource {
 		MetaId:           PropId(Name),
 
 		KeyComment: PropCommentRw,
-		KeyName:    PropNameRw,
+		KeyName:    PropNameForceNewRw,
 		"next_pool": {
 			Type:     schema.TypeString,
 			Optional: true,

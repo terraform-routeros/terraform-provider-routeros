@@ -23,7 +23,7 @@ func ResourceInterfaceList() *schema.Resource {
 			Type:     schema.TypeString,
 			Optional: true,
 		},
-		"name": PropNameRw,
+		"name": PropNameForceNewRw,
 	}
 
 	return &schema.Resource{

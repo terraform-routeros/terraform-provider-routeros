@@ -149,7 +149,7 @@ func ResourceCapsManConfiguration() *schema.Resource {
 			Description:  "Set operational mode. Only **ap** currently supported.",
 			ValidateFunc: validation.StringInSlice([]string{"ap"}, false),
 		},
-		KeyName: PropNameRw,
+		KeyName: PropNameForceNewRw,
 		"multicast_helper": {
 			Type:     schema.TypeString,
 			Optional: true,

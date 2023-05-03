@@ -2,10 +2,11 @@ package routeros
 
 import (
 	"fmt"
-	"github.com/hashicorp/go-cty/cty"
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/hashicorp/go-cty/cty"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -131,7 +132,7 @@ func ResourceInterfaceGre() *schema.Resource {
 			ValidateFunc: validation.IsIPv4Address,
 		},
 		KeyMtu:  PropMtuRw(),
-		KeyName: PropNameRw,
+		KeyName: PropNameForceNewRw,
 		"remote_address": {
 			Type:         schema.TypeString,
 			Required:     true,
