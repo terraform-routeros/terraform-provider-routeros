@@ -51,7 +51,7 @@ func ResourceOpenVPNServer() *schema.Resource {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Default:     "blowfish128,aes128-cbc",
-			Description: "Allowed ciphers.",
+			Description: `Allowed ciphers. **Supported from release 7.7** (added "CBC" postfix to AES cipher names)`,
 			ValidateDiagFunc: ValidationMultiValInSlice([]string{
 				"null", "aes128-cbc", "aes128-gcm", "aes192-cbc", "aes192-gcm", "aes256-cbc", "aes256-gcm", "blowfish128",
 			}, false, false),
