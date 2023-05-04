@@ -13,7 +13,7 @@ resource "routeros_system_identity" "identity" {
 
 ### Required
 
-- `name` (String)
+- `name` (String) Device name.
 
 ### Optional
 
