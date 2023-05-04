@@ -173,7 +173,7 @@ func ResourceOpenVPNServer() *schema.Resource {
 	}
 
 	return &schema.Resource{
-		Description:   `** A minimum version of RouterOS 7.8 is required to use this resource. **`,
+		Description:   `##### *<span style="color:red">This resource requires a minimum version of RouterOS 7.8!</span>*`,
 		CreateContext: DefaultSystemCreate(resSchema),
 		ReadContext:   DefaultSystemRead(resSchema),
 		UpdateContext: DefaultSystemUpdate(resSchema),
