@@ -2,14 +2,17 @@ package routeros
 
 import (
 	"encoding/json"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"log"
 	"reflect"
 	"strconv"
 	"testing"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func Test_defaultResourceCreateContext(t *testing.T) {
+	t.Parallel()
+
 	//a:= DefaultCreate[client.GRE]()
 	rs := ResourceInterfaceGre()
 	rd := rs.TestResourceData()

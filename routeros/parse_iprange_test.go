@@ -3,6 +3,8 @@ package routeros
 import "testing"
 
 func TestIpRangeToCIDR(t *testing.T) {
+	t.Parallel()
+
 	type args struct {
 		ip1 string
 		ip2 string

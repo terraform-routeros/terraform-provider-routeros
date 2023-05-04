@@ -12,6 +12,7 @@ const testVlanAddress = "routeros_interface_vlan.vlan900"
 const testVlanName = "VLAN_900_TEST"
 
 func TestAccInterfaceVlanTest(t *testing.T) {
+	t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

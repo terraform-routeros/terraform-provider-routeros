@@ -11,6 +11,7 @@ import (
 const testInterfaceListMemberAddress = "routeros_interface_list_member.test_list_member"
 
 func TestAccInterfaceListMemberTest_basic(t *testing.T) {
+	t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

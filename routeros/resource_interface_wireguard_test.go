@@ -11,6 +11,7 @@ import (
 const testInterfaceWireguardAddress = "routeros_interface_wireguard.test_wg_interface"
 
 func TestAccInterfaceWireguardTest_basic(t *testing.T) {
+	t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

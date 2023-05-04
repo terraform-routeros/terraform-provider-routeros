@@ -5,6 +5,8 @@ import (
 )
 
 func TestBoolFromMikrotikJSON(t *testing.T) {
+	t.Parallel()
+
 	type args struct {
 		s string
 	}
@@ -34,6 +36,8 @@ func TestBoolFromMikrotikJSON(t *testing.T) {
 }
 
 func TestBoolToMikrotikJSON(t *testing.T) {
+	t.Parallel()
+
 	type args struct {
 		b bool
 	}
@@ -63,6 +67,8 @@ func TestBoolToMikrotikJSON(t *testing.T) {
 }
 
 func TestMikrotikItem_GetID(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		mi   MikrotikItem
@@ -84,6 +90,8 @@ func TestMikrotikItem_GetID(t *testing.T) {
 }
 
 func Test_kebabToSnake(t *testing.T) {
+	t.Parallel()
+
 	type args struct {
 		name string
 	}
@@ -108,6 +116,8 @@ func Test_kebabToSnake(t *testing.T) {
 }
 
 func Test_snakeToKebab(t *testing.T) {
+	t.Parallel()
+
 	type args struct {
 		name string
 	}

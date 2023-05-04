@@ -11,6 +11,7 @@ import (
 const testRoutingTableAddress = "routeros_routing_table.test_table"
 
 func TestAccRoutingTableTest_basic(t *testing.T) {
+	t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

@@ -68,6 +68,8 @@ func testCheckMinVersion(t *testing.T, version string) bool {
 }
 
 func TestCheckMinVersion(t *testing.T) {
+	t.Parallel()
+
 	type args struct {
 		current string
 		min     string

@@ -6,6 +6,8 @@ import (
 )
 
 func TestParseDuration(t *testing.T) {
+	t.Parallel()
+
 	type args struct {
 		s string
 	}

@@ -14,6 +14,7 @@ const testCapsManManagerAddress = "routeros_capsman_manager.test_manager"
 const testCapsManManagerInterfaceAddress = "routeros_capsman_manager_interface.test_manager_interface"
 
 func TestAccCapsManManagerTest_basic(t *testing.T) {
+	t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

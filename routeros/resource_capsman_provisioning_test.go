@@ -11,6 +11,7 @@ import (
 const testCapsManProvisioningAddress = "routeros_capsman_provisioning.test_provisioning"
 
 func TestAccCapsManProvisioningTest_basic(t *testing.T) {
+	t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

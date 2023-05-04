@@ -11,6 +11,7 @@ import (
 const testDatasourceIpRoutes = "data.routeros_ip_routes.routes"
 
 func TestAccDatasourceIpRoutesTest_basic(t *testing.T) {
+	t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

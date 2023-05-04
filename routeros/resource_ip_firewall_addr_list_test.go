@@ -11,6 +11,7 @@ import (
 const testIPFirewallrAddrList = "routeros_firewall_addr_list.data"
 
 func TestAccIPFirewallAddrListTest_basic(t *testing.T) {
+	t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

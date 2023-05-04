@@ -11,6 +11,7 @@ import (
 const testIPv6FirewallFilterAddress = "routeros_ipv6_firewall_filter.rule"
 
 func TestAccIPv6FirewallFilterTest_basic(t *testing.T) {
+	t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

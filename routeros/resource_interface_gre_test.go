@@ -12,6 +12,7 @@ const testGreAddress = "routeros_interface_gre.gre900"
 const testGreName = "GRE_900_TEST"
 
 func TestAccInterfaceGreTest_basic(t *testing.T) {
+	t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

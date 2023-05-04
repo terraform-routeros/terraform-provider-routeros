@@ -11,6 +11,7 @@ import (
 const testPPPSecret = "routeros_ppp_secret.test"
 
 func TestAccPPPSecretTest_basic(t *testing.T) {
+	t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

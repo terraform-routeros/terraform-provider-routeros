@@ -11,6 +11,7 @@ import (
 const testInterfaceBridgeVlanAddress = "routeros_interface_bridge_vlan.test_vlan"
 
 func TestAccInterfaceBridgeVlanTest_basic(t *testing.T) {
+	t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

@@ -7,6 +7,8 @@ import (
 )
 
 func TestValidationMultiValInSlice(t *testing.T) {
+	t.Parallel()
+
 	type args struct {
 		valid            []string
 		ignoreCase       bool

@@ -11,6 +11,7 @@ import (
 const testIpDhcpServerLease = "routeros_ip_dhcp_server_lease.test_dhcp_lease"
 
 func TestAccIpDhcpServerLeaseTest_basic(t *testing.T) {
+	t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

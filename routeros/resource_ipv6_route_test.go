@@ -11,6 +11,7 @@ import (
 const testIPv6RouteAddress = "routeros_ipv6_route.test_route"
 
 func TestAccIPv6RouteTest_basic(t *testing.T) {
+	t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

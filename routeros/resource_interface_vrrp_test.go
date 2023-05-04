@@ -11,6 +11,7 @@ import (
 const testInterfaceVrrpAddress = "routeros_interface_vrrp.test_vrrp_interface"
 
 func TestAccInterfaceVrrpTest_basic(t *testing.T) {
+	t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

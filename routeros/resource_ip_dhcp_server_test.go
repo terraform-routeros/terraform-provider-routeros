@@ -11,6 +11,7 @@ import (
 const testIpDhcpServerAddress = "routeros_ip_dhcp_server.test_dhcp"
 
 func TestAccIpDhcpServerTest_basic(t *testing.T) {
+	t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

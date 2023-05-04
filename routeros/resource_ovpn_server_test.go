@@ -13,6 +13,8 @@ const testOpenVPNServer = "routeros_ovpn_server.server"
 const testInterfaceOpenVPNServer = "routeros_interface_ovpn_server.user1"
 
 func TestAccOpenVPNServerTest_basic(t *testing.T) {
+	t.Parallel()
+
 	if !testCheckMinVersion(t, testOpenVPNServerMinVersion) {
 		t.Logf("Test skipped, the minimum required version is %v", testOpenVPNServerMinVersion)
 		return

@@ -12,6 +12,7 @@ const testInterfaceBridgeAddress = "routeros_interface_bridge.test_bridge"
 const testInterfaceBridgeAddressWithSpace = "routeros_interface_bridge.test_bridge_w_space"
 
 func TestAccInterfaceBridgeTest_basic(t *testing.T) {
+	t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

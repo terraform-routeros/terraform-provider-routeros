@@ -13,6 +13,7 @@ import (
 const testInterfaceWireguardPeerAddress = "routeros_interface_wireguard_peer.wg_peer"
 
 func TestAccInterfaceWireguardPeerTest_basic(t *testing.T) {
+	t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{
@@ -68,6 +69,8 @@ resource "routeros_interface_wireguard_peer" "wg_peer" {
 }
 
 func Test_resourceInterfaceWireguardPeerAllowedIPRegexp(t *testing.T) {
+	t.Parallel()
+
 	type args struct {
 		ip string
 	}

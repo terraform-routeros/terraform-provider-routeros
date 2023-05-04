@@ -11,6 +11,8 @@ import (
 const testCapsManConfigurationAddress = "routeros_capsman_configuration.test_configuration"
 
 func TestAccCapsManConfigurationTest_basic(t *testing.T) {
+	t.Parallel()
+
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{
@@ -86,19 +88,19 @@ resource "routeros_capsman_configuration" "test_configuration" {
 	ssid                 = "SSID"
 	tx_chains            = [0, 2]
  }`, `
-resource "routeros_capsman_channel" "test_channel" {
+resource "routeros_capsman_channel" "test_channel_conf" {
 	name = "test-channel-config"
 }
 
-resource "routeros_capsman_datapath" "test_datapath" {
+resource "routeros_capsman_datapath" "test_datapath_conf" {
 	name = "test-datapath-config"
 }
 
-resource "routeros_capsman_rates" "test_rates" {
+resource "routeros_capsman_rates" "test_rates_conf" {
 	name = "test-rates-config"
 }
 
-resource "routeros_capsman_security" "test_security" {
+resource "routeros_capsman_security" "test_security_conf" {
 	name = "test-security-config"
 }
 
@@ -106,7 +108,7 @@ resource "routeros_capsman_configuration" "test_configuration_2" {
 	name = "test_configuration"
 
 	channel = {
-	  config                = "${routeros_capsman_channel.test_channel.name}"
+	  config                = "${routeros_capsman_channel.test_channel_conf.name}"
 	  band                  = "2ghz-b/g/n"
 	  control_channel_width = "10mhz"
 	  extension_channel     = "eCee"
@@ -119,7 +121,7 @@ resource "routeros_capsman_configuration" "test_configuration_2" {
 	}
   
 	datapath = {
-	  config                      = "${routeros_capsman_datapath.test_datapath.name}"
+	  config                      = "${routeros_capsman_datapath.test_datapath_conf.name}"
 	  arp                         = "local-proxy-arp"
 	  bridge                      = "bridge"
 	  bridge_cost                 = "100"
@@ -135,7 +137,7 @@ resource "routeros_capsman_configuration" "test_configuration_2" {
 	  }
   
 	rates = {
-	  config            = "${routeros_capsman_rates.test_rates.name}"
+	  config            = "${routeros_capsman_rates.test_rates_conf.name}"
 	  basic             = "1Mbps,5.5Mbps,6Mbps,18Mbps,36Mbps,54Mbps"
 	  ht_basic_mcs      = "mcs-0,mcs-7,mcs-11,mcs-14,mcs-16,mcs-21"
 	  ht_supported_mcs  = "mcs-3,mcs-8,mcs-10,mcs-13,mcs-17,mcs-18"
@@ -145,7 +147,7 @@ resource "routeros_capsman_configuration" "test_configuration_2" {
 	}
   
 	security = {
-	  config                = "${routeros_capsman_security.test_security.name}"
+	  config                = "${routeros_capsman_security.test_security_conf.name}"
 	  authentication_types  = "wpa-psk,wpa-eap"
 	  disable_pmkid         = "true"
 	  eap_methods           = "eap-tls,passthrough"
@@ -159,10 +161,10 @@ resource "routeros_capsman_configuration" "test_configuration_2" {
 	}
   
 	depends_on = [
-	  routeros_capsman_channel.test_channel,
-	  routeros_capsman_datapath.test_datapath,
-	  routeros_capsman_rates.test_rates,
-	  routeros_capsman_security.test_security
+	  routeros_capsman_channel.test_channel_conf,
+	  routeros_capsman_datapath.test_datapath_conf,
+	  routeros_capsman_rates.test_rates_conf,
+	  routeros_capsman_security.test_security_conf
 	]
 }`,
 	}

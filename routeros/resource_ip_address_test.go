@@ -11,6 +11,7 @@ import (
 const testInterfaceIPAddressAddress = "routeros_ip_address.test_ip_address"
 
 func TestAccInterfaceIPAddressTest_basic(t *testing.T) {
+	t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

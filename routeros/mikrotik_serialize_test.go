@@ -54,6 +54,7 @@ var (
 )
 
 func Test_mikrotikResourceDataToTerraform(t *testing.T) {
+	t.Parallel()
 
 	testItem := MikrotikItem{".id": "*39", "string": "string12345", "int": "10", "bool": "true"}
 
@@ -76,6 +77,7 @@ func Test_mikrotikResourceDataToTerraform(t *testing.T) {
 }
 
 func Test_terraformResourceDataToMikrotik(t *testing.T) {
+	t.Parallel()
 
 	expected := MikrotikItem{"string": "string12345", "int": "10", "bool": "yes"}
 
@@ -93,6 +95,8 @@ func Test_terraformResourceDataToMikrotik(t *testing.T) {
 }
 
 func Test_mikrotikResourceDataToTerraformDatasource(t *testing.T) {
+	t.Parallel()
+
 	testItems := []MikrotikItem{
 		{"string": "string12345", "int": "10", "bool": "yes"},
 		{"string": "12345string", "int": "20", "bool": "no"},
@@ -119,6 +123,8 @@ func Test_mikrotikResourceDataToTerraformDatasource(t *testing.T) {
 }
 
 func Test_loadTransformSet(t *testing.T) {
+	t.Parallel()
+
 	testData := []struct {
 		s       string
 		reverse bool
