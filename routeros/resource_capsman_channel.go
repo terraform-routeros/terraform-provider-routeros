@@ -57,7 +57,7 @@ func ResourceCapsManChannel() *schema.Resource {
 			Description: "Channel frequency value in MHz on which AP will operate. If left blank, CAPsMAN will " +
 				"automatically determine the best frequency that is least occupied.",
 		},
-		KeyName: PropNameRw,
+		KeyName: PropNameForceNewRw,
 		"reselect_interval": {
 			Type:     schema.TypeString,
 			Optional: true,

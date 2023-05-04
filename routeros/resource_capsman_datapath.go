@@ -76,7 +76,7 @@ func ResourceCapsManDatapath() *schema.Resource {
 			Description: "Controls forwarding mode. If disabled, all L2 and L3 data will be forwarded to CAPsMAN, " +
 				"and further forwarding decisions will be made only then. See [docs](https://wiki.mikrotik.com/wiki/Manual:CAPsMAN#Local_Forwarding_Mode) for info.",
 		},
-		KeyName: PropNameRw,
+		KeyName: PropNameForceNewRw,
 		"mtu": {
 			Type:        schema.TypeInt,
 			Optional:    true,

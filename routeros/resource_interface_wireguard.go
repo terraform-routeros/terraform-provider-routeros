@@ -33,7 +33,7 @@ func ResourceInterfaceWireguard() *schema.Resource {
 			ValidateFunc: validation.IntBetween(1, 65535),
 		},
 		KeyMtu:  PropMtuRw(),
-		KeyName: PropNameRw,
+		KeyName: PropNameForceNewRw,
 		"private_key": {
 			Type:      schema.TypeString,
 			Computed:  true,

@@ -74,7 +74,7 @@ func ResourceCapsManRates() *schema.Resource {
 					`ht_supported_mcs format is "mcs-[0..23]": "mcs-11"`),
 			},
 		},
-		KeyName: PropNameRw,
+		KeyName: PropNameForceNewRw,
 		"vht_basic_mcs": {
 			Type:     schema.TypeString,
 			Optional: true,
