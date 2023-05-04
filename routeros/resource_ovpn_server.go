@@ -51,7 +51,7 @@ func ResourceOpenVPNServer() *schema.Resource {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Default:     "blowfish128,aes128-cbc",
-			Description: `Allowed ciphers. **Supported from release 7.7** (added "CBC" postfix to AES cipher names)`,
+			Description: `Allowed ciphers.`,
 			ValidateDiagFunc: ValidationMultiValInSlice([]string{
 				"null", "aes128-cbc", "aes128-gcm", "aes192-cbc", "aes192-gcm", "aes256-cbc", "aes256-gcm", "blowfish128",
 			}, false, false),
@@ -173,6 +173,7 @@ func ResourceOpenVPNServer() *schema.Resource {
 	}
 
 	return &schema.Resource{
+		Description:   `** A minimum version of RouterOS 7.8 is required to use this resource. **`,
 		CreateContext: DefaultSystemCreate(resSchema),
 		ReadContext:   DefaultSystemRead(resSchema),
 		UpdateContext: DefaultSystemUpdate(resSchema),

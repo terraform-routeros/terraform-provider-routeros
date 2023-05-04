@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"regexp"
+	"strconv"
 	"strings"
 	"testing"
 
@@ -19,6 +20,7 @@ var testAccProviderFactories map[string]func() (*schema.Provider, error)
 var testNames = []string{"API", "REST"}
 
 var reHost = regexp.MustCompile(`^(?:\S+://)?(\S+?)(?::\d+)*$`)
+var reVersion = regexp.MustCompile(`\d+`)
 
 var providerConfig = `
 provider "routeros" {
@@ -32,6 +34,72 @@ func init() {
 		"routeros": func() (*schema.Provider, error) {
 			return testAccProvider, nil
 		},
+	}
+}
+
+func testCheckMinVersion(t *testing.T, version string) bool {
+	// version: 6.39.1
+	var current, min uint64
+	for pos, s := range reVersion.FindAllString(os.Getenv("ROS_VERSION"), -1) {
+		if pos > 2 {
+			t.Fatal("The version does not match the format x[.y[.z]]")
+		}
+
+		i, err := strconv.ParseUint(s, 10, 16)
+		if err != nil {
+			t.Error(err)
+		}
+		current += i << ((2 - pos) * 10)
+	}
+
+	for pos, s := range reVersion.FindAllString(version, -1) {
+		if pos > 2 {
+			t.Fatal("The version does not match the format x[.y[.z]]")
+		}
+
+		i, err := strconv.ParseUint(s, 10, 16)
+		if err != nil {
+			t.Error(err)
+		}
+		min += i << ((2 - pos) * 10)
+	}
+
+	return current >= min
+}
+
+func TestCheckMinVersion(t *testing.T) {
+	type args struct {
+		current string
+		min     string
+	}
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		{"Positive #1", args{"7", "6.2.53"}, true},
+		{"Positive #2", args{"7.1", "6.2.53"}, true},
+		{"Positive #3", args{"7.1.35", "6.2.53"}, true},
+		{"Positive #4", args{"7.1.35", "6.2"}, true},
+		{"Positive #5", args{"7.1.35", "6"}, true},
+		{"Positive #6", args{"7", "7"}, true},
+		{"Positive #7", args{"7.1", "7.1"}, true},
+		{"Positive #8", args{"7.1.53", "7.1.53"}, true},
+		{"Negative #1", args{"6", "7.1.35"}, false},
+		{"Negative #2", args{"6.2", "7.1.35"}, false},
+		{"Negative #3", args{"6.2.53", "7.1.35"}, false},
+		{"Negative #4", args{"6.2.53", "7.1"}, false},
+		{"Negative #5", args{"6.2.53", "7"}, false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := os.Setenv("ROS_VERSION", tt.args.current); err != nil {
+				t.Error(err)
+			}
+			if got := testCheckMinVersion(t, tt.args.min); got != tt.want {
+				t.Errorf("TestCheckMinVersion() diag got = %v, want = %v", got, tt.want)
+			}
+		})
 	}
 }
 
