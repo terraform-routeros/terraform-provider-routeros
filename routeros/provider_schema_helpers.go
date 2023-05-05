@@ -14,10 +14,10 @@ import (
 
 // All metadata fields must be present in each resource schema, and the field type must be string.
 const (
-	MetaId           = "___id___"
-	MetaResourcePath = "___path___"
-	MetaTransformSet = "___ts___"
-	MetaSkipFields   = "___skip___"
+	MetaId           = "id"
+	MetaResourcePath = "path"
+	MetaTransformSet = "ts"
+	MetaSkipFields   = "skip"
 )
 
 const (
