@@ -121,6 +121,7 @@ func Provider() *schema.Provider {
 			"routeros_system_identity":    ResourceSystemIdentity(),
 			"routeros_system_scheduler":   ResourceSystemScheduler(),
 			"routeros_system_certificate": ResourceSystemCertificate(),
+			"routeros_system_user":        ResourceUser(),
 
 			// Aliases for system objects to retain compatibility between original and fork
 			"routeros_identity":  ResourceSystemIdentity(),
