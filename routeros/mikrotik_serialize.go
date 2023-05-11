@@ -198,13 +198,8 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 					}
 				}
 
-				s := v.(string)
 				// Conversion of boolean values.
-				if s == "true" {
-					s = "yes"
-				} else if s == "false" {
-					s = "no"
-				}
+				s := BoolToMikrotikJSONStr(v.(string))
 
 				item[k] = s
 			}
@@ -336,11 +331,8 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 			}
 
 		case schema.TypeMap:
-			if mikrotikValue == "yes" {
-				mikrotikValue = "true"
-			} else if mikrotikValue == "no" {
-				mikrotikValue = "false"
-			}
+			// "yes" -> "true"; "no" -> "false"
+			mikrotikValue = BoolFromMikrotikJSONStr(mikrotikValue)
 
 			if _, ok := maps[terraformSnakeName]; !ok {
 				// Create a new map when processing the first incoming field.
