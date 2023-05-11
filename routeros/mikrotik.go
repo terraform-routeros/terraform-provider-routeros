@@ -97,3 +97,25 @@ func BoolFromMikrotikJSON(s string) bool {
 	}
 	return false
 }
+
+// Map helpers.
+
+func BoolToMikrotikJSONStr(s string) string {
+	if s == "true" {
+		return "yes"
+	}
+	if s == "false" {
+		return "no"
+	}
+	return s
+}
+
+func BoolFromMikrotikJSONStr(s string) string {
+	if s == "yes" {
+		return "true"
+	}
+	if s == "no" {
+		return "false"
+	}
+	return s
+}
