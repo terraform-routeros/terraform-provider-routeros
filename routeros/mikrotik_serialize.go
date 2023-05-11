@@ -38,21 +38,21 @@ func GetMetadata(s map[string]*schema.Schema) *MikrotikItemMetadata {
 	return meta
 }
 
-func isEmpty(propName string, s map[string]*schema.Schema, d *schema.ResourceData) bool {
+func isEmpty(propName string, schemaProp *schema.Schema, d *schema.ResourceData) bool {
 	v := d.Get(propName)
-	switch s[propName].Type {
+	switch schemaProp.Type {
 	case schema.TypeString:
-		if s[propName].Default != nil {
-			return v.(string) == "" && s[propName].Default.(string) == ""
+		if schemaProp.Default != nil {
+			return v.(string) == "" && schemaProp.Default.(string) == ""
 		}
 		return v.(string) == ""
 	case schema.TypeInt:
 		return !d.HasChange(propName)
 	case schema.TypeBool:
-		if s[propName].Default != nil {
-			return s[propName].Default.(bool) == v.(bool)
+		if schemaProp.Default != nil {
+			return schemaProp.Default.(bool) == v.(bool)
 		}
-		return v.(bool)
+		return !v.(bool) // false == isEmpty
 	case schema.TypeList:
 		return len(v.([]interface{})) == 0
 	case schema.TypeSet:
@@ -60,7 +60,7 @@ func isEmpty(propName string, s map[string]*schema.Schema, d *schema.ResourceDat
 	case schema.TypeMap:
 		return len(v.(map[string]interface{})) == 0
 	default:
-		panic("[isEmpty] wrong resource type: " + s[propName].Type.String())
+		panic("[isEmpty] wrong resource type: " + schemaProp.Type.String())
 	}
 }
 
@@ -164,7 +164,8 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 			                # (22 unchanged attributes hidden)
 			            }
 		*/
-		if terraformMetadata.Optional && !d.HasChange(terraformSnakeName) && isEmpty(terraformSnakeName, s, d) {
+		if terraformMetadata.Optional && !d.HasChange(terraformSnakeName) &&
+			isEmpty(terraformSnakeName, s[terraformSnakeName], d) {
 			continue
 		}
 
