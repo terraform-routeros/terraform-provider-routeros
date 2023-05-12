@@ -144,8 +144,9 @@ func Provider() *schema.Provider {
 			"routeros_capsman_security":          ResourceCapsManSecurity(),
 
 			// Routing
-			"routeros_routing_table": ResourceRoutingTable(),
-			"routeros_bgp_template":  ResourceBGPTemplate(),
+			"routeros_routing_table":  ResourceRoutingTable(),
+			"routeros_bgp_connection": ResourceBGPConnection(),
+			"routeros_bgp_template":   ResourceBGPTemplate(),
 
 			// VPN
 			"routeros_ovpn_server": ResourceOpenVPNServer(),
