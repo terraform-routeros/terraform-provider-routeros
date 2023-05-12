@@ -64,6 +64,6 @@ resource "routeros_bgp_connection" "test" {
 	local {
 	  role = "ebgp"
 	}
-  }	  
+}
 `
 }

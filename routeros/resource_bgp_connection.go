@@ -524,7 +524,7 @@ func ResourceBGPConnection() *schema.Resource {
 	}
 
 	return &schema.Resource{
-		Description: "Using this resource you may happen unexpected behavior, for example, some of the attributes " +
+		Description: "> [!WARNING] Using this resource you may happen unexpected behavior, for example, some of the attributes " +
 			"may not be removable after adding them to the TF configuration. Please report this to GitHub and it " +
 			"may be possible to fix it. Use the resource at your own risk as it is!",
 		CreateContext: DefaultCreate(resSchema),
