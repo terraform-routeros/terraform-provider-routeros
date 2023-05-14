@@ -84,12 +84,9 @@ func ResourceInterfaceVrrp() *schema.Resource {
 			Type:     schema.TypeBool,
 			Computed: true,
 		},
-		"mac_address": {
-			Type:     schema.TypeString,
-			Computed: true,
-		},
-		KeyMtu:  PropMtuRw(),
-		KeyName: PropNameForceNewRw,
+		KeyMacAddress: PropMacAddressRo,
+		KeyMtu:        PropMtuRw(),
+		KeyName:       PropNameForceNewRw,
 		"on_fail": {
 			Type:        schema.TypeString,
 			Optional:    true,

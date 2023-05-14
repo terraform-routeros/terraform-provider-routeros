@@ -8,6 +8,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/hashicorp/go-cty/cty"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
@@ -38,21 +39,26 @@ func GetMetadata(s map[string]*schema.Schema) *MikrotikItemMetadata {
 	return meta
 }
 
-func isEmpty(propName string, s map[string]*schema.Schema, d *schema.ResourceData) bool {
+func isEmpty(propName string, schemaProp *schema.Schema, d *schema.ResourceData, confValue cty.Value) bool {
 	v := d.Get(propName)
-	switch s[propName].Type {
+	switch schemaProp.Type {
 	case schema.TypeString:
-		if s[propName].Default != nil {
-			return v.(string) == "" && s[propName].Default.(string) == ""
+		if schemaProp.Default != nil {
+			return v.(string) == "" && schemaProp.Default.(string) == ""
 		}
-		return v.(string) == ""
+		return v.(string) == "" && confValue.IsNull()
 	case schema.TypeInt:
 		return !d.HasChange(propName)
 	case schema.TypeBool:
-		if s[propName].Default != nil {
-			return s[propName].Default.(bool) == v.(bool)
+		// If true, it is always not empty:
+		if v.(bool) {
+			return false
 		}
-		return v.(bool)
+		// Use the default value:
+		if schemaProp.Default != nil {
+			return false
+		}
+		return confValue.IsNull()
 	case schema.TypeList:
 		return len(v.([]interface{})) == 0
 	case schema.TypeSet:
@@ -60,7 +66,7 @@ func isEmpty(propName string, s map[string]*schema.Schema, d *schema.ResourceDat
 	case schema.TypeMap:
 		return len(v.(map[string]interface{})) == 0
 	default:
-		panic("[isEmpty] wrong resource type: " + s[propName].Type.String())
+		panic("[isEmpty] wrong resource type: " + schemaProp.Type.String())
 	}
 }
 
@@ -107,6 +113,7 @@ func ListToString(v any) (res string) {
 func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.ResourceData) (MikrotikItem, *MikrotikItemMetadata) {
 	item := MikrotikItem{}
 	meta := &MikrotikItemMetadata{}
+	rawConfig := d.GetRawConfig()
 	var transformSet map[string]string
 	var skipFields map[string]struct{}
 
@@ -164,9 +171,18 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 			                # (22 unchanged attributes hidden)
 			            }
 		*/
-		if terraformMetadata.Optional && !d.HasChange(terraformSnakeName) && isEmpty(terraformSnakeName, s, d) {
+		/*
+			old, new := d.GetChange(terraformSnakeName)
+			conf := d.GetRawConfig().GetAttr(terraformSnakeName).IsNull()
+			fmt.Println(rawConfig.GetAttr(terraformSnakeName).IsKnown())
+			fmt.Printf("%25s - old: '%10v', new: '%10v', isNull: %v", terraformSnakeName, old, new, conf)
+		*/
+		if terraformMetadata.Optional && !d.HasChange(terraformSnakeName) &&
+			isEmpty(terraformSnakeName, s[terraformSnakeName], d, rawConfig.GetAttr(terraformSnakeName)) {
+			// fmt.Println(" ... skipped")
 			continue
 		}
+		// fmt.Println()
 
 		// terraformSnakeName = fast_forward, schemaPropData = true
 		// NewMikrotikItem.Fields["fast-forward"] = "true"
@@ -182,8 +198,39 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 			item[mikrotikKebabName] = BoolToMikrotikJSON(value.(bool))
 		// Used to represent an ordered collection of items.
 		case schema.TypeList:
-			item[mikrotikKebabName] = ListToString(value)
-		// Used to represent an unordered collection of items.
+
+			switch terraformMetadata.Elem.(type) {
+			case *schema.Schema:
+
+				item[mikrotikKebabName] = ListToString(value)
+
+			case *schema.Resource:
+
+				list := value.([]interface{})[0].(map[string]interface{})
+				ctyList := rawConfig.GetAttr(terraformSnakeName).AsValueSlice()[0]
+
+				for fieldName, value := range list {
+					// "output.0.affinity"
+					filedNameInState := fmt.Sprintf("%v.%v.%v", terraformSnakeName, 0, fieldName)
+					fieldSchema := terraformMetadata.Elem.(*schema.Resource).Schema[fieldName]
+
+					if fieldSchema.Optional && !d.HasChange(filedNameInState) &&
+						isEmpty(filedNameInState, fieldSchema, d, ctyList.GetAttr(fieldName)) {
+						continue
+					}
+					fieldName = SnakeToKebab(mikrotikKebabName + "." + fieldName)
+
+					switch value := value.(type) {
+					case string:
+						item[fieldName] = value
+					case int:
+						item[fieldName] = strconv.Itoa(value)
+					case bool:
+						item[fieldName] = BoolToMikrotikJSON(value)
+					}
+				}
+			}
+			// Used to represent an unordered collection of items.
 		case schema.TypeSet:
 			item[mikrotikKebabName] = ListToString(value.(*schema.Set).List())
 		case schema.TypeMap:
@@ -197,13 +244,8 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 					}
 				}
 
-				s := v.(string)
 				// Conversion of boolean values.
-				if s == "true" {
-					s = "yes"
-				} else if s == "false" {
-					s = "no"
-				}
+				s := BoolToMikrotikJSONStr(v.(string))
 
 				item[k] = s
 			}
@@ -228,9 +270,9 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 		transformSet = loadTransformSet(ts.Default.(string), false)
 	}
 
-	// TypeMaps initialization information storage.
-	// map["channel"] = bool
-	var maps = make(map[string]bool)
+	// TypeMap,TypeSet initialization information storage.
+	var maps = make(map[string]map[string]interface{})
+	var nestedLists = make(map[string]map[string]interface{})
 
 	// Incoming map iteration.
 	for mikrotikKebabName, mikrotikValue := range item {
@@ -307,7 +349,9 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 			// |         id                    = "*2"
 			// |         # (7 unchanged attributes hidden)
 			// |     }
-			if mikrotikValue != "" {
+
+			// Flat Lists & Sets:
+			if _, ok := s[terraformSnakeName].Elem.(*schema.Schema); mikrotikValue != "" && ok {
 				for _, v := range strings.Split(mikrotikValue, ",") {
 					if s[terraformSnakeName].Elem.(*schema.Schema).Type == schema.TypeInt {
 						i, err := strconv.Atoi(v)
@@ -328,27 +372,48 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 			}
 
 			if s[terraformSnakeName].Type == schema.TypeList {
-				err = d.Set(terraformSnakeName, l)
+				switch s[terraformSnakeName].Elem.(type) {
+				case *schema.Schema:
+					err = d.Set(terraformSnakeName, l)
+				case *schema.Resource:
+					var v any
+
+					switch s[terraformSnakeName].Elem.(*schema.Resource).Schema[subFieldSnakeName].Type {
+					case schema.TypeString:
+						v = mikrotikValue
+					case schema.TypeInt:
+						v, err = strconv.Atoi(mikrotikValue)
+						if err != nil {
+							diags = diag.Errorf("%v for '%v.%v' field", err, terraformSnakeName, subFieldSnakeName)
+						}
+					case schema.TypeBool:
+						v = BoolFromMikrotikJSON(mikrotikValue)
+					}
+
+					if err != nil {
+						break
+					}
+
+					if list, ok := nestedLists[terraformSnakeName]; !ok {
+						nestedLists[terraformSnakeName] = map[string]interface{}{subFieldSnakeName: v}
+					} else {
+						list[subFieldSnakeName] = v
+					}
+				}
 			} else {
 				err = d.Set(terraformSnakeName,
 					schema.NewSet(schema.HashSchema(s[terraformSnakeName].Elem.(*schema.Schema)), l))
 			}
 
 		case schema.TypeMap:
-			if mikrotikValue == "yes" {
-				mikrotikValue = "true"
-			} else if mikrotikValue == "no" {
-				mikrotikValue = "false"
-			}
+			// "yes" -> "true"; "no" -> "false"
+			mikrotikValue = BoolFromMikrotikJSONStr(mikrotikValue)
 
-			if _, ok := maps[terraformSnakeName]; !ok {
+			if m, ok := maps[terraformSnakeName]; !ok {
 				// Create a new map when processing the first incoming field.
-				maps[terraformSnakeName] = true
-				d.Set(terraformSnakeName, map[string]interface{}{subFieldSnakeName: mikrotikValue})
+				maps[terraformSnakeName] = map[string]interface{}{subFieldSnakeName: mikrotikValue}
 			} else {
-				m := d.Get(terraformSnakeName).(map[string]interface{})
 				m[subFieldSnakeName] = mikrotikValue
-				d.Set(terraformSnakeName, m)
 			}
 
 		default:
@@ -364,6 +429,19 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 		}
 
 		if err != nil {
+			diags = append(diags, diag.FromErr(err)...)
+		}
+	}
+
+	// Lists processing.
+	for name, list := range nestedLists {
+		if err = d.Set(name, []interface{}{list}); err != nil {
+			diags = append(diags, diag.FromErr(err)...)
+		}
+	}
+	// Maps processing.
+	for name, m := range maps {
+		if err = d.Set(name, m); err != nil {
 			diags = append(diags, diag.FromErr(err)...)
 		}
 	}

@@ -99,9 +99,8 @@ func ResourceDhcpServerLease() *schema.Resource {
 		},
 		"dynamic": {
 			Type:        schema.TypeBool,
-			Optional:    true,
-			Default:     false,
-			Description: "Whether the dhcp lease is static or dynamic. Dynamic leases are not guaranteed to continue to be assigned to that specific device. Defaults to false.",
+			Computed:    true,
+			Description: "Whether the dhcp lease is static or dynamic. Dynamic leases are not guaranteed to continue to be assigned to that specific device.",
 		},
 		"expires_after": {
 			Type:        schema.TypeString,

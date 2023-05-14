@@ -124,10 +124,7 @@ func ResourceInterfaceBridge() *schema.Resource {
 				"forwarding a certain multicast stream. This property only has effect when igmp-snooping is set to yes.",
 			RequiredWith: []string{"igmp_snooping"},
 		},
-		"mac_address": {
-			Type:     schema.TypeString,
-			Computed: true,
-		},
+		KeyMacAddress: PropMacAddressRo,
 		"max_hops": {
 			Type:     schema.TypeInt,
 			Optional: true,

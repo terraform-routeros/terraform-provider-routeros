@@ -41,13 +41,10 @@ func ResourceInterfaceVlan() *schema.Resource {
 			Type:     schema.TypeString,
 			Computed: true,
 		},
-		"mac_address": {
-			Type:     schema.TypeString,
-			Computed: true,
-		},
-		KeyMtu:     PropMtuRw(),
-		KeyName:    PropNameForceNewRw,
-		KeyRunning: PropRunningRo,
+		KeyMacAddress: PropMacAddressRo,
+		KeyMtu:        PropMtuRw(),
+		KeyName:       PropNameForceNewRw,
+		KeyRunning:    PropRunningRo,
 		"use_service_tag": {
 			Type:     schema.TypeBool,
 			Optional: true,

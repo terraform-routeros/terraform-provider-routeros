@@ -106,6 +106,8 @@ func Provider() *schema.Provider {
 			"routeros_interface_list":           ResourceInterfaceList(),
 			"routeros_interface_list_member":    ResourceInterfaceListMember(),
 			"routeros_interface_ovpn_server":    ResourceInterfaceOpenVPNServer(),
+			"routeros_interface_veth":           ResourceInterfaceVeth(),
+			"routeros_interface_bonding":        ResourceInterfaceBonding(),
 
 			// Aliases for interface objects to retain compatibility between original and fork
 			"routeros_bridge":         ResourceInterfaceBridge(),
@@ -143,8 +145,10 @@ func Provider() *schema.Provider {
 			"routeros_capsman_rates":             ResourceCapsManRates(),
 			"routeros_capsman_security":          ResourceCapsManSecurity(),
 
-			// Routing tables
-			"routeros_routing_table": ResourceRoutingTable(),
+			// Routing
+			"routeros_routing_table":  ResourceRoutingTable(),
+			"routeros_bgp_connection": ResourceBGPConnection(),
+			"routeros_bgp_template":   ResourceBGPTemplate(),
 
 			// VPN
 			"routeros_ovpn_server": ResourceOpenVPNServer(),
