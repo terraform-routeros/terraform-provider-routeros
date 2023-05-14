@@ -33,7 +33,7 @@ func ResourceInterfaceVeth() *schema.Resource {
 		KeyDisabled: PropDisabledRw,
 		"gateway": {
 			Type:         schema.TypeString,
-			Optional:     true,
+			Required:     true,
 			Description:  "Gateway IP address.",
 			ValidateFunc: validation.IsIPv4Address,
 		},
