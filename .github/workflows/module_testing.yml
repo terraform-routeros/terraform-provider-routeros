@@ -74,3 +74,4 @@ jobs:
           - /dev/net/tun:/dev/net/tun
         options: >-
           --cap-add=NET_ADMIN
+          --entrypoint /routeros/entrypoint_with_four_interfaces.sh
