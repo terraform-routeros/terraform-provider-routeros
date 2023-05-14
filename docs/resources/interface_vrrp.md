@@ -45,7 +45,7 @@ resource "routeros_interface_vrrp" "interface_vrrp" {
 
 - `id` (String) The ID of this resource.
 - `invalid` (Boolean)
-- `mac_address` (String)
+- `mac_address` (String) Current mac address.
 - `running` (Boolean)
 
 ## Import

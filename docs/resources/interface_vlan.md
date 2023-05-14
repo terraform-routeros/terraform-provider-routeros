@@ -38,7 +38,7 @@ resource "routeros_interface_vlan" "interface_vlan" {
 - `id` (String) The ID of this resource.
 - `l2mtu` (Number) Layer2 Maximum transmission unit.
 - `loop_protect_status` (String)
-- `mac_address` (String)
+- `mac_address` (String) Current mac address.
 - `running` (Boolean)
 
 ## Import

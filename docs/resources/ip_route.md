@@ -18,7 +18,7 @@ resource "routeros_ip_route" "a_route" {
 
 ### Optional
 
-- `blackhole` (Boolean) It's a blackhole route.
+- `blackhole` (Boolean) It's a blackhole route. If you need to cancel route marking, then simply delete the parameter from the configuration of the TF. The value of the parameter (true or false) has no effect on the MT processing logic.
 - `check_gateway` (String) Currently used check-gateway option.
 - `comment` (String)
 - `disabled` (Boolean)

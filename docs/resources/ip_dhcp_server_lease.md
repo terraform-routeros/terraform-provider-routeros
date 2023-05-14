@@ -28,7 +28,6 @@ resource "routeros_ip_dhcp_server_lease" "dhcp_lease" {
 - `dhcp_option` (String) Add additional DHCP options.
 - `dhcp_option_set` (String) Add additional set of DHCP options.
 - `disabled` (Boolean)
-- `dynamic` (Boolean) Whether the dhcp lease is static or dynamic. Dynamic leases are not guaranteed to continue to be assigned to that specific device. Defaults to false.
 - `insert_queue_before` (String) Specify where to place dynamic simple queue entries for static DCHP leases with rate-limit parameter set.
 - `lease_time` (String) Time that the client may use the address. If set to 0s lease will never expire.
 - `rate_limit` (String) Adds a dynamic simple queue to limit IP's bandwidth to a specified rate. Requires the lease to be static.
@@ -45,6 +44,7 @@ resource "routeros_ip_dhcp_server_lease" "dhcp_lease" {
 - `agent_circuit_id` (String) Circuit ID of DHCP relay agent. If each character should be valid ASCII text symbol or else this value is displayed as hex dump.
 - `agent_remote_id` (String) Remote ID, set by DHCP relay agent.
 - `blocked` (Boolean) Whether the lease is blocked.
+- `dynamic` (Boolean) Whether the dhcp lease is static or dynamic. Dynamic leases are not guaranteed to continue to be assigned to that specific device.
 - `expires_after` (String) Time until lease expires.
 - `host_name` (String) The hostname of the device
 - `id` (String) The ID of this resource.

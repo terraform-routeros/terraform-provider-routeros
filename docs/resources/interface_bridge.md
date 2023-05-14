@@ -63,7 +63,7 @@ resource "routeros_interface_bridge" "bridge" {
 - `actual_mtu` (Number)
 - `id` (String) The ID of this resource.
 - `l2mtu` (Number) Layer2 Maximum transmission unit.
-- `mac_address` (String)
+- `mac_address` (String) Current mac address.
 - `running` (Boolean)
 
 ## Import
