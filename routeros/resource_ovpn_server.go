@@ -90,6 +90,7 @@ func ResourceOpenVPNServer() *schema.Resource {
 				"disconnected",
 			DiffSuppressFunc: TimeEquall,
 		},
+		// Computed only???
 		"mac_address": {
 			Type:        schema.TypeString,
 			Optional:    true,

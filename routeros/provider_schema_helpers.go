@@ -31,6 +31,7 @@ const (
 	KeyInterface   = "interface"
 	KeyInvalid     = "invalid"
 	KeyL2Mtu       = "l2mtu"
+	KeyMacAddress  = "mac_address"
 	KeyMtu         = "mtu"
 	KeyName        = "name"
 	KeyPlaceBefore = "place_before"
@@ -156,6 +157,11 @@ var (
 		Type:        schema.TypeInt,
 		Computed:    true,
 		Description: "Layer2 Maximum transmission unit.",
+	}
+	PropMacAddressRo = &schema.Schema{
+		Type:        schema.TypeString,
+		Computed:    true,
+		Description: "Current mac address.",
 	}
 	PropNameForceNewRw = &schema.Schema{
 		Type:     schema.TypeString,
