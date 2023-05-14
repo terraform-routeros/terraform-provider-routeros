@@ -16,13 +16,17 @@ func ResourceIPv6Route() *schema.Resource {
 			Computed:    true,
 			Description: "A flag indicates whether the route is elected as Active and eligible to be added to the FIB.",
 		},
+		// If the parameter is present in the request, the MT automatically marks the route as a blackhole.
+		// To solve this problem, let's remove the default value and the parameter will be present in the query
+		// only when explicitly specified in the configuration.
 		"blackhole": {
-			Type:        schema.TypeBool,
-			Optional:    true,
-			Default:     false,
-			Description: "It's a blackhole route.",
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "It's a blackhole route. If you need to cancel route marking, then simply delete the " +
+				"parameter from the configuration of the TF. The value of the parameter (true or false) has no " +
+				"effect on the MT processing logic.",
 		},
-		KeyComment: PropCommentRw,
+		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
 		"distance": {
 			Type:         schema.TypeInt,

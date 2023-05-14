@@ -8,6 +8,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/hashicorp/go-cty/cty"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
@@ -38,21 +39,26 @@ func GetMetadata(s map[string]*schema.Schema) *MikrotikItemMetadata {
 	return meta
 }
 
-func isEmpty(propName string, schemaProp *schema.Schema, d *schema.ResourceData) bool {
+func isEmpty(propName string, schemaProp *schema.Schema, d *schema.ResourceData, confValue cty.Value) bool {
 	v := d.Get(propName)
 	switch schemaProp.Type {
 	case schema.TypeString:
 		if schemaProp.Default != nil {
 			return v.(string) == "" && schemaProp.Default.(string) == ""
 		}
-		return v.(string) == ""
+		return v.(string) == "" && confValue.IsNull()
 	case schema.TypeInt:
 		return !d.HasChange(propName)
 	case schema.TypeBool:
-		if schemaProp.Default != nil {
-			return schemaProp.Default.(bool) == v.(bool)
+		// If true, it is always not empty:
+		if v.(bool) {
+			return false
 		}
-		return !v.(bool) // false == isEmpty
+		// Use the default value:
+		if schemaProp.Default != nil {
+			return false
+		}
+		return confValue.IsNull()
 	case schema.TypeList:
 		return len(v.([]interface{})) == 0
 	case schema.TypeSet:
@@ -107,6 +113,7 @@ func ListToString(v any) (res string) {
 func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.ResourceData) (MikrotikItem, *MikrotikItemMetadata) {
 	item := MikrotikItem{}
 	meta := &MikrotikItemMetadata{}
+	rawConfig := d.GetRawConfig()
 	var transformSet map[string]string
 	var skipFields map[string]struct{}
 
@@ -164,10 +171,18 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 			                # (22 unchanged attributes hidden)
 			            }
 		*/
+		/*
+			old, new := d.GetChange(terraformSnakeName)
+			conf := d.GetRawConfig().GetAttr(terraformSnakeName).IsNull()
+			fmt.Println(rawConfig.GetAttr(terraformSnakeName).IsKnown())
+			fmt.Printf("%25s - old: '%10v', new: '%10v', isNull: %v", terraformSnakeName, old, new, conf)
+		*/
 		if terraformMetadata.Optional && !d.HasChange(terraformSnakeName) &&
-			isEmpty(terraformSnakeName, s[terraformSnakeName], d) {
+			isEmpty(terraformSnakeName, s[terraformSnakeName], d, rawConfig.GetAttr(terraformSnakeName)) {
+			// fmt.Println(" ... skipped")
 			continue
 		}
+		// fmt.Println()
 
 		// terraformSnakeName = fast_forward, schemaPropData = true
 		// NewMikrotikItem.Fields["fast-forward"] = "true"
@@ -192,6 +207,7 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 			case *schema.Resource:
 
 				list := value.([]interface{})[0].(map[string]interface{})
+				ctyList := rawConfig.GetAttr(terraformSnakeName).AsValueSlice()[0]
 
 				for fieldName, value := range list {
 					// "output.0.affinity"
@@ -199,7 +215,7 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 					fieldSchema := terraformMetadata.Elem.(*schema.Resource).Schema[fieldName]
 
 					if fieldSchema.Optional && !d.HasChange(filedNameInState) &&
-						isEmpty(filedNameInState, fieldSchema, d) {
+						isEmpty(filedNameInState, fieldSchema, d, ctyList.GetAttr(fieldName)) {
 						continue
 					}
 					fieldName = SnakeToKebab(mikrotikKebabName + "." + fieldName)
