@@ -17,13 +17,13 @@ resource "routeros_interface_veth" "test" {
 ### Required
 
 - `address` (String) IP address.
+- `gateway` (String) Gateway IP address.
 - `name` (String) Interface name.
 
 ### Optional
 
 - `comment` (String)
 - `disabled` (Boolean)
-- `gateway` (String) Gateway IP address.
 
 ### Read-Only
 
