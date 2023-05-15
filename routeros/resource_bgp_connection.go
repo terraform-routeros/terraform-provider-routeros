@@ -64,7 +64,7 @@ import (
 */
 
 // https://help.mikrotik.com/docs/display/ROS/BGP#BGP-ConnectionMenu
-func ResourceBGPConnection() *schema.Resource {
+func ResourceRoutingBGPConnection() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/routing/bgp/connection"),
 		MetaId:           PropId(Id),

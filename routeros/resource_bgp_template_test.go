@@ -8,7 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
-const testBGPTemplateAddress = "routeros_bgp_template.test"
+const testBGPTemplateAddress = "routeros_routing_bgp_template.test"
 
 func TestAccBGPTemplateTest_basic(t *testing.T) {
 	for _, name := range testNames {
@@ -19,7 +19,7 @@ func TestAccBGPTemplateTest_basic(t *testing.T) {
 					testSetTransportEnv(t, name)
 				},
 				ProviderFactories: testAccProviderFactories,
-				CheckDestroy:      testCheckResourceDestroy("/routing/bgp/template", "routeros_bgp_template"),
+				CheckDestroy:      testCheckResourceDestroy("/routing/bgp/template", "routeros_routing_bgp_template"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccBGPTemplateConfig(),
@@ -52,7 +52,7 @@ func testAccCheckBGPTemplateExists(name string) resource.TestCheckFunc {
 func testAccBGPTemplateConfig() string {
 	return providerConfig + `
 
-resource "routeros_bgp_template" "test" {
+resource "routeros_routing_bgp_template" "test" {
   name = "test-template"
   as   = 65521
   input {

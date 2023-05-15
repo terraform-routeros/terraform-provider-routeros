@@ -8,7 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
-const testBGPConnectionAddress = "routeros_bgp_connection.test"
+const testBGPConnectionAddress = "routeros_routing_bgp_connection.test"
 
 func TestAccBGPConnectionTest_basic(t *testing.T) {
 	for _, name := range testNames {
@@ -19,7 +19,7 @@ func TestAccBGPConnectionTest_basic(t *testing.T) {
 					testSetTransportEnv(t, name)
 				},
 				ProviderFactories: testAccProviderFactories,
-				CheckDestroy:      testCheckResourceDestroy("/routing/bgp/connection", "routeros_bgp_connection"),
+				CheckDestroy:      testCheckResourceDestroy("/routing/bgp/connection", "routeros_routing_bgp_connection"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccBGPConnectionConfig(),
@@ -52,7 +52,7 @@ func testAccCheckBGPConnectionExists(name string) resource.TestCheckFunc {
 func testAccBGPConnectionConfig() string {
 	return providerConfig + `
 
-resource "routeros_bgp_connection" "test" {
+resource "routeros_routing_bgp_connection" "test" {
 	name         = "neighbor-test"
 	as           = "65550/5"
 	as_override  = true
