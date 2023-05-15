@@ -52,7 +52,7 @@ import (
 */
 
 // https://help.mikrotik.com/docs/display/ROS/
-func ResourceBGPTemplate() *schema.Resource {
+func ResourceRoutingBGPTemplate() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/routing/bgp/template"),
 		MetaId:           PropId(Id),
