@@ -278,6 +278,11 @@ func ResourceRoutingBGPConnection() *schema.Resource {
 						Optional:    true,
 						Description: "Local connection IPv4/6 address.",
 					},
+					"default_address": {
+						Type:        schema.TypeString,
+						Computed:    true,
+						Description: "",
+					},
 					"port": {
 						Type:         schema.TypeInt,
 						Optional:     true,
