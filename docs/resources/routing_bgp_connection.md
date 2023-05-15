@@ -75,6 +75,10 @@ Optional:
 - `port` (Number) Local connection port.
 - `ttl` (Number) Time To Live (hop limit) that will be recorded in sent TCP packets.
 
+Read-Only:
+
+- `default_address` (String)
+
 
 <a id="nestedblock--output"></a>
 ### Nested Schema for `output`
