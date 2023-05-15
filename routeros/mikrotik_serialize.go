@@ -214,6 +214,11 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 					filedNameInState := fmt.Sprintf("%v.%v.%v", terraformSnakeName, 0, fieldName)
 					fieldSchema := terraformMetadata.Elem.(*schema.Resource).Schema[fieldName]
 
+					// Skip all read-only properties.
+					if fieldSchema.Computed && !fieldSchema.Optional {
+						continue
+					}
+
 					if fieldSchema.Optional && !d.HasChange(filedNameInState) &&
 						isEmpty(filedNameInState, fieldSchema, d, ctyList.GetAttr(fieldName)) {
 						continue
@@ -377,6 +382,16 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 					err = d.Set(terraformSnakeName, l)
 				case *schema.Resource:
 					var v any
+
+					if _, ok := s[terraformSnakeName].Elem.(*schema.Resource).Schema[subFieldSnakeName]; !ok {
+						diags = append(diags, diag.Diagnostic{
+							Severity: diag.Warning,
+							Summary:  "Field '" + terraformSnakeName + "." + subFieldSnakeName + "' not found in the schema",
+							Detail: fmt.Sprintf("[MikrotikResourceDataToTerraformDatasource] the datasource Schema sub-field was lost during development: ▷ '%s.%s' ◁",
+								terraformSnakeName, subFieldSnakeName),
+						})
+						continue
+					}
 
 					switch s[terraformSnakeName].Elem.(*schema.Resource).Schema[subFieldSnakeName].Type {
 					case schema.TypeString:
