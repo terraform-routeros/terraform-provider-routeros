@@ -1,0 +1,1 @@
+terraform import routeros_interface_bridge_settings.settings .
