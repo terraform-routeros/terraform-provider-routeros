@@ -32,6 +32,10 @@ func DatasourceIPAddresses() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						KeyComment: {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"disabled": {
 							Type:     schema.TypeBool,
 							Computed: true,
