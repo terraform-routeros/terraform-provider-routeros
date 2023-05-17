@@ -22,6 +22,7 @@ Read-Only:
 
 - `actual_interface` (String)
 - `address` (String)
+- `comment` (String)
 - `disabled` (Boolean)
 - `dynamic` (Boolean)
 - `id` (String)

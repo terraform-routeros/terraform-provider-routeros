@@ -22,6 +22,7 @@ Read-Only:
 
 - `active` (Boolean)
 - `blackhole` (Boolean)
+- `comment` (String)
 - `connect` (Boolean)
 - `dhcp` (Boolean)
 - `disabled` (Boolean)
