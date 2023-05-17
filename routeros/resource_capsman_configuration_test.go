@@ -31,6 +31,8 @@ func TestAccCapsManConfigurationTest_basic(t *testing.T) {
 					{
 						Config: testAccCapsManConfigurationConfig(1),
 						Check: resource.ComposeTestCheckFunc(
+							resource.TestCheckResourceAttr("routeros_capsman_configuration.test_configuration_2",
+								"name", "test_configuration_2"),
 							resource.TestCheckResourceAttrSet("routeros_capsman_configuration.test_configuration_2",
 								"channel.config"),
 							resource.TestCheckResourceAttrSet("routeros_capsman_configuration.test_configuration_2",
@@ -103,7 +105,7 @@ resource "routeros_capsman_security" "test_security" {
 }
 
 resource "routeros_capsman_configuration" "test_configuration_2" {
-	name = "test_configuration"
+	name = "test_configuration_2"
 
 	channel = {
 	  config                = "${routeros_capsman_channel.test_channel.name}"
