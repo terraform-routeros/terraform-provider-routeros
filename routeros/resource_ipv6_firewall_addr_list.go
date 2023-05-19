@@ -1,6 +1,8 @@
 package routeros
 
 import (
+	"fmt"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
@@ -27,6 +29,17 @@ func ResourceIPv6FirewallAddrList() *schema.Resource {
 			Type:        schema.TypeString,
 			Required:    true,
 			Description: "A single IPv6 address or IPv6 CIDR subnet",
+			DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+				if old == new {
+					return true
+				}
+
+				if old == "" || new == "" {
+					return false
+				}
+
+				return old == fmt.Sprintf("%s/128", new)
+			},
 		},
 		KeyComment: PropCommentRw,
 		"creation_time": {
