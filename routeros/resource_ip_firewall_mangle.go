@@ -35,7 +35,7 @@ func ResourceIPFirewallMangle() *schema.Resource {
 			ValidateFunc: validation.StringInSlice([]string{
 				"accept", "add-dst-to-address-list", "add-src-to-address-list", "change-dscp", "change-mss",
 				"change-ttl", "clear-df", "fasttrack-connection", "jump", "log", "mark-connection", "mark-packet",
-				"mark-routing", "passthrough ", "return", "route", "set-priority", "sniff-pc", "sniff-tzsp",
+				"mark-routing", "passthrough", "return", "route", "set-priority", "sniff-pc", "sniff-tzsp",
 				"strip-ipv4-options",
 			}, false),
 		},
