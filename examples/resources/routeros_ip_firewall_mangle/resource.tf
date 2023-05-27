@@ -1,9 +1,9 @@
 resource "routeros_ip_firewall_mangle" "rule" {
   action        = "change-mss"
   chain         = "forward"
-  out-interface = "pppoe-out"
+  out_interface = "pppoe-out"
   protocol      = "tcp"
-  tcp-flags     = "syn"
-  new-mss       = "1130"
-  tcp-mss       = "1301-65535"
+  tcp_flags     = "syn"
+  new_mss       = "1130"
+  tcp_mss       = "1301-65535"
 }
