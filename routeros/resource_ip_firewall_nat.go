@@ -1,8 +1,10 @@
 package routeros
 
 import (
+	"context"
 	"regexp"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
@@ -29,6 +31,7 @@ func ResourceIPFirewallNat() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/firewall/nat"),
 		MetaId:           PropId(Id),
+		MetaSkipFields:   PropSkipFields(``),
 
 		"action": {
 			Type:        schema.TypeString,
@@ -384,7 +387,14 @@ func ResourceIPFirewallNat() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: DefaultCreate(resSchema),
 		ReadContext:   DefaultRead(resSchema),
-		UpdateContext: DefaultUpdate(resSchema),
+		UpdateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+			resSchema[MetaSkipFields].Default = `"place_before"`
+			defer func() {
+				resSchema[MetaSkipFields].Default = ``
+			}()
+
+			return ResourceUpdate(ctx, resSchema, d, m)
+		},
 		DeleteContext: DefaultDelete(resSchema),
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
