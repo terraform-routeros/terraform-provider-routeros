@@ -8,7 +8,7 @@ import (
 /*
   {
     ".id": "*54",
-	"name": "",
+    "name": "",
     "domain-id": "",
     "domain-tag": "",
     "in-filter": "",
@@ -35,14 +35,9 @@ func ResourceRoutingOspfInstance() *schema.Resource {
 		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
 		"domain-id": {
-			Type:     schema.TypeString,
-			Optional: true,
-			Description: "MPLS-related parameter. Identifies the OSPF domain of the instance. " +
-				"This value is attached to OSPF routes redistributed in BGP as VPNv4 routes as BGP " +
-				"extended community attribute and used when BGP VPNv4 routes are " +
-				"redistributed back to OSPF to determine whether to generate " +
-				"inter-area or AS-external LSA for that route. " +
-				"By default Null domain-id is used, as described in RFC 4577.",
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "MPLS-related parameter.",
 		},
 		"domain-tag": {
 			Type:     schema.TypeInt,
@@ -57,16 +52,14 @@ func ResourceRoutingOspfInstance() *schema.Resource {
 			Description: "name of the routing filter chain used for incoming prefixes",
 		},
 		"mpls-te-address": {
-			Type:     schema.TypeString,
-			Optional: true,
-			Description: "the area used for MPLS traffic engineering. TE Opaque LSAs are generated in this area. " +
-				"No more than one OSPF instance can have mpls-te-area configured.",
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "the area used for MPLS traffic engineering.",
 		},
 		"mpls-te-area": {
-			Type:     schema.TypeString,
-			Optional: true,
-			Description: "the area used for MPLS traffic engineering. TE Opaque LSAs are generated in this area. " +
-				"No more than one OSPF instance can have mpls-te-area configured.",
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "the area used for MPLS traffic engineering.",
 		},
 		"originate-default": {
 			Type:        schema.TypeString,
@@ -74,16 +67,14 @@ func ResourceRoutingOspfInstance() *schema.Resource {
 			Description: "Specifies default route (0.0.0.0/0) distribution method.",
 		},
 		"out-filter-chain": {
-			Type:     schema.TypeString,
-			Optional: true,
-			Description: "name of the routing filter chain used for outgoing prefixes filtering. " +
-				"Output operates only with \"external\" routes.",
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "name of the routing filter chain used for outgoing prefixes filtering.",
 		},
 		"out-filter-select": {
-			Type:     schema.TypeString,
-			Optional: true,
-			Description: "name of the routing filter select chain, used for output selection. " +
-				"Output operates only with \"external\" routes.",
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "name of the routing filter select chain, used for output selection.",
 		},
 		"redistribute": {
 			Type:        schema.TypeString,
