@@ -25,7 +25,7 @@ func TestAccRoutingOspfInterfaceTemplateTest_basic(t *testing.T) {
 						Config: testAccCheckRoutingOspfInterfaceTemplateConfig(),
 						Check: resource.ComposeTestCheckFunc(
 							testAccCheckRoutingOspfInterfaceTemplateExists(testRoutingOspfInterfaceTemplate),
-							resource.TestCheckResourceAttr(testRoutingOspfInterfaceTemplate, "name", "test_routing_ospf_interface_template"),
+							resource.TestCheckResourceAttr(testRoutingOspfInterfaceTemplate, "area", "test_routing_ospf_area"),
 						),
 					},
 				},
@@ -57,9 +57,15 @@ provider "routeros" {
 	insecure = true
 }
 
+resource "routeros_routing_ospf_instance" "test_routing_ospf_instance" {
+	name   		= "test_routing_ospf_instance"
+	disabled	= false
+  }
+
 resource "routeros_routing_ospf_area" "test_routing_ospf_area" {
 	name   		= "test_routing_ospf_area"
-	disabled	= true
+	disabled	= false
+	instance 	= routeros_routing_ospf_instance.test_routing_ospf_instance.name
 }
 
 resource "routeros_routing_ospf_interface_template" "test_routing_ospf_interface_template" {

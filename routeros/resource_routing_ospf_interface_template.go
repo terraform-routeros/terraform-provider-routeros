@@ -35,20 +35,19 @@ import (
 func ResourceRoutingOspfInterfaceTemplate() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/routing/ospf/interface-template"),
-		MetaId:           PropId(Name),
+		MetaId:           PropId(Id),
 
 		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
 		"interfaces": {
-			Type:     schema.TypeList,
-			Computed: true,
-			Elem: &schema.Schema{
-				Type: schema.TypeString,
-			},
+			Type:        schema.TypeString,
+			Optional:    true,
+			Default:     "none",
 			Description: "Interfaces to match.",
 		},
 		"network": {
 			Type:        schema.TypeString,
+			Optional:    true,
 			Description: "The network prefix associated with the area.",
 		},
 		"area": {
@@ -58,76 +57,99 @@ func ResourceRoutingOspfInterfaceTemplate() *schema.Resource {
 		},
 		"auth": {
 			Type:         schema.TypeString,
+			Optional:     true,
 			Description:  "Specifies authentication method for OSPF protocol messages.",
 			ValidateFunc: validation.StringInSlice([]string{"simple", "md5", "sha1", "sha256", "sha384", "sha512"}, true),
 		},
-		"auth-id": {
+		"auth_id": {
 			Type:        schema.TypeInt,
+			Optional:    true,
 			Description: "The key id is used to calculate message digest (used when MD5 or SHA authentication is enabled).",
 		},
-		"authentication-key": {
+		"authentication_key": {
 			Type:        schema.TypeString,
+			Optional:    true,
 			Description: "The authentication key to be used, should match on all the neighbors of the network segment.",
 		},
 		"cost": {
 			Type:         schema.TypeInt,
+			Optional:     true,
 			Default:      1,
 			Description:  "Interface cost expressed as link state metric.",
 			ValidateFunc: validation.IntBetween(0, 65535),
 		},
-		"dead-interval": {
-			Type:        schema.TypeString,
-			Default:     "00:00:40",
-			Description: "Specifies the interval after which a neighbor is declared dead.",
+		"dead_interval": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Default:          "40s",
+			ValidateFunc:     ValidationTime,
+			DiffSuppressFunc: TimeEquall,
+			Description:      "Specifies the interval after which a neighbor is declared dead.",
 		},
-		"hello-interval": {
-			Type:        schema.TypeString,
-			Default:     "00:00:10",
-			Description: "The interval between HELLO packets that the router sends out this interface.",
+		"hello_interval": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Default:          "10s",
+			ValidateFunc:     ValidationTime,
+			DiffSuppressFunc: TimeEquall,
+			Description:      "The interval between HELLO packets that the router sends out this interface.",
 		},
-		"instance-id": {
+		"instance_id": {
 			Type:         schema.TypeInt,
+			Optional:     true,
 			Description:  "Interface cost expressed as link state metric.",
 			Default:      0,
 			ValidateFunc: validation.IntBetween(0, 255),
 		},
 		"passive": {
 			Type:        schema.TypeBool,
+			Optional:    true,
 			Default:     false,
 			Description: "If enabled, then do not send or receive OSPF traffic on the matching interfaces",
 		},
-		"prefix-list": {
+		"prefix_list": {
 			Type:        schema.TypeString,
+			Optional:    true,
 			Description: "Name of the address list containing networks that should be advertised to the v3 interface.",
 		},
 		"priority": {
 			Type:         schema.TypeInt,
+			Optional:     true,
 			Description:  "Router's priority. Used to determine the designated router in a broadcast network.",
 			Default:      128,
 			ValidateFunc: validation.IntBetween(0, 255),
 		},
-		"retransmit-interval": {
-			Type:        schema.TypeString,
-			Default:     "00:00:05",
-			Description: "Time interval the lost link state advertisement will be resent.",
+		"retransmit_interval": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Default:          "5s",
+			ValidateFunc:     ValidationTime,
+			DiffSuppressFunc: TimeEquall,
+			Description:      "Time interval the lost link state advertisement will be resent.",
 		},
-		"transmit-delay": {
-			Type:        schema.TypeString,
-			Default:     "00:00:01",
-			Description: "Link-state transmit delay is the estimated time it takes to transmit a link-state update packet on the interface.",
+		"transmit_delay": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Default:          "1s",
+			ValidateFunc:     ValidationTime,
+			DiffSuppressFunc: TimeEquall,
+			Description:      "Link-state transmit delay is the estimated time it takes to transmit a link-state update packet on the interface.",
 		},
 		"type": {
 			Type:         schema.TypeString,
 			Description:  "The OSPF network type on this interface.",
+			Optional:     true,
 			Default:      "broadcast",
 			ValidateFunc: validation.StringInSlice([]string{"broadcast", "nbma", "ptp", "ptmp", "ptp-unnumbered", "virtual-link"}, true),
 		},
-		"vlink-neighbor-id": {
+		"vlink_neighbor_id": {
 			Type:        schema.TypeString,
+			Optional:    true,
 			Description: "Specifies the router-id of the neighbor which should be connected over the virtual link.",
 		},
-		"vlink-transit-area": {
+		"vlink_transit_area": {
 			Type:        schema.TypeString,
+			Optional:    true,
 			Description: "A non-backbone area the two routers have in common over which the virtual link will be established.",
 		},
 	}

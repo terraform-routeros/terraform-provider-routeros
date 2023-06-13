@@ -27,13 +27,15 @@ func ResourceRoutingOspfArea() *schema.Resource {
 		KeyName:     PropNameForceNewRw,
 		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
-		"area-id": {
+		"area_id": {
 			Type:        schema.TypeString,
+			Default:     "0.0.0.0",
+			Optional:    true,
 			Description: "OSPF area identifier.",
 		},
-		"default-cost": {
+		"default_cost": {
 			Type:        schema.TypeInt,
-			Required:    false,
+			Optional:    true,
 			Description: "Default cost of injected LSAs into the area.",
 		},
 		"instance": {
@@ -41,21 +43,21 @@ func ResourceRoutingOspfArea() *schema.Resource {
 			Required:    true,
 			Description: "Name of the OSPF instance this area belongs to.",
 		},
-		"no-summaries": {
+		"no_summaries": {
 			Type:        schema.TypeBool,
 			Default:     false,
-			Required:    false,
+			Optional:    true,
 			Description: "If set then the area will not flood summary LSAs in the stub area.",
 		},
-		"nssa-translate": {
+		"nssa_translate": {
 			Type:         schema.TypeString,
-			Required:     false,
+			Optional:     true,
 			Description:  "The parameter indicates which ABR will be used as a translator from type7 to type5 LSA.",
 			ValidateFunc: validation.StringInSlice([]string{"no", "yes", "candidate"}, false),
 		},
 		"type": {
 			Type:         schema.TypeString,
-			Required:     true,
+			Optional:     true,
 			Default:      "default",
 			Description:  "The area type.",
 			ValidateFunc: validation.StringInSlice([]string{"default", "nssa", "stub"}, true),
