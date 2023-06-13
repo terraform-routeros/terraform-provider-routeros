@@ -28,6 +28,7 @@ func ResourceInterfaceBonding() *schema.Resource {
 			Computed:         true,
 			Description:      "Time in milliseconds which defines how often to monitor ARP requests",
 			DiffSuppressFunc: TimeEquall,
+			ValidateFunc:     ValidationTime,
 		},
 		"arp_ip_targets": {
 			Type:     schema.TypeList,
@@ -46,6 +47,7 @@ func ResourceInterfaceBonding() *schema.Resource {
 			Description: "If a link failure has been detected, bonding interface is disabled for " +
 				"down-delay time. Value should be a multiple of mii-interval, otherwise it will be rounded down to the nearest value.",
 			DiffSuppressFunc: TimeEquall,
+			ValidateFunc:     ValidationTime,
 		},
 		"forced_mac_address": {
 			Type:     schema.TypeString,
@@ -61,6 +63,7 @@ func ResourceInterfaceBonding() *schema.Resource {
 			Description: "Link Aggregation Control Protocol rate specifies how often to exchange with LACPDUs between bonding peer. " +
 				"Used to determine whether link is up or other changes have occurred in the network. LACP tries to adapt to these changes providing failover.",
 			DiffSuppressFunc: TimeEquall,
+			ValidateFunc:     ValidationTime,
 		},
 		"link_monitoring": {
 			Type:         schema.TypeString,
@@ -83,6 +86,7 @@ func ResourceInterfaceBonding() *schema.Resource {
 			Computed:         true,
 			Description:      "How often to monitor the link for failures (parameter used only if link-monitoring is mii)",
 			DiffSuppressFunc: TimeEquall,
+			ValidateFunc:     ValidationTime,
 		},
 		"mode": {
 			Type:        schema.TypeString,
@@ -112,6 +116,7 @@ func ResourceInterfaceBonding() *schema.Resource {
 			Description: "If a link has been brought up, bonding interface is disabled for up-delay time and after this " +
 				"time it is enabled. Value should be a multiple of mii-interval, otherwise it will be rounded down to the nearest value.",
 			DiffSuppressFunc: TimeEquall,
+			ValidateFunc:     ValidationTime,
 		},
 		"transmit_hash_policy": {
 			Type:         schema.TypeString,
