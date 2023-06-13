@@ -106,7 +106,6 @@ func Provider() *schema.Provider {
 			"routeros_interface_list":           ResourceInterfaceList(),
 			"routeros_interface_list_member":    ResourceInterfaceListMember(),
 			"routeros_interface_ovpn_server":    ResourceInterfaceOpenVPNServer(),
-			"routeros_interface_bonding":        ResourceInterfaceBonding(),
 
 			// Aliases for interface objects to retain compatibility between original and fork
 			"routeros_bridge":         ResourceInterfaceBridge(),
