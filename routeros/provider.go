@@ -146,6 +146,9 @@ func Provider() *schema.Provider {
 			// Routing tables
 			"routeros_routing_table": ResourceRoutingTable(),
 
+			// OSPF
+			"routeros_routing_ospf_instance": ResourceRoutingOspfInstance(),
+
 			// VPN
 			"routeros_ovpn_server": ResourceOpenVPNServer(),
 
