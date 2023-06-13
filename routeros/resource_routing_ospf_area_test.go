@@ -57,9 +57,15 @@ provider "routeros" {
 	insecure = true
 }
 
+resource "routeros_routing_ospf_instance" "test_routing_ospf_instance" {
+	name   		= "test_routing_ospf_instance"
+	disabled	= false
+  }
+
 resource "routeros_routing_ospf_area" "test_routing_ospf_area" {
 	name   		= "test_routing_ospf_area"
 	disabled	= true
+	instance 	= routeros_routing_ospf_instance.test_routing_ospf_instance.name
 }
 
 `
