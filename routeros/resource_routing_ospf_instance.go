@@ -62,10 +62,11 @@ func ResourceRoutingOspfInstance() *schema.Resource {
 			Description: "the area used for MPLS traffic engineering.",
 		},
 		"originate_default": {
-			Type:        schema.TypeString,
-			Default:     "never",
-			Optional:    true,
-			Description: "Specifies default route (0.0.0.0/0) distribution method.",
+			Type:         schema.TypeString,
+			Default:      "never",
+			Optional:     true,
+			Description:  "Specifies default route (0.0.0.0/0) distribution method.",
+			ValidateFunc: validation.StringInSlice([]string{"always", "if-installed", "never"}, true),
 		},
 		"out_filter_chain": {
 			Type:        schema.TypeString,
@@ -78,9 +79,13 @@ func ResourceRoutingOspfInstance() *schema.Resource {
 			Description: "name of the routing filter select chain, used for output selection.",
 		},
 		"redistribute": {
-			Type:        schema.TypeString,
+			Type:        schema.TypeList,
 			Optional:    true,
 			Description: "Enable redistribution of specific route types.",
+			Elem: &schema.Schema{
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"bgp", "connected", "copy", "dhcp", "fantasy", "modem", "ospf", "rip", "static", "vpn"}, true),
+			},
 		},
 		"router_id": {
 			Type:     schema.TypeString,
@@ -100,12 +105,13 @@ func ResourceRoutingOspfInstance() *schema.Resource {
 			Type:        schema.TypeString,
 			Default:     "main",
 			Optional:    true,
-			Description: "the VRF table this OSPF instance operates on",
+			Description: "The VRF table this OSPF instance operates on",
 		},
 		"use_dn": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Description:  "",
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Forces to use or ignore DN bit. Useful in some CE PE scenarios to inject intra-area routes into VRF. " +
+				"If a parameter is unset then the DN bit is used according to RFC. Available since v6rc12.",
 			ValidateFunc: validation.StringInSlice([]string{"yes", "no"}, true),
 		},
 	}
