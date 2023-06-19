@@ -51,16 +51,10 @@ func testAccCheckRoutingOspfInstanceExists(name string) resource.TestCheckFunc {
 }
 
 func testAccCheckRoutingOspfInstanceConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
-
+	return providerConfig + `
 resource "routeros_routing_ospf_instance" "test_routing_ospf_instance" {
 	name   		= "test_routing_ospf_instance"
 	disabled	= false
   }
-
 `
 }
