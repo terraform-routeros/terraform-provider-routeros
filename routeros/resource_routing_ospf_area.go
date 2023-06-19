@@ -46,7 +46,6 @@ func ResourceRoutingOspfArea() *schema.Resource {
 		KeyName: PropNameForceNewRw,
 		"no_summaries": {
 			Type:        schema.TypeBool,
-			Default:     false,
 			Optional:    true,
 			Description: "If set then the area will not flood summary LSAs in the stub area.",
 		},
