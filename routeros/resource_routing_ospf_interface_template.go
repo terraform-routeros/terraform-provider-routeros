@@ -37,19 +37,6 @@ func ResourceRoutingOspfInterfaceTemplate() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/routing/ospf/interface-template"),
 		MetaId:           PropId(Id),
 
-		KeyComment:  PropCommentRw,
-		KeyDisabled: PropDisabledRw,
-		"interfaces": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Default:     "none",
-			Description: "Interfaces to match.",
-		},
-		"network": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Description: "The network prefix associated with the area.",
-		},
 		"area": {
 			Type:        schema.TypeString,
 			Required:    true,
@@ -62,15 +49,18 @@ func ResourceRoutingOspfInterfaceTemplate() *schema.Resource {
 			ValidateFunc: validation.StringInSlice([]string{"simple", "md5", "sha1", "sha256", "sha384", "sha512"}, true),
 		},
 		"auth_id": {
-			Type:        schema.TypeInt,
-			Optional:    true,
-			Description: "The key id is used to calculate message digest (used when MD5 or SHA authentication is enabled).",
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Description:  "The key id is used to calculate message digest (used when MD5 or SHA authentication is enabled).",
+			ValidateFunc: validation.IntBetween(0, 255),
 		},
 		"authentication_key": {
 			Type:        schema.TypeString,
 			Optional:    true,
+			Sensitive:   true,
 			Description: "The authentication key to be used, should match on all the neighbors of the network segment.",
 		},
+		KeyComment: PropCommentRw,
 		"cost": {
 			Type:         schema.TypeInt,
 			Optional:     true,
@@ -82,17 +72,27 @@ func ResourceRoutingOspfInterfaceTemplate() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Default:          "40s",
+			Description:      "Specifies the interval after which a neighbor is declared dead.",
 			ValidateFunc:     ValidationTime,
 			DiffSuppressFunc: TimeEquall,
-			Description:      "Specifies the interval after which a neighbor is declared dead.",
 		},
+		KeyDisabled: PropDisabledRw,
 		"hello_interval": {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Default:          "10s",
+			Description:      "The interval between HELLO packets that the router sends out this interface.",
 			ValidateFunc:     ValidationTime,
 			DiffSuppressFunc: TimeEquall,
-			Description:      "The interval between HELLO packets that the router sends out this interface.",
+		},
+		KeyInactive: PropInactiveRo,
+		"interfaces": {
+			Type:        schema.TypeSet,
+			Optional:    true,
+			Description: "Interfaces to match.",
+			Elem: &schema.Schema{
+				Type: schema.TypeString,
+			},
 		},
 		"instance_id": {
 			Type:         schema.TypeInt,
@@ -100,6 +100,11 @@ func ResourceRoutingOspfInterfaceTemplate() *schema.Resource {
 			Description:  "Interface cost expressed as link state metric.",
 			Default:      0,
 			ValidateFunc: validation.IntBetween(0, 255),
+		},
+		"network": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "The network prefix associated with the area.",
 		},
 		"passive": {
 			Type:        schema.TypeBool,
@@ -123,24 +128,26 @@ func ResourceRoutingOspfInterfaceTemplate() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Default:          "5s",
+			Description:      "Time interval the lost link state advertisement will be resent.",
 			ValidateFunc:     ValidationTime,
 			DiffSuppressFunc: TimeEquall,
-			Description:      "Time interval the lost link state advertisement will be resent.",
 		},
 		"transmit_delay": {
-			Type:             schema.TypeString,
-			Optional:         true,
-			Default:          "1s",
+			Type:     schema.TypeString,
+			Optional: true,
+			Default:  "1s",
+			Description: "Link-state transmit delay is the estimated time it takes to transmit a link-state " +
+				"update packet on the interface.",
 			ValidateFunc:     ValidationTime,
 			DiffSuppressFunc: TimeEquall,
-			Description:      "Link-state transmit delay is the estimated time it takes to transmit a link-state update packet on the interface.",
 		},
 		"type": {
-			Type:         schema.TypeString,
-			Description:  "The OSPF network type on this interface.",
-			Optional:     true,
-			Default:      "broadcast",
-			ValidateFunc: validation.StringInSlice([]string{"broadcast", "nbma", "ptp", "ptmp", "ptp-unnumbered", "virtual-link"}, true),
+			Type:        schema.TypeString,
+			Description: "The OSPF network type on this interface.",
+			Optional:    true,
+			Default:     "broadcast",
+			ValidateFunc: validation.StringInSlice(
+				[]string{"broadcast", "nbma", "ptp", "ptmp", "ptp-unnumbered", "virtual-link"}, true),
 		},
 		"vlink_neighbor_id": {
 			Type:        schema.TypeString,
@@ -148,9 +155,10 @@ func ResourceRoutingOspfInterfaceTemplate() *schema.Resource {
 			Description: "Specifies the router-id of the neighbor which should be connected over the virtual link.",
 		},
 		"vlink_transit_area": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Description: "A non-backbone area the two routers have in common over which the virtual link will be established.",
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "A non-backbone area the two routers have in common over which the virtual link will " +
+				"be established.",
 		},
 	}
 
