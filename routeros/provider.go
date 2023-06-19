@@ -153,6 +153,11 @@ func Provider() *schema.Provider {
 			"routeros_routing_bgp_connection": ResourceRoutingBGPConnection(),
 			"routeros_routing_bgp_template":   ResourceRoutingBGPTemplate(),
 
+			// OSPF
+			"routeros_routing_ospf_instance":           ResourceRoutingOspfInstance(),
+			"routeros_routing_ospf_area":               ResourceRoutingOspfArea(),
+			"routeros_routing_ospf_interface_template": ResourceRoutingOspfInterfaceTemplate(),
+
 			// VPN
 			"routeros_ovpn_server": ResourceOpenVPNServer(),
 

@@ -63,10 +63,7 @@ func ResourceIPv6Route() *schema.Resource {
 			Computed:    true,
 			Description: "Shows actual (resolved) gateway and interface that will be used for packet forwarding.",
 		},
-		"inactive": {
-			Type:     schema.TypeBool,
-			Computed: true,
-		},
+		KeyInactive: PropInactiveRo,
 		"pref_src": {
 			Type:     schema.TypeString,
 			Optional: true,
