@@ -193,10 +193,7 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 			Computed:    true,
 			Description: "Switch chip used by the port.",
 		},
-		"inactive": {
-			Type:     schema.TypeBool,
-			Computed: true,
-		},
+		KeyInactive: PropInactiveRo,
 		"ingress_filtering": {
 			Type:     schema.TypeBool,
 			Optional: true,

@@ -28,6 +28,7 @@ const (
 	KeyDynamic     = "dynamic"
 	KeyDisabled    = "disabled"
 	KeyFilter      = "filter"
+	KeyInactive    = "inactive"
 	KeyInterface   = "interface"
 	KeyInvalid     = "invalid"
 	KeyL2Mtu       = "l2mtu"
@@ -141,6 +142,10 @@ var (
 		Optional:    true,
 		Elem:        schema.TypeString,
 		Description: "Additional request filtering options.",
+	}
+	PropInactiveRo = &schema.Schema{
+		Type:     schema.TypeBool,
+		Computed: true,
 	}
 	PropInterfaceRw = &schema.Schema{
 		Type:        schema.TypeString,
