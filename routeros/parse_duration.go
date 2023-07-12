@@ -3,6 +3,7 @@ package routeros
 import (
 	"errors"
 	"fmt"
+	"strings"
 	"time"
 )
 
@@ -27,6 +28,10 @@ func ParseDuration(s string) (time.Duration, error) {
 	}
 	if s == "" {
 		return 0, fmt.Errorf(`time: invalid duration "%v"`, orig)
+	}
+	// hh:mm:ss format
+	if ss := strings.Split(s, ":"); len(ss) == 3 {
+		s = ss[0] + "h" + ss[1] + "m" + ss[2]
 	}
 	for s != "" {
 		var (
