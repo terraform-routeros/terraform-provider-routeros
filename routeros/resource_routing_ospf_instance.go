@@ -107,12 +107,7 @@ func ResourceRoutingOspfInstance() *schema.Resource {
 			Description:  "OSPF version this instance will be running (v2 for IPv4, v3 for IPv6).",
 			ValidateFunc: validation.IntBetween(2, 3),
 		},
-		"vrf": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Default:     "main",
-			Description: "The VRF table this OSPF instance operates on",
-		},
+		KeyVrf: PropVrfRw,
 	}
 
 	return &schema.Resource{

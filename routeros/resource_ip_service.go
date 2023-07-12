@@ -82,12 +82,7 @@ func ResourceIpService() *schema.Resource {
 			Description:  "Specifies which TLS versions to allow by a particular service.",
 			ValidateFunc: validation.StringInSlice([]string{"any", "only-1.2"}, false),
 		},
-		"vrf": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Default:     "main",
-			Description: "Specify which VRF instance to use by a particular service.",
-		},
+		KeyVrf: PropVrfRw,
 	}
 
 	resCreateUpdate := func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
