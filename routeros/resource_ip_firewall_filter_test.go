@@ -51,12 +51,7 @@ func testAccCheckIPFirewallFilterExists(name string) resource.TestCheckFunc {
 }
 
 func testAccIPFirewallFilterConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
-
+	return providerConfig + `
 resource "routeros_firewall_filter" "rule" {
 	action 		= "accept"
 	chain   	= "forward"
@@ -64,7 +59,16 @@ resource "routeros_firewall_filter" "rule" {
 	dst_address = "10.0.1.1"
 	dst_port 	= "443"
 	protocol 	= "tcp"
-  }
+}
 
+resource "routeros_ip_firewall_filter" "testepeg" {
+	action = "add-dst-to-address-list"
+	address_list_timeout = "00:00:10"
+	protocol = "tcp"
+	tls_host = "globo"
+	address_list = "teste"
+	chain = "forward"
+	src_address_list = "LAN"
+}
 `
 }

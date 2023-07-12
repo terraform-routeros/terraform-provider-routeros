@@ -25,6 +25,11 @@ func ResourceIPFirewallFilter() *schema.Resource {
 				"jump", "log", "passthrough", "reject", "return", "tarpit",
 			}, false),
 		},
+		"address_list": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Name of the address list used in 'add-dst-to-address-list' and 'add-src-to-address-list' actions.",
+		},
 		"address_list_timeout": {
 			Type:     schema.TypeString,
 			Optional: true,
@@ -32,6 +37,7 @@ func ResourceIPFirewallFilter() *schema.Resource {
 			Description: "Time interval after which the address will be removed from the address list specified by " +
 				"address-list parameter. Used in conjunction with add-dst-to-address-list or add-src-to-address-list " +
 				"actions.",
+			DiffSuppressFunc: TimeEquall,
 		},
 		"bytes": {
 			Type:        schema.TypeInt,
@@ -392,7 +398,7 @@ func ResourceIPFirewallFilter() *schema.Resource {
 		ReadContext:   DefaultRead(resSchema),
 		UpdateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 			resSchema[MetaSkipFields].Default = `"place_before"`
-			defer func(){
+			defer func() {
 				resSchema[MetaSkipFields].Default = ``
 			}()
 
