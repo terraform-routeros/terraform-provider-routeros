@@ -23,6 +23,7 @@ resource "routeros_ip_firewall_filter" "rule" {
 
 ### Optional
 
+- `address_list` (String) Name of the address list used in 'add-dst-to-address-list' and 'add-src-to-address-list' actions.
 - `address_list_timeout` (String) Time interval after which the address will be removed from the address list specified by address-list parameter. Used in conjunction with add-dst-to-address-list or add-src-to-address-list actions.
 - `comment` (String)
 - `connection_bytes` (String) Matches packets only if a given amount of bytes has been transfered through the particular connection.
