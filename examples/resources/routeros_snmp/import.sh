@@ -1,0 +1,1 @@
+terraform import routeros_snmp.test .
