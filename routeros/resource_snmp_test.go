@@ -8,9 +8,15 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
+const testSNMPMinVersion = "7.8"
 const testSNMPAddress = "routeros_snmp.test"
 
 func TestAccSNMPTest_basic(t *testing.T) {
+	if !testCheckMinVersion(t, testSNMPMinVersion) {
+		t.Logf("Test skipped, the minimum required version is %v", testSNMPMinVersion)
+		return
+	}
+
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{
