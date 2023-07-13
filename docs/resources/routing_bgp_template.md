@@ -32,7 +32,7 @@
 - `save_to` (String) Filename to be used to save BGP protocol-specific packet content (Exported PDU) into pcap file. This method allows much simpler peer-specific packet capturing for debugging purposes. Pcap files in this format can also be loaded to create virtual BGP peers to recreate conditions that happened at the time when packet capture was running.
 - `templates` (Set of String) List of template names from which to inherit parameters. Useful feature, to easily configure groups with overlapping configuration options.
 - `use_bfd` (Boolean) Whether to use the BFD protocol for faster connection state detection.
-- `vrf` (String) Name of the VRF BGP connections operates on. By default always use the 'main' routing table.
+- `vrf` (String) The VRF table this resource operates on.
 
 ### Read-Only
 

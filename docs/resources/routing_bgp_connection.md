@@ -37,7 +37,7 @@
 - `tcp_md5_key` (String, Sensitive) The key used to authenticate the connection with TCP MD5 signature as described in RFC 2385. If not specified, authentication is not used.
 - `templates` (Set of String) List of the template names, to inherit parameters from. Useful for dynamic BGP peers.
 - `use_bfd` (Boolean) Whether to use the BFD protocol for faster connection state detection.
-- `vrf` (String) Name of the VRF BGP connections operates on. By default always use the 'main' routing table.
+- `vrf` (String) The VRF table this resource operates on.
 
 ### Read-Only
 

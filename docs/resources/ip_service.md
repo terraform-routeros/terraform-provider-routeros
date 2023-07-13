@@ -59,7 +59,7 @@ resource "routeros_ip_service" "enabled" {
 - `certificate` (String) The name of the certificate used by a particular service. Applicable only for services that depend on certificates ( www-ssl, api-ssl ).
 - `disabled` (Boolean)
 - `tls_version` (String) Specifies which TLS versions to allow by a particular service.
-- `vrf` (String) Specify which VRF instance to use by a particular service.
+- `vrf` (String) The VRF table this resource operates on.
 
 ### Read-Only
 
