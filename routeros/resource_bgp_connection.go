@@ -520,12 +520,7 @@ func ResourceRoutingBGPConnection() *schema.Resource {
 			Optional:    true,
 			Description: "Whether to use the BFD protocol for faster connection state detection.",
 		},
-		"vrf": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Default:     "main",
-			Description: "Name of the VRF BGP connections operates on. By default always use the 'main' routing table.",
-		},
+		KeyVrf: PropVrfRw,
 	}
 
 	return &schema.Resource{

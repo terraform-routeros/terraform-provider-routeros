@@ -37,6 +37,7 @@ const (
 	KeyName        = "name"
 	KeyPlaceBefore = "place_before"
 	KeyRunning     = "running"
+	KeyVrf         = "vrf"
 )
 
 // PropResourcePath Resource path property.
@@ -189,6 +190,12 @@ var (
 	PropRunningRo = &schema.Schema{
 		Type:     schema.TypeBool,
 		Computed: true,
+	}
+	PropVrfRw = &schema.Schema{
+		Type:        schema.TypeString,
+		Optional:    true,
+		Default:     "main",
+		Description: "The VRF table this resource operates on.",
 	}
 )
 
