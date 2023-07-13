@@ -58,6 +58,10 @@ func testAccCheckSNMPExists(name string) resource.TestCheckFunc {
 func testAccSNMPConfig(n int) string {
 	var conf = []string{
 		`
+resource "routeros_snmp_community" "test" {
+	name = "private"
+}
+
 resource "routeros_snmp" "test" {
 	contact          = "John D."
 	enabled          = true

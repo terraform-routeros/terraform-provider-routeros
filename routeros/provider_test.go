@@ -32,7 +32,7 @@ func init() {
 	testAccProvider = Provider()
 	testAccProviderFactories = map[string]func() (*schema.Provider, error){
 		"routeros": func() (*schema.Provider, error) {
-			return NewProvider(), nil
+			return testAccProvider, nil
 		},
 	}
 }
