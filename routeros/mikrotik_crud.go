@@ -85,6 +85,8 @@ func UpdateItem(id *ItemId, resourcePath string, item MikrotikItem, c Client) (M
 	if c.GetTransport() == TransportREST {
 		// /interface/vlan/*39
 		resourcePath += "/" + id.Value
+	} else {
+		item[".id"] = id.Value
 	}
 
 	res := MikrotikItem{}
