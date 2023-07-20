@@ -57,6 +57,7 @@ func ResourceSNMP() *schema.Resource {
 		"trap_community": {
 			Type:      schema.TypeString,
 			Optional:  true,
+			Computed:  true,
 			Sensitive: true,
 			Description: "Which communities configured in community menu to use when sending out the trap. " +
 				"This name must be present in the community list.",
@@ -64,6 +65,7 @@ func ResourceSNMP() *schema.Resource {
 		"trap_generators": {
 			Type:     schema.TypeString,
 			Optional: true,
+			Computed: true,
 			Description: "What action will generate traps: interfaces - interface changes; start-trap - snmp " +
 				"server starting on the router.",
 			ValidateFunc: validation.StringInSlice([]string{"interfaces", "start-trap", "temp-exception"}, false),
@@ -85,6 +87,7 @@ func ResourceSNMP() *schema.Resource {
 		"trap_version": {
 			Type:         schema.TypeInt,
 			Optional:     true,
+			Computed:     true,
 			Description:  "Version of SNMP protocol to use for trap.",
 			ValidateFunc: validation.IntBetween(1, 3),
 		},
