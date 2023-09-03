@@ -24,7 +24,7 @@ terraform {
 }
 
 provider "routeros" {
-  hosturl        = "https://router.local"        # env ROS_HOSTURL or MIKROTIK_HOST
+  hosturl        = "apis://router.local"         # env ROS_HOSTURL or MIKROTIK_HOST
   username       = "admin"                       # env ROS_USERNAME or MIKROTIK_USER
   password       = ""                            # env ROS_PASSWORD or MIKROTIK_PASSWORD
   ca_certificate = "/path/to/ca/certificate.pem" # env ROS_CA_CERTIFICATE or MIKROTIK_CA_CERTIFICATE
@@ -43,7 +43,9 @@ resource "routeros_interface_gre" "gre_hq" {
 
 ### Required
 
-- `hosturl` (String) URL of the ROS router. Include the scheme (http/https)
+- `hosturl` (String) URL of the ROS router including the scheme:
+  - `api` http access on port 8728
+  - `apis` https access on port 8729
 
 ### Optional
 
