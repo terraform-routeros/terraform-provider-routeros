@@ -105,6 +105,66 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Type:        schema.TypeString,
 			Description: `Media Access Control number of an interface.`,
 			Optional:    true,
+			Default:     "",
+		},
+		"mdix_enable": {
+			Type:        schema.TypeBool,
+			Description: `Whether the MDI/X auto cross over cable correction feature is enabled for the port (Hardware specific, e.g. ether1 on RB500 can be set to yes/no. Fixed to 'yes' on other hardware.)`,
+			Optional:    true,
+			Default:     true,
+		},
+		"mtu": {
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Default:      1500,
+			Description:  "Layer3 Maximum transmission unit",
+			ValidateFunc: validation.IntBetween(0, 65536),
+		},
+		KeyName: PropName("Name of the ethernet interface."),
+		"orig-mac-address": {
+			Type:        schema.TypeString,
+			Description: "Original Media Access Control number of an interface. (read only)",
+			Computed:    true,
+		},
+		"poe-out": {
+			Type:         schema.TypeString,
+			Description:  "PoE settings: (https://wiki.mikrotik.com/wiki/Manual:PoE-Out)",
+			Default:      "off",
+			Optional:     true,
+			ValidateFunc: validation.StringInSlice([]string{"auto-on", "forced-on", "off"}, false),
+		},
+		"poe-priority": {
+			Type:         schema.TypeInt,
+			Description:  "PoE settings: (https://wiki.mikrotik.com/wiki/Manual:PoE-Out)",
+			Optional:     true,
+			ValidateFunc: validation.IntBetween(0, 99),
+		},
+		"sfp-shutdown-temperature": {
+			Type: schema.TypeInt,
+			Description: "The temperature in Celsius at which the interface will be temporarily turned off due to too high detected SFP module temperature (introduced v6.48)." +
+				"The default value for SFP/SFP+/SFP28 interfaces is 95, and for QSFP+/QSFP28 interfaces 80 (introduced v7.6).",
+			Optional: true,
+		},
+		"speed": {
+			Type:         schema.TypeString,
+			Description:  "Sets interface data transmission speed which takes effect only when auto-negotiation is disabled.",
+			Optional:     true,
+			ValidateFunc: validation.StringInSlice([]string{"10Mbps", "10Gbps", "100Mbps", "1Gbps"}, false),
+		},
+		"running": {
+			Type:        schema.TypeBool,
+			Description: "Whether interface is running. Note that some interface does not have running check and they are always reported as \"running\"",
+			Computed:    true,
+		},
+		"slave": {
+			Type:        schema.TypeBool,
+			Description: "Whether interface is configured as a slave of another interface (for example Bonding)",
+			Computed:    true,
+		},
+		"switch": {
+			Type:        schema.TypeInt,
+			Description: "ID to which switch chip interface belongs to.",
+			Computed:    true,
 		},
 	}
 
