@@ -72,7 +72,8 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Type: schema.TypeBool,
 			Description: `Disable running check. If this value is set to 'no', the router automatically detects whether the NIC is connected with a device in the network or not.
 						Default value is 'yes' because older NICs do not support it. (only applicable to x86)`,
-			Default: true,
+			Default:  true,
+			Optional: true,
 		},
 		"tx_flow_control": {
 			Type: schema.TypeString,
@@ -80,6 +81,7 @@ func ResourceInterfaceEthernet() *schema.Resource {
 					Pause frames are only generated when some routers output interface is congested and packets cannot be transmitted anymore. 
 					Auto is the same as on except when auto-negotiation=yes flow control status is resolved by taking into account what other end advertises.`,
 			Default:      "off",
+			Optional:     true,
 			ValidateFunc: validation.StringInSlice([]string{"on", "off", "auto"}, false),
 		},
 		"rx_flow_control": {
@@ -87,6 +89,7 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Description: `When set to on, the port will process received pause frames and suspend transmission if required.
 					auto is the same as on except when auto-negotiation=yes flow control status is resolved by taking into account what other end advertises.`,
 			Default:      "off",
+			Optional:     true,
 			ValidateFunc: validation.StringInSlice([]string{"on", "off", "auto"}, false),
 		},
 		"full_duplex": {
