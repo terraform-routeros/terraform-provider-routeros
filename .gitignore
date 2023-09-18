@@ -4,3 +4,9 @@ pkg/*
 terraform-provider-routeros*
 terraform.tfstate*
 node_modules
+
+devenv/iso
+devenv/.terraform
+devenv/.terraform.lock.hcl
+devenv/.terraform.tfstate.lock.info
+devenv/terraform.tfstate*
