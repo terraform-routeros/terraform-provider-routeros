@@ -52,6 +52,7 @@ func ResourceIpService() *schema.Resource {
 		"certificate": {
 			Type:     schema.TypeString,
 			Optional: true,
+			Default:  "none",
 			Description: "The name of the certificate used by a particular service. Applicable only for services " +
 				"that depend on certificates ( www-ssl, api-ssl ).",
 		},
@@ -79,6 +80,7 @@ func ResourceIpService() *schema.Resource {
 		"tls_version": {
 			Type:         schema.TypeString,
 			Optional:     true,
+			Default:      "any",
 			Description:  "Specifies which TLS versions to allow by a particular service.",
 			ValidateFunc: validation.StringInSlice([]string{"any", "only-1.2"}, false),
 		},
