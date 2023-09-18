@@ -104,7 +104,7 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Optional:     true,
 			ValidateFunc: validation.IntBetween(0, 65536),
 		},
-		"mac_address ": {
+		"mac_address": {
 			Type:        schema.TypeString,
 			Description: `Media Access Control number of an interface.`,
 			Optional:    true,
@@ -124,25 +124,25 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			ValidateFunc: validation.IntBetween(0, 65536),
 		},
 		KeyName: PropName("Name of the ethernet interface."),
-		"orig-mac-address": {
+		"orig_mac_address": {
 			Type:        schema.TypeString,
 			Description: "Original Media Access Control number of an interface. (read only)",
 			Computed:    true,
 		},
-		"poe-out": {
+		"poe_out": {
 			Type:         schema.TypeString,
 			Description:  "PoE settings: (https://wiki.mikrotik.com/wiki/Manual:PoE-Out)",
 			Default:      "off",
 			Optional:     true,
 			ValidateFunc: validation.StringInSlice([]string{"auto-on", "forced-on", "off"}, false),
 		},
-		"poe-priority": {
+		"poe_priority": {
 			Type:         schema.TypeInt,
 			Description:  "PoE settings: (https://wiki.mikrotik.com/wiki/Manual:PoE-Out)",
 			Optional:     true,
 			ValidateFunc: validation.IntBetween(0, 99),
 		},
-		"sfp-shutdown-temperature": {
+		"sfp_shutdown_temperature": {
 			Type: schema.TypeInt,
 			Description: "The temperature in Celsius at which the interface will be temporarily turned off due to too high detected SFP module temperature (introduced v6.48)." +
 				"The default value for SFP/SFP+/SFP28 interfaces is 95, and for QSFP+/QSFP28 interfaces 80 (introduced v7.6).",
