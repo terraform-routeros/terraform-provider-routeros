@@ -43,10 +43,7 @@ resource "routeros_interface_gre" "gre_hq" {
 
 ### Required
 
-- `hosturl` (String) URL of the ROS router. Include including the scheme:
-  - `https` new REST API with TLS/SSL
-  - `api` old API without TLS/SSL on port 8728
-  - `apis` old API with TLS/SSL 8729
+- `hosturl` (String) URL of the ROS router. Include the scheme (http/https)
 
 ### Optional
 
