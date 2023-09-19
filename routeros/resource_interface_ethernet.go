@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -19,12 +20,6 @@ func ResourceInterfaceEthernet() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/interface/ethernet"),
 		MetaId:           PropId(Id),
 		MetaSkipFields:   PropSkipFields(`"factory_name"`),
-		"factory_name": {
-			Type:        schema.TypeString,
-			Optional:    false,
-			Required:    true,
-			Description: "The factory name of the identifier, serves as resource identifier. Determines which interface will be updated.",
-		},
 		"advertise": {
 			Type:     schema.TypeString,
 			Optional: true,
@@ -82,26 +77,15 @@ func ResourceInterfaceEthernet() *schema.Resource {
 		"disable_running_check": {
 			Type: schema.TypeBool,
 			Description: `Disable running check. If this value is set to 'no', the router automatically detects whether the NIC is connected with a device in the network or not.
-						Default value is 'yes' because older NICs do not support it. (only applicable to x86)`,
+			Default value is 'yes' because older NICs do not support it. (only applicable to x86)`,
 			Default:  true,
 			Optional: true,
 		},
-		"tx_flow_control": {
-			Type: schema.TypeString,
-			Description: `When set to on, the port will generate pause frames to the upstream device to temporarily stop the packet transmission. 
-					Pause frames are only generated when some routers output interface is congested and packets cannot be transmitted anymore. 
-					Auto is the same as on except when auto-negotiation=yes flow control status is resolved by taking into account what other end advertises.`,
-			Default:      "off",
-			Optional:     true,
-			ValidateFunc: validation.StringInSlice([]string{"on", "off", "auto"}, false),
-		},
-		"rx_flow_control": {
-			Type: schema.TypeString,
-			Description: `When set to on, the port will process received pause frames and suspend transmission if required.
-					auto is the same as on except when auto-negotiation=yes flow control status is resolved by taking into account what other end advertises.`,
-			Default:      "off",
-			Optional:     true,
-			ValidateFunc: validation.StringInSlice([]string{"on", "off", "auto"}, false),
+		"factory_name": {
+			Type:        schema.TypeString,
+			Optional:    false,
+			Required:    true,
+			Description: "The factory name of the identifier, serves as resource identifier. Determines which interface will be updated.",
 		},
 		"full_duplex": {
 			Type:        schema.TypeBool,
@@ -153,11 +137,29 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Optional:     true,
 			ValidateFunc: validation.IntBetween(0, 99),
 		},
+		"running": {
+			Type:        schema.TypeBool,
+			Description: "Whether interface is running. Note that some interface does not have running check and they are always reported as \"running\"",
+			Computed:    true,
+		},
+		"rx_flow_control": {
+			Type: schema.TypeString,
+			Description: `When set to on, the port will process received pause frames and suspend transmission if required.
+					auto is the same as on except when auto-negotiation=yes flow control status is resolved by taking into account what other end advertises.`,
+			Default:      "off",
+			Optional:     true,
+			ValidateFunc: validation.StringInSlice([]string{"on", "off", "auto"}, false),
+		},
 		"sfp_shutdown_temperature": {
 			Type: schema.TypeInt,
 			Description: "The temperature in Celsius at which the interface will be temporarily turned off due to too high detected SFP module temperature (introduced v6.48)." +
 				"The default value for SFP/SFP+/SFP28 interfaces is 95, and for QSFP+/QSFP28 interfaces 80 (introduced v7.6).",
 			Optional: true,
+		},
+		"slave": {
+			Type:        schema.TypeBool,
+			Description: "Whether interface is configured as a slave of another interface (for example Bonding)",
+			Computed:    true,
 		},
 		"speed": {
 			Type:         schema.TypeString,
@@ -165,20 +167,19 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Optional:     true,
 			ValidateFunc: validation.StringInSlice([]string{"10Mbps", "10Gbps", "100Mbps", "1Gbps"}, false),
 		},
-		"running": {
-			Type:        schema.TypeBool,
-			Description: "Whether interface is running. Note that some interface does not have running check and they are always reported as \"running\"",
-			Computed:    true,
-		},
-		"slave": {
-			Type:        schema.TypeBool,
-			Description: "Whether interface is configured as a slave of another interface (for example Bonding)",
-			Computed:    true,
-		},
 		"switch": {
 			Type:        schema.TypeInt,
 			Description: "ID to which switch chip interface belongs to.",
 			Computed:    true,
+		},
+		"tx_flow_control": {
+			Type: schema.TypeString,
+			Description: `When set to on, the port will generate pause frames to the upstream device to temporarily stop the packet transmission. 
+					Pause frames are only generated when some routers output interface is congested and packets cannot be transmitted anymore. 
+					Auto is the same as on except when auto-negotiation=yes flow control status is resolved by taking into account what other end advertises.`,
+			Default:      "off",
+			Optional:     true,
+			ValidateFunc: validation.StringInSlice([]string{"on", "off", "auto"}, false),
 		},
 	}
 
