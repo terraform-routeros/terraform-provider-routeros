@@ -13,6 +13,8 @@ import (
 PENDING STATE
 */
 
+const poeOutField = "poe_out"
+
 // https://help.mikrotik.com/docs/display/ROS/Ethernet#Ethernet-Properties
 func ResourceInterfaceEthernet() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
@@ -140,7 +142,7 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Description: "Original Media Access Control number of an interface. (read only)",
 			Computed:    true,
 		},
-		"poe_out": {
+		poeOutField: {
 			Type:         schema.TypeString,
 			Description:  "PoE settings: (https://wiki.mikrotik.com/wiki/Manual:PoE-Out)",
 			Default:      "off",
@@ -204,19 +206,23 @@ func UpdateOnlyDeviceCreate(s map[string]*schema.Schema) schema.CreateContextFun
 		}
 
 		// Router won't accept poe-out parameter if the interface does not support it.
-		poeDesiredState := d.Get("poe_out")
-		_, supportsPoE := ethernetInterface["poe-out"]
+		poeDesiredState := d.Get(poeOutField)
+		_, supportsPoE := ethernetInterface[SnakeToKebab(poeOutField)]
 		switch {
 		// if the user has specified it, but it's not supported, let's error out
 		case poeDesiredState != "off" && !supportsPoE:
 			return diag.FromErr(errors.New("can't configure PoE, router does not supports it"))
 		// if the router does not support PoE, avoid sending the parameter as it returns an error.
 		case !supportsPoE:
-			s[MetaSkipFields].Default = fmt.Sprintf("%s,\"poe_out\"", s[MetaSkipFields].Default)
+			s[MetaSkipFields].Default = fmt.Sprintf("%s,\"%s\"", s[MetaSkipFields].Default, poeOutField)
 		}
 
 		d.SetId(ethernetInterface.GetID(Id))
-		return ResourceUpdate(ctx, s, d, m)
+		if updateDiag := ResourceUpdate(ctx, s, d, m); updateDiag.HasError() {
+			return updateDiag
+		}
+
+		return ResourceRead(ctx, s, d, m)
 	}
 }
 
