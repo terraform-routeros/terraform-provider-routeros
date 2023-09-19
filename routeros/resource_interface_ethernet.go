@@ -11,7 +11,36 @@ import (
 )
 
 /*
-PENDING STATE
+{
+    ".id": "*1",
+    "advertise": "10M-half,10M-full,100M-half,100M-full,1000M-full",
+    "arp": "enabled",
+    "arp-timeout": "auto",
+    "auto-negotiation": "true",
+    "cable-settings": "default",
+    "default-name": "ether1",
+    "disable-running-check": "true",
+    "disabled": "false",
+    "loop-protect": "default",
+    "loop-protect-disable-time": "5m",
+    "loop-protect-send-interval": "5s",
+    "loop-protect-status": "off",
+    "mac-address": "54:05:AB:1E:BE:71",
+    "mtu": "1500",
+    "name": "ether1",
+    "orig-mac-address": "54:05:AB:1E:BE:71",
+    "running": "true",
+    "rx-broadcast": "250",
+    "rx-bytes": "222253",
+    "rx-flow-control": "off",
+    "rx-multicast": "10",
+    "rx-packet": "1889",
+    "tx-broadcast": "113",
+    "tx-bytes": "693931",
+    "tx-flow-control": "off",
+    "tx-multicast": "270",
+    "tx-packet": "2222"
+}
 */
 
 const poeOutField = "poe_out"
