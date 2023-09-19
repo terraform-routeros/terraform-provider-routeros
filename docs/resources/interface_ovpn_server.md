@@ -28,7 +28,7 @@ resource "routeros_interface_ovpn_server" "user1" {
 - `client_address` (String) The address of the remote side.
 - `encoding` (String) Encryption characteristics.
 - `id` (String) The ID of this resource.
-- `mtu` (Number) Layer2 Maximum transmission unit.
+- `mtu` (Number) Layer2 Maximum transmission unit. [See](https://wiki.mikrotik.com/wiki/Maximum_Transmission_Unit_on_RouterBoards).
 - `running` (Boolean)
 - `uptime` (String) Connection uptime.
 

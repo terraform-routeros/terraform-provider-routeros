@@ -37,7 +37,7 @@ resource "routeros_interface_gre" "gre_hq" {
 
 - `actual_mtu` (Number)
 - `id` (String) The ID of this resource.
-- `l2mtu` (Number) Layer2 Maximum transmission unit.
+- `l2mtu` (Number) Layer2 Maximum transmission unit. [See](https://wiki.mikrotik.com/wiki/Maximum_Transmission_Unit_on_RouterBoards).
 - `running` (Boolean)
 
 ## Import

@@ -23,7 +23,12 @@ resource "routeros_interface_bridge" "bridge" {
 - `add_dhcp_option82` (Boolean) Whether to add DHCP Option-82 information (Agent Remote ID and Agent Circuit ID) to DHCP packets. Can be used together with Option-82 capable DHCP server to assign IP addresses and implement policies. This property only has effect when dhcp-snooping is set to yes.
 - `admin_mac` (String) Static MAC address of the bridge. This property only has effect when auto-mac is set to no.
 - `ageing_time` (String) How long a host's information will be kept in the bridge database.
-- `arp` (String) ARP resolution protocol mode.
+- `arp` (String) Address Resolution Protocol mode:
+				disabled - the interface will not use ARP
+				enabled - the interface will use ARP
+				local-proxy-arp - the router performs proxy ARP on the interface and sends replies to the same interface
+				proxy-arp - the router performs proxy ARP on the interface and sends replies to other interfaces
+				reply-only - the interface will only reply to requests originated from matching IP address/MAC address combinations which are entered as static entries in the ARP table. No dynamic entries will be automatically stored in the ARP table. Therefore for communications to be successful, a valid static entry must already exist.
 - `arp_timeout` (String) ARP timeout is time how long ARP record is kept in ARP table after no packets are received from IP. Value auto equals to the value of arp-timeout in IP/Settings, default is 30s. Can use postfix ms, s, M, h, d for milliseconds, seconds, minutes, hours or days. If no postfix is set then seconds (s) is used.
 - `auto_mac` (Boolean) Automatically select one MAC address of bridge ports as a bridge MAC address, bridge MAC will be chosen from the first added bridge port. After a device reboot, the bridge MAC can change depending on the port-number.
 - `comment` (String)
@@ -62,7 +67,7 @@ resource "routeros_interface_bridge" "bridge" {
 
 - `actual_mtu` (Number)
 - `id` (String) The ID of this resource.
-- `l2mtu` (Number) Layer2 Maximum transmission unit.
+- `l2mtu` (Number) Layer2 Maximum transmission unit. [See](https://wiki.mikrotik.com/wiki/Maximum_Transmission_Unit_on_RouterBoards).
 - `mac_address` (String) Current mac address.
 - `running` (Boolean)
 
