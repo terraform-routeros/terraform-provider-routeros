@@ -32,7 +32,6 @@ func TestAccInterfaceEthernetTest_basic(t *testing.T) {
 							resource.TestCheckResourceAttr(testInterfaceEthernetAddress, "tx_flow_control", "auto"),
 							resource.TestCheckResourceAttr(testInterfaceEthernetAddress, "rx_flow_control", "auto"),
 							resource.TestCheckResourceAttr(testInterfaceEthernetAddress, "full_duplex", "true"),
-							resource.TestCheckResourceAttr(testInterfaceEthernetAddress, "l2mtu", "9500"),
 							resource.TestCheckResourceAttr(testInterfaceEthernetAddress, "mdix_enable", "false"),
 							resource.TestCheckResourceAttr(testInterfaceEthernetAddress, "sfp_shutdown_temperature", "60"),
 							resource.TestCheckResourceAttr(testInterfaceEthernetAddress, "speed", "100Mbps"),
@@ -76,7 +75,6 @@ resource "routeros_interface_ethernet" "test" {
   tx_flow_control           = "auto"
   rx_flow_control           = "auto"
   full_duplex  	            = "true"
-  l2mtu                     = "9500"
   mdix_enable               = false
   sfp_shutdown_temperature  = 60
   speed                     = "100Mbps"
