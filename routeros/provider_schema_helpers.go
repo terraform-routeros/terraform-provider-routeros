@@ -108,10 +108,15 @@ var (
 		Computed: true,
 	}
 	PropArpRw = &schema.Schema{
-		Type:        schema.TypeString,
-		Optional:    true,
-		Default:     "enabled",
-		Description: "ARP resolution protocol mode.",
+		Type:     schema.TypeString,
+		Optional: true,
+		Default:  "enabled",
+		Description: `Address Resolution Protocol mode:
+				disabled - the interface will not use ARP
+				enabled - the interface will use ARP
+				local-proxy-arp - the router performs proxy ARP on the interface and sends replies to the same interface
+				proxy-arp - the router performs proxy ARP on the interface and sends replies to other interfaces
+				reply-only - the interface will only reply to requests originated from matching IP address/MAC address combinations which are entered as static entries in the ARP table. No dynamic entries will be automatically stored in the ARP table. Therefore for communications to be successful, a valid static entry must already exist.`,
 		ValidateFunc: validation.StringInSlice([]string{"disabled", "enabled", "local-proxy-arp", "proxy-arp",
 			"reply-only"}, false),
 	}
@@ -160,9 +165,10 @@ var (
 		Computed: true,
 	}
 	PropL2MtuRo = &schema.Schema{
-		Type:        schema.TypeInt,
-		Computed:    true,
-		Description: "Layer2 Maximum transmission unit.",
+		Type:     schema.TypeInt,
+		Computed: true,
+		Description: "Layer2 Maximum transmission unit. " +
+			"[See](https://wiki.mikrotik.com/wiki/Maximum_Transmission_Unit_on_RouterBoards).",
 	}
 	PropMacAddressRo = &schema.Schema{
 		Type:        schema.TypeString,
