@@ -44,6 +44,24 @@ func ResourceInterfaceEthernet() *schema.Resource {
 				reply-only - the interface will only reply to requests originated from matching IP address/MAC address combinations which are entered as static entries in the ARP table. No dynamic entries will be automatically stored in the ARP table. Therefore for communications to be successful, a valid static entry must already exist.`,
 			ValidateFunc: validation.StringInSlice([]string{"disabled", "enabled", "local-proxy-arp", "proxy-arp", "reply-only"}, false),
 		},
+		"arp_timeout": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Default:  "auto",
+			Description: "How long the ARP record is kept in the ARP table after no packets are received from IP. Value " +
+				"auto equals to the value of arp-timeout in IP/Settings, default is 30s.",
+			DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+				if old == new {
+					return true
+				}
+
+				if old == "auto" || new == "auto" {
+					return false
+				}
+
+				return TimeEquall(k, old, new, d)
+			},
+		},
 		"auto_negotiation": {
 			Type:     schema.TypeBool,
 			Optional: true,
@@ -58,9 +76,10 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Description: `Sets max rx/tx bandwidth in kbps that will be handled by an interface. TX limit is supported on all Atheros switch-chip ports. 
 				RX limit is supported only on Atheros8327/QCA8337 switch-chip ports.`,
 		},
-		"cable_setting": {
+		"cable_settings": {
 			Type:         schema.TypeString,
 			Optional:     true,
+			Default:      "default",
 			Description:  `Changes the cable length setting (only applicable to NS DP83815/6 cards)`,
 			ValidateFunc: validation.StringInSlice([]string{"default", "short", "standard"}, false),
 		},
@@ -74,6 +93,12 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			ValidateFunc: validation.StringInSlice([]string{"auto", "copper", "sfp"}, false),
 		},
 		KeyComment: PropCommentRw,
+		"default_name": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "The default name for an interface.",
+		},
+		KeyDisabled: PropDisabledRw,
 		"disable_running_check": {
 			Type: schema.TypeBool,
 			Description: `Disable running check. If this value is set to 'no', the router automatically detects whether the NIC is connected with a device in the network or not.
@@ -98,6 +123,30 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Description:  `Layer2 Maximum transmission unit. see (https://wiki.mikrotik.com/wiki/Maximum_Transmission_Unit_on_RouterBoards)`,
 			Optional:     true,
 			ValidateFunc: validation.IntBetween(0, 65536),
+		},
+		"loop_protect": {
+			Type:         schema.TypeString,
+			Optional:     true,
+			Default:      "default",
+			ValidateFunc: validation.StringInSlice([]string{"default", "on", "off"}, false),
+		},
+		"loop_protect_disable_time": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Default:          "5m",
+			ValidateFunc:     ValidationTime,
+			DiffSuppressFunc: TimeEquall,
+		},
+		"loop_protect_send_interval": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Default:          "5s",
+			ValidateFunc:     ValidationTime,
+			DiffSuppressFunc: TimeEquall,
+		},
+		"loop_protect_status": {
+			Type:     schema.TypeString,
+			Computed: true,
 		},
 		"mac_address": {
 			Type:        schema.TypeString,
@@ -142,6 +191,26 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Description: "Whether interface is running. Note that some interface does not have running check and they are always reported as \"running\"",
 			Computed:    true,
 		},
+		"rx_broadcast": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "Total count of received broadcast frames.",
+		},
+		"rx_bytes": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "Total count of received bytes.",
+		},
+		"rx_multicast": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "Total count of received multicast frames.",
+		},
+		"rx_packet": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "Total count of received packets.",
+		},
 		"rx_flow_control": {
 			Type: schema.TypeString,
 			Description: `When set to on, the port will process received pause frames and suspend transmission if required.
@@ -180,6 +249,26 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Default:      "off",
 			Optional:     true,
 			ValidateFunc: validation.StringInSlice([]string{"on", "off", "auto"}, false),
+		},
+		"tx_broadcast": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "Total count of transmitted broadcast frames.",
+		},
+		"tx_bytes": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "Total count of transmitted bytes.",
+		},
+		"tx_multicast": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "Total count of transmitted multicast frames.",
+		},
+		"tx_packet": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "Total count of transmitted packets.",
 		},
 	}
 
