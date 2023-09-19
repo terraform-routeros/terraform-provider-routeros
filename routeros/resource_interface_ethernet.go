@@ -1,6 +1,10 @@
 package routeros
 
 import (
+	"context"
+	"errors"
+	"fmt"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
@@ -14,6 +18,13 @@ func ResourceInterfaceEthernet() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/ethernet"),
 		MetaId:           PropId(Id),
+		MetaSkipFields:   PropSkipFields(`"factory_name"`),
+		"factory_name": {
+			Type:        schema.TypeString,
+			Optional:    false,
+			Required:    true,
+			Description: "The factory name of the identifier, serves as resource identifier. Determines which interface will be updated.",
+		},
 		"advertise": {
 			Type:     schema.TypeString,
 			Optional: true,
@@ -108,7 +119,7 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Type:        schema.TypeString,
 			Description: `Media Access Control number of an interface.`,
 			Optional:    true,
-			Default:     "",
+			Computed:    true,
 		},
 		"mdix_enable": {
 			Type:        schema.TypeBool,
@@ -172,10 +183,10 @@ func ResourceInterfaceEthernet() *schema.Resource {
 	}
 
 	return &schema.Resource{
-		CreateContext: DefaultCreate(resSchema),
+		CreateContext: UpdateOnlyDeviceCreate(resSchema),
 		ReadContext:   DefaultRead(resSchema),
 		UpdateContext: DefaultUpdate(resSchema),
-		DeleteContext: DefaultDelete(resSchema),
+		DeleteContext: NoOpDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -183,4 +194,48 @@ func ResourceInterfaceEthernet() *schema.Resource {
 
 		Schema: resSchema,
 	}
+}
+
+func UpdateOnlyDeviceCreate(s map[string]*schema.Schema) schema.CreateContextFunc {
+	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+		ethernetInterface, err := findInterfaceByDefaultName(s, d, m.(Client))
+		if err != nil {
+			return diag.FromErr(err)
+		}
+
+		// Router won't accept poe-out parameter if the interface does not support it.
+		poeDesiredState := d.Get("poe_out")
+		_, supportsPoE := ethernetInterface["poe-out"]
+		switch {
+		// if the user has specified it, but it's not supported, let's error out
+		case poeDesiredState != "off" && !supportsPoE:
+			return diag.FromErr(errors.New("can't configure PoE, router does not supports it"))
+		// if the router does not support PoE, avoid sending the parameter as it returns an error.
+		case !supportsPoE:
+			s[MetaSkipFields].Default = fmt.Sprintf("%s,\"poe_out\"", s[MetaSkipFields].Default)
+		}
+
+		d.SetId(ethernetInterface.GetID(Id))
+		return ResourceUpdate(ctx, s, d, m)
+	}
+}
+
+func NoOpDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	return nil
+}
+
+func findInterfaceByDefaultName(s map[string]*schema.Schema, d *schema.ResourceData, c Client) (MikrotikItem, error) {
+	metadata := GetMetadata(s)
+	filter := fmt.Sprintf("default-name=%s", d.Get("factory_name"))
+	items, err := ReadItemsFiltered([]string{filter}, metadata.Path, c)
+	if err != nil {
+		return nil, err
+	}
+
+	if items == nil || len(*items) == 0 {
+		return nil, errors.New("unable to find interface")
+	}
+
+	ethernetInterface := (*items)[0]
+	return ethernetInterface, nil
 }

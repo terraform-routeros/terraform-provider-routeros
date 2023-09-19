@@ -19,13 +19,17 @@ func TestAccInterfaceEthernetTest_basic(t *testing.T) {
 					testSetTransportEnv(t, name)
 				},
 				ProviderFactories: testAccProviderFactories,
-				CheckDestroy:      testCheckResourceDestroy("/interface/ethernet", "routeros_interface_ethernet"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccInterfaceEthernetConfig(),
 						Check: resource.ComposeTestCheckFunc(
 							testAccCheckInterfaceEthernetExists(testInterfaceEthernetAddress),
-							resource.TestCheckResourceAttr(testInterfaceEthernetAddress, "name", "bonding-test"),
+							resource.TestCheckResourceAttr(testInterfaceEthernetAddress, "name", "terraform"),
+							resource.TestCheckResourceAttr(testInterfaceEthernetAddress, "mtu", "9000"),
+							resource.TestCheckResourceAttr(testInterfaceEthernetAddress, "advertise", "10000M-full"),
+							resource.TestCheckResourceAttr(testInterfaceEthernetAddress, "arp", "disabled"),
+							resource.TestCheckResourceAttr(testInterfaceEthernetAddress, "auto_negotiation", "false"),
+							resource.TestCheckResourceAttr(testInterfaceEthernetAddress, "speed", "100Mbps"),
 						),
 					},
 				},
@@ -53,8 +57,13 @@ func testAccInterfaceEthernetConfig() string {
 	return providerConfig + `
 
 resource "routeros_interface_ethernet" "test" {
-  name   = "ether-1"
-  mtu    = "9000"
+  factory_name     = "ether2"
+  name             = "terraform"
+  mtu              = "9000"
+  advertise        = "10000M-full"
+  arp              = "disabled"
+  auto_negotiation = false
+  speed            = "100Mbps"
 }
 `
 }
