@@ -32,36 +32,8 @@ func ResourceInterfaceEthernet() *schema.Resource {
 				"10M-full", "10M-half", "100M-full", "100M-half",
 				"1000M-full", "1000M-half", "2500M-full", "5000M-full", "10000M-full"}, false),
 		},
-		"arp": {
-			Type:     schema.TypeString,
-			Optional: true,
-			Default:  "enabled",
-			Description: `Address Resolution Protocol mode:
-				disabled - the interface will not use ARP
-				enabled - the interface will use ARP
-				local-proxy-arp - the router performs proxy ARP on the interface and sends replies to the same interface
-				proxy-arp - the router performs proxy ARP on the interface and sends replies to other interfaces
-				reply-only - the interface will only reply to requests originated from matching IP address/MAC address combinations which are entered as static entries in the ARP table. No dynamic entries will be automatically stored in the ARP table. Therefore for communications to be successful, a valid static entry must already exist.`,
-			ValidateFunc: validation.StringInSlice([]string{"disabled", "enabled", "local-proxy-arp", "proxy-arp", "reply-only"}, false),
-		},
-		"arp_timeout": {
-			Type:     schema.TypeString,
-			Optional: true,
-			Default:  "auto",
-			Description: "How long the ARP record is kept in the ARP table after no packets are received from IP. Value " +
-				"auto equals to the value of arp-timeout in IP/Settings, default is 30s.",
-			DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
-				if old == new {
-					return true
-				}
-
-				if old == "auto" || new == "auto" {
-					return false
-				}
-
-				return TimeEquall(k, old, new, d)
-			},
-		},
+		KeyArp:        PropArpRw,
+		KeyArpTimeout: PropArpTimeoutRw,
 		"auto_negotiation": {
 			Type:     schema.TypeBool,
 			Optional: true,
@@ -118,12 +90,7 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Default:     true,
 			Optional:    true,
 		},
-		"l2mtu": {
-			Type:         schema.TypeInt,
-			Description:  `Layer2 Maximum transmission unit. see (https://wiki.mikrotik.com/wiki/Maximum_Transmission_Unit_on_RouterBoards)`,
-			Optional:     true,
-			ValidateFunc: validation.IntBetween(0, 65536),
-		},
+		KeyL2Mtu: PropL2MtuRo,
 		"loop_protect": {
 			Type:         schema.TypeString,
 			Optional:     true,
