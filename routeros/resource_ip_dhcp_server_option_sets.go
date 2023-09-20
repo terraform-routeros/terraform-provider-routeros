@@ -2,46 +2,32 @@ package routeros
 
 import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
 
 /*
 [
-    {
-        ".id": "*4",
-        "code": "66",
-        "name": "optionname",
-        "raw-value": "00002311",
-        "value": "0x00002311"
+        {
+        ".id": "*2",
+        "name": "netboot",
+        "options": "tftpserver-66,unifi,mtu-jumbo"
     }
 ]
 */
 
 // ResourceDhcpServerOption https://wiki.mikrotik.com/wiki/Manual:IP/DHCP_Server
-func ResourceDhcpServerOption() *schema.Resource {
+func ResourceDhcpServerOptionSet() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
-		MetaResourcePath: PropResourcePath("/ip/dhcp-server/option"),
+		MetaResourcePath: PropResourcePath("/ip/dhcp-server/option/sets"),
 		MetaId:           PropId(Id),
-		"code": {
-			Type:         schema.TypeInt,
-			Required:     true,
-			Description:  "The number of the DHCP option",
-			ValidateFunc: validation.IntBetween(1, 254),
-		},
 		"name": {
 			Type:        schema.TypeString,
 			Required:    true,
 			Description: "The name of the DHCP option",
 		},
-		"raw_value": {
-			Type:        schema.TypeString,
-			Computed:    true,
-			Description: "The computed value of the option as an hex value",
-		},
-		"value": {
+		"options": {
 			Type:        schema.TypeString,
 			Required:    true,
-			Description: "The value with formatting using Mikrotik settings https://wiki.mikrotik.com/wiki/Manual:IP/DHCP_Server#DHCP_Options",
+			Description: "The comma sepparated list of options",
 		},
 	}
 	return &schema.Resource{
