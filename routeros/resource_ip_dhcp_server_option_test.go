@@ -19,7 +19,7 @@ func TestAccIpDhcpServerNetworkOption_basic(t *testing.T) {
 					testSetTransportEnv(t, name)
 				},
 				ProviderFactories: testAccProviderFactories,
-				CheckDestroy:      testCheckResourceDestroy("/ip/dhcp-server/network", "routeros_ip_dhcp_server_option"),
+				CheckDestroy:      testCheckResourceDestroy("/ip/dhcp-server/option", "routeros_ip_dhcp_server_option"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccIpDhcpServerOptionConfig(),
