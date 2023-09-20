@@ -354,6 +354,17 @@ var (
 
 		return iOld == iNew
 	}
+
+	// AlwaysPresentNotUserProvided is a SupressDiff function that prevents values not provided by users to get updated.
+	// This is necessary in some system-wide fields that are present regardless if the users provides any values.
+	// Prevents the need of hardcode values for default values, as those are harder to track over time/versions of
+	// routeros
+	AlwaysPresentNotUserProvided = func(k, old, new string, d *schema.ResourceData) bool {
+		if old != "" && new == "" {
+			return true
+		}
+		return false
+	}
 )
 
 func buildReadFilter(m map[string]interface{}) []string {
