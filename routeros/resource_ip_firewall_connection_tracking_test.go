@@ -9,7 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-const testIPConnectionTracking = "routeros_firewall_connection_tracking.data"
+const testIPConnectionTracking = "routeros_ip_firewall_connection_tracking.data"
 
 func TestAccIPConnectionTrackingTest_basic(t *testing.T) {
 	for _, name := range testNames {
@@ -83,7 +83,7 @@ func TestAccIPConnectionTrackingTest_basic(t *testing.T) {
 
 func testAccIPConnectionTrackingEmptyConfig() string {
 	return providerConfig + `
-resource "routeros_firewall_connection_tracking" "data" {
+resource "routeros_ip_firewall_connection_tracking" "data" {
 	
 }
 
@@ -92,7 +92,7 @@ resource "routeros_firewall_connection_tracking" "data" {
 
 func testAccIPConnectionTrackingFullConfig() string {
 	return providerConfig + `
-resource "routeros_firewall_connection_tracking" "data" {
+resource "routeros_ip_firewall_connection_tracking" "data" {
     enabled = "yes"
     generic_timeout = "3m"
     icmp_timeout = "3m"
