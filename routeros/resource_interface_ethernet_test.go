@@ -1,11 +1,9 @@
 package routeros
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testInterfaceEthernetAddress = "routeros_interface_ethernet.test"
@@ -23,7 +21,7 @@ func TestAccInterfaceEthernetTest_basic(t *testing.T) {
 					{
 						Config: testAccInterfaceEthernetConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckInterfaceEthernetExists(testInterfaceEthernetAddress),
+							testResourcePrimaryInstanceId(testInterfaceEthernetAddress),
 							resource.TestCheckResourceAttr(testInterfaceEthernetAddress, "name", "terraform"),
 							resource.TestCheckResourceAttr(testInterfaceEthernetAddress, "mtu", "9000"),
 							resource.TestCheckResourceAttr(testInterfaceEthernetAddress, "advertise", "10000M-full"),
@@ -44,21 +42,6 @@ func TestAccInterfaceEthernetTest_basic(t *testing.T) {
 				},
 			})
 		})
-	}
-}
-
-func testAccCheckInterfaceEthernetExists(name string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[name]
-		if !ok {
-			return fmt.Errorf("not found: %s", name)
-		}
-
-		if rs.Primary.ID == "" {
-			return fmt.Errorf("no id is set")
-		}
-
-		return nil
 	}
 }
 

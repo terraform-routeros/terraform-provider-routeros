@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testInterfaceIPv6AddressAddress = "routeros_ipv6_address.test_v6_address"
@@ -24,7 +23,7 @@ func TestAccInterfaceIPv6AddressTest_basic(t *testing.T) {
 					{
 						Config: testAccInterfaceIPv6AddressConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckInterfaceIPv6AddressExists(testInterfaceIPv6AddressAddress),
+							testResourcePrimaryInstanceId(testInterfaceIPv6AddressAddress),
 							resource.TestCheckResourceAttrWith(testInterfaceIPv6AddressAddress, "address",
 								func(value string) error {
 									if value[:7] != "fc00:3:" {
@@ -38,21 +37,6 @@ func TestAccInterfaceIPv6AddressTest_basic(t *testing.T) {
 			})
 
 		})
-	}
-}
-
-func testAccCheckInterfaceIPv6AddressExists(name string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[name]
-		if !ok {
-			return fmt.Errorf("not found: %s", name)
-		}
-
-		if rs.Primary.ID == "" {
-			return fmt.Errorf("no id is set")
-		}
-
-		return nil
 	}
 }
 

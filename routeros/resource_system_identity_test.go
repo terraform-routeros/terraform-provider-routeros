@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testSystemIdentityTask = "routeros_identity.test"
@@ -23,7 +22,7 @@ func TestAccSystemIdentityTest_basic(t *testing.T) {
 					{
 						Config: testAccSystemIdentityConfig("TestRouter_" + name),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckSystemIdentityExists(testSystemIdentityTask),
+							testResourcePrimaryInstanceId(testSystemIdentityTask),
 							resource.TestCheckResourceAttr(testSystemIdentityTask, "name", "TestRouter_"+name),
 						),
 					},
@@ -37,21 +36,6 @@ func TestAccSystemIdentityTest_basic(t *testing.T) {
 			})
 
 		})
-	}
-}
-
-func testAccCheckSystemIdentityExists(name string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[name]
-		if !ok {
-			return fmt.Errorf("not found: %s", name)
-		}
-
-		if rs.Primary.ID == "" {
-			return fmt.Errorf("no id is set")
-		}
-
-		return nil
 	}
 }
 

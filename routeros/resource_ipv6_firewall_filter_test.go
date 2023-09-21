@@ -1,11 +1,9 @@
 package routeros
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testIPv6FirewallFilterAddress = "routeros_ipv6_firewall_filter.rule"
@@ -24,7 +22,7 @@ func TestAccIPv6FirewallFilterTest_basic(t *testing.T) {
 					{
 						Config: testAccIPv6FirewallFilterConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckIPv6FirewallFilterExists(testIPv6FirewallFilterAddress),
+							testResourcePrimaryInstanceId(testIPv6FirewallFilterAddress),
 							resource.TestCheckResourceAttr(testIPv6FirewallFilterAddress, "action", "drop"),
 						),
 					},
@@ -32,21 +30,6 @@ func TestAccIPv6FirewallFilterTest_basic(t *testing.T) {
 			})
 
 		})
-	}
-}
-
-func testAccCheckIPv6FirewallFilterExists(name string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[name]
-		if !ok {
-			return fmt.Errorf("not found: %s", name)
-		}
-
-		if rs.Primary.ID == "" {
-			return fmt.Errorf("no id is set")
-		}
-
-		return nil
 	}
 }
 

@@ -1,11 +1,9 @@
 package routeros
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testInterfaceBridgeAddress = "routeros_interface_bridge.test_bridge"
@@ -25,14 +23,14 @@ func TestAccInterfaceBridgeTest_basic(t *testing.T) {
 					{
 						Config: testAccInterfaceBridgeConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckInterfaceBridgeExists(testInterfaceBridgeAddress),
+							testResourcePrimaryInstanceId(testInterfaceBridgeAddress),
 							resource.TestCheckResourceAttr(testInterfaceBridgeAddress, "name", "test_bridge"),
 						),
 					},
 					{
 						Config: testAccInterfaceBridgeConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckInterfaceBridgeExists(testInterfaceBridgeAddressWithSpace),
+							testResourcePrimaryInstanceId(testInterfaceBridgeAddressWithSpace),
 							resource.TestCheckResourceAttr(testInterfaceBridgeAddressWithSpace, "name", "Main bridge"),
 						),
 					},
@@ -40,21 +38,6 @@ func TestAccInterfaceBridgeTest_basic(t *testing.T) {
 			})
 
 		})
-	}
-}
-
-func testAccCheckInterfaceBridgeExists(name string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[name]
-		if !ok {
-			return fmt.Errorf("not found: %s", name)
-		}
-
-		if rs.Primary.ID == "" {
-			return fmt.Errorf("no id is set")
-		}
-
-		return nil
 	}
 }
 

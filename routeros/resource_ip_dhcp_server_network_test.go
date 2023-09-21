@@ -1,11 +1,9 @@
 package routeros
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testIpDhcpServerNetworkAddress = "routeros_ip_dhcp_server_network.test_dhcp"
@@ -24,7 +22,7 @@ func TestAccIpDhcpServerNetworkTest_basic(t *testing.T) {
 					{
 						Config: testAccIpDhcpServerNetworkConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckIpDhcpServerNetworkExists(testIpDhcpServerNetworkAddress),
+							testResourcePrimaryInstanceId(testIpDhcpServerNetworkAddress),
 							resource.TestCheckResourceAttr(testIpDhcpServerNetworkAddress, "address", "192.168.1.0/24"),
 						),
 					},
@@ -32,21 +30,6 @@ func TestAccIpDhcpServerNetworkTest_basic(t *testing.T) {
 			})
 
 		})
-	}
-}
-
-func testAccCheckIpDhcpServerNetworkExists(name string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[name]
-		if !ok {
-			return fmt.Errorf("not found: %s", name)
-		}
-
-		if rs.Primary.ID == "" {
-			return fmt.Errorf("no id is set")
-		}
-
-		return nil
 	}
 }
 

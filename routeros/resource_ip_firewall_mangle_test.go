@@ -1,11 +1,9 @@
 package routeros
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testIPFirewallMangle = "routeros_firewall_mangle.data"
@@ -24,7 +22,7 @@ func TestAccIPFirewallMangleTest_basic(t *testing.T) {
 					{
 						Config: testAccIPFirewallMangleConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckIPFirewallMangleExists(testIPFirewallMangle),
+							testResourcePrimaryInstanceId(testIPFirewallMangle),
 							resource.TestCheckResourceAttr(testIPFirewallMangle, "chain", "prerouting"),
 							resource.TestCheckResourceAttr(testIPFirewallMangle, "action", "mark-connection"),
 							resource.TestCheckResourceAttr(testIPFirewallMangle, "new_connection_mark", "test-mark"),
@@ -34,21 +32,6 @@ func TestAccIPFirewallMangleTest_basic(t *testing.T) {
 			})
 
 		})
-	}
-}
-
-func testAccCheckIPFirewallMangleExists(name string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[name]
-		if !ok {
-			return fmt.Errorf("not found: %s", name)
-		}
-
-		if rs.Primary.ID == "" {
-			return fmt.Errorf("no id is set")
-		}
-
-		return nil
 	}
 }
 

@@ -1,11 +1,9 @@
 package routeros
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testIpDhcpServerLease = "routeros_ip_dhcp_server_lease.test_dhcp_lease"
@@ -24,7 +22,7 @@ func TestAccIpDhcpServerLeaseTest_basic(t *testing.T) {
 					{
 						Config: testAccIpDhcpServerLeaseConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckIpDhcpServerLeaseExists(testIpDhcpServerLease),
+							testResourcePrimaryInstanceId(testIpDhcpServerLease),
 							resource.TestCheckResourceAttr(testIpDhcpServerLease, "address", "192.168.88.33"),
 							resource.TestCheckResourceAttr(testIpDhcpServerLease, "mac_address", "AA:BB:CC:DD:EE:FF"),
 							resource.TestCheckResourceAttr(testIpDhcpServerLease, "block_access", "true"),
@@ -34,21 +32,6 @@ func TestAccIpDhcpServerLeaseTest_basic(t *testing.T) {
 			})
 
 		})
-	}
-}
-
-func testAccCheckIpDhcpServerLeaseExists(name string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[name]
-		if !ok {
-			return fmt.Errorf("not found: %s", name)
-		}
-
-		if rs.Primary.ID == "" {
-			return fmt.Errorf("no id is set")
-		}
-
-		return nil
 	}
 }
 

@@ -1,11 +1,9 @@
 package routeros
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testInterfaceListAddress = "routeros_interface_list.test_list"
@@ -24,7 +22,7 @@ func TestAccInterfaceListTest_basic(t *testing.T) {
 					{
 						Config: testAccInterfaceListConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckInterfaceListExists(testInterfaceListAddress),
+							testResourcePrimaryInstanceId(testInterfaceListAddress),
 							resource.TestCheckResourceAttr(testInterfaceListAddress, "name", "test_list"),
 						),
 					},
@@ -32,21 +30,6 @@ func TestAccInterfaceListTest_basic(t *testing.T) {
 			})
 
 		})
-	}
-}
-
-func testAccCheckInterfaceListExists(name string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[name]
-		if !ok {
-			return fmt.Errorf("not found: %s", name)
-		}
-
-		if rs.Primary.ID == "" {
-			return fmt.Errorf("no id is set")
-		}
-
-		return nil
 	}
 }
 

@@ -1,11 +1,9 @@
 package routeros
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testResourceDnsTask = "routeros_dns.test"
@@ -23,7 +21,7 @@ func TestAccResourceDnsTest_basic(t *testing.T) {
 					{
 						Config: testAccResourceDnsConfig(0),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckResourceDnsExists(testResourceDnsTask),
+							testResourcePrimaryInstanceId(testResourceDnsTask),
 							resource.TestCheckResourceAttr(testResourceDnsTask, "allow_remote_requests", "true"),
 						),
 					},
@@ -34,21 +32,6 @@ func TestAccResourceDnsTest_basic(t *testing.T) {
 			})
 
 		})
-	}
-}
-
-func testAccCheckResourceDnsExists(name string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[name]
-		if !ok {
-			return fmt.Errorf("not found: %s", name)
-		}
-
-		if rs.Primary.ID == "" {
-			return fmt.Errorf("no id is set")
-		}
-
-		return nil
 	}
 }
 

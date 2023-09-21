@@ -1,11 +1,9 @@
 package routeros
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testInterfaceBridgeVlanAddress = "routeros_interface_bridge_vlan.test_vlan"
@@ -24,7 +22,7 @@ func TestAccInterfaceBridgeVlanTest_basic(t *testing.T) {
 					{
 						Config: testAccInterfaceBridgeVlanConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckInterfaceBridgeVlanExists(testInterfaceBridgeVlanAddress),
+							testResourcePrimaryInstanceId(testInterfaceBridgeVlanAddress),
 							resource.TestCheckResourceAttr(testInterfaceBridgeVlanAddress, "bridge", "bridge"),
 						),
 					},
@@ -34,21 +32,6 @@ func TestAccInterfaceBridgeVlanTest_basic(t *testing.T) {
 		})
 	}
 
-}
-
-func testAccCheckInterfaceBridgeVlanExists(name string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[name]
-		if !ok {
-			return fmt.Errorf("not found: %s", name)
-		}
-
-		if rs.Primary.ID == "" {
-			return fmt.Errorf("no id is set")
-		}
-
-		return nil
-	}
 }
 
 func testAccInterfaceBridgeVlanConfig() string {

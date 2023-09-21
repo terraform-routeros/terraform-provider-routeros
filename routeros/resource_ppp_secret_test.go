@@ -1,11 +1,9 @@
 package routeros
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testPPPSecret = "routeros_ppp_secret.test"
@@ -24,7 +22,7 @@ func TestAccPPPSecretTest_basic(t *testing.T) {
 					{
 						Config: testAccPPPSecretConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckPPPSecretExists(testPPPSecret),
+							testResourcePrimaryInstanceId(testPPPSecret),
 							resource.TestCheckResourceAttr(testPPPSecret, "name", "user-test"),
 						),
 					},
@@ -32,21 +30,6 @@ func TestAccPPPSecretTest_basic(t *testing.T) {
 			})
 
 		})
-	}
-}
-
-func testAccCheckPPPSecretExists(name string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[name]
-		if !ok {
-			return fmt.Errorf("not found: %s", name)
-		}
-
-		if rs.Primary.ID == "" {
-			return fmt.Errorf("no id is set")
-		}
-
-		return nil
 	}
 }
 

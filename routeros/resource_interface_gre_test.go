@@ -1,11 +1,9 @@
 package routeros
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testGreAddress = "routeros_interface_gre.gre900"
@@ -25,7 +23,7 @@ func TestAccInterfaceGreTest_basic(t *testing.T) {
 					{
 						Config: testAccInterfaceGreConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckInterfaceGreExists(testGreAddress),
+							testResourcePrimaryInstanceId(testGreAddress),
 							resource.TestCheckResourceAttr(testGreAddress, "name", testGreName),
 						),
 					},
@@ -35,21 +33,6 @@ func TestAccInterfaceGreTest_basic(t *testing.T) {
 		})
 	}
 
-}
-
-func testAccCheckInterfaceGreExists(name string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[name]
-		if !ok {
-			return fmt.Errorf("not found: %s", name)
-		}
-
-		if rs.Primary.ID == "" {
-			return fmt.Errorf("no id is set")
-		}
-
-		return nil
-	}
 }
 
 func testAccInterfaceGreConfig() string {

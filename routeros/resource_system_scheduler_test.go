@@ -1,11 +1,9 @@
 package routeros
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testSystemSchedulerTask = "routeros_scheduler.test_task"
@@ -24,7 +22,7 @@ func TestAccSystemSchedulerTest_basic(t *testing.T) {
 					{
 						Config: testAccSystemSchedulerConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckSystemSchedulerExists(testSystemSchedulerTask),
+							testResourcePrimaryInstanceId(testSystemSchedulerTask),
 							resource.TestCheckResourceAttr(testSystemSchedulerTask, "disabled", "true"),
 							resource.TestCheckResourceAttr(testSystemSchedulerTask, "name", "TestTask"),
 							resource.TestCheckResourceAttr(testSystemSchedulerTask, "on_event", "script1"),
@@ -34,21 +32,6 @@ func TestAccSystemSchedulerTest_basic(t *testing.T) {
 			})
 
 		})
-	}
-}
-
-func testAccCheckSystemSchedulerExists(name string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[name]
-		if !ok {
-			return fmt.Errorf("not found: %s", name)
-		}
-
-		if rs.Primary.ID == "" {
-			return fmt.Errorf("no id is set")
-		}
-
-		return nil
 	}
 }
 

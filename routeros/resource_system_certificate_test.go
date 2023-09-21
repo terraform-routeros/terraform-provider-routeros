@@ -1,11 +1,9 @@
 package routeros
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testSystemCertificatesAddress = "routeros_system_certificate.root_ca"
@@ -24,7 +22,7 @@ func TestAccSystemCertificatesTest_basic(t *testing.T) {
 					{
 						Config: testAccSystemCertificatesConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckSystemCertificatesExists(testSystemCertificatesAddress),
+							testResourcePrimaryInstanceId(testSystemCertificatesAddress),
 							resource.TestCheckResourceAttr(testSystemCertificatesAddress, "name", "Test-Root-CA"),
 						),
 					},
@@ -32,21 +30,6 @@ func TestAccSystemCertificatesTest_basic(t *testing.T) {
 			})
 
 		})
-	}
-}
-
-func testAccCheckSystemCertificatesExists(name string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[name]
-		if !ok {
-			return fmt.Errorf("not found: %s", name)
-		}
-
-		if rs.Primary.ID == "" {
-			return fmt.Errorf("no id is set")
-		}
-
-		return nil
 	}
 }
 

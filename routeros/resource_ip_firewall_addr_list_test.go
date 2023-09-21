@@ -1,11 +1,9 @@
 package routeros
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testIPFirewallrAddrList = "routeros_firewall_addr_list.data"
@@ -24,7 +22,7 @@ func TestAccIPFirewallAddrListTest_basic(t *testing.T) {
 					{
 						Config: testAccIPFirewallAddrListConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckIPFirewallAddrListExists(testIPFirewallrAddrList),
+							testResourcePrimaryInstanceId(testIPFirewallrAddrList),
 							resource.TestCheckResourceAttr(testIPFirewallrAddrList, "list", "test-addr-list"),
 							resource.TestCheckResourceAttr(testIPFirewallrAddrList, "address", "192.168.0.0/23"),
 						),
@@ -33,21 +31,6 @@ func TestAccIPFirewallAddrListTest_basic(t *testing.T) {
 			})
 
 		})
-	}
-}
-
-func testAccCheckIPFirewallAddrListExists(name string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[name]
-		if !ok {
-			return fmt.Errorf("not found: %s", name)
-		}
-
-		if rs.Primary.ID == "" {
-			return fmt.Errorf("no id is set")
-		}
-
-		return nil
 	}
 }
 

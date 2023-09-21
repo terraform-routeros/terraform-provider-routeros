@@ -1,11 +1,9 @@
 package routeros
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 func TestAccIpDnsRecordTest_basic(t *testing.T) {
@@ -23,47 +21,47 @@ func TestAccIpDnsRecordTest_basic(t *testing.T) {
 						Config: testAccIpDnsRecordConfig(),
 						Check: resource.ComposeTestCheckFunc(
 							// A
-							testAccCheckIpDnsRecordExists("routeros_dns_record.test_dns_a"),
+							testResourcePrimaryInstanceId("routeros_dns_record.test_dns_a"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_a", "name", "ipv4"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_a", "address", "127.0.0.1"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_a", "type", "A"),
 							// A regexp
-							testAccCheckIpDnsRecordExists("routeros_dns_record.test_dns_a_regexp"),
+							testResourcePrimaryInstanceId("routeros_dns_record.test_dns_a_regexp"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_a", "address", "127.0.0.1"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_a_regexp", "regexp", "regexp"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_a_regexp", "type", "A"),
 							// AAAA
-							testAccCheckIpDnsRecordExists("routeros_dns_record.test_dns_aaaa"),
+							testResourcePrimaryInstanceId("routeros_dns_record.test_dns_aaaa"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_aaaa", "name", "ipv6"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_aaaa", "address", "ff00::1"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_aaaa", "type", "AAAA"),
 							// CNAME
-							testAccCheckIpDnsRecordExists("routeros_dns_record.test_dns_cname"),
+							testResourcePrimaryInstanceId("routeros_dns_record.test_dns_cname"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_cname", "cname", "ipv4"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_cname", "name", "cname"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_cname", "type", "CNAME"),
 							// FWD
-							testAccCheckIpDnsRecordExists("routeros_dns_record.test_dns_fwd"),
+							testResourcePrimaryInstanceId("routeros_dns_record.test_dns_fwd"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_fwd", "name", "fwd"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_fwd", "forward_to", "127.0.0.1"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_fwd", "type", "FWD"),
 							// MX
-							testAccCheckIpDnsRecordExists("routeros_dns_record.test_dns_mx"),
+							testResourcePrimaryInstanceId("routeros_dns_record.test_dns_mx"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_mx", "name", "mx"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_mx", "mx_exchange", "127.0.0.1"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_mx", "mx_preference", "10"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_mx", "type", "MX"),
 							// NS
-							testAccCheckIpDnsRecordExists("routeros_dns_record.test_dns_ns"),
+							testResourcePrimaryInstanceId("routeros_dns_record.test_dns_ns"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_ns", "name", "ns"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_ns", "ns", "127.0.0.1"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_ns", "type", "NS"),
 							// NXDOMAIN
-							testAccCheckIpDnsRecordExists("routeros_dns_record.test_dns_nxdomain"),
+							testResourcePrimaryInstanceId("routeros_dns_record.test_dns_nxdomain"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_nxdomain", "name", "nxdomain"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_nxdomain", "type", "NXDOMAIN"),
 							// SRV
-							testAccCheckIpDnsRecordExists("routeros_dns_record.test_dns_srv"),
+							testResourcePrimaryInstanceId("routeros_dns_record.test_dns_srv"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_srv", "name", "srv"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_srv", "srv_port", "8080"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_srv", "srv_priority", "10"),
@@ -71,7 +69,7 @@ func TestAccIpDnsRecordTest_basic(t *testing.T) {
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_srv", "srv_weight", "100"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_srv", "type", "SRV"),
 							// TXT
-							testAccCheckIpDnsRecordExists("routeros_dns_record.test_dns_txt"),
+							testResourcePrimaryInstanceId("routeros_dns_record.test_dns_txt"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_txt", "name", "_acme-challenge.yourwebsite.com"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_txt", "text", "dW6MrI3nBy3eJgYWH3QAg1Cwk_TvjFESOuKo+mp6nm1"),
 							resource.TestCheckResourceAttr("routeros_dns_record.test_dns_txt", "type", "TXT"),
@@ -81,21 +79,6 @@ func TestAccIpDnsRecordTest_basic(t *testing.T) {
 			})
 
 		})
-	}
-}
-
-func testAccCheckIpDnsRecordExists(name string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[name]
-		if !ok {
-			return fmt.Errorf("not found: %s", name)
-		}
-
-		if rs.Primary.ID == "" {
-			return fmt.Errorf("no id is set")
-		}
-
-		return nil
 	}
 }
 
