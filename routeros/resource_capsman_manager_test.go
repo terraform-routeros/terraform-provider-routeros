@@ -24,7 +24,7 @@ func TestAccCapsManManagerTest_basic(t *testing.T) {
 					{
 						Config: testAccCapsManManagerUnitConfig(name, "routeros_capsman_manager"),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckCapsManResourceExists(testCapsManManagerAddress),
+							testResourcePrimaryInstanceId(testCapsManManagerAddress),
 							resource.TestCheckResourceAttr(testCapsManManagerAddress, "id", "caps-man.manager"),
 						),
 					},
