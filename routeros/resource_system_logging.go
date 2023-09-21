@@ -5,7 +5,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
 
-/* {
+/*
+{
     ".id": "*4",
     "action": "echo",
     "default": "true",
@@ -13,7 +14,8 @@ import (
     "invalid": "false",
     "prefix": "",
     "topics": "critical"
-} */
+}
+*/
 
 func ResourceSystemLogging() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
