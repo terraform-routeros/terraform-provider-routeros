@@ -318,8 +318,8 @@ func NoOpDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag
 
 func findInterfaceByDefaultName(s map[string]*schema.Schema, d *schema.ResourceData, c Client) (MikrotikItem, error) {
 	metadata := GetMetadata(s)
-	filter := fmt.Sprintf("default-name=%s", d.Get("factory_name"))
-	items, err := ReadItemsFiltered([]string{filter}, metadata.Path, c)
+	filter := buildReadFilter(map[string]interface{}{"default-name": d.Get("factory_name")})
+	items, err := ReadItemsFiltered(filter, metadata.Path, c)
 	if err != nil {
 		return nil, err
 	}
