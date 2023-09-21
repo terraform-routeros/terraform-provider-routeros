@@ -17,6 +17,17 @@ import (
 }
 */
 
+var validTopics = []string{
+	"account", " bfd", "caps", "ddns", "dns", "error", "gsm", "info", "iscsi", "l2tp", "manager", "ntp", "packet",
+	"pppoe", "radvd", "rip", "script", "smb", "sstp", "system", "timer", "vrrp", "web-proxy", "async", "bgp",
+	"certificate", "debug", "dot1x", "dude", "event", "hotspot", "interface", "isdn", "ldp", "mme", "ospf", "pim",
+	"pptp", "raw", "route", "sertcp", "snmp", "state", "telephony", "upnp", "warning", "wireless", "backup", "calc",
+	"critical", "dhcp", "e-mail", "firewall", "igmp-proxy", "ipsec", "kvm", "lte", "mpls", "ovpn", "ppp", "radius",
+	"read", "rsvp", "simulator", "ssh", "store", "tftp", "ups", "watchdog", "write",
+}
+
+// ResourceSystemLogging defines the resource for configuring logging rules
+// https://wiki.mikrotik.com/wiki/Manual:System/Log
 func ResourceSystemLogging() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/system/logging"),
@@ -44,10 +55,12 @@ func ResourceSystemLogging() *schema.Resource {
 			Computed: true,
 		},
 		"topics": {
-			Type:        schema.TypeList,
-			Elem:        &schema.Schema{Type: schema.TypeString},
-			Optional:    true,
-			Description: "prefix added at the beginning of log messages",
+			Type:     schema.TypeList,
+			Elem:     &schema.Schema{Type: schema.TypeString, ValidateFunc: validation.StringInSlice(validTopics, false)},
+			Optional: true,
+			Description: `log all messages that falls into specified topic or list of topics.
+						  '!' character can be used before topic to exclude messages falling under this topic. For example, we want to log NTP debug info without too much details:
+						  /system logging add topics=ntp,debug,!packet`,
 		},
 	}
 
