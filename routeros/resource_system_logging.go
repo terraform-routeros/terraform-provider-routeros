@@ -15,15 +15,6 @@ import (
     "topics": "critical"
 } */
 
-var validTopics = []string{
-	"account", " bfd", "caps", "ddns", "dns", "error", "gsm", "info", "iscsi", "l2tp", "manager", "ntp", "packet",
-	"pppoe", "radvd", "rip", "script", "smb", "sstp", "system", "timer", "vrrp", "web-proxy", "async", "bgp",
-	"certificate", "debug", "dot1x", "dude", "event", "hotspot", "interface", "isdn", "ldp", "mme", "ospf", "pim",
-	"pptp", "raw", "route", "sertcp", "snmp", "state", "telephony", "upnp", "warning", "wireless", "backup", "calc",
-	"critical", "dhcp", "e-mail", "firewall", "igmp-proxy", "ipsec", "kvm", "lte", "mpls", "ovpn", "ppp", "radius",
-	"read", "rsvp", "simulator", "ssh", "store", "tftp", "ups", "watchdog", "write",
-}
-
 func ResourceSystemLogging() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/system/logging"),
