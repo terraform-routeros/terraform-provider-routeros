@@ -1,11 +1,9 @@
 package routeros
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testInterfaceVethAddress = "routeros_interface_veth.test"
@@ -24,28 +22,13 @@ func TestAccInterfaceVethTest_basic(t *testing.T) {
 					{
 						Config: testAccInterfaceVethConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckInterfaceVethExists(testInterfaceVethAddress),
+							testResourcePrimaryInstanceId(testInterfaceVethAddress),
 							resource.TestCheckResourceAttr(testInterfaceVethAddress, "name", "veth-test"),
 						),
 					},
 				},
 			})
 		})
-	}
-}
-
-func testAccCheckInterfaceVethExists(name string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[name]
-		if !ok {
-			return fmt.Errorf("not found: %s", name)
-		}
-
-		if rs.Primary.ID == "" {
-			return fmt.Errorf("no id is set")
-		}
-
-		return nil
 	}
 }
 

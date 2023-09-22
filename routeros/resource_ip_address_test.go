@@ -1,11 +1,9 @@
 package routeros
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testInterfaceIPAddressAddress = "routeros_ip_address.test_ip_address"
@@ -24,7 +22,7 @@ func TestAccInterfaceIPAddressTest_basic(t *testing.T) {
 					{
 						Config: testAccInterfaceIPAddressConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckInterfaceIPAddressExists(testInterfaceIPAddressAddress),
+							testResourcePrimaryInstanceId(testInterfaceIPAddressAddress),
 							resource.TestCheckResourceAttr(testInterfaceIPAddressAddress, "address", "172.16.255.254/32"),
 						),
 					},
@@ -32,21 +30,6 @@ func TestAccInterfaceIPAddressTest_basic(t *testing.T) {
 			})
 
 		})
-	}
-}
-
-func testAccCheckInterfaceIPAddressExists(name string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[name]
-		if !ok {
-			return fmt.Errorf("not found: %s", name)
-		}
-
-		if rs.Primary.ID == "" {
-			return fmt.Errorf("no id is set")
-		}
-
-		return nil
 	}
 }
 

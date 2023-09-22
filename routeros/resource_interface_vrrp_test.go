@@ -1,11 +1,9 @@
 package routeros
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testInterfaceVrrpAddress = "routeros_interface_vrrp.test_vrrp_interface"
@@ -24,7 +22,7 @@ func TestAccInterfaceVrrpTest_basic(t *testing.T) {
 					{
 						Config: testAccInterfaceVrrpConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckInterfaceVrrpExists(testInterfaceVrrpAddress),
+							testResourcePrimaryInstanceId(testInterfaceVrrpAddress),
 							resource.TestCheckResourceAttr(testInterfaceVrrpAddress, "interface", "ether1"),
 						),
 					},
@@ -32,21 +30,6 @@ func TestAccInterfaceVrrpTest_basic(t *testing.T) {
 			})
 
 		})
-	}
-}
-
-func testAccCheckInterfaceVrrpExists(name string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[name]
-		if !ok {
-			return fmt.Errorf("not found: %s", name)
-		}
-
-		if rs.Primary.ID == "" {
-			return fmt.Errorf("no id is set")
-		}
-
-		return nil
 	}
 }
 

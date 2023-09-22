@@ -1,13 +1,11 @@
 package routeros
 
 import (
-	"fmt"
 	"reflect"
 	"regexp"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testInterfaceWireguardPeerAddress = "routeros_interface_wireguard_peer.wg_peer"
@@ -26,7 +24,7 @@ func TestAccInterfaceWireguardPeerTest_basic(t *testing.T) {
 					{
 						Config: testAccInterfaceWireguardPeerConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckInterfaceWireguardPeerExists(testInterfaceWireguardPeerAddress),
+							testResourcePrimaryInstanceId(testInterfaceWireguardPeerAddress),
 							resource.TestCheckResourceAttr(testInterfaceWireguardPeerAddress, "interface", "wg1"),
 						),
 					},
@@ -34,21 +32,6 @@ func TestAccInterfaceWireguardPeerTest_basic(t *testing.T) {
 			})
 
 		})
-	}
-}
-
-func testAccCheckInterfaceWireguardPeerExists(name string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[name]
-		if !ok {
-			return fmt.Errorf("not found: %s", name)
-		}
-
-		if rs.Primary.ID == "" {
-			return fmt.Errorf("no id is set")
-		}
-
-		return nil
 	}
 }
 

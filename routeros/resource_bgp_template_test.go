@@ -1,11 +1,9 @@
 package routeros
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testBGPTemplateAddress = "routeros_routing_bgp_template.test"
@@ -24,28 +22,13 @@ func TestAccBGPTemplateTest_basic(t *testing.T) {
 					{
 						Config: testAccBGPTemplateConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckBGPTemplateExists(testBGPTemplateAddress),
+							testResourcePrimaryInstanceId(testBGPTemplateAddress),
 							resource.TestCheckResourceAttr(testBGPTemplateAddress, "name", "test-template"),
 						),
 					},
 				},
 			})
 		})
-	}
-}
-
-func testAccCheckBGPTemplateExists(name string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[name]
-		if !ok {
-			return fmt.Errorf("not found: %s", name)
-		}
-
-		if rs.Primary.ID == "" {
-			return fmt.Errorf("no id is set")
-		}
-
-		return nil
 	}
 }
 

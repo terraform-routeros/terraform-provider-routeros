@@ -1,12 +1,10 @@
 package routeros
 
 import (
-	"fmt"
 	"strings"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testCapsManAaaAddress = "routeros_capsman_aaa.test_3a"
@@ -26,42 +24,27 @@ func TestAccCapsManManagerTest_basic(t *testing.T) {
 					{
 						Config: testAccCapsManManagerUnitConfig(name, "routeros_capsman_manager"),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckCapsManResourceExists(testCapsManManagerAddress),
+							testResourcePrimaryInstanceId(testCapsManManagerAddress),
 							resource.TestCheckResourceAttr(testCapsManManagerAddress, "id", "caps-man.manager"),
 						),
 					},
 					{
 						Config: testAccCapsManManagerUnitConfig(name, "routeros_capsman_aaa"),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckCapsManResourceExists(testCapsManAaaAddress),
+							testResourcePrimaryInstanceId(testCapsManAaaAddress),
 							resource.TestCheckResourceAttr(testCapsManAaaAddress, "id", "caps-man.aaa"),
 						),
 					},
 					{
 						Config: testAccCapsManManagerUnitConfig(name, "routeros_capsman_manager_interface"),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckCapsManResourceExists(testCapsManManagerInterfaceAddress),
+							testResourcePrimaryInstanceId(testCapsManManagerInterfaceAddress),
 							resource.TestCheckResourceAttr(testCapsManManagerInterfaceAddress, "interface", "ether1"),
 						),
 					},
 				},
 			})
 		})
-	}
-}
-
-func testAccCheckCapsManResourceExists(address string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[address]
-		if !ok {
-			return fmt.Errorf("not found: %s", address)
-		}
-
-		if rs.Primary.ID == "" {
-			return fmt.Errorf("no id is set")
-		}
-
-		return nil
 	}
 }
 

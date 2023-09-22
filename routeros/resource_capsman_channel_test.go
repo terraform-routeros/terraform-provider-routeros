@@ -1,11 +1,9 @@
 package routeros
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testCapsManChannelAddress = "routeros_capsman_channel.test_channel"
@@ -24,28 +22,13 @@ func TestAccCapsManChannelTest_basic(t *testing.T) {
 					{
 						Config: testAccCapsManChannelConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckCapsManChannelExists(testCapsManChannelAddress),
+							testResourcePrimaryInstanceId(testCapsManChannelAddress),
 							resource.TestCheckResourceAttr(testCapsManChannelAddress, "name", "test_channel"),
 						),
 					},
 				},
 			})
 		})
-	}
-}
-
-func testAccCheckCapsManChannelExists(name string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[name]
-		if !ok {
-			return fmt.Errorf("not found: %s", name)
-		}
-
-		if rs.Primary.ID == "" {
-			return fmt.Errorf("no id is set")
-		}
-
-		return nil
 	}
 }
 

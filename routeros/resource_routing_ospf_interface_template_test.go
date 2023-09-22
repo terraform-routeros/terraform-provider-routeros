@@ -1,11 +1,9 @@
 package routeros
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testRoutingOspfInterfaceTemplate = "routeros_routing_ospf_interface_template.test_routing_ospf_interface_template"
@@ -24,7 +22,7 @@ func TestAccRoutingOspfInterfaceTemplateTest_basic(t *testing.T) {
 					{
 						Config: testAccCheckRoutingOspfInterfaceTemplateConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckRoutingOspfInterfaceTemplateExists(testRoutingOspfInterfaceTemplate),
+							testResourcePrimaryInstanceId(testRoutingOspfInterfaceTemplate),
 							resource.TestCheckResourceAttr(testRoutingOspfInterfaceTemplate, "area", "test_routing_ospf_area"),
 						),
 					},
@@ -32,21 +30,6 @@ func TestAccRoutingOspfInterfaceTemplateTest_basic(t *testing.T) {
 			})
 
 		})
-	}
-}
-
-func testAccCheckRoutingOspfInterfaceTemplateExists(name string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[name]
-		if !ok {
-			return fmt.Errorf("not found: %s", name)
-		}
-
-		if rs.Primary.ID == "" {
-			return fmt.Errorf("no id is set")
-		}
-
-		return nil
 	}
 }
 

@@ -1,11 +1,9 @@
 package routeros
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testCapsManProvisioningAddress = "routeros_capsman_provisioning.test_provisioning"
@@ -24,7 +22,7 @@ func TestAccCapsManProvisioningTest_basic(t *testing.T) {
 					{
 						Config: testAccCapsManProvisioningConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckCapsManProvisioningExists(testCapsManProvisioningAddress),
+							testResourcePrimaryInstanceId(testCapsManProvisioningAddress),
 							resource.TestCheckResourceAttr(testCapsManProvisioningAddress, "name_prefix", "cap-"),
 						),
 					},
@@ -32,21 +30,6 @@ func TestAccCapsManProvisioningTest_basic(t *testing.T) {
 			})
 
 		})
-	}
-}
-
-func testAccCheckCapsManProvisioningExists(name string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[name]
-		if !ok {
-			return fmt.Errorf("not found: %s", name)
-		}
-
-		if rs.Primary.ID == "" {
-			return fmt.Errorf("no id is set")
-		}
-
-		return nil
 	}
 }
 

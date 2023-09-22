@@ -1,11 +1,9 @@
 package routeros
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testIPv6RouteAddress = "routeros_ipv6_route.test_route"
@@ -24,7 +22,7 @@ func TestAccIPv6RouteTest_basic(t *testing.T) {
 					{
 						Config: testAccIPv6RouteConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckIPv6RouteExists(testIPv6RouteAddress),
+							testResourcePrimaryInstanceId(testIPv6RouteAddress),
 							resource.TestCheckResourceAttr(testIPv6RouteAddress, "distance", "1"),
 							resource.TestCheckResourceAttr(testIPv6RouteAddress, "dst_address", "::/0"),
 							resource.TestCheckResourceAttr(testIPv6RouteAddress, "gateway", "2001:db8:1000::1"),
@@ -34,21 +32,6 @@ func TestAccIPv6RouteTest_basic(t *testing.T) {
 			})
 
 		})
-	}
-}
-
-func testAccCheckIPv6RouteExists(name string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[name]
-		if !ok {
-			return fmt.Errorf("not found: %s", name)
-		}
-
-		if rs.Primary.ID == "" {
-			return fmt.Errorf("no id is set")
-		}
-
-		return nil
 	}
 }
 
