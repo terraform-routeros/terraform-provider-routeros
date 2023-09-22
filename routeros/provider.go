@@ -71,6 +71,7 @@ func Provider() *schema.Provider {
 			"routeros_ip_dhcp_server_option":     ResourceDhcpServerOption(),
 			"routeros_ip_dhcp_server_option_set": ResourceDhcpServerOptionSet(),
 			"routeros_ip_firewall_addr_list":     ResourceIPFirewallAddrList(),
+			"routeros_ip_firewall_connection_tracking": ResourceIPConnectionTracking(),
 			"routeros_ip_firewall_filter":        ResourceIPFirewallFilter(),
 			"routeros_ip_firewall_mangle":        ResourceIPFirewallMangle(),
 			"routeros_ip_firewall_nat":           ResourceIPFirewallNat(),
