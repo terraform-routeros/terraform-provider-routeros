@@ -1,3 +1,10 @@
+## [1.17.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.16.0...v1.17.0) (2023-09-22)
+
+
+### Features
+
+* Ip firewall connection tracking ([#260](https://github.com/terraform-routeros/terraform-provider-routeros/issues/260)) ([9d39bf8](https://github.com/terraform-routeros/terraform-provider-routeros/commit/9d39bf82ebbff621888bb6535fe57148488f0215))
+
 ## [1.16.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.15.0...v1.16.0) (2023-09-21)
 
 
