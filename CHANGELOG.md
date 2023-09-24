@@ -1,3 +1,10 @@
+## [1.18.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.17.0...v1.18.0) (2023-09-24)
+
+
+### Features
+
+* Creating key sets for WireGuard tunnels ([e2d28a3](https://github.com/terraform-routeros/terraform-provider-routeros/commit/e2d28a3d8d1184ab2fb4118cb7b44147cb8fbbc3))
+
 ## [1.17.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.16.0...v1.17.0) (2023-09-22)
 
 

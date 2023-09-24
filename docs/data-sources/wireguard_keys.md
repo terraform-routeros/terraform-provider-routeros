@@ -1,5 +1,5 @@
 # routeros_wireguard_keys (Data Source)
-Creating keys for a WireGuard tunnels.
+Creating key sets for WireGuard tunnels.
 
 
 
