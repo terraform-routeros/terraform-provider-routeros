@@ -1,11 +1,9 @@
 package routeros
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
 const testDatasourceIpRoutes = "data.routeros_ip_routes.routes"
@@ -23,28 +21,13 @@ func TestAccDatasourceIpRoutesTest_basic(t *testing.T) {
 					{
 						Config: testAccDatasourceIpRoutesConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testAccCheckDatasourceIpRoutesExists(testDatasourceIpRoutes),
+							testResourcePrimaryInstanceId(testDatasourceIpRoutes),
 						),
 					},
 				},
 			})
 
 		})
-	}
-}
-
-func testAccCheckDatasourceIpRoutesExists(name string) resource.TestCheckFunc {
-	return func(s *terraform.State) error {
-		rs, ok := s.RootModule().Resources[name]
-		if !ok {
-			return fmt.Errorf("not found: %s", name)
-		}
-
-		if rs.Primary.ID == "" {
-			return fmt.Errorf("no id is set")
-		}
-
-		return nil
 	}
 }
 
