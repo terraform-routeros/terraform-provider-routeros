@@ -11,20 +11,21 @@ import (
 	"golang.org/x/crypto/curve25519"
 )
 
-func DatasourceWireguardKeys() *schema.Resource {
+func ResourceWireguardKeys() *schema.Resource {
 	return &schema.Resource{
 		Description: "Creating key sets for WireGuard tunnels.",
-		ReadContext: datasourceMakeWGKeys,
 		Schema: map[string]*schema.Schema{
 			"number": {
 				Type:        schema.TypeInt,
 				Optional:    true,
+				ForceNew:    true,
 				Default:     1,
 				Description: "The number of key sets.",
 			},
 			"keys": {
-				Type:     schema.TypeList,
-				Computed: true,
+				Type:      schema.TypeList,
+				Computed:  true,
+				Sensitive: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"preshared": {
@@ -45,6 +46,14 @@ func DatasourceWireguardKeys() *schema.Resource {
 					},
 				},
 			},
+		},
+		CreateContext: wgKeysCreate,
+		ReadContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+			return nil
+		},
+		DeleteContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+			d.SetId("")
+			return nil
 		},
 	}
 }
@@ -125,7 +134,7 @@ func (k Key) String() string {
 	return base64.StdEncoding.EncodeToString(k[:])
 }
 
-func datasourceMakeWGKeys(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func wgKeysCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var res []map[string]any
 
 	for i := 0; i < d.Get("number").(int); i++ {

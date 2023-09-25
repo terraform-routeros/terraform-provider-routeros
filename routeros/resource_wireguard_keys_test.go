@@ -6,17 +6,18 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-const testDatasourceWireGuardKeys = "data.routeros_wireguard_keys.keys"
+const testResourceWireGuardKeys = "routeros_wireguard_keys.keys"
 
-func TestAccDatasourceWireGuardKeys_basic(t *testing.T) {
+func TestAccResourceWireGuardKeys_basic(t *testing.T) {
 	t.Run("WG keys", func(t *testing.T) {
 		resource.Test(t, resource.TestCase{
 			ProviderFactories: testAccProviderFactories,
 			Steps: []resource.TestStep{
 				{
-					Config: testAccDatasourceWireGuardKeysConfig(),
+					Config: testAccResourceWireGuardKeysConfig(),
 					Check: resource.ComposeTestCheckFunc(
-						testResourcePrimaryInstanceId(testDatasourceWireGuardKeys),
+						testResourcePrimaryInstanceId(testResourceWireGuardKeys),
+						resource.TestCheckResourceAttr(testResourceWireGuardKeys, "number", "3"),
 					),
 				},
 			},
@@ -25,14 +26,14 @@ func TestAccDatasourceWireGuardKeys_basic(t *testing.T) {
 	})
 }
 
-func testAccDatasourceWireGuardKeysConfig() string {
+func testAccResourceWireGuardKeysConfig() string {
 	return `
 
 provider "routeros" {
 	insecure = true
 }
 
-data "routeros_wireguard_keys" "keys" {
+resource "routeros_wireguard_keys" "keys" {
 	number = 3
 }
 `

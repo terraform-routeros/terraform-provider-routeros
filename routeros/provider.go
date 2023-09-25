@@ -174,6 +174,9 @@ func Provider() *schema.Provider {
 			// SNMP
 			"routeros_snmp":           ResourceSNMP(),
 			"routeros_snmp_community": ResourceSNMPCommunity(),
+
+			// Helpers
+			"routeros_wireguard_keys": ResourceWireguardKeys(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"routeros_interfaces":     DatasourceInterfaces(),
@@ -181,7 +184,6 @@ func Provider() *schema.Provider {
 			"routeros_ip_routes":      DatasourceIPRoutes(),
 			"routeros_firewall":       DatasourceFirewall(),
 			"routeros_ipv6_addresses": DatasourceIPv6Addresses(),
-			"routeros_wireguard_keys": DatasourceWireguardKeys(),
 		},
 		ConfigureContextFunc: NewClient,
 	}
