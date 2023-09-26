@@ -44,6 +44,8 @@ import (
 */
 
 const poeOutField = "poe_out"
+const cableSettingsField = "cable_settings"
+const switchField = "switch"
 
 // https://help.mikrotik.com/docs/display/ROS/Ethernet#Ethernet-Properties
 func ResourceInterfaceEthernet() *schema.Resource {
@@ -108,6 +110,26 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Default value is 'yes' because older NICs do not support it. (only applicable to x86)`,
 			Default:  true,
 			Optional: true,
+		},
+		"driver_rx_byte": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: `Total count of received bytes on device CPU`,
+		},
+		"driver_rx_packet": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: `Total count of received packets on device CPU`,
+		},
+		"driver_tx_byte": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: `Total count of transmitted packets by device CPU`,
+		},
+		"driver_tx_packet": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: `Total count of transmitted packets by device CPU`,
 		},
 		"factory_name": {
 			Type:        schema.TypeString,
@@ -199,6 +221,16 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Computed:    true,
 			Description: "Total count of received bytes.",
 		},
+		"rx_error_events": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: `Total count of received frames with active error event`,
+		},
+		"rx_jabber": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "Total count of received jabbed packets - a packet that is transmitted longer than the maximum packet length",
+		},
 		"rx_multicast": {
 			Type:        schema.TypeInt,
 			Computed:    true,
@@ -216,6 +248,28 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Default:      "off",
 			Optional:     true,
 			ValidateFunc: validation.StringInSlice([]string{"on", "off", "auto"}, false),
+		},
+		"rx_too_long": {
+			Type:        schema.TypeInt,
+			Description: `Total count of received frames that were larger than the maximum supported frame size by the network device, see the max-l2mtu property`,
+			Computed:    true,
+		},
+		"rx_too_short": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: `Total count of received frame shorter than the minimum 64 bytes`,
+		},
+		"rx_unicast": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: `Total count of received unicast frames`,
+		},
+		"sfp_rate_select": {
+			Type:         schema.TypeString,
+			Optional:     true,
+			Description:  `Allows to control rate select pin for SFP ports. Values: high | low`,
+			Default:      "high",
+			ValidateFunc: validation.StringInSlice([]string{"high", "low"}, false),
 		},
 		"sfp_shutdown_temperature": {
 			Type: schema.TypeInt,
@@ -263,10 +317,30 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Computed:    true,
 			Description: "Total count of transmitted multicast frames.",
 		},
+		"tx_collision": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "Total count of transmitted frames that made collisions",
+		},
+		"tx_drop": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "Total count of transmitted frames that were dropped due to already full output queue",
+		},
+		"tx_late_collision": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "Total count of transmitted frames that made collision after being already halfway transmitted",
+		},
 		"tx_packet": {
 			Type:        schema.TypeInt,
 			Computed:    true,
 			Description: "Total count of transmitted packets.",
+		},
+		"tx_pause": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "Total count of transmitted pause frames.",
 		},
 	}
 
@@ -301,6 +375,16 @@ func UpdateOnlyDeviceCreate(s map[string]*schema.Schema) schema.CreateContextFun
 		// if the router does not support PoE, avoid sending the parameter as it returns an error.
 		case !supportsPoE:
 			s[MetaSkipFields].Default = fmt.Sprintf("%s,\"%s\"", s[MetaSkipFields].Default, poeOutField)
+		}
+
+		_, supportsCableSettings := ethernetInterface["cable-settings"]
+		if !supportsCableSettings {
+			s[MetaSkipFields].Default = fmt.Sprintf("%s,\"%s\"", s[MetaSkipFields].Default, cableSettingsField)
+		}
+
+		_, supportsSwitch := ethernetInterface["switch"]
+		if !supportsSwitch {
+			s[MetaSkipFields].Default = fmt.Sprintf("%s,\"%s\"", s[MetaSkipFields].Default, switchField)
 		}
 
 		d.SetId(ethernetInterface.GetID(Id))

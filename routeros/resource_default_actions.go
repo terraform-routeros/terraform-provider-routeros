@@ -44,7 +44,7 @@ func ResourceCreate(ctx context.Context, s map[string]*schema.Schema, d *schema.
 	}
 
 	// ... If no ID is set, Terraform assumes the resource was not created successfully;
-	// as a result, no state will be saved for that resource.
+	// as a result, no state will be saved for that resource.go
 	if res.GetID(Id) == "" {
 		return diag.Diagnostics{
 			diag.Diagnostic{
@@ -174,7 +174,7 @@ func SystemResourceRead(ctx context.Context, s map[string]*schema.Schema, d *sch
 		return diag.FromErr(err)
 	}
 
-    // We make a unique Id, it does not affect the work with the Mikrotik.
+	// We make a unique Id, it does not affect the work with the Mikrotik.
 	// Id: /caps-man/manager -> caps-man.manager
 	d.SetId(strings.ReplaceAll(strings.TrimLeft(metadata.Path, "/"), "/", "."))
 
