@@ -32,12 +32,7 @@ func TestAccDatasourceFirewallTest_basic(t *testing.T) {
 }
 
 func testAccDatasourceFirewallConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
-
+	return providerConfig + `
 data "routeros_firewall" "fw" {
   address_list {}
   mangle {}

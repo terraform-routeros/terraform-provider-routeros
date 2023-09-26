@@ -34,11 +34,7 @@ func TestAccIpPoolTest_basic(t *testing.T) {
 }
 
 func testAccIpPoolConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
+	return providerConfig + `
 
 resource "routeros_ip_pool" "test_pool" {
 	name   = "test_pool"

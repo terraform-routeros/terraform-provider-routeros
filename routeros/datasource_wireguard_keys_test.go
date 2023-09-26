@@ -26,11 +26,7 @@ func TestAccDatasourceWireGuardKeys_basic(t *testing.T) {
 }
 
 func testAccDatasourceWireGuardKeysConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
+	return providerConfig + `
 
 data "routeros_wireguard_keys" "keys" {
 	number = 3

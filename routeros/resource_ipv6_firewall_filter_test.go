@@ -34,11 +34,7 @@ func TestAccIPv6FirewallFilterTest_basic(t *testing.T) {
 }
 
 func testAccIPv6FirewallFilterConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
+	return providerConfig + `
 
 resource "routeros_ipv6_firewall_filter" "rule" {
 	// add action=drop chain=forward comment="" hop-limit= protocol=icmpv6

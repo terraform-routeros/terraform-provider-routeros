@@ -36,11 +36,7 @@ func TestAccIPFirewallNatTest_basic(t *testing.T) {
 }
 
 func testAccIPFirewallNatConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
+	return providerConfig + `
 
 resource "routeros_firewall_nat" "data" {
 	chain = "srcnat"	

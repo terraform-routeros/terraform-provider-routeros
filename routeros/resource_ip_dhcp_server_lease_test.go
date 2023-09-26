@@ -36,11 +36,7 @@ func TestAccIpDhcpServerLeaseTest_basic(t *testing.T) {
 }
 
 func testAccIpDhcpServerLeaseConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
+	return providerConfig + `
 
 resource "routeros_ip_dhcp_server_lease" "test_dhcp_lease" {
 	address 	 = "192.168.88.33"

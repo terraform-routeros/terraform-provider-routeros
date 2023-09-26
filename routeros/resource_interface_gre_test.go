@@ -36,11 +36,7 @@ func TestAccInterfaceGreTest_basic(t *testing.T) {
 }
 
 func testAccInterfaceGreConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
+	return providerConfig + `
 
 resource "routeros_interface_gre" "gre900" {
 	name      = "GRE_900_TEST"
