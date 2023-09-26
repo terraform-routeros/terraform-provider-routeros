@@ -382,11 +382,6 @@ func UpdateOnlyDeviceCreate(s map[string]*schema.Schema) schema.CreateContextFun
 			s[MetaSkipFields].Default = fmt.Sprintf("%s,\"%s\"", s[MetaSkipFields].Default, cableSettingsField)
 		}
 
-		_, supportsSwitch := ethernetInterface["switch"]
-		if !supportsSwitch {
-			s[MetaSkipFields].Default = fmt.Sprintf("%s,\"%s\"", s[MetaSkipFields].Default, switchField)
-		}
-
 		d.SetId(ethernetInterface.GetID(Id))
 		if updateDiag := ResourceUpdate(ctx, s, d, m); updateDiag.HasError() {
 			return updateDiag
