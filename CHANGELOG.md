@@ -1,3 +1,10 @@
+## [1.18.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.18.0...v1.18.1) (2023-09-27)
+
+
+### Bug Fixes
+
+* Move WG  keys from datasource to resource ([#265](https://github.com/terraform-routeros/terraform-provider-routeros/issues/265)) ([a4eaf8c](https://github.com/terraform-routeros/terraform-provider-routeros/commit/a4eaf8c5fd00e56f7d69ddac5bfa575e8487ff60))
+
 ## [1.18.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.17.0...v1.18.0) (2023-09-24)
 
 
