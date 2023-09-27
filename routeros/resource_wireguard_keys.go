@@ -15,6 +15,24 @@ func ResourceWireguardKeys() *schema.Resource {
 	return &schema.Resource{
 		Description: "Creating key sets for WireGuard tunnels.",
 		Schema: map[string]*schema.Schema{
+			MetaId: {
+				Type:     schema.TypeInt,
+				Optional: true,
+				ForceNew: true,
+				Default:  int(Name),
+				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+					return true
+				},
+			},
+			MetaResourcePath: {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+				Default:  "local",
+				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+					return true
+				},
+			},
 			"number": {
 				Type:        schema.TypeInt,
 				Optional:    true,
