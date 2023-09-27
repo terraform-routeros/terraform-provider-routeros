@@ -42,11 +42,7 @@ func TestAccInterfaceBridgeTest_basic(t *testing.T) {
 }
 
 func testAccInterfaceBridgeConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
+	return providerConfig + `
 
 resource "routeros_interface_bridge" "test_bridge" {
 	name   = "test_bridge"

@@ -40,14 +40,10 @@ func TestAccSystemIdentityTest_basic(t *testing.T) {
 }
 
 func testAccSystemIdentityConfig(name string) string {
-	return fmt.Sprintf(`
-
-provider "routeros" {
-	insecure = true
-}
+	return fmt.Sprintf(`%v
 
 resource "routeros_identity" "test" {
 	name = "%v"
 }
-`, name)
+`, providerConfig, name)
 }

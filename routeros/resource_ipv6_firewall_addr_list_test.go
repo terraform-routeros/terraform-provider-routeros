@@ -35,11 +35,7 @@ func TestAccIPv6FirewallAddrListTest_basic(t *testing.T) {
 }
 
 func testAccIPv6FirewallAddrListConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
+	return providerConfig + `
 
 resource "routeros_ipv6_firewall_addr_list" "data" {
 	list = "test-addr-list"

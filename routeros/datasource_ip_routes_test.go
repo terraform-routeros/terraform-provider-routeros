@@ -32,11 +32,7 @@ func TestAccDatasourceIpRoutesTest_basic(t *testing.T) {
 }
 
 func testAccDatasourceIpRoutesConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
+	return providerConfig + `
 
 data "routeros_ip_routes" "routes" {}
 `

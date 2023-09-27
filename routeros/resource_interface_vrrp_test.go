@@ -34,12 +34,7 @@ func TestAccInterfaceVrrpTest_basic(t *testing.T) {
 }
 
 func testAccInterfaceVrrpConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
-
+	return providerConfig + `
 resource "routeros_interface_vrrp" "test_vrrp_interface" {
 	name   		= "test_vrrp_interface"
 	interface = "ether1"

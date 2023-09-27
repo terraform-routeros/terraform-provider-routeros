@@ -31,11 +31,7 @@ func TestAccDatasourceIpv6AddressesTest_basic(t *testing.T) {
 }
 
 func testAccDatasourceIpv6AddressesConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
+	return providerConfig + `
 
 data "routeros_ipv6_addresses" "addresses" {}
 `

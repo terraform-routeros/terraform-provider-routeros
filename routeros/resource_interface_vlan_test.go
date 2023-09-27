@@ -35,11 +35,7 @@ func TestAccInterfaceVlanTest(t *testing.T) {
 }
 
 func testAccInterfaceVlanConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
+	return providerConfig + `
 
 resource "routeros_interface_vlan" "vlan900" {
 	name      = "VLAN_900_TEST"

@@ -35,11 +35,7 @@ func TestAccInterfaceBridgeVlanTest_basic(t *testing.T) {
 }
 
 func testAccInterfaceBridgeVlanConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
+	return providerConfig + `
 
 resource "routeros_interface_bridge_vlan" "test_vlan" {
 	bridge   = "bridge"

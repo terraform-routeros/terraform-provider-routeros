@@ -34,11 +34,7 @@ func TestAccInterfaceListTest_basic(t *testing.T) {
 }
 
 func testAccInterfaceListConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
+	return providerConfig + `
 
 resource "routeros_interface_list" "test_list" {
 	name      = "test_list"
