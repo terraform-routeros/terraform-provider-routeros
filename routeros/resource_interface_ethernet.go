@@ -413,9 +413,9 @@ func ResourceInterfaceEthernet() *schema.Resource {
 	}
 
 	return &schema.Resource{
-		CreateContext: UpdateOnlyDeviceCreate(resSchema),
-		ReadContext:   UpdateOnlyDeviceRead(resSchema),
-		UpdateContext: UpdateOnlyDeviceUpdate(resSchema),
+		CreateContext: updateOnlyDeviceCreate(resSchema),
+		ReadContext:   updateOnlyDeviceRead(resSchema),
+		UpdateContext: updateOnlyDeviceUpdate(resSchema),
 		DeleteContext: DefaultSystemDelete(resSchema),
 
 		Importer: &schema.ResourceImporter{
@@ -426,19 +426,19 @@ func ResourceInterfaceEthernet() *schema.Resource {
 	}
 }
 
-func UpdateOnlyDeviceCreate(s map[string]*schema.Schema) schema.CreateContextFunc {
+func updateOnlyDeviceCreate(s map[string]*schema.Schema) schema.CreateContextFunc {
 	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 		return UpdateEthernetInterface(ctx, s, d, m)
 	}
 }
 
-func UpdateOnlyDeviceUpdate(s map[string]*schema.Schema) schema.UpdateContextFunc {
+func updateOnlyDeviceUpdate(s map[string]*schema.Schema) schema.UpdateContextFunc {
 	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 		return UpdateEthernetInterface(ctx, s, d, m)
 	}
 }
 
-func UpdateOnlyDeviceRead(s map[string]*schema.Schema) schema.ReadContextFunc {
+func updateOnlyDeviceRead(s map[string]*schema.Schema) schema.ReadContextFunc {
 	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 		ethernetInterface, err := findInterfaceByDefaultName(s, d, m.(Client))
 		if err != nil {
@@ -467,7 +467,7 @@ func UpdateEthernetInterface(ctx context.Context, s map[string]*schema.Schema, d
 	poeDesiredState := d.Get(poeOutField)
 	_, supportsPoE := ethernetInterface[SnakeToKebab(poeOutField)]
 	switch {
-	// if the user has specified it, but it's not supported, let's error out
+	// if the user has specified it, but it's not supported, lets error out
 	case poeDesiredState != "off" && !supportsPoE:
 		return diag.FromErr(errors.New("can't configure PoE, router does not supports it"))
 	// if the router does not support PoE, avoid sending the parameter as it returns an error.
