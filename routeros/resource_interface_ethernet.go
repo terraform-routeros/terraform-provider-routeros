@@ -48,6 +48,7 @@ const poeOutField = "poe_out"
 const cableSettingsField = "cable_settings"
 const runningCheckField = "disable_running_check"
 
+// ResourceInterfaceEthernet is the schema for ethernet interfaces
 // https://help.mikrotik.com/docs/display/ROS/Ethernet#Ethernet-Properties
 func ResourceInterfaceEthernet() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
@@ -65,6 +66,7 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			ValidateFunc: validation.StringInSlice([]string{
 				"10M-full", "10M-half", "100M-full", "100M-half",
 				"1000M-full", "1000M-half", "2500M-full", "5000M-full", "10000M-full"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyArp:        PropArpRw,
 		KeyArpTimeout: PropArpTimeoutRw,
@@ -84,20 +86,20 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"cable_settings": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Default:      "default",
-			Description:  `Changes the cable length setting (only applicable to NS DP83815/6 cards)`,
-			ValidateFunc: validation.StringInSlice([]string{"default", "short", "standard"}, false),
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      `Changes the cable length setting (only applicable to NS DP83815/6 cards)`,
+			ValidateFunc:     validation.StringInSlice([]string{"default", "short", "standard"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"combo_mode": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Default:  "auto",
 			Description: `When auto mode is selected, the port that was first connected will establish the link. In case this link fails, the other port will try to establish a new link. If both ports are connected at the same time (e.g. after reboot), 
 				the priority will be the SFP/SFP+ port. When sfp mode is selected, the interface will only work through SFP/SFP+ cage.
 				When copper mode is selected, the interface will only work through RJ45 Ethernet port.`,
-			ValidateFunc: validation.StringInSlice([]string{"auto", "copper", "sfp"}, false),
+			ValidateFunc:     validation.StringInSlice([]string{"auto", "copper", "sfp"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyComment: PropCommentRw,
 		"default_name": {
@@ -171,10 +173,10 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Computed: true,
 		},
 		"mac_address": {
-			Type:        schema.TypeString,
-			Description: `Media Access Control number of an interface.`,
-			Optional:    true,
-			Computed:    true,
+			Type:             schema.TypeString,
+			Description:      `Media Access Control number of an interface.`,
+			Optional:         true,
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"mdix_enable": {
 			Type:        schema.TypeBool,
@@ -196,11 +198,12 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Computed:    true,
 		},
 		poeOutField: {
-			Type:         schema.TypeString,
-			Description:  "PoE settings: (https://wiki.mikrotik.com/wiki/Manual:PoE-Out)",
-			Default:      "off",
-			Optional:     true,
-			ValidateFunc: validation.StringInSlice([]string{"auto-on", "forced-on", "off"}, false),
+			Type:             schema.TypeString,
+			Description:      "PoE settings: (https://wiki.mikrotik.com/wiki/Manual:PoE-Out)",
+			Default:          "off",
+			Optional:         true,
+			ValidateFunc:     validation.StringInSlice([]string{"auto-on", "forced-on", "off"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"poe_priority": {
 			Type:         schema.TypeInt,
@@ -262,9 +265,10 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Type: schema.TypeString,
 			Description: `When set to on, the port will process received pause frames and suspend transmission if required.
 					auto is the same as on except when auto-negotiation=yes flow control status is resolved by taking into account what other end advertises.`,
-			Default:      "off",
-			Optional:     true,
-			ValidateFunc: validation.StringInSlice([]string{"on", "off", "auto"}, false),
+			Default:          "off",
+			Optional:         true,
+			ValidateFunc:     validation.StringInSlice([]string{"on", "off", "auto"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"rx_overflow": {
 			Type:        schema.TypeInt,
@@ -320,9 +324,10 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Description: `When set to on, the port will generate pause frames to the upstream device to temporarily stop the packet transmission. 
 					Pause frames are only generated when some routers output interface is congested and packets cannot be transmitted anymore. 
 					Auto is the same as on except when auto-negotiation=yes flow control status is resolved by taking into account what other end advertises.`,
-			Default:      "off",
-			Optional:     true,
-			ValidateFunc: validation.StringInSlice([]string{"on", "off", "auto"}, false),
+			Default:          "off",
+			Optional:         true,
+			ValidateFunc:     validation.StringInSlice([]string{"on", "off", "auto"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"tx_broadcast": {
 			Type:        schema.TypeInt,
@@ -411,7 +416,7 @@ func ResourceInterfaceEthernet() *schema.Resource {
 		CreateContext: UpdateOnlyDeviceCreate(resSchema),
 		ReadContext:   UpdateOnlyDeviceRead(resSchema),
 		UpdateContext: UpdateOnlyDeviceUpdate(resSchema),
-		DeleteContext: NoOpDelete,
+		DeleteContext: DefaultSystemDelete(resSchema),
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -454,19 +459,19 @@ func UpdateEthernetInterface(ctx context.Context, s map[string]*schema.Schema, d
 		return diag.FromErr(errors.New("can't configure PoE, router does not supports it"))
 	// if the router does not support PoE, avoid sending the parameter as it returns an error.
 	case !supportsPoE:
-		skipFieldInSchema(s, poeOutField)
+		s[MetaSkipFields].Default = skipFieldInSchema(s[MetaSkipFields].Default, poeOutField)
 	}
 
-	if _, supportsCableSettings := ethernetInterface["cable-settings"]; supportsCableSettings {
-		skipFieldInSchema(s, cableSettingsField)
+	if _, supportsCableSettings := ethernetInterface["cable-settings"]; !supportsCableSettings {
+		s[MetaSkipFields].Default = skipFieldInSchema(s[MetaSkipFields].Default, cableSettingsField)
 	}
 
-	if _, supportsRunningCheck := ethernetInterface["disable-running-check"]; supportsRunningCheck {
-		skipFieldInSchema(s, runningCheckField)
+	if _, supportsRunningCheck := ethernetInterface["disable-running-check"]; !supportsRunningCheck {
+		s[MetaSkipFields].Default = skipFieldInSchema(s[MetaSkipFields].Default, runningCheckField)
 	}
 
-	// Dynamic schema, counters for tx_queue packets, changes from router to router, read only countes.
-	for key, _ := range ethernetInterface {
+	// Dynamic schema, counters for tx_queue packets, changes from router to router, read only counters.
+	for key := range ethernetInterface {
 		if strings.HasPrefix(key, "tx_queue") {
 			fmt.Printf("adding dynamic schema: %s", key)
 			s[key] = &schema.Schema{
@@ -486,10 +491,6 @@ func UpdateEthernetInterface(ctx context.Context, s map[string]*schema.Schema, d
 
 }
 
-func NoOpDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	return nil
-}
-
 func findInterfaceByDefaultName(s map[string]*schema.Schema, d *schema.ResourceData, c Client) (MikrotikItem, error) {
 	metadata := GetMetadata(s)
 	filter := buildReadFilter(map[string]interface{}{"default-name": d.Get("factory_name")})
@@ -506,6 +507,6 @@ func findInterfaceByDefaultName(s map[string]*schema.Schema, d *schema.ResourceD
 	return ethernetInterface, nil
 }
 
-func skipFieldInSchema(s map[string]*schema.Schema, field string) {
-	s[MetaSkipFields].Default = fmt.Sprintf("%s,\"%s\"", s[MetaSkipFields].Default, field)
+func skipFieldInSchema(defaults interface{}, field string) string {
+	return fmt.Sprintf("%s,\"%s\"", defaults, field)
 }
