@@ -14,10 +14,11 @@ import (
 
 // All metadata fields must be present in each resource schema, and the field type must be string.
 const (
-	MetaId           = "___id___"
-	MetaResourcePath = "___path___"
-	MetaTransformSet = "___ts___"
-	MetaSkipFields   = "___skip___"
+	MetaId             = "___id___"
+	MetaResourcePath   = "___path___"
+	MetaTransformSet   = "___ts___"
+	MetaSkipFields     = "___skip___"
+	MetaSetUnsetFields = "___unset___"
 )
 
 const (
@@ -86,6 +87,19 @@ func PropSkipFields(s string) *schema.Schema {
 		Optional:    true,
 		Default:     s,
 		Description: "<em>A set of transformations for field names. This is an internal service field, setting a value is not required.</em>",
+		DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+			return true
+		},
+	}
+}
+
+// PropSetUnsetFields
+func PropSetUnsetFields(s string) *schema.Schema {
+	return &schema.Schema{
+		Type:        schema.TypeString,
+		Optional:    true,
+		Default:     s,
+		Description: "<em>A set of fields that require setting/unsetting. This is an internal service field, setting a value is not required.</em>",
 		DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
 			return true
 		},

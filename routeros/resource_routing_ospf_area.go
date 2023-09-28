@@ -21,8 +21,9 @@ import (
 // ResourceRoutingOspfArea https://help.mikrotik.com/docs/display/ROS/OSPF
 func ResourceRoutingOspfArea() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
-		MetaResourcePath: PropResourcePath("/routing/ospf/area"),
-		MetaId:           PropId(Id),
+		MetaResourcePath:   PropResourcePath("/routing/ospf/area"),
+		MetaId:             PropId(Id),
+		MetaSetUnsetFields: PropSetUnsetFields(`"no_summaries"`),
 
 		"area_id": {
 			Type:        schema.TypeString,
@@ -45,9 +46,11 @@ func ResourceRoutingOspfArea() *schema.Resource {
 		},
 		KeyName: PropNameForceNewRw,
 		"no_summaries": {
-			Type:        schema.TypeBool,
-			Optional:    true,
-			Description: "If set then the area will not flood summary LSAs in the stub area.",
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "If set then the area will not flood summary LSAs in the stub area. " +
+				"<em>The correct value of this attribute may not be displayed in Winbox. " +
+				"Please check the parameters in the console!</em>",
 		},
 		"nssa_translate": {
 			Type:         schema.TypeString,
