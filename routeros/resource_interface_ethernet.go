@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -45,6 +46,7 @@ import (
 
 const poeOutField = "poe_out"
 const cableSettingsField = "cable_settings"
+const runningCheckField = "disable_running_check"
 
 // https://help.mikrotik.com/docs/display/ROS/Ethernet#Ethernet-Properties
 func ResourceInterfaceEthernet() *schema.Resource {
@@ -75,10 +77,11 @@ func ResourceInterfaceEthernet() *schema.Resource {
 					Note2: Gigabit Ethernet and NBASE-T Ethernet links cannot work with auto-negotiation disabled.`,
 		},
 		"bandwidth": {
-			Type:     schema.TypeInt,
+			Type:     schema.TypeString,
 			Optional: true,
 			Description: `Sets max rx/tx bandwidth in kbps that will be handled by an interface. TX limit is supported on all Atheros switch-chip ports. 
 				RX limit is supported only on Atheros8327/QCA8337 switch-chip ports.`,
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"cable_settings": {
 			Type:         schema.TypeString,
@@ -225,6 +228,16 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Computed:    true,
 			Description: `Total count of received frames with active error event`,
 		},
+		"rx_fcs_error": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "Total count of received frames with incorrect checksum",
+		},
+		"rx_fragment": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: `Total count of received fragmented frames (not related to IP fragmentation)`,
+		},
 		"rx_jabber": {
 			Type:        schema.TypeInt,
 			Computed:    true,
@@ -240,6 +253,11 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Computed:    true,
 			Description: "Total count of received packets.",
 		},
+		"rx_pause": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "Total count of received pause frames",
+		},
 		"rx_flow_control": {
 			Type: schema.TypeString,
 			Description: `When set to on, the port will process received pause frames and suspend transmission if required.
@@ -247,6 +265,11 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Default:      "off",
 			Optional:     true,
 			ValidateFunc: validation.StringInSlice([]string{"on", "off", "auto"}, false),
+		},
+		"rx_overflow": {
+			Type:        schema.TypeInt,
+			Description: `Total count of received overflowed frames, can be caused when device resources are insufficient to receive a certain frame`,
+			Computed:    true,
 		},
 		"rx_too_long": {
 			Type:        schema.TypeInt,
@@ -288,7 +311,7 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			ValidateFunc: validation.StringInSlice([]string{"10Mbps", "10Gbps", "100Mbps", "1Gbps"}, false),
 		},
 		"switch": {
-			Type:        schema.TypeInt,
+			Type:        schema.TypeString,
 			Description: "ID to which switch chip interface belongs to.",
 			Computed:    true,
 		},
@@ -326,6 +349,7 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Computed:    true,
 			Description: "Total count of transmitted frames that were dropped due to already full output queue",
 		},
+
 		"tx_late_collision": {
 			Type:        schema.TypeInt,
 			Computed:    true,
@@ -341,12 +365,52 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Computed:    true,
 			Description: "Total count of transmitted pause frames.",
 		},
+		"tx_rx_64": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "Total count of transmitted and received 64 byte frames",
+		},
+		"tx_rx_65_127": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "Total count of transmitted and received 64 to 127 byte frames",
+		},
+		"tx_rx_128_255": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "Total count of transmitted and received 128 to 255 byte frames",
+		},
+		"tx_rx_256_511": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "Total count of transmitted and received 256 to 511 byte frames",
+		},
+		"tx_rx_512_1023": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "Total count of transmitted and received 512 to 1024 byte frames",
+		},
+		"tx_rx_1024_max": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "Total count of transmitted and received 1024 or above byte frames",
+		},
+		"tx_underrun": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "Total count of transmitted underrun packets",
+		},
+		"tx_unicast": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "Total count of transmitted unicast frames.",
+		},
 	}
 
 	return &schema.Resource{
 		CreateContext: UpdateOnlyDeviceCreate(resSchema),
-		ReadContext:   DefaultRead(resSchema),
-		UpdateContext: DefaultUpdate(resSchema),
+		ReadContext:   UpdateOnlyDeviceRead(resSchema),
+		UpdateContext: UpdateOnlyDeviceUpdate(resSchema),
 		DeleteContext: NoOpDelete,
 
 		Importer: &schema.ResourceImporter{
@@ -359,34 +423,67 @@ func ResourceInterfaceEthernet() *schema.Resource {
 
 func UpdateOnlyDeviceCreate(s map[string]*schema.Schema) schema.CreateContextFunc {
 	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-		ethernetInterface, err := findInterfaceByDefaultName(s, d, m.(Client))
-		if err != nil {
-			return diag.FromErr(err)
-		}
-
-		// Router won't accept poe-out parameter if the interface does not support it.
-		poeDesiredState := d.Get(poeOutField)
-		_, supportsPoE := ethernetInterface[SnakeToKebab(poeOutField)]
-		switch {
-		// if the user has specified it, but it's not supported, let's error out
-		case poeDesiredState != "off" && !supportsPoE:
-			return diag.FromErr(errors.New("can't configure PoE, router does not supports it"))
-		// if the router does not support PoE, avoid sending the parameter as it returns an error.
-		case !supportsPoE:
-			s[MetaSkipFields].Default = fmt.Sprintf("%s,\"%s\"", s[MetaSkipFields].Default, poeOutField)
-		}
-
-		if _, supportsCableSettings := ethernetInterface["cable-settings"]; supportsCableSettings {
-			s[MetaSkipFields].Default = fmt.Sprintf("%s,\"%s\"", s[MetaSkipFields].Default, cableSettingsField)
-		}
-
-		d.SetId(ethernetInterface.GetID(Id))
-		if updateDiag := ResourceUpdate(ctx, s, d, m); updateDiag.HasError() {
-			return updateDiag
-		}
-
-		return ResourceRead(ctx, s, d, m)
+		return UpdateEthernetInterface(ctx, s, d, m)
 	}
+}
+
+func UpdateOnlyDeviceUpdate(s map[string]*schema.Schema) schema.UpdateContextFunc {
+	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+		return UpdateEthernetInterface(ctx, s, d, m)
+	}
+}
+
+func UpdateOnlyDeviceRead(s map[string]*schema.Schema) schema.ReadContextFunc {
+	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+		return DefaultRead(s)(ctx, d, m)
+	}
+}
+
+func UpdateEthernetInterface(ctx context.Context, s map[string]*schema.Schema, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	ethernetInterface, err := findInterfaceByDefaultName(s, d, m.(Client))
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	// Router won't accept poe-out parameter if the interface does not support it.
+	poeDesiredState := d.Get(poeOutField)
+	_, supportsPoE := ethernetInterface[SnakeToKebab(poeOutField)]
+	switch {
+	// if the user has specified it, but it's not supported, let's error out
+	case poeDesiredState != "off" && !supportsPoE:
+		return diag.FromErr(errors.New("can't configure PoE, router does not supports it"))
+	// if the router does not support PoE, avoid sending the parameter as it returns an error.
+	case !supportsPoE:
+		skipFieldInSchema(s, poeOutField)
+	}
+
+	if _, supportsCableSettings := ethernetInterface["cable-settings"]; supportsCableSettings {
+		skipFieldInSchema(s, cableSettingsField)
+	}
+
+	if _, supportsRunningCheck := ethernetInterface["disable-running-check"]; supportsRunningCheck {
+		skipFieldInSchema(s, runningCheckField)
+	}
+
+	// Dynamic schema, counters for tx_queue packets, changes from router to router, read only countes.
+	for key, _ := range ethernetInterface {
+		if strings.HasPrefix(key, "tx_queue") {
+			fmt.Printf("adding dynamic schema: %s", key)
+			s[key] = &schema.Schema{
+				Type:        schema.TypeInt,
+				Computed:    true,
+				Description: "Total count of interface for numbered queue",
+			}
+		}
+	}
+
+	d.SetId(ethernetInterface.GetID(Id))
+	if updateDiag := ResourceUpdate(ctx, s, d, m); updateDiag.HasError() {
+		return updateDiag
+	}
+
+	return ResourceRead(ctx, s, d, m)
+
 }
 
 func NoOpDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
@@ -407,4 +504,8 @@ func findInterfaceByDefaultName(s map[string]*schema.Schema, d *schema.ResourceD
 
 	ethernetInterface := (*items)[0]
 	return ethernetInterface, nil
+}
+
+func skipFieldInSchema(s map[string]*schema.Schema, field string) {
+	s[MetaSkipFields].Default = fmt.Sprintf("%s,\"%s\"", s[MetaSkipFields].Default, field)
 }
