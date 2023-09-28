@@ -36,11 +36,7 @@ func TestAccIpRouteTest_basic(t *testing.T) {
 }
 
 func testAccIpRouteConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
+	return providerConfig + `
 
 resource "routeros_ip_route" "test_route" {
 	distance      = 1

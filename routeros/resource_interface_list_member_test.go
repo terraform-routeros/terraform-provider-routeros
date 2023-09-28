@@ -34,11 +34,7 @@ func TestAccInterfaceListMemberTest_basic(t *testing.T) {
 }
 
 func testAccInterfaceListMemberConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
+	return providerConfig + `
 
 resource "routeros_interface_list_member" "test_list_member" {
 	interface      = "ether1"

@@ -34,12 +34,7 @@ func TestAccIpDhcpServerTest_basic(t *testing.T) {
 }
 
 func testAccIpDhcpServerConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
-
+	return providerConfig + `
 resource "routeros_ip_dhcp_server" "test_dhcp" {
 	name	     = "test_dhcp_server"
 	interface    = "bridge"

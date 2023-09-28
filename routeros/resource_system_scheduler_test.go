@@ -36,12 +36,7 @@ func TestAccSystemSchedulerTest_basic(t *testing.T) {
 }
 
 func testAccSystemSchedulerConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
-
+	return providerConfig + `
 resource "routeros_scheduler" "test_task" {
 	name = "TestTask"
 	on_event="script1"

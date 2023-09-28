@@ -41,11 +41,7 @@ func TestAccInterfaceIPv6AddressTest_basic(t *testing.T) {
 }
 
 func testAccInterfaceIPv6AddressConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
+	return providerConfig + `
 
 resource "routeros_ipv6_address" "test_v6_address" {
 	interface	= "bridge"

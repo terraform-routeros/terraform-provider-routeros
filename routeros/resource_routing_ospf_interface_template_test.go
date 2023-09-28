@@ -34,11 +34,7 @@ func TestAccRoutingOspfInterfaceTemplateTest_basic(t *testing.T) {
 }
 
 func testAccCheckRoutingOspfInterfaceTemplateConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
+	return providerConfig + `
 
 resource "routeros_routing_ospf_instance" "test_routing_ospf_instance" {
 	name   		= "test_routing_ospf_instance"

@@ -34,11 +34,7 @@ func TestAccInterfaceIPAddressTest_basic(t *testing.T) {
 }
 
 func testAccInterfaceIPAddressConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
+	return providerConfig + `
 
 resource "routeros_ip_address" "test_ip_address" {
 	interface	= "bridge"
