@@ -45,7 +45,6 @@ import (
 
 const poeOutField = "poe_out"
 const cableSettingsField = "cable_settings"
-const switchField = "switch"
 
 // https://help.mikrotik.com/docs/display/ROS/Ethernet#Ethernet-Properties
 func ResourceInterfaceEthernet() *schema.Resource {
@@ -377,8 +376,7 @@ func UpdateOnlyDeviceCreate(s map[string]*schema.Schema) schema.CreateContextFun
 			s[MetaSkipFields].Default = fmt.Sprintf("%s,\"%s\"", s[MetaSkipFields].Default, poeOutField)
 		}
 
-		_, supportsCableSettings := ethernetInterface["cable-settings"]
-		if !supportsCableSettings {
+		if _, supportsCableSettings := ethernetInterface["cable-settings"]; supportsCableSettings {
 			s[MetaSkipFields].Default = fmt.Sprintf("%s,\"%s\"", s[MetaSkipFields].Default, cableSettingsField)
 		}
 

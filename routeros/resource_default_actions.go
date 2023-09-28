@@ -44,7 +44,7 @@ func ResourceCreate(ctx context.Context, s map[string]*schema.Schema, d *schema.
 	}
 
 	// ... If no ID is set, Terraform assumes the resource was not created successfully;
-	// as a result, no state will be saved for that resource.go
+	// as a result, no state will be saved for that resource
 	if res.GetID(Id) == "" {
 		return diag.Diagnostics{
 			diag.Diagnostic{
