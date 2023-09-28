@@ -440,6 +440,19 @@ func UpdateOnlyDeviceUpdate(s map[string]*schema.Schema) schema.UpdateContextFun
 
 func UpdateOnlyDeviceRead(s map[string]*schema.Schema) schema.ReadContextFunc {
 	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+		ethernetInterface, err := findInterfaceByDefaultName(s, d, m.(Client))
+		if err != nil {
+			return diag.FromErr(err)
+		}
+
+		// Dynamic schema, counters for tx_queue${number}_packets, changes from router to router, read only counters.
+		// Just drop them as they don't have much sense in the context of a terraform provider
+		for key := range ethernetInterface {
+			if strings.HasPrefix(key, "tx-queue") {
+				s[MetaSkipFields].Default = skipFieldInSchema(s[MetaSkipFields].Default, KebabToSnake(key))
+			}
+		}
+
 		return DefaultRead(s)(ctx, d, m)
 	}
 }
@@ -468,18 +481,6 @@ func UpdateEthernetInterface(ctx context.Context, s map[string]*schema.Schema, d
 
 	if _, supportsRunningCheck := ethernetInterface["disable-running-check"]; !supportsRunningCheck {
 		s[MetaSkipFields].Default = skipFieldInSchema(s[MetaSkipFields].Default, runningCheckField)
-	}
-
-	// Dynamic schema, counters for tx_queue packets, changes from router to router, read only counters.
-	for key := range ethernetInterface {
-		if strings.HasPrefix(key, "tx_queue") {
-			fmt.Printf("adding dynamic schema: %s", key)
-			s[key] = &schema.Schema{
-				Type:        schema.TypeInt,
-				Computed:    true,
-				Description: "Total count of interface for numbered queue",
-			}
-		}
 	}
 
 	d.SetId(ethernetInterface.GetID(Id))
