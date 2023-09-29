@@ -147,7 +147,7 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Default:     true,
 			Optional:    true,
 		},
-		KeyL2Mtu: PropL2MtuRo,
+		KeyL2Mtu: PropL2MtuRw,
 		"loop_protect": {
 			Type:         schema.TypeString,
 			Optional:     true,
@@ -428,36 +428,32 @@ func ResourceInterfaceEthernet() *schema.Resource {
 
 func updateOnlyDeviceCreate(s map[string]*schema.Schema) schema.CreateContextFunc {
 	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-		return UpdateEthernetInterface(ctx, s, d, m)
+		return updateEthernetInterface(ctx, s, d, m)
 	}
 }
 
 func updateOnlyDeviceUpdate(s map[string]*schema.Schema) schema.UpdateContextFunc {
 	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-		return UpdateEthernetInterface(ctx, s, d, m)
+		return updateEthernetInterface(ctx, s, d, m)
 	}
 }
 
 func updateOnlyDeviceRead(s map[string]*schema.Schema) schema.ReadContextFunc {
 	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-		ethernetInterface, err := findInterfaceByDefaultName(s, d, m.(Client))
-		if err != nil {
-			return diag.FromErr(err)
-		}
-
-		// Dynamic schema, counters for tx_queue${number}_packets, changes from router to router, read only counters.
-		// Just drop them as they don't have much sense in the context of a terraform provider
-		for key := range ethernetInterface {
-			if strings.HasPrefix(key, "tx-queue") {
-				s[MetaSkipFields].Default = skipFieldInSchema(s[MetaSkipFields].Default, KebabToSnake(key))
-			}
-		}
-
-		return DefaultRead(s)(ctx, d, m)
+		return readEthernetInterface(ctx, s, d, m)
 	}
 }
 
-func UpdateEthernetInterface(ctx context.Context, s map[string]*schema.Schema, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readEthernetInterface(ctx context.Context, s map[string]*schema.Schema, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	ethernetInterface, err := findInterfaceByDefaultName(s, d, m.(Client))
+	if err != nil {
+		return diag.FromErr(err)
+	}
+	s = updateSchemaWithRouterCapabilities(s, ethernetInterface)
+	return DefaultRead(s)(ctx, d, m)
+}
+
+func updateEthernetInterface(ctx context.Context, s map[string]*schema.Schema, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	ethernetInterface, err := findInterfaceByDefaultName(s, d, m.(Client))
 	if err != nil {
 		return diag.FromErr(err)
@@ -475,11 +471,11 @@ func UpdateEthernetInterface(ctx context.Context, s map[string]*schema.Schema, d
 		s[MetaSkipFields].Default = skipFieldInSchema(s[MetaSkipFields].Default, poeOutField)
 	}
 
-	if _, supportsCableSettings := ethernetInterface["cable-settings"]; !supportsCableSettings {
+	if _, supportsCableSettings := ethernetInterface[SnakeToKebab(cableSettingsField)]; !supportsCableSettings {
 		s[MetaSkipFields].Default = skipFieldInSchema(s[MetaSkipFields].Default, cableSettingsField)
 	}
 
-	if _, supportsRunningCheck := ethernetInterface["disable-running-check"]; !supportsRunningCheck {
+	if _, supportsRunningCheck := ethernetInterface[SnakeToKebab(runningCheckField)]; !supportsRunningCheck {
 		s[MetaSkipFields].Default = skipFieldInSchema(s[MetaSkipFields].Default, runningCheckField)
 	}
 
@@ -488,8 +484,18 @@ func UpdateEthernetInterface(ctx context.Context, s map[string]*schema.Schema, d
 		return updateDiag
 	}
 
-	return ResourceRead(ctx, s, d, m)
+	return readEthernetInterface(ctx, s, d, m)
+}
 
+func updateSchemaWithRouterCapabilities(s map[string]*schema.Schema, item MikrotikItem) map[string]*schema.Schema {
+	// Dynamic schema, counters for tx_queue${number}_packets, changes from router to router, read only counters.
+	// Just drop them as they don't have much sense in the context of a terraform provider
+	for key := range item {
+		if strings.HasPrefix(key, "tx-queue") {
+			s[MetaSkipFields].Default = skipFieldInSchema(s[MetaSkipFields].Default, KebabToSnake(key))
+		}
+	}
+	return s
 }
 
 func findInterfaceByDefaultName(s map[string]*schema.Schema, d *schema.ResourceData, c Client) (MikrotikItem, error) {
