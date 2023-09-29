@@ -147,7 +147,12 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Default:     true,
 			Optional:    true,
 		},
-		KeyL2Mtu: PropL2MtuRw,
+		KeyL2Mtu: {
+			Type:     schema.TypeInt,
+			Optional: true,
+			Description: "Layer2 Maximum transmission unit. " +
+				"[See](https://wiki.mikrotik.com/wiki/Maximum_Transmission_Unit_on_RouterBoards).",
+		},
 		"loop_protect": {
 			Type:         schema.TypeString,
 			Optional:     true,
