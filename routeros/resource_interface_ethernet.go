@@ -458,6 +458,7 @@ func readEthernetInterface(ctx context.Context, s map[string]*schema.Schema, d *
 	return DefaultRead(s)(ctx, d, m)
 }
 
+// updateEthernetInterface searches for the interface and disables fields not supported by the router instance
 func updateEthernetInterface(ctx context.Context, s map[string]*schema.Schema, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	ethernetInterface, err := findInterfaceByDefaultName(s, d, m.(Client))
 	if err != nil {
