@@ -1,3 +1,10 @@
+## [1.18.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.18.1...v1.18.2) (2023-10-01)
+
+
+### Bug Fixes
+
+* Improvements on the resource routeros_interface_ethernet ([#266](https://github.com/terraform-routeros/terraform-provider-routeros/issues/266)) ([099185b](https://github.com/terraform-routeros/terraform-provider-routeros/commit/099185beff487b514379a8472c0c208bdb6a6215))
+
 ## [1.18.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.18.0...v1.18.1) (2023-09-27)
 
 
