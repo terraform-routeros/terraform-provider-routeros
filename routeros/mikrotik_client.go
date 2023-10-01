@@ -77,6 +77,14 @@ func NewClient(ctx context.Context, d *schema.ResourceData) (interface{}, diag.D
 		}
 	}
 
+	rv := d.Get("ros_version").(string)
+	if rv == "" {
+		// Highest ROS version.
+		rv = ROSSupportedVersions[0]
+	}
+	ROSVersion = ParseROSVersion(rv)
+	tflog.Info(ctx, "The schemas for ROS '"+rv+"' are used.")
+
 	var useTLS = true
 	var transport = TransportREST
 
