@@ -354,6 +354,17 @@ func ResourceIPv6FirewallFilter() *schema.Resource {
 		},
 		// No TTL.
 	}
+
+	if ROSVersion >= v7_10 {
+		// firewall - added "nth" option for IPv6 firewall
+		resSchema["nth"] = &schema.Schema{
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Matches every nth packet: nth=2,1 rule will match every first packet of 2, hence, 50% of " +
+				"all the traffic that is matched by the rule.",
+		}
+	}
+
 	return &schema.Resource{
 		CreateContext: DefaultCreate(resSchema),
 		ReadContext:   DefaultRead(resSchema),

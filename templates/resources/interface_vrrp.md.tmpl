@@ -1,0 +1,19 @@
+# {{.Name}} ({{.Type}})
+{{ .Description | trimspace }}
+
+{{ if .HasExample -}}
+## Example Usage
+{{ tffile .ExampleFile }}
+{{- end }}
+
+## Schema changes
+### v7.10
+vrrp - renamed ```group_master``` to ```group_authority``` to avoid confusion with VRRP master
+
+{{ .SchemaMarkdown | trimspace }}
+
+{{ if .HasImport -}}
+## Import
+Import is supported using the following syntax:
+{{ codefile "shell" .ImportFile }}
+{{- end }}

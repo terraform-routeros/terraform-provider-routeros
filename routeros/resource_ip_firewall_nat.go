@@ -28,19 +28,26 @@ import (
 
 // ResourceIPFirewallNat https://wiki.mikrotik.com/wiki/Manual:IP/Firewall/NAT
 func ResourceIPFirewallNat() *schema.Resource {
+	action := []string{
+		"accept", "add-dst-to-address-list", "add-src-to-address-list", "dst-nat", "jump", "log",
+		"masquerade", "netmap", "passthrough", "redirect", "return", "same", "src-nat",
+	}
+
+	if ROSVersion >= v7_10 {
+		// firewall - added "endpoint-independent-nat" support
+		action = append(action, "endpoint-independent-nat")
+	}
+
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/firewall/nat"),
 		MetaId:           PropId(Id),
 		MetaSkipFields:   PropSkipFields(``),
 
 		"action": {
-			Type:        schema.TypeString,
-			Required:    true,
-			Description: "Action to take if a packet is matched by the rule",
-			ValidateFunc: validation.StringInSlice([]string{
-				"accept", "add-dst-to-address-list", "add-src-to-address-list", "dst-nat", "jump", "log",
-				"masquerade", "netmap", "passthrough", "redirect", "return", "same", "src-nat",
-			}, false),
+			Type:         schema.TypeString,
+			Required:     true,
+			Description:  "Action to take if a packet is matched by the rule",
+			ValidateFunc: validation.StringInSlice(action, false),
 		},
 		"address_list": {
 			Type:     schema.TypeString,

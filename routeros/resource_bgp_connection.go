@@ -523,7 +523,18 @@ func ResourceRoutingBGPConnection() *schema.Resource {
 		KeyVrf: PropVrfRw,
 	}
 
+	if ROSVersion >= v7_10 {
+		// v7.10
+		// bgp - fixed "as-override" and rename to "output.as-override";
+		// bgp - fixed "remove-private-as" and rename to "output.remove-private.as";
+		resSchema["output"].Elem.(*schema.Resource).Schema["as_override"] = resSchema["as_override"]
+		resSchema["output"].Elem.(*schema.Resource).Schema["remove_private_as"] = resSchema["remove_private_as"]
+		delete(resSchema, "as_override")
+		delete(resSchema, "remove_private_as")
+	}
+
 	return &schema.Resource{
+		// FIXME set/unset
 		Description: "> [!WARNING] Using this resource you may happen unexpected behavior, for example, some of the attributes " +
 			"may not be removable after adding them to the TF configuration. Please report this to GitHub and it " +
 			"may be possible to fix it. Use the resource at your own risk as it is!",

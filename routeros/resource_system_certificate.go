@@ -37,6 +37,33 @@ import (
 // https://help.mikrotik.com/docs/display/ROS/
 // https://wiki.mikrotik.com/wiki/Manual:System/Certificates
 func ResourceSystemCertificate() *schema.Resource {
+	keyUsage := []string{
+		"digital-signature",
+		"content-commitment",
+		"key-encipherment",
+		"data-encipherment",
+		"key-agreement",
+		"key-cert-sign",
+		"crl-sign",
+		"encipher-only",
+		"decipher-only",
+		"dvcs",
+		"ocsp-sign",
+		"timestamp",
+		"email-protect",
+		"code-sign",
+		"tls-server",
+		"tls-client",
+		"server-gated-crypto", // unsupported by v7.10
+		"ipsec-user",          // unsupported by v7.10
+		"ipsec-tunnel",        // unsupported by v7.10
+		"ipsec-end-system",    // unsupported by v7.10
+	}
+
+	if ROSVersion >= v7_10 {
+		keyUsage = keyUsage[:16]
+	}
+
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/certificate"),
 		MetaId:           PropId(Id),
@@ -145,36 +172,15 @@ func ResourceSystemCertificate() *schema.Resource {
 				"prime256v1", "secp384r1", "secp521r1"}, false),
 		},
 		"key_usage": {
-			Type:        schema.TypeSet,
-			Optional:    true,
-			Computed:    true,
-			ForceNew:    true,
-			Description: "Detailed key usage descriptions can be found in RFC 5280.",
+			Type:     schema.TypeSet,
+			Optional: true,
+			Computed: true,
+			ForceNew: true,
+			Description: "Detailed key usage descriptions can be found in RFC 5280. " +
+				"Not all options may be supported by your version of ROS!",
 			Elem: &schema.Schema{
-				Type: schema.TypeString,
-				ValidateFunc: validation.StringInSlice(
-					[]string{
-						"digital-signature",
-						"content-commitment",
-						"key-encipherment",
-						"data-encipherment",
-						"key-agreement",
-						"key-cert-sign",
-						"crl-sign",
-						"encipher-only",
-						"decipher-only",
-						"dvcs",
-						"server-gated-crypto",
-						"ocsp-sign",
-						"timestamp",
-						"ipsec-user",
-						"ipsec-tunnel",
-						"ipsec-end-system",
-						"email-protect",
-						"code-sign",
-						"tls-server",
-						"tls-client",
-					}, false)},
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice(keyUsage, false)},
 		},
 		"locality": {
 			Type:        schema.TypeString,

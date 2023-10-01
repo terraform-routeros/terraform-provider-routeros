@@ -165,6 +165,12 @@ func ResourceInterfaceVrrp() *schema.Resource {
 		},
 	}
 
+	if ROSVersion >= v7_10 {
+		// vrrp - renamed "group-master" to "group-authority" to avoid confusion with VRRP master
+		resSchema["group_authority"] = resSchema["group_master"]
+		delete(resSchema, "group_master")
+	}
+
 	return &schema.Resource{
 		CreateContext: DefaultValidateCreate(resSchema, func(d *schema.ResourceData) diag.Diagnostics {
 			if d.Get("remote_address").(string) != "" && !d.Get("sync_connection_tracking").(bool) {
