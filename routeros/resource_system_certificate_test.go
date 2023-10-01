@@ -39,6 +39,7 @@ func testAccSystemCertificatesConfig() string {
 resource "routeros_system_certificate" "root_ca" {
 	name        = "Test-Root-CA"
 	common_name = "RootCA"
+	key_size    = "prime256v1"
 	key_usage   = ["key-cert-sign", "crl-sign"]
 	trusted     = true
 	sign {
@@ -48,6 +49,7 @@ resource "routeros_system_certificate" "root_ca" {
 resource "routeros_system_certificate" "server_crt" {
 	name        = "Server-Certificate"
 	common_name = "server.crt"
+	key_size    = "prime256v1"
 	// KUs: igitalSignature, keyEncipherment or keyAgreement
 	key_usage   = ["digital-signature", "key-encipherment", "tls-server"]
 	sign {
