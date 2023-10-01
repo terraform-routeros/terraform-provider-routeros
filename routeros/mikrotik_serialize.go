@@ -269,10 +269,16 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 	var diags diag.Diagnostics
 	var err error
 	var transformSet map[string]string
+	var skipFields map[string]struct{}
 
 	// {"channel": "channel.config", "mikrotik-field-name": "schema-field-name"}
 	if ts, ok := s[MetaTransformSet]; ok {
 		transformSet = loadTransformSet(ts.Default.(string), false)
+	}
+
+	// "field_first", "field_second", "field_third"
+	if sf, ok := s[MetaSkipFields]; ok {
+		skipFields = loadSkipFields(sf.Default.(string))
 	}
 
 	// TypeMap,TypeSet initialization information storage.
@@ -304,6 +310,12 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 
 		// field-name => field_name
 		terraformSnakeName := KebabToSnake(mikrotikKebabName)
+
+		if skipFields != nil {
+			if _, ok := skipFields[terraformSnakeName]; ok {
+				continue
+			}
+		}
 
 		// Composite fields.
 		var subFieldSnakeName string
