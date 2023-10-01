@@ -1,8 +1,9 @@
 package routeros
 
 import (
+	"os"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
 
 var (
@@ -13,6 +14,14 @@ var (
 )
 
 func Provider() *schema.Provider {
+	// ROS version for configuring provider resource schemas.
+	for _, k := range []string{"ROS_VERSION", "MIKROTIK_VERSION"} {
+		if v := os.Getenv(k); v != "" {
+			ROSVersion = ParseROSVersion(v)
+			break
+		}
+	}
+
 	return &schema.Provider{
 		Schema: map[string]*schema.Schema{
 			"hosturl": {
@@ -60,13 +69,6 @@ func Provider() *schema.Provider {
 				Optional:    true,
 				DefaultFunc: schema.MultiEnvDefaultFunc([]string{"ROS_INSECURE", "MIKROTIK_INSECURE"}, false),
 				Description: "Whether to verify the SSL certificate or not.",
-			},
-			"ros_version": {
-				Type:         schema.TypeString,
-				Optional:     true,
-				DefaultFunc:  schema.MultiEnvDefaultFunc([]string{"ROS_VERSION", "MIKROTIK_VERSION"}, nil),
-				Description:  "ROS version for configuring provider resource schemas.",
-				ValidateFunc: validation.StringInSlice(ROSSupportedVersions, false),
 			},
 		},
 		ResourcesMap: map[string]*schema.Resource{

@@ -5,18 +5,18 @@ import (
 	"strings"
 )
 
-var ROSVersion rosVersionType
+var ROSVersion rosVersionType = v7_10
 
 type rosVersionType int
 
 const (
-	v7_10 rosVersionType = iota
+	v7_8 rosVersionType = iota
 	v7_9
-	v7_8
+	v7_10
 )
 
 var ROSSupportedVersions = []string{
-	"7.10", "7.8", "7.9",
+	"7.8", "7.9", "7.10",
 }
 
 func (v rosVersionType) String() string {
