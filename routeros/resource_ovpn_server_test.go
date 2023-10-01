@@ -6,13 +6,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-const testOpenVPNServerMinVersion = "7.8"
 const testOpenVPNServer = "routeros_ovpn_server.server"
 const testInterfaceOpenVPNServer = "routeros_interface_ovpn_server.user1"
 
 func TestAccOpenVPNServerTest_basic(t *testing.T) {
-	if !testCheckMinVersion(t, testOpenVPNServerMinVersion) {
-		t.Logf("Test skipped, the minimum required version is %v", testOpenVPNServerMinVersion)
+	if !testCheckMinVersion(t, v7_8) {
 		return
 	}
 

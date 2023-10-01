@@ -10,12 +10,10 @@ import (
 )
 
 const testIPConnectionTracking = "routeros_ip_firewall_connection_tracking.data"
-const testMingIPConnTrackingVersion = "7.10"
 
 func TestAccIPConnectionTrackingTest_basic(t *testing.T) {
 	for _, name := range testNames {
-		if !testCheckMinVersion(t, testMingIPConnTrackingVersion) {
-			t.Logf("Test skipped, the minimum required version is %v", testMingIPConnTrackingVersion)
+		if !testCheckMinVersion(t, v7_10) {
 			return
 		}
 
