@@ -141,6 +141,17 @@ func ResourceDns() *schema.Resource {
 		},
 	}
 
+	if ROSVersion >= v7_10 {
+		resSchema["address_list_extra_time"] = &schema.Schema{
+			Type:             schema.TypeString,
+			Optional:         true,
+			Computed:         true,
+			Description:      "",
+			ValidateFunc:     ValidationTime,
+			DiffSuppressFunc: TimeEquall,
+		}
+	}
+
 	return &schema.Resource{
 		Description: "A MikroTik router with DNS feature enabled can be set as a DNS server for any DNS-compliant client.",
 
