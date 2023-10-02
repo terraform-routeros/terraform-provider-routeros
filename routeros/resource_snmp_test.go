@@ -11,7 +11,7 @@ import (
 const testSNMPAddress = "routeros_snmp.test"
 
 func TestAccSNMPTest_basic(t *testing.T) {
-	if !testCheckMinVersion(t, v7_8) {
+	if !testCheckMinVersion(t, v7_10) {
 		return
 	}
 
