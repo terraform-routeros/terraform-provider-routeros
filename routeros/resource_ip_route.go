@@ -7,6 +7,13 @@ import (
 
 // ResourceIPRoute https://wiki.mikrotik.com/wiki/Manual:IP/Route
 func ResourceIPRoute() *schema.Resource {
+	checkGateway := []string{"arp", "bfd", "none", "ping", "bfd-multihop"}
+
+	if ROSVersion >= v7_10 {
+		// bfd-multihop removed
+		checkGateway = checkGateway[:4]
+	}
+
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/route"),
 		MetaId:           PropId(Id),
@@ -30,7 +37,7 @@ func ResourceIPRoute() *schema.Resource {
 			Type:         schema.TypeString,
 			Optional:     true,
 			Description:  "Currently used check-gateway option.",
-			ValidateFunc: validation.StringInSlice([]string{"arp", "bfd", "bfd-multihop", "none", "ping"}, false),
+			ValidateFunc: validation.StringInSlice(checkGateway, false),
 		},
 		KeyComment: PropCommentRw,
 		"dhcp": {

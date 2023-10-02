@@ -123,7 +123,10 @@ func connectionsIsInAcceptableRange(value string) error {
 	if err != nil {
 		return fmt.Errorf("the total_entries was not a number %q", err)
 	}
-	if nConn <= 0 || nConn >= 100 {
+	// [admin@MikroTik] /ip/firewall/connection/tracking> print
+	// ...
+	// total-entries: 0
+	if nConn < 0 || nConn >= 100 {
 		return errors.New("number of tcp connections (total_entries) does not seem correct")
 	}
 	return nil

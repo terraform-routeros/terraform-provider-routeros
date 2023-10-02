@@ -57,7 +57,7 @@ func ResourceSNMP() *schema.Resource {
 		"trap_community": {
 			Type:      schema.TypeString,
 			Optional:  true,
-			Computed:  true,
+			Default:   "public",
 			Sensitive: true,
 			Description: "Which communities configured in community menu to use when sending out the trap. " +
 				"This name must be present in the community list.",

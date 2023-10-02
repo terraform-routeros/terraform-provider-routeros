@@ -35,15 +35,29 @@ func TestAccIpRouteTest_basic(t *testing.T) {
 	}
 }
 
-func testAccIpRouteConfig() string {
-	return providerConfig + `
+func testAccIpRouteConfig(ver rosVersionType) string {
+	switch {
+	case ver < v7_10:
+		return providerConfig + `
 
-resource "routeros_ip_route" "test_route" {
-	distance      = 1
-	dst_address   = "10.0.0.0/24"
-	gateway		  = "192.168.103.1"
-	check_gateway = "bfd-multihop"
-}
+		resource "routeros_ip_route" "test_route" {
+			distance      = 1
+			dst_address   = "10.0.0.0/24"
+			gateway		  = "192.168.103.1"
+			check_gateway = "bfd-multihop"
+		}
+		
+		`
+	default:
+		return providerConfig + `
 
-`
+			resource "routeros_ip_route" "test_route" {
+				distance      = 1
+				dst_address   = "10.0.0.0/24"
+				gateway		  = "192.168.103.1"
+				check_gateway = "bfds"
+			}
+			
+			`
+	}
 }
