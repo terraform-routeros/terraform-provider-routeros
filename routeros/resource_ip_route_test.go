@@ -20,7 +20,7 @@ func TestAccIpRouteTest_basic(t *testing.T) {
 				CheckDestroy:      testCheckResourceDestroy("/ip/route", "routeros_ip_route"),
 				Steps: []resource.TestStep{
 					{
-						Config: testAccIpRouteConfig(),
+						Config: testAccIpRouteConfig(ROSVersion),
 						Check: resource.ComposeTestCheckFunc(
 							testResourcePrimaryInstanceId(testIpRouteAddress),
 							resource.TestCheckResourceAttr(testIpRouteAddress, "distance", "1"),
