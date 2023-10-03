@@ -55,7 +55,7 @@ func testAccIpRouteConfig(ver rosVersionType) string {
 				distance      = 1
 				dst_address   = "10.0.0.0/24"
 				gateway		  = "192.168.103.1"
-				check_gateway = "bfds"
+				check_gateway = "bfd"
 			}
 			
 			`
