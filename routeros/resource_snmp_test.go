@@ -74,6 +74,7 @@ resource "routeros_snmp" "test" {
 	trap_community   = "private"
 	trap_generators  = "start-trap"
 	trap_version     = 3
+	depends_on = [routeros_snmp_community.test]
 }`,
 		`
 resource "routeros_snmp" "test" {
