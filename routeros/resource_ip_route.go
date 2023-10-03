@@ -7,11 +7,11 @@ import (
 
 // ResourceIPRoute https://wiki.mikrotik.com/wiki/Manual:IP/Route
 func ResourceIPRoute() *schema.Resource {
-	checkGateway := []string{"arp", "bfd", "none", "ping", "bfd-multihop"}
+	checkGateway := []string{"arp", "none", "ping", "bfd", "bfd-multihop"}
 
 	if ROSVersion >= v7_10 {
-		// bfd-multihop removed
-		checkGateway = checkGateway[:4]
+		// bfd, bfd-multihop removed
+		checkGateway = checkGateway[:3]
 	}
 
 	resSchema := map[string]*schema.Schema{
