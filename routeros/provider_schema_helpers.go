@@ -530,6 +530,10 @@ var (
 	// Prevents the need of hardcode values for default values, as those are harder to track over time/versions of
 	// routeros
 	AlwaysPresentNotUserProvided = func(k, old, new string, d *schema.ResourceData) bool {
+		// For lists and sets, the key will look like `something.12345` or `something.#`.
+		// But in the raw config it will be just `something`.
+		k = strings.Split(k, ".")[0]
+
 		if old != "" && d.GetRawConfig().GetAttr(k).IsNull() {
 			return true
 		}
