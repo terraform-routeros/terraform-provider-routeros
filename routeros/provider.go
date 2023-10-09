@@ -189,6 +189,9 @@ func Provider() *schema.Provider {
 
 			// Helpers
 			"routeros_wireguard_keys": ResourceWireguardKeys(),
+
+			// User Manager
+			"routeros_user_manager_attribute": ResourceUserManagerAttribute(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"routeros_firewall":        DatasourceFirewall(),
