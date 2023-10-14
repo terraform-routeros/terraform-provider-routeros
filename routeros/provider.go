@@ -193,6 +193,7 @@ func Provider() *schema.Provider {
 			// User Manager
 			"routeros_user_manager_attribute": ResourceUserManagerAttribute(),
 			"routeros_user_manager_database":  ResourceUserManagerDatabase(),
+			"routeros_user_manager_settings":  ResourceUserManagerSettings(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"routeros_firewall":        DatasourceFirewall(),
