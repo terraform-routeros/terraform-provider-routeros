@@ -1,3 +1,10 @@
+## [1.18.4](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.18.3...v1.18.4) (2023-10-26)
+
+
+### Bug Fixes
+
+* Fix enumerated values in CAPsMAN resources ([978576a](https://github.com/terraform-routeros/terraform-provider-routeros/commit/978576a59768e79369e1ba0fdff00044113260cd))
+
 ## [1.18.3](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.18.2...v1.18.3) (2023-10-09)
 
 
