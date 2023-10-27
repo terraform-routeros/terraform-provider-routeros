@@ -144,6 +144,7 @@ func Provider() *schema.Provider {
 			// https://help.mikrotik.com/docs/display/ROS/WifiWave2#WifiWave2-WifiWave2CAPsMAN
 
 			// CAPsMAN Objects
+			"routeros_capsman_access_list":       ResourceCapsManAccessList(),
 			"routeros_capsman_channel":           ResourceCapsManChannel(),
 			"routeros_capsman_configuration":     ResourceCapsManConfiguration(),
 			"routeros_capsman_datapath":          ResourceCapsManDatapath(),
