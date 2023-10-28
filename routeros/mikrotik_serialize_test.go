@@ -15,6 +15,9 @@ var (
 			"string": {
 				Type: schema.TypeString,
 			},
+			"float": {
+				Type: schema.TypeFloat,
+			},
 			"int": {
 				Type: schema.TypeInt,
 			},
@@ -40,6 +43,9 @@ var (
 						"string": {
 							Type: schema.TypeString,
 						},
+						"float": {
+							Type: schema.TypeFloat,
+						},
 						"int": {
 							Type: schema.TypeInt,
 						},
@@ -55,10 +61,10 @@ var (
 
 func Test_mikrotikResourceDataToTerraform(t *testing.T) {
 
-	testItem := MikrotikItem{".id": "*39", "string": "string12345", "int": "10", "bool": "true"}
+	testItem := MikrotikItem{".id": "*39", "string": "string12345", "float": "0.01", "int": "10", "bool": "true"}
 
 	testResourceData := testResource.TestResourceData()
-	expectedRes := map[string]interface{}{"string": "string12345", "int": 10, "bool": true}
+	expectedRes := map[string]interface{}{"string": "string12345", "float": 0.01, "int": 10, "bool": true}
 
 	err := MikrotikResourceDataToTerraform(testItem, testResource.Schema, testResourceData)
 	if err != nil {
@@ -77,11 +83,12 @@ func Test_mikrotikResourceDataToTerraform(t *testing.T) {
 
 func Test_terraformResourceDataToMikrotik(t *testing.T) {
 
-	expected := MikrotikItem{"string": "string12345", "int": "10", "bool": "yes"}
+	expected := MikrotikItem{"string": "string12345", "float": "0.01", "int": "10", "bool": "yes"}
 
 	testResourceData := testResource.TestResourceData()
 	testResourceData.SetId("*39")
 	testResourceData.Set("string", "string12345")
+	testResourceData.Set("float", 0.01)
 	testResourceData.Set("int", 10)
 	testResourceData.Set("bool", true)
 
@@ -94,14 +101,14 @@ func Test_terraformResourceDataToMikrotik(t *testing.T) {
 
 func Test_mikrotikResourceDataToTerraformDatasource(t *testing.T) {
 	testItems := []MikrotikItem{
-		{"string": "string12345", "int": "10", "bool": "yes"},
-		{"string": "12345string", "int": "20", "bool": "no"},
+		{"string": "string12345", "float": "0.01", "int": "10", "bool": "yes"},
+		{"string": "12345string", "float": "0.02", "int": "20", "bool": "no"},
 	}
 
 	testResourceData := testDatasource.TestResourceData()
 	expectedRes := []map[string]interface{}{
-		{MetaResourcePath: "", MetaId: 0, "string": "string12345", "int": 10, "bool": true},
-		{MetaResourcePath: "", MetaId: 0, "string": "12345string", "int": 20, "bool": false},
+		{MetaResourcePath: "", MetaId: 0, "string": "string12345", "float": 0.01, "int": 10, "bool": true},
+		{MetaResourcePath: "", MetaId: 0, "string": "12345string", "float": 0.02, "int": 20, "bool": false},
 	}
 
 	err := MikrotikResourceDataToTerraformDatasource(&testItems, "test_name", testDatasource.Schema, testResourceData)
