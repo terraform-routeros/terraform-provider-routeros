@@ -47,7 +47,7 @@ func isEmpty(propName string, schemaProp *schema.Schema, d *schema.ResourceData,
 			return v.(string) == "" && schemaProp.Default.(string) == ""
 		}
 		return v.(string) == "" && confValue.IsNull()
-	case schema.TypeInt:
+	case schema.TypeFloat, schema.TypeInt:
 		return confValue.IsNull() && schemaProp.Default == nil
 	case schema.TypeBool:
 		// If true, it is always not empty:
@@ -195,6 +195,8 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 		switch terraformMetadata.Type {
 		case schema.TypeString:
 			item[mikrotikKebabName] = value.(string)
+		case schema.TypeFloat:
+			item[mikrotikKebabName] = strconv.FormatFloat(value.(float64), 'f', -1, 64)
 		case schema.TypeInt:
 			item[mikrotikKebabName] = strconv.Itoa(value.(int))
 		case schema.TypeBool:
@@ -360,10 +362,18 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 		case schema.TypeString:
 			err = d.Set(terraformSnakeName, mikrotikValue)
 
+		case schema.TypeFloat:
+			f, e := strconv.ParseFloat(mikrotikValue, 64)
+			if e != nil {
+				diags = diag.Errorf("%v for '%v' field", e, terraformSnakeName)
+				break
+			}
+			err = d.Set(terraformSnakeName, f)
+
 		case schema.TypeInt:
 			i, e := strconv.Atoi(mikrotikValue)
 			if e != nil {
-				diags = diag.Errorf("%v for '%v' field", err, terraformSnakeName)
+				diags = diag.Errorf("%v for '%v' field", e, terraformSnakeName)
 				break
 			}
 			err = d.Set(terraformSnakeName, i)
@@ -391,15 +401,24 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 			// Flat Lists & Sets:
 			if _, ok := s[terraformSnakeName].Elem.(*schema.Schema); mikrotikValue != "" && ok {
 				for _, v := range strings.Split(mikrotikValue, ",") {
-					if s[terraformSnakeName].Elem.(*schema.Schema).Type == schema.TypeInt {
+					switch s[terraformSnakeName].Elem.(*schema.Schema).Type {
+					case schema.TypeFloat:
+						f, err := strconv.ParseFloat(v, 64)
+						if err != nil {
+							diags = diag.Errorf("%v for '%v' field", err, terraformSnakeName)
+							continue
+						}
+						l = append(l, f)
+
+					case schema.TypeInt:
 						i, err := strconv.Atoi(v)
 						if err != nil {
 							diags = diag.Errorf("%v for '%v' field", err, terraformSnakeName)
 							continue
 						}
-
 						l = append(l, i)
-					} else {
+
+					default:
 						l = append(l, v)
 					}
 				}
@@ -429,6 +448,11 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 					switch s[terraformSnakeName].Elem.(*schema.Resource).Schema[subFieldSnakeName].Type {
 					case schema.TypeString:
 						v = mikrotikValue
+					case schema.TypeFloat:
+						v, err = strconv.ParseFloat(mikrotikValue, 64)
+						if err != nil {
+							diags = diag.Errorf("%v for '%v.%v' field", err, terraformSnakeName, subFieldSnakeName)
+						}
 					case schema.TypeInt:
 						v, err = strconv.Atoi(mikrotikValue)
 						if err != nil {
@@ -571,6 +595,14 @@ func MikrotikResourceDataToTerraformDatasource(items *[]MikrotikItem, resourceDa
 			switch s[terraformSnakeName].Type {
 			case schema.TypeString:
 				propValue = mikrotikValue
+
+			case schema.TypeFloat:
+				f, err := strconv.ParseFloat(mikrotikValue, 64)
+				if err != nil {
+					diags = append(diags, diag.Errorf("%v for '%v' field", err, terraformSnakeName)...)
+					continue
+				}
+				propValue = f
 
 			case schema.TypeInt:
 				i, err := strconv.Atoi(mikrotikValue)
