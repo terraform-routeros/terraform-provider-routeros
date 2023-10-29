@@ -1,3 +1,10 @@
+## [1.19.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.18.4...v1.19.0) (2023-10-29)
+
+
+### Features
+
+* Add CAPsMAN access-list resource ([#281](https://github.com/terraform-routeros/terraform-provider-routeros/issues/281)) ([a0379c9](https://github.com/terraform-routeros/terraform-provider-routeros/commit/a0379c9b22edff87dc5dbedb1f74d8b30d010f09))
+
 ## [1.18.4](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.18.3...v1.18.4) (2023-10-26)
 
 
