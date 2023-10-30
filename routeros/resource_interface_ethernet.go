@@ -153,30 +153,10 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Description: "Layer2 Maximum transmission unit. " +
 				"[See](https://wiki.mikrotik.com/wiki/Maximum_Transmission_Unit_on_RouterBoards).",
 		},
-		"loop_protect": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Default:      "default",
-			ValidateFunc: validation.StringInSlice([]string{"default", "on", "off"}, false),
-		},
-		"loop_protect_disable_time": {
-			Type:             schema.TypeString,
-			Optional:         true,
-			Default:          "5m",
-			ValidateFunc:     ValidationTime,
-			DiffSuppressFunc: TimeEquall,
-		},
-		"loop_protect_send_interval": {
-			Type:             schema.TypeString,
-			Optional:         true,
-			Default:          "5s",
-			ValidateFunc:     ValidationTime,
-			DiffSuppressFunc: TimeEquall,
-		},
-		"loop_protect_status": {
-			Type:     schema.TypeString,
-			Computed: true,
-		},
+		KeyLoopProtect:             PropLoopProtectRw,
+		KeyLoopProtectDisableTime:  PropLoopProtectDisableTimeRw,
+		KeyLoopProtectSendInterval: PropLoopProtectSendIntervalRw,
+		KeyLoopProtectStatus:       PropLoopProtectStatusRo,
 		"mac_address": {
 			Type:             schema.TypeString,
 			Description:      `Media Access Control number of an interface.`,
