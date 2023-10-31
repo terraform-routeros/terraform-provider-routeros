@@ -115,7 +115,7 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 	meta := &MikrotikItemMetadata{}
 	rawConfig := d.GetRawConfig()
 	var transformSet map[string]string
-	var skipFields map[string]struct{}
+	var skipFields, setUnsetFields map[string]struct{}
 
 	// {"channel.config": "channel", "schema-field-name": "mikrotik-field-name"}
 	if ts, ok := s[MetaTransformSet]; ok {
@@ -125,6 +125,9 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 	// "field_first", "field_second", "field_third"
 	if sf, ok := s[MetaSkipFields]; ok {
 		skipFields = loadSkipFields(sf.Default.(string))
+	}
+	if suf, ok := s[MetaSetUnsetFields]; ok {
+		setUnsetFields = loadSkipFields(suf.Default.(string))
 	}
 
 	// Schema map iteration.
@@ -136,7 +139,7 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 				meta.IdType = IdType(terraformMetadata.Default.(int))
 			case MetaResourcePath:
 				meta.Path = terraformMetadata.Default.(string)
-			case MetaTransformSet, MetaSkipFields:
+			case MetaTransformSet, MetaSkipFields, MetaSetUnsetFields:
 				continue
 			default:
 				meta.Meta[terraformSnakeName] = terraformMetadata.Default.(string)
@@ -195,6 +198,17 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 		case schema.TypeInt:
 			item[mikrotikKebabName] = strconv.Itoa(value.(int))
 		case schema.TypeBool:
+			// true:  {...,"interfaces":"ether3","passive":"","priority":"128",...}
+			// false: {...,"interfaces":"ether3",             "priority":"128",...}
+			if _, ok := setUnsetFields[terraformSnakeName]; ok {
+				if value.(bool) {
+					item[mikrotikKebabName] = ""
+				} else {
+					// Unset
+					item["!"+mikrotikKebabName] = ""
+				}
+				continue
+			}
 			item[mikrotikKebabName] = BoolToMikrotikJSON(value.(bool))
 		// Used to represent an ordered collection of items.
 		case schema.TypeList:
@@ -269,7 +283,7 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 	var diags diag.Diagnostics
 	var err error
 	var transformSet map[string]string
-	var skipFields map[string]struct{}
+	var setUnsetFields, skipFields map[string]struct{}
 
 	// {"channel": "channel.config", "mikrotik-field-name": "schema-field-name"}
 	if ts, ok := s[MetaTransformSet]; ok {
@@ -277,6 +291,9 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 	}
 
 	// "field_first", "field_second", "field_third"
+	if suf, ok := s[MetaSetUnsetFields]; ok {
+		setUnsetFields = loadSkipFields(suf.Default.(string))
+  }
 	if sf, ok := s[MetaSkipFields]; ok {
 		skipFields = loadSkipFields(sf.Default.(string))
 	}
@@ -352,6 +369,10 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 			err = d.Set(terraformSnakeName, i)
 
 		case schema.TypeBool:
+			if _, ok := setUnsetFields[terraformSnakeName]; ok {
+				err = d.Set(terraformSnakeName, true)
+				break
+			}
 			err = d.Set(terraformSnakeName, BoolFromMikrotikJSON(mikrotikValue))
 
 		case schema.TypeList, schema.TypeSet:
@@ -544,6 +565,7 @@ func MikrotikResourceDataToTerraformDatasource(items *[]MikrotikItem, resourceDa
 				propValue = i
 
 			case schema.TypeBool:
+				// TODO Add support for set/unset fields?
 				propValue = BoolFromMikrotikJSON(mikrotikValue)
 
 			case schema.TypeList:

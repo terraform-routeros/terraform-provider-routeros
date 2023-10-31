@@ -34,8 +34,9 @@ import (
 // ResourceRoutingOspfInterfaceTemplate https://help.mikrotik.com/docs/display/ROS/OSPF
 func ResourceRoutingOspfInterfaceTemplate() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
-		MetaResourcePath: PropResourcePath("/routing/ospf/interface-template"),
-		MetaId:           PropId(Id),
+		MetaResourcePath:   PropResourcePath("/routing/ospf/interface-template"),
+		MetaId:             PropId(Id),
+		MetaSetUnsetFields: PropSetUnsetFields(`"passive"`),
 
 		"area": {
 			Type:        schema.TypeString,
@@ -107,10 +108,12 @@ func ResourceRoutingOspfInterfaceTemplate() *schema.Resource {
 			Description: "The network prefix associated with the area.",
 		},
 		"passive": {
-			Type:        schema.TypeBool,
-			Optional:    true,
-			Default:     false,
-			Description: "If enabled, then do not send or receive OSPF traffic on the matching interfaces",
+			Type:     schema.TypeBool,
+			Optional: true,
+			Default:  false,
+			Description: "If enabled, then do not send or receive OSPF traffic on the matching interfaces. " +
+				"<em>The correct value of this attribute may not be displayed in Winbox. " +
+				"Please check the parameters in the console!</em>",
 		},
 		"prefix_list": {
 			Type:        schema.TypeString,

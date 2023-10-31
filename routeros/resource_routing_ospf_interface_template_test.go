@@ -50,6 +50,7 @@ resource "routeros_routing_ospf_area" "test_routing_ospf_area" {
 resource "routeros_routing_ospf_interface_template" "test_routing_ospf_interface_template" {
 	area       = routeros_routing_ospf_area.test_routing_ospf_area.name
 	interfaces = ["ether3"]
+	passive    = true
 }
 
 `
