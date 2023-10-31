@@ -57,7 +57,7 @@ func ResourceCapsManManager() *schema.Resource {
 			Optional:     true,
 			Default:      "none",
 			Description:  "Upgrade policy options.",
-			ValidateFunc: validation.StringInSlice([]string{"none", "require-same-version", "suggest-same-upgrade"}, false),
+			ValidateFunc: validation.StringInSlice([]string{"none", "require-same-version", "suggest-same-version"}, false),
 		},
 	}
 

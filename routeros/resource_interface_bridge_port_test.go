@@ -34,12 +34,7 @@ func TestAccInterfaceBridgePortTest_basic(t *testing.T) {
 }
 
 func testAccInterfaceBridgePortConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
-
+	return providerConfig + `
 resource "routeros_interface_bridge_port" "test_port" {
 	bridge    = "bridge"
 	interface = "ether1"

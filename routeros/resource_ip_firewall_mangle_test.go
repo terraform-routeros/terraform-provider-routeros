@@ -36,11 +36,7 @@ func TestAccIPFirewallMangleTest_basic(t *testing.T) {
 }
 
 func testAccIPFirewallMangleConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
+	return providerConfig + `
 
 resource "routeros_firewall_mangle" "data" {
 	chain = "prerouting"	

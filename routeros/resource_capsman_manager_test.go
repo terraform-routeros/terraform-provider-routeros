@@ -49,11 +49,7 @@ func TestAccCapsManManagerTest_basic(t *testing.T) {
 }
 
 func testAccCapsManManagerUnitConfig(testName, resourceName string) string {
-	conf := `
-	provider "routeros" {
-		insecure = true
-	}
-`
+	conf := providerConfig
 
 	switch resourceName {
 	// AAA

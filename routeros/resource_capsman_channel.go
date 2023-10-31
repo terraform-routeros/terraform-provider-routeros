@@ -32,8 +32,8 @@ func ResourceCapsManChannel() *schema.Resource {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Description: "Define operational radio frequency band and mode taken from hardware capability of wireless card.",
-			ValidateFunc: validation.StringInSlice([]string{"2ghz-b", "2ghz-b/g", "2ghz-b/g/n", "2ghz-onlyg", "2ghz-onlyn",
-				"5ghz-a", "5ghz-a/n", "5ghz-onlyn", "5ghz-a/n/ac", "5ghz-only-ac"}, false),
+			ValidateFunc: validation.StringInSlice([]string{"2ghz-b", "2ghz-b/g", "2ghz-b/g/n", "2ghz-g/n", "2ghz-onlyg", "2ghz-onlyn",
+				"5ghz-a", "5ghz-a/n", "5ghz-a/n/ac", "5ghz-n/ac", "5ghz-onlyac", "5ghz-onlyn"}, false),
 		},
 		KeyComment: PropCommentRw,
 		"control_channel_width": {
@@ -47,8 +47,9 @@ func ResourceCapsManChannel() *schema.Resource {
 			Optional: true,
 			Description: "Extension channel configuration. (E.g. Ce = extension channel is above Control channel, " +
 				"eC = extension channel is below Control channel)",
-			ValidateFunc: validation.StringInSlice([]string{"Ce", "Ceee", "eC", "eCee", "eeCe", "eeeC", "xx", "xxxx",
-				"disabled"}, false),
+			ValidateFunc: validation.StringInSlice([]string{"Ce", "Ceee", "Ceeeeeee", "eC", "eCee", "eCeeeeee",
+				"eeCe", "eeCeeeee", "eeeC", "eeeCeeee", "eeeeCeee", "eeeeeCee", "eeeeeeCe", "eeeeeeeC",
+				"xx", "xxxx", "xxxxxxxx", "disabled"}, false),
 		},
 		"frequency": {
 			Type:     schema.TypeInt,

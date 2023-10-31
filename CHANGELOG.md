@@ -1,3 +1,38 @@
+## [1.20.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.19.0...v1.20.0) (2023-10-31)
+
+
+### Features
+
+* Add EoIP tunnel support ([#283](https://github.com/terraform-routeros/terraform-provider-routeros/issues/283)) ([bcab0fb](https://github.com/terraform-routeros/terraform-provider-routeros/commit/bcab0fb38634a992250ff92271543c5f0dd309cc))
+
+## [1.19.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.18.4...v1.19.0) (2023-10-29)
+
+
+### Features
+
+* Add CAPsMAN access-list resource ([#281](https://github.com/terraform-routeros/terraform-provider-routeros/issues/281)) ([a0379c9](https://github.com/terraform-routeros/terraform-provider-routeros/commit/a0379c9b22edff87dc5dbedb1f74d8b30d010f09))
+
+## [1.18.4](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.18.3...v1.18.4) (2023-10-26)
+
+
+### Bug Fixes
+
+* Fix enumerated values in CAPsMAN resources ([978576a](https://github.com/terraform-routeros/terraform-provider-routeros/commit/978576a59768e79369e1ba0fdff00044113260cd))
+
+## [1.18.3](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.18.2...v1.18.3) (2023-10-09)
+
+
+### Bug Fixes
+
+* Fix double slash at the end of a hostname ([d33aa79](https://github.com/terraform-routeros/terraform-provider-routeros/commit/d33aa79a78d4932d2c8f89c854d0aa8940e6642c)), closes [#275](https://github.com/terraform-routeros/terraform-provider-routeros/issues/275)
+
+## [1.18.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.18.1...v1.18.2) (2023-10-01)
+
+
+### Bug Fixes
+
+* Improvements on the resource routeros_interface_ethernet ([#266](https://github.com/terraform-routeros/terraform-provider-routeros/issues/266)) ([099185b](https://github.com/terraform-routeros/terraform-provider-routeros/commit/099185beff487b514379a8472c0c208bdb6a6215))
+
 ## [1.18.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.18.0...v1.18.1) (2023-09-27)
 
 

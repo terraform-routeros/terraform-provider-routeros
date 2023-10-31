@@ -174,7 +174,7 @@ func SystemResourceRead(ctx context.Context, s map[string]*schema.Schema, d *sch
 		return diag.FromErr(err)
 	}
 
-    // We make a unique Id, it does not affect the work with the Mikrotik.
+	// We make a unique Id, it does not affect the work with the Mikrotik.
 	// Id: /caps-man/manager -> caps-man.manager
 	d.SetId(strings.ReplaceAll(strings.TrimLeft(metadata.Path, "/"), "/", "."))
 

@@ -22,23 +22,35 @@ const (
 )
 
 const (
-	KeyActualMtu   = "actual_mtu"
-	KeyArp         = "arp"
-	KeyArpTimeout  = "arp_timeout"
-	KeyComment     = "comment"
-	KeyDynamic     = "dynamic"
-	KeyDisabled    = "disabled"
-	KeyFilter      = "filter"
-	KeyInactive    = "inactive"
-	KeyInterface   = "interface"
-	KeyInvalid     = "invalid"
-	KeyL2Mtu       = "l2mtu"
-	KeyMacAddress  = "mac_address"
-	KeyMtu         = "mtu"
-	KeyName        = "name"
-	KeyPlaceBefore = "place_before"
-	KeyRunning     = "running"
-	KeyVrf         = "vrf"
+	KeyActualMtu               = "actual_mtu"
+	KeyAllowFastPath           = "allow_fast_path"
+	KeyArp                     = "arp"
+	KeyArpTimeout              = "arp_timeout"
+	KeyClampTcpMss             = "clamp_tcp_mss"
+	KeyComment                 = "comment"
+	KeyDynamic                 = "dynamic"
+	KeyDisabled                = "disabled"
+	KeyDontFragment            = "dont_fragment"
+	KeyDscp                    = "dscp"
+	KeyFilter                  = "filter"
+	KeyInactive                = "inactive"
+	KeyInterface               = "interface"
+	KeyInvalid                 = "invalid"
+	KeyIpsecSecret             = "ipsec_secret"
+	KeyKeepalive               = "keepalive"
+	KeyL2Mtu                   = "l2mtu"
+	KeyLocalAddress            = "local_address"
+	KeyLoopProtect             = "loop_protect"
+	KeyLoopProtectDisableTime  = "loop_protect_disable_time"
+	KeyLoopProtectSendInterval = "loop_protect_send_interval"
+	KeyLoopProtectStatus       = "loop_protect_status"
+	KeyMacAddress              = "mac_address"
+	KeyMtu                     = "mtu"
+	KeyName                    = "name"
+	KeyPlaceBefore             = "place_before"
+	KeyRemoteAddress           = "remote_address"
+	KeyRunning                 = "running"
+	KeyVrf                     = "vrf"
 )
 
 // PropResourcePath Resource path property.
@@ -121,6 +133,12 @@ var (
 		Type:     schema.TypeInt,
 		Computed: true,
 	}
+	PropAllowFastPathRw = &schema.Schema{
+		Type:        schema.TypeBool,
+		Optional:    true, // Must be present in the request so that the IPSEC PSK can be set correctly.
+		Default:     true,
+		Description: "Whether to allow FastPath processing. Must be disabled if IPsec tunneling is used.",
+	}
 	PropArpRw = &schema.Schema{
 		Type:     schema.TypeString,
 		Optional: true,
@@ -144,6 +162,15 @@ var (
 		ValidateFunc: validation.StringMatch(regexp.MustCompile(`^$|auto$|(\d+(ms|s|M|h|d)?)+$`),
 			"expected arp_timout value to be 'auto' string or time value"),
 	}
+	PropClampTcpMssRw = &schema.Schema{
+		Type:     schema.TypeBool,
+		Optional: true,
+		Default:  true,
+		Description: "Controls whether to change MSS size for received TCP SYN packets. When enabled, a " +
+			"router will change the MSS size for received TCP SYN packets if the current MSS size exceeds the " +
+			"tunnel interface MTU (taking into account the TCP/IP overhead). The received encapsulated packet " +
+			"will still contain the original MSS, and only after decapsulation the MSS is changed.",
+	}
 	PropCommentRw = &schema.Schema{
 		Type:     schema.TypeString,
 		Optional: true,
@@ -152,6 +179,42 @@ var (
 		Type:     schema.TypeBool,
 		Optional: true,
 		Default:  false,
+	}
+	PropDontFragmentRw = &schema.Schema{
+		Type:         schema.TypeString,
+		Optional:     true,
+		Default:      "no",
+		ValidateFunc: validation.StringInSlice([]string{"inherit", "no"}, false),
+	}
+	PropDscpRw = &schema.Schema{
+		// dscp (inherit | integer [0-63]; Default: '')
+		Type:     schema.TypeString,
+		Optional: true,
+		Default:  "inherit",
+		ValidateDiagFunc: func(v interface{}, p cty.Path) (diags diag.Diagnostics) {
+			value := v.(string)
+
+			if value == "" || value == "inherit" {
+				return
+			}
+
+			i, err := strconv.Atoi(value)
+			if err != nil {
+				diags = diag.Errorf(
+					"expected dscp value (%s) to be empty string or 'inherit' or integer 0..63", value)
+				return
+			}
+
+			if i < 0 || i > 63 {
+				diags = diag.Errorf(
+					"expected %s to be in the range 0 - 63, got %d", value, i)
+				return
+			}
+
+			return
+		},
+		Description: "Set dscp value in GRE header to a fixed value '0..63' or 'inherit' from dscp value taken " +
+			"from tunnelled traffic.",
 	}
 	PropDynamicRo = &schema.Schema{
 		Type:     schema.TypeBool,
@@ -178,11 +241,95 @@ var (
 		Type:     schema.TypeBool,
 		Computed: true,
 	}
+	PropIpsecSecretRw = &schema.Schema{
+		Type:      schema.TypeString,
+		Optional:  true,
+		Default:   "",
+		Sensitive: true,
+		Description: "When secret is specified, router adds dynamic IPsec peer to remote-address with " +
+			"pre-shared key and policy (by default phase2 uses sha1/aes128cbc).",
+	}
+	PropKeepaliveRw = &schema.Schema{
+		Type:     schema.TypeString,
+		Optional: true,
+		Default:  "10s,10",
+		ValidateFunc: validation.StringMatch(regexp.MustCompile(`^(\d+[smhdw]?)+(,\d+)?$`),
+			"value must be integer[/time],integer 0..4294967295 (https://help.mikrotik.com/docs/display/ROS/GRE)"),
+		Description: "Tunnel keepalive parameter sets the time interval in which the tunnel running flag will " +
+			"remain even if the remote end of tunnel goes down. If configured time,retries fail, interface " +
+			"running flag is removed. Parameters are written in following format: " +
+			"KeepaliveInterval,KeepaliveRetries where KeepaliveInterval is time interval and " +
+			"KeepaliveRetries - number of retry attempts. KeepaliveInterval is integer 0..4294967295",
+		DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+			if old == new {
+				return true
+			}
+
+			if old == "" || new == "" {
+				return false
+			}
+
+			o := strings.Split(old, ",")
+			n := strings.Split(new, ",")
+			if len(o) != 2 || len(n) != 2 {
+				panic(fmt.Sprintf("[GRE keepalive] wrong keepalive format, old: '%v', new: '%v'", old, new))
+			}
+
+			// Compare keepalive retries.
+			if o[1] != n[1] {
+				return false
+			}
+
+			// Compare keepalive intervals.
+			oDuration, err := ParseDuration(o[0])
+			if err != nil {
+				panic("[GRE keepalive] parse 'old' duration error: " + err.Error())
+			}
+
+			nDuration, err := ParseDuration(n[0])
+			if err != nil {
+				panic("[GRE keepalive] parse 'new' duration error: " + err.Error())
+			}
+
+			return oDuration.Seconds() == nDuration.Seconds()
+		},
+	}
 	PropL2MtuRo = &schema.Schema{
 		Type:     schema.TypeInt,
 		Computed: true,
 		Description: "Layer2 Maximum transmission unit. " +
 			"[See](https://wiki.mikrotik.com/wiki/Maximum_Transmission_Unit_on_RouterBoards).",
+	}
+	PropLocalAddressRw = &schema.Schema{
+		Type:         schema.TypeString,
+		Optional:     true,
+		Default:      "0.0.0.0",
+		Description:  "Source address of the tunnel packets, local on the router.",
+		ValidateFunc: validation.IsIPv4Address,
+	}
+	PropLoopProtectRw = &schema.Schema{
+		Type:         schema.TypeString,
+		Optional:     true,
+		Default:      "default",
+		ValidateFunc: validation.StringInSlice([]string{"default", "on", "off"}, false),
+	}
+	PropLoopProtectDisableTimeRw = &schema.Schema{
+		Type:             schema.TypeString,
+		Optional:         true,
+		Default:          "5m",
+		ValidateFunc:     ValidationTime,
+		DiffSuppressFunc: TimeEquall,
+	}
+	PropLoopProtectSendIntervalRw = &schema.Schema{
+		Type:             schema.TypeString,
+		Optional:         true,
+		Default:          "5s",
+		ValidateFunc:     ValidationTime,
+		DiffSuppressFunc: TimeEquall,
+	}
+	PropLoopProtectStatusRo = &schema.Schema{
+		Type:     schema.TypeString,
+		Computed: true,
 	}
 	PropMacAddressRo = &schema.Schema{
 		Type:        schema.TypeString,
@@ -206,6 +353,13 @@ var (
 	> Please check the effect of this option, as it does not work as you think!  
 	> Best way to use in conjunction with a data source. See [example](../data-sources/firewall.md#example-usage).  
 `,
+	}
+	PropRemoteAddressRw = &schema.Schema{
+		Type:         schema.TypeString,
+		Optional:     true,
+		Default:      "0.0.0.0",
+		Description:  "IP address of the remote end of the tunnel.",
+		ValidateFunc: validation.IsIPv4Address,
 	}
 	PropRunningRo = &schema.Schema{
 		Type:     schema.TypeBool,

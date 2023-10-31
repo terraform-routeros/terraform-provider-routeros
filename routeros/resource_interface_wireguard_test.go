@@ -34,11 +34,7 @@ func TestAccInterfaceWireguardTest_basic(t *testing.T) {
 }
 
 func testAccInterfaceWireguardConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
+	return providerConfig + `
 
 resource "routeros_interface_wireguard" "test_wg_interface" {
 	name   		= "test_wg_interface"

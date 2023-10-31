@@ -83,11 +83,7 @@ func TestAccIpDnsRecordTest_basic(t *testing.T) {
 }
 
 func testAccIpDnsRecordConfig() string {
-	return `
-
-provider "routeros" {
-	insecure = true
-}
+	return providerConfig + `
 
 resource "routeros_dns_record" "test_dns_a" {
 	address         = "127.0.0.1"

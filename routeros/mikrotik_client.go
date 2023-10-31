@@ -76,6 +76,7 @@ func NewClient(ctx context.Context, d *schema.ResourceData) (interface{}, diag.D
 			},
 		}
 	}
+	routerUrl.Path = strings.TrimSuffix(routerUrl.Path, "/")
 
 	var useTLS = true
 	var transport = TransportREST
