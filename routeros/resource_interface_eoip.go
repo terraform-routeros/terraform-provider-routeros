@@ -9,7 +9,7 @@ import (
 func ResourceInterfaceEoip() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/eoip"),
-		MetaId:           PropId(Name),
+		MetaId:           PropId(Id),
 
 		KeyActualMtu:               PropActualMtuRo,
 		KeyArp:                     PropArpRw,
