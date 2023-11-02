@@ -1,3 +1,11 @@
+## [1.20.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.20.0...v1.20.1) (2023-11-02)
+
+
+### Bug Fixes
+
+* Fix empty value check to handle default numeric values correctly ([#286](https://github.com/terraform-routeros/terraform-provider-routeros/issues/286)) ([661e49c](https://github.com/terraform-routeros/terraform-provider-routeros/commit/661e49ccbd0ca87eec024187e0e9ad6c2cb9890b))
+* **no-release:** Some boolean params can't be reset and the provider does not understand the value ([#269](https://github.com/terraform-routeros/terraform-provider-routeros/issues/269)) ([678c9a4](https://github.com/terraform-routeros/terraform-provider-routeros/commit/678c9a4c67d2553e3bc72dc6a29d14d415520fa6)), closes [#253](https://github.com/terraform-routeros/terraform-provider-routeros/issues/253)
+
 ## [1.20.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.19.0...v1.20.0) (2023-10-31)
 
 

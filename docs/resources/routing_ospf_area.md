@@ -29,7 +29,7 @@ resource "routeros_routing_ospf_area" "test_routing_ospf_area" {
 - `comment` (String)
 - `default_cost` (Number) Default cost of injected LSAs into the area.
 - `disabled` (Boolean)
-- `no_summaries` (Boolean) If set then the area will not flood summary LSAs in the stub area.
+- `no_summaries` (Boolean) If set then the area will not flood summary LSAs in the stub area. <em>The correct value of this attribute may not be displayed in Winbox. Please check the parameters in the console!</em>
 - `nssa_translate` (String) The parameter indicates which ABR will be used as a translator from type7 to type5 LSA.
 - `type` (String) The area type.
 
