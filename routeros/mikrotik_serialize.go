@@ -48,7 +48,7 @@ func isEmpty(propName string, schemaProp *schema.Schema, d *schema.ResourceData,
 		}
 		return v.(string) == "" && confValue.IsNull()
 	case schema.TypeInt:
-		return !d.HasChange(propName)
+		return confValue.IsNull() && schemaProp.Default == nil
 	case schema.TypeBool:
 		// If true, it is always not empty:
 		if v.(bool) {

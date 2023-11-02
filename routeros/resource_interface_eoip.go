@@ -34,9 +34,9 @@ func ResourceInterfaceEoip() *schema.Resource {
 		KeyRemoteAddress:           PropRemoteAddressRw,
 		KeyRunning:                 PropRunningRo,
 		"tunnel_id": {
-			Type:        schema.TypeString,
+			Type:        schema.TypeInt,
 			Optional:    true,
-			Default:     "0",
+			Default:     0,
 			Description: "Unique tunnel identifier, which must match the other side of the tunnel.",
 		},
 	}
