@@ -178,6 +178,9 @@ func Provider() *schema.Provider {
 			"routeros_ppp_profile": ResourcePPPProfile(),
 			"routeros_ppp_secret":  ResourcePPPSecret(),
 
+			// RADIUS
+			"routeros_radius": ResourceRadius(),
+
 			// SNMP
 			"routeros_snmp":           ResourceSNMP(),
 			"routeros_snmp_community": ResourceSNMPCommunity(),
