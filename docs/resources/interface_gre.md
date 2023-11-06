@@ -43,6 +43,7 @@ resource "routeros_interface_gre" "gre_hq" {
 ## Import
 Import is supported using the following syntax:
 ```shell
-# Import with the name of the gre interface in case of the example use gre-hq-1
-terraform import routeros_interface_gre.gre_hq gre-hq-1
+#The ID can be found via API or the terminal
+#The command for the terminal is -> :put [/interface/gre get [print show-ids]]
+terraform import routeros_interface_gre.gre_hq "*1"
 ```

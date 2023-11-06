@@ -53,6 +53,7 @@ resource "routeros_capsman_datapath" "test_datapath" {
 ## Import
 Import is supported using the following syntax:
 ```shell
-# Import with the name of the CAPsMAN datapath configuration in case of the example use test-datapath-config
-terraform import routeros_capsman_datapath.test_datapath test-datapath-config
+#The ID can be found via API or the terminal
+#The command for the terminal is -> :put [/caps-man/datapath get [print show-ids]]
+terraform import routeros_capsman_datapath.test_datapath "*1"
 ```

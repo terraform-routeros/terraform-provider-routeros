@@ -147,6 +147,7 @@ resource "routeros_capsman_configuration" "test_configuration_2" {
 ## Import
 Import is supported using the following syntax:
 ```shell
-# Import with the name of the CAPsMAN configuration in case of the example use test_configuration_name
-terraform import routeros_capsman_configuration.test_configuration_2 test_configuration_name
+#The ID can be found via API or the terminal
+#The command for the terminal is -> :put [/caps-man/configuration get [print show-ids]]
+terraform import routeros_capsman_configuration.test_configuration_2 "*1"
 ```

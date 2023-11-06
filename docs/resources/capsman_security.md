@@ -49,6 +49,7 @@ resource "routeros_capsman_security" "test_security" {
 ## Import
 Import is supported using the following syntax:
 ```shell
-# Import with the name of the CAPsMAN security profile in case of the example use test-security-config
-terraform import routeros_capsman_security.test_security test-security-config
+#The ID can be found via API or the terminal
+#The command for the terminal is -> :put [/caps-man/security get [print show-ids]]
+terraform import routeros_capsman_security.test_security "*1"
 ```

@@ -1,3 +1,27 @@
+## [1.21.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.20.1...v1.21.0) (2023-11-06)
+
+
+### Features
+
+* Add ethernet switch settings ([162c1da](https://github.com/terraform-routeros/terraform-provider-routeros/commit/162c1da0233e2e909d98dd02f011e89513233c9a)), closes [#285](https://github.com/terraform-routeros/terraform-provider-routeros/issues/285) [#282](https://github.com/terraform-routeros/terraform-provider-routeros/issues/282)
+* Add MLAG settings ([6b8cfd2](https://github.com/terraform-routeros/terraform-provider-routeros/commit/6b8cfd246d893abefc88ee3933e039f7cf1de508)), closes [#268](https://github.com/terraform-routeros/terraform-provider-routeros/issues/268)
+
+
+### Bug Fixes
+
+* **bridge:** Add Name-Id migration ([84a7f3c](https://github.com/terraform-routeros/terraform-provider-routeros/commit/84a7f3c7cafeb700fe7fef8f367208b6d4ba2dc5))
+* **CAPsMAN:** Add Name-Id migration ([5d0effa](https://github.com/terraform-routeros/terraform-provider-routeros/commit/5d0effa4d24365671dcbf268da66460b4483c25f))
+* **dhcp_server:** Add Name-Id migration ([c8c9ff8](https://github.com/terraform-routeros/terraform-provider-routeros/commit/c8c9ff89d6b81253c7e8e8f020aba7cc47e03159))
+* **eoip:** Add Name-Id migration ([fdbd68f](https://github.com/terraform-routeros/terraform-provider-routeros/commit/fdbd68f21f2ef5284b0e8529095a4cb5a3a76067))
+* **eoip:** Fix the resource ID type ([7916c30](https://github.com/terraform-routeros/terraform-provider-routeros/commit/7916c30fcf36899631dfb25a362c378dc3ebbac4))
+* **gre:** Add Name-Id migration ([6e811c3](https://github.com/terraform-routeros/terraform-provider-routeros/commit/6e811c3c3aa054f0c91d554cc9814ed3ff032b62))
+* **interface_list:** Add Name-Id migration ([6b326c0](https://github.com/terraform-routeros/terraform-provider-routeros/commit/6b326c0dd62241e7b70307ac6400421f44ff94b1))
+* **ip_pool:** Add Name-Id migration ([98c17c2](https://github.com/terraform-routeros/terraform-provider-routeros/commit/98c17c2130e798092a86e2e724b99c7a90980f15))
+* **scheduler:** Add Name-Id migration ([c34b994](https://github.com/terraform-routeros/terraform-provider-routeros/commit/c34b99483f96eb9d1b49552326883fe9190c3c93))
+* **vlan:** Add Name-Id migration ([7592f2f](https://github.com/terraform-routeros/terraform-provider-routeros/commit/7592f2f2fba7ea7d3a7875906b71a75126fd0f90))
+* **vrrp:** Add Name-Id migration ([30c8f37](https://github.com/terraform-routeros/terraform-provider-routeros/commit/30c8f37a004c0b3b67dce85965535a0836b57af7))
+* **wg:** Add Name-Id migration ([d676b8b](https://github.com/terraform-routeros/terraform-provider-routeros/commit/d676b8b26c64e114caeb108191ed911319c0f4ab))
+
 ## [1.20.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.20.0...v1.20.1) (2023-11-02)
 
 

@@ -74,6 +74,7 @@ resource "routeros_interface_bridge" "bridge" {
 ## Import
 Import is supported using the following syntax:
 ```shell
-# Import with the name of the bridge in case of the example use bridge
-terraform import routeros_interface_bridge.bridge bridge
+#The ID can be found via API or the terminal
+#The command for the terminal is -> :put [/interface/bridge get [print show-ids]]
+terraform import routeros_interface_bridge.bridge "*1"
 ```
