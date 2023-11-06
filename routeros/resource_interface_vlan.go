@@ -7,8 +7,8 @@ import (
 // ResourceInterfaceVlan https://wiki.mikrotik.com/wiki/Manual:Interface/VLAN
 func ResourceInterfaceVlan() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
-		MetaResourcePath:           PropResourcePath("/interface/vlan"),
-		MetaId:                     PropId(Name),
+		MetaResourcePath: PropResourcePath("/interface/vlan"),
+		MetaId:           PropId(Id),
 
 		KeyArp:                     PropArpRw,
 		KeyArpTimeout:              PropArpTimeoutRw,
@@ -43,6 +43,15 @@ func ResourceInterfaceVlan() *schema.Resource {
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
+		},
+
+		SchemaVersion: 1,
+		StateUpgraders: []schema.StateUpgrader{
+			{
+				Type:    ResourceInterfaceVlanV0().CoreConfigSchema().ImpliedType(),
+				Upgrade: stateMigrationNameToId(resSchema[MetaResourcePath].Default.(string)),
+				Version: 0,
+			},
 		},
 
 		Schema: resSchema,
