@@ -27,7 +27,7 @@ func ResourceCapsManSecurity() *schema.Resource {
 
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/caps-man/security"),
-		MetaId:           PropId(Name),
+		MetaId:           PropId(Id),
 
 		"authentication_types": {
 			Type:        schema.TypeSet,
@@ -117,6 +117,15 @@ func ResourceCapsManSecurity() *schema.Resource {
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
+		},
+
+		SchemaVersion: 1,
+		StateUpgraders: []schema.StateUpgrader{
+			{
+				Type:    ResourceCapsManSecurityV0().CoreConfigSchema().ImpliedType(),
+				Upgrade: stateMigrationNameToId(resSchema[MetaResourcePath].Default.(string)),
+				Version: 0,
+			},
 		},
 
 		Schema: resSchema,

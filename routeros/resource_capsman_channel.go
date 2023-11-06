@@ -26,7 +26,7 @@ func ResourceCapsManChannel() *schema.Resource {
 
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/caps-man/channel"),
-		MetaId:           PropId(Name),
+		MetaId:           PropId(Id),
 
 		"band": {
 			Type:        schema.TypeString,
@@ -107,6 +107,15 @@ func ResourceCapsManChannel() *schema.Resource {
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
+		},
+
+		SchemaVersion: 1,
+		StateUpgraders: []schema.StateUpgrader{
+			{
+				Type:    ResourceCapsManChannelV0().CoreConfigSchema().ImpliedType(),
+				Upgrade: stateMigrationNameToId(resSchema[MetaResourcePath].Default.(string)),
+				Version: 0,
+			},
 		},
 
 		Schema: resSchema,
