@@ -1,2 +1,3 @@
-# Import with the name of the ip pool in case of the example use my_ip_pool
-terraform import routeros_ip_pool.pool my_ip_pool
+#The ID can be found via API or the terminal
+#The command for the terminal is -> :put [/ip/pool get [print show-ids]]
+terraform import routeros_ip_pool.pool "*1"

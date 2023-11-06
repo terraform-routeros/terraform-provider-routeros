@@ -9,7 +9,7 @@ import (
 func ResourceInterfaceGre() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/gre"),
-		MetaId:           PropId(Name),
+		MetaId:           PropId(Id),
 
 		KeyActualMtu:     PropActualMtuRo,
 		KeyAllowFastPath: PropAllowFastPathRw,
@@ -46,6 +46,15 @@ func ResourceInterfaceGre() *schema.Resource {
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
+		},
+
+		SchemaVersion: 1,
+		StateUpgraders: []schema.StateUpgrader{
+			{
+				Type:    ResourceInterfaceGreV0().CoreConfigSchema().ImpliedType(),
+				Upgrade: stateMigrationNameToId(resSchema[MetaResourcePath].Default.(string)),
+				Version: 0,
+			},
 		},
 
 		Schema: resSchema,

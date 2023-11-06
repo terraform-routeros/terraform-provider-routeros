@@ -24,7 +24,7 @@ import (
 func ResourceCapsManRates() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/caps-man/rates"),
-		MetaId:           PropId(Name),
+		MetaId:           PropId(Id),
 
 		"basic": {
 			Type:     schema.TypeSet,
@@ -106,6 +106,15 @@ func ResourceCapsManRates() *schema.Resource {
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
+		},
+
+		SchemaVersion: 1,
+		StateUpgraders: []schema.StateUpgrader{
+			{
+				Type:    ResourceCapsManRatesV0().CoreConfigSchema().ImpliedType(),
+				Upgrade: stateMigrationNameToId(resSchema[MetaResourcePath].Default.(string)),
+				Version: 0,
+			},
 		},
 
 		Schema: resSchema,

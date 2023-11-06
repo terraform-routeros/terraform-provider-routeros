@@ -27,7 +27,7 @@ import (
 func ResourceCapsManDatapath() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/caps-man/datapath"),
-		MetaId:           PropId(Name),
+		MetaId:           PropId(Id),
 
 		"arp": {
 			Type:        schema.TypeString,
@@ -110,6 +110,15 @@ func ResourceCapsManDatapath() *schema.Resource {
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
+		},
+
+		SchemaVersion: 1,
+		StateUpgraders: []schema.StateUpgrader{
+			{
+				Type:    ResourceCapsManDatapathV0().CoreConfigSchema().ImpliedType(),
+				Upgrade: stateMigrationNameToId(resSchema[MetaResourcePath].Default.(string)),
+				Version: 0,
+			},
 		},
 
 		Schema: resSchema,

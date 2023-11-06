@@ -1,2 +1,3 @@
-# Import with the name of the CAPsMAN channel configuration in case of the example use test-channel-config
-terraform import routeros_capsman_channel.test_channel test-channel-config
+#The ID can be found via API or the terminal
+#The command for the terminal is -> :put [/caps-man/channel get [print show-ids]]
+terraform import routeros_capsman_channel.test_channel "*1"

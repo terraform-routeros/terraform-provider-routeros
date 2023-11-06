@@ -7,7 +7,7 @@ import (
 func ResourceInterfaceList() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/list"),
-		MetaId:           PropId(Name),
+		MetaId:           PropId(Id),
 
 		"builtin": {
 			Type:     schema.TypeBool,
@@ -34,6 +34,15 @@ func ResourceInterfaceList() *schema.Resource {
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
+		},
+
+		SchemaVersion: 1,
+		StateUpgraders: []schema.StateUpgrader{
+			{
+				Type:    ResourceInterfaceListV0().CoreConfigSchema().ImpliedType(),
+				Upgrade: stateMigrationNameToId(resSchema[MetaResourcePath].Default.(string)),
+				Version: 0,
+			},
 		},
 
 		Schema: resSchema,

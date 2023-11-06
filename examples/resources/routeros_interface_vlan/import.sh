@@ -1,2 +1,3 @@
-# Import with the name of the vlan interface in case of the example use VLAN_TEST
-terraform import routeros_interface_vlan.interface_vlan VLAN_TEST
+#The ID can be found via API or the terminal
+#The command for the terminal is -> :put [/interface/vlan get [print show-ids]]
+terraform import routeros_interface_vlan.interface_vlan "*1"

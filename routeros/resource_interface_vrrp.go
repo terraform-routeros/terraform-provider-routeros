@@ -41,7 +41,7 @@ import (
 func ResourceInterfaceVrrp() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/vrrp"),
-		MetaId:           PropId(Name),
+		MetaId:           PropId(Id),
 
 		KeyArp:        PropArpRw,
 		KeyArpTimeout: PropArpTimeoutRw,
@@ -196,6 +196,15 @@ func ResourceInterfaceVrrp() *schema.Resource {
 		DeleteContext: DefaultDelete(resSchema),
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
+		},
+
+		SchemaVersion: 1,
+		StateUpgraders: []schema.StateUpgrader{
+			{
+				Type:    ResourceInterfaceVrrpV0().CoreConfigSchema().ImpliedType(),
+				Upgrade: stateMigrationNameToId(resSchema[MetaResourcePath].Default.(string)),
+				Version: 0,
+			},
 		},
 
 		Schema: resSchema,

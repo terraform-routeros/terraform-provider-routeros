@@ -9,7 +9,7 @@ import (
 func ResourceInterfaceEoip() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/eoip"),
-		MetaId:           PropId(Name),
+		MetaId:           PropId(Id),
 
 		KeyActualMtu:               PropActualMtuRo,
 		KeyArp:                     PropArpRw,
@@ -56,6 +56,15 @@ func ResourceInterfaceEoip() *schema.Resource {
 			return nil
 		}),
 		DeleteContext: DefaultDelete(resSchema),
+
+		SchemaVersion: 1,
+		StateUpgraders: []schema.StateUpgrader{
+			{
+				Type:    ResourceInterfaceEoipV0().CoreConfigSchema().ImpliedType(),
+				Upgrade: stateMigrationNameToId(resSchema[MetaResourcePath].Default.(string)),
+				Version: 0,
+			},
+		},
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,

@@ -9,7 +9,7 @@ import (
 func ResourceInterfaceBridge() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/bridge"),
-		MetaId:           PropId(Name),
+		MetaId:           PropId(Id),
 
 		KeyActualMtu: PropActualMtuRo,
 		"add_dhcp_option82": {
@@ -305,6 +305,15 @@ func ResourceInterfaceBridge() *schema.Resource {
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
+		},
+
+		SchemaVersion: 1,
+		StateUpgraders: []schema.StateUpgrader{
+			{
+				Type:    ResourceInterfaceBridgeV0().CoreConfigSchema().ImpliedType(),
+				Upgrade: stateMigrationNameToId(resSchema[MetaResourcePath].Default.(string)),
+				Version: 0,
+			},
 		},
 
 		Schema: resSchema,
