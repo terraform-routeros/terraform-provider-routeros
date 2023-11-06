@@ -22,7 +22,7 @@ import (
 func ResourceInterfaceWireguard() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/wireguard"),
-		MetaId:           PropId(Name),
+		MetaId:           PropId(Id),
 
 		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
@@ -57,6 +57,15 @@ func ResourceInterfaceWireguard() *schema.Resource {
 		DeleteContext: DefaultDelete(resSchema),
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
+		},
+
+		SchemaVersion: 1,
+		StateUpgraders: []schema.StateUpgrader{
+			{
+				Type:    ResourceInterfaceWireguardV0().CoreConfigSchema().ImpliedType(),
+				Upgrade: stateMigrationNameToId(resSchema[MetaResourcePath].Default.(string)),
+				Version: 0,
+			},
 		},
 
 		Schema: resSchema,
