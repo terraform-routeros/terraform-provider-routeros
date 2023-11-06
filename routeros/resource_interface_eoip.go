@@ -57,6 +57,15 @@ func ResourceInterfaceEoip() *schema.Resource {
 		}),
 		DeleteContext: DefaultDelete(resSchema),
 
+		SchemaVersion: 1,
+		StateUpgraders: []schema.StateUpgrader{
+			{
+				Type:    ResourceInterfaceEoipV0().CoreConfigSchema().ImpliedType(),
+				Upgrade: stateMigrationNameToId(resSchema[MetaResourcePath].Default.(string)),
+				Version: 0,
+			},
+		},
+
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
 		},
