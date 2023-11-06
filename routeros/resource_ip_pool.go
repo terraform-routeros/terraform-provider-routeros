@@ -8,7 +8,7 @@ import (
 func ResourceIPPool() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/pool"),
-		MetaId:           PropId(Name),
+		MetaId:           PropId(Id),
 
 		KeyComment: PropCommentRw,
 		KeyName:    PropNameForceNewRw,
@@ -36,6 +36,15 @@ func ResourceIPPool() *schema.Resource {
 		DeleteContext: DefaultDelete(resSchema),
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
+		},
+
+		SchemaVersion: 1,
+		StateUpgraders: []schema.StateUpgrader{
+			{
+				Type:    ResourceIPPoolV0().CoreConfigSchema().ImpliedType(),
+				Upgrade: stateMigrationNameToId(resSchema[MetaResourcePath].Default.(string)),
+				Version: 0,
+			},
 		},
 
 		Schema: resSchema,
