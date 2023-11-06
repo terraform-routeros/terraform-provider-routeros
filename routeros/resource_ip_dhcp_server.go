@@ -9,7 +9,7 @@ import (
 func ResourceDhcpServer() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/dhcp-server"),
-		MetaId:           PropId(Name),
+		MetaId:           PropId(Id),
 
 		"add_arp": {
 			Type:        schema.TypeBool,
@@ -138,6 +138,15 @@ func ResourceDhcpServer() *schema.Resource {
 		DeleteContext: DefaultDelete(resSchema),
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
+		},
+
+		SchemaVersion: 1,
+		StateUpgraders: []schema.StateUpgrader{
+			{
+				Type:    ResourceDhcpServerV0().CoreConfigSchema().ImpliedType(),
+				Upgrade: stateMigrationNameToId(resSchema[MetaResourcePath].Default.(string)),
+				Version: 0,
+			},
 		},
 
 		Schema: resSchema,
