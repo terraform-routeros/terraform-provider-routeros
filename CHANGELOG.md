@@ -1,3 +1,10 @@
+## [1.22.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.21.0...v1.22.0) (2023-11-07)
+
+
+### Features
+
+* Add DHCP server config resource ([#288](https://github.com/terraform-routeros/terraform-provider-routeros/issues/288)) ([0e9fbbf](https://github.com/terraform-routeros/terraform-provider-routeros/commit/0e9fbbf52484962789bd28b2caaab9be238bff86))
+
 ## [1.21.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.20.1...v1.21.0) (2023-11-06)
 
 
