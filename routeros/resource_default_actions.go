@@ -276,3 +276,17 @@ func DefaultSystemDelete(s map[string]*schema.Schema) schema.DeleteContextFunc {
 		return SystemResourceDelete(ctx, s, d, m)
 	}
 }
+
+func DefaultSystemDatasourceRead(s map[string]*schema.Schema) schema.ReadContextFunc {
+	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+		res := MikrotikItem{}
+		path := s[MetaResourcePath].Default.(string)
+
+		err := m.(Client).SendRequest(crudRead, &URL{Path: path}, nil, &res)
+		if err != nil {
+			return diag.FromErr(err)
+		}
+
+		return MikrotikResourceDataToTerraformDatasource(&[]MikrotikItem{res}, "", s, d)
+	}
+}
