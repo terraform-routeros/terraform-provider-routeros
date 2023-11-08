@@ -336,6 +336,8 @@ var (
 		Computed:    true,
 		Description: "Current mac address.",
 	}
+	// TODO: Replace in all possible resources with a property without 'ForceNew'.
+	// https://github.com/orgs/terraform-routeros/discussions/192#discussioncomment-5929999
 	PropNameForceNewRw = &schema.Schema{
 		Type:     schema.TypeString,
 		Required: true,
