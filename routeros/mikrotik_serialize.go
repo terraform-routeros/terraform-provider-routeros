@@ -293,7 +293,7 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 	// "field_first", "field_second", "field_third"
 	if suf, ok := s[MetaSetUnsetFields]; ok {
 		setUnsetFields = loadSkipFields(suf.Default.(string))
-  }
+	}
 	if sf, ok := s[MetaSkipFields]; ok {
 		skipFields = loadSkipFields(sf.Default.(string))
 	}
@@ -420,7 +420,7 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 						diags = append(diags, diag.Diagnostic{
 							Severity: diag.Warning,
 							Summary:  "Field '" + terraformSnakeName + "." + subFieldSnakeName + "' not found in the schema",
-							Detail: fmt.Sprintf("[MikrotikResourceDataToTerraformDatasource] the datasource Schema sub-field was lost during development: ▷ '%s.%s' ◁",
+							Detail: fmt.Sprintf("[MikrotikResourceDataToTerraform] the datasource Schema sub-field was lost during development: ▷ '%s.%s' ◁",
 								terraformSnakeName, subFieldSnakeName),
 						})
 						continue
@@ -500,22 +500,36 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 func MikrotikResourceDataToTerraformDatasource(items *[]MikrotikItem, resourceDataKeyName string, s map[string]*schema.Schema, d *schema.ResourceData) diag.Diagnostics {
 	var diags diag.Diagnostics
 	var dsItems []map[string]interface{}
+	// System resource have an empty 'resourceDataKeyName'.
+	var isSystemDatasource bool = (resourceDataKeyName == "")
 
 	// Checking the schema.
-	sv, ok := s[resourceDataKeyName]
-	if !ok {
-		// For development.
-		//panic("[MikrotikResourceDataToTerraformDatasource] the datasource Schema field was lost during development: " + resourceDataKeyName)
+	if !isSystemDatasource {
+		sv, ok := s[resourceDataKeyName]
+		if !ok {
+			// For development.
+			//panic("[MikrotikResourceDataToTerraformDatasource] the datasource Schema field was lost during development: " + resourceDataKeyName)
+			diags = append(diags, diag.Diagnostic{
+				Severity: diag.Warning,
+				Summary:  "Field '" + resourceDataKeyName + "' not found in the schema",
+				Detail: fmt.Sprintf("[MikrotikResourceDataToTerraformDatasource] the datasource Schema field was lost during development: ▷ '%s' ◁",
+					resourceDataKeyName),
+			})
+			// Or panic.
+			return diags
+		}
+		s = sv.Elem.(*schema.Resource).Schema
+	}
+
+	if isSystemDatasource && len(*items) != 1 {
 		diags = append(diags, diag.Diagnostic{
-			Severity: diag.Warning,
-			Summary:  "Field '" + resourceDataKeyName + "' not found in the schema",
-			Detail: fmt.Sprintf("[MikrotikResourceDataToTerraformDatasource] the datasource Schema field was lost during development: ▷ '%s' ◁",
-				resourceDataKeyName),
+			Severity: diag.Error,
+			Summary:  "System resources should not return an array of values",
+			Detail: fmt.Sprintf("[MikrotikResourceDataToTerraformDatasource] system resource '%s' polling returned %d values",
+				s[MetaResourcePath].Default.(string), len(*items)),
 		})
-		// Or panic.
 		return diags
 	}
-	s = sv.Elem.(*schema.Resource).Schema
 
 	// Array of Mikrotik items iteration.
 	for _, item := range *items {
@@ -524,6 +538,8 @@ func MikrotikResourceDataToTerraformDatasource(items *[]MikrotikItem, resourceDa
 
 		// Incoming map iteration.
 		for mikrotikKebabName, mikrotikValue := range item {
+			// MT can return the field name in uppercase format.
+			mikrotikKebabName = strings.ToLower(mikrotikKebabName)
 			// In this case the ID must be a string.
 			if mikrotikKebabName == ".id" {
 				dsItem["id"] = mikrotikValue
@@ -608,8 +624,16 @@ func MikrotikResourceDataToTerraformDatasource(items *[]MikrotikItem, resourceDa
 	}
 
 	d.SetId(UniqueId())
-	if err := d.Set(resourceDataKeyName, dsItems); err != nil {
-		diags = append(diags, diag.FromErr(err)...)
+	if !isSystemDatasource {
+		if err := d.Set(resourceDataKeyName, dsItems); err != nil {
+			diags = append(diags, diag.FromErr(err)...)
+		}
+	} else {
+		for k, v := range dsItems[0] {
+			if err := d.Set(k, v); err != nil {
+				diags = append(diags, diag.FromErr(err)...)
+			}
+		}
 	}
 
 	return diags
