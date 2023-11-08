@@ -101,6 +101,8 @@ func (c *RestClient) SendRequest(method crudMethod, url *URL, item MikrotikItem,
 				if err = json.Unmarshal(EscapeChars(body), &result); err != nil {
 					return fmt.Errorf("json.Unmarshal(response body): %v", err)
 				}
+			} else {
+				return err
 			}
 		}
 	}
