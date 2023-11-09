@@ -54,6 +54,8 @@ func ResourceOpenVPNServer() *schema.Resource {
 			Description: `Allowed ciphers.`,
 			ValidateDiagFunc: ValidationMultiValInSlice([]string{
 				"null", "aes128-cbc", "aes128-gcm", "aes192-cbc", "aes192-gcm", "aes256-cbc", "aes256-gcm", "blowfish128",
+				// Backward compatibility with ROS v7.7
+				"aes128", "aes192", "aes256", 
 			}, false, false),
 		},
 		"default_profile": {
