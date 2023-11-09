@@ -105,6 +105,7 @@ func Provider() *schema.Provider {
 			"routeros_interface_bridge_vlan":     ResourceInterfaceBridgeVlan(),
 			"routeros_interface_bridge_settings": ResourceInterfaceBridgeSettings(),
 			"routeros_interface_dot1x_client":    ResourceInterfaceDot1xClient(),
+			"routeros_interface_dot1x_server":    ResourceInterfaceDot1xServer(),
 			"routeros_interface_eoip":            ResourceInterfaceEoip(),
 			"routeros_interface_ethernet_switch": ResourceInterfaceEthernetSwitch(),
 			"routeros_interface_gre":             ResourceInterfaceGre(),
