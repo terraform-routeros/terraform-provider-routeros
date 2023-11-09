@@ -1,3 +1,10 @@
+## [1.22.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.22.0...v1.22.1) (2023-11-09)
+
+
+### Bug Fixes
+
+* Unexpected value: aes256 for RouterOS v7.7 ([#294](https://github.com/terraform-routeros/terraform-provider-routeros/issues/294)) ([6fc8149](https://github.com/terraform-routeros/terraform-provider-routeros/commit/6fc8149e77d45a53312e7d9c9b50b451d4791460)), closes [#291](https://github.com/terraform-routeros/terraform-provider-routeros/issues/291)
+
 ## [1.22.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.21.0...v1.22.0) (2023-11-07)
 
 
