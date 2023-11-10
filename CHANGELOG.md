@@ -6,6 +6,19 @@
 * Add 802.1X client resource ([db76369](https://github.com/terraform-routeros/terraform-provider-routeros/commit/db763696e4003399b76cb474ea32614a4e8028db))
 * Add 802.1X server resource ([05894af](https://github.com/terraform-routeros/terraform-provider-routeros/commit/05894afc3145a8af232b3eb517c95ac224f2cfe4))
 
+
+### Bug Fixes
+
+* Bump Go version from 1.19 to 1.21 ([#297](https://github.com/terraform-routeros/terraform-provider-routeros/issues/297)) ([1a56503](https://github.com/terraform-routeros/terraform-provider-routeros/commit/1a565038228d408d55d405423288a54f006e967c))
+
+## [1.23.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.22.1...v1.23.0) (2023-11-10)
+
+
+### Features
+
+* Add 802.1X client resource ([db76369](https://github.com/terraform-routeros/terraform-provider-routeros/commit/db763696e4003399b76cb474ea32614a4e8028db))
+* Add 802.1X server resource ([05894af](https://github.com/terraform-routeros/terraform-provider-routeros/commit/05894afc3145a8af232b3eb517c95ac224f2cfe4))
+
 ## [1.22.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.22.0...v1.22.1) (2023-11-09)
 
 
