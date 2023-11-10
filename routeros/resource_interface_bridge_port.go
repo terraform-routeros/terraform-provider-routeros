@@ -71,6 +71,7 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/bridge/port"),
 		MetaId:           PropId(Id),
+		MetaSkipFields:   PropSkipFields(`"debug_info","port_number"`),
 
 		"nextid": {
 			Type:     schema.TypeString,
@@ -103,10 +104,6 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 				"When disabled, drops broadcast traffic on egress ports. ",
 		},
 		KeyComment: PropCommentRw,
-		"debug_info": {
-			Type:     schema.TypeString,
-			Computed: true,
-		},
 		"designated_bridge": {
 			Type:        schema.TypeString,
 			Computed:    true,
@@ -254,12 +251,6 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 			Type:        schema.TypeBool,
 			Computed:    true,
 			Description: "Whether the port is connected to a bridge port using full-duplex (true) or half-duplex (false).",
-		},
-		"port_number": {
-			Type:     schema.TypeInt,
-			Computed: true,
-			Description: "Port number will be assigned in the order that ports got added to the bridge, " +
-				"but this is only true until reboot. After reboot internal numbering will be used.",
 		},
 		"priority": {
 			Type:     schema.TypeString,
