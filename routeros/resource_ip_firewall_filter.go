@@ -14,7 +14,7 @@ func ResourceIPFirewallFilter() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/firewall/filter"),
 		MetaId:           PropId(Id),
-		MetaSkipFields:   PropSkipFields(``),
+		MetaSkipFields:   PropSkipFields(`"bytes","packets"`),
 
 		"action": {
 			Type:        schema.TypeString,
@@ -38,11 +38,6 @@ func ResourceIPFirewallFilter() *schema.Resource {
 				"address-list parameter. Used in conjunction with add-dst-to-address-list or add-src-to-address-list " +
 				"actions.",
 			DiffSuppressFunc: TimeEquall,
-		},
-		"bytes": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "The total amount of bytes matched by the rule.",
 		},
 		"chain": {
 			Type:     schema.TypeString,
@@ -266,11 +261,6 @@ func ResourceIPFirewallFilter() *schema.Resource {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Description: "Set of interfaces defined in interface list. Works the same as out-interface.",
-		},
-		"packets": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "The total amount of packets matched by the rule.",
 		},
 		"packet_mark": {
 			Type:     schema.TypeString,
