@@ -180,6 +180,7 @@ func Provider() *schema.Provider {
 
 			// RADIUS
 			"routeros_radius": ResourceRadius(),
+			"routeros_radius_incoming": ResourceRadiusIncoming(),
 
 			// SNMP
 			"routeros_snmp":           ResourceSNMP(),
