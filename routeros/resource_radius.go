@@ -106,3 +106,44 @@ func ResourceRadius() *schema.Resource {
 		Schema: resSchema,
 	}
 }
+
+// https://help.mikrotik.com/docs/display/ROS/RADIUS#RADIUS-ConnectionTerminatingfromRADIUS
+func ResourceRadiusIncoming() *schema.Resource {
+	resSchema := map[string]*schema.Schema{
+		MetaResourcePath: PropResourcePath("/radius/incoming"),
+		MetaId:           PropId(Name),
+
+		"accept": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Default:     false,
+			Description: "An option whether to accept the unsolicited messages.",
+		},
+		"port": {
+			Type:        schema.TypeInt,
+			Optional:    true,
+			Default:     3799,
+			Description: "The port number to listen for the requests on.",
+			ValidateFunc: validation.IntBetween(0, 65535),
+		},
+		"vrf": {
+			Type:         schema.TypeString,
+			Optional:     true,
+			Default:      "main",
+			Description:  "VRF on which service is listening for incoming connections.",
+		},
+	}
+
+	return &schema.Resource{
+		CreateContext: DefaultSystemCreate(resSchema),
+		ReadContext:   DefaultSystemRead(resSchema),
+		UpdateContext: DefaultSystemUpdate(resSchema),
+		DeleteContext: DefaultSystemDelete(resSchema),
+
+		Importer: &schema.ResourceImporter{
+			StateContext: schema.ImportStatePassthroughContext,
+		},
+
+		Schema: resSchema,
+	}
+}
