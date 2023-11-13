@@ -1,3 +1,16 @@
+## [1.24.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.23.0...v1.24.0) (2023-11-13)
+
+
+### Features
+
+* **ds:** Add /ip/arp datasource ([6ecd622](https://github.com/terraform-routeros/terraform-provider-routeros/commit/6ecd622973facf7296fd0009304c0249f1e3e369))
+* **ds:** Add /system/resource datasource ([79a599e](https://github.com/terraform-routeros/terraform-provider-routeros/commit/79a599eb980bd73b677098d0cc54505b66b6069e))
+
+
+### Bug Fixes
+
+* **REST:** Return possible error on JSON parsing ([7134eac](https://github.com/terraform-routeros/terraform-provider-routeros/commit/7134eac723886d14214ef60de0faaa532387483c))
+
 ## [1.23.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.22.1...v1.23.0) (2023-11-10)
 
 
