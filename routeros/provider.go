@@ -184,11 +184,13 @@ func Provider() *schema.Provider {
 			"routeros_wireguard_keys": ResourceWireguardKeys(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
-			"routeros_interfaces":     DatasourceInterfaces(),
-			"routeros_ip_addresses":   DatasourceIPAddresses(),
-			"routeros_ip_routes":      DatasourceIPRoutes(),
-			"routeros_firewall":       DatasourceFirewall(),
-			"routeros_ipv6_addresses": DatasourceIPv6Addresses(),
+			"routeros_firewall":        DatasourceFirewall(),
+			"routeros_interfaces":      DatasourceInterfaces(),
+			"routeros_ip_addresses":    DatasourceIPAddresses(),
+			"routeros_ip_arp":          DatasourceIpArp(),
+			"routeros_ip_routes":       DatasourceIPRoutes(),
+			"routeros_ipv6_addresses":  DatasourceIPv6Addresses(),
+			"routeros_system_resource": DatasourceSystemResource(),
 		},
 		ConfigureContextFunc: NewClient,
 	}
