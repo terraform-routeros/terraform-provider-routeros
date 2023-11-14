@@ -1,9 +1,14 @@
 package routeros
 
 import (
+	"context"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
+
+const vrfKey = "vrf"
 
 // https://help.mikrotik.com/docs/display/ROS/RADIUS#RADIUS-RADIUSClient
 func ResourceRadius() *schema.Resource {
@@ -126,17 +131,16 @@ func ResourceRadiusIncoming() *schema.Resource {
 			Description: "The port number to listen for the requests on.",
 			ValidateFunc: validation.IntBetween(0, 65535),
 		},
-		"vrf": {
+		vrfKey: {
 			Type:         schema.TypeString,
 			Optional:     true,
-			Default:      "main",
-			Description:  "VRF on which service is listening for incoming connections.",
+			Description:  "VRF on which service is listening for incoming connections. This option is available in RouterOS starting from version 7.4.",
 		},
 	}
 
 	return &schema.Resource{
 		CreateContext: DefaultSystemCreate(resSchema),
-		ReadContext:   DefaultSystemRead(resSchema),
+		ReadContext:   compatibleSystemRead(resSchema),
 		UpdateContext: DefaultSystemUpdate(resSchema),
 		DeleteContext: DefaultSystemDelete(resSchema),
 
@@ -145,5 +149,16 @@ func ResourceRadiusIncoming() *schema.Resource {
 		},
 
 		Schema: resSchema,
+	}
+}
+
+func compatibleSystemRead(s map[string]*schema.Schema) schema.ReadContextFunc {
+	return func (ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+		diags := SystemResourceRead(ctx, s, d, m)
+		if _, exists := d.GetOk(vrfKey); exists {
+			s[vrfKey].Default = "main"
+		}
+
+		return diags
 	}
 }
