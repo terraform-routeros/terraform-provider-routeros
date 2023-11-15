@@ -1,3 +1,17 @@
+## [1.25.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.24.0...v1.25.0) (2023-11-15)
+
+
+### Features
+
+* Add RADIUS incoming resource ([6fb0a23](https://github.com/terraform-routeros/terraform-provider-routeros/commit/6fb0a23a98f6089493a35031d9722b978110bb41))
+* Add RADIUS resource ([eb0b5c3](https://github.com/terraform-routeros/terraform-provider-routeros/commit/eb0b5c38c0758efc866441fe630fc529f84af195))
+
+
+### Bug Fixes
+
+* Add compatibility layer for the VRF property in RADIUS incoming resource ([96a5354](https://github.com/terraform-routeros/terraform-provider-routeros/commit/96a5354b95f4f94d5198b55f0d017b8477c8f0b0))
+* **no-release:** Skip computed stat fields ([#299](https://github.com/terraform-routeros/terraform-provider-routeros/issues/299)) ([579f0a0](https://github.com/terraform-routeros/terraform-provider-routeros/commit/579f0a0ea9cc73ab4c038b8bf9a2721ce6a9f99f))
+
 ## [1.24.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.23.0...v1.24.0) (2023-11-13)
 
 

@@ -31,7 +31,6 @@ resource "routeros_system_user" "test" {
 
 - `expired` (Boolean) Password expired.
 - `id` (String) The ID of this resource.
-- `last_logged_in` (String) Read-only field. Last time and date when a user logged in.
 
 ## Import
 Import is supported using the following syntax:

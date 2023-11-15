@@ -53,6 +53,5 @@ resource "routeros_ip_firewall_connection_tracking" "data" {
 - `id` (String) The ID of this resource.
 - `max_entries` (String) Max amount of entries that the connection tracking table can hold. This value depends on the installed amount of RAM.
                           Note that the system does not create a maximum_size connection tracking table when it starts, it may increase if the situation demands it and the system still has free ram, but size will not exceed 1048576
-- `total_entries` (Number) Amount of connections that currently connection table holds.
 
 

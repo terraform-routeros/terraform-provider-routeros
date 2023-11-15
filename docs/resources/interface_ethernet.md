@@ -65,45 +65,12 @@ resource "routeros_interface_ethernet" "test" {
 ### Read-Only
 
 - `default_name` (String) The default name for an interface.
-- `driver_rx_byte` (Number) Total count of received bytes on device CPU
-- `driver_rx_packet` (Number) Total count of received packets on device CPU
-- `driver_tx_byte` (Number) Total count of transmitted packets by device CPU
-- `driver_tx_packet` (Number) Total count of transmitted packets by device CPU
 - `id` (String) The ID of this resource.
 - `loop_protect_status` (String)
 - `orig_mac_address` (String) Original Media Access Control number of an interface. (read only)
 - `running` (Boolean) Whether interface is running. Note that some interface does not have running check and they are always reported as "running"
-- `rx_broadcast` (Number) Total count of received broadcast frames.
-- `rx_bytes` (Number) Total count of received bytes.
-- `rx_error_events` (Number) Total count of received frames with active error event
-- `rx_fcs_error` (Number) Total count of received frames with incorrect checksum
-- `rx_fragment` (Number) Total count of received fragmented frames (not related to IP fragmentation)
-- `rx_jabber` (Number) Total count of received jabbed packets - a packet that is transmitted longer than the maximum packet length
-- `rx_multicast` (Number) Total count of received multicast frames.
-- `rx_overflow` (Number) Total count of received overflowed frames, can be caused when device resources are insufficient to receive a certain frame
-- `rx_packet` (Number) Total count of received packets.
-- `rx_pause` (Number) Total count of received pause frames
-- `rx_too_long` (Number) Total count of received frames that were larger than the maximum supported frame size by the network device, see the max-l2mtu property
-- `rx_too_short` (Number) Total count of received frame shorter than the minimum 64 bytes
-- `rx_unicast` (Number) Total count of received unicast frames
 - `slave` (Boolean) Whether interface is configured as a slave of another interface (for example Bonding)
 - `switch` (String) ID to which switch chip interface belongs to.
-- `tx_broadcast` (Number) Total count of transmitted broadcast frames.
-- `tx_bytes` (Number) Total count of transmitted bytes.
-- `tx_collision` (Number) Total count of transmitted frames that made collisions
-- `tx_drop` (Number) Total count of transmitted frames that were dropped due to already full output queue
-- `tx_late_collision` (Number) Total count of transmitted frames that made collision after being already halfway transmitted
-- `tx_multicast` (Number) Total count of transmitted multicast frames.
-- `tx_packet` (Number) Total count of transmitted packets.
-- `tx_pause` (Number) Total count of transmitted pause frames.
-- `tx_rx_1024_max` (Number) Total count of transmitted and received 1024 or above byte frames
-- `tx_rx_128_255` (Number) Total count of transmitted and received 128 to 255 byte frames
-- `tx_rx_256_511` (Number) Total count of transmitted and received 256 to 511 byte frames
-- `tx_rx_512_1023` (Number) Total count of transmitted and received 512 to 1024 byte frames
-- `tx_rx_64` (Number) Total count of transmitted and received 64 byte frames
-- `tx_rx_65_127` (Number) Total count of transmitted and received 64 to 127 byte frames
-- `tx_underrun` (Number) Total count of transmitted underrun packets
-- `tx_unicast` (Number) Total count of transmitted unicast frames.
 
 ## Import
 Import is supported using the following syntax:

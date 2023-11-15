@@ -26,6 +26,7 @@ resource "routeros_system_logging" "log_snmp_disk" {
 
 ### Read-Only
 
+- `default` (String)
 - `id` (String) The ID of this resource.
 - `invalid` (Boolean)
 

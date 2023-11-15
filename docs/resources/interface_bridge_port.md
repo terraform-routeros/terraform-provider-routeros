@@ -47,7 +47,6 @@ resource "routeros_interface_bridge_port" "bridge_port" {
 
 ### Read-Only
 
-- `debug_info` (String)
 - `designated_bridge` (String) Root bridge ID (bridge priority and the bridge MAC address).
 - `designated_cost` (String) Designated cost.
 - `designated_port_number` (Number) Designated port number.
@@ -63,7 +62,6 @@ resource "routeros_interface_bridge_port" "bridge_port" {
 - `learning` (Boolean) Shows whether the port is capable of learning MAC addresses.
 - `nextid` (String)
 - `point_to_point_port` (Boolean) Whether the port is connected to a bridge port using full-duplex (true) or half-duplex (false).
-- `port_number` (Number) Port number will be assigned in the order that ports got added to the bridge, but this is only true until reboot. After reboot internal numbering will be used.
 - `role` (String) (R/M)STP algorithm assigned role of the port
 - `root_path_cost` (Number) The total cost of the path to the root-bridge.
 - `sending_rstp` (String) Whether the port is sending RSTP or MSTP BPDU types. A port will transit to STP type when RSTP/MSTP enabled port receives a STP BPDU
