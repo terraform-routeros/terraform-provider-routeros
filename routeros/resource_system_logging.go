@@ -38,6 +38,10 @@ func ResourceSystemLogging() *schema.Resource {
 			Description:  "specifies one of the system default actions or user specified action listed in actions menu",
 			ValidateFunc: validation.StringInSlice([]string{"disk", "echo", "memory", "remote"}, false),
 		},
+		"default": {
+			Type:        schema.TypeString,
+			Computed:    true,
+		},
 		"prefix": {
 			Type:        schema.TypeString,
 			Optional:    true,

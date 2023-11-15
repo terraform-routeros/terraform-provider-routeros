@@ -1,9 +1,6 @@
 package routeros
 
 import (
-	"errors"
-	"fmt"
-	"strconv"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -49,7 +46,6 @@ func TestAccIPConnectionTrackingTest_basic(t *testing.T) {
 							resource.TestCheckResourceAttr(testIPConnectionTracking, "tcp_syn_sent_timeout", "3m"),
 							resource.TestCheckResourceAttr(testIPConnectionTracking, "tcp_time_wait_timeout", "3m"),
 							resource.TestCheckResourceAttr(testIPConnectionTracking, "tcp_unacked_timeout", "3m"),
-							resource.TestCheckResourceAttrWith(testIPConnectionTracking, "total_entries", connectionsIsInAcceptableRange),
 							resource.TestCheckResourceAttr(testIPConnectionTracking, "udp_stream_timeout", "3m"),
 							resource.TestCheckResourceAttr(testIPConnectionTracking, "udp_timeout", "3m"),
 						),
@@ -76,7 +72,6 @@ func TestAccIPConnectionTrackingTest_basic(t *testing.T) {
 							resource.TestCheckResourceAttr(testIPConnectionTracking, "tcp_syn_sent_timeout", "3m"),
 							resource.TestCheckResourceAttr(testIPConnectionTracking, "tcp_time_wait_timeout", "3m"),
 							resource.TestCheckResourceAttr(testIPConnectionTracking, "tcp_unacked_timeout", "3m"),
-							resource.TestCheckResourceAttrWith(testIPConnectionTracking, "total_entries", connectionsIsInAcceptableRange),
 							resource.TestCheckResourceAttr(testIPConnectionTracking, "udp_stream_timeout", "3m"),
 							resource.TestCheckResourceAttr(testIPConnectionTracking, "udp_timeout", "3m"),
 						),
@@ -118,15 +113,4 @@ resource "routeros_ip_firewall_connection_tracking" "data" {
 }
 
 `
-}
-
-func connectionsIsInAcceptableRange(value string) error {
-	nConn, err := strconv.Atoi(value)
-	if err != nil {
-		return fmt.Errorf("the total_entries was not a number %q", err)
-	}
-	if nConn <= 0 || nConn >= 100 {
-		return errors.New("number of tcp connections (total_entries) does not seem correct")
-	}
-	return nil
 }

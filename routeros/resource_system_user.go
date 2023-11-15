@@ -22,6 +22,7 @@ func ResourceUser() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/user"),
 		MetaId:           PropId(Id),
+		MetaSkipFields:   PropSkipFields(`"last_logged_in"`),
 
 		"address": {
 			Type:        schema.TypeString,
@@ -49,11 +50,6 @@ func ResourceUser() *schema.Resource {
 			Description: "User  password. If not specified, it is left blank (hit [Enter] when logging  in). It " +
 				"conforms to standard Unix characteristics of passwords and may  contain letters, digits, " +
 				"'*' and '_' symbols.",
-		},
-		"last_logged_in": {
-			Type:        schema.TypeString,
-			Computed:    true,
-			Description: "Read-only field. Last time and date when a user logged in.",
 		},
 	}
 

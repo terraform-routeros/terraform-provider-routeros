@@ -12,6 +12,7 @@ func ResourceIPv6FirewallFilter() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ipv6/firewall/filter"),
 		MetaId:           PropId(Id),
+		MetaSkipFields:   PropSkipFields(`"bytes","packets"`),
 
 		"action": {
 			Type:        schema.TypeString,
@@ -33,11 +34,6 @@ func ResourceIPv6FirewallFilter() *schema.Resource {
 			Description: "Time interval after which the address will be removed from the address list specified by " +
 				"address-list parameter. Used in conjunction with add-dst-to-address-list or add-src-to-address-list " +
 				"actions.",
-		},
-		"bytes": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "The total amount of bytes matched by the rule.",
 		},
 		"chain": {
 			Type:     schema.TypeString,
@@ -235,11 +231,6 @@ func ResourceIPv6FirewallFilter() *schema.Resource {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Description: "Set of interfaces defined in interface list. Works the same as out-interface.",
-		},
-		"packets": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "The total amount of packets matched by the rule.",
 		},
 		"packet_mark": {
 			Type:     schema.TypeString,

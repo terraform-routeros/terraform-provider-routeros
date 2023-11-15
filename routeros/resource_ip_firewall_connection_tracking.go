@@ -35,6 +35,8 @@ func ResourceIPConnectionTracking() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/firewall/connection/tracking"),
 		MetaId:           PropId(Name),
+		MetaSkipFields:   PropSkipFields(`"total_entries"`),
+
 		"active_ipv4": {
 			Type:        schema.TypeBool,
 			Computed:    true,
@@ -149,11 +151,6 @@ func ResourceIPConnectionTracking() *schema.Resource {
 			Description:      "No documentation",
 			ValidateFunc:     ValidationTime,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
-		},
-		"total_entries": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Amount of connections that currently connection table holds.",
 		},
 		"udp_stream_timeout": {
 			Type:             schema.TypeString,

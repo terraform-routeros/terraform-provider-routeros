@@ -54,7 +54,16 @@ func ResourceInterfaceEthernet() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/ethernet"),
 		MetaId:           PropId(Id),
-		MetaSkipFields:   PropSkipFields(`"factory_name"`),
+		MetaSkipFields:   PropSkipFields(`"factory_name","driver_rx_byte","driver_rx_packet","driver_tx_byte","driver_tx_packet",` +
+			`"rx_64","rx_65_127","rx_128_255","rx_256_511","rx_512_1023","rx_1024_1518","rx_1519_max",` +
+			`"tx_64","tx_65_127","tx_128_255","tx_256_511","tx_512_1023","tx_1024_1518","tx_1519_max",` +
+			`"tx_rx_64","tx_rx_65_127","tx_rx_128_255","tx_rx_256_511","tx_rx_512_1023","tx_rx_1024_1518","tx_rx_1519_max",` +
+			`"rx_broadcast","rx_bytes","rx_control","rx_drop","rx_fcs_error","rx_fragment","rx_jabber","rx_multicast","rx_packet","rx_pause","rx_too_short","rx_too_long",` +
+			`"tx_broadcast","tx_bytes","tx_control","tx_drop","tx_fcs_error","tx_fragment","tx_jabber","tx_multicast","tx_packet","tx_pause","tx_too_short","tx_too_long",` +
+			`"rx_align_error","rx_carrier_error","rx_code_error","rx_length_error","rx_overflow","rx_unknown_op",` +
+			`"tx_collision","tx_excessive_collision","tx_late_collision","tx_multiple_collision","tx_single_collision","tx_total_collision",` +
+			`"tx_deferred","tx_excessive_deferred","tx_underrun",`),
+
 		"advertise": {
 			Type:     schema.TypeString,
 			Optional: true,
@@ -114,26 +123,6 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Default value is 'yes' because older NICs do not support it. (only applicable to x86)`,
 			Default:  true,
 			Optional: true,
-		},
-		"driver_rx_byte": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: `Total count of received bytes on device CPU`,
-		},
-		"driver_rx_packet": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: `Total count of received packets on device CPU`,
-		},
-		"driver_tx_byte": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: `Total count of transmitted packets by device CPU`,
-		},
-		"driver_tx_packet": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: `Total count of transmitted packets by device CPU`,
 		},
 		"factory_name": {
 			Type:        schema.TypeString,
@@ -201,51 +190,6 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Description: "Whether interface is running. Note that some interface does not have running check and they are always reported as \"running\"",
 			Computed:    true,
 		},
-		"rx_broadcast": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Total count of received broadcast frames.",
-		},
-		"rx_bytes": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Total count of received bytes.",
-		},
-		"rx_error_events": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: `Total count of received frames with active error event`,
-		},
-		"rx_fcs_error": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Total count of received frames with incorrect checksum",
-		},
-		"rx_fragment": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: `Total count of received fragmented frames (not related to IP fragmentation)`,
-		},
-		"rx_jabber": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Total count of received jabbed packets - a packet that is transmitted longer than the maximum packet length",
-		},
-		"rx_multicast": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Total count of received multicast frames.",
-		},
-		"rx_packet": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Total count of received packets.",
-		},
-		"rx_pause": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Total count of received pause frames",
-		},
 		"rx_flow_control": {
 			Type: schema.TypeString,
 			Description: `When set to on, the port will process received pause frames and suspend transmission if required.
@@ -254,26 +198,6 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Optional:         true,
 			ValidateFunc:     validation.StringInSlice([]string{"on", "off", "auto"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
-		},
-		"rx_overflow": {
-			Type:        schema.TypeInt,
-			Description: `Total count of received overflowed frames, can be caused when device resources are insufficient to receive a certain frame`,
-			Computed:    true,
-		},
-		"rx_too_long": {
-			Type:        schema.TypeInt,
-			Description: `Total count of received frames that were larger than the maximum supported frame size by the network device, see the max-l2mtu property`,
-			Computed:    true,
-		},
-		"rx_too_short": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: `Total count of received frame shorter than the minimum 64 bytes`,
-		},
-		"rx_unicast": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: `Total count of received unicast frames`,
 		},
 		"sfp_rate_select": {
 			Type:         schema.TypeString,
@@ -313,87 +237,6 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Optional:         true,
 			ValidateFunc:     validation.StringInSlice([]string{"on", "off", "auto"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
-		},
-		"tx_broadcast": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Total count of transmitted broadcast frames.",
-		},
-		"tx_bytes": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Total count of transmitted bytes.",
-		},
-		"tx_multicast": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Total count of transmitted multicast frames.",
-		},
-		"tx_collision": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Total count of transmitted frames that made collisions",
-		},
-		"tx_drop": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Total count of transmitted frames that were dropped due to already full output queue",
-		},
-
-		"tx_late_collision": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Total count of transmitted frames that made collision after being already halfway transmitted",
-		},
-		"tx_packet": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Total count of transmitted packets.",
-		},
-		"tx_pause": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Total count of transmitted pause frames.",
-		},
-		"tx_rx_64": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Total count of transmitted and received 64 byte frames",
-		},
-		"tx_rx_65_127": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Total count of transmitted and received 64 to 127 byte frames",
-		},
-		"tx_rx_128_255": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Total count of transmitted and received 128 to 255 byte frames",
-		},
-		"tx_rx_256_511": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Total count of transmitted and received 256 to 511 byte frames",
-		},
-		"tx_rx_512_1023": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Total count of transmitted and received 512 to 1024 byte frames",
-		},
-		"tx_rx_1024_max": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Total count of transmitted and received 1024 or above byte frames",
-		},
-		"tx_underrun": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Total count of transmitted underrun packets",
-		},
-		"tx_unicast": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Total count of transmitted unicast frames.",
 		},
 	}
 
