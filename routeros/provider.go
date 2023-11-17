@@ -195,6 +195,7 @@ func Provider() *schema.Provider {
 			"routeros_user_manager_attribute":  ResourceUserManagerAttribute(),
 			"routeros_user_manager_database":   ResourceUserManagerDatabase(),
 			"routeros_user_manager_limitation": ResourceUserManagerLimitation(),
+			"routeros_user_manager_profile":    ResourceUserManagerProfile(),
 			"routeros_user_manager_settings":   ResourceUserManagerSettings(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
