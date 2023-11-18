@@ -39,23 +39,38 @@ func GetMetadata(s map[string]*schema.Schema) *MikrotikItemMetadata {
 	return meta
 }
 
+func getDefault(schemaProp *schema.Schema) interface{} {
+	if schemaProp.Default != nil {
+		return schemaProp.Default
+	}
+
+	if schemaProp.DefaultFunc != nil {
+		value, _ := schemaProp.DefaultFunc()
+
+		return value
+	}
+
+	return nil
+}
+
 func isEmpty(propName string, schemaProp *schema.Schema, d *schema.ResourceData, confValue cty.Value) bool {
 	v := d.Get(propName)
 	switch schemaProp.Type {
 	case schema.TypeString:
-		if schemaProp.Default != nil {
-			return v.(string) == "" && schemaProp.Default.(string) == ""
+		defaultValue := getDefault(schemaProp)
+		if defaultValue != nil {
+			return v.(string) == "" && defaultValue.(string) == ""
 		}
 		return v.(string) == "" && confValue.IsNull()
 	case schema.TypeInt:
-		return confValue.IsNull() && schemaProp.Default == nil
+		return confValue.IsNull() && getDefault(schemaProp) == nil
 	case schema.TypeBool:
 		// If true, it is always not empty:
 		if v.(bool) {
 			return false
 		}
 		// Use the default value:
-		if schemaProp.Default != nil {
+		if getDefault(schemaProp) != nil {
 			return false
 		}
 		return confValue.IsNull()
