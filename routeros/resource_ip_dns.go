@@ -32,6 +32,14 @@ func ResourceDns() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/ip/dns"),
 		MetaId:           PropId(Name),
 
+		"address_list_extra_time": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			DefaultFunc:      DefaultIfSupported("0s"),
+			Description:      "",
+			ValidateFunc:     ValidationTime,
+			DiffSuppressFunc: TimeEquall,
+		},
 		"allow_remote_requests": {
 			Type:        schema.TypeBool,
 			Optional:    true,
