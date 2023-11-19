@@ -44,10 +44,6 @@ import (
 }
 */
 
-const poeOutField = "poe_out"
-const cableSettingsField = "cable_settings"
-const runningCheckField = "disable_running_check"
-
 // ResourceInterfaceEthernet is the schema for ethernet interfaces
 // https://help.mikrotik.com/docs/display/ROS/Ethernet#Ethernet-Properties
 func ResourceInterfaceEthernet() *schema.Resource {
@@ -94,9 +90,10 @@ func ResourceInterfaceEthernet() *schema.Resource {
 				RX limit is supported only on Atheros8327/QCA8337 switch-chip ports.`,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
-		"cable_settings": {
+		"cable_setting": {
 			Type:             schema.TypeString,
 			Optional:         true,
+			DefaultFunc:      DefaultIfSupported("default"),
 			Description:      `Changes the cable length setting (only applicable to NS DP83815/6 cards)`,
 			ValidateFunc:     validation.StringInSlice([]string{"default", "short", "standard"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
@@ -118,11 +115,11 @@ func ResourceInterfaceEthernet() *schema.Resource {
 		},
 		KeyDisabled: PropDisabledRw,
 		"disable_running_check": {
-			Type: schema.TypeBool,
+			Type:        schema.TypeBool,
+			Optional:    true,
+			DefaultFunc: DefaultIfSupported(true),
 			Description: `Disable running check. If this value is set to 'no', the router automatically detects whether the NIC is connected with a device in the network or not.
 			Default value is 'yes' because older NICs do not support it. (only applicable to x86)`,
-			Default:  true,
-			Optional: true,
 		},
 		"factory_name": {
 			Type:        schema.TypeString,
@@ -171,18 +168,19 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Description: "Original Media Access Control number of an interface. (read only)",
 			Computed:    true,
 		},
-		poeOutField: {
+		"poe_out": {
 			Type:             schema.TypeString,
-			Description:      "PoE settings: (https://wiki.mikrotik.com/wiki/Manual:PoE-Out)",
-			Default:          "off",
 			Optional:         true,
+			DefaultFunc:      DefaultIfSupported("off"),
+			Description:      "PoE settings: (https://wiki.mikrotik.com/wiki/Manual:PoE-Out)",
 			ValidateFunc:     validation.StringInSlice([]string{"auto-on", "forced-on", "off"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"poe_priority": {
 			Type:         schema.TypeInt,
-			Description:  "PoE settings: (https://wiki.mikrotik.com/wiki/Manual:PoE-Out)",
 			Optional:     true,
+			DefaultFunc:  DefaultIfSupported(10),
+			Description:  "PoE settings: (https://wiki.mikrotik.com/wiki/Manual:PoE-Out)",
 			ValidateFunc: validation.IntBetween(0, 99),
 		},
 		"running": {
@@ -202,15 +200,16 @@ func ResourceInterfaceEthernet() *schema.Resource {
 		"sfp_rate_select": {
 			Type:         schema.TypeString,
 			Optional:     true,
+			DefaultFunc:  DefaultIfSupported("high"),
 			Description:  `Allows to control rate select pin for SFP ports. Values: high | low`,
-			Default:      "high",
 			ValidateFunc: validation.StringInSlice([]string{"high", "low"}, false),
 		},
 		"sfp_shutdown_temperature": {
-			Type: schema.TypeInt,
+			Type:        schema.TypeInt,
+			Optional:    true,
+			DefaultFunc: DefaultIfSupported(95),
 			Description: "The temperature in Celsius at which the interface will be temporarily turned off due to too high detected SFP module temperature (introduced v6.48)." +
 				"The default value for SFP/SFP+/SFP28 interfaces is 95, and for QSFP+/QSFP28 interfaces 80 (introduced v7.6).",
-			Optional: true,
 		},
 		"slave": {
 			Type:        schema.TypeBool,
@@ -286,26 +285,6 @@ func updateEthernetInterface(ctx context.Context, s map[string]*schema.Schema, d
 	ethernetInterface, err := findInterfaceByDefaultName(s, d, m.(Client))
 	if err != nil {
 		return diag.FromErr(err)
-	}
-
-	// Router won't accept poe-out parameter if the interface does not support it.
-	poeDesiredState := d.Get(poeOutField)
-	_, supportsPoE := ethernetInterface[SnakeToKebab(poeOutField)]
-	switch {
-	// if the user has specified it, but it's not supported, lets error out
-	case poeDesiredState != "off" && !supportsPoE:
-		return diag.FromErr(errors.New("can't configure PoE, router does not supports it"))
-	// if the router does not support PoE, avoid sending the parameter as it returns an error.
-	case !supportsPoE:
-		s[MetaSkipFields].Default = skipFieldInSchema(s[MetaSkipFields].Default, poeOutField)
-	}
-
-	if _, supportsCableSettings := ethernetInterface[SnakeToKebab(cableSettingsField)]; !supportsCableSettings {
-		s[MetaSkipFields].Default = skipFieldInSchema(s[MetaSkipFields].Default, cableSettingsField)
-	}
-
-	if _, supportsRunningCheck := ethernetInterface[SnakeToKebab(runningCheckField)]; !supportsRunningCheck {
-		s[MetaSkipFields].Default = skipFieldInSchema(s[MetaSkipFields].Default, runningCheckField)
 	}
 
 	d.SetId(ethernetInterface.GetID(Id))
