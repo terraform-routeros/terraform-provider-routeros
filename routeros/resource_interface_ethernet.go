@@ -168,6 +168,12 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Description: "Original Media Access Control number of an interface. (read only)",
 			Computed:    true,
 		},
+		"poe_lldp_enabled": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			DefaultFunc: DefaultIfSupported(false),
+			Description: "An option that enables LLDP for managing devices.",
+		},
 		"poe_out": {
 			Type:             schema.TypeString,
 			Optional:         true,
@@ -182,6 +188,39 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			DefaultFunc:  DefaultIfSupported(10),
 			Description:  "PoE settings: (https://wiki.mikrotik.com/wiki/Manual:PoE-Out)",
 			ValidateFunc: validation.IntBetween(0, 99),
+		},
+		"poe_voltage": {
+			Type:         schema.TypeString,
+			Optional:     true,
+			DefaultFunc:  DefaultIfSupported("auto"),
+			Description:  "An option that allows us to manually control the voltage outputs on the PoE port.",
+			ValidateFunc: validation.StringInSlice([]string{"auto", "high", "low"}, false),
+		},
+		"power_cycle_interval": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			DefaultFunc: DefaultIfSupported("none"),
+			Description: "An options that disables PoE-Out power for 5s between the specified intervals.",
+		},
+		"power_cycle_ping_enabled": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			DefaultFunc: DefaultIfSupported(false),
+			Description: "An option that enables ping watchdog of power cycles on the port if a host does not respond to ICMP or MAC-Telnet packets.",
+		},
+		"power_cycle_ping_address": {
+			Type:         schema.TypeString,
+			Optional:     true,
+			Description:  "An address to monitor.",
+			ValidateFunc: validation.IsIPAddress,
+			RequiredWith: []string{"power_cycle_ping_enabled"},
+		},
+		"power_cycle_ping_timeout": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			DefaultFunc:      DefaultIfSupported("2m"),
+			Description:      "If the host does not respond over the specified period, the PoE-Out port is switched off for 5s.",
+			DiffSuppressFunc: TimeEquall,
 		},
 		"running": {
 			Type:        schema.TypeBool,
