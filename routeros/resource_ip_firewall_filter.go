@@ -387,9 +387,10 @@ func ResourceIPFirewallFilter() *schema.Resource {
 		CreateContext: DefaultCreate(resSchema),
 		ReadContext:   DefaultRead(resSchema),
 		UpdateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-			resSchema[MetaSkipFields].Default = `"place_before"`
+			skip := resSchema[MetaSkipFields].Default.(string)
+			resSchema[MetaSkipFields].Default = skip + `,"place_before"`
 			defer func() {
-				resSchema[MetaSkipFields].Default = ``
+				resSchema[MetaSkipFields].Default = skip
 			}()
 
 			return ResourceUpdate(ctx, resSchema, d, m)
