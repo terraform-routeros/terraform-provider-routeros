@@ -127,10 +127,10 @@ func ResourceRadiusIncoming() *schema.Resource {
 			ValidateFunc: validation.IntBetween(0, 65535),
 		},
 		"vrf": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			DefaultFunc:  DefaultIfSupported("main"),
-			Description:  "VRF on which service is listening for incoming connections. This option is available in RouterOS starting from version 7.4.",
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "VRF on which service is listening for incoming connections. This option is available in RouterOS starting from version 7.4.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 	}
 
