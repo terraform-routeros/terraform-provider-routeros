@@ -530,7 +530,7 @@ var (
 	// Prevents the need of hardcode values for default values, as those are harder to track over time/versions of
 	// routeros
 	AlwaysPresentNotUserProvided = func(k, old, new string, d *schema.ResourceData) bool {
-		if old != "" && new == "" {
+		if old != "" && d.GetRawConfig().GetAttr(k).IsNull() {
 			return true
 		}
 		return false
