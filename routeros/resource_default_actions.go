@@ -33,21 +33,6 @@ func dynamicIdLookup(idType IdType, path string, c Client, d *schema.ResourceDat
 	return (*res)[0].GetID(Id), nil
 }
 
-func withCompatibleDefaults(s map[string]*schema.Schema, readContextFunc schema.ReadContextFunc) schema.ReadContextFunc {
-	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-		diags := readContextFunc(ctx, d, m)
-
-		for key, value := range s {
-			if value.DefaultFunc != nil {
-				_, exists := d.GetOk(key)
-				SetSupported(value.DefaultFunc, exists)
-			}
-		}
-
-		return diags
-	}
-}
-
 // ResourceCreate Creation of a resource in accordance with the TF Schema.
 func ResourceCreate(ctx context.Context, s map[string]*schema.Schema, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	item, metadata := TerraformResourceDataToMikrotik(s, d)
@@ -229,9 +214,9 @@ func DefaultCreate(s map[string]*schema.Schema) schema.CreateContextFunc {
 }
 
 func DefaultRead(s map[string]*schema.Schema) schema.ReadContextFunc {
-	return withCompatibleDefaults(s, func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 		return ResourceRead(ctx, s, d, m)
-	})
+	}
 }
 
 func DefaultUpdate(s map[string]*schema.Schema) schema.UpdateContextFunc {
@@ -275,9 +260,9 @@ func DefaultSystemCreate(s map[string]*schema.Schema) schema.CreateContextFunc {
 }
 
 func DefaultSystemRead(s map[string]*schema.Schema) schema.ReadContextFunc {
-	return withCompatibleDefaults(s, func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 		return SystemResourceRead(ctx, s, d, m)
-	})
+	}
 }
 
 func DefaultSystemUpdate(s map[string]*schema.Schema) schema.UpdateContextFunc {
