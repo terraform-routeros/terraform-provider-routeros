@@ -90,7 +90,7 @@ func ResourceInterfaceEthernet() *schema.Resource {
 				RX limit is supported only on Atheros8327/QCA8337 switch-chip ports.`,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
-		"cable_setting": {
+		"cable_settings": {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      `Changes the cable length setting (only applicable to NS DP83815/6 cards)`,
