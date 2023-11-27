@@ -51,8 +51,14 @@ resource "routeros_interface_ethernet" "test" {
 - `mac_address` (String) Media Access Control number of an interface.
 - `mdix_enable` (Boolean) Whether the MDI/X auto cross over cable correction feature is enabled for the port (Hardware specific, e.g. ether1 on RB500 can be set to yes/no. Fixed to 'yes' on other hardware.)
 - `mtu` (Number) Layer3 Maximum transmission unit
+- `poe_lldp_enabled` (Boolean) An option that enables LLDP for managing devices.
 - `poe_out` (String) PoE settings: (https://wiki.mikrotik.com/wiki/Manual:PoE-Out)
 - `poe_priority` (Number) PoE settings: (https://wiki.mikrotik.com/wiki/Manual:PoE-Out)
+- `poe_voltage` (String) An option that allows us to manually control the voltage outputs on the PoE port.
+- `power_cycle_interval` (String) An options that disables PoE-Out power for 5s between the specified intervals.
+- `power_cycle_ping_address` (String) An address to monitor.
+- `power_cycle_ping_enabled` (Boolean) An option that enables ping watchdog of power cycles on the port if a host does not respond to ICMP or MAC-Telnet packets.
+- `power_cycle_ping_timeout` (String) If the host does not respond over the specified period, the PoE-Out port is switched off for 5s.
 - `rx_flow_control` (String) When set to on, the port will process received pause frames and suspend transmission if required.
 					auto is the same as on except when auto-negotiation=yes flow control status is resolved by taking into account what other end advertises.
 - `sfp_rate_select` (String) Allows to control rate select pin for SFP ports. Values: high | low

@@ -1,3 +1,11 @@
+## [1.25.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.25.0...v1.25.1) (2023-11-27)
+
+
+### Bug Fixes
+
+* Add missing schema fields ([#303](https://github.com/terraform-routeros/terraform-provider-routeros/issues/303)) ([bd245b9](https://github.com/terraform-routeros/terraform-provider-routeros/commit/bd245b91820bc3920b38cdc984c7332c36ce03d0))
+* **no-release:** Fix incorrect addition of skip fields ([9ee6d70](https://github.com/terraform-routeros/terraform-provider-routeros/commit/9ee6d70170d4c290609742ae27bac48228edaf7c))
+
 ## [1.25.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.24.0...v1.25.0) (2023-11-15)
 
 
