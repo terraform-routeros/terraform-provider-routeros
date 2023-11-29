@@ -1,3 +1,10 @@
+## [1.26.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.25.1...v1.26.0) (2023-11-29)
+
+
+### Features
+
+* **/system/ntp/server:** Add NTP Server resource ([f7851ca](https://github.com/terraform-routeros/terraform-provider-routeros/commit/f7851ca3af4d26c3ebff5677153213b44b2d4657)), closes [#306](https://github.com/terraform-routeros/terraform-provider-routeros/issues/306)
+
 ## [1.25.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.25.0...v1.25.1) (2023-11-27)
 
 
