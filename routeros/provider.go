@@ -134,10 +134,11 @@ func Provider() *schema.Provider {
 
 			// System Objects
 			"routeros_ip_cloud":           ResourceIpCloud(),
+			"routeros_system_certificate": ResourceSystemCertificate(),
 			"routeros_system_identity":    ResourceSystemIdentity(),
 			"routeros_system_logging":     ResourceSystemLogging(),
+			"routeros_system_ntp_server":  ResourceSystemNtpServer(),
 			"routeros_system_scheduler":   ResourceSystemScheduler(),
-			"routeros_system_certificate": ResourceSystemCertificate(),
 			"routeros_system_user":        ResourceUser(),
 
 			// Aliases for system objects to retain compatibility between original and fork
@@ -179,7 +180,7 @@ func Provider() *schema.Provider {
 			"routeros_ppp_secret":  ResourcePPPSecret(),
 
 			// RADIUS
-			"routeros_radius": ResourceRadius(),
+			"routeros_radius":          ResourceRadius(),
 			"routeros_radius_incoming": ResourceRadiusIncoming(),
 
 			// SNMP
