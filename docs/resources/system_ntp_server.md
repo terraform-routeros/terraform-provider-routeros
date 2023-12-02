@@ -20,6 +20,7 @@ resource "routeros_system_ntp_server" "test" {
 
 - `auth_key` (String) NTP symmetric key, used for authentication between the NTP client and server. Key Identifier (Key ID) - an integer identifying the cryptographic key used to generate the message-authentication code.
 - `broadcast` (Boolean) Enable certain NTP server mode, for this mode to work you have to set up broadcast-addresses field.
+- `broadcast_addresses` (String) Set broadcast address to use for NTP server broadcast mode.
 - `enabled` (Boolean) Enable NTP server.
 - `local_clock_stratum` (Number) Manually set stratum if ```use_local_clock = true```.
 - `manycast` (Boolean) Enable certain NTP server mode.
@@ -29,7 +30,6 @@ resource "routeros_system_ntp_server" "test" {
 
 ### Read-Only
 
-- `broadcast_addresses` (String) Set broadcast address to use for NTP server broadcast mode.
 - `id` (String) The ID of this resource.
 
 ## Import

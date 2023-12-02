@@ -1,3 +1,26 @@
+## [1.27.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.26.0...v1.27.0) (2023-12-02)
+
+
+### Features
+
+* Add float type support ([4cc485b](https://github.com/terraform-routeros/terraform-provider-routeros/commit/4cc485b316747c59dee7e7efc3ddda32ee1c83b9))
+* Add user manager advanced settings resource ([287db08](https://github.com/terraform-routeros/terraform-provider-routeros/commit/287db0886c31dfb1a91a7193ea944ffccc30747a))
+* Add user manager attribute resource ([fa7dd30](https://github.com/terraform-routeros/terraform-provider-routeros/commit/fa7dd302356bafcb912d95eb41ec3ea339c4b78c))
+* Add user manager database resource ([ca4e490](https://github.com/terraform-routeros/terraform-provider-routeros/commit/ca4e490fe75c85f41023d16f5316adef06c5cc37))
+* Add user manager limitation resource ([a97bc45](https://github.com/terraform-routeros/terraform-provider-routeros/commit/a97bc45c75c99a525875046a01c2940069b624ba))
+* Add user manager profile limitation resource ([733932c](https://github.com/terraform-routeros/terraform-provider-routeros/commit/733932c5bbca367fb5f461f3508b485ed428fb14))
+* Add user manager profile resource ([d95bed1](https://github.com/terraform-routeros/terraform-provider-routeros/commit/d95bed153373122ef958d96a606b9199fa3f01f5))
+* Add user manager router resource ([162e01e](https://github.com/terraform-routeros/terraform-provider-routeros/commit/162e01e556d9d92e0833ce470ff6486f645a0d34))
+* Add user manager settings resource ([23761cf](https://github.com/terraform-routeros/terraform-provider-routeros/commit/23761cf5d2b13b28f93c6d2f2bc064f7156d58ca))
+* Add user manager user group resource ([fff1568](https://github.com/terraform-routeros/terraform-provider-routeros/commit/fff156866c8f2a47edb52e407a4d129ad54a2185))
+* Add user manager user profile resource ([9500635](https://github.com/terraform-routeros/terraform-provider-routeros/commit/95006359d071dc3c4ef2c3c19bf5847ab6f3dbbe))
+* Add user manager user resource ([727cd9b](https://github.com/terraform-routeros/terraform-provider-routeros/commit/727cd9b196680d3649cccd506a7f88530aa735a4))
+
+
+### Bug Fixes
+
+* Fix the `AlwaysPresentNotUserProvided` helper to handle lists and sets correctly ([7c68003](https://github.com/terraform-routeros/terraform-provider-routeros/commit/7c68003df94e4fb3755101996e4418a41bb306b4))
+
 ## [1.26.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.25.1...v1.26.0) (2023-11-29)
 
 
