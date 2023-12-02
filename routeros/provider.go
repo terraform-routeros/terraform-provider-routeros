@@ -140,6 +140,7 @@ func Provider() *schema.Provider {
 			"routeros_system_ntp_server":  ResourceSystemNtpServer(),
 			"routeros_system_scheduler":   ResourceSystemScheduler(),
 			"routeros_system_user":        ResourceUser(),
+			"routeros_system_user_group":  ResourceUserGroup(),
 
 			// Aliases for system objects to retain compatibility between original and fork
 			"routeros_identity":  ResourceSystemIdentity(),
