@@ -13,7 +13,7 @@ import (
 
 func ResourceMoveItems() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
-		MetaResourcePath: PropResourcePath(""),
+		MetaResourcePath: PropResourcePath("/path"),
 		MetaId:           PropId(Id),
 
 		"resource_name": {
