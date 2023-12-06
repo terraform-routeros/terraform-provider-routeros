@@ -1,3 +1,10 @@
+## [1.27.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.27.0...v1.27.1) (2023-12-06)
+
+
+### Bug Fixes
+
+* Add 2.5Gbps to validation set ([#313](https://github.com/terraform-routeros/terraform-provider-routeros/issues/313)) ([47d6781](https://github.com/terraform-routeros/terraform-provider-routeros/commit/47d67811bc70776b9aea58f4f8ec0dc0166eed42)), closes [#311](https://github.com/terraform-routeros/terraform-provider-routeros/issues/311)
+
 ## [1.27.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.26.0...v1.27.0) (2023-12-02)
 
 

@@ -63,7 +63,7 @@ resource "routeros_interface_ethernet" "test" {
 					auto is the same as on except when auto-negotiation=yes flow control status is resolved by taking into account what other end advertises.
 - `sfp_rate_select` (String) Allows to control rate select pin for SFP ports. Values: high | low
 - `sfp_shutdown_temperature` (Number) The temperature in Celsius at which the interface will be temporarily turned off due to too high detected SFP module temperature (introduced v6.48).The default value for SFP/SFP+/SFP28 interfaces is 95, and for QSFP+/QSFP28 interfaces 80 (introduced v7.6).
-- `speed` (String) Sets interface data transmission speed which takes effect only when auto-negotiation is disabled.
+- `speed` (String) Sets interface data transmission speed which takes effect only when ```auto_negotiation``` is disabled.
 - `tx_flow_control` (String) When set to on, the port will generate pause frames to the upstream device to temporarily stop the packet transmission. 
 					Pause frames are only generated when some routers output interface is congested and packets cannot be transmitted anymore. 
 					Auto is the same as on except when auto-negotiation=yes flow control status is resolved by taking into account what other end advertises.
