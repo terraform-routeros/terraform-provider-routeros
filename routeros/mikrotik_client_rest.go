@@ -35,6 +35,7 @@ var (
 		crudSign:   "POST",
 		crudRemove: "POST",
 		crudRevoke: "POST",
+		crudMove:   "POST",
 	}
 )
 

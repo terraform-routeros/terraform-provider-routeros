@@ -28,6 +28,7 @@ var (
 		crudSign:   "/sign",
 		crudRemove: "/remove",
 		crudRevoke: "/issued-revoke",
+		crudMove:   "/move",
 	}
 )
 
