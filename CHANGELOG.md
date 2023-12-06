@@ -1,3 +1,10 @@
+## [1.27.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.27.1...v1.27.2) (2023-12-06)
+
+
+### Bug Fixes
+
+* Firewall filter rules order ([#314](https://github.com/terraform-routeros/terraform-provider-routeros/issues/314)) ([3d32136](https://github.com/terraform-routeros/terraform-provider-routeros/commit/3d321362445fcfd401317f9829b1a206326dbae9)), closes [#293](https://github.com/terraform-routeros/terraform-provider-routeros/issues/293)
+
 ## [1.27.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.27.0...v1.27.1) (2023-12-06)
 
 
