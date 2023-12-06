@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"regexp"
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
@@ -50,7 +51,7 @@ func ResourceInterfaceEthernet() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/ethernet"),
 		MetaId:           PropId(Id),
-		MetaSkipFields:   PropSkipFields(`"factory_name","driver_rx_byte","driver_rx_packet","driver_tx_byte","driver_tx_packet",` +
+		MetaSkipFields: PropSkipFields(`"factory_name","driver_rx_byte","driver_rx_packet","driver_tx_byte","driver_tx_packet",` +
 			`"rx_64","rx_65_127","rx_128_255","rx_256_511","rx_512_1023","rx_1024_1518","rx_1519_max",` +
 			`"tx_64","tx_65_127","tx_128_255","tx_256_511","tx_512_1023","tx_1024_1518","tx_1519_max",` +
 			`"tx_rx_64","tx_rx_65_127","tx_rx_128_255","tx_rx_256_511","tx_rx_512_1023","tx_rx_1024_1518","tx_rx_1519_max",` +
@@ -255,10 +256,11 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Computed:    true,
 		},
 		"speed": {
-			Type:         schema.TypeString,
-			Description:  "Sets interface data transmission speed which takes effect only when auto-negotiation is disabled.",
-			Optional:     true,
-			ValidateFunc: validation.StringInSlice([]string{"10Mbps", "10Gbps", "100Mbps", "1Gbps"}, false),
+			Type:        schema.TypeString,
+			Description: "Sets interface data transmission speed which takes effect only when ```auto_negotiation``` is disabled.",
+			Optional:    true,
+			ValidateFunc: validation.StringMatch(regexp.MustCompile(`^[0-9\.]+(M|G)(?:(bps)|(-base\w+)(-\w+)?)$`),
+				"Since RouterOS v7.12 the values of this property have changed. Please check the documentation."),
 		},
 		"switch": {
 			Type:        schema.TypeString,
