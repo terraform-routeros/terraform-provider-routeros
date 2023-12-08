@@ -163,11 +163,6 @@ func Provider() *schema.Provider {
 			"routeros_identity":  ResourceSystemIdentity(),
 			"routeros_scheduler": ResourceSystemScheduler(),
 
-			// TODO: Review whether capsman resources need updating given wifiwave2.
-			// wifiwave2 is getting support for capsman in 7.8.
-			// Should we support both legacy capsman _and_ wifiwave2 capsman?
-			// https://help.mikrotik.com/docs/display/ROS/WifiWave2#WifiWave2-WifiWave2CAPsMAN
-
 			// CAPsMAN Objects
 			"routeros_capsman_access_list":       ResourceCapsManAccessList(),
 			"routeros_capsman_channel":           ResourceCapsManChannel(),
@@ -208,6 +203,7 @@ func Provider() *schema.Provider {
 
 			// Helpers
 			"routeros_wireguard_keys": ResourceWireguardKeys(),
+			"routeros_move_items": ResourceMoveItems(),
 
 			// User Manager
 			"routeros_user_manager_advanced":           ResourceUserManagerAdvanced(),
@@ -222,7 +218,8 @@ func Provider() *schema.Provider {
 			"routeros_user_manager_user_group":         ResourceUserManagerUserGroup(),
 			"routeros_user_manager_user_profile":       ResourceUserManagerUserProfile(),
 
-			"routeros_move_items": ResourceMoveItems(),
+			// WiFi
+			"routeros_wifi_channel":  ResourceWifiChannel(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"routeros_firewall":              DatasourceFirewall(),
