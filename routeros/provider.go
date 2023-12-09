@@ -220,6 +220,7 @@ func Provider() *schema.Provider {
 
 			// WiFi
 			"routeros_wifi_channel":  ResourceWifiChannel(),
+			"routeros_wifi_security": ResourceWifiSecurity(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"routeros_firewall":              DatasourceFirewall(),
