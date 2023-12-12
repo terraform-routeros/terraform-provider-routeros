@@ -221,6 +221,7 @@ func Provider() *schema.Provider {
 			// WiFi
 			"routeros_wifi_aaa":      ResourceWifiAaa(),
 			"routeros_wifi_channel":  ResourceWifiChannel(),
+			"routeros_wifi_datapath": ResourceWifiDatapath(),
 			"routeros_wifi_security": ResourceWifiSecurity(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
