@@ -219,10 +219,11 @@ func Provider() *schema.Provider {
 			"routeros_user_manager_user_profile":       ResourceUserManagerUserProfile(),
 
 			// WiFi
-			"routeros_wifi_aaa":      ResourceWifiAaa(),
-			"routeros_wifi_channel":  ResourceWifiChannel(),
-			"routeros_wifi_datapath": ResourceWifiDatapath(),
-			"routeros_wifi_security": ResourceWifiSecurity(),
+			"routeros_wifi_aaa":          ResourceWifiAaa(),
+			"routeros_wifi_channel":      ResourceWifiChannel(),
+			"routeros_wifi_datapath":     ResourceWifiDatapath(),
+			"routeros_wifi_interworking": ResourceWifiInterworking(),
+			"routeros_wifi_security":     ResourceWifiSecurity(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"routeros_firewall":              DatasourceFirewall(),
