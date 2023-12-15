@@ -539,6 +539,10 @@ var (
 		}
 		return false
 	}
+
+	MacAddressEqual = func(k, old, new string, d *schema.ResourceData) bool {
+		return strings.EqualFold(old, new)
+	}
 )
 
 func buildReadFilter(m map[string]interface{}) []string {

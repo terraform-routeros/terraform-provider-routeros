@@ -128,10 +128,11 @@ func ResourceDhcpServerLease() *schema.Resource {
 			Description: "Time that the client may use the address. If set to 0s lease will never expire.",
 		},
 		"mac_address": {
-			Type:         schema.TypeString,
-			Required:     true,
-			Description:  "The MAC addreess of the DHCP lease to be created.",
-			ValidateFunc: validation.IsMACAddress,
+			Type:             schema.TypeString,
+			Required:         true,
+			Description:      "The MAC addreess of the DHCP lease to be created.",
+			ValidateFunc:     validation.IsMACAddress,
+			DiffSuppressFunc: MacAddressEqual,
 		},
 		"radius": {
 			Type:        schema.TypeString,
