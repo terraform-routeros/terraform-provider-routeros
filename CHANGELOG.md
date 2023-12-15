@@ -1,3 +1,15 @@
+## [1.28.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.27.2...v1.28.0) (2023-12-15)
+
+
+### Features
+
+* Data source to list DHCP leases ([71f9571](https://github.com/terraform-routeros/terraform-provider-routeros/commit/71f95712255dcb1c1420c243c5a4426ba5328afd)), closes [#316](https://github.com/terraform-routeros/terraform-provider-routeros/issues/316)
+
+
+### Bug Fixes
+
+* Comparison of MAC addresses in different character cases ([9acc3cc](https://github.com/terraform-routeros/terraform-provider-routeros/commit/9acc3cc705dd13a6e75d1487c1088eb7fea04609))
+
 ## [1.27.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.27.1...v1.27.2) (2023-12-06)
 
 
