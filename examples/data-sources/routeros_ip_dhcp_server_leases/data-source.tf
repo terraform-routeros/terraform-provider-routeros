@@ -1,0 +1,1 @@
+data "routeros_ip_dhcp_server_leases" "data" {}
