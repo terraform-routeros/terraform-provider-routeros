@@ -224,6 +224,7 @@ func Provider() *schema.Provider {
 			"routeros_wifi_channel":      ResourceWifiChannel(),
 			"routeros_wifi_datapath":     ResourceWifiDatapath(),
 			"routeros_wifi_interworking": ResourceWifiInterworking(),
+			"routeros_wifi_provisioning": ResourceWifiProvisioning(),
 			"routeros_wifi_security":     ResourceWifiSecurity(),
 			"routeros_wifi_steering":     ResourceWifiSteering(),
 		},
