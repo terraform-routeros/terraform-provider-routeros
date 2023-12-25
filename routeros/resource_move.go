@@ -31,14 +31,21 @@ func ResourceMoveItems() *schema.Resource {
 			AtLeastOneOf: []string{"resource_name", "resource_path"},
 		},
 		"sequence": {
-			Type:        schema.TypeList,
-			Required:    true,
-			Description: "List identifiers in the required sequence.",
+			Type:     schema.TypeList,
+			Required: true,
+			Description: "List identifiers in the required sequence. To locate the ```sequence``` before an " +
+				"existing rule, add its ```id``` to the last element of the ```sequence```.",
 			Elem: &schema.Schema{
 				Type:     schema.TypeString,
 				MinItems: 2,
 			},
 		},
+		// "anchor_rule": {
+		// 	Type:     schema.TypeString,
+		// 	Optional: true,
+		// 	Description: "The rule before which the ```sequence``` of rules will be placed. If this field is not specified, " +
+		// 		"the rules will be placed before the last element of the ```sequence```.",
+		// },
 	}
 	resRead := func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 		path, ok := d.GetOk("resource_path")
@@ -65,6 +72,9 @@ func ResourceMoveItems() *schema.Resource {
 			conf[v.(string)] = struct{}{}
 		}
 
+		// TODO It is necessary to sometime transfer the logic for monotonous reading of the sequence, so that it is possible
+		// to control the correctness of the position of the rules and possibly introduce an anchor rule.
+		// This check will not work in all cases!!!
 		var list []string
 		for _, r := range *res {
 			if id, ok := r[".id"]; ok {
@@ -84,10 +94,18 @@ func ResourceMoveItems() *schema.Resource {
 			list = append(list, v.(string))
 		}
 
-		item := MikrotikItem{
+		var item MikrotikItem
+		// if anchor, ok := d.GetOk("anchor_rule"); ok {
+		// 	item = MikrotikItem{
+		// 		"numbers":     strings.Join(list, ","),
+		// 		"destination": anchor.(string),
+		// 	}
+		// } else {
+		item = MikrotikItem{
 			"numbers":     strings.Join(list[:len(list)-1], ","),
 			"destination": list[len(list)-1],
 		}
+		// }
 
 		path, ok := d.GetOk("resource_path")
 		if !ok {
