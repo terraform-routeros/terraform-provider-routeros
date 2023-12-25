@@ -27,9 +27,10 @@ import (
 // ResourceIPFirewallMangle https://wiki.mikrotik.com/wiki/Manual:IP/Firewall/Mangle
 func ResourceIPFirewallMangle() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
-		MetaResourcePath: PropResourcePath("/ip/firewall/mangle"),
-		MetaId:           PropId(Id),
-		MetaSkipFields:   PropSkipFields(`"bytes","packets"`),
+		MetaResourcePath:   PropResourcePath("/ip/firewall/mangle"),
+		MetaId:             PropId(Id),
+		MetaSkipFields:     PropSkipFields(`"bytes","packets"`),
+		MetaSetUnsetFields: PropSetUnsetFields(`"dst_address_list","src_address_list","in_interface_list","out_interface_list","in_bridge_port_list","out_bridge_port_list"`),
 
 		"action": {
 			Type:        schema.TypeString,
