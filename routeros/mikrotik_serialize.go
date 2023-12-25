@@ -194,6 +194,11 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 
 		switch terraformMetadata.Type {
 		case schema.TypeString:
+			if _, ok := setUnsetFields[terraformSnakeName]; ok && value.(string) == "" {
+				// Unset
+				item["!"+mikrotikKebabName] = ""
+				continue
+			}
 			item[mikrotikKebabName] = value.(string)
 		case schema.TypeFloat:
 			item[mikrotikKebabName] = strconv.FormatFloat(value.(float64), 'f', -1, 64)
