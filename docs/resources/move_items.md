@@ -89,7 +89,7 @@ resource "routeros_move_items" "fw_rules" {
 
 ### Required
 
-- `sequence` (List of String) List identifiers in the required sequence.
+- `sequence` (List of String) List identifiers in the required sequence. To locate the ```sequence``` before an existing rule, add its ```id``` to the last element of the ```sequence```.
 
 ### Optional
 

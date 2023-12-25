@@ -1,3 +1,10 @@
+## [1.28.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.28.0...v1.28.1) (2023-12-25)
+
+
+### Bug Fixes
+
+* **firewall:** Fix the error of deleting field-lists ([3f2f7b1](https://github.com/terraform-routeros/terraform-provider-routeros/commit/3f2f7b1f6d335f99e3ff73e82f147a678325d4cf))
+
 ## [1.28.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.27.2...v1.28.0) (2023-12-15)
 
 
