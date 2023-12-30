@@ -10,6 +10,8 @@ import (
   "ca-certificate": "none",
   "certificate": "none",
   "enabled": "false",
+  "generated-ca-certificate":"CAPsMAN-CA-000000000000",
+  "generated-certificate":"CAPsMAN-000000000000",
   "package-path": "",
   "require-peer-certificate": "false",
   "upgrade-policy": "none"
@@ -39,6 +41,16 @@ func ResourceCapsManManager() *schema.Resource {
 			Type:        schema.TypeBool,
 			Optional:    true,
 			Description: "Disable or enable CAPsMAN functionality.",
+		},
+		"generated_ca_certificate": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "Generated CA certificate.",
+		},
+		"generated_certificate": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "Generated CAPsMAN certificate.",
 		},
 		"package_path": {
 			Type:     schema.TypeString,
