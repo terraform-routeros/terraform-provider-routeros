@@ -26,7 +26,7 @@ func ResourceUserManagerRouter() *schema.Resource {
 			Type:         schema.TypeString,
 			Required:     true,
 			Description:  "IP address of the RADIUS client.",
-			ValidateFunc: validation.IsIPAddress,
+			ValidateFunc: ValidationIpAddress,
 		},
 		"coa_port": {
 			Type:         schema.TypeInt,
