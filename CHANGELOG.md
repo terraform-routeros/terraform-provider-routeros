@@ -1,3 +1,18 @@
+## [1.29.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.28.1...v1.29.0) (2024-01-05)
+
+
+### Features
+
+* Add system user authentication and accounting settings resource ([1899983](https://github.com/terraform-routeros/terraform-provider-routeros/commit/18999832de2ff864008b1f84cc0801fdfc9697c5))
+* Add system user group resource ([c7cc658](https://github.com/terraform-routeros/terraform-provider-routeros/commit/c7cc658b69c5e75033c4eddfebc42f928bccd4e2))
+* Add system user settings resource ([f889b7b](https://github.com/terraform-routeros/terraform-provider-routeros/commit/f889b7bd95bf4f559888edcfb32640b8d4fd731a))
+
+
+### Bug Fixes
+
+* Change the validator ([0b1881f](https://github.com/terraform-routeros/terraform-provider-routeros/commit/0b1881ff69cd3bc56a30d9fd2e239e08ee480b0d))
+* Fix the growth of the 'valid' slice ([206cfc2](https://github.com/terraform-routeros/terraform-provider-routeros/commit/206cfc277a1ce5caaa9842d5b33503ee861745b1))
+
 ## [1.28.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.28.0...v1.28.1) (2023-12-25)
 
 
