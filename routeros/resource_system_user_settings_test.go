@@ -21,10 +21,10 @@ func TestAccUserSettingsTest_basic(t *testing.T) {
 				ProviderFactories: testAccProviderFactories,
 				Steps: []resource.TestStep{
 					{
-						Config: testAccUserSettingsConfig("2", "5"),
+						Config: testAccUserSettingsConfig("1", "5"),
 						Check: resource.ComposeTestCheckFunc(
 							testResourcePrimaryInstanceId(testUserSettings),
-							resource.TestCheckResourceAttr(testUserSettings, "minimum_categories", "2"),
+							resource.TestCheckResourceAttr(testUserSettings, "minimum_categories", "1"),
 							resource.TestCheckResourceAttr(testUserSettings, "minimum_password_length", "5"),
 						),
 					},
