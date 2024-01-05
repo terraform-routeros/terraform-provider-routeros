@@ -2,7 +2,6 @@ package routeros
 
 import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
 
 /*
@@ -27,10 +26,9 @@ func ResourceUserGroup() *schema.Resource {
 			Optional: true,
 			Elem: &schema.Schema{
 				Type: schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{
+				ValidateDiagFunc: ValidationValInSlice([]string{
 					"api", "dude", "ftp", "local", "password", "policy", "read", "reboot", "rest-api", "romon", "sensitive", "sniff", "ssh", "telnet", "test", "tikapp", "web", "winbox", "write",
-					"!api", "!dude", "!ftp", "!local", "!password", "!policy", "!read", "!reboot", "!rest-api", "!romon", "!sensitive", "!sniff", "!ssh", "!telnet", "!test", "!tikapp", "!web", "!winbox", "!write",
-				}, false),
+				}, false, true),
 			},
 			Description:      "A set of allowed policies.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
