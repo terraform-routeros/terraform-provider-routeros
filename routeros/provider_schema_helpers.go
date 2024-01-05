@@ -430,30 +430,31 @@ var (
 	// but the provided value can be a single value or a comma-separated list of values.
 	// The negative indication of the parameter is also supported by adding "!" before value if mikrotikNegative is true.
 	ValidationMultiValInSlice = func(valid []string, ignoreCase, mikrotikNegative bool) schema.SchemaValidateDiagFunc {
-		return func(v interface{}, path cty.Path) (diags diag.Diagnostics) {
-			val, ok := v.(string)
+		return func(i interface{}, path cty.Path) (diags diag.Diagnostics) {
+			v, ok := i.(string)
 
 			if !ok {
 				diags = append(diags, diag.Diagnostic{
 					Severity: diag.Error,
 					Summary:  "Bad value type",
-					Detail:   fmt.Sprintf("Value should be a string: %v (type = %T)", val, val),
+					Detail:   fmt.Sprintf("Value should be a string: %v (type = %T)", v, v),
 				})
 
 				return
 			}
 
+			var negative []string
 			if mikrotikNegative {
-				for _, v := range valid {
-					valid = append(valid, "!"+v)
+				for _, str := range valid {
+					negative = append(negative, "!"+str)
 				}
 			}
 
-			for _, sValue := range strings.Split(val, ",") {
+			for _, sValue := range strings.Split(v, ",") {
 				ok := false
 				sValue = strings.TrimSpace(sValue)
 
-				for _, sValid := range valid {
+				for _, sValid := range append(negative, valid...) {
 					if sValue == sValid || (ignoreCase && strings.EqualFold(sValue, sValid)) {
 						ok = true
 						break
@@ -468,6 +469,45 @@ var (
 					})
 				}
 			}
+
+			return
+		}
+	}
+
+	ValidationValInSlice = func(valid []string, ignoreCase, mikrotikNegative bool) schema.SchemaValidateDiagFunc {
+		return func(i interface{}, path cty.Path) (diags diag.Diagnostics) {
+			v, ok := i.(string)
+
+			if !ok {
+				diags = append(diags, diag.Diagnostic{
+					Severity: diag.Error,
+					Summary:  "Bad value type",
+					Detail:   fmt.Sprintf("Value should be a string: %v (type = %T)", v, v),
+				})
+
+				return
+			}
+
+			var negative []string
+			if mikrotikNegative {
+				for _, str := range valid {
+					negative = append(negative, "!"+str)
+				}
+			}
+
+			v = strings.TrimSpace(v)
+
+			for _, str := range append(negative, valid...) {
+				if v == str || (ignoreCase && strings.EqualFold(v, str)) {
+					return
+				}
+			}
+
+			diags = append(diags, diag.Diagnostic{
+				Severity: diag.Error,
+				Summary:  "Bad value",
+				Detail:   fmt.Sprintf("Unexpected value: %v", v),
+			})
 
 			return
 		}
