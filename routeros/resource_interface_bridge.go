@@ -194,6 +194,13 @@ func ResourceInterfaceBridge() *schema.Resource {
 			RequiredWith: []string{"igmp_snooping"},
 		},
 		KeyName: PropNameForceNewRw,
+		"port_cost_mode": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "An option that changes the port path cost and internal path cost mode for bridged ports, utilizing automatic values based on interface speed.",
+			ValidateFunc:     validation.StringInSlice([]string{"long", "short"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"priority": {
 			Type:     schema.TypeString,
 			Optional: true,
