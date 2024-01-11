@@ -1,3 +1,10 @@
+## [1.29.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.29.0...v1.29.1) (2024-01-11)
+
+
+### Bug Fixes
+
+* **helpers:** Fix the style of writing filter parameters ([adf342f](https://github.com/terraform-routeros/terraform-provider-routeros/commit/adf342ff668cde440265fb34461d0d105602fc9f))
+
 ## [1.29.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.28.1...v1.29.0) (2024-01-05)
 
 
