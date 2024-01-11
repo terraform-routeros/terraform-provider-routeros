@@ -589,7 +589,7 @@ func buildReadFilter(m map[string]interface{}) []string {
 	var res []string
 
 	for fieldName, fieldValue := range m {
-		res = append(res, fmt.Sprintf("%v=%v", fieldName, fieldValue))
+		res = append(res, fmt.Sprintf("%v=%v", SnakeToKebab(fieldName), fieldValue))
 	}
 
 	return res
