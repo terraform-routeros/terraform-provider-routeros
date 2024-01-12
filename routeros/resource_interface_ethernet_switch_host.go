@@ -35,39 +35,39 @@ func ResourceInterfaceEthernetSwitchHost() *schema.Resource {
 		"drop": {
 			Type:     schema.TypeBool,
 			Optional: true,
-			Description: "Whether to drop a frame with matching MAC source address received on a certain port (matching "+
-			"destination or source address for CRS3xx series switches).",
+			Description: "Whether to drop a frame with matching MAC source address received on a certain port (matching " +
+				"destination or source address for CRS3xx series switches).",
 		},
-		KeyDynamic: PropDynamicRo,
-		KeyInvalid: PropInvalidRo,
+		KeyDynamic:    PropDynamicRo,
+		KeyInvalid:    PropInvalidRo,
 		KeyMacAddress: PropMacAddressRw("Host's MAC address.", true),
 		"mirror": {
 			Type:     schema.TypeBool,
 			Optional: true,
-			Description: "Whether to send a frame copy to mirror-target port from a frame with matching MAC destination address "+
-			"(matching destination or source address for CRS3xx series switches).",
+			Description: "Whether to send a frame copy to mirror-target port from a frame with matching MAC destination address " +
+				"(matching destination or source address for CRS3xx series switches).",
 		},
 		"ports": {
-			Type:     schema.TypeList,
-			Required: true,
+			Type:        schema.TypeList,
+			Required:    true,
 			Description: "Name of the interface, static MAC address can be mapped to more that one port, including switch CPU port.",
 			Elem: &schema.Schema{
-				Type: schema.TypeString,
+				Type:             schema.TypeString,
 				DiffSuppressFunc: AlwaysPresentNotUserProvided,
 			},
 		},
 		"redirect_to_cpu": {
 			Type:     schema.TypeBool,
 			Optional: true,
-			Description: "Whether to redirect a frame to switch CPU port from a frame with matching MAC destination address "+
-			"(matching destination or source address for CRS3xx series switches).",
+			Description: "Whether to redirect a frame to switch CPU port from a frame with matching MAC destination address " +
+				"(matching destination or source address for CRS3xx series switches).",
 		},
 		"share_vlan_learned": {
 			Type:     schema.TypeBool,
 			Optional: true,
-			Description: "Whether the static host MAC address lookup is used with shared-VLAN-learning (SVL) or "+
-			"independent-VLAN-learning (IVL). The SVL mode is used for those VLAN entries that do not support IVL or IVL is "+
-			"disabled (independent-learning=no).",
+			Description: "Whether the static host MAC address lookup is used with shared-VLAN-learning (SVL) or " +
+				"independent-VLAN-learning (IVL). The SVL mode is used for those VLAN entries that do not support IVL or IVL is " +
+				"disabled (independent-learning=no).",
 		},
 		"switch": {
 			Type:        schema.TypeString,
@@ -75,9 +75,9 @@ func ResourceInterfaceEthernetSwitchHost() *schema.Resource {
 			Description: "Name of the switch to which the MAC address is going to be assigned to.",
 		},
 		"vlan_id": {
-			Type:     schema.TypeString,
-			Optional: true,
-			Description: "VLAN ID for the statically added MAC address entry.",
+			Type:             schema.TypeInt,
+			Optional:         true,
+			Description:      "VLAN ID for the statically added MAC address entry.",
 			ValidateFunc:     validation.IntBetween(0, 4094),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},

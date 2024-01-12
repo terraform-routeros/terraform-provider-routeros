@@ -49,7 +49,7 @@ func ResourceInterfaceDot1xClient() *schema.Resource {
 
 	return &schema.Resource{
 		CreateContext: DefaultCreate(resSchema),
-		ReadContext: DefaultRead(resSchema),
+		ReadContext:   DefaultRead(resSchema),
 		UpdateContext: DefaultUpdate(resSchema),
 		DeleteContext: DefaultDelete(resSchema),
 
@@ -74,10 +74,10 @@ func ResourceInterfaceDot1xServer() *schema.Resource {
 			Description: "Whether to send RADIUS accounting requests to the authentication server.",
 		},
 		"auth_timeout": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Default:     "1m",
-			Description: "Total time available for EAP authentication.",
+			Type:             schema.TypeString,
+			Optional:         true,
+			Default:          "1m",
+			Description:      "Total time available for EAP authentication.",
 			DiffSuppressFunc: TimeEquall,
 		},
 		"auth_types": {
@@ -96,17 +96,17 @@ func ResourceInterfaceDot1xServer() *schema.Resource {
 		},
 		KeyInterface: PropInterfaceRw,
 		"interim_update": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Default:     "0s",
-			Description: "Interval between scheduled RADIUS Interim-Update messages.",
+			Type:             schema.TypeString,
+			Optional:         true,
+			Default:          "0s",
+			Description:      "Interval between scheduled RADIUS Interim-Update messages.",
 			DiffSuppressFunc: TimeEquall,
 		},
 		"mac_auth_mode": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Default:     "mac-as-username",
-			Description: "An option that allows to control User-Name and User-Password RADIUS attributes when using MAC authentication.",
+			Type:         schema.TypeString,
+			Optional:     true,
+			Default:      "mac-as-username",
+			Description:  "An option that allows to control User-Name and User-Password RADIUS attributes when using MAC authentication.",
 			ValidateFunc: validation.StringInSlice([]string{"mac-as-username", "mac-as-username-and-password"}, false),
 		},
 		"radius_mac_format": {
@@ -118,35 +118,35 @@ func ResourceInterfaceDot1xServer() *schema.Resource {
 				"xx-xx-xx-xx-xx-xx", "xx:xx:xx:xx:xx:xx", "xxxxxxxxxxxx"}, false),
 		},
 		"reauth_timeout": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Description: "An option that enables server port re-authentication.",
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "An option that enables server port re-authentication.",
 			DiffSuppressFunc: TimeEquall,
 		},
 		"reject_vlan_id": {
-			Type:        schema.TypeInt,
-			Optional:    true,
-			Description: "Assigned VLAN when authentication failed, and a RADIUS server responded with an Access-Reject message. ",
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Description:  "Assigned VLAN when authentication failed, and a RADIUS server responded with an Access-Reject message. ",
 			ValidateFunc: validation.IntBetween(1, 4094),
 		},
 		"retrans_timeout": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Default:     "30s",
-			Description: "The time interval between message re-transmissions if no response is received from the supplicant.",
+			Type:             schema.TypeString,
+			Optional:         true,
+			Default:          "30s",
+			Description:      "The time interval between message re-transmissions if no response is received from the supplicant.",
 			DiffSuppressFunc: TimeEquall,
 		},
 		"server_fail_vlan_id": {
-			Type:        schema.TypeInt,
-			Optional:    true,
-			Description: "Assigned VLAN when RADIUS server is not responding and request timed out.",
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Description:  "Assigned VLAN when RADIUS server is not responding and request timed out.",
 			ValidateFunc: validation.IntBetween(1, 4094),
 		},
 	}
 
 	return &schema.Resource{
 		CreateContext: DefaultCreate(resSchema),
-		ReadContext: DefaultRead(resSchema),
+		ReadContext:   DefaultRead(resSchema),
 		UpdateContext: DefaultUpdate(resSchema),
 		DeleteContext: DefaultDelete(resSchema),
 
