@@ -1,3 +1,10 @@
+## [1.30.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.29.1...v1.30.0) (2024-01-12)
+
+
+### Features
+
+* **routing:** Manage Route Filters ([0c29e53](https://github.com/terraform-routeros/terraform-provider-routeros/commit/0c29e531be76e8c322062babd4c082d7e685ff7f)), closes [#330](https://github.com/terraform-routeros/terraform-provider-routeros/issues/330)
+
 ## [1.29.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.29.0...v1.29.1) (2024-01-11)
 
 
