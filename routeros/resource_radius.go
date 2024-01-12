@@ -18,23 +18,23 @@ func ResourceRadius() *schema.Resource {
 			Description: "An option whether the configuration is for the backup RADIUS server.",
 		},
 		"accounting_port": {
-			Type:        schema.TypeInt,
-			Optional:    true,
-			Default:     1813,
-			Description: "RADIUS server port used for accounting.",
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Default:      1813,
+			Description:  "RADIUS server port used for accounting.",
 			ValidateFunc: validation.IntBetween(0, 65535),
 		},
 		"address": {
 			Type:         schema.TypeString,
 			Required:     true,
 			Description:  "IPv4 or IPv6 address of RADIUS server.",
-			ValidateFunc:  validation.IsIPAddress,
+			ValidateFunc: validation.IsIPAddress,
 		},
 		"authentication_port": {
-			Type:        schema.TypeInt,
-			Optional:    true,
-			Default:     1812,
-			Description: "RADIUS server port used for authentication.",
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Default:      1812,
+			Description:  "RADIUS server port used for authentication.",
 			ValidateFunc: validation.IntBetween(0, 65535),
 		},
 		"called_id": {
@@ -56,10 +56,10 @@ func ResourceRadius() *schema.Resource {
 			Description: "Microsoft Windows domain of client passed to RADIUS servers that require domain validation.",
 		},
 		"protocol": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Default:     "udp",
-			Description: "An option specifies the protocol to use when communicating with the RADIUS Server.",
+			Type:         schema.TypeString,
+			Optional:     true,
+			Default:      "udp",
+			Description:  "An option specifies the protocol to use when communicating with the RADIUS Server.",
 			ValidateFunc: validation.StringInSlice([]string{"radsec", "udp"}, false),
 		},
 		"realm": {
@@ -85,17 +85,17 @@ func ResourceRadius() *schema.Resource {
 			ValidateFunc: validation.IsIPAddress,
 		},
 		"timeout": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Default:     "300ms",
-			Description: "A timeout, after which the request should be resent.",
+			Type:             schema.TypeString,
+			Optional:         true,
+			Default:          "300ms",
+			Description:      "A timeout, after which the request should be resent.",
 			DiffSuppressFunc: TimeEquall,
 		},
 	}
 
 	return &schema.Resource{
 		CreateContext: DefaultCreate(resSchema),
-		ReadContext: DefaultRead(resSchema),
+		ReadContext:   DefaultRead(resSchema),
 		UpdateContext: DefaultUpdate(resSchema),
 		DeleteContext: DefaultDelete(resSchema),
 
@@ -120,10 +120,10 @@ func ResourceRadiusIncoming() *schema.Resource {
 			Description: "An option whether to accept the unsolicited messages.",
 		},
 		"port": {
-			Type:        schema.TypeInt,
-			Optional:    true,
-			Default:     3799,
-			Description: "The port number to listen for the requests on.",
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Default:      3799,
+			Description:  "The port number to listen for the requests on.",
 			ValidateFunc: validation.IntBetween(0, 65535),
 		},
 		"vrf": {

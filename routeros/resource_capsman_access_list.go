@@ -29,19 +29,19 @@ func ResourceCapsManAccessList() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/caps-man/access-list"),
 		MetaId:           PropId(Id),
 
-		KeyComment: PropCommentRw,
+		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
 		"action": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Description: "An action to take when a client matches.",
+			Type:         schema.TypeString,
+			Optional:     true,
+			Description:  "An action to take when a client matches.",
 			ValidateFunc: validation.StringInSlice([]string{"accept", "reject", "query-radius"}, false),
 		},
 		"allow_signal_out_of_range": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Default:     "10s",
-			Description: "An option that permits the client's signal to be out of the range always or for some time interval.",
+			Type:             schema.TypeString,
+			Optional:         true,
+			Default:          "10s",
+			Description:      "An option that permits the client's signal to be out of the range always or for some time interval.",
 			DiffSuppressFunc: TimeEquall,
 		},
 		"ap_tx_limit": {
@@ -70,8 +70,8 @@ func ResourceCapsManAccessList() *schema.Resource {
 			Description: "MAC address mask to apply when comparing clients' addresses.",
 		},
 		"interface": {
-			Type:     schema.TypeString,
-			Optional: true,
+			Type:        schema.TypeString,
+			Optional:    true,
 			Description: "Interface name to compare with an interface to which the client actually connects to.",
 		},
 		KeyPlaceBefore: PropPlaceBefore,
@@ -92,14 +92,14 @@ func ResourceCapsManAccessList() *schema.Resource {
 			Description: "The range in which the client signal must fall.",
 		},
 		"ssid_regexp": {
-			Type:     schema.TypeString,
-			Optional: true,
+			Type:        schema.TypeString,
+			Optional:    true,
 			Description: "The regular expression to compare the actual SSID the client connects to.",
 		},
 		"time": {
 			Type:        schema.TypeString,
 			Optional:    true,
-			Default: "0s-1d,sun,mon,tue,wed,thu,fri,sat",
+			Default:     "0s-1d,sun,mon,tue,wed,thu,fri,sat",
 			Description: "Time of the day and days of the week when the rule is applicable.",
 		},
 		"vlan_id": {
@@ -109,9 +109,9 @@ func ResourceCapsManAccessList() *schema.Resource {
 			ValidateFunc: validation.IntBetween(1, 4094),
 		},
 		"vlan_mode": {
-			Type:     schema.TypeString,
-			Optional: true,
-			Description: "VLAN tagging mode specifies if traffic coming from a client should get tagged and untagged when it goes back to the client.",
+			Type:         schema.TypeString,
+			Optional:     true,
+			Description:  "VLAN tagging mode specifies if traffic coming from a client should get tagged and untagged when it goes back to the client.",
 			ValidateFunc: validation.StringInSlice([]string{"no-tag", "use-service-tag", "use-tag"}, false),
 		},
 	}

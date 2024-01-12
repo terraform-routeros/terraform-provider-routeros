@@ -39,8 +39,8 @@ func ResourceSystemLogging() *schema.Resource {
 			ValidateFunc: validation.StringInSlice([]string{"disk", "echo", "memory", "remote"}, false),
 		},
 		"default": {
-			Type:        schema.TypeString,
-			Computed:    true,
+			Type:     schema.TypeString,
+			Computed: true,
 		},
 		"prefix": {
 			Type:        schema.TypeString,
