@@ -18,7 +18,7 @@ import (
 }
 */
 
-// https://help.mikrotik.com/docs/display/ROS/Switch+Chip+Features
+// https://help.mikrotik.com/docs/display/ROS/Switch+Chip+Features#SwitchChipFeatures-Portisolation
 func ResourceInterfaceEthernetSwitchPortIsolation() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath:   PropResourcePath("/interface/ethernet/switch/port-isolation"),

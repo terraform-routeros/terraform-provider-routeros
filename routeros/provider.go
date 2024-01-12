@@ -123,6 +123,7 @@ func Provider() *schema.Provider {
 			"routeros_interface_dot1x_server":                   ResourceInterfaceDot1xServer(),
 			"routeros_interface_eoip":                           ResourceInterfaceEoip(),
 			"routeros_interface_ethernet_switch":                ResourceInterfaceEthernetSwitch(),
+			"routeros_interface_ethernet_switch_host":			 ResourceInterfaceEthernetSwitchHost(),
 			"routeros_interface_ethernet_switch_port":           ResourceInterfaceEthernetSwitchPort(),
 			"routeros_interface_ethernet_switch_port_isolation": ResourceInterfaceEthernetSwitchPortIsolation(),
 			"routeros_interface_gre":                            ResourceInterfaceGre(),

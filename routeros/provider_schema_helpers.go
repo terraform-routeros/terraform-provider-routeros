@@ -127,6 +127,27 @@ func PropName(description string) *schema.Schema {
 	}
 }
 
+// PropMacAddress
+func PropMacAddressRw(description string, required bool) *schema.Schema {
+	mac := &schema.Schema{
+		Type:             schema.TypeString,
+		Description:      description,
+		ValidateFunc:     validation.IsMACAddress,
+		DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+			if old != "" && d.GetRawConfig().GetAttr(k).IsNull() {
+				return true
+			}
+			return strings.EqualFold(old, new)
+		},
+	}
+	if required {
+		mac.Required = true
+	} else {
+		mac.Optional = true
+	}
+	return mac
+}
+
 // Schema properties.
 var (
 	PropActualMtuRo = &schema.Schema{
