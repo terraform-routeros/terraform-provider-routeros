@@ -1,3 +1,13 @@
+## [1.32.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.31.0...v1.32.0) (2024-01-15)
+
+
+### Features
+
+* **switch:** Add support for /interface/ethernet/switch/host ([c267e5d](https://github.com/terraform-routeros/terraform-provider-routeros/commit/c267e5dbeab24578f3a7dbfcd9f5150b790391ba)), closes [#325](https://github.com/terraform-routeros/terraform-provider-routeros/issues/325)
+* **switch:** Add support for /interface/ethernet/switch/port ([a3e7921](https://github.com/terraform-routeros/terraform-provider-routeros/commit/a3e7921a1c59a6e4d79965ec3ec8bc1cf3f0ce09)), closes [#325](https://github.com/terraform-routeros/terraform-provider-routeros/issues/325)
+* **switch:** Add support for /interface/ethernet/switch/vlan ([2690373](https://github.com/terraform-routeros/terraform-provider-routeros/commit/2690373800ca29672b3c279fda4e99128e9f0860)), closes [#325](https://github.com/terraform-routeros/terraform-provider-routeros/issues/325)
+* **switch:** Add support for interface/ethernet/switch/rule ([163ebbe](https://github.com/terraform-routeros/terraform-provider-routeros/commit/163ebbe4d54e5a2d7444d015306ab0cdd4565055)), closes [#325](https://github.com/terraform-routeros/terraform-provider-routeros/issues/325)
+
 ## [1.31.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.30.0...v1.31.0) (2024-01-15)
 
 
