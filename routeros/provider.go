@@ -15,9 +15,12 @@ func Provider() *schema.Provider {
 	return &schema.Provider{
 		Schema: map[string]*schema.Schema{
 			"hosturl": {
-				Type:        schema.TypeString,
-				Required:    true,
-				DefaultFunc: schema.MultiEnvDefaultFunc([]string{"ROS_HOSTURL", "MIKROTIK_HOST"}, nil),
+				Type:     schema.TypeString,
+				Required: true,
+				DefaultFunc: schema.MultiEnvDefaultFunc(
+					[]string{"ROS_HOSTURL", "MIKROTIK_HOST"},
+					nil,
+				),
 				Description: `URL of the MikroTik router, default is TLS connection to REST.    
 	* API: api[s]://host[:port]
 		* api://router.local
@@ -32,9 +35,12 @@ func Provider() *schema.Provider {
 `,
 			},
 			"username": {
-				Type:        schema.TypeString,
-				Required:    true,
-				DefaultFunc: schema.MultiEnvDefaultFunc([]string{"ROS_USERNAME", "MIKROTIK_USER"}, nil),
+				Type:     schema.TypeString,
+				Required: true,
+				DefaultFunc: schema.MultiEnvDefaultFunc(
+					[]string{"ROS_USERNAME", "MIKROTIK_USER"},
+					nil,
+				),
 				Description: `Username for the MikroTik WEB/Winbox.
 
 
@@ -42,22 +48,31 @@ func Provider() *schema.Provider {
 `,
 			},
 			"password": {
-				Type:        schema.TypeString,
-				Optional:    true,
-				DefaultFunc: schema.MultiEnvDefaultFunc([]string{"ROS_PASSWORD", "MIKROTIK_PASSWORD"}, nil),
+				Type:     schema.TypeString,
+				Optional: true,
+				DefaultFunc: schema.MultiEnvDefaultFunc(
+					[]string{"ROS_PASSWORD", "MIKROTIK_PASSWORD"},
+					nil,
+				),
 				Description: "Password for the MikroTik user.",
 				Sensitive:   true,
 			},
 			"ca_certificate": {
-				Type:        schema.TypeString,
-				Optional:    true,
-				DefaultFunc: schema.MultiEnvDefaultFunc([]string{"ROS_CA_CERTIFICATE", "MIKROTIK_CA_CERTIFICATE"}, nil),
+				Type:     schema.TypeString,
+				Optional: true,
+				DefaultFunc: schema.MultiEnvDefaultFunc(
+					[]string{"ROS_CA_CERTIFICATE", "MIKROTIK_CA_CERTIFICATE"},
+					nil,
+				),
 				Description: "Path to MikroTik's certificate authority file.",
 			},
 			"insecure": {
-				Type:        schema.TypeBool,
-				Optional:    true,
-				DefaultFunc: schema.MultiEnvDefaultFunc([]string{"ROS_INSECURE", "MIKROTIK_INSECURE"}, false),
+				Type:     schema.TypeBool,
+				Optional: true,
+				DefaultFunc: schema.MultiEnvDefaultFunc(
+					[]string{"ROS_INSECURE", "MIKROTIK_INSECURE"},
+					false,
+				),
 				Description: "Whether to verify the SSL certificate or not.",
 			},
 		},
@@ -112,6 +127,7 @@ func Provider() *schema.Provider {
 			"routeros_interface_ethernet_switch_port":           ResourceInterfaceEthernetSwitchPort(),
 			"routeros_interface_ethernet_switch_port_isolation": ResourceInterfaceEthernetSwitchPortIsolation(),
 			"routeros_interface_ethernet_switch_vlan":           ResourceInterfaceEthernetSwitchVlan(),
+			"routeros_interface_ethernet_switch_rule":           ResourceInterfaceEthernetSwitchRule(),
 			"routeros_interface_gre":                            ResourceInterfaceGre(),
 			"routeros_interface_vlan":                           ResourceInterfaceVlan(),
 			"routeros_interface_vrrp":                           ResourceInterfaceVrrp(),
