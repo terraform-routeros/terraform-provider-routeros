@@ -1,3 +1,20 @@
+## [1.31.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.30.0...v1.31.0) (2024-01-15)
+
+
+### Features
+
+* Add WiFi access list resource ([e5a213a](https://github.com/terraform-routeros/terraform-provider-routeros/commit/e5a213abc3e10586471ddce5c0806a010997bcaa))
+* Add Wifi accounting and authentication resource ([edd8299](https://github.com/terraform-routeros/terraform-provider-routeros/commit/edd8299edbad5b6c866d25659b262966d71fe09d))
+* Add WiFi CAP resource ([d68fc6c](https://github.com/terraform-routeros/terraform-provider-routeros/commit/d68fc6c5c3d4207464446ee87451df00e4a885b1))
+* Add WiFi CAPsMAN resource ([00197cf](https://github.com/terraform-routeros/terraform-provider-routeros/commit/00197cfc130d8316a43c351a66c1c757aaeb3c2b))
+* Add WiFi channel resource ([3fd1f34](https://github.com/terraform-routeros/terraform-provider-routeros/commit/3fd1f34b040ee1e1eacce246a221a092315b8aea))
+* Add WiFi configuration resource ([1505bff](https://github.com/terraform-routeros/terraform-provider-routeros/commit/1505bffb0d19c27553f7614b352dfc1a087c9806))
+* Add WiFi datapath resource ([4193151](https://github.com/terraform-routeros/terraform-provider-routeros/commit/4193151e790ebe4b4b0074b3dd8e0cf5a4878ad8))
+* Add WiFi interworking resource ([f748368](https://github.com/terraform-routeros/terraform-provider-routeros/commit/f748368c3ec2262eea531a51ec34706a30842f24))
+* Add WiFi provisioning resource ([7a80781](https://github.com/terraform-routeros/terraform-provider-routeros/commit/7a80781f6bfe6bd1818c26a1f0f094317581fddc))
+* Add WiFi security resource ([0c7e3af](https://github.com/terraform-routeros/terraform-provider-routeros/commit/0c7e3af28d23b27eff730331f0589484eef88b6d))
+* Add WiFi steering resource ([3794b0f](https://github.com/terraform-routeros/terraform-provider-routeros/commit/3794b0fbf8bbd847deea81e5fc0554ffb010355f))
+
 ## [1.30.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.29.1...v1.30.0) (2024-01-12)
 
 
