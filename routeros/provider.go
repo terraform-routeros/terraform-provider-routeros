@@ -127,6 +127,7 @@ func Provider() *schema.Provider {
 			"routeros_interface_ethernet_switch_port":           ResourceInterfaceEthernetSwitchPort(),
 			"routeros_interface_ethernet_switch_port_isolation": ResourceInterfaceEthernetSwitchPortIsolation(),
 			"routeros_interface_ethernet_switch_vlan":           ResourceInterfaceEthernetSwitchVlan(),
+			"routeros_interface_ethernet_switch_rule":           ResourceInterfaceEthernetSwitchRule(),
 			"routeros_interface_gre":                            ResourceInterfaceGre(),
 			"routeros_interface_vlan":                           ResourceInterfaceVlan(),
 			"routeros_interface_vrrp":                           ResourceInterfaceVrrp(),
