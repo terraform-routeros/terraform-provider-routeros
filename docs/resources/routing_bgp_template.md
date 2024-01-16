@@ -36,6 +36,7 @@
 
 ### Read-Only
 
+- `default` (Boolean)
 - `id` (String) The ID of this resource.
 
 <a id="nestedblock--input"></a>

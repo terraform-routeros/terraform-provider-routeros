@@ -1,3 +1,14 @@
+## [1.32.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.32.0...v1.32.1) (2024-01-16)
+
+
+### Bug Fixes
+
+* Add missing `default` property in `routeros_routing_bgp_template` ([0a2863f](https://github.com/terraform-routeros/terraform-provider-routeros/commit/0a2863ff01cfc26a904dab246716b4c9a7610f81))
+* Add missing generated certificate properties in `routeros_capsman_manager` ([e4378af](https://github.com/terraform-routeros/terraform-provider-routeros/commit/e4378af30e5da4b1f4e6cb18cad5cb4b3ce61c2a))
+* Add new `port_cost_mode` property to `routeros_interface_bridge` ([cab4fb6](https://github.com/terraform-routeros/terraform-provider-routeros/commit/cab4fb67e768b2e0b59c3ceac0edba07a1ba1138))
+* Fix validator of the `address` property in `routeros_user_manager_router` ([1c7a46b](https://github.com/terraform-routeros/terraform-provider-routeros/commit/1c7a46b1bea703cafc5e1dd4782fce299d3383c6))
+* Fix validator of the `advertise` property in `routeros_interface_ethernet` ([6c98bb7](https://github.com/terraform-routeros/terraform-provider-routeros/commit/6c98bb7360cbcaabbe3ef6d4688a0683577ef211))
+
 ## [1.32.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.31.0...v1.32.0) (2024-01-15)
 
 

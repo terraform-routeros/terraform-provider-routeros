@@ -23,6 +23,8 @@ resource "routeros_capsman_manager" "test_manager" {
 
 ### Read-Only
 
+- `generated_ca_certificate` (String) Generated CA certificate.
+- `generated_certificate` (String) Generated CAPsMAN certificate.
 - `id` (String) The ID of this resource.
 
 ## Import
