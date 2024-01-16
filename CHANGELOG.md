@@ -1,3 +1,10 @@
+## [1.32.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.32.1...v1.32.2) (2024-01-16)
+
+
+### Bug Fixes
+
+* **switch:** Incorrect procedure for deleting the resource ([1e2327c](https://github.com/terraform-routeros/terraform-provider-routeros/commit/1e2327c43d934da59fc2a6a36a485b4caf18db4d)), closes [#325](https://github.com/terraform-routeros/terraform-provider-routeros/issues/325)
+
 ## [1.32.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.32.0...v1.32.1) (2024-01-16)
 
 
