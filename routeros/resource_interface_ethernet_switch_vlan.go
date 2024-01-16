@@ -19,8 +19,8 @@ import (
 // https://help.mikrotik.com/docs/display/ROS/Switch+Chip+Features#SwitchChipFeatures-VLANTable
 func ResourceInterfaceEthernetSwitchVlan() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
-		MetaResourcePath:   PropResourcePath("/interface/ethernet/switch/vlan"),
-		MetaId:             PropId(Id),
+		MetaResourcePath: PropResourcePath("/interface/ethernet/switch/vlan"),
+		MetaId:           PropId(Id),
 
 		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
@@ -58,7 +58,7 @@ func ResourceInterfaceEthernetSwitchVlan() *schema.Resource {
 		CreateContext: DefaultCreate(resSchema),
 		ReadContext:   DefaultRead(resSchema),
 		UpdateContext: DefaultUpdate(resSchema),
-		DeleteContext: DefaultSystemDelete(resSchema),
+		DeleteContext: DefaultDelete(resSchema),
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
