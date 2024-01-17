@@ -548,6 +548,28 @@ var (
 	}
 )
 
+func isRawValueEmpty(value cty.Value, path string) bool {
+	var attr cty.Value
+	keys := strings.SplitN(path, ".", 2)
+	key := keys[0]
+
+	if key == "#" || key == "%" {
+		return false
+	}
+
+	switch {
+	case value.Type().IsObjectType():
+		attr = value.GetAttr(key)
+	case value.Type().IsMapType():
+		attr = value.Index(cty.StringVal(key))
+	// Lists and sets should not be walked down as they are always updated as a whole.
+	default:
+		return false
+	}
+
+	return attr.IsNull() || len(keys) > 1 && isRawValueEmpty(attr, keys[1])
+}
+
 // Properties DiffSuppressFunc.
 var (
 	TimeEquall = func(k, old, new string, d *schema.ResourceData) bool {
@@ -606,12 +628,7 @@ var (
 	AlwaysPresentNotUserProvided = func(k, old, new string, d *schema.ResourceData) bool {
 		// For lists and sets, the key will look like `something.12345` or `something.#`.
 		// But in the raw config it will be just `something`.
-		k = strings.Split(k, ".")[0]
-
-		if old != "" && d.GetRawConfig().GetAttr(k).IsNull() {
-			return true
-		}
-		return false
+		return old != "" && isRawValueEmpty(d.GetRawConfig(), k)
 	}
 
 	MacAddressEqual = func(k, old, new string, d *schema.ResourceData) bool {
