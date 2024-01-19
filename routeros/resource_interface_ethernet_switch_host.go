@@ -2,7 +2,6 @@ package routeros
 
 import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
 
 /*
@@ -75,10 +74,9 @@ func ResourceInterfaceEthernetSwitchHost() *schema.Resource {
 			Description: "Name of the switch to which the MAC address is going to be assigned to.",
 		},
 		"vlan_id": {
-			Type:             schema.TypeInt,
+			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "VLAN ID for the statically added MAC address entry.",
-			ValidateFunc:     validation.IntBetween(0, 4094),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 	}
