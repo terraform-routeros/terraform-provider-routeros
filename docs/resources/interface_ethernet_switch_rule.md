@@ -15,7 +15,7 @@ resource "routeros_interface_ethernet_switch_rule" "test" {
 
 ### Required
 
-- `ports` (String) Name of the interface on which the rule will apply on the received traffic, multiple ports are allowed.
+- `ports` (List of String) Name of the interface on which the rule will apply on the received traffic, multiple ports are allowed.
 - `switch` (String) Matching switch group on which will the rule apply.
 
 ### Optional
@@ -48,6 +48,7 @@ resource "routeros_interface_ethernet_switch_rule" "test" {
 
 ### Read-Only
 
+- `dynamic` (Boolean) Configuration item created by software, not by management interface. It is not exported, and cannot be directly modified.
 - `id` (String) The ID of this resource.
 - `invalid` (Boolean)
 

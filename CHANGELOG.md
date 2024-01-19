@@ -1,3 +1,10 @@
+## [1.32.3](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.32.2...v1.32.3) (2024-01-19)
+
+
+### Bug Fixes
+
+* **switch:** Correct schema errors ([c4b3421](https://github.com/terraform-routeros/terraform-provider-routeros/commit/c4b3421fc39b2b1984aeab00b36c475844c4edf4)), closes [#325](https://github.com/terraform-routeros/terraform-provider-routeros/issues/325)
+
 ## [1.32.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.32.1...v1.32.2) (2024-01-16)
 
 
