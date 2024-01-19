@@ -17,6 +17,7 @@ func ResourceInterfaceEthernetSwitchRule() *schema.Resource {
 
 		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
+		KeyDynamic:  PropDynamicRo,
 		KeyInvalid:  PropInvalidRo,
 
 		"copy_to_cpu": {
@@ -96,7 +97,7 @@ func ResourceInterfaceEthernetSwitchRule() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"ports": {
-			Type:        schema.TypeString,
+			Type:        schema.TypeList,
 			Required:    true,
 			Description: "Name of the interface on which the rule will apply on the received traffic, multiple ports are allowed.",
 			Elem: &schema.Schema{
