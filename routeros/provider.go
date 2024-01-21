@@ -140,6 +140,7 @@ func Provider() *schema.Provider {
 			"routeros_interface_vrrp":                           ResourceInterfaceVrrp(),
 			"routeros_interface_wireguard":                      ResourceInterfaceWireguard(),
 			"routeros_interface_wireguard_peer":                 ResourceInterfaceWireguardPeer(),
+			"routeros_interface_wireless_cap":                   ResourceInterfaceWirelessCap(),
 			"routeros_interface_list":                           ResourceInterfaceList(),
 			"routeros_interface_list_member":                    ResourceInterfaceListMember(),
 			"routeros_interface_ovpn_server":                    ResourceInterfaceOpenVPNServer(),
