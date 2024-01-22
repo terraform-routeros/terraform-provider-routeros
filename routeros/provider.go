@@ -163,6 +163,7 @@ func Provider() *schema.Provider {
 
 			// System Objects
 			"routeros_ip_cloud":             ResourceIpCloud(),
+			"routeros_ip_cloud_advanced":    ResourceIpCloudAdvanced(),
 			"routeros_system_certificate":   ResourceSystemCertificate(),
 			"routeros_system_identity":      ResourceSystemIdentity(),
 			"routeros_system_logging":       ResourceSystemLogging(),
