@@ -214,6 +214,7 @@ func Provider() *schema.Provider {
 			"routeros_ovpn_server": ResourceOpenVPNServer(),
 
 			// PPP
+			"routeros_ppp_aaa":     ResourcePppAaa(),
 			"routeros_ppp_profile": ResourcePPPProfile(),
 			"routeros_ppp_secret":  ResourcePPPSecret(),
 
