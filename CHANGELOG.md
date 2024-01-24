@@ -1,3 +1,10 @@
+## [1.32.4](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.32.3...v1.32.4) (2024-01-24)
+
+
+### Bug Fixes
+
+* Removed all default values ([546764e](https://github.com/terraform-routeros/terraform-provider-routeros/commit/546764e1a14795936cd6890aad6530942b104c3e)), closes [#326](https://github.com/terraform-routeros/terraform-provider-routeros/issues/326)
+
 ## [1.32.3](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.32.2...v1.32.3) (2024-01-19)
 
 
