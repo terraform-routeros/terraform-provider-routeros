@@ -181,7 +181,7 @@ func ResourceInterfaceEthernetSwitchRule() *schema.Resource {
 		CreateContext: DefaultCreate(resSchema),
 		ReadContext:   DefaultRead(resSchema),
 		UpdateContext: DefaultUpdate(resSchema),
-		DeleteContext: DefaultSystemDelete(resSchema),
+		DeleteContext: DefaultDelete(resSchema),
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
