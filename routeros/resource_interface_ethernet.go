@@ -51,26 +51,29 @@ func ResourceInterfaceEthernet() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/ethernet"),
 		MetaId:           PropId(Id),
-		MetaSkipFields: PropSkipFields(`"factory_name","driver_rx_byte","driver_rx_packet","driver_tx_byte","driver_tx_packet",` +
-			`"rx_64","rx_65_127","rx_128_255","rx_256_511","rx_512_1023","rx_1024_1518","rx_1519_max",` +
-			`"tx_64","tx_65_127","tx_128_255","tx_256_511","tx_512_1023","tx_1024_1518","tx_1519_max",` +
-			`"tx_rx_64","tx_rx_65_127","tx_rx_128_255","tx_rx_256_511","tx_rx_512_1023","tx_rx_1024_1518","tx_rx_1519_max",` +
-			`"rx_broadcast","rx_bytes","rx_control","rx_drop","rx_fcs_error","rx_fragment","rx_jabber","rx_multicast","rx_packet","rx_pause","rx_too_short","rx_too_long",` +
-			`"tx_broadcast","tx_bytes","tx_control","tx_drop","tx_fcs_error","tx_fragment","tx_jabber","tx_multicast","tx_packet","tx_pause","tx_too_short","tx_too_long",` +
-			`"rx_align_error","rx_carrier_error","rx_code_error","rx_length_error","rx_overflow","rx_unknown_op",` +
-			`"tx_collision","tx_excessive_collision","tx_late_collision","tx_multiple_collision","tx_single_collision","tx_total_collision",` +
-			`"tx_deferred","tx_excessive_deferred","tx_underrun",`),
+		MetaSkipFields: PropSkipFields(
+			`"factory_name","driver_rx_byte","driver_rx_packet","driver_tx_byte","driver_tx_packet",` +
+				`"rx_64","rx_65_127","rx_128_255","rx_256_511","rx_512_1023","rx_1024_1518","rx_1519_max",` +
+				`"tx_64","tx_65_127","tx_128_255","tx_256_511","tx_512_1023","tx_1024_1518","tx_1519_max",` +
+				`"tx_rx_64","tx_rx_65_127","tx_rx_128_255","tx_rx_256_511","tx_rx_512_1023","tx_rx_1024_1518","tx_rx_1519_max",` +
+				`"rx_broadcast","rx_bytes","rx_control","rx_drop","rx_fcs_error","rx_fragment","rx_jabber","rx_multicast","rx_packet","rx_pause","rx_too_short","rx_too_long",` +
+				`"tx_broadcast","tx_bytes","tx_control","tx_drop","tx_fcs_error","tx_fragment","tx_jabber","tx_multicast","tx_packet","tx_pause","tx_too_short","tx_too_long",` +
+				`"rx_align_error","rx_carrier_error","rx_code_error","rx_length_error","rx_overflow","rx_unknown_op",` +
+				`"tx_collision","tx_excessive_collision","tx_late_collision","tx_multiple_collision","tx_single_collision","tx_total_collision",` +
+				`"tx_deferred","tx_excessive_deferred","tx_underrun",`,
+		),
 
 		"advertise": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Default:  "",
 			Description: `
 				Advertised speed and duplex modes for Ethernet interfaces over twisted pair, 
 				only applies when auto-negotiation is enabled. Advertising higher speeds than 
 				the actual interface supported speed will have no effect, multiple options are allowed.`,
-			ValidateFunc: validation.StringMatch(regexp.MustCompile(`^[0-9\.]+(M|G)-(full|half|base\w+(-\w+)?)$`),
-				"Since RouterOS v7.12 the values of this property have changed. Please check the documentation."),
+			ValidateFunc: validation.StringMatch(
+				regexp.MustCompile(`^[0-9\.]+(M|G)-(full|half|base\w+(-\w+)?)$`),
+				"Since RouterOS v7.12 the values of this property have changed. Please check the documentation.",
+			),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyArp:        PropArpRw,
@@ -78,10 +81,10 @@ func ResourceInterfaceEthernet() *schema.Resource {
 		"auto_negotiation": {
 			Type:     schema.TypeBool,
 			Optional: true,
-			Default:  true,
 			Description: `When enabled, the interface "advertises" its maximum capabilities to achieve the best connection possible.
 					Note1: Auto-negotiation should not be disabled on one end only, otherwise Ethernet Interfaces may not work properly.
 					Note2: Gigabit Ethernet and NBASE-T Ethernet links cannot work with auto-negotiation disabled.`,
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"bandwidth": {
 			Type:     schema.TypeString,
@@ -91,10 +94,10 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"cable_settings": {
-			Type:             schema.TypeString,
-			Optional:         true,
-			Description:      `Changes the cable length setting (only applicable to NS DP83815/6 cards)`,
-			ValidateFunc:     validation.StringInSlice([]string{"default", "short", "standard"}, false),
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: `Changes the cable length setting (only applicable to NS DP83815/6 cards)`,
+			ValidateFunc: validation.StringInSlice([]string{"default", "short", "standard"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"combo_mode": {
@@ -122,15 +125,14 @@ func ResourceInterfaceEthernet() *schema.Resource {
 		},
 		"factory_name": {
 			Type:        schema.TypeString,
-			Optional:    false,
 			Required:    true,
 			Description: "The factory name of the identifier, serves as resource identifier. Determines which interface will be updated.",
 		},
 		"full_duplex": {
-			Type:        schema.TypeBool,
-			Description: `Defines whether the transmission of data appears in two directions simultaneously, only applies when auto-negotiation is disabled.`,
-			Default:     true,
-			Optional:    true,
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Description:      `Defines whether the transmission of data appears in two directions simultaneously, only applies when auto-negotiation is disabled.`,
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyL2Mtu: {
 			Type:     schema.TypeInt,
@@ -144,28 +146,28 @@ func ResourceInterfaceEthernet() *schema.Resource {
 		KeyLoopProtectStatus:       PropLoopProtectStatusRo,
 		"mac_address": {
 			Type:             schema.TypeString,
-			Description:      `Media Access Control number of an interface.`,
 			Optional:         true,
+			Description:      `Media Access Control number of an interface.`,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"mdix_enable": {
-			Type:        schema.TypeBool,
-			Description: `Whether the MDI/X auto cross over cable correction feature is enabled for the port (Hardware specific, e.g. ether1 on RB500 can be set to yes/no. Fixed to 'yes' on other hardware.)`,
-			Optional:    true,
-			Default:     true,
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Description:      `Whether the MDI/X auto cross over cable correction feature is enabled for the port (Hardware specific, e.g. ether1 on RB500 can be set to yes/no. Fixed to 'yes' on other hardware.)`,
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"mtu": {
-			Type:         schema.TypeInt,
-			Optional:     true,
-			Default:      1500,
-			Description:  "Layer3 Maximum transmission unit",
-			ValidateFunc: validation.IntBetween(0, 65536),
+			Type:             schema.TypeInt,
+			Optional:         true,
+			Description:      "Layer3 Maximum transmission unit",
+			ValidateFunc:     validation.IntBetween(0, 65536),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyName: PropName("Name of the ethernet interface."),
 		"orig_mac_address": {
 			Type:        schema.TypeString,
-			Description: "Original Media Access Control number of an interface. (read only)",
 			Computed:    true,
+			Description: "Original Media Access Control number of an interface. (read only)",
 		},
 		"poe_lldp_enabled": {
 			Type:             schema.TypeBool,
@@ -174,10 +176,10 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"poe_out": {
-			Type:             schema.TypeString,
-			Optional:         true,
-			Description:      "PoE settings: (https://wiki.mikrotik.com/wiki/Manual:PoE-Out)",
-			ValidateFunc:     validation.StringInSlice([]string{"auto-on", "forced-on", "off"}, false),
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "PoE settings: (https://wiki.mikrotik.com/wiki/Manual:PoE-Out)",
+			ValidateFunc: validation.StringInSlice([]string{"auto-on", "forced-on", "off"},	false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"poe_priority": {
@@ -223,15 +225,14 @@ func ResourceInterfaceEthernet() *schema.Resource {
 		},
 		"running": {
 			Type:        schema.TypeBool,
-			Description: "Whether interface is running. Note that some interface does not have running check and they are always reported as \"running\"",
 			Computed:    true,
+			Description: "Whether interface is running. Note that some interface does not have running check and they are always reported as \"running\"",
 		},
 		"rx_flow_control": {
-			Type: schema.TypeString,
+			Type:     schema.TypeString,
+			Optional: true,
 			Description: `When set to on, the port will process received pause frames and suspend transmission if required.
 					auto is the same as on except when auto-negotiation=yes flow control status is resolved by taking into account what other end advertises.`,
-			Default:          "off",
-			Optional:         true,
 			ValidateFunc:     validation.StringInSlice([]string{"on", "off", "auto"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
@@ -251,28 +252,29 @@ func ResourceInterfaceEthernet() *schema.Resource {
 		},
 		"slave": {
 			Type:        schema.TypeBool,
-			Description: "Whether interface is configured as a slave of another interface (for example Bonding)",
 			Computed:    true,
+			Description: "Whether interface is configured as a slave of another interface (for example Bonding)",
 		},
 		"speed": {
 			Type:        schema.TypeString,
-			Description: "Sets interface data transmission speed which takes effect only when ```auto_negotiation``` is disabled.",
 			Optional:    true,
-			ValidateFunc: validation.StringMatch(regexp.MustCompile(`^[0-9\.]+(M|G)(?:(bps)|(-base\w+)(-\w+)?)$`),
-				"Since RouterOS v7.12 the values of this property have changed. Please check the documentation."),
+			Description: "Sets interface data transmission speed which takes effect only when ```auto_negotiation``` is disabled.",
+			ValidateFunc: validation.StringMatch(
+				regexp.MustCompile(`^[0-9\.]+(M|G)(?:(bps)|(-base\w+)(-\w+)?)$`),
+				"Since RouterOS v7.12 the values of this property have changed. Please check the documentation.",
+			),
 		},
 		"switch": {
 			Type:        schema.TypeString,
-			Description: "ID to which switch chip interface belongs to.",
 			Computed:    true,
+			Description: "ID to which switch chip interface belongs to.",
 		},
 		"tx_flow_control": {
-			Type: schema.TypeString,
+			Type:     schema.TypeString,
+			Optional: true,
 			Description: `When set to on, the port will generate pause frames to the upstream device to temporarily stop the packet transmission. 
 					Pause frames are only generated when some routers output interface is congested and packets cannot be transmitted anymore. 
 					Auto is the same as on except when auto-negotiation=yes flow control status is resolved by taking into account what other end advertises.`,
-			Default:          "off",
-			Optional:         true,
 			ValidateFunc:     validation.StringInSlice([]string{"on", "off", "auto"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
