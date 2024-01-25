@@ -51,7 +51,7 @@ func ResourceInterfaceEthernet() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/ethernet"),
 		MetaId:           PropId(Id),
-		MetaSkipFields: PropSkipFields(
+		MetaSkipFields:   PropSkipFields(
 			`"factory_name","driver_rx_byte","driver_rx_packet","driver_tx_byte","driver_tx_packet",` +
 				`"rx_64","rx_65_127","rx_128_255","rx_256_511","rx_512_1023","rx_1024_1518","rx_1519_max",` +
 				`"tx_64","tx_65_127","tx_128_255","tx_256_511","tx_512_1023","tx_1024_1518","tx_1519_max",` +
@@ -134,12 +134,7 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Description:      `Defines whether the transmission of data appears in two directions simultaneously, only applies when auto-negotiation is disabled.`,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
-		KeyL2Mtu: {
-			Type:     schema.TypeInt,
-			Optional: true,
-			Description: "Layer2 Maximum transmission unit. " +
-				"[See](https://wiki.mikrotik.com/wiki/Maximum_Transmission_Unit_on_RouterBoards).",
-		},
+		KeyL2Mtu: 					PropL2MtuRo,
 		KeyLoopProtect:             PropLoopProtectRw,
 		KeyLoopProtectDisableTime:  PropLoopProtectDisableTimeRw,
 		KeyLoopProtectSendInterval: PropLoopProtectSendIntervalRw,
