@@ -30,17 +30,24 @@ resource "routeros_interface_wireguard_peer" "wg_peer" {
 ### Optional
 
 - `allowed_address` (List of String) List of IP (v4 or v6) addresses with CIDR masks from which incoming traffic for this peer is allowed and to which outgoing traffic for this peer is directed. The catch-all 0.0.0.0/0 may be specified for matching all IPv4 addresses, and ::/0 may be specified for matching all IPv6 addresses.
+- `client_address` (String) When imported using a qr code for a client (for example, a phone), then this address for the wg interface is set on that device.
+- `client_dns` (String) Specify when using WireGuard Server as a VPN gateway for peer traffic.
+- `client_endpoint` (String) The IP address and port number of the WireGuard Server.
+- `client_keepalive` (Number) Same as persistent-keepalive but from peer side.
+- `client_listen_port` (Number) The local port upon which this WireGuard tunnel will listen for incoming traffic from peers, and the port from which it will source outgoing packets.
 - `comment` (String)
 - `disabled` (Boolean)
 - `endpoint_address` (String) An endpoint IP or hostname can be left blank to allow remote connection from any address.
 - `endpoint_port` (String) An endpoint port can be left blank to allow remote connection from any port.
 - `persistent_keepalive` (String) A seconds interval, between 1 and 65535 inclusive, of how often to send an authenticated empty packet to the peer for the purpose of keeping a stateful firewall or NAT mapping valid persistently. For example, if the interface very rarely sends traffic, but it might at anytime receive traffic from a peer, and it is behind NAT, the interface might benefit from having a persistent keepalive interval of 25 seconds.
 - `preshared_key` (String, Sensitive) A **base64** preshared key. Optional, and may be omitted. This option adds an additional layer of symmetric-key cryptography to be mixed into the already existing public-key cryptography, for post-quantum resistance.
+- `private_key` (String) A base64 private key. If not specified, it will be automatically generated upon interface creation.
 
 ### Read-Only
 
 - `current_endpoint_address` (String) The most recent source IP address of correctly authenticated packets from the peer.
 - `current_endpoint_port` (Number) The most recent source IP port of correctly authenticated packets from the peer.
+- `dynamic` (Boolean) Configuration item created by software, not by management interface. It is not exported, and cannot be directly modified.
 - `id` (String) The ID of this resource.
 - `last_handshake` (String) Time in seconds after the last successful handshake.
 - `rx` (String) The total amount of bytes received from the peer.

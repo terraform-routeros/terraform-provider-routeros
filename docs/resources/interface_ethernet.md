@@ -44,7 +44,6 @@ resource "routeros_interface_ethernet" "test" {
 			Default value is 'yes' because older NICs do not support it. (only applicable to x86)
 - `disabled` (Boolean)
 - `full_duplex` (Boolean) Defines whether the transmission of data appears in two directions simultaneously, only applies when auto-negotiation is disabled.
-- `l2mtu` (Number) Layer2 Maximum transmission unit. [See](https://wiki.mikrotik.com/wiki/Maximum_Transmission_Unit_on_RouterBoards).
 - `loop_protect` (String)
 - `loop_protect_disable_time` (String)
 - `loop_protect_send_interval` (String)
@@ -72,6 +71,7 @@ resource "routeros_interface_ethernet" "test" {
 
 - `default_name` (String) The default name for an interface.
 - `id` (String) The ID of this resource.
+- `l2mtu` (Number) Layer2 Maximum transmission unit. [See](https://wiki.mikrotik.com/wiki/Maximum_Transmission_Unit_on_RouterBoards).
 - `loop_protect_status` (String)
 - `orig_mac_address` (String) Original Media Access Control number of an interface. (read only)
 - `running` (Boolean) Whether interface is running. Note that some interface does not have running check and they are always reported as "running"

@@ -15,6 +15,7 @@ resource "routeros_ip_cloud" "test" {
 
 ### Optional
 
+- `back_to_home_vpn` (String) Enables or revokes and disables the Back to Home service. ddns-enabled has to be set to yes, for BTH to function.
 - `ddns_enabled` (Boolean) If set to yes, then the device will send an encrypted message to the MikroTik's Cloud server. The server will then decrypt the message and verify that the sender is an authentic MikroTik device. If all is OK, then the MikroTik's Cloud server will create a DDNS record for this device and send a response to the device. Every minute the IP/Cloud service on the router will check if WAN IP address matches the one sent to MikroTik's Cloud server and will send encrypted update to cloud server if IP address changes.
 - `ddns_update_interval` (String) If set DDNS will attempt to connect IP Cloud servers at the set interval. If set to none it will continue to internally check IP address update and connect to IP Cloud servers as needed. Useful if IP address used is not on the router itself and thus, cannot be checked as a value internal to the router.
 - `update_time` (Boolean) If set to yes then router clock will be set to time, provided by cloud server IF there is no NTP or SNTP client enabled. If set to no, then IP/Cloud service will never update the device's clock. If update-time is set to yes, Clock will be updated even when ddns-enabled is set to no.
@@ -24,7 +25,7 @@ resource "routeros_ip_cloud" "test" {
 - `dns_name` (String) Shows DNS name assigned to the rdevice. Name consists of 12 character serial number appended by .sn.mynetname.net. This field is visible only after at least one ddns-request is successfully completed.
 - `id` (String) The ID of this resource.
 - `public_address` (String) Shows device's IPv4 address that was sent to cloud server. This field is visible only after at least one IP Cloud request was successfully completed.
-- `public_address_ivp6` (String) Shows device's IPv6 address that was sent to cloud server. This field is visible only after at least one IP Cloud request was successfully completed.
+- `public_address_ipv6` (String) Shows device's IPv6 address that was sent to cloud server. This field is visible only after at least one IP Cloud request was successfully completed.
 - `status` (String) Contains text string that describes current dns-service state. The messages are self explanatory  updating... updated Error: no Internet connection Error: request timed out Error: REJECTED. Contact MikroTik support Error: internal error - should not happen. One possible cause is if router runs out of memory.
 - `warning` (String) Shows a warning message if IP address sent by the device differs from the IP address in UDP packet header as visible by the MikroTik's Cloud server. Typically this happens if the device is behind NAT. Example: 'DDNS server received request from IP 123.123.123.123 but your local IP was 192.168.88.23; DDNS service might not work'
 

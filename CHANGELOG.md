@@ -1,3 +1,14 @@
+## [1.32.5](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.32.4...v1.32.5) (2024-01-25)
+
+
+### Bug Fixes
+
+* Change l2mtu property ([9260354](https://github.com/terraform-routeros/terraform-provider-routeros/commit/92603541fd6b3f11dcbfd1ff2c1904f6687062a9)), closes [#326](https://github.com/terraform-routeros/terraform-provider-routeros/issues/326)
+* **cloud:** Add missing field ([235e3b0](https://github.com/terraform-routeros/terraform-provider-routeros/commit/235e3b07de33ca0b1edb82f728c0e3d241256a26)), closes [#331](https://github.com/terraform-routeros/terraform-provider-routeros/issues/331)
+* **no-release:** Fix Delete. Not an system object ([#343](https://github.com/terraform-routeros/terraform-provider-routeros/issues/343)) ([89ee0ea](https://github.com/terraform-routeros/terraform-provider-routeros/commit/89ee0ea2934f923dbf99744bd7d455bbf95910d2))
+* **no-release:** Fix Delete. Not an Systemresource ([#342](https://github.com/terraform-routeros/terraform-provider-routeros/issues/342)) ([e560128](https://github.com/terraform-routeros/terraform-provider-routeros/commit/e560128554dd157b8b9a3399724baa2e5def521e))
+* **wg peer:** Add missing fields ([48018c4](https://github.com/terraform-routeros/terraform-provider-routeros/commit/48018c4d525319b48e77923d57b4816ceb53cd30)), closes [#332](https://github.com/terraform-routeros/terraform-provider-routeros/issues/332)
+
 ## [1.32.4](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.32.3...v1.32.4) (2024-01-24)
 
 
