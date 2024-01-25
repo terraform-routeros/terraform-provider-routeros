@@ -24,6 +24,40 @@ func ResourceInterfaceWireguardPeer() *schema.Resource {
 				// ValidateFunc: ValidationIpAddress,
 			},
 		},
+		"client_address": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "When imported using a qr code for a client (for example, a phone), then this address for the " +
+				"wg interface is set on that device.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"client_dns": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Specify when using WireGuard Server as a VPN gateway for peer traffic.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"client_endpoint": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "The IP address and port number of the WireGuard Server.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"client_keepalive": {
+			Type:             schema.TypeInt,
+			Optional:         true,
+			Description:      "Same as persistent-keepalive but from peer side.",
+			ValidateFunc:     validation.IntBetween(0, 65535),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"client_listen_port": {
+			Type:     schema.TypeInt,
+			Optional: true,
+			Description: "The local port upon which this WireGuard tunnel will listen for incoming traffic from peers, " +
+				"and the port from which it will source outgoing packets.",
+			ValidateFunc:     validation.IntBetween(0, 65535),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"current_endpoint_address": {
 			Type:        schema.TypeString,
 			Computed:    true,
@@ -36,6 +70,7 @@ func ResourceInterfaceWireguardPeer() *schema.Resource {
 		},
 		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
+		KeyDynamic:  PropDynamicRo,
 		"endpoint_address": {
 			Type:        schema.TypeString,
 			Optional:    true,
@@ -62,8 +97,10 @@ func ResourceInterfaceWireguardPeer() *schema.Resource {
 				"persistently. For example, if the interface very rarely sends traffic, but it might at anytime " +
 				"receive traffic from a peer, and it is behind NAT, the interface might benefit from having a " +
 				"persistent keepalive interval of 25 seconds.",
-			ValidateFunc: validation.StringMatch(regexp.MustCompile(`^\d+s$`),
-				"value should be an integer between 1 and 65535 inclusive: 5s, 25s, ..."),
+			ValidateFunc: validation.StringMatch(
+				regexp.MustCompile(`^\d+s$`),
+				"value should be an integer between 1 and 65535 inclusive: 5s, 25s, ...",
+			),
 		},
 		"preshared_key": {
 			Type:      schema.TypeString,
@@ -73,7 +110,12 @@ func ResourceInterfaceWireguardPeer() *schema.Resource {
 				"of symmetric-key cryptography to be mixed into the already existing public-key cryptography, for " +
 				"post-quantum resistance.",
 		},
-
+		"private_key": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "A base64 private key. If not specified, it will be automatically generated upon interface creation.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"public_key": {
 			Type:        schema.TypeString,
 			Required:    true,
