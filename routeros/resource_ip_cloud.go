@@ -17,11 +17,20 @@ import (
 */
 
 // https://wiki.mikrotik.com/wiki/Manual:IP/Cloud
+// https://help.mikrotik.com/docs/display/ROS/Cloud
 func ResourceIpCloud() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/cloud"),
 		MetaId:           PropId(Id),
 
+		// https://help.mikrotik.com/docs/display/ROS/Back+To+Home
+		"back_to_home_vpn": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Enables or revokes and disables the Back to Home service. ddns-enabled has to be set to " +
+				"yes, for BTH to function.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"ddns_enabled": {
 			Type:     schema.TypeBool,
 			Optional: true,
@@ -65,7 +74,7 @@ func ResourceIpCloud() *schema.Resource {
 			Description: "Shows device's IPv4 address that was sent to cloud server. This field is visible only " +
 				"after at least one IP Cloud request was successfully completed.",
 		},
-		"public_address_ivp6": {
+		"public_address_ipv6": {
 			Type:     schema.TypeString,
 			Computed: true,
 			Description: "Shows device's IPv6 address that was sent to cloud server. This field is visible only " +
