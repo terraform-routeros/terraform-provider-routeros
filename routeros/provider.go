@@ -257,6 +257,9 @@ func Provider() *schema.Provider {
 			"routeros_wifi_provisioning":  ResourceWifiProvisioning(),
 			"routeros_wifi_security":      ResourceWifiSecurity(),
 			"routeros_wifi_steering":      ResourceWifiSteering(),
+
+			// ZeroTier
+			"routeros_zerotier": ResourceZerotier(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"routeros_firewall":              DatasourceFirewall(),
