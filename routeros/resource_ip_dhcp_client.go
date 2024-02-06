@@ -23,6 +23,11 @@ func ResourceDhcpClient() *schema.Resource {
 			Computed:    true,
 			Description: "IP address and netmask, which is assigned to DHCP Client from the Server.",
 		},
+		"script": {
+			Type:        schema.TypeString,
+			Optional:     true,
+			Description: "A script.",
+		},
 		KeyComment: PropCommentRw,
 		"default_route_distance": {
 			Type:         schema.TypeInt,
