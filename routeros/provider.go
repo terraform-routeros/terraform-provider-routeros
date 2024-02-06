@@ -259,8 +259,9 @@ func Provider() *schema.Provider {
 			"routeros_wifi_steering":      ResourceWifiSteering(),
 
 			// ZeroTier
-			"routeros_zerotier":           ResourceZerotier(),
-			"routeros_zerotier_interface": ResourceZerotierInterface(),
+			"routeros_zerotier":            ResourceZerotier(),
+			"routeros_zerotier_controller": ResourceZerotierController(),
+			"routeros_zerotier_interface":  ResourceZerotierInterface(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"routeros_firewall":              DatasourceFirewall(),
