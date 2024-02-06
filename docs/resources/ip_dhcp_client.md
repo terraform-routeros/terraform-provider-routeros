@@ -22,6 +22,7 @@ resource "routeros_ip_dhcp_client" "client" {
 - `default_route_distance` (Number) Distance of default route. Applicable if add-default-route is set to yes.
 - `dhcp_options` (String) Options that are sent to the DHCP server.
 - `disabled` (Boolean)
+- `script` (String) A script.
 - `use_peer_dns` (Boolean) Whether to accept the DNS settings advertised by DHCP Server (will override the settings put in the /ip dns submenu).
 - `use_peer_ntp` (Boolean) Whether to accept the NTP settings advertised by DHCP Server (will override the settings put in the /system ntp client submenu).
 

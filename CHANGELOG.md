@@ -1,3 +1,16 @@
+## [1.32.6](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.32.5...v1.32.6) (2024-02-06)
+
+
+### Features
+
+* **no-release:** add interface/ipip ([#346](https://github.com/terraform-routeros/terraform-provider-routeros/issues/346)) ([e7bd8dd](https://github.com/terraform-routeros/terraform-provider-routeros/commit/e7bd8ddaaf66ad101bd901d1c9045d52f69ab45b))
+
+
+### Bug Fixes
+
+* dhcp client add script string parameter ([#348](https://github.com/terraform-routeros/terraform-provider-routeros/issues/348)) ([3df2b69](https://github.com/terraform-routeros/terraform-provider-routeros/commit/3df2b69b155368383af121ac51a86f0d7b9a2896))
+* **no-release:** Mandatory use of ID as ipip resource identifier ([55f8a62](https://github.com/terraform-routeros/terraform-provider-routeros/commit/55f8a629297512a8d6397de6786b9b6fb3320a6c)), closes [#346](https://github.com/terraform-routeros/terraform-provider-routeros/issues/346)
+
 ## [1.32.5](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.32.4...v1.32.5) (2024-01-25)
 
 
