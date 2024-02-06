@@ -23,7 +23,7 @@ func ResourceInterfaceIPIP() *schema.Resource {
 		KeyL2Mtu:         PropL2MtuRo,
 		KeyLocalAddress:  PropLocalAddressRw,
 		KeyMtu:           PropMtuRw(),
-		KeyName:          PropNameForceNewRw,
+		KeyName:          PropName("Name of the ipip interface."),
 		KeyRemoteAddress: PropRemoteAddressRw,
 		KeyRunning:       PropRunningRo,
 	}
