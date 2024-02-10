@@ -21,14 +21,14 @@ func Provider() *schema.Provider {
 					[]string{"ROS_HOSTURL", "MIKROTIK_HOST"},
 					nil,
 				),
-				Description: `URL of the MikroTik router, default is TLS connection to REST.    
+				Description: `URL of the MikroTik router, default is TLS connection to REST.
 	* API: api[s]://host[:port]
 		* api://router.local
 		* apis://router.local:8729
 	* REST: https://host
 		* https://router.local
 		* router.local
-		* 127.0.0.1  
+		* 127.0.0.1
 
 
 	export ROS_HOSTURL=router.local or export MIKROTIK_HOST=router.local
@@ -80,6 +80,7 @@ func Provider() *schema.Provider {
 
 			// IP objects
 			"routeros_ip_dhcp_client":                  ResourceDhcpClient(),
+			"routeros_ip_dhcp_client_option":           ResourceDhcpClientOption(),
 			"routeros_ip_dhcp_server":                  ResourceDhcpServer(),
 			"routeros_ip_dhcp_server_config":           ResourceDhcpServerConfig(),
 			"routeros_ip_dhcp_server_network":          ResourceDhcpServerNetwork(),
@@ -104,6 +105,7 @@ func Provider() *schema.Provider {
 
 			// Aliases for IP objects to retain compatibility between original and fork
 			"routeros_dhcp_client":         ResourceDhcpClient(),
+			"routeros_dhcp_client_option":  ResourceDhcpClientOption(),
 			"routeros_dhcp_server":         ResourceDhcpServer(),
 			"routeros_dhcp_server_network": ResourceDhcpServerNetwork(),
 			"routeros_dhcp_server_lease":   ResourceDhcpServerLease(),
