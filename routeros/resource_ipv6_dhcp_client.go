@@ -30,10 +30,10 @@ import (
 // ResourceIPv6DhcpClient https://help.mikrotik.com/docs/display/ROS/DHCP#DHCP-DHCPv6Client
 func ResourceIPv6DhcpClient() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
-		MetaResourcePath: PropResourcePath("/ipv6/dhcp-client/"),
+		MetaResourcePath: PropResourcePath("/ipv6/dhcp-client"),
 		MetaId:           PropId(Id),
 
-		"add-default-route": {
+		"add_default_route": {
 			Type:        schema.TypeBool,
 			Optional:    true,
 			Description: "Whether to add default IPv6 route after a client connects.",
@@ -70,16 +70,18 @@ func ResourceIPv6DhcpClient() *schema.Resource {
 			Computed:    true,
 			Description: "Shows received IPv6 prefix from DHCPv6-PD server",
 		},
-		"prefix_hint ": {
-			Type:         schema.TypeInt,
-			Optional:     true,
-			Description:  "Include a preferred prefix length.",
-			ValidateFunc: validation.IntBetween(0, 128),
+		"prefix_hint": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Include a preferred prefix length.",
+			ValidateFunc:     validation.IsIPv6Address,
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"request": {
 			Type:        schema.TypeList,
-			Computed:    true,
+			Required:    true,
 			Description: "To choose if the DHCPv6 request will ask for the address or the IPv6 prefix, or both.",
+			Elem:        &schema.Schema{Type: schema.TypeString},
 		},
 		"status": {
 			Type:     schema.TypeString,

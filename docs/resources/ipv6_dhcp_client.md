@@ -24,7 +24,7 @@ resource "routeros_ipv6_dhcp_client" "inet_provider" {
 
 ### Optional
 
-- `add-default-route` (Boolean) Whether to add default IPv6 route after a client connects.
+- `add_default_route` (Boolean) Whether to add default IPv6 route after a client connects.
 - `comment` (String)
 - `disabled` (Boolean)
 - `prefix_hint ` (Number) Include a preferred prefix length.
