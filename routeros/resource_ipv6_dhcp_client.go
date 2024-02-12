@@ -5,13 +5,35 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
 
+/*
+[
+   {
+        ".id": "*1",
+        "add-default-route": "false",
+        "dhcp-options": "",
+        "dhcp-server-v6": "fe80::",
+        "disabled": "false",
+        "duid": "0x000003434343443",
+        "interface": "if-name",
+        "invalid": "false",
+        "pool-name": "blacknight-pub-addr",
+        "pool-prefix-length": "64",
+        "prefix": "2a01:----:/56, 6d16h56m8s",
+        "prefix-hint": "::/0",
+        "request": "prefix",
+        "status": "bound",
+        "use-peer-dns": "true"
+    }
+]
+*/
+
 // ResourceIPv6DhcpClient https://help.mikrotik.com/docs/display/ROS/DHCP#DHCP-DHCPv6Client
 func ResourceIPv6DhcpClient() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ipv6/dhcp-client/"),
 		MetaId:           PropId(Id),
 
-		"add-default-route ": {
+		"add-default-route": {
 			Type:        schema.TypeBool,
 			Optional:    true,
 			Description: "Whether to add default IPv6 route after a client connects.",
