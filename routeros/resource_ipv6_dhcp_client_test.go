@@ -17,7 +17,7 @@ func TestAccIPv6DhcpClient_basic(t *testing.T) {
 					testSetTransportEnv(t, name)
 				},
 				ProviderFactories: testAccProviderFactories,
-				CheckDestroy:      testCheckResourceDestroy("/ipv6/dhcp-client/client", "routeros_ipv6_dhcp_client"),
+				CheckDestroy:      testCheckResourceDestroy("/ipv6/dhcp-client", "routeros_ipv6_dhcp_client"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccIPv6DhcpClientConfig(),
@@ -25,11 +25,11 @@ func TestAccIPv6DhcpClient_basic(t *testing.T) {
 							testResourcePrimaryInstanceId(testIPv6DhcpClient),
 							resource.TestCheckResourceAttr(testIPv6DhcpClient, "interface", "ether1"),
 							resource.TestCheckResourceAttr(testIPv6DhcpClient, "pool_name", "inet-provider-pool"),
+							resource.TestCheckResourceAttr(testIPv6DhcpClient, "request.0", "prefix"),
 						),
 					},
 				},
 			})
-
 		})
 	}
 }
@@ -37,10 +37,11 @@ func TestAccIPv6DhcpClient_basic(t *testing.T) {
 func testAccIPv6DhcpClientConfig() string {
 	return providerConfig + `
 
-resource "routeros_ipv6_dhcp_client" "client" {
-	interface = "ether1"
+resource "routeros_ipv6_dhcp_client" "client" {	
     request = ["prefix"]
 	pool_name = "inet-provider-pool"
+	pool_prefix_length = "64"
+	interface = "ether1"
 }
 
 `
