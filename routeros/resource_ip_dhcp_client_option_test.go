@@ -17,7 +17,7 @@ func TestAccIpDhcpClientOptionTest_basic(t *testing.T) {
 					testSetTransportEnv(t, name)
 				},
 				ProviderFactories: testAccProviderFactories,
-				CheckDestroy:      testCheckResourceDestroy("/ip/dhcp-client-option", "routeros_ip_dhcp_client_option"),
+				CheckDestroy:      testCheckResourceDestroy("/ip/dhcp-client/option", "routeros_ip_dhcp_client_option"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccIpDhcpClientOptionConfig(),
