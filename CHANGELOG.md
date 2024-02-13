@@ -1,3 +1,15 @@
+## [1.33.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.32.6...v1.33.0) (2024-02-13)
+
+
+### Features
+
+* **file:** Add support for /file ([#355](https://github.com/terraform-routeros/terraform-provider-routeros/issues/355)) ([2a1d9fd](https://github.com/terraform-routeros/terraform-provider-routeros/commit/2a1d9fd7f866b427fcbff4589b6b19d42c9267a1))
+
+
+### Bug Fixes
+
+* **no-release:** Change the Name property for the ipip resource ([4899cf1](https://github.com/terraform-routeros/terraform-provider-routeros/commit/4899cf18fae8dd85a3df64ac7b75d0d7752f4c52))
+
 ## [1.32.6](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.32.5...v1.32.6) (2024-02-06)
 
 

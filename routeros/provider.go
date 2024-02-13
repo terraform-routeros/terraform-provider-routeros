@@ -21,14 +21,14 @@ func Provider() *schema.Provider {
 					[]string{"ROS_HOSTURL", "MIKROTIK_HOST"},
 					nil,
 				),
-				Description: `URL of the MikroTik router, default is TLS connection to REST.    
+				Description: `URL of the MikroTik router, default is TLS connection to REST.
 	* API: api[s]://host[:port]
 		* api://router.local
 		* apis://router.local:8729
 	* REST: https://host
 		* https://router.local
 		* router.local
-		* 127.0.0.1  
+		* 127.0.0.1
 
 
 	export ROS_HOSTURL=router.local or export MIKROTIK_HOST=router.local
@@ -80,6 +80,7 @@ func Provider() *schema.Provider {
 
 			// IP objects
 			"routeros_ip_dhcp_client":                  ResourceDhcpClient(),
+			"routeros_ip_dhcp_client_option":           ResourceDhcpClientOption(),
 			"routeros_ip_dhcp_server":                  ResourceDhcpServer(),
 			"routeros_ip_dhcp_server_config":           ResourceDhcpServerConfig(),
 			"routeros_ip_dhcp_server_network":          ResourceDhcpServerNetwork(),
@@ -97,6 +98,7 @@ func Provider() *schema.Provider {
 			"routeros_ip_dns":                          ResourceDns(),
 			"routeros_ip_dns_record":                   ResourceDnsRecord(),
 			"routeros_ip_service":                      ResourceIpService(),
+			"routeros_ipv6_dhcp_client":                ResourceIPv6DhcpClient(),
 			"routeros_ipv6_address":                    ResourceIPv6Address(),
 			"routeros_ipv6_firewall_addr_list":         ResourceIPv6FirewallAddrList(),
 			"routeros_ipv6_firewall_filter":            ResourceIPv6FirewallFilter(),
@@ -104,6 +106,7 @@ func Provider() *schema.Provider {
 
 			// Aliases for IP objects to retain compatibility between original and fork
 			"routeros_dhcp_client":         ResourceDhcpClient(),
+			"routeros_dhcp_client_option":  ResourceDhcpClientOption(),
 			"routeros_dhcp_server":         ResourceDhcpServer(),
 			"routeros_dhcp_server_network": ResourceDhcpServerNetwork(),
 			"routeros_dhcp_server_lease":   ResourceDhcpServerLease(),
@@ -187,6 +190,9 @@ func Provider() *schema.Provider {
 			"routeros_container_config": ResourceContainerConfig(),
 			"routeros_container_envs":   ResourceContainerEnvs(),
 			"routeros_container_mounts": ResourceContainerMounts(),
+
+			// File objects
+			"routeros_file": ResourceFile(),
 
 			// Routing
 			"routeros_routing_bgp_connection": ResourceRoutingBGPConnection(),
