@@ -17,13 +17,16 @@ resource "routeros_interface_veth" "test" {
 ### Required
 
 - `address` (String) IP address.
-- `gateway` (String) Gateway IP address.
 - `name` (String) Interface name.
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `comment` (String)
 - `disabled` (Boolean)
+- `gateway` (String) Gateway IP address.
+- `gateway6` (String) Gateway IPv6 address.
 
 ### Read-Only
 
