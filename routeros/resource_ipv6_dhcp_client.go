@@ -81,7 +81,10 @@ func ResourceIPv6DhcpClient() *schema.Resource {
 			Type:        schema.TypeList,
 			Required:    true,
 			Description: "To choose if the DHCPv6 request will ask for the address or the IPv6 prefix, or both.",
-			Elem:        &schema.Schema{Type: schema.TypeString},
+			Elem: &schema.Schema{
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"info", "address", "prefix"}, false),
+			},
 		},
 		"status": {
 			Type:     schema.TypeString,
