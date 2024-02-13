@@ -185,6 +185,12 @@ func Provider() *schema.Provider {
 			"routeros_capsman_rates":             ResourceCapsManRates(),
 			"routeros_capsman_security":          ResourceCapsManSecurity(),
 
+			// Container objects
+			"routeros_container":        ResourceContainer(),
+			"routeros_container_config": ResourceContainerConfig(),
+			"routeros_container_envs":   ResourceContainerEnvs(),
+			"routeros_container_mounts": ResourceContainerMounts(),
+
 			// File objects
 			"routeros_file": ResourceFile(),
 

@@ -36,6 +36,8 @@ var (
 		crudRemove: "POST",
 		crudRevoke: "POST",
 		crudMove:   "POST",
+		crudStart:  "POST",
+		crudStop:   "POST",
 	}
 )
 

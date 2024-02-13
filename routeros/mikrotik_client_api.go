@@ -29,6 +29,8 @@ var (
 		crudRemove: "/remove",
 		crudRevoke: "/issued-revoke",
 		crudMove:   "/move",
+		crudStart:  "/start",
+		crudStop:   "/stop",
 	}
 )
 
