@@ -185,6 +185,9 @@ func Provider() *schema.Provider {
 			"routeros_capsman_rates":             ResourceCapsManRates(),
 			"routeros_capsman_security":          ResourceCapsManSecurity(),
 
+			// File objects
+			"routeros_file": ResourceFile(),
+
 			// Routing
 			"routeros_routing_bgp_connection": ResourceRoutingBGPConnection(),
 			"routeros_routing_bgp_template":   ResourceRoutingBGPTemplate(),
