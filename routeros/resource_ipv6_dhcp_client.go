@@ -46,19 +46,11 @@ func ResourceIPv6DhcpClient() *schema.Resource {
 		},
 		KeyComment: PropCommentRw,
 		"default_route_distance": {
-			Type:         schema.TypeInt,
-			Optional:     true,
-			Default:      1,
-			Description:  "Distance of default route. Applicable if add-default-route is set to yes.",
-			ValidateFunc: validation.IntBetween(0, 255),
-			// Default route distance returns as empty when the dhcp-client is searching.
-			// This produces inconsistent results, for this case, we will suppress changes.
-			DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
-				if old == new || new == "" {
-					return true
-				}
-				return false
-			},
+			Type:             schema.TypeInt,
+			Optional:         true,
+			Description:      "Distance of default route. Applicable if add-default-route is set to yes.",
+			ValidateFunc:     validation.IntBetween(0, 255),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"dhcp_options": {
 			Type:        schema.TypeString,
