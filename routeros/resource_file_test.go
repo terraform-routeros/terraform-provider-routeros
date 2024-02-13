@@ -6,9 +6,15 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
+const testFileMinVersion = "7.9"
 const testFile = "routeros_file.test"
 
 func TestAccFileTest_basic(t *testing.T) {
+	if !testCheckMinVersion(t, testFileMinVersion) {
+		t.Logf("Test skipped, the minimum required version is %v", testFileMinVersion)
+		return
+	}
+
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{
