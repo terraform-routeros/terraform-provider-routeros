@@ -16,7 +16,7 @@ resource "routeros_ipv6_dhcp_client" "client" {
   pool_name         = "pub-add-pool"
   interface         = "ether1"
   add-default-route = true
-  pool_prefix_length = "64"
+  pool_prefix_length = 64
   request            = ["prefix"]
   interface          = "ether1"
 }
@@ -27,26 +27,50 @@ resource "routeros_ipv6_dhcp_client" "client" {
 
 ### Required
 
-- `interface` (String) The interface on which the DHCPv6 client will be running.
-- `pool_name` (String) Name of the IPv6 pool in which received IPv6 prefix will be added
-- `pool_prefix_length` (Number) Prefix length parameter that will be set for IPv6 pool in which received IPv6 prefix is added. Prefix length must be greater than the length of the received prefix, otherwise, prefix-length will be set to received prefix length + 8 bits.
-- `request` (List of String) To choose if the DHCPv6 request will ask for the address or the IPv6 prefix, or both.
+- `interface` (String) Name of the interface.
+- `request` (List of String) To choose if the DHCPv6 request will ask for the address, info or the IPv6 prefix.
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `add_default_route` (Boolean) Whether to add default IPv6 route after a client connects.
 - `comment` (String)
+- `default_route_distance` (Number) Distance of default route. Applicable if add-default-route is set to yes.
+- `dhcp_options` (String) Options that are sent to the DHCP server.
 - `disabled` (Boolean)
+- `pool_name` (String) Name of the IPv6 pool in which received IPv6 prefix will be added
+- `pool_prefix_length` (Number) Prefix length parameter that will be set for IPv6 pool in which received IPv6 prefix is added. Prefix length must be greater than the length of the received prefix, otherwise, prefix-length will be set to received prefix length + 8 bits.
 - `prefix_hint` (String) Include a preferred prefix length.
-- `script` (String) Run this script on the DHCP-client status change. Available variables:pd-valid - if the prefix is acquired by the client;pd-prefix - the prefix acquired by the client if any;na-valid - if the address is acquired by the client;na-address - the address acquired by the client if any.options - array of received options (only ROSv7)
-- `use_peer_dns` (Boolean) Routing table this route belongs to.
+- `rapid_commit` (Boolean) Enable DHCP rapid commit (fast address assignment)
+- `script` (String) Run this script on the DHCP-client status change. Available variables:
+			- pd-valid - if the prefix is acquired by the client;
+			- pd-prefix - the prefix acquired by the client if any;
+			- na-valid - if the address is acquired by the client;
+			- na-address - the address acquired by the client if any.
+			- options - array of received options (only ROSv7)
+- `use_interface_duid` (Boolean) Specifies the MAC address of the specified interface as the DHCPv6 client DUID.
+- `use_peer_dns` (Boolean) Whether to accept the DNS settings advertised by the IPv6 DHCP Server.
 
 ### Read-Only
 
-- `duid` (String) Auto-generated DUID that is sent to the server.DUID is generated using one of the MAC addresses available on the router.
+- `address` (String) IPv6 address, which is assigned to DHCPv6 Client from the Server.
+- `dhcp_server_v6` (String) The IPv6 address of the DHCP server
+- `duid` (String) Auto-generated DUID that is sent to the server. DUID is generated using one of the MAC addresses available on the router.
+- `dynamic` (Boolean) Configuration item created by software, not by management interface. It is not exported, and cannot be directly modified.
+- `expires_after` (String) A time when the IPv6 prefix expires (specified by the DHCPv6 server).
+- `gateway` (String) The IP address of the gateway which is assigned by DHCP server.
 - `id` (String) The ID of this resource.
+- `invalid` (Boolean)
 - `prefix` (String) Shows received IPv6 prefix from DHCPv6-PD server
-- `status` (String) Shows the status of DHCPv6 Client:stopped - dhcpv6 client is stoppedsearching - sending "solicit" and trying to get "advertise"  Shows actual (resolved) gateway and interface that will be used for packet forwarding.requesting - sent "request" waiting for "reply"bound - received "reply". Prefix assigned. renewing - sent "renew", waiting for "reply" rebinding - sent "rebind", waiting for "reply" error - reply was not received in time or some other error occurred. stopping - sent "release"
+- `status` (String) Shows the status of DHCPv6 Client:
+			- stopped - dhcpv6 client is stopped
+			- searching - sending "solicit" and trying to get "advertise"  Shows actual (resolved) gateway and interface that will be used for packet forwarding.requesting - sent "request" waiting for "reply"
+			- bound - received "reply". Prefix assigned.
+			- renewing - sent "renew", waiting for "reply"
+			- rebinding - sent "rebind", waiting for "reply"
+			- error - reply was not received in time or some other error occurred.
+			- stopping - sent "release"
 
 ## Import
 Import is supported using the following syntax:

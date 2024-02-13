@@ -40,7 +40,7 @@ func testAccIPv6DhcpClientConfig() string {
 resource "routeros_ipv6_dhcp_client" "client" {	
     request = ["prefix"]
 	pool_name = "inet-provider-pool"
-	pool_prefix_length = "64"
+	pool_prefix_length = 64
 	interface = "ether1"
 }
 

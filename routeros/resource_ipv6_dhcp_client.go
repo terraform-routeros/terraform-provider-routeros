@@ -36,33 +36,68 @@ func ResourceIPv6DhcpClient() *schema.Resource {
 		"add_default_route": {
 			Type:        schema.TypeBool,
 			Optional:    true,
+			Default:     false,
 			Description: "Whether to add default IPv6 route after a client connects.",
-			Default:     true,
 		},
-		KeyComment:  PropCommentRw,
+		"address": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "IPv6 address, which is assigned to DHCPv6 Client from the Server.",
+		},
+		KeyComment: PropCommentRw,
+		"default_route_distance": {
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Default:      1,
+			Description:  "Distance of default route. Applicable if add-default-route is set to yes.",
+			ValidateFunc: validation.IntBetween(0, 255),
+			// Default route distance returns as empty when the dhcp-client is searching.
+			// This produces inconsistent results, for this case, we will suppress changes.
+			DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+				if old == new || new == "" {
+					return true
+				}
+				return false
+			},
+		},
+		"dhcp_options": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Options that are sent to the DHCP server.",
+		},
+		"dhcp_server_v6": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "The IPv6 address of the DHCP server",
+		},
 		KeyDisabled: PropDisabledRw,
 		"duid": {
-			Type:     schema.TypeString,
-			Computed: true,
-			Description: "Auto-generated DUID that is sent to the server." +
-				"DUID is generated using one of the MAC addresses available on the router.",
-		},
-		"interface": {
 			Type:        schema.TypeString,
-			Required:    true,
-			Description: "The interface on which the DHCPv6 client will be running.",
+			Computed:    true,
+			Description: "Auto-generated DUID that is sent to the server. DUID is generated using one of the MAC addresses available on the router.",
 		},
+		KeyDynamic: PropDynamicRo,
+		"expires_after": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "A time when the IPv6 prefix expires (specified by the DHCPv6 server).",
+		},
+		"gateway": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "The IP address of the gateway which is assigned by DHCP server.",
+		},
+		KeyInterface: PropInterfaceRw,
+		KeyInvalid:   PropInvalidRo,
 		"pool_name": {
 			Type:        schema.TypeString,
-			Required:    true,
+			Optional:    true,
 			Description: "Name of the IPv6 pool in which received IPv6 prefix will be added",
 		},
 		"pool_prefix_length": {
-			Type:     schema.TypeInt,
-			Computed: false,
-			Required: true,
-			Description: "Prefix length parameter that will be set for IPv6 pool in which received IPv6 prefix is added." +
-				" Prefix length must be greater than the length of the received prefix, otherwise, prefix-length will be set to received prefix length + 8 bits.",
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Description:  "Prefix length parameter that will be set for IPv6 pool in which received IPv6 prefix is added. Prefix length must be greater than the length of the received prefix, otherwise, prefix-length will be set to received prefix length + 8 bits.",
 			ValidateFunc: validation.IntBetween(0, 128),
 		},
 		"prefix": {
@@ -73,46 +108,57 @@ func ResourceIPv6DhcpClient() *schema.Resource {
 		"prefix_hint": {
 			Type:             schema.TypeString,
 			Optional:         true,
+			Computed:         true,
 			Description:      "Include a preferred prefix length.",
 			ValidateFunc:     validation.IsIPv6Address,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"rapid_commit": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Description: "Enable DHCP rapid commit (fast address assignment)",
+		},
 		"request": {
 			Type:        schema.TypeList,
 			Required:    true,
-			Description: "To choose if the DHCPv6 request will ask for the address or the IPv6 prefix, or both.",
+			Description: "To choose if the DHCPv6 request will ask for the address, info or the IPv6 prefix.",
 			Elem: &schema.Schema{
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"info", "address", "prefix"}, false),
 			},
 		},
-		"status": {
-			Type:     schema.TypeString,
-			Computed: true,
-			Description: "Shows the status of DHCPv6 Client:" +
-				"stopped - dhcpv6 client is stopped" +
-				"searching - sending \"solicit\" and trying to get \"advertise\"  Shows actual (resolved) gateway and interface that will be used for packet forwarding.requesting - sent \"request\" waiting for \"reply\"" +
-				"bound - received \"reply\". Prefix assigned. " +
-				"renewing - sent \"renew\", waiting for \"reply\" " +
-				"rebinding - sent \"rebind\", waiting for \"reply\" " +
-				"error - reply was not received in time or some other error occurred. " +
-				"stopping - sent \"release\"",
-		},
 		"script": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Description: "Run this script on the DHCP-client status change. Available variables:" +
-				"pd-valid - if the prefix is acquired by the client;" +
-				"pd-prefix - the prefix acquired by the client if any;" +
-				"na-valid - if the address is acquired by the client;" +
-				"na-address - the address acquired by the client if any." +
-				"options - array of received options (only ROSv7)",
+			Description: `Run this script on the DHCP-client status change. Available variables:
+			- pd-valid - if the prefix is acquired by the client;
+			- pd-prefix - the prefix acquired by the client if any;
+			- na-valid - if the address is acquired by the client;
+			- na-address - the address acquired by the client if any.
+			- options - array of received options (only ROSv7)`,
+		},
+		"status": {
+			Type:     schema.TypeString,
+			Computed: true,
+			Description: `Shows the status of DHCPv6 Client:
+			- stopped - dhcpv6 client is stopped
+			- searching - sending "solicit" and trying to get "advertise"  Shows actual (resolved) gateway and interface that will be used for packet forwarding.requesting - sent "request" waiting for "reply"
+			- bound - received "reply". Prefix assigned.
+			- renewing - sent "renew", waiting for "reply"
+			- rebinding - sent "rebind", waiting for "reply"
+			- error - reply was not received in time or some other error occurred.
+			- stopping - sent "release"`,
+		},
+		"use_interface_duid": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Description: "Specifies the MAC address of the specified interface as the DHCPv6 client DUID.",
 		},
 		"use_peer_dns": {
 			Type:        schema.TypeBool,
 			Optional:    true,
 			Default:     true,
-			Description: "Routing table this route belongs to.",
+			Description: "Whether to accept the DNS settings advertised by the IPv6 DHCP Server.",
 		},
 	}
 	return &schema.Resource{
