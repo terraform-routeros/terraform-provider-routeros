@@ -182,6 +182,9 @@ func Provider() *schema.Provider {
 			"routeros_capsman_rates":             ResourceCapsManRates(),
 			"routeros_capsman_security":          ResourceCapsManSecurity(),
 
+			// File objects
+			"routeros_file": ResourceFile(),
+
 			// Routing
 			"routeros_routing_bgp_connection": ResourceRoutingBGPConnection(),
 			"routeros_routing_bgp_template":   ResourceRoutingBGPTemplate(),
@@ -210,7 +213,7 @@ func Provider() *schema.Provider {
 
 			// Helpers
 			"routeros_wireguard_keys": ResourceWireguardKeys(),
-			"routeros_move_items": ResourceMoveItems(),
+			"routeros_move_items":     ResourceMoveItems(),
 
 			// User Manager
 			"routeros_user_manager_advanced":           ResourceUserManagerAdvanced(),
