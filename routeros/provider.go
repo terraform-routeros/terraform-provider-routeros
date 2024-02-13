@@ -182,6 +182,12 @@ func Provider() *schema.Provider {
 			"routeros_capsman_rates":             ResourceCapsManRates(),
 			"routeros_capsman_security":          ResourceCapsManSecurity(),
 
+			// Container objects
+			"routeros_container":        ResourceContainer(),
+			"routeros_container_config": ResourceContainerConfig(),
+			"routeros_container_envs":   ResourceContainerEnvs(),
+			"routeros_container_mounts": ResourceContainerMounts(),
+
 			// Routing
 			"routeros_routing_bgp_connection": ResourceRoutingBGPConnection(),
 			"routeros_routing_bgp_template":   ResourceRoutingBGPTemplate(),
@@ -210,7 +216,7 @@ func Provider() *schema.Provider {
 
 			// Helpers
 			"routeros_wireguard_keys": ResourceWireguardKeys(),
-			"routeros_move_items": ResourceMoveItems(),
+			"routeros_move_items":     ResourceMoveItems(),
 
 			// User Manager
 			"routeros_user_manager_advanced":           ResourceUserManagerAdvanced(),

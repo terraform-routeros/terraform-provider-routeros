@@ -97,7 +97,7 @@ func UpdateItem(id *ItemId, resourcePath string, item MikrotikItem, c Client) (M
 
 func DeleteItem(id *ItemId, resourcePath string, c Client) error {
 	if id.Value == "" {
-		return errEmptyId
+		return errEmptyPath
 	}
 	if resourcePath == "" {
 		return errEmptyPath

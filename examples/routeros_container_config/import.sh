@@ -1,0 +1,1 @@
+terraform import routeros_container_config.config .

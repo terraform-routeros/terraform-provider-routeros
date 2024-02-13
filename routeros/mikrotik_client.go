@@ -34,6 +34,8 @@ const (
 	crudRemove
 	crudRevoke
 	crudMove
+	crudStart
+	crudStop
 )
 
 func NewClient(ctx context.Context, d *schema.ResourceData) (interface{}, diag.Diagnostics) {
