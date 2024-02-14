@@ -53,9 +53,12 @@ func ResourceIPv6DhcpClient() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"dhcp_options": {
-			Type:        schema.TypeString,
+			Type:        schema.TypeSet,
 			Optional:    true,
 			Description: "Options that are sent to the DHCP server.",
+			Elem: &schema.Schema{
+				Type: schema.TypeString,
+			},
 		},
 		"dhcp_server_v6": {
 			Type:        schema.TypeString,
