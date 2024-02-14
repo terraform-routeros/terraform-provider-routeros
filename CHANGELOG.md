@@ -1,3 +1,16 @@
+## [1.33.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.33.0...v1.33.1) (2024-02-14)
+
+
+### Features
+
+* **no-release:** Add support for /container ([#356](https://github.com/terraform-routeros/terraform-provider-routeros/issues/356)) ([afacc8f](https://github.com/terraform-routeros/terraform-provider-routeros/commit/afacc8fa8d382cf1db23336d448f141f8cabea56))
+
+
+### Bug Fixes
+
+* **ipv6:** Add fields for /ipv6/dhcp-client ([#357](https://github.com/terraform-routeros/terraform-provider-routeros/issues/357)) ([17a26d9](https://github.com/terraform-routeros/terraform-provider-routeros/commit/17a26d9a5c2f6a92415da688a64074f7bf97e9ce))
+* **no-release:** Add missing ethernet interface fields to SkipFields ([#359](https://github.com/terraform-routeros/terraform-provider-routeros/issues/359)) ([55409c4](https://github.com/terraform-routeros/terraform-provider-routeros/commit/55409c4f762d2664da7b5cef7169e36013e2f203))
+
 ## [1.33.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.32.6...v1.33.0) (2024-02-13)
 
 

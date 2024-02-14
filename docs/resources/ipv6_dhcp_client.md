@@ -32,12 +32,10 @@ resource "routeros_ipv6_dhcp_client" "client" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `add_default_route` (Boolean) Whether to add default IPv6 route after a client connects.
 - `comment` (String)
 - `default_route_distance` (Number) Distance of default route. Applicable if add-default-route is set to yes.
-- `dhcp_options` (String) Options that are sent to the DHCP server.
+- `dhcp_options` (Set of String) Options that are sent to the DHCP server.
 - `disabled` (Boolean)
 - `pool_name` (String) Name of the IPv6 pool in which received IPv6 prefix will be added
 - `pool_prefix_length` (Number) Prefix length parameter that will be set for IPv6 pool in which received IPv6 prefix is added. Prefix length must be greater than the length of the received prefix, otherwise, prefix-length will be set to received prefix length + 8 bits.
