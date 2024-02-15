@@ -1,3 +1,10 @@
+## [1.34.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.33.1...v1.34.0) (2024-02-15)
+
+
+### Features
+
+* **ipv6:** Add support for /ipv6/dhcp-client/option ([df43330](https://github.com/terraform-routeros/terraform-provider-routeros/commit/df43330ca7bed7e15d8a7f18d76adcacd3289fc0))
+
 ## [1.33.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.33.0...v1.33.1) (2024-02-14)
 
 
