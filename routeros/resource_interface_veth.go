@@ -33,9 +33,17 @@ func ResourceInterfaceVeth() *schema.Resource {
 		KeyDisabled: PropDisabledRw,
 		"gateway": {
 			Type:         schema.TypeString,
-			Required:     true,
+			Optional:     true,
 			Description:  "Gateway IP address.",
 			ValidateFunc: validation.IsIPv4Address,
+			AtLeastOneOf: []string{"gateway", "gateway6"},
+		},
+		"gateway6": {
+			Type:         schema.TypeString,
+			Optional:     true,
+			Description:  "Gateway IPv6 address.",
+			ValidateFunc: validation.IsIPv6Address,
+			AtLeastOneOf: []string{"gateway", "gateway6"},
 		},
 		KeyName:    PropName("Interface name."),
 		KeyRunning: PropRunningRo,
