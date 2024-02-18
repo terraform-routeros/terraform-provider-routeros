@@ -103,6 +103,7 @@ func Provider() *schema.Provider {
 			"routeros_ipv6_dhcp_client_option":         ResourceIPv6DhcpClientOption(),
 			"routeros_ipv6_firewall_addr_list":         ResourceIPv6FirewallAddrList(),
 			"routeros_ipv6_firewall_filter":            ResourceIPv6FirewallFilter(),
+			"routeros_ipv6_neighbor_discovery":         ResourceIPv6NeighborDiscovery(),
 			"routeros_ipv6_route":                      ResourceIPv6Route(),
 
 			// Aliases for IP objects to retain compatibility between original and fork
