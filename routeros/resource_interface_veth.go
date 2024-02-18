@@ -34,7 +34,6 @@ func ResourceInterfaceVeth() *schema.Resource {
 		"gateway": {
 			Type:         schema.TypeString,
 			Optional:     true,
-			Computed:     true,
 			Description:  "Gateway IP address.",
 			ValidateFunc: validation.IsIPv4Address,
 			AtLeastOneOf: []string{"gateway", "gateway6"},
@@ -42,7 +41,6 @@ func ResourceInterfaceVeth() *schema.Resource {
 		"gateway6": {
 			Type:         schema.TypeString,
 			Optional:     true,
-			Computed:     true,
 			Description:  "Gateway IPv6 address.",
 			ValidateFunc: validation.IsIPv6Address,
 			AtLeastOneOf: []string{"gateway", "gateway6"},
