@@ -134,9 +134,7 @@ func ResourceIPv6NeighborDiscovery() *schema.Resource {
 			Optional: true,
 			Description: "The time between retransmitted Neighbor Solicitation messages." +
 				"Used by address resolution and the Neighbor Unreachability Detection algorithm (see Sections 7.2 and 7.3 of RFC 2461)",
-			DiffSuppressFunc: func(k, oldValue, newValue string, d *schema.ResourceData) bool {
-				return true
-			},
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 	}
 	return &schema.Resource{
