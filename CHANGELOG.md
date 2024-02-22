@@ -1,3 +1,15 @@
+## [1.35.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.34.0...v1.35.0) (2024-02-22)
+
+
+### Features
+
+* Add resource routeros_ipv6_neighbor_discovery ([#362](https://github.com/terraform-routeros/terraform-provider-routeros/issues/362)) ([13fb7b7](https://github.com/terraform-routeros/terraform-provider-routeros/commit/13fb7b75ba398b97551b58ff7cd8f99e26a15e12))
+
+
+### Bug Fixes
+
+* **no-release:** Add gateway6 field to /interface/veth ([#358](https://github.com/terraform-routeros/terraform-provider-routeros/issues/358)) ([b0385f6](https://github.com/terraform-routeros/terraform-provider-routeros/commit/b0385f66815ac1205606d64c3df80fcd9b315d08))
+
 ## [1.34.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.33.1...v1.34.0) (2024-02-15)
 
 
