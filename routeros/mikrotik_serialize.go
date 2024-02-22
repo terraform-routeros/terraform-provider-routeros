@@ -97,6 +97,14 @@ func loadSkipFields(s string) (m map[string]struct{}) {
 	return
 }
 
+func loadDropByValue(s string) (m map[string]struct{}) {
+	m = make(map[string]struct{})
+	for _, value := range strings.Split(s, ",") {
+		m[value] = struct{}{}
+	}
+	return m
+}
+
 // ListToString Convert List and Set to a delimited string.
 func ListToString(v any) (res string) {
 	for i, elem := range v.([]interface{}) {
@@ -139,7 +147,7 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 				meta.IdType = IdType(terraformMetadata.Default.(int))
 			case MetaResourcePath:
 				meta.Path = terraformMetadata.Default.(string)
-			case MetaTransformSet, MetaSkipFields, MetaSetUnsetFields:
+			case MetaTransformSet, MetaSkipFields, MetaSetUnsetFields, MetaDropByValue:
 				continue
 			default:
 				meta.Meta[terraformSnakeName] = terraformMetadata.Default.(string)
@@ -290,7 +298,7 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 	var diags diag.Diagnostics
 	var err error
 	var transformSet map[string]string
-	var setUnsetFields, skipFields map[string]struct{}
+	var setUnsetFields, skipFields, dropByValue map[string]struct{}
 
 	// {"channel": "channel.config", "mikrotik-field-name": "schema-field-name"}
 	if ts, ok := s[MetaTransformSet]; ok {
@@ -303,6 +311,10 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 	}
 	if sf, ok := s[MetaSkipFields]; ok {
 		skipFields = loadSkipFields(sf.Default.(string))
+	}
+
+	if dbv, ok := s[MetaDropByValue]; ok {
+		dropByValue = loadDropByValue(dbv.Default.(string))
 	}
 
 	// TypeMap,TypeSet initialization information storage.
@@ -321,6 +333,10 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 
 		// Skip all service fields (i.e. `.id`, `.nextid`, `ret` ...).
 		if mikrotikKebabName[0:1] == "." || mikrotikKebabName == "ret" {
+			continue
+		}
+
+		if _, ok := dropByValue[mikrotikValue]; ok {
 			continue
 		}
 
