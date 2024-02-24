@@ -334,6 +334,14 @@ var (
 		Description: "Layer2 Maximum transmission unit. " +
 			"[See](https://wiki.mikrotik.com/wiki/Maximum_Transmission_Unit_on_RouterBoards).",
 	}
+	PropL2MtuRw = &schema.Schema{
+		Type:     schema.TypeInt,
+		Optional: true,
+		Description: "Layer2 Maximum transmission unit. " +
+			"[See](https://wiki.mikrotik.com/wiki/Maximum_Transmission_Unit_on_RouterBoards).",
+		ValidateFunc:     validation.IntBetween(1, 65535),
+		DiffSuppressFunc: AlwaysPresentNotUserProvided,
+	}
 	PropLocalAddressRw = &schema.Schema{
 		Type:         schema.TypeString,
 		Optional:     true,
