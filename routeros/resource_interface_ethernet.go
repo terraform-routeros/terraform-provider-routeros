@@ -134,12 +134,7 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Description:      `Defines whether the transmission of data appears in two directions simultaneously, only applies when auto-negotiation is disabled.`,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
-		KeyL2Mtu: {
-			Type:     schema.TypeInt,
-			Optional: true,
-			Description: "Layer2 Maximum transmission unit. " +
-				"[See](https://wiki.mikrotik.com/wiki/Maximum_Transmission_Unit_on_RouterBoards).",
-		},
+		KeyL2Mtu:                   PropL2MtuRw,
 		KeyLoopProtect:             PropLoopProtectRw,
 		KeyLoopProtectDisableTime:  PropLoopProtectDisableTimeRw,
 		KeyLoopProtectSendInterval: PropLoopProtectSendIntervalRw,
