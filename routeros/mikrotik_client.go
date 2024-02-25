@@ -86,6 +86,7 @@ func NewClient(ctx context.Context, d *schema.ResourceData) (interface{}, diag.D
 
 	// Parse URL.
 	switch routerUrl.Scheme {
+	case "http":
 	case "https":
 	case "apis":
 		routerUrl.Scheme = ""
