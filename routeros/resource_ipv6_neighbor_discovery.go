@@ -3,6 +3,7 @@ package routeros
 import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
+	"math"
 )
 
 /*
@@ -78,7 +79,7 @@ func ResourceIPv6NeighborDiscovery() *schema.Resource {
 			Type:         schema.TypeInt,
 			Optional:     true,
 			Description:  "The flag indicates whether hosts should use stateful autoconfiguration (DHCPv6) to obtain addresses",
-			ValidateFunc: validation.IntBetween(0, 4294967295),
+			ValidateFunc: validation.IntBetween(0, math.MaxInt32),
 		},
 		"other_configuration": {
 			Type:        schema.TypeBool,
