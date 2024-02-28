@@ -1,3 +1,11 @@
+## [1.35.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.35.0...v1.35.1) (2024-02-28)
+
+
+### Bug Fixes
+
+* **no-release:** Fix max value for MTU - Fix Main ([#365](https://github.com/terraform-routeros/terraform-provider-routeros/issues/365)) ([b2c57de](https://github.com/terraform-routeros/terraform-provider-routeros/commit/b2c57de6967d92dfc1dd445566f711544913483e))
+* Undo commit "Change l2mtu property " ([#367](https://github.com/terraform-routeros/terraform-provider-routeros/issues/367)) ([8657054](https://github.com/terraform-routeros/terraform-provider-routeros/commit/86570540ecf5a3cdcd1a7391074e6626bbef8bc0)), closes [#326](https://github.com/terraform-routeros/terraform-provider-routeros/issues/326)
+
 ## [1.35.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.34.0...v1.35.0) (2024-02-22)
 
 
