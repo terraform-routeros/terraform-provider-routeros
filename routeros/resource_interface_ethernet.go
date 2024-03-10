@@ -56,10 +56,10 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			`"factory_name","driver_rx_byte","driver_rx_packet","driver_tx_byte","driver_tx_packet",` +
 				`"rx_64","rx_65_127","rx_128_255","rx_256_511","rx_512_1023","rx_1024_1518","rx_1519_max",` +
 				`"tx_64","tx_65_127","tx_128_255","tx_256_511","tx_512_1023","tx_1024_1518","tx_1519_max",` +
-				`"tx_rx_64","tx_rx_65_127","tx_rx_128_255","tx_rx_256_511","tx_rx_512_1023","tx_rx_1024_1518","tx_rx_1024_max",tx_rx_1519_max",` +
+				`"tx_rx_64","tx_rx_65_127","tx_rx_128_255","tx_rx_256_511","tx_rx_512_1023","tx_rx_1024_1518","tx_rx_1024_max","tx_rx_1519_max",` +
 				`"rx_broadcast","rx_bytes","rx_control","rx_drop","rx_fcs_error","rx_fragment","rx_jabber","rx_multicast","rx_packet","rx_pause","rx_too_short","rx_too_long",` +
 				`"tx_broadcast","tx_bytes","tx_control","tx_drop","tx_fcs_error","tx_fragment","tx_jabber","tx_multicast","tx_packet","tx_pause","tx_too_short","tx_too_long",` +
-				`"rx_align_error","rx_carrier_error","rx_code_error","rx_error_events","rx_length_error","rx_overflow","rx_unicast","rx_unknown_op"` +
+				`"rx_align_error","rx_carrier_error","rx_code_error","rx_error_events","rx_length_error","rx_overflow","rx_unicast","rx_unknown_op",` +
 				`"tx_collision","tx_excessive_collision","tx_late_collision","tx_multiple_collision","tx_single_collision","tx_total_collision",` +
 				`"tx_deferred","tx_excessive_deferred","tx_unicast","tx_underrun"`,
 		),
