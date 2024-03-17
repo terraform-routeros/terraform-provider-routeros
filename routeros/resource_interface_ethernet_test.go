@@ -60,7 +60,7 @@ func TestAccInterfaceEthernetTest_import(t *testing.T) {
 					},
 					{
 						ResourceName:      testInterfaceEthernetAddress,
-						ImportStateId:     "*0",
+						ImportStateId:     "*1",
 						ImportState:       true,
 						ImportStateVerify: true,
 					},
