@@ -109,6 +109,7 @@ func testAccInterfaceEthernetImportConfig() string {
 resource "routeros_interface_ethernet" "importtest" {
   factory_name              = "ether3"
   name                      = "import"
+  speed                     = "1Gbps" 
 }
 `
 }
