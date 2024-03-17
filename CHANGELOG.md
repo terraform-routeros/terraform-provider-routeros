@@ -1,3 +1,10 @@
+## [1.36.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.35.1...v1.36.0) (2024-03-17)
+
+
+### Features
+
+* Add routeros_system_script ([bf72b32](https://github.com/terraform-routeros/terraform-provider-routeros/commit/bf72b327d25605216ba8a5a44cb2aed43775dd6f)), closes [#373](https://github.com/terraform-routeros/terraform-provider-routeros/issues/373)
+
 ## [1.35.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.35.0...v1.35.1) (2024-02-28)
 
 
