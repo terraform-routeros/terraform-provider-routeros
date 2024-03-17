@@ -2,7 +2,7 @@
 
 ![module testing workflow](https://github.com/GNewbury1/terraform-provider-routeros/actions/workflows/release.yml/badge.svg?branch=main)
 
-**Note**: A breaking change was introduced as part of `v1.0.3` of the provider. This has been reverted in `v1.0.4`. Please do not use `v1.0.3`.
+**Note**: Release `1.35.1` does not contain artifacts. Please do not use `v1.35.1`.
 
 ## Purpose
 
