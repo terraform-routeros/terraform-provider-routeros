@@ -556,28 +556,6 @@ var (
 	}
 )
 
-func isRawValueEmpty(value cty.Value, path string) bool {
-	var attr cty.Value
-	keys := strings.SplitN(path, ".", 2)
-	key := keys[0]
-
-	if key == "#" || key == "%" {
-		return false
-	}
-
-	switch {
-	case value.Type().IsObjectType():
-		attr = value.GetAttr(key)
-	case value.Type().IsMapType():
-		attr = value.Index(cty.StringVal(key))
-	// Lists and sets should not be walked down as they are always updated as a whole.
-	default:
-		return false
-	}
-
-	return attr.IsNull() || len(keys) > 1 && isRawValueEmpty(attr, keys[1])
-}
-
 // Properties DiffSuppressFunc.
 var (
 	TimeEquall = func(k, old, new string, d *schema.ResourceData) bool {
@@ -634,9 +612,36 @@ var (
 	// Prevents the need of hardcode values for default values, as those are harder to track over time/versions of
 	// routeros
 	AlwaysPresentNotUserProvided = func(k, old, new string, d *schema.ResourceData) bool {
+		if old == "" {
+			return false
+		}
+
+		value := d.GetRawConfig()
+
 		// For lists and sets, the key will look like `something.12345` or `something.#`.
 		// But in the raw config it will be just `something`.
-		return old != "" && isRawValueEmpty(d.GetRawConfig(), k)
+		loop:
+		for _, key := range strings.Split(k, ".") {
+			if key == "#" || key == "%" {
+				break
+			}
+
+			switch {
+			case value.Type().IsObjectType():
+				value = value.GetAttr(key)
+			case value.Type().IsMapType():
+				value = value.Index(cty.StringVal(key))
+			// Lists and sets should not be walked down as they are always updated as a whole.
+			default:
+				break loop
+			}
+
+			if value.IsNull() {
+				return true
+			}
+		}
+
+		return false
 	}
 
 	MacAddressEqual = func(k, old, new string, d *schema.ResourceData) bool {
