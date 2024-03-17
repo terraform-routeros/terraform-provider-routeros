@@ -54,7 +54,17 @@ func TestAccInterfaceEthernetTest_import(t *testing.T) {
 					testSetTransportEnv(t, name)
 				},
 				ProviderFactories: testAccProviderFactories,
-				Steps:             []resource.TestStep{},
+				Steps: []resource.TestStep{
+					{
+						Config: testAccInterfaceEthernetConfig(),
+					},
+					{
+						ResourceName:      testInterfaceEthernetAddress,
+						ImportStateId:     "*0",
+						ImportState:       true,
+						ImportStateVerify: true,
+					},
+				},
 			})
 		})
 	}
@@ -64,7 +74,7 @@ func testAccInterfaceEthernetConfig() string {
 	return providerConfig + `
 
 resource "routeros_interface_ethernet" "test" {
-  factory_name              = "ether1"
+  factory_name              = "ether2"
   name                      = "terraform"
   mtu                       = "9000"
   advertise                 = "10000M-full"
