@@ -45,11 +45,26 @@ func TestAccInterfaceEthernetTest_basic(t *testing.T) {
 	}
 }
 
+func TestAccInterfaceEthernetTest_import(t *testing.T) {
+	for _, name := range testNames {
+		t.Run(name, func(t *testing.T) {
+			resource.Test(t, resource.TestCase{
+				PreCheck: func() {
+					testAccPreCheck(t)
+					testSetTransportEnv(t, name)
+				},
+				ProviderFactories: testAccProviderFactories,
+				Steps:             []resource.TestStep{},
+			})
+		})
+	}
+}
+
 func testAccInterfaceEthernetConfig() string {
 	return providerConfig + `
 
 resource "routeros_interface_ethernet" "test" {
-  factory_name              = "ether2"
+  factory_name              = "ether1"
   name                      = "terraform"
   mtu                       = "9000"
   advertise                 = "10000M-full"
