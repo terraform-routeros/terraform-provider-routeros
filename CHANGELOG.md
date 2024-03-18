@@ -1,3 +1,10 @@
+## [1.36.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.36.0...v1.36.1) (2024-03-18)
+
+
+### Bug Fixes
+
+* stop using Int32MaxValue as upper bound for validation ([fcae1bd](https://github.com/terraform-routeros/terraform-provider-routeros/commit/fcae1bdfb8ef0b3622133eab4b04822b122ed405))
+
 ## [1.36.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.35.1...v1.36.0) (2024-03-17)
 
 
