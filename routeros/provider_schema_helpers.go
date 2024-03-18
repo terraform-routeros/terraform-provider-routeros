@@ -118,6 +118,18 @@ func PropSkipFields(s string) *schema.Schema {
 	}
 }
 
+// PropSkipFieldsSlice creates the metadata field of Mikrotik items to be ignored. This means
+// that responses from the router with those fields will be silently ignored.
+func PropSkipFieldsSlice(s ...string) *schema.Schema {
+	builder := strings.Builder{}
+	for _, item := range s {
+		builder.WriteString(fmt.Sprintf("\"%s\",", item))
+	}
+	res := builder.String()
+	lastComaRemoved := res[0 : len(res)-1]
+	return PropSkipFields(lastComaRemoved)
+}
+
 // PropSetUnsetFields
 func PropSetUnsetFields(s string) *schema.Schema {
 	return &schema.Schema{
