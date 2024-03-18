@@ -1,3 +1,18 @@
+## [1.37.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.36.1...v1.37.0) (2024-03-18)
+
+
+### Features
+
+* Add `routeros_wifi` resource to manage WiFi interfaces ([5f234c4](https://github.com/terraform-routeros/terraform-provider-routeros/commit/5f234c456ca8c790e214d5b3e2dd8a8b1ab69b88))
+
+
+### Bug Fixes
+
+* Add reusable L2MTU property ([93a7495](https://github.com/terraform-routeros/terraform-provider-routeros/commit/93a749559aaf7df3235c8d9512cc7c5a1e417cea))
+* Fix the `routeros_wifi_configuration` resource to suppress pristine inline parameters ([77d807c](https://github.com/terraform-routeros/terraform-provider-routeros/commit/77d807c2fd1e8bfe8d67de011c2b3b4851477d41))
+* Refactor `AlwaysPresentNotUserProvided` helper to self-contain empty value check ([669fd68](https://github.com/terraform-routeros/terraform-provider-routeros/commit/669fd689008aba4673205fcfca1252c5b1a7f795))
+* Refactor `AlwaysPresentNotUserProvided` helper to support map type ([038fe7c](https://github.com/terraform-routeros/terraform-provider-routeros/commit/038fe7c192ba87c46f1ed13334183f33d1cc6717))
+
 ## [1.36.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.36.0...v1.36.1) (2024-03-18)
 
 
