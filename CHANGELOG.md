@@ -1,3 +1,10 @@
+## [1.37.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.37.0...v1.37.1) (2024-03-18)
+
+
+### Bug Fixes
+
+* Enable importing ethernet interfaces ([#379](https://github.com/terraform-routeros/terraform-provider-routeros/issues/379)) ([3676f3f](https://github.com/terraform-routeros/terraform-provider-routeros/commit/3676f3f210acaa51e6f0632369d8ba5f35f56b5e))
+
 ## [1.37.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.36.1...v1.37.0) (2024-03-18)
 
 
