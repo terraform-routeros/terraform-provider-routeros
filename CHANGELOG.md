@@ -1,3 +1,10 @@
+## [1.37.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.37.1...v1.37.2) (2024-03-18)
+
+
+### Bug Fixes
+
+* **dhcp-server:** Add a missing DHCP server option attribute ([c375754](https://github.com/terraform-routeros/terraform-provider-routeros/commit/c375754f0651196cbdb3ec986149d60f16fa6847)), closes [#376](https://github.com/terraform-routeros/terraform-provider-routeros/issues/376)
+
 ## [1.37.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.37.0...v1.37.1) (2024-03-18)
 
 
