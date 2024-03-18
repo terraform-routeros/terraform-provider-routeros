@@ -1,12 +1,16 @@
 package routeros
 
 import (
+	"fmt"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
 const testInterfaceEthernetAddress = "routeros_interface_ethernet.test"
+const testInterfaceEthernetImportAddress = "routeros_interface_ethernet.importtest"
+const expectedIdForInterface3 = "*3"
 
 func TestAccInterfaceEthernetTest_basic(t *testing.T) {
 	for _, name := range testNames {
@@ -45,6 +49,38 @@ func TestAccInterfaceEthernetTest_basic(t *testing.T) {
 	}
 }
 
+func TestAccInterfaceEthernetTest_import(t *testing.T) {
+	for _, name := range testNames {
+		t.Run(name, func(t *testing.T) {
+			resource.Test(t, resource.TestCase{
+				PreCheck: func() {
+					testAccPreCheck(t)
+					testSetTransportEnv(t, name)
+				},
+				ProviderFactories: testAccProviderFactories,
+				Steps: []resource.TestStep{
+					{
+						Config:        testAccInterfaceEthernetImportConfig(),
+						ResourceName:  testInterfaceEthernetImportAddress,
+						ImportStateId: "*3",
+						ImportState:   true,
+						ImportStateCheck: func(states []*terraform.InstanceState) error {
+							if len(states) != 1 {
+								return fmt.Errorf("more than 1 states received, only one interface expected")
+							}
+							state := states[0]
+							if state.ID != expectedIdForInterface3 {
+								return fmt.Errorf("expected id in the state don't match %v vs %v", state.ID, expectedIdForInterface3)
+							}
+							return nil
+						},
+					},
+				},
+			})
+		})
+	}
+}
+
 func testAccInterfaceEthernetConfig() string {
 	return providerConfig + `
 
@@ -61,6 +97,17 @@ resource "routeros_interface_ethernet" "test" {
   mdix_enable               = false
   sfp_shutdown_temperature  = 60
   speed                     = "100Mbps"
+}
+`
+}
+
+func testAccInterfaceEthernetImportConfig() string {
+	return providerConfig + `
+
+resource "routeros_interface_ethernet" "importtest" {
+  factory_name              = "ether3"
+  name                      = "ether3"
+  speed                     = "1Gbps" 
 }
 `
 }
