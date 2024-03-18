@@ -60,9 +60,7 @@ func TestAccInterfaceEthernetTest_import(t *testing.T) {
 				ProviderFactories: testAccProviderFactories,
 				Steps: []resource.TestStep{
 					{
-						Config: testAccInterfaceEthernetImportConfig(),
-					},
-					{
+						Config:        testAccInterfaceEthernetImportConfig(),
 						ResourceName:  testInterfaceEthernetImportAddress,
 						ImportStateId: "*3",
 						ImportState:   true,
@@ -108,7 +106,7 @@ func testAccInterfaceEthernetImportConfig() string {
 
 resource "routeros_interface_ethernet" "importtest" {
   factory_name              = "ether3"
-  name                      = "import"
+  name                      = "ether3"
   speed                     = "1Gbps" 
 }
 `
