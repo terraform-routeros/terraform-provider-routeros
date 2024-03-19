@@ -27,6 +27,7 @@ func ResourceInterfaceBridgeVlan() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/bridge/vlan"),
 		MetaId:           PropId(Id),
+		MetaSkipFields:   PropSkipFields(`"debug_info"`),
 
 		"bridge": {
 			Type:        schema.TypeString,
