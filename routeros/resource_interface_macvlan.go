@@ -21,7 +21,8 @@ func ResourceInterfaceMacVlan() *schema.Resource {
 		KeyLoopProtectSendInterval: PropLoopProtectSendIntervalRw,
 		"mode": {
 			Type:     schema.TypeString,
-			Required: false,
+			Optional: true,
+			Default:  "bridge",
 			Description: `Sets MACVLAN interface mode:
 	private - does not allow communication between MACVLAN instances on the same parent interface.
 	bridge - allows communication between MACVLAN instances on the same parent interface.`,
@@ -29,8 +30,7 @@ func ResourceInterfaceMacVlan() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyMacAddress: PropMacAddressRw(
-			`Name of the interface on top of which MACVLAN will work. 
-						MACVLAN interfaces can be created on Ethernet or VLAN interfaces, adding VLAN on MACVLAN is not supported.`,
+			`Static MAC address of the interface. A randomly generated MAC address will be assigned when not specified.`,
 			false,
 		),
 		KeyL2Mtu: PropL2MtuRo,
