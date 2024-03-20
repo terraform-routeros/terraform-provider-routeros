@@ -24,6 +24,7 @@ func TestAccInterfaceMacVlanTest_basic(t *testing.T) {
 						Check: resource.ComposeTestCheckFunc(
 							testResourcePrimaryInstanceId(testInterfaceMacVlanAddress),
 							resource.TestCheckResourceAttr(testInterfaceMacVlanAddress, "name", "macvlan1"),
+							resource.TestCheckResourceAttr(testInterfaceMacVlanAddress, "disabled", "false"),
 						),
 					},
 				},
