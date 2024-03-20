@@ -9,6 +9,11 @@ import (
 const testInterfaceMacVlanAddress = "routeros_interface_macvlan.test"
 
 func TestAccInterfaceMacVlanTest_basic(t *testing.T) {
+	// resource introduced on 7.12.1 https://forum.mikrotik.com/viewtopic.php?t=201345
+	if testCheckMinVersion(t, "7.12.1") {
+		t.Skipf("Test skipped, The test is skipped, the resource is only available on versions above.")
+		return
+	}
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{
