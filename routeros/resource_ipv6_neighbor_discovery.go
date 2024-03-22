@@ -1,8 +1,6 @@
 package routeros
 
 import (
-	"math"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
@@ -77,11 +75,10 @@ func ResourceIPv6NeighborDiscovery() *schema.Resource {
 			Description: "Name of the IPv6 pool in which received IPv6 prefix will be added",
 		},
 		"mtu": {
-			Type:        schema.TypeInt,
-			Optional:    true,
-			Description: "The flag indicates whether hosts should use stateful autoconfiguration (DHCPv6) to obtain addresses",
-			// TODO Remove the validator #368
-			ValidateFunc: validation.IntBetween(0, math.MaxInt32),
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Description:  "The flag indicates whether hosts should use stateful autoconfiguration (DHCPv6) to obtain addresses",
+			ValidateFunc: validation.IntBetween(0, 90000),
 		},
 		"other_configuration": {
 			Type:        schema.TypeBool,

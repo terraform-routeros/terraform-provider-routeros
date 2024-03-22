@@ -17,7 +17,7 @@ import (
 ]
 */
 
-// ResourceDhcpServerOption https://wiki.mikrotik.com/wiki/Manual:IP/DHCP_Server
+// ResourceDhcpServerOption https://help.mikrotik.com/docs/display/ROS/DHCP#DHCP-DHCPServer
 func ResourceDhcpServerOption() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/dhcp-server/option"),
@@ -27,6 +27,11 @@ func ResourceDhcpServerOption() *schema.Resource {
 			Required:     true,
 			Description:  "The number of the DHCP option",
 			ValidateFunc: validation.IntBetween(1, 254),
+		},
+		"force": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Description: "Force the DHCP option from the server-side even if the DHCP-client does not request such parameter.",
 		},
 		"name": {
 			Type:        schema.TypeString,

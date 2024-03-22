@@ -42,10 +42,11 @@ func ResourceWifiConfiguration() *schema.Resource {
 			"interworking: interworking.config", "security: security.config", "steering: steering.config"),
 
 		"aaa": {
-			Type:        schema.TypeMap,
-			Optional:    true,
-			Elem:        &schema.Schema{Type: schema.TypeString},
-			Description: "AAA inline settings.",
+			Type:             schema.TypeMap,
+			Optional:         true,
+			Elem:             &schema.Schema{Type: schema.TypeString},
+			Description:      "AAA inline settings.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"antenna_gain": {
 			Type:         schema.TypeInt,
@@ -69,10 +70,11 @@ func ResourceWifiConfiguration() *schema.Resource {
 			Description: "Radio chains to use for receiving signals.",
 		},
 		"channel": {
-			Type:        schema.TypeMap,
-			Optional:    true,
-			Elem:        &schema.Schema{Type: schema.TypeString},
-			Description: "Channel inline settings.",
+			Type:             schema.TypeMap,
+			Optional:         true,
+			Elem:             &schema.Schema{Type: schema.TypeString},
+			Description:      "Channel inline settings.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyComment: PropCommentRw,
 		"country": {
@@ -81,10 +83,11 @@ func ResourceWifiConfiguration() *schema.Resource {
 			Description: "An option determines which regulatory domain restrictions are applied to an interface.",
 		},
 		"datapath": {
-			Type:        schema.TypeMap,
-			Optional:    true,
-			Elem:        &schema.Schema{Type: schema.TypeString},
-			Description: "Datapath inline settings.",
+			Type:             schema.TypeMap,
+			Optional:         true,
+			Elem:             &schema.Schema{Type: schema.TypeString},
+			Description:      "Datapath inline settings.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyDisabled: PropDisabledRw,
 		"dtim_period": {
@@ -101,10 +104,11 @@ func ResourceWifiConfiguration() *schema.Resource {
 				"improve the security of the wireless network, because SSID is included in other frames sent by the AP.",
 		},
 		"interworking": {
-			Type:        schema.TypeMap,
-			Optional:    true,
-			Elem:        &schema.Schema{Type: schema.TypeString},
-			Description: "Interworking inline settings.",
+			Type:             schema.TypeMap,
+			Optional:         true,
+			Elem:             &schema.Schema{Type: schema.TypeString},
+			Description:      "Interworking inline settings.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"manager": {
 			Type:         schema.TypeString,
@@ -132,10 +136,11 @@ func ResourceWifiConfiguration() *schema.Resource {
 			ValidateFunc: validation.StringInSlice([]string{"dscp-high-3-bits", "priority"}, false),
 		},
 		"security": {
-			Type:        schema.TypeMap,
-			Optional:    true,
-			Elem:        &schema.Schema{Type: schema.TypeString},
-			Description: "Security inline settings.",
+			Type:             schema.TypeMap,
+			Optional:         true,
+			Elem:             &schema.Schema{Type: schema.TypeString},
+			Description:      "Security inline settings.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"ssid": {
 			Type:        schema.TypeString,
@@ -143,10 +148,11 @@ func ResourceWifiConfiguration() *schema.Resource {
 			Description: "SSID (service set identifier) is a name broadcast in the beacons that identifies wireless network.",
 		},
 		"steering": {
-			Type:        schema.TypeMap,
-			Optional:    true,
-			Elem:        &schema.Schema{Type: schema.TypeString},
-			Description: "Steering inline settings.",
+			Type:             schema.TypeMap,
+			Optional:         true,
+			Elem:             &schema.Schema{Type: schema.TypeString},
+			Description:      "Steering inline settings.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"tx_chains": {
 			Type:     schema.TypeSet,

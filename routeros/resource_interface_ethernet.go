@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"regexp"
 	"strings"
 
@@ -133,12 +134,7 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Description:      `Defines whether the transmission of data appears in two directions simultaneously, only applies when auto-negotiation is disabled.`,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
-		KeyL2Mtu: {
-			Type:     schema.TypeInt,
-			Optional: true,
-			Description: "Layer2 Maximum transmission unit. " +
-				"[See](https://wiki.mikrotik.com/wiki/Maximum_Transmission_Unit_on_RouterBoards).",
-		},
+		KeyL2Mtu:                   PropL2MtuRw,
 		KeyLoopProtect:             PropLoopProtectRw,
 		KeyLoopProtectDisableTime:  PropLoopProtectDisableTimeRw,
 		KeyLoopProtectSendInterval: PropLoopProtectSendIntervalRw,
@@ -312,9 +308,31 @@ func updateOnlyDeviceRead(s map[string]*schema.Schema) schema.ReadContextFunc {
 }
 
 func readEthernetInterface(ctx context.Context, s map[string]*schema.Schema, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	ethernetInterface, err := findInterfaceByDefaultName(s, d, m.(Client))
-	if err != nil {
-		return diag.FromErr(err)
+	var ethernetInterface MikrotikItem
+	var err error
+
+	// The item has already an ID, we don't need to perform the lookup
+	if val := d.Id(); val != "" {
+		tflog.Debug(ctx, "fetching ethernet interface by id", map[string]interface{}{"id": val})
+		metadata := GetMetadata(s)
+		items, err := ReadItems(&ItemId{metadata.IdType, val}, metadata.Path, m.(Client))
+
+		if err != nil {
+			return diag.FromErr(fmt.Errorf("reading interface by id: %w", err))
+		}
+		if len(*items) > 1 {
+			return diag.FromErr(fmt.Errorf("more than 1 interface returned when fetching by id %v", val))
+		}
+		if len(*items) == 0 {
+			return diag.FromErr(fmt.Errorf("unable to find interface when fetching by id: %v", val))
+		}
+		ethernetInterface = (*items)[0]
+	} else {
+		// As We don't know the ID, we have to look it up by "default"/"factory" name
+		ethernetInterface, err = findInterfaceByDefaultName(s, d, m.(Client))
+		if err != nil {
+			return diag.FromErr(err)
+		}
 	}
 	s = updateSchemaWithRouterCapabilities(s, ethernetInterface)
 	return DefaultRead(s)(ctx, d, m)
@@ -322,12 +340,14 @@ func readEthernetInterface(ctx context.Context, s map[string]*schema.Schema, d *
 
 // updateEthernetInterface searches for the interface and disables fields not supported by the router instance
 func updateEthernetInterface(ctx context.Context, s map[string]*schema.Schema, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	ethernetInterface, err := findInterfaceByDefaultName(s, d, m.(Client))
-	if err != nil {
-		return diag.FromErr(err)
+	if val := d.Id(); val == "" {
+		ethernetInterface, err := findInterfaceByDefaultName(s, d, m.(Client))
+		if err != nil {
+			return diag.FromErr(err)
+		}
+		d.SetId(ethernetInterface.GetID(Id))
 	}
 
-	d.SetId(ethernetInterface.GetID(Id))
 	if updateDiag := ResourceUpdate(ctx, s, d, m); updateDiag.HasError() {
 		return updateDiag
 	}

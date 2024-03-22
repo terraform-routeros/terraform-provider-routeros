@@ -135,6 +135,13 @@ func ResourceOpenVPNServer() *schema.Resource {
 			Description:  "indicates the protocol to use when connecting with the remote endpoint.",
 			ValidateFunc: validation.StringInSlice([]string{"tcp", "udp"}, false),
 		},
+		"push_routes": {
+			Type:             schema.TypeSet,
+			Optional:         true,
+			Elem:             &schema.Schema{Type: schema.TypeString},
+			Description:      "Push routes to the VPN client (available since RouterOS 7.14).",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"redirect_gateway": {
 			Type:     schema.TypeString,
 			Optional: true,

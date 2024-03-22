@@ -346,6 +346,14 @@ var (
 		Description: "Layer2 Maximum transmission unit. " +
 			"[See](https://wiki.mikrotik.com/wiki/Maximum_Transmission_Unit_on_RouterBoards).",
 	}
+	PropL2MtuRw = &schema.Schema{
+		Type:     schema.TypeInt,
+		Optional: true,
+		Description: "Layer2 Maximum transmission unit. " +
+			"[See](https://wiki.mikrotik.com/wiki/Maximum_Transmission_Unit_on_RouterBoards).",
+		ValidateFunc:     validation.IntBetween(1, 65535),
+		DiffSuppressFunc: AlwaysPresentNotUserProvided,
+	}
 	PropLocalAddressRw = &schema.Schema{
 		Type:         schema.TypeString,
 		Optional:     true,
@@ -616,13 +624,35 @@ var (
 	// Prevents the need of hardcode values for default values, as those are harder to track over time/versions of
 	// routeros
 	AlwaysPresentNotUserProvided = func(k, old, new string, d *schema.ResourceData) bool {
+		if old == "" {
+			return false
+		}
+
+		value := d.GetRawConfig()
+
 		// For lists and sets, the key will look like `something.12345` or `something.#`.
 		// But in the raw config it will be just `something`.
-		k = strings.Split(k, ".")[0]
+		loop:
+		for _, key := range strings.Split(k, ".") {
+			if key == "#" || key == "%" {
+				break
+			}
 
-		if old != "" && d.GetRawConfig().GetAttr(k).IsNull() {
-			return true
+			switch {
+			case value.Type().IsObjectType():
+				value = value.GetAttr(key)
+			case value.Type().IsMapType():
+				value = value.Index(cty.StringVal(key))
+			// Lists and sets should not be walked down as they are always updated as a whole.
+			default:
+				break loop
+			}
+
+			if value.IsNull() {
+				return true
+			}
 		}
+
 		return false
 	}
 
