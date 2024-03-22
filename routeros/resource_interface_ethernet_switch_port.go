@@ -65,12 +65,12 @@ func ResourceInterfaceEthernetSwitchPort() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/ethernet/switch/port"),
 		MetaId:           PropId(Id),
-		MetaSkipFields: PropSkipFields(`"name","rx_1024_1518","rx_128_255","rx_1519_max","rx_256_511","rx_512_1023","rx_64",` +
-			`"rx_65_127","rx_align_error","rx_broadcast","rx_bytes","rx_fcs_error","rx_fragment","rx_multicast","rx_overflow",` +
-			`"rx_pause","rx_too_long","rx_too_short","tx_1024_1518","tx_128_255","tx_1519_max","tx_256_511","tx_512_1023","tx_64",` +
-			`"tx_65_127","tx_broadcast","tx_bytes","tx_collision","tx_deferred","tx_excessive_collision","tx_excessive_deferred",` +
-			`"tx_late_collision","tx_multicast","tx_multiple_collision","tx_pause","tx_single_collision","tx_too_long","tx_underrun",` +
-			`"driver_tx_byte","driver_rx_packet","driver_rx_byte","driver_tx_packet"`),
+		MetaSkipFields: PropSkipFields("name", "rx_1024_1518", "rx_128_255", "rx_1519_max", "rx_256_511", "rx_512_1023", "rx_64",
+			"rx_65_127", "rx_align_error", "rx_broadcast", "rx_bytes", "rx_fcs_error", "rx_fragment", "rx_multicast", "rx_overflow",
+			"rx_pause", "rx_too_long", "rx_too_short", "tx_1024_1518", "tx_128_255", "tx_1519_max", "tx_256_511", "tx_512_1023", "tx_64",
+			"tx_65_127", "tx_broadcast", "tx_bytes", "tx_collision", "tx_deferred", "tx_excessive_collision", "tx_excessive_deferred",
+			"tx_late_collision", "tx_multicast", "tx_multiple_collision", "tx_pause", "tx_single_collision", "tx_too_long", "tx_underrun",
+			"driver_tx_byte", "driver_rx_packet", "driver_rx_byte", "driver_tx_packet"),
 
 		"default_vlan_id": {
 			Type:     schema.TypeString,

@@ -35,7 +35,7 @@ func ResourceIPConnectionTracking() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/firewall/connection/tracking"),
 		MetaId:           PropId(Name),
-		MetaSkipFields:   PropSkipFields(`"total_entries"`),
+		MetaSkipFields:   PropSkipFields("total_entries"),
 
 		"active_ipv4": {
 			Type:        schema.TypeBool,

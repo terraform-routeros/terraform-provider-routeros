@@ -130,10 +130,10 @@ func Test_loadTransformSet(t *testing.T) {
 		s       string
 		reverse bool
 	}{
-		{`"channel":"channel.config","datapath":"datapath.config"`, false},
-		{`"mikrotik-field-name":"schema-field-name"`, false},
-		{`"channel":"channel.config","datapath":"datapath.config"`, true},
-		{`"mikrotik-field-name":"schema-field-name"`, true},
+		{toQuotedCommaSeparatedString("channel: channel.config","datapath: datapath.config"), false},
+		{toQuotedCommaSeparatedString("mikrotik-field-name : schema-field-name"), false},
+		{toQuotedCommaSeparatedString("channel: channel.config","datapath: datapath.config"), true},
+		{toQuotedCommaSeparatedString("mikrotik-field-name:schema-field-name"), true},
 	}
 
 	expected := []map[string]string{
@@ -146,6 +146,27 @@ func Test_loadTransformSet(t *testing.T) {
 	for i, actual := range testData {
 		if !reflect.DeepEqual(loadTransformSet(actual.s, actual.reverse), expected[i]) {
 			t.Fatalf("bad: (item: %v) expected:%#v\tactual:%#v", i, expected[i], loadTransformSet(actual.s, actual.reverse))
+		}
+	}
+}
+
+func Test_loadSkipFields(t *testing.T) {
+	testData := []struct {
+		s       string
+	}{
+		{toQuotedCommaSeparatedString("name")},
+		{toQuotedCommaSeparatedString("name", "rx_1024_1518", "rx_128_255", "rx_1519_max", "rx_256_511", "rx_512_1023", "rx_64")},
+	}
+
+	expected := []map[string]struct{}{
+		{"name": struct{}{}},
+		{"name": struct{}{}, "rx_1024_1518": struct{}{}, "rx_128_255": struct{}{}, "rx_1519_max": struct{}{}, 
+			"rx_256_511": struct{}{}, "rx_512_1023": struct{}{}, "rx_64": struct{}{}},
+	}
+
+	for i, actual := range testData {
+		if !reflect.DeepEqual(loadSkipFields(actual.s), expected[i]) {
+			t.Fatalf("bad: (item: %v) expected:%#v\tactual:%#v", i, expected[i], loadSkipFields(actual.s))
 		}
 	}
 }

@@ -23,8 +23,8 @@ func ResourceInterfaceEthernetSwitchPortIsolation() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath:   PropResourcePath("/interface/ethernet/switch/port-isolation"),
 		MetaId:             PropId(Id),
-		MetaSkipFields:     PropSkipFields(`"name"`),
-		MetaSetUnsetFields: PropSetUnsetFields(`"forwarding_override"`),
+		MetaSkipFields:     PropSkipFields("name"),
+		MetaSetUnsetFields: PropSetUnsetFields("forwarding_override"),
 
 		KeyInvalid: PropInvalidRo,
 		KeyName:    PropName("Port name."),

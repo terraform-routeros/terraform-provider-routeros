@@ -36,7 +36,7 @@ func ResourceRoutingOspfInterfaceTemplate() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath:   PropResourcePath("/routing/ospf/interface-template"),
 		MetaId:             PropId(Id),
-		MetaSetUnsetFields: PropSetUnsetFields(`"passive"`),
+		MetaSetUnsetFields: PropSetUnsetFields("passive"),
 
 		"area": {
 			Type:        schema.TypeString,

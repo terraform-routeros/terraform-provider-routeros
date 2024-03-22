@@ -22,7 +22,7 @@ func ResourceUser() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/user"),
 		MetaId:           PropId(Id),
-		MetaSkipFields:   PropSkipFields(`"last_logged_in"`),
+		MetaSkipFields:   PropSkipFields("last_logged_in"),
 
 		"address": {
 			Type:        schema.TypeString,

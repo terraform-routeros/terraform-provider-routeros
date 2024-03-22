@@ -19,7 +19,7 @@ func ResourceUserManagerUserProfile() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/user-manager/user-profile"),
 		MetaId:           PropId(Id),
-		MetaSkipFields:   PropSkipFields(`"end_time","state"`),
+		MetaSkipFields:   PropSkipFields("end_time", "state"),
 
 		"profile": {
 			Type:        schema.TypeString,

@@ -38,13 +38,13 @@ func ResourceWifiConfiguration() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/wifi/configuration"),
 		MetaId:           PropId(Id),
-		MetaTransformSet: PropTransformSet(`"aaa": "aaa.config", "channel": "channel.config", "datapath": "datapath.config",
-		"interworking": "interworking.config", "security": "security.config", "steering": "steering.config"`),
+		MetaTransformSet: PropTransformSet("aaa: aaa.config", "channel: channel.config", "datapath: datapath.config",
+			"interworking: interworking.config", "security: security.config", "steering: steering.config"),
 
 		"aaa": {
 			Type:        schema.TypeMap,
 			Optional:    true,
-			Elem: &schema.Schema{Type: schema.TypeString},
+			Elem:        &schema.Schema{Type: schema.TypeString},
 			Description: "AAA inline settings.",
 		},
 		"antenna_gain": {
@@ -76,8 +76,8 @@ func ResourceWifiConfiguration() *schema.Resource {
 		},
 		KeyComment: PropCommentRw,
 		"country": {
-			Type:     schema.TypeString,
-			Optional: true,
+			Type:        schema.TypeString,
+			Optional:    true,
 			Description: "An option determines which regulatory domain restrictions are applied to an interface.",
 		},
 		"datapath": {
@@ -138,8 +138,8 @@ func ResourceWifiConfiguration() *schema.Resource {
 			Description: "Security inline settings.",
 		},
 		"ssid": {
-			Type:     schema.TypeString,
-			Optional: true,
+			Type:        schema.TypeString,
+			Optional:    true,
 			Description: "SSID (service set identifier) is a name broadcast in the beacons that identifies wireless network.",
 		},
 		"steering": {

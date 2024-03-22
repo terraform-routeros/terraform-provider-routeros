@@ -14,7 +14,7 @@ import (
 )
 
 var reMetadataFields = regexp.MustCompile(`^___\S+___$`)
-var reTransformSet = regexp.MustCompile(`"\s*?(\S+?)\s*?"\s*?:\s*?"\s*?(\S+?)\s*?"`)
+var reTransformSet = regexp.MustCompile(`"\s*?(\S+?)\s*?\s*?:\s*?\s*?(\S+?)\s*?"`)
 var reSkipFields = regexp.MustCompile(`"\s*?(\S+?)\s*?"\s*?`)
 
 // GetMetadata Get item metadata fields from resource schema.
@@ -95,14 +95,6 @@ func loadSkipFields(s string) (m map[string]struct{}) {
 		m[b[1]] = struct{}{}
 	}
 	return
-}
-
-func loadDropByValue(s string) (m map[string]struct{}) {
-	m = make(map[string]struct{})
-	for _, value := range strings.Split(s, ",") {
-		m[value] = struct{}{}
-	}
-	return m
 }
 
 // ListToString Convert List and Set to a delimited string.
@@ -314,7 +306,7 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 	}
 
 	if dbv, ok := s[MetaDropByValue]; ok {
-		dropByValue = loadDropByValue(dbv.Default.(string))
+		dropByValue = loadSkipFields(dbv.Default.(string))
 	}
 
 	// TypeMap,TypeSet initialization information storage.

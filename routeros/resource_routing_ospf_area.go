@@ -23,7 +23,7 @@ func ResourceRoutingOspfArea() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath:   PropResourcePath("/routing/ospf/area"),
 		MetaId:             PropId(Id),
-		MetaSetUnsetFields: PropSetUnsetFields(`"no_summaries"`),
+		MetaSetUnsetFields: PropSetUnsetFields("no_summaries"),
 
 		"area_id": {
 			Type:        schema.TypeString,
