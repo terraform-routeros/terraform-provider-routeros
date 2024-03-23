@@ -1,3 +1,15 @@
+## [1.38.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.37.2...v1.38.0) (2024-03-23)
+
+
+### Features
+
+* Add support for interface macvlan ([24d940b](https://github.com/terraform-routeros/terraform-provider-routeros/commit/24d940b53e9b87487a19f7e7c44f7fe3a27e3c3f))
+
+
+### Bug Fixes
+
+* **no-release:** Resolve warnings due to some missing properties ([#381](https://github.com/terraform-routeros/terraform-provider-routeros/issues/381)) ([864ed27](https://github.com/terraform-routeros/terraform-provider-routeros/commit/864ed278e304e6789cb4401d4ef8ea33ca2e7bd2))
+
 ## [1.37.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.37.1...v1.37.2) (2024-03-18)
 
 
