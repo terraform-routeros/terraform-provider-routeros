@@ -25,7 +25,8 @@ func Provider() *schema.Provider {
 	* API: api[s]://host[:port]
 		* api://router.local
 		* apis://router.local:8729
-	* REST: https://host
+	* REST: http[s]://host
+		* http://router.local
 		* https://router.local
 		* router.local
 		* 127.0.0.1
