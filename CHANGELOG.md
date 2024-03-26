@@ -1,3 +1,12 @@
+## [1.40.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.39.0...v1.40.0) (2024-03-26)
+
+
+### Features
+
+* Add `routeros_zerotier_controller` resource to manage ZeroTier controller ([68cb99a](https://github.com/terraform-routeros/terraform-provider-routeros/commit/68cb99a350261e5350f5bba987b5a42e8b6a637c))
+* Add `routeros_zerotier_interface` resource to manage ZeroTier interface ([481709c](https://github.com/terraform-routeros/terraform-provider-routeros/commit/481709cee5b3a4fe3122173909e3ae19e43ccc18))
+* Add `routeros_zerotier` resource to manage ZeroTier instances ([f182f0c](https://github.com/terraform-routeros/terraform-provider-routeros/commit/f182f0c93ab0ada397db2305eacd868e4a9b837a))
+
 ## [1.39.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.38.0...v1.39.0) (2024-03-26)
 
 
