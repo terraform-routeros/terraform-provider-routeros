@@ -1,3 +1,12 @@
+## [1.39.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.38.0...v1.39.0) (2024-03-26)
+
+
+### Features
+
+* Add `routeros_interface_wireless_cap` resource to manage CAPsMAN client ([b1558f9](https://github.com/terraform-routeros/terraform-provider-routeros/commit/b1558f92722ab69ccfe9cba86dc509f5ca591819))
+* Add `routeros_ip_cloud_advanced` resource to manage advanced cloud settings ([405827d](https://github.com/terraform-routeros/terraform-provider-routeros/commit/405827d0d843431abe71fb303a65105ae29e86b0))
+* Add `routeros_ppp_aaa` resource to manage authentication and accounting ([87f06c0](https://github.com/terraform-routeros/terraform-provider-routeros/commit/87f06c01c2a5b1b33bada1e4d6c69bcc559a38d3))
+
 ## [1.38.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.37.2...v1.38.0) (2024-03-23)
 
 
