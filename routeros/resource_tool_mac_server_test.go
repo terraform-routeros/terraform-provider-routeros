@@ -27,9 +27,9 @@ func TestAccToolsMacServerTest_basic(t *testing.T) {
 						),
 					},
 					{
-						Config: testAccToolsMacServerConfig("LAN"),
+						Config: testAccToolsMacServerConfig("all"),
 						Check: resource.ComposeTestCheckFunc(
-							resource.TestCheckResourceAttr(testToolsMacServer, "allowed_interface_list", "LAN"),
+							resource.TestCheckResourceAttr(testToolsMacServer, "allowed_interface_list", "all"),
 						),
 					},
 				},
