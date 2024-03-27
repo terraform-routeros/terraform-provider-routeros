@@ -1,3 +1,33 @@
+## [1.40.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.39.0...v1.40.0) (2024-03-26)
+
+
+### Features
+
+* Add `routeros_zerotier_controller` resource to manage ZeroTier controller ([68cb99a](https://github.com/terraform-routeros/terraform-provider-routeros/commit/68cb99a350261e5350f5bba987b5a42e8b6a637c))
+* Add `routeros_zerotier_interface` resource to manage ZeroTier interface ([481709c](https://github.com/terraform-routeros/terraform-provider-routeros/commit/481709cee5b3a4fe3122173909e3ae19e43ccc18))
+* Add `routeros_zerotier` resource to manage ZeroTier instances ([f182f0c](https://github.com/terraform-routeros/terraform-provider-routeros/commit/f182f0c93ab0ada397db2305eacd868e4a9b837a))
+
+## [1.39.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.38.0...v1.39.0) (2024-03-26)
+
+
+### Features
+
+* Add `routeros_interface_wireless_cap` resource to manage CAPsMAN client ([b1558f9](https://github.com/terraform-routeros/terraform-provider-routeros/commit/b1558f92722ab69ccfe9cba86dc509f5ca591819))
+* Add `routeros_ip_cloud_advanced` resource to manage advanced cloud settings ([405827d](https://github.com/terraform-routeros/terraform-provider-routeros/commit/405827d0d843431abe71fb303a65105ae29e86b0))
+* Add `routeros_ppp_aaa` resource to manage authentication and accounting ([87f06c0](https://github.com/terraform-routeros/terraform-provider-routeros/commit/87f06c01c2a5b1b33bada1e4d6c69bcc559a38d3))
+
+## [1.38.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.37.2...v1.38.0) (2024-03-23)
+
+
+### Features
+
+* Add support for interface macvlan ([24d940b](https://github.com/terraform-routeros/terraform-provider-routeros/commit/24d940b53e9b87487a19f7e7c44f7fe3a27e3c3f))
+
+
+### Bug Fixes
+
+* **no-release:** Resolve warnings due to some missing properties ([#381](https://github.com/terraform-routeros/terraform-provider-routeros/issues/381)) ([864ed27](https://github.com/terraform-routeros/terraform-provider-routeros/commit/864ed278e304e6789cb4401d4ef8ea33ca2e7bd2))
+
 ## [1.37.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.37.1...v1.37.2) (2024-03-18)
 
 

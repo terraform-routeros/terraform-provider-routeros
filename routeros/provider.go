@@ -140,6 +140,7 @@ func Provider() *schema.Provider {
 			"routeros_interface_vrrp":                           ResourceInterfaceVrrp(),
 			"routeros_interface_wireguard":                      ResourceInterfaceWireguard(),
 			"routeros_interface_wireguard_peer":                 ResourceInterfaceWireguardPeer(),
+			"routeros_interface_wireless_cap":                   ResourceInterfaceWirelessCap(),
 			"routeros_interface_list":                           ResourceInterfaceList(),
 			"routeros_interface_list_member":                    ResourceInterfaceListMember(),
 			"routeros_interface_ovpn_server":                    ResourceInterfaceOpenVPNServer(),
@@ -162,6 +163,7 @@ func Provider() *schema.Provider {
 
 			// System Objects
 			"routeros_ip_cloud":             ResourceIpCloud(),
+			"routeros_ip_cloud_advanced":    ResourceIpCloudAdvanced(),
 			"routeros_system_certificate":   ResourceSystemCertificate(),
 			"routeros_system_identity":      ResourceSystemIdentity(),
 			"routeros_system_logging":       ResourceSystemLogging(),
@@ -213,6 +215,7 @@ func Provider() *schema.Provider {
 			"routeros_ovpn_server": ResourceOpenVPNServer(),
 
 			// PPP
+			"routeros_ppp_aaa":     ResourcePppAaa(),
 			"routeros_ppp_profile": ResourcePPPProfile(),
 			"routeros_ppp_secret":  ResourcePPPSecret(),
 
@@ -254,6 +257,11 @@ func Provider() *schema.Provider {
 			"routeros_wifi_provisioning":  ResourceWifiProvisioning(),
 			"routeros_wifi_security":      ResourceWifiSecurity(),
 			"routeros_wifi_steering":      ResourceWifiSteering(),
+
+			// ZeroTier
+			"routeros_zerotier":            ResourceZerotier(),
+			"routeros_zerotier_controller": ResourceZerotierController(),
+			"routeros_zerotier_interface":  ResourceZerotierInterface(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"routeros_firewall":              DatasourceFirewall(),
@@ -262,6 +270,7 @@ func Provider() *schema.Provider {
 			"routeros_ip_arp":                DatasourceIpArp(),
 			"routeros_ip_dhcp_server_leases": DatasourceIpDhcpServerLeases(),
 			"routeros_ip_routes":             DatasourceIPRoutes(),
+			"routeros_ip_services":           DatasourceIPServices(),
 			"routeros_ipv6_addresses":        DatasourceIPv6Addresses(),
 			"routeros_system_resource":       DatasourceSystemResource(),
 		},
