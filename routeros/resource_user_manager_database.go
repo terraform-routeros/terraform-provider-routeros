@@ -17,7 +17,7 @@ func ResourceUserManagerDatabase() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/user-manager/database"),
 		MetaId:           PropId(Id),
-		MetaSkipFields:   PropSkipFields(`"db_size","free_disk_space"`),
+		MetaSkipFields:   PropSkipFields("db_size", "free_disk_space"),
 
 		"db_path": {
 			Type:        schema.TypeString,

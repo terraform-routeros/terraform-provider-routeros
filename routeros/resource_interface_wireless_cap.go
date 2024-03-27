@@ -28,7 +28,7 @@ func ResourceInterfaceWirelessCap() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/wireless/cap"),
 		MetaId:           PropId(Name),
-		MetaSkipFields:   PropSkipFields(`".about"`),
+		MetaSkipFields:   PropSkipFields(".about"),
 
 		"bridge": {
 			Type:        schema.TypeString,
@@ -39,7 +39,7 @@ func ResourceInterfaceWirelessCap() *schema.Resource {
 		"caps_man_addresses": {
 			Type:     schema.TypeList,
 			Optional: true,
-			Elem:     &schema.Schema{
+			Elem: &schema.Schema{
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPAddress,
 			},

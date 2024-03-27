@@ -40,7 +40,7 @@ func ResourceSystemCertificate() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/certificate"),
 		MetaId:           PropId(Id),
-		MetaSkipFields:   PropSkipFields(`"sign"`),
+		MetaSkipFields:   PropSkipFields("sign"),
 
 		"authority": {
 			Type:     schema.TypeString,

@@ -10,8 +10,8 @@ func ResourceCapsManConfigurationV0() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			MetaResourcePath: PropResourcePath("/caps-man/configuration"),
 			MetaId:           PropId(Name),
-			MetaTransformSet: PropTransformSet(`"channel": "channel.config", "datapath": "datapath.config",
-		"rates": "rates.config", "security": "security.config"`),
+			MetaTransformSet: PropTransformSet("channel: channel.config", "datapath: datapath.config",
+				"rates: rates.config", "security: security.config"),
 
 			"channel": {
 				Type:        schema.TypeMap,

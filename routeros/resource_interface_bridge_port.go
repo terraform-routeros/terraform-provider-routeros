@@ -71,7 +71,7 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/bridge/port"),
 		MetaId:           PropId(Id),
-		MetaSkipFields:   PropSkipFields(`"debug_info","port_number"`),
+		MetaSkipFields:   PropSkipFields("debug_info", "port_number"),
 
 		"nextid": {
 			Type:     schema.TypeString,
