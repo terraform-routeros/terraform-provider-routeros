@@ -422,10 +422,11 @@ var (
 		Computed: true,
 	}
 	PropVrfRw = &schema.Schema{
-		Type:        schema.TypeString,
-		Optional:    true,
-		Default:     "main",
-		Description: "The VRF table this resource operates on.",
+		Type:             schema.TypeString,
+		Optional:         true,
+		Default:          "main",
+		Description:      "The VRF table this resource operates on.",
+		DiffSuppressFunc: AlwaysPresentNotUserProvided,
 	}
 )
 
@@ -632,7 +633,7 @@ var (
 
 		// For lists and sets, the key will look like `something.12345` or `something.#`.
 		// But in the raw config it will be just `something`.
-		loop:
+	loop:
 		for _, key := range strings.Split(k, ".") {
 			if key == "#" || key == "%" {
 				break
