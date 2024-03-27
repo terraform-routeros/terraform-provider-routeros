@@ -167,6 +167,7 @@ func Provider() *schema.Provider {
 			"routeros_system_certificate":   ResourceSystemCertificate(),
 			"routeros_system_identity":      ResourceSystemIdentity(),
 			"routeros_system_logging":       ResourceSystemLogging(),
+			"routeros_system_ntp_client":    ResourceSystemNtpClient(),
 			"routeros_system_ntp_server":    ResourceSystemNtpServer(),
 			"routeros_system_scheduler":     ResourceSystemScheduler(),
 			"routeros_system_script":        ResourceSystemScript(),
