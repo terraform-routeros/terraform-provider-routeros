@@ -232,6 +232,10 @@ func Provider() *schema.Provider {
 			"routeros_wireguard_keys": ResourceWireguardKeys(),
 			"routeros_move_items":     ResourceMoveItems(),
 
+			// Tools
+			"routeros_tool_mac_server":        ResourceToolMacServer(),
+			"routeros_tool_mac_server_winbox": ResourceToolMacServerWinBox(),
+
 			// User Manager
 			"routeros_user_manager_advanced":           ResourceUserManagerAdvanced(),
 			"routeros_user_manager_attribute":          ResourceUserManagerAttribute(),
