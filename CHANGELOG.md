@@ -1,3 +1,16 @@
+## [1.41.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.40.0...v1.41.0) (2024-03-27)
+
+
+### Features
+
+* Add function to create skip metadata based on slices ([ac54292](https://github.com/terraform-routeros/terraform-provider-routeros/commit/ac54292f53b6384efa5b7e4f2e1ce0761ce47b3e))
+
+
+### Bug Fixes
+
+* Fix fields in new commits ([205919f](https://github.com/terraform-routeros/terraform-provider-routeros/commit/205919f49fdb522357db562def3518194c3b81e4))
+* Simplify the procedure for generating field conversion lists. ([a67b772](https://github.com/terraform-routeros/terraform-provider-routeros/commit/a67b772da55e9590390b92eb0e16b83041977058))
+
 ## [1.40.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.39.0...v1.40.0) (2024-03-26)
 
 
