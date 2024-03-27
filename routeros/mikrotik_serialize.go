@@ -75,7 +75,7 @@ func isEmpty(propName string, schemaProp *schema.Schema, d *schema.ResourceData,
 // serialization/deserialization.
 // Forward transformation for use in the 'MikrotikResourceDataToTerraform' function, reverse transformation for use
 // in the 'TerraformResourceDataToMikrotik' function.
-// s: `"channel":"channel.config","datapath":"datapath.config"` in the Mikrotik (kebab) notation!
+// s: "channel: channel.config","datapath: datapath.config"` in the Mikrotik (kebab) notation!
 func loadTransformSet(s string, reverse bool) (m map[string]string) {
 	m = make(map[string]string)
 	for _, b := range reTransformSet.FindAllStringSubmatch(s, -1) {

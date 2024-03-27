@@ -34,8 +34,8 @@ func ResourceWifi() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/wifi"),
 		MetaId:           PropId(Id),
-		MetaTransformSet: PropTransformSet(`"aaa": "aaa.config", "channel": "channel.config", "configuration": "configuration.config",
-		"datapath": "datapath.config", "interworking": "interworking.config", "security": "security.config", "steering": "steering.config"`),
+		MetaTransformSet: PropTransformSet("aaa: aaa.config", "channel: channel.config", "configuration: configuration.config",
+			"datapath: datapath.config", "interworking: interworking.config", "security: security.config", "steering: steering.config"),
 
 		"aaa": {
 			Type:             schema.TypeMap,
@@ -79,9 +79,9 @@ func ResourceWifi() *schema.Resource {
 		},
 		KeyDisabled: PropDisabledRw,
 		"disable_running_check": {
-			Type:            schema.TypeBool,
-			Optional:        true,
-			Description:     "An option to set the running property to true if it is not disabled.",
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Description:      "An option to set the running property to true if it is not disabled.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"inactive": {
