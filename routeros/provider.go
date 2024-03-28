@@ -184,11 +184,12 @@ func Provider() *schema.Provider {
 			"routeros_scheduler": ResourceSystemScheduler(),
 
 			// CAPsMAN Objects
+			"routeros_capsman_aaa":               ResourceCapsManAaa(),
 			"routeros_capsman_access_list":       ResourceCapsManAccessList(),
 			"routeros_capsman_channel":           ResourceCapsManChannel(),
 			"routeros_capsman_configuration":     ResourceCapsManConfiguration(),
 			"routeros_capsman_datapath":          ResourceCapsManDatapath(),
-			"routeros_capsman_aaa":               ResourceCapsManAaa(),
+			"routeros_capsman_interface":         ResourceCapsManInterface(),
 			"routeros_capsman_manager":           ResourceCapsManManager(),
 			"routeros_capsman_manager_interface": ResourceCapsManManagerInterface(),
 			"routeros_capsman_provisioning":      ResourceCapsManProvisioning(),
