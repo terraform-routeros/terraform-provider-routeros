@@ -60,6 +60,9 @@ func isEmpty(propName string, schemaProp *schema.Schema, d *schema.ResourceData,
 		}
 		return confValue.IsNull()
 	case schema.TypeList:
+		if confValue.Type().ElementType().IsObjectType() {
+			return len(v.([]interface{})) == 0
+		}
 		return len(v.([]interface{})) == 0 && confValue.IsNull()
 	case schema.TypeSet:
 		return v.(*schema.Set).Len() == 0 && confValue.IsNull()
