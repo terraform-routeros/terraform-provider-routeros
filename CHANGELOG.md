@@ -1,3 +1,10 @@
+## [1.42.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.41.0...v1.42.0) (2024-03-29)
+
+
+### Features
+
+* Add `http` scheme support for the REST API ([c326052](https://github.com/terraform-routeros/terraform-provider-routeros/commit/c3260525afad9dad0e92b37ed6bb409a13e32d2e))
+
 ## [1.41.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.40.0...v1.41.0) (2024-03-27)
 
 
