@@ -49,6 +49,7 @@ func ResourceCapsManConfiguration() *schema.Resource {
 			Elem: &schema.Schema{
 				Type: schema.TypeString,
 			},
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyComment: PropCommentRw,
 		"country": {
@@ -64,6 +65,7 @@ func ResourceCapsManConfiguration() *schema.Resource {
 			Elem: &schema.Schema{
 				Type: schema.TypeString,
 			},
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"disconnect_timeout": {
 			Type:     schema.TypeString,
@@ -165,6 +167,7 @@ func ResourceCapsManConfiguration() *schema.Resource {
 			Elem: &schema.Schema{
 				Type: schema.TypeString,
 			},
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"rx_chains": {
 			Type:        schema.TypeList,
@@ -182,6 +185,7 @@ func ResourceCapsManConfiguration() *schema.Resource {
 			Elem: &schema.Schema{
 				Type: schema.TypeString,
 			},
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"ssid": {
 			Type:     schema.TypeString,
