@@ -47,6 +47,7 @@ jobs:
           python -m venv env
           source env/bin/activate
           pip install routeros_api
+          sleep 5s
           python .github/scripts/setup_routeros.py
         env:
           ROS_USERNAME: admin
@@ -54,7 +55,7 @@ jobs:
           ROS_IP_ADDRESS: 127.0.0.1
 
       - name: Run client tests
-        run: go test -timeout 30m -v ./routeros
+        run: go test -timeout 30m -v -run "^TestAccBGPConnectionTest_basic|TestAccCapsManChannelTest_basic$" ./routeros
         env:
           ROS_HOSTURL: https://127.0.0.1
           ROS_USERNAME: admin

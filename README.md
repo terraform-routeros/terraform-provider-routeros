@@ -2,7 +2,11 @@
 
 ![module testing workflow](https://github.com/GNewbury1/terraform-provider-routeros/actions/workflows/release.yml/badge.svg?branch=main)
 
-**Note**: Release `1.35.1` does not contain artifacts. Please do not use `v1.35.1`.
+**Note**: In release 1.43, the resource schemas have been changed:
+* `routeros_routing_bgp_connection`.
+* `routeros_ipv6_neighbor_discovery`
+* `routeros_interface_wireguard_peer`.
+For the first two to work correctly, you must remove the resource state (`terraform state rm <name>`) and import it again (`terraform import [options] <name> <id>`).
 
 ## Purpose
 
@@ -26,7 +30,7 @@ terraform {
 }
 
 provider "routeros" {
-  hosturl  = "(https|api|apis)://my.router.local[:port]"
+  hosturl  = "(http|https|api|apis)://my.router.local[:port]"
   username = "my_username"
   password = "my_super_secret_password"
 }
@@ -37,7 +41,7 @@ For more in-depth documentation about each of the resources and datasources, ple
 
 ### Versions tested
 
-- go 1.21 and ROS 7.7, 7.8, 7.9 (stable)
+- go 1.21 and ROS 7.12, 7.13, 7.14 (stable)
 
 ## Changelog
 
