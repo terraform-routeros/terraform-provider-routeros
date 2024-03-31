@@ -85,7 +85,7 @@ func ResourceIPv6NeighborDiscovery() *schema.Resource {
 			Optional:    true,
 			Description: "The flag indicates whether hosts should use stateful autoconfiguration to obtain additional information (excluding addresses).",
 		},
-		"pref64_prefixes": {
+		"pref64": {
 			Type:        schema.TypeList,
 			Optional:    true,
 			Description: "Specify IPv6 prefix or list of prefixes within /32, /40. /48, /56, /64, or /96 subnet that will be provided to hosts as NAT64 prefixes.",
