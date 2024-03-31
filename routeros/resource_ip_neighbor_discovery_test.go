@@ -27,9 +27,9 @@ func TestAccIpNeighborDiscoverySettingsTest_basic(t *testing.T) {
 						),
 					},
 					{
-						Config: testAccIpNeighborDiscoverySettingsConfig("LAN", "disabled", "tx-and-rx", `["cdp", "lldp", "mndp"]`),
+						Config: testAccIpNeighborDiscoverySettingsConfig("none", "disabled", "tx-and-rx", `["cdp", "lldp", "mndp"]`),
 						Check: resource.ComposeTestCheckFunc(
-							resource.TestCheckResourceAttr(testIpNeighborDiscoverySettings, "discover_interface_list", "LAN"),
+							resource.TestCheckResourceAttr(testIpNeighborDiscoverySettings, "discover_interface_list", "none"),
 						),
 					},
 				},

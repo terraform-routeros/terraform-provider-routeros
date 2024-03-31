@@ -58,9 +58,9 @@ func TestAccToolsMacServerWinBoxTest_basic(t *testing.T) {
 						),
 					},
 					{
-						Config: testAccToolsMacServerWinBoxConfig("LAN"),
+						Config: testAccToolsMacServerWinBoxConfig("all"),
 						Check: resource.ComposeTestCheckFunc(
-							resource.TestCheckResourceAttr(testToolsMacServerWinBox, "allowed_interface_list", "LAN"),
+							resource.TestCheckResourceAttr(testToolsMacServerWinBox, "allowed_interface_list", "all"),
 						),
 					},
 				},
