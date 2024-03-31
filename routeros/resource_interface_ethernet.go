@@ -4,9 +4,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"regexp"
 	"strings"
+
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -258,6 +259,7 @@ func ResourceInterfaceEthernet() *schema.Resource {
 				regexp.MustCompile(`^[0-9\.]+(M|G)(?:(bps)|(-base\w+)(-\w+)?)$`),
 				"Since RouterOS v7.12 the values of this property have changed. Please check the documentation.",
 			),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"switch": {
 			Type:        schema.TypeString,
