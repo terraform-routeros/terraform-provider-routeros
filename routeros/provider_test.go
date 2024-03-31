@@ -67,6 +67,36 @@ func testCheckMinVersion(t *testing.T, version string) bool {
 	return current >= min
 }
 
+func testCheckMaxVersion(t *testing.T, version string) bool {
+	// version: 6.39.1
+	var current, max uint64
+	for pos, s := range reVersion.FindAllString(os.Getenv("ROS_VERSION"), -1) {
+		if pos > 2 {
+			t.Fatal("The version does not match the format x[.y[.z]]")
+		}
+
+		i, err := strconv.ParseUint(s, 10, 16)
+		if err != nil {
+			t.Error(err)
+		}
+		current += i << ((2 - pos) * 10)
+	}
+
+	for pos, s := range reVersion.FindAllString(version, -1) {
+		if pos > 2 {
+			t.Fatal("The version does not match the format x[.y[.z]]")
+		}
+
+		i, err := strconv.ParseUint(s, 10, 16)
+		if err != nil {
+			t.Error(err)
+		}
+		max += i << ((2 - pos) * 10)
+	}
+
+	return current <= max
+}
+
 func TestCheckMinVersion(t *testing.T) {
 	type args struct {
 		current string
