@@ -25,15 +25,15 @@ jobs:
           - "7.14"
 
     steps:
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v4
+
       - name: Setup Go environment
         uses: actions/setup-go@v5
         with:
           go-version: ${{ matrix.go }}
-        id: go
-
-      - name: Check out code into the Go module directory
-        uses: actions/checkout@v4
-
+        id: go  
+  
       - name: Get dependencies
         run: | 
           go mod download
@@ -55,7 +55,7 @@ jobs:
           ROS_IP_ADDRESS: 127.0.0.1
 
       - name: Run client tests
-        run: go test -timeout 30m -v -run "^TestAccBGPConnectionTest_basic|TestAccCapsManChannelTest_basic$" ./routeros
+        run: go test -timeout 30m -v ./routeros
         env:
           ROS_HOSTURL: https://127.0.0.1
           ROS_USERNAME: admin
