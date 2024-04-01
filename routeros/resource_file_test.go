@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-const testFileMinVersion = "7.9"
+const testFileMinVersion = "7.13"
 const testFile = "routeros_file.test"
 
 func TestAccFileTest_basic(t *testing.T) {
