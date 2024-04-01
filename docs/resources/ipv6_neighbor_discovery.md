@@ -42,7 +42,7 @@ resource "routeros_ipv6_neighbor_discovery" "test" {
 - `managed_address_configuration` (Boolean) Name of the IPv6 pool in which received IPv6 prefix will be added
 - `mtu` (Number) The flag indicates whether hosts should use stateful autoconfiguration (DHCPv6) to obtain addresses
 - `other_configuration` (Boolean) The flag indicates whether hosts should use stateful autoconfiguration to obtain additional information (excluding addresses).
-- `pref64_prefixes` (List of String) Specify IPv6 prefix or list of prefixes within /32, /40. /48, /56, /64, or /96 subnet that will be provided to hosts as NAT64 prefixes.
+- `pref64` (List of String) Specify IPv6 prefix or list of prefixes within /32, /40. /48, /56, /64, or /96 subnet that will be provided to hosts as NAT64 prefixes.
 - `ra_delay` (String) The minimum time allowed between sending multicast router advertisements from the interface.
 - `ra_interval` (String) The min-max interval allowed between sending unsolicited multicast router advertisements from the interface.
 - `ra_lifetime` (String) Specify the router preference that is communicated to IPv6 hosts through router advertisements.The preference value in the router advertisements enables IPv6 hosts to select a default router to reach a remote destination

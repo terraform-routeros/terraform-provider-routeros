@@ -15,7 +15,6 @@
 
 - `add_path_out` (String)
 - `address_families` (String) List of address families about which this peer will exchange routing information. The remote peer must support (they usually do) BGP capabilities optional parameter to negotiate any other families than IP.
-- `as_override` (Boolean) If set, then all instances of the remote peer's AS number in the BGP AS-PATH attribute are replaced with the local AS number before sending a route update to that peer. Happens before routing filters and prepending.
 - `cisco_vpls_nlri_len_fmt` (String) VPLS NLRI length format type. Used for compatibility with Cisco VPLS.
 - `cluster_id` (String) In case this instance is a route reflector: the cluster ID of the router reflector cluster to this instance belongs. This attribute helps to recognize routing updates that come from another route reflector in this cluster and avoid routing information looping. Note that normally there is only one route reflector in a cluster; in this case, 'cluster-id' does not need to be configured and BGP router ID is used instead.
 - `comment` (String)
@@ -30,7 +29,6 @@
 - `nexthop_choice` (String) Affects the outgoing NEXT_HOP attribute selection. Note that next-hops set in filters always take precedence. Also note that the next-hop is not changed on route reflection, except when it's set in the filter. default - select the next-hop as described in RFC 4271 force-self - always use a local address of the interface that is used to connect to the peer as the next-hop; propagate - try to propagate further the next-hop received; i.e. if the route has BGP NEXT_HOP attribute, then use it as the next-hop, otherwise, fall back to the default case.
 - `output` (Block List, Max: 1) A group of parameters associated with BGP output. (see [below for nested schema](#nestedblock--output))
 - `remote` (Block List, Max: 1) A group of parameters associated with BGP input. (see [below for nested schema](#nestedblock--remote))
-- `remove_private_as` (Boolean) If set, then the BGP AS-PATH attribute is removed before sending out route updates if the attribute contains only private AS numbers. The removal process happens before routing filters are applied and before the local, AS number is prepended to the AS path.
 - `router_id` (String) BGP Router ID to be used. Use the ID from the /routing/router-id configuration by specifying the reference name, or set the ID directly by specifying IP. Equal router-ids are also used to group peers into one instance.
 - `routing_table` (String) Name of the routing table, to install routes in.
 - `save_to` (String) Filename to be used to save BGP protocol-specific packet content (Exported PDU) into pcap file. This method allows much simpler peer-specific packet capturing for debugging purposes. Pcap files in this format can also be loaded to create virtual BGP peers to recreate conditions that happened at the time when packet capture was running.
@@ -49,9 +47,9 @@
 
 Optional:
 
-- `accept_comunities` (String) A quick way to filter incoming updates with specific communities. It allows filtering incoming messages directly before they are even parsed and stored in memory, that way significantly reducing memory usage. Regular input filter chain can only reject prefixes which means that it will still eat memory and will be visible in /routing route table as 'not active, filtered'. Changes to be applied required session refresh.
+- `accept_communities` (String) A quick way to filter incoming updates with specific communities. It allows filtering incoming messages directly before they are even parsed and stored in memory, that way significantly reducing memory usage. Regular input filter chain can only reject prefixes which means that it will still eat memory and will be visible in /routing route table as 'not active, filtered'. Changes to be applied required session refresh.
 - `accept_ext_communities` (String) A quick way to filter incoming updates with specific extended communities. It allows filtering incoming messages directly before they are even parsed and stored in memory, that way significantly reducing memory usage. Regular input filter chain can only reject prefixes which means that it will still eat memory and will be visible in /routing route table as 'not active, filtered'. Changes to be applied required session refresh.
-- `accept_large_comunities` (String) A quick way to filter incoming updates with specific large communities. It allows filtering incoming messages directly before they are even parsed and stored in memory, that way significantly reducing memory usage. Regular input filter chain can only reject prefixes which means that it will still eat memory and will be visible in /routing route table as 'not active, filtered'. Changes to be applied required session refresh.
+- `accept_large_communities` (String) A quick way to filter incoming updates with specific large communities. It allows filtering incoming messages directly before they are even parsed and stored in memory, that way significantly reducing memory usage. Regular input filter chain can only reject prefixes which means that it will still eat memory and will be visible in /routing route table as 'not active, filtered'. Changes to be applied required session refresh.
 - `accept_nlri` (String) Name of the ipv4/6 address-list. A quick way to filter incoming updates with specific NLRIs. It allows filtering incoming messages directly before they are even parsed and stored in memory, that way significantly reducing memory usage. Regular input filter chain can only reject prefixes which means that it will still eat memory and will be visible in /routing route table as 'not active, filtered'. Changes to be applied required session restart.
 - `accept_unknown` (String) A quick way to filter incoming updates with specific 'unknown' attributes. It allows filtering incoming messages directly before they are even parsed and stored in memory, that way significantly reducing memory usage. Regular input filter chain can only reject prefixes which means that it will still eat memory and will be visible in /routing route table as 'not active, filtered'. Changes to be applied required session refresh.
 - `affinity` (String) Configure input multi-core processing. Read more in Routing Protocol Multi-core Support article. alone - input and output of each session are processed in its own process, most likely the best option when there are a lot of cores and a lot of peers afi, instance, vrf, remote-as - try to run input/output of new session in process with similar parameters main - run input/output in the main process (could potentially increase performance on single-core even possibly on multi-core devices with a small amount of cores) input - run output in the same process as input (can be set only for output affinity)
@@ -86,6 +84,7 @@ Read-Only:
 Optional:
 
 - `affinity` (String) Configure output multicore processing. Read more in Routing Protocol Multi-core Support article. alone - input and output of each session is processed in its own process, the most likely best option when there are a lot of cores and a lot of peers afi, instance, vrf, remote-as - try to run input/output of new session in process with similar parameters main - run input/output in the main process (could potentially increase performance on single-core even possibly on multicore devices with small amount of cores) input - run output in the same process as input (can be set only for output affinity).
+- `as_override` (Boolean) If set, then all instances of the remote peer's AS number in the BGP AS-PATH attribute are replaced with the local AS number before sending a route update to that peer. Happens before routing filters and prepending.
 - `default_originate` (String) Specifies default route (0.0.0.0/0) distribution method.
 - `default_prepend` (Number) The count of AS prepended to the AS path.
 - `filter_chain` (String) Name of the routing filter chain to be used on the output prefixes. If the chain is not specified, then BGP by default accepts everything.
@@ -95,6 +94,7 @@ Optional:
 - `no_client_to_client_reflection` (Boolean) Disable client-to-client route reflection in Route Reflector setups.
 - `no_early_cut` (Boolean) The early cut is the mechanism, to guess (based on default RFC behavior) what would happen with the sent NPLRI when received by the remote peer. If the algorithm determines that the NLRI is going to be dropped, a peer will not even try to send it. However such behavior may not be desired in specific scenarios, then then this option should be used to disable the early cut feature.
 - `redistribute` (String) Enable redistribution of specified route types.
+- `remove_private_as` (Boolean) If set, then the BGP AS-PATH attribute is removed before sending out route updates if the attribute contains only private AS numbers. The removal process happens before routing filters are applied and before the local, AS number is prepended to the AS path.
 
 
 <a id="nestedblock--remote"></a>
@@ -103,7 +103,7 @@ Optional:
 Optional:
 
 - `address` (String) Remote IPv4/6 address used to connect and/or listen to.
-- `allow_as` (String) List of remote AS numbers that are allowed to connect. Useful for dynamic peer configuration.
+- `allowed_as` (String) List of remote AS numbers that are allowed to connect. Useful for dynamic peer configuration.
 - `as` (String) Remote AS number. If not specified BGP will determine remote AS automatically from the OPEN message.
 - `port` (Number) Local connection port.
 - `ttl` (Number) Acceptable minimum Time To Live, the hop limit for this TCP connection. For example, if 'ttl=255' then only single-hop neighbors will be able to establish the connection. This property only affects EBGP peers.

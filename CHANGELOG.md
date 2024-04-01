@@ -1,3 +1,22 @@
+## [1.43.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.42.0...v1.43.0) (2024-04-01)
+
+
+### Features
+
+*  Add NTP client resource ([0a678cf](https://github.com/terraform-routeros/terraform-provider-routeros/commit/0a678cf09c3ff350857c89c7d86cfc8a6de7cf00)), closes [#386](https://github.com/terraform-routeros/terraform-provider-routeros/issues/386)
+* Add IP neighbor discovery resource ([706bccb](https://github.com/terraform-routeros/terraform-provider-routeros/commit/706bccbec25c25f5be162f941664954769fe4cfd)), closes [#388](https://github.com/terraform-routeros/terraform-provider-routeros/issues/388)
+* Add SSH Server resource ([99883e4](https://github.com/terraform-routeros/terraform-provider-routeros/commit/99883e49dcd05ad9eca46c2042c2996c1225c938)), closes [#389](https://github.com/terraform-routeros/terraform-provider-routeros/issues/389)
+* Add tool/mac-server support ([13b565c](https://github.com/terraform-routeros/terraform-provider-routeros/commit/13b565c40f3178e57b475bdd85880d52c7f5eb3b)), closes [#387](https://github.com/terraform-routeros/terraform-provider-routeros/issues/387)
+
+
+### Bug Fixes
+
+* Fix `isEmpty` function for Lists with ObjectType ([dbbb710](https://github.com/terraform-routeros/terraform-provider-routeros/commit/dbbb710f1ef97e3fed2ef7477e73a78e91104901))
+* Set "AlwaysPresentNotUserProvided" for PropVrfRw ([fd58ea1](https://github.com/terraform-routeros/terraform-provider-routeros/commit/fd58ea19ae18b6fd2fbd1d1945b45c0936f1f0b9))
+* **v7.12.2:** Change `routeros_interface_wireguard_peer` schema ([3f937c1](https://github.com/terraform-routeros/terraform-provider-routeros/commit/3f937c1b44d4661212b8aad93ebef326d52dbb55))
+* **v7.12.2:** Change `routeros_ipv6_neighbor_discovery` schema ([598319a](https://github.com/terraform-routeros/terraform-provider-routeros/commit/598319adc29a02a34f6e4c52a87a979cc36a4a0b))
+* **v7.12.2:** Change `routeros_routing_bgp_connection` schema ([205e43d](https://github.com/terraform-routeros/terraform-provider-routeros/commit/205e43dac4600fdf2e632380f9cd687c55cc06b4))
+
 ## [1.42.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.41.0...v1.42.0) (2024-03-29)
 
 

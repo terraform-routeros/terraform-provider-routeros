@@ -24,12 +24,12 @@ resource "routeros_interface_wireguard_peer" "wg_peer" {
 
 ### Required
 
+- `allowed_address` (List of String) List of IP (v4 or v6) addresses with CIDR masks from which incoming traffic for this peer is allowed and to which outgoing traffic for this peer is directed. The catch-all 0.0.0.0/0 may be specified for matching all IPv4 addresses, and ::/0 may be specified for matching all IPv6 addresses.
 - `interface` (String) Name of the interface.
 - `public_key` (String) The remote peer's calculated public key.
 
 ### Optional
 
-- `allowed_address` (List of String) List of IP (v4 or v6) addresses with CIDR masks from which incoming traffic for this peer is allowed and to which outgoing traffic for this peer is directed. The catch-all 0.0.0.0/0 may be specified for matching all IPv4 addresses, and ::/0 may be specified for matching all IPv6 addresses.
 - `client_address` (String) When imported using a qr code for a client (for example, a phone), then this address for the wg interface is set on that device.
 - `client_dns` (String) Specify when using WireGuard Server as a VPN gateway for peer traffic.
 - `client_endpoint` (String) The IP address and port number of the WireGuard Server.
