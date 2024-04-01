@@ -43,12 +43,7 @@ jobs:
 
       - name: Preparing RouterOS for testing
         run: |
-          python -m pip install --upgrade pip
-          python -m venv env
-          source env/bin/activate
-          pip install routeros_api
-          sleep 5s
-          python .github/scripts/setup_routeros.py
+          go run .github/scripts/setup_routeros.go
         env:
           ROS_USERNAME: admin
           ROS_PASSWORD: ''

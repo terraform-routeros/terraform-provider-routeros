@@ -98,6 +98,11 @@ func testCheckMaxVersion(t *testing.T, version string) bool {
 }
 
 func TestCheckMinVersion(t *testing.T) {
+	originalVersion := os.Getenv("ROS_VERSION")
+	defer func() {
+		os.Setenv("ROS_VERSION", originalVersion)
+	}()
+
 	type args struct {
 		current string
 		min     string
