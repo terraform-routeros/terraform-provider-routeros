@@ -1,0 +1,1 @@
+terraform import routeros_ip_ssh_server.test .

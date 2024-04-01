@@ -15,7 +15,7 @@ func ResourceInterfaceWireguardPeer() *schema.Resource {
 
 		"allowed_address": {
 			Type:     schema.TypeList,
-			Optional: true,
+			Required: true,
 			Description: "List of IP (v4 or v6) addresses with CIDR masks from which incoming traffic for this peer " +
 				"is allowed and to which outgoing traffic for this peer is directed. The catch-all 0.0.0.0/0 may be " +
 				"specified for matching all IPv4 addresses, and ::/0 may be specified for matching all IPv6 addresses.",

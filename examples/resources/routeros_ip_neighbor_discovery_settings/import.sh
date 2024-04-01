@@ -1,0 +1,1 @@
+terraform import routeros_ip_neighbor_discovery_settings.test .

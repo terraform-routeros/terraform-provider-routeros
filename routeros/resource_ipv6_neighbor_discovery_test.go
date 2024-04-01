@@ -81,7 +81,7 @@ resource "routeros_ipv6_neighbor_discovery" "test" {
         managed_address_configuration	= true
         mtu 							= 9000
         other_configuration				= true
-        pref64_prefixes					= []
+        pref64      					= []
         ra_delay						= "3s"
         ra_interval						= "3m20s-10m"
         ra_lifetime						= "30m"

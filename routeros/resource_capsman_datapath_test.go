@@ -6,9 +6,15 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
+const testCapsManDatapathMaxVersion = "7.12.2"
 const testCapsManDatapathAddress = "routeros_capsman_datapath.test_datapath"
 
 func TestAccCapsManDatapathTest_basic(t *testing.T) {
+	if !testCheckMaxVersion(t, testCapsManDatapathMaxVersion) {
+		t.Logf("Test skipped, the maximum supported version is %v", testCapsManDatapathMaxVersion)
+		return
+	}
+
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

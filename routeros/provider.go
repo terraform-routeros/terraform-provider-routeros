@@ -99,6 +99,8 @@ func Provider() *schema.Provider {
 			"routeros_ip_dns":                          ResourceDns(),
 			"routeros_ip_dns_record":                   ResourceDnsRecord(),
 			"routeros_ip_service":                      ResourceIpService(),
+			"routeros_ip_neighbor_discovery_settings":  ResourceIpNeighborDiscoverySettings(),
+			"routeros_ip_ssh_server":                   ResourceIpSSHServer(),
 			"routeros_ipv6_address":                    ResourceIPv6Address(),
 			"routeros_ipv6_dhcp_client":                ResourceIPv6DhcpClient(),
 			"routeros_ipv6_dhcp_client_option":         ResourceIPv6DhcpClientOption(),
@@ -168,6 +170,7 @@ func Provider() *schema.Provider {
 			"routeros_system_certificate":   ResourceSystemCertificate(),
 			"routeros_system_identity":      ResourceSystemIdentity(),
 			"routeros_system_logging":       ResourceSystemLogging(),
+			"routeros_system_ntp_client":    ResourceSystemNtpClient(),
 			"routeros_system_ntp_server":    ResourceSystemNtpServer(),
 			"routeros_system_scheduler":     ResourceSystemScheduler(),
 			"routeros_system_script":        ResourceSystemScript(),
@@ -231,6 +234,10 @@ func Provider() *schema.Provider {
 			// Helpers
 			"routeros_wireguard_keys": ResourceWireguardKeys(),
 			"routeros_move_items":     ResourceMoveItems(),
+
+			// Tools
+			"routeros_tool_mac_server":        ResourceToolMacServer(),
+			"routeros_tool_mac_server_winbox": ResourceToolMacServerWinBox(),
 
 			// User Manager
 			"routeros_user_manager_advanced":           ResourceUserManagerAdvanced(),

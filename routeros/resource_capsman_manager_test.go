@@ -7,11 +7,17 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
+const testCapsManManagerMaxVersion = "7.12.2"
 const testCapsManAaaAddress = "routeros_capsman_aaa.test_3a"
 const testCapsManManagerAddress = "routeros_capsman_manager.test_manager"
 const testCapsManManagerInterfaceAddress = "routeros_capsman_manager_interface.test_manager_interface"
 
 func TestAccCapsManManagerTest_basic(t *testing.T) {
+	if !testCheckMaxVersion(t, testCapsManManagerMaxVersion) {
+		t.Logf("Test skipped, the maximum supported version is %v", testCapsManManagerMaxVersion)
+		return
+	}
+
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

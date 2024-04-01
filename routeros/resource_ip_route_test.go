@@ -42,7 +42,7 @@ resource "routeros_ip_route" "test_route" {
 	distance      = 1
 	dst_address   = "10.0.0.0/24"
 	gateway		  = "192.168.103.1"
-	check_gateway = "bfd-multihop"
+	check_gateway = "ping"
 }
 
 `
