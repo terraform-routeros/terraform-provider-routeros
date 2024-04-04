@@ -1,3 +1,15 @@
+## [1.44.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.43.0...v1.44.0) (2024-04-04)
+
+
+### Features
+
+* Add `routeros_capsman_interface` resource to manage CAPsMAN interfaces ([65b9717](https://github.com/terraform-routeros/terraform-provider-routeros/commit/65b9717b8afa7d218012f613af88c53fe0a21063))
+
+
+### Bug Fixes
+
+* Fix inline configuration properties not to update when untouched in `routeros_capsman_configuration` resources ([e2a5b55](https://github.com/terraform-routeros/terraform-provider-routeros/commit/e2a5b5527a77a99a84f35e8381a59add6ab63d11))
+
 ## [1.43.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.42.0...v1.43.0) (2024-04-01)
 
 
