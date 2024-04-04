@@ -71,6 +71,7 @@ func ResourceIpService() *schema.Resource {
 			ValidateDiagFunc: ValidationMultiValInSlice([]string{"api", "api-ssl", "ftp", "ssh", "telnet", "winbox",
 				"www", "www-ssl"}, false, false),
 		},
+
 		"port": {
 			Type:         schema.TypeInt,
 			Required:     true,
