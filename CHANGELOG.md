@@ -1,3 +1,10 @@
+## [1.44.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.44.1...v1.44.2) (2024-04-04)
+
+
+### Bug Fixes
+
+* Fix for release ([3c54e07](https://github.com/terraform-routeros/terraform-provider-routeros/commit/3c54e076d86ef551223c1d83b5fa72a0c5742db8))
+
 ## [1.44.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.44.0...v1.44.1) (2024-04-04)
 
 
