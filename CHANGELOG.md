@@ -1,3 +1,10 @@
+## [1.44.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.44.0...v1.44.1) (2024-04-04)
+
+
+### Bug Fixes
+
+* routeros_ip_service  not working ([c896837](https://github.com/terraform-routeros/terraform-provider-routeros/commit/c8968373e42e60bc1d0d53d23031ac8231086d7f)), closes [#407](https://github.com/terraform-routeros/terraform-provider-routeros/issues/407)
+
 ## [1.44.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.43.0...v1.44.0) (2024-04-04)
 
 
