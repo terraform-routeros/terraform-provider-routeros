@@ -52,9 +52,9 @@ func ResourceIpService() *schema.Resource {
 		"certificate": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Default:  "none",
 			Description: "The name of the certificate used by a particular service. Applicable only for services " +
 				"that depend on certificates ( www-ssl, api-ssl ).",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyDisabled: PropDisabledRw,
 		KeyInvalid:  PropInvalidRo,
@@ -68,8 +68,8 @@ func ResourceIpService() *schema.Resource {
 			Required: true,
 			Description: "The name of the service whose settings will be changed ( api, api-ssl, ftp, ssh, telnet, " +
 				"winbox, www, www-ssl ).",
-			// ValidateDiagFunc: ValidationMultiValInSlice([]string{"api", "api-ssl", "ftp", "ssh", "telnet", "winbox",
-			// 	"www", "www-ssl"}, false, false),
+			ValidateDiagFunc: ValidationMultiValInSlice([]string{"api", "api-ssl", "ftp", "ssh", "telnet", "winbox",
+				"www", "www-ssl"}, false, false),
 		},
 		"port": {
 			Type:         schema.TypeInt,
@@ -78,11 +78,11 @@ func ResourceIpService() *schema.Resource {
 			ValidateFunc: validation.IntBetween(1, 65535),
 		},
 		"tls_version": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Default:      "any",
-			Description:  "Specifies which TLS versions to allow by a particular service.",
-			ValidateFunc: validation.StringInSlice([]string{"any", "only-1.2"}, false),
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Specifies which TLS versions to allow by a particular service.",
+			ValidateFunc:     validation.StringInSlice([]string{"any", "only-1.2"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyVrf: PropVrfRw,
 	}

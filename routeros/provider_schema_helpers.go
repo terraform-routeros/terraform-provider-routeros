@@ -424,7 +424,6 @@ var (
 	PropVrfRw = &schema.Schema{
 		Type:             schema.TypeString,
 		Optional:         true,
-		Default:          "main",
 		Description:      "The VRF table this resource operates on.",
 		DiffSuppressFunc: AlwaysPresentNotUserProvided,
 	}
