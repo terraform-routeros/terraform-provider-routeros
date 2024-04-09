@@ -1,3 +1,10 @@
+## [1.44.3](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.44.2...v1.44.3) (2024-04-09)
+
+
+### Bug Fixes
+
+* **Importer:** Add extended resource import function ([713d9ee](https://github.com/terraform-routeros/terraform-provider-routeros/commit/713d9ee6318b0f71dea33207687b5062af605859)), closes [#403](https://github.com/terraform-routeros/terraform-provider-routeros/issues/403)
+
 ## [1.44.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.44.1...v1.44.2) (2024-04-04)
 
 
