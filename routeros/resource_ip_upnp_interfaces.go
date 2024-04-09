@@ -13,6 +13,12 @@ func ResourceUPNPInterfaces() *schema.Resource {
 
 		KeyDisabled: PropDisabledRw,
 		KeyDynamic:  PropDynamicRo,
+		"forced_ip": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Allow specifying what public IP to use if the external interface has more than one IP available.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"interface": {
 			Type:        schema.TypeString,
 			Required:    true,
@@ -25,12 +31,6 @@ func ResourceUPNPInterfaces() *schema.Resource {
 
 			external - the interface a global IP address is assigned to
 			internal - router's local interface the clients are connected to`,
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
-		},
-		"forced_external_ip": {
-			Type:             schema.TypeString,
-			Optional:         true,
-			Description:      "Allow specifying what public IP to use if the external interface has more than one IP available.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 	}
