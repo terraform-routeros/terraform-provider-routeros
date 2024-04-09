@@ -82,6 +82,7 @@ func Provider() *schema.Provider {
 			// IP objects
 			"routeros_ip_dhcp_client":                  ResourceDhcpClient(),
 			"routeros_ip_dhcp_client_option":           ResourceDhcpClientOption(),
+			"routeros_ip_dhcp_relay":                   ResourceDhcpRelay(),
 			"routeros_ip_dhcp_server":                  ResourceDhcpServer(),
 			"routeros_ip_dhcp_server_config":           ResourceDhcpServerConfig(),
 			"routeros_ip_dhcp_server_network":          ResourceDhcpServerNetwork(),
