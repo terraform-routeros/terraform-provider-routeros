@@ -273,6 +273,7 @@ func Provider() *schema.Provider {
 			"routeros_zerotier_interface":  ResourceZerotierInterface(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
+			"routeros_files":                 DatasourceFiles(),
 			"routeros_firewall":              DatasourceFirewall(),
 			"routeros_interfaces":            DatasourceInterfaces(),
 			"routeros_ip_addresses":          DatasourceIPAddresses(),
