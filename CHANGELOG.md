@@ -1,3 +1,17 @@
+## [1.45.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.44.3...v1.45.0) (2024-04-09)
+
+
+### Features
+
+* **dhcp-relay:** Add DHCP Relay support ([6eb5901](https://github.com/terraform-routeros/terraform-provider-routeros/commit/6eb590183e2c67dc5f797bbfbe545d502f39a04c)), closes [#413](https://github.com/terraform-routeros/terraform-provider-routeros/issues/413)
+* **upnp:** Add UPNP & UPNP Interfaces ([8fd3da6](https://github.com/terraform-routeros/terraform-provider-routeros/commit/8fd3da66a671e1e3e6e62a38749fa0b58f3c1595)), closes [#412](https://github.com/terraform-routeros/terraform-provider-routeros/issues/412)
+
+
+### Bug Fixes
+
+* Export/import certificates ([205a221](https://github.com/terraform-routeros/terraform-provider-routeros/commit/205a22110a712a123a6225ae0f71d9f763043c02)), closes [#404](https://github.com/terraform-routeros/terraform-provider-routeros/issues/404)
+* **upnp:** Fix "unknown parameter forced-external-ip" ([74333f2](https://github.com/terraform-routeros/terraform-provider-routeros/commit/74333f2ec7eeba08ff018084cf75003d102fac32))
+
 ## [1.44.3](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.44.2...v1.44.3) (2024-04-09)
 
 
