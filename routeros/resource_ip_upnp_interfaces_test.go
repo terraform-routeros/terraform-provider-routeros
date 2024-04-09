@@ -20,12 +20,12 @@ func TestAccUPNPInterfacesTest_basic(t *testing.T) {
 				ProviderFactories: testAccProviderFactories,
 				Steps: []resource.TestStep{
 					{
-						Config: testAccUPNPInterfacesConfig("ether1", "external", `forced_external_ip = "0.0.0.0"`),
+						Config: testAccUPNPInterfacesConfig("ether1", "external", `forced_ip = "0.0.0.0"`),
 						Check: resource.ComposeTestCheckFunc(
 							testResourcePrimaryInstanceId(testUPNPInterfaces),
 							resource.TestCheckResourceAttr(testUPNPInterfaces, "interface", "ether1"),
 							resource.TestCheckResourceAttr(testUPNPInterfaces, "type", "external"),
-							resource.TestCheckResourceAttr(testUPNPInterfaces, "forced_external_ip", "0.0.0.0"),
+							resource.TestCheckResourceAttr(testUPNPInterfaces, "forced_ip", "0.0.0.0"),
 						),
 					},
 					{
@@ -34,7 +34,7 @@ func TestAccUPNPInterfacesTest_basic(t *testing.T) {
 						Check: resource.ComposeTestCheckFunc(
 							resource.TestCheckResourceAttr(testUPNPInterfaces, "interface", "ether1"),
 							resource.TestCheckResourceAttr(testUPNPInterfaces, "type", "internal"),
-							resource.TestCheckNoResourceAttr(testUPNPInterfaces, "forced_external_ip"),
+							resource.TestCheckNoResourceAttr(testUPNPInterfaces, "forced_ip"),
 						),
 					},
 				},
