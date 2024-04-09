@@ -101,6 +101,8 @@ func Provider() *schema.Provider {
 			"routeros_ip_service":                      ResourceIpService(),
 			"routeros_ip_neighbor_discovery_settings":  ResourceIpNeighborDiscoverySettings(),
 			"routeros_ip_ssh_server":                   ResourceIpSSHServer(),
+			"routeros_ip_upnp":                         ResourceUPNPSettings(),
+			"routeros_ip_upnp_interfaces":              ResourceUPNPInterfaces(),
 			"routeros_ipv6_address":                    ResourceIPv6Address(),
 			"routeros_ipv6_dhcp_client":                ResourceIPv6DhcpClient(),
 			"routeros_ipv6_dhcp_client_option":         ResourceIPv6DhcpClientOption(),
