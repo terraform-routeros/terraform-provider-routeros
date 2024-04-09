@@ -575,6 +575,10 @@ var (
 			return true
 		}
 
+		if (old == "none" && new == "") || (old == "" && new == "none") {
+			return true
+		}
+
 		if old == "" || new == "" {
 			return false
 		}
