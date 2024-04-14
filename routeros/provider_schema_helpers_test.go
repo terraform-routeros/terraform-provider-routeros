@@ -2,9 +2,34 @@ package routeros
 
 import (
 	"testing"
+	"time"
 
 	"github.com/hashicorp/go-cty/cty"
 )
+
+func TestValidationDurationAtLeast(t *testing.T) {
+	const minDuration = time.Minute
+	cases := []struct {
+		arg      string
+		hasError bool
+	}{
+		{"1s", true},
+		{"59", true},
+		{"1m", false},
+		{"1m1s", false},
+		{"00:01:01", false},
+		{"", true},
+		{"invalid", true},
+	}
+	validator := ValidationDurationAtLeast(minDuration)
+	for _, c := range cases {
+		result := validator(c.arg, *new(cty.Path))
+		hasError := result.HasError()
+		if hasError != c.hasError {
+			t.Errorf("ValidationDurationAtLeast(%v)(%q, ...).hasError() == %t, want %t. Diagnostics: %v.", minDuration, c.arg, hasError, c.hasError, result)
+		}
+	}
+}
 
 func TestValidationMultiValInSlice(t *testing.T) {
 	type args struct {

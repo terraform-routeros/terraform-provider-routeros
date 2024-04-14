@@ -6,6 +6,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/hashicorp/go-cty/cty"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
@@ -471,6 +472,29 @@ func PropMtuRw() *schema.Schema {
 var (
 	ValidationTime = validation.StringMatch(regexp.MustCompile(`^(\d+([smhdw]|ms)?)+$`),
 		"value should be an integer or a time interval: 0..4294967295 (seconds) or 500ms, 2d, 1w")
+
+	// ValidationDurationAtLeast returns a SchemaValidateDiagFunc which tests if the provided value
+	// is a valid duration expected by RouterOS and is at least minDuration long (inclusive)
+	ValidationDurationAtLeast = func(minDuration time.Duration) schema.SchemaValidateDiagFunc {
+		return func(i interface{}, p cty.Path) diag.Diagnostics {
+			value, ok := i.(string)
+			if !ok {
+				return diag.Errorf("expected type to be string")
+			}
+
+			duration, err := ParseDuration(value)
+			if err != nil {
+				return diag.FromErr(err)
+			}
+
+			if duration < minDuration {
+				return diag.Errorf("duration must be greater than %v", minDuration)
+			}
+
+			return diag.Diagnostics{}
+		}
+	}
+
 	ValidationAutoYesNo = validation.StringInSlice([]string{"auto", "yes", "no"}, false)
 	ValidationIpAddress = validation.StringMatch(
 		regexp.MustCompile(`^$|^!?(\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(/([0-9]|[0-9]|[1-2][0-9]|3[0-2]))?)$`),
