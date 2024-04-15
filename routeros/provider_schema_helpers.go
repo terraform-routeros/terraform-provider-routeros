@@ -572,16 +572,12 @@ var (
 // Properties DiffSuppressFunc.
 var (
 	TimeEquall = func(k, old, new string, d *schema.ResourceData) bool {
-		if old == new {
-			return true
-		}
-
-		if (old == "none" && new == "") || (old == "" && new == "none") {
-			return true
-		}
-
-		if old == "" || new == "" {
+		if old == "" {
 			return false
+		}
+
+		if AlwaysPresentNotUserProvided(k, old, new, d) {
+			return true
 		}
 
 		// Compare intervals:
@@ -599,12 +595,12 @@ var (
 	}
 
 	HexEqual = func(k, old, new string, d *schema.ResourceData) bool {
-		if old == new {
-			return true
+		if old == "" {
+			return false
 		}
 
-		if old == "" || new == "" {
-			return false
+		if AlwaysPresentNotUserProvided(k, old, new, d) {
+			return true
 		}
 
 		// Compare numbers:
