@@ -571,12 +571,13 @@ var (
 
 // Properties DiffSuppressFunc.
 var (
-	TimeEquall = func(k, old, new string, d *schema.ResourceData) bool {
-		if old == new {
-			return true
-		}
+	defaultTimeReplace = strings.NewReplacer("none-dynamic", "", "none", "")
 
-		if (old == "none" && new == "") || (old == "" && new == "none") {
+	TimeEquall = func(k, old, new string, d *schema.ResourceData) bool {
+		old = defaultTimeReplace.Replace(old)
+		new = defaultTimeReplace.Replace(new)
+
+		if old == new {
 			return true
 		}
 
