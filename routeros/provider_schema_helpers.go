@@ -574,15 +574,12 @@ var (
 	defaultTimeReplace = strings.NewReplacer("none-dynamic", "", "none", "")
 
 	TimeEquall = func(k, old, new string, d *schema.ResourceData) bool {
-		old = defaultTimeReplace.Replace(old)
-		new = defaultTimeReplace.Replace(new)
-
-		if old == new {
-			return true
+		if old == "" {
+			return false
 		}
 
-		if old == "" || new == "" {
-			return false
+		if AlwaysPresentNotUserProvided(k, old, new, d) {
+			return true
 		}
 
 		// Compare intervals:
@@ -600,12 +597,12 @@ var (
 	}
 
 	HexEqual = func(k, old, new string, d *schema.ResourceData) bool {
-		if old == new {
-			return true
+		if old == "" {
+			return false
 		}
 
-		if old == "" || new == "" {
-			return false
+		if AlwaysPresentNotUserProvided(k, old, new, d) {
+			return true
 		}
 
 		// Compare numbers:
