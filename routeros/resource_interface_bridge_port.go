@@ -80,17 +80,17 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 		"auto_isolate": {
 			Type:     schema.TypeBool,
 			Optional: true,
-			Default:  false,
 			Description: "When enabled, prevents a port moving from discarding into forwarding state if no BPDUs " +
 				"are received from the neighboring bridge. The port will change into a forwarding state only when " +
 				"a BPDU is received. This property only has an effect when protocol-mode is set to rstp or mstp and " +
 				"edge is set to no.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"bpdu_guard": {
-			Type:        schema.TypeBool,
-			Optional:    true,
-			Default:     false,
-			Description: "This property has no effect when protocol-mode is set to none.",
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Description:      "This property has no effect when protocol-mode is set to none.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"bridge": {
 			Type:     schema.TypeString,
@@ -99,9 +99,9 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 		"broadcast_flood": {
 			Type:     schema.TypeBool,
 			Optional: true,
-			Default:  true,
 			Description: "When enabled, bridge floods broadcast traffic to all bridge egress ports. " +
 				"When disabled, drops broadcast traffic on egress ports. ",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyComment: PropCommentRw,
 		"designated_bridge": {
@@ -124,10 +124,10 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 		"edge": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Default:  "auto",
 			Description: "Set port as edge port or non-edge port, or enable edge discovery. " +
 				"Edge ports are connected to a LAN that has no other bridges attached. ",
-			ValidateFunc: validation.StringInSlice([]string{"auto", "no", "no-discover", "yes", "yes-discover"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			ValidateFunc:     validation.StringInSlice([]string{"auto", "no", "no-discover", "yes", "yes-discover"}, false),
 		},
 		"edge_port": {
 			Type:        schema.TypeBool,
@@ -146,10 +146,10 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 			Description: "Whether registration table is used instead of forwarding data base.",
 		},
 		"fast_leave": {
-			Type:        schema.TypeBool,
-			Optional:    true,
-			Default:     false,
-			Description: "Enables IGMP Fast leave feature on the port.",
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Description:      "Enables IGMP Fast leave feature on the port.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"forwarding": {
 			Type:        schema.TypeBool,
@@ -159,9 +159,9 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 		"frame_types": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Default:  "admit-all",
 			Description: "Specifies allowed ingress frame types on a bridge port. " +
 				"This property only has effect when vlan-filtering is set to yes.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 			ValidateFunc: validation.StringInSlice([]string{"admit-all",
 				"admit-only-untagged-and-priority-tagged",
 				"admit-only-vlan-tagged"}, false),
@@ -169,10 +169,10 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 		"horizon": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Default:  "none",
 			Description: "Use split horizon bridging to prevent bridging loops. Set the same value for group of ports, " +
 				"to prevent them from sending data to ports with the same horizon value. Split horizon is a software " +
 				"feature that disables hardware offloading. This value is integer '0'..'429496729' or 'none'.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"hw": {
 			Type:        schema.TypeBool,
@@ -204,16 +204,16 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 		"internal_path_cost": {
 			Type:     schema.TypeInt,
 			Optional: true,
-			Default:  10,
 			Description: "Path cost to the interface for MSTI0 inside a region. This property only has effect when " +
 				"protocol-mode is set to mstp.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"learn": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Default:      "auto",
-			Description:  "Changes MAC learning behaviour on a bridge port ",
-			ValidateFunc: ValidationAutoYesNo,
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Changes MAC learning behaviour on a bridge port ",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			ValidateFunc:     ValidationAutoYesNo,
 		},
 		"learning": {
 			Type:        schema.TypeBool,
@@ -223,10 +223,10 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 		"multicast_router": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Default:  "temporary-query",
 			Description: "Changes the state of a bridge port whether IGMP membership reports are going to be " +
 				"forwarded to this port.",
-			ValidateFunc: validation.StringInSlice([]string{"disabled", "permanent", "temporary-query"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			ValidateFunc:     validation.StringInSlice([]string{"disabled", "permanent", "temporary-query"}, false),
 		},
 		// This field has a string value because on the x86 architecture there is no good way to validate
 		// values up to 4294967295. And in this case, an overflow occurs with an errors:
@@ -235,17 +235,17 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 		"path_cost": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Default:  "10",
 			Description: `Path cost to the interface, used by STP to determine the "best" path, used by MSTP to` +
 				`determine "best" path between regions. This property has no effect when protocol-mode is set to none.`,
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"point_to_point": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Default:  "auto",
 			Description: "Specifies if a bridge port is connected to a bridge using a point-to-point link for faster " +
 				"convergence in case of failure. This property has no effect when protocol-mode is set to none.",
-			ValidateFunc: ValidationAutoYesNo,
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			ValidateFunc:     ValidationAutoYesNo,
 		},
 		"point_to_point_port": {
 			Type:        schema.TypeBool,
@@ -255,7 +255,6 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 		"priority": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Default:  128,
 			Description: "The priority of the interface, used by STP to determine the root port, " +
 				"used by MSTP to determine root port between regions.",
 			ValidateFunc:     validation.IntBetween(0, 240),
@@ -271,16 +270,16 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 		"restricted_role": {
 			Type:     schema.TypeBool,
 			Optional: true,
-			Default:  false,
 			Description: "Enable the restricted role on a port, used by STP to forbid a port becoming a root port. " +
 				"This property only has effect when protocol-mode is set to mstp.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"restricted_tcn": {
 			Type:     schema.TypeBool,
 			Optional: true,
-			Default:  false,
 			Description: "Disable topology change notification (TCN) sending on a port, used by STP to forbid network " +
 				"topology changes to propagate. This property only has effect when protocol-mode is set to mstp.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"role": {
 			Type:        schema.TypeString,
@@ -307,31 +306,31 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 		"tag_stacking": {
 			Type:     schema.TypeBool,
 			Optional: true,
-			Default:  false,
 			Description: "Forces all packets to be treated as untagged packets. Packets on ingress port will be tagged " +
 				"with another VLAN tag regardless if a VLAN tag already exists, packets will be tagged with a VLAN ID " +
 				"that matches the pvid value and will use EtherType that is specified in ether-type. " +
 				"This property only has effect when vlan-filtering is set to yes.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"trusted": {
 			Type:     schema.TypeBool,
 			Optional: true,
-			Default:  false,
 			Description: "When enabled, it allows to forward DHCP packets towards DHCP server through this port. " +
 				"Mainly used to limit unauthorized servers to provide malicious information for users. " +
 				"This property only has effect when dhcp-snooping is set to yes.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"unknown_multicast_flood": {
-			Type:        schema.TypeBool,
-			Optional:    true,
-			Default:     true,
-			Description: "When enabled, bridge floods unknown multicast traffic to all bridge egress ports.",
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Description:      "When enabled, bridge floods unknown multicast traffic to all bridge egress ports.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"unknown_unicast_flood": {
-			Type:        schema.TypeBool,
-			Optional:    true,
-			Default:     true,
-			Description: "When enabled, bridge floods unknown unicast traffic to all bridge egress ports.",
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Description:      "When enabled, bridge floods unknown unicast traffic to all bridge egress ports.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 	}
 
