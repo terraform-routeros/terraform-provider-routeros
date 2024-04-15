@@ -70,7 +70,7 @@ func ResourceInterfaceEthernetSwitchPort() *schema.Resource {
 			"rx_pause", "rx_too_long", "rx_too_short", "tx_1024_1518", "tx_128_255", "tx_1519_max", "tx_256_511", "tx_512_1023", "tx_64",
 			"tx_65_127", "tx_broadcast", "tx_bytes", "tx_collision", "tx_deferred", "tx_excessive_collision", "tx_excessive_deferred",
 			"tx_late_collision", "tx_multicast", "tx_multiple_collision", "tx_pause", "tx_single_collision", "tx_too_long", "tx_underrun",
-			"driver_tx_byte", "driver_rx_packet", "driver_rx_byte", "driver_tx_packet"),
+			"driver_tx_byte", "driver_rx_packet", "driver_rx_byte", "driver_tx_packet", "tx_carrier_sense_error"),
 
 		"default_vlan_id": {
 			Type:     schema.TypeString,
