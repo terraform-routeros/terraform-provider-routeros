@@ -1,3 +1,19 @@
+## [1.46.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.45.0...v1.46.0) (2024-04-16)
+
+
+### Features
+
+* add routeros_certificate_scep_server resource ([#420](https://github.com/terraform-routeros/terraform-provider-routeros/issues/420)) ([b80b52d](https://github.com/terraform-routeros/terraform-provider-routeros/commit/b80b52d9ef5f8ce8d4b1396092ba1dc816765489))
+
+
+### Bug Fixes
+
+* **no-release:** [Backward compatibility] routeros_interface_bridge NOT WORKING as expected ([dd46e95](https://github.com/terraform-routeros/terraform-provider-routeros/commit/dd46e95ac82b18d3ff2f7ef5a2c1cba30dc6f2f1)), closes [#417](https://github.com/terraform-routeros/terraform-provider-routeros/issues/417)
+* **no-release:** [Backward compatibility] routeros_interface_bridge_port ([dca44bc](https://github.com/terraform-routeros/terraform-provider-routeros/commit/dca44bc1c23246fc63d2310f8f2a7d9f15ec5519)), closes [#419](https://github.com/terraform-routeros/terraform-provider-routeros/issues/419)
+* **no-release:** [Backward compatibility] routeros_ip_firewall_filter NOT WORKING AS EXPECTED ([6cc2072](https://github.com/terraform-routeros/terraform-provider-routeros/commit/6cc2072110ca5d67501a65ce5cd69cbb25e4fe12)), closes [#418](https://github.com/terraform-routeros/terraform-provider-routeros/issues/418)
+* **no-release:** Field 'tx_carrier_sense_error' not found in the schema ([c3d2eb2](https://github.com/terraform-routeros/terraform-provider-routeros/commit/c3d2eb2343e6593f673d57e2bbe80bd32fc863a9)), closes [#416](https://github.com/terraform-routeros/terraform-provider-routeros/issues/416)
+* **no-release:** Fix comparison of time & hex not provided by user ([4f85ccf](https://github.com/terraform-routeros/terraform-provider-routeros/commit/4f85ccf3303e6b91e6c0aee6dc0b4602d04604a3))
+
 ## [1.45.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.44.3...v1.45.0) (2024-04-09)
 
 
