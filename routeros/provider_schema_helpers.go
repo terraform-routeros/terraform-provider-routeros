@@ -182,57 +182,57 @@ var (
 		Computed: true,
 	}
 	PropAllowFastPathRw = &schema.Schema{
-		Type:        schema.TypeBool,
-		Optional:    true, // Must be present in the request so that the IPSEC PSK can be set correctly.
-		Default:     true,
-		Description: "Whether to allow FastPath processing. Must be disabled if IPsec tunneling is used.",
+		Type:             schema.TypeBool,
+		Optional:         true, // Must be present in the request so that the IPSEC PSK can be set correctly.
+		Description:      "Whether to allow FastPath processing. Must be disabled if IPsec tunneling is used.",
+		DiffSuppressFunc: AlwaysPresentNotUserProvided,
 	}
 	PropArpRw = &schema.Schema{
 		Type:     schema.TypeString,
 		Optional: true,
-		Default:  "enabled",
 		Description: `Address Resolution Protocol mode:
-	* disabled - the interface will not use ARP
-	* enabled - the interface will use ARP
-	* local-proxy-arp - the router performs proxy ARP on the interface and sends replies to the same interface
-	* proxy-arp - the router performs proxy ARP on the interface and sends replies to other interfaces
-	* reply-only - the interface will only reply to requests originated from matching IP address/MAC address combinations which are entered as static entries in the ARP table. No dynamic entries will be automatically stored in the ARP table. Therefore for communications to be successful, a valid static entry must already exist.`,
+		* disabled - the interface will not use ARP
+		* enabled - the interface will use ARP
+		* local-proxy-arp - the router performs proxy ARP on the interface and sends replies to the same interface
+		* proxy-arp - the router performs proxy ARP on the interface and sends replies to other interfaces
+		* reply-only - the interface will only reply to requests originated from matching IP address/MAC address combinations which are entered as static entries in the ARP table. No dynamic entries will be automatically stored in the ARP table. Therefore for communications to be successful, a valid static entry must already exist.`,
 		ValidateFunc: validation.StringInSlice([]string{"disabled", "enabled", "local-proxy-arp", "proxy-arp",
 			"reply-only"}, false),
+		DiffSuppressFunc: AlwaysPresentNotUserProvided,
 	}
 	PropArpTimeoutRw = &schema.Schema{
 		Type:     schema.TypeString,
 		Optional: true,
-		Default:  "auto",
 		Description: "ARP timeout is time how long ARP record is kept in ARP table after no packets are received " +
 			"from IP. Value auto equals to the value of arp-timeout in IP/Settings, default is 30s. Can use postfix " +
 			"ms, s, M, h, d for milliseconds, seconds, minutes, hours or days. If no postfix is set then seconds (s) is used.",
 		ValidateFunc: validation.StringMatch(regexp.MustCompile(`^$|auto$|(\d+(ms|s|M|h|d)?)+$`),
 			"expected arp_timout value to be 'auto' string or time value"),
+		DiffSuppressFunc: AlwaysPresentNotUserProvided,
 	}
 	PropClampTcpMssRw = &schema.Schema{
 		Type:     schema.TypeBool,
 		Optional: true,
-		Default:  true,
 		Description: "Controls whether to change MSS size for received TCP SYN packets. When enabled, a " +
 			"router will change the MSS size for received TCP SYN packets if the current MSS size exceeds the " +
 			"tunnel interface MTU (taking into account the TCP/IP overhead). The received encapsulated packet " +
 			"will still contain the original MSS, and only after decapsulation the MSS is changed.",
+		DiffSuppressFunc: AlwaysPresentNotUserProvided,
 	}
 	PropCommentRw = &schema.Schema{
 		Type:     schema.TypeString,
 		Optional: true,
 	}
 	PropDisabledRw = &schema.Schema{
-		Type:     schema.TypeBool,
-		Optional: true,
-		Default:  false,
+		Type:             schema.TypeBool,
+		Optional:         true,
+		DiffSuppressFunc: AlwaysPresentNotUserProvided,
 	}
 	PropDontFragmentRw = &schema.Schema{
-		Type:         schema.TypeString,
-		Optional:     true,
-		Default:      "no",
-		ValidateFunc: validation.StringInSlice([]string{"inherit", "no"}, false),
+		Type:             schema.TypeString,
+		Optional:         true,
+		ValidateFunc:     validation.StringInSlice([]string{"inherit", "no"}, false),
+		DiffSuppressFunc: AlwaysPresentNotUserProvided,
 	}
 	PropDscpRw = &schema.Schema{
 		// dscp (inherit | integer [0-63]; Default: '')
@@ -292,10 +292,10 @@ var (
 	PropIpsecSecretRw = &schema.Schema{
 		Type:      schema.TypeString,
 		Optional:  true,
-		Default:   "",
 		Sensitive: true,
 		Description: "When secret is specified, router adds dynamic IPsec peer to remote-address with " +
 			"pre-shared key and policy (by default phase2 uses sha1/aes128cbc).",
+		DiffSuppressFunc: AlwaysPresentNotUserProvided,
 	}
 	PropKeepaliveRw = &schema.Schema{
 		Type:     schema.TypeString,
@@ -357,29 +357,27 @@ var (
 		DiffSuppressFunc: AlwaysPresentNotUserProvided,
 	}
 	PropLocalAddressRw = &schema.Schema{
-		Type:         schema.TypeString,
-		Optional:     true,
-		Default:      "0.0.0.0",
-		Description:  "Source address of the tunnel packets, local on the router.",
-		ValidateFunc: validation.IsIPv4Address,
+		Type:             schema.TypeString,
+		Optional:         true,
+		Description:      "Source address of the tunnel packets, local on the router.",
+		ValidateFunc:     validation.IsIPv4Address,
+		DiffSuppressFunc: AlwaysPresentNotUserProvided,
 	}
 	PropLoopProtectRw = &schema.Schema{
-		Type:         schema.TypeString,
-		Optional:     true,
-		Default:      "default",
-		ValidateFunc: validation.StringInSlice([]string{"default", "on", "off"}, false),
+		Type:             schema.TypeString,
+		Optional:         true,
+		ValidateFunc:     validation.StringInSlice([]string{"default", "on", "off"}, false),
+		DiffSuppressFunc: AlwaysPresentNotUserProvided,
 	}
 	PropLoopProtectDisableTimeRw = &schema.Schema{
 		Type:             schema.TypeString,
 		Optional:         true,
-		Default:          "5m",
 		ValidateFunc:     ValidationTime,
 		DiffSuppressFunc: TimeEquall,
 	}
 	PropLoopProtectSendIntervalRw = &schema.Schema{
 		Type:             schema.TypeString,
 		Optional:         true,
-		Default:          "5s",
 		ValidateFunc:     ValidationTime,
 		DiffSuppressFunc: TimeEquall,
 	}
@@ -413,11 +411,11 @@ var (
 `,
 	}
 	PropRemoteAddressRw = &schema.Schema{
-		Type:         schema.TypeString,
-		Optional:     true,
-		Default:      "0.0.0.0",
-		Description:  "IP address of the remote end of the tunnel.",
-		ValidateFunc: validation.IsIPv4Address,
+		Type:             schema.TypeString,
+		Optional:         true,
+		Description:      "IP address of the remote end of the tunnel.",
+		ValidateFunc:     validation.IsIPv4Address,
+		DiffSuppressFunc: AlwaysPresentNotUserProvided,
 	}
 	PropRunningRo = &schema.Schema{
 		Type:     schema.TypeBool,
