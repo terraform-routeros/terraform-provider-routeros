@@ -45,9 +45,10 @@ func testAccInterfaceWireguardPeerConfig() string {
 	return providerConfig + `
 
 resource "routeros_interface_wireguard_peer" "wg_peer" {
-	allowed_address = ["1.2.3.0/30"]
-	interface       = "wg1"
-	public_key      = "QxC+CTcrDdU5+ny0+2ChUH3NegTrwoVCv53TllI5T0I="
+	allowed_address  = ["1.2.3.0/30"]
+	interface        = "wg1"
+	public_key       = "QxC+CTcrDdU5+ny0+2ChUH3NegTrwoVCv53TllI5T0I="
+	client_keepalive = "85s"
   }
 
 `
