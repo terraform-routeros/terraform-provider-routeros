@@ -53,10 +53,10 @@ func ResourceIPFirewallNat() *schema.Resource {
 		"address_list_timeout": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Default:  "none-dynamic",
 			Description: "Time interval after which the address will be removed from the address list specified by " +
 				"address-list parameter. Used in conjunction with add-dst-to-address-list or add-src-to-address-list " +
 				"actions.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"chain": {
 			Type:     schema.TypeString,
@@ -222,10 +222,10 @@ func ResourceIPFirewallNat() *schema.Resource {
 				"rate[/time],burst:mode.",
 		},
 		"log": {
-			Type:        schema.TypeBool,
-			Optional:    true,
-			Default:     false,
-			Description: "Add a message to the system log.",
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Description:      "Add a message to the system log.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"log_prefix": {
 			Type:     schema.TypeString,
