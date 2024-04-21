@@ -24,11 +24,11 @@ resource "routeros_interface_eoip" "eoip_tunnel1" {
 
 - `allow_fast_path` (Boolean) Whether to allow FastPath processing. Must be disabled if IPsec tunneling is used.
 - `arp` (String) Address Resolution Protocol mode:
-	* disabled - the interface will not use ARP
-	* enabled - the interface will use ARP
-	* local-proxy-arp - the router performs proxy ARP on the interface and sends replies to the same interface
-	* proxy-arp - the router performs proxy ARP on the interface and sends replies to other interfaces
-	* reply-only - the interface will only reply to requests originated from matching IP address/MAC address combinations which are entered as static entries in the ARP table. No dynamic entries will be automatically stored in the ARP table. Therefore for communications to be successful, a valid static entry must already exist.
+		* disabled - the interface will not use ARP
+		* enabled - the interface will use ARP
+		* local-proxy-arp - the router performs proxy ARP on the interface and sends replies to the same interface
+		* proxy-arp - the router performs proxy ARP on the interface and sends replies to other interfaces
+		* reply-only - the interface will only reply to requests originated from matching IP address/MAC address combinations which are entered as static entries in the ARP table. No dynamic entries will be automatically stored in the ARP table. Therefore for communications to be successful, a valid static entry must already exist.
 - `arp_timeout` (String) ARP timeout is time how long ARP record is kept in ARP table after no packets are received from IP. Value auto equals to the value of arp-timeout in IP/Settings, default is 30s. Can use postfix ms, s, M, h, d for milliseconds, seconds, minutes, hours or days. If no postfix is set then seconds (s) is used.
 - `clamp_tcp_mss` (Boolean) Controls whether to change MSS size for received TCP SYN packets. When enabled, a router will change the MSS size for received TCP SYN packets if the current MSS size exceeds the tunnel interface MTU (taking into account the TCP/IP overhead). The received encapsulated packet will still contain the original MSS, and only after decapsulation the MSS is changed.
 - `comment` (String)

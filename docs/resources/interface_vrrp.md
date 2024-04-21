@@ -22,11 +22,11 @@ resource "routeros_interface_vrrp" "interface_vrrp" {
 ### Optional
 
 - `arp` (String) Address Resolution Protocol mode:
-	* disabled - the interface will not use ARP
-	* enabled - the interface will use ARP
-	* local-proxy-arp - the router performs proxy ARP on the interface and sends replies to the same interface
-	* proxy-arp - the router performs proxy ARP on the interface and sends replies to other interfaces
-	* reply-only - the interface will only reply to requests originated from matching IP address/MAC address combinations which are entered as static entries in the ARP table. No dynamic entries will be automatically stored in the ARP table. Therefore for communications to be successful, a valid static entry must already exist.
+		* disabled - the interface will not use ARP
+		* enabled - the interface will use ARP
+		* local-proxy-arp - the router performs proxy ARP on the interface and sends replies to the same interface
+		* proxy-arp - the router performs proxy ARP on the interface and sends replies to other interfaces
+		* reply-only - the interface will only reply to requests originated from matching IP address/MAC address combinations which are entered as static entries in the ARP table. No dynamic entries will be automatically stored in the ARP table. Therefore for communications to be successful, a valid static entry must already exist.
 - `arp_timeout` (String) ARP timeout is time how long ARP record is kept in ARP table after no packets are received from IP. Value auto equals to the value of arp-timeout in IP/Settings, default is 30s. Can use postfix ms, s, M, h, d for milliseconds, seconds, minutes, hours or days. If no postfix is set then seconds (s) is used.
 - `authentication` (String) Authentication method to use for VRRP advertisement packets.
 - `comment` (String)

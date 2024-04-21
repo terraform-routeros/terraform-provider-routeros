@@ -1,3 +1,11 @@
+## [1.46.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.46.0...v1.46.1) (2024-04-21)
+
+
+### Bug Fixes
+
+* **nat:** [Backward compatibility] resource "routeros_ip_firewall_nat" ([ee8f992](https://github.com/terraform-routeros/terraform-provider-routeros/commit/ee8f992098efb9bfdc636b81a4912b302046c839)), closes [#431](https://github.com/terraform-routeros/terraform-provider-routeros/issues/431)
+* **wg_peer:** Invalid syntax for 'client_keepalive' field ([df24de2](https://github.com/terraform-routeros/terraform-provider-routeros/commit/df24de28b406a1e431056266f6d5b429447d9f62)), closes [#432](https://github.com/terraform-routeros/terraform-provider-routeros/issues/432)
+
 ## [1.46.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.45.0...v1.46.0) (2024-04-16)
 
 
