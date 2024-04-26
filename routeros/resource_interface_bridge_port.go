@@ -262,10 +262,11 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 		},
 		"pvid": {
 			Type:     schema.TypeInt,
-			Required: true,
+			Optional: true,
 			Description: "ort VLAN ID (pvid) specifies which VLAN the untagged ingress traffic is assigned to. " +
 				"This property only has effect when vlan-filtering is set to yes.",
-			ValidateFunc: validation.IntBetween(1, 4096),
+			ValidateFunc:     validation.IntBetween(1, 4096),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"restricted_role": {
 			Type:     schema.TypeBool,
