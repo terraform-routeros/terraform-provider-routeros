@@ -1,3 +1,10 @@
+## [1.46.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.46.1...v1.46.2) (2024-04-26)
+
+
+### Bug Fixes
+
+* **bridge_port:** [Backward compatibility] routeros_interface_bridge_port  ([#436](https://github.com/terraform-routeros/terraform-provider-routeros/issues/436)) ([ad64040](https://github.com/terraform-routeros/terraform-provider-routeros/commit/ad64040358e5da70e326ab70d353008f263eb7fc)), closes [#419](https://github.com/terraform-routeros/terraform-provider-routeros/issues/419) [#419](https://github.com/terraform-routeros/terraform-provider-routeros/issues/419)
+
 ## [1.46.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.46.0...v1.46.1) (2024-04-21)
 
 

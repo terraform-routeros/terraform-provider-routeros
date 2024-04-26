@@ -17,7 +17,6 @@ resource "routeros_interface_bridge_port" "bridge_port" {
 
 - `bridge` (String)
 - `interface` (String) Name of the interface.
-- `pvid` (Number) ort VLAN ID (pvid) specifies which VLAN the untagged ingress traffic is assigned to. This property only has effect when vlan-filtering is set to yes.
 
 ### Optional
 
@@ -38,6 +37,7 @@ resource "routeros_interface_bridge_port" "bridge_port" {
 - `path_cost` (String) Path cost to the interface, used by STP to determine the "best" path, used by MSTP todetermine "best" path between regions. This property has no effect when protocol-mode is set to none.
 - `point_to_point` (String) Specifies if a bridge port is connected to a bridge using a point-to-point link for faster convergence in case of failure. This property has no effect when protocol-mode is set to none.
 - `priority` (String) The priority of the interface, used by STP to determine the root port, used by MSTP to determine root port between regions.
+- `pvid` (Number) ort VLAN ID (pvid) specifies which VLAN the untagged ingress traffic is assigned to. This property only has effect when vlan-filtering is set to yes.
 - `restricted_role` (Boolean) Enable the restricted role on a port, used by STP to forbid a port becoming a root port. This property only has effect when protocol-mode is set to mstp.
 - `restricted_tcn` (Boolean) Disable topology change notification (TCN) sending on a port, used by STP to forbid network topology changes to propagate. This property only has effect when protocol-mode is set to mstp.
 - `tag_stacking` (Boolean) Forces all packets to be treated as untagged packets. Packets on ingress port will be tagged with another VLAN tag regardless if a VLAN tag already exists, packets will be tagged with a VLAN ID that matches the pvid value and will use EtherType that is specified in ether-type. This property only has effect when vlan-filtering is set to yes.
