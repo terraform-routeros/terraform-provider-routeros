@@ -1,3 +1,10 @@
+## [1.46.3](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.46.2...v1.46.3) (2024-04-27)
+
+
+### Bug Fixes
+
+* properly unset firewall filter rule `protocol` field when removed ([#435](https://github.com/terraform-routeros/terraform-provider-routeros/issues/435)) ([03a017d](https://github.com/terraform-routeros/terraform-provider-routeros/commit/03a017d40e59f7ba94b6ad1e8b0f5f3236f28f9b))
+
 ## [1.46.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.46.1...v1.46.2) (2024-04-26)
 
 
