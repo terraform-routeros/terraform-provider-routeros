@@ -20,17 +20,18 @@ type ApiClient struct {
 
 var (
 	apiMethodName = map[crudMethod]string{
-		crudCreate: "/add",
-		crudRead:   "/print",
-		crudUpdate: "/set",
-		crudDelete: "/remove",
-		crudPost:   "/set",
-		crudSign:   "/sign",
-		crudRemove: "/remove",
-		crudRevoke: "/issued-revoke",
-		crudMove:   "/move",
-		crudStart:  "/start",
-		crudStop:   "/stop",
+		crudCreate:      "/add",
+		crudRead:        "/print",
+		crudUpdate:      "/set",
+		crudDelete:      "/remove",
+		crudPost:        "/set",
+		crudSign:        "/sign",
+		crudSignViaScep: "/add-scep",
+		crudRemove:      "/remove",
+		crudRevoke:      "/issued-revoke",
+		crudMove:        "/move",
+		crudStart:       "/start",
+		crudStop:        "/stop",
 	}
 )
 

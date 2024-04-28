@@ -24,6 +24,9 @@ func TestAccSystemCertificatesTest_basic(t *testing.T) {
 						Check: resource.ComposeTestCheckFunc(
 							testResourcePrimaryInstanceId(testSystemCertificatesAddress),
 							resource.TestCheckResourceAttr(testSystemCertificatesAddress, "name", "Test-Root-CA"),
+							resource.TestCheckResourceAttr("routeros_system_certificate.scep_client", "scep_url", "http://scep.server/scep/test"),
+							resource.TestCheckResourceAttrPair("routeros_system_certificate.scep_client", "scep_url", "routeros_system_certificate.scep_client", "sign_via_scep.0.scep_url"),
+							resource.TestCheckResourceAttrSet("routeros_system_certificate.scep_client", "status"),
 						),
 					},
 				},
@@ -71,6 +74,16 @@ resource "routeros_system_certificate" "unsigned_crt" {
 	common_name      = "unsigned.crt"
 	key_size         = "1024"
 	subject_alt_name = "DNS:router.lan,DNS:myrouter.lan,IP:192.168.88.1"
+}
+
+resource "routeros_system_certificate" "scep_client" {
+  name        = "SCEP-Client"
+  common_name = "scep-client.crt"
+  key_usage   = ["digital-signature", "key-agreement", "tls-client"]
+
+  sign_via_scep {
+    scep_url = "http://scep.server/scep/test"
+  }
 }
 `
 }

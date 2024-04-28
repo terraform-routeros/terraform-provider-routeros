@@ -40,7 +40,7 @@ func ResourceSystemCertificate() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/certificate"),
 		MetaId:           PropId(Id),
-		MetaSkipFields:   PropSkipFields("sign"),
+		MetaSkipFields:   PropSkipFields("sign", "sign_via_scep"),
 
 		"authority": {
 			Type:     schema.TypeString,
@@ -214,9 +214,10 @@ func ResourceSystemCertificate() *schema.Resource {
 			Computed: true,
 		},
 		"sign": {
-			Type:     schema.TypeSet,
-			Optional: true,
-			ForceNew: true,
+			Type:          schema.TypeSet,
+			Optional:      true,
+			ForceNew:      true,
+			ConflictsWith: []string{"sign_via_scep"},
 			Elem: &schema.Resource{
 				Schema: map[string]*schema.Schema{
 					"ca": {
@@ -242,6 +243,44 @@ func ResourceSystemCertificate() *schema.Resource {
 					// 	Optional:    true,
 					// 	Description: "What name to assign to issued certificate.",
 					// },
+				},
+			},
+		},
+		"sign_via_scep": {
+			Type:          schema.TypeSet,
+			Optional:      true,
+			ForceNew:      true,
+			ConflictsWith: []string{"sign"},
+			Elem: &schema.Resource{
+				Schema: map[string]*schema.Schema{
+					"scep_url": {
+						Type:         schema.TypeString,
+						Required:     true,
+						ValidateFunc: validation.IsURLWithScheme([]string{"http"}),
+						Description:  "HTTP URL to the SCEP server.",
+					},
+					"challenge_password": {
+						Type:        schema.TypeString,
+						Optional:    true,
+						Sensitive:   true,
+						Description: "A challenge password.",
+					},
+					"ca_identity": {
+						Type:        schema.TypeString,
+						Optional:    true,
+						Description: "SCEP CA identity.",
+					},
+					"on_smart_card": {
+						Type:        schema.TypeBool,
+						Optional:    true,
+						Description: "Whether to store a private key on smart card if hardware supports it.",
+					},
+					"refresh": {
+						Type:        schema.TypeBool,
+						Optional:    true,
+						Default:     true,
+						Description: "Check certificate expiration and refresh it if expired.",
+					},
 				},
 			},
 		},
@@ -272,9 +311,10 @@ func ResourceSystemCertificate() *schema.Resource {
 			Description: "SANs (subject alternative names).",
 		},
 		"trusted": {
-			Type:        schema.TypeBool,
-			Optional:    true,
-			Description: "If set to yes certificate is included 'in trusted certificate chain'.",
+			Type:             schema.TypeBool,
+			Optional:         true,
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			Description:      "If set to yes certificate is included 'in trusted certificate chain'.",
 		},
 		"unit": {
 			Type:        schema.TypeString,
@@ -291,32 +331,53 @@ func ResourceSystemCertificate() *schema.Resource {
 			return diags
 		}
 
-		sign, ok := d.GetOk("sign")
-		if !ok {
+		var signConfig any      // User config for certificate signing
+		var params MikrotikItem // Parameters for MikroTik command
+		var crudMethod crudMethod
+		var command string // MikroTik command to sign certificate
+		if sign, ok := d.GetOk("sign"); ok {
+			signConfig = sign
+			// {"number":"*54", ca: "Test-CA"}
+			params = MikrotikItem{"number": d.Id()}
+			crudMethod = crudSign
+			// https://router/rest/certificate/sign
+			command = "/sign"
+		} else if signViaScep, ok := d.GetOk("sign_via_scep"); ok {
+			signConfig = signViaScep
+			params = MikrotikItem{"template": d.Get("name").(string)}
+			crudMethod = crudSignViaScep
+			// https://router/rest/certificate/add-scep
+			command = "/add-scep"
+		} else {
 			return diags
 		}
 
 		// []interface{map[string]interface{...}}
-		signSchema := sign.(*schema.Set).List()[0].(map[string]interface{})
+		signSchema := signConfig.(*schema.Set).List()[0].(map[string]interface{})
 
-		// {"number":"*54", ca: "Test-CA"}
-		item := MikrotikItem{"number": d.Id()}
 		for k, v := range signSchema {
-			if v.(string) == "" {
-				continue
+			k = SnakeToKebab(k)
+			switch v := v.(type) {
+			case string:
+				if v == "" {
+					continue
+				}
+				params[k] = v
+			case bool:
+				params[k] = BoolToMikrotikJSON(v)
+			default:
+				panic("ResourceSystemCertificate resCreate: unhandled type switch")
 			}
-			item[k] = v.(string)
 		}
 
 		var resUrl = &URL{
 			Path: resSchema[MetaResourcePath].Default.(string),
 		}
 		if m.(Client).GetTransport() == TransportREST {
-			// https://router/rest/certificate/sign
-			resUrl.Path += "/sign"
+			resUrl.Path += command
 		}
 
-		err := m.(Client).SendRequest(crudSign, resUrl, item, nil)
+		err := m.(Client).SendRequest(crudMethod, resUrl, params, nil)
 		if err != nil {
 			return diag.FromErr(err)
 		}
