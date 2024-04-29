@@ -27,6 +27,7 @@ func TestAccSystemCertificatesTest_basic(t *testing.T) {
 							resource.TestCheckResourceAttr("routeros_system_certificate.scep_client", "scep_url", "http://scep.server/scep/test"),
 							resource.TestCheckResourceAttrPair("routeros_system_certificate.scep_client", "scep_url", "routeros_system_certificate.scep_client", "sign_via_scep.0.scep_url"),
 							resource.TestCheckResourceAttrSet("routeros_system_certificate.scep_client", "status"),
+							resource.TestCheckResourceAttrPair("routeros_system_certificate.scep_client", "challenge_password", "routeros_system_certificate.scep_client", "sign_via_scep.0.challenge_password"),
 						),
 					},
 				},
@@ -82,7 +83,8 @@ resource "routeros_system_certificate" "scep_client" {
   key_usage   = ["digital-signature", "key-agreement", "tls-client"]
 
   sign_via_scep {
-    scep_url = "http://scep.server/scep/test"
+    scep_url           = "http://scep.server/scep/test"
+    challenge_password = "12345"
   }
 }
 `

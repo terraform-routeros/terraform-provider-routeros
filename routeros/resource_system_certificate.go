@@ -63,6 +63,12 @@ func ResourceSystemCertificate() *schema.Resource {
 			Type:     schema.TypeString,
 			Computed: true,
 		},
+		"challenge_password": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Sensitive:   true,
+			Description: "A challenge password for scep client.",
+		},
 		"common_name": {
 			Type:        schema.TypeString,
 			Required:    true,
