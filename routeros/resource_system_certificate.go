@@ -229,13 +229,13 @@ func ResourceSystemCertificate() *schema.Resource {
 					"ca": {
 						Type:        schema.TypeString,
 						Optional:    true,
-						Computed:    true,
+						ForceNew:    true,
 						Description: "Which CA to use if signing issued certificates.",
 					},
 					"ca_crl_host": {
 						Type:        schema.TypeString,
 						Optional:    true,
-						Computed:    true,
+						ForceNew:    true,
 						Description: "CRL host if issuing CA certificate.",
 					},
 					// "ca_on_smart_card": {
@@ -262,6 +262,7 @@ func ResourceSystemCertificate() *schema.Resource {
 					"scep_url": {
 						Type:         schema.TypeString,
 						Required:     true,
+						ForceNew:     true,
 						ValidateFunc: validation.IsURLWithScheme([]string{"http"}),
 						Description:  "HTTP URL to the SCEP server.",
 					},
@@ -269,22 +270,26 @@ func ResourceSystemCertificate() *schema.Resource {
 						Type:        schema.TypeString,
 						Optional:    true,
 						Sensitive:   true,
+						ForceNew:    true,
 						Description: "A challenge password.",
 					},
 					"ca_identity": {
 						Type:        schema.TypeString,
 						Optional:    true,
+						ForceNew:    true,
 						Description: "SCEP CA identity.",
 					},
 					"on_smart_card": {
 						Type:        schema.TypeBool,
 						Optional:    true,
+						ForceNew:    true,
 						Description: "Whether to store a private key on smart card if hardware supports it.",
 					},
 					"refresh": {
 						Type:        schema.TypeBool,
 						Optional:    true,
 						Default:     true,
+						ForceNew:    true,
 						Description: "Check certificate expiration and refresh it if expired.",
 					},
 				},
