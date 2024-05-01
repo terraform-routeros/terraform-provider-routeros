@@ -247,3 +247,41 @@ func testCheckResourceDestroy(resourcePath, resourceType string) resource.TestCh
 		return nil
 	}
 }
+
+// testCheckResourceExists queries the MikroTik API and retrieves the matching resource parameters
+func testCheckResourceExists(name string, resourcePath string, resource *MikrotikItem) resource.TestCheckFunc {
+	return func(s *terraform.State) error {
+		rs, ok := s.RootModule().Resources[name]
+		if !ok {
+			return fmt.Errorf("%s: resource not found in terraform state", name)
+		}
+
+		id := rs.Primary.ID
+		if id == "" {
+			return fmt.Errorf("%s: no id is set", name)
+		}
+
+		resourceType := strings.Split(name, ".")[0]
+		resourceSchema, ok := testAccProvider.ResourcesMap[resourceType]
+		if !ok {
+			return fmt.Errorf("%s: schema for '%s' resource not found", name, resourceType)
+		}
+		idType := IdType(resourceSchema.Schema[MetaId].Default.(int))
+
+		client := testAccProvider.Meta().(Client)
+		resources, err := ReadItems(&ItemId{Type: idType, Value: id}, resourcePath, client)
+		if err != nil {
+			return err
+		}
+
+		if len(*resources) == 0 {
+			return fmt.Errorf("%s: resource not found", name)
+		}
+
+		if resource != nil {
+			*resource = (*resources)[0]
+		}
+
+		return nil
+	}
+}
