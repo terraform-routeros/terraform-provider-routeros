@@ -74,9 +74,10 @@ func ResourceRadius() *schema.Resource {
 			Description: "The shared secret to access the RADIUS server.",
 		},
 		"service": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Description: "A comma-separated list of router services that will use the RADIUS server. Possible values: `hotspot`, `login`, `ppp`, `wireless`, `dhcp`.",
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "A comma-separated list of router services that will use the RADIUS server. Possible values: " +
+				"`hotspot`, `login`, `ppp`, `wireless`, `dhcp`, `ipsec`, `dot1x`.",
 		},
 		"src_address": {
 			Type:         schema.TypeString,
