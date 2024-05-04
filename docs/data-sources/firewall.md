@@ -69,7 +69,7 @@ Read-Only:
 - `creation_time` (String)
 - `disabled` (Boolean)
 - `dynamic` (Boolean)
-- `id` (String) The ID of this resource.
+- `id` (String)
 - `list` (String)
 - `timeout` (String)
 
@@ -108,7 +108,7 @@ Read-Only:
 - `fragment` (Boolean)
 - `hotspot` (String)
 - `icmp_options` (String)
-- `id` (String) The ID of this resource.
+- `id` (String)
 - `in_bridge_port` (String)
 - `in_bridge_port_list` (String)
 - `in_interface` (String)
@@ -189,7 +189,7 @@ Read-Only:
 - `fragment` (Boolean)
 - `hotspot` (String)
 - `icmp_options` (String)
-- `id` (String) The ID of this resource.
+- `id` (String)
 - `in_bridge_port` (String)
 - `in_bridge_port_list` (String)
 - `in_interface` (String)
@@ -265,7 +265,7 @@ Read-Only:
 - `hotspot` (String)
 - `hw_offload` (Boolean)
 - `icmp_options` (String)
-- `id` (String) The ID of this resource.
+- `id` (String)
 - `in_bridge_port` (String)
 - `in_bridge_port_list` (String)
 - `in_interface` (String)

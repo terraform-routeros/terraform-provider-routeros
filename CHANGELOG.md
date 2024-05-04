@@ -1,3 +1,16 @@
+## [1.47.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.46.3...v1.47.0) (2024-05-04)
+
+
+### Features
+
+* add ability to sign certificates with scep ([1dce5af](https://github.com/terraform-routeros/terraform-provider-routeros/commit/1dce5af9a010463974df011e8d530a792e29f8f2))
+
+
+### Bug Fixes
+
+* add challenge_password parameter for system_certificate resource ([d933589](https://github.com/terraform-routeros/terraform-provider-routeros/commit/d933589a186f86afad0ba609c05101ce26111149))
+* fix changing sign data in routeros_system_certificate resource ([83848f9](https://github.com/terraform-routeros/terraform-provider-routeros/commit/83848f9dac2247c8b60ace492f62d448b85950cb))
+
 ## [1.46.3](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.46.2...v1.46.3) (2024-04-27)
 
 
