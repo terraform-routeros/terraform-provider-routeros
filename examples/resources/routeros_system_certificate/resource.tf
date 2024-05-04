@@ -39,3 +39,13 @@ resource "routeros_system_certificate" "unsigned_crt" {
   key_size         = "1024"
   subject_alt_name = "DNS:router.lan,DNS:myrouter.lan,IP:192.168.88.1"
 }
+
+resource "routeros_system_certificate" "scep_client" {
+  name        = "SCEP-Client"
+  common_name = "scep-client.crt"
+  key_usage   = ["digital-signature", "key-agreement", "tls-client"]
+
+  sign_via_scep {
+    scep_url = "http://scep.server/scep/test"
+  }
+}

@@ -31,6 +31,7 @@ const (
 	crudDelete
 	crudPost
 	crudSign
+	crudSignViaScep
 	crudRemove
 	crudRevoke
 	crudMove
