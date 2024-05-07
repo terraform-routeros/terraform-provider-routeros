@@ -39,7 +39,7 @@ func testAccIpVrfConfig() string {
 resource "routeros_ip_vrf" "test_vrf_a" {
 	disabled 	= true
 	name 		= vrf_1
-	interfaces 	= ['ether1', 'ether2']
+	interfaces 	= ["ether1", "ether2"]
 }
 `
 }
