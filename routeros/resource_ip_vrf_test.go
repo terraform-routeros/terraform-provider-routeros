@@ -22,7 +22,7 @@ func TestAccIpVrfTest_basic(t *testing.T) {
 						Check: resource.ComposeTestCheckFunc(
 							// A
 							testResourcePrimaryInstanceId("routeros_ip_vrf.test_vrf_a"),
-							resource.TestCheckResourceAttr("routeros_ip_vrf.test_vrf_a", "enabled", "true"),
+							resource.TestCheckResourceAttr("routeros_ip_vrf.test_vrf_a", "disabled", "true"),
 							resource.TestCheckResourceAttr("routeros_ip_vrf.test_vrf_a", "name", "vrf_1"),
 						),
 					},
@@ -37,7 +37,7 @@ func testAccIpVrfConfig() string {
 	return providerConfig + `
 
 resource "routeros_ip_vrf" "test_vrf_a" {
-	enabled 	= true
+	disabled 	= true
 	name 		= vrf_1
 	interfaces 	= ['ether1', 'ether2']
 }

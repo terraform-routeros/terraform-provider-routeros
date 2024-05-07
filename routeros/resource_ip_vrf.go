@@ -10,13 +10,9 @@ func ResourceIPVrf() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/ip/vrf"),
 		MetaId:           PropId(Id),
 
-		"disabled": {
-			Type:        schema.TypeBool,
-			Optional:    true,
-			Description: "A flag indicates whether the VRF is disabled.",
-		},
-		KeyComment: PropCommentRw,
-		KeyName:    PropName("Unique name of the VRF."),
+		KeyDisabled: PropDisabledRw,
+		KeyComment:  PropCommentRw,
+		KeyName:     PropName("Unique name of the VRF."),
 		"interfaces": {
 			Type:        schema.TypeSet,
 			Required:    true,
