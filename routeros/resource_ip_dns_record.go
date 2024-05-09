@@ -146,10 +146,10 @@ func ResourceDnsRecord() *schema.Resource {
 			ConflictsWith: []string{"address", "cname", "forward_to", "mx_exchange", "ns", "srv_target"},
 		},
 		"ttl": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Computed:    true,
-			Description: "The ttl of the DNS record.",
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "The ttl of the DNS record.",
+			DiffSuppressFunc: TimeEquall,
 		},
 		"type": {
 			Type:        schema.TypeString,
