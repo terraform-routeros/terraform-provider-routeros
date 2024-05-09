@@ -1,3 +1,10 @@
+## [1.48.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.47.0...v1.48.0) (2024-05-07)
+
+
+### Features
+
+* **vrf:** Added routeros_ip_vrf resource ([#443](https://github.com/terraform-routeros/terraform-provider-routeros/issues/443)) ([a091b7d](https://github.com/terraform-routeros/terraform-provider-routeros/commit/a091b7da83aa9a70d04e9c50c8e81c2b6286e8d3))
+
 ## [1.47.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.46.3...v1.47.0) (2024-05-04)
 
 
