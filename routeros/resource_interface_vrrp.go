@@ -15,7 +15,7 @@ import (
     "arp-timeout": "auto",
     "authentication": "none",
     "disabled": "false",
-    "group-master": "",
+    "group-authority": "",
     "interface": "vlan55",
     "interval": "1s",
     "invalid": "false",
@@ -54,7 +54,7 @@ func ResourceInterfaceVrrp() *schema.Resource {
 		},
 		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
-		"group_master": {
+		"group_authority": {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Computed:    true,
@@ -162,6 +162,23 @@ func ResourceInterfaceVrrp() *schema.Resource {
 			Default:      1,
 			Description:  "Virtual Router identifier. Each Virtual router must have a unique id number.",
 			ValidateFunc: validation.IntBetween(1, 255),
+		},
+		"master": {
+			Type:        schema.TypeBool,
+			Computed:    true,
+			Description: "Indicates whether the current node is the master.",
+		},
+		"grp_authority": {
+			Type:        schema.TypeBool,
+			Computed:    true,
+			Optional:    true,
+			Description: "Is group authority.",
+		},
+		"grp_member": {
+			Type:        schema.TypeBool,
+			Computed:    true,
+			Optional:    true,
+			Description: "Is group member.",
 		},
 	}
 
