@@ -602,6 +602,11 @@ var (
 			return true
 		}
 
+		// #447 routeros_ip_dhcp_server_config.store_leases_disk == "immediately"
+		if old == "immediately" || new == "immediately" {
+			return old == new
+		}
+
 		// Compare intervals:
 		oDuration, err := ParseDuration(old)
 		if err != nil {

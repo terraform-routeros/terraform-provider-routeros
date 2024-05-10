@@ -1,3 +1,11 @@
+## [1.48.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.48.0...v1.48.1) (2024-05-09)
+
+
+### Bug Fixes
+
+* **dns-record:** resource "routeros_ip_dns_record" keeps updating ([a755ab0](https://github.com/terraform-routeros/terraform-provider-routeros/commit/a755ab090746e1456b1bb1b4060f240d4420de5e)), closes [#445](https://github.com/terraform-routeros/terraform-provider-routeros/issues/445)
+* **TimeEquall:** Crash when using store_leases_disk in routeros_ip_dhcp_server_config ([ba8c5a9](https://github.com/terraform-routeros/terraform-provider-routeros/commit/ba8c5a92b31e25a134d369e400b2a883e774d692)), closes [#447](https://github.com/terraform-routeros/terraform-provider-routeros/issues/447)
+
 ## [1.48.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.47.0...v1.48.0) (2024-05-07)
 
 
