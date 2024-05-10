@@ -105,7 +105,7 @@ func ResourceIPRoute() *schema.Resource {
 		},
 		"suppress_hw_offload": {
 			Type:     schema.TypeBool,
-			Computed: true,
+			Optional: true,
 		},
 		"target_scope": {
 			Type:     schema.TypeInt,
