@@ -1,3 +1,10 @@
+## [1.48.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.48.1...v1.48.2) (2024-05-13)
+
+
+### Bug Fixes
+
+* **veth:** Remove deprecated options ([8565c5b](https://github.com/terraform-routeros/terraform-provider-routeros/commit/8565c5b5325c5b6fd61bcf8a2e76aa53e586f4fa))
+
 ## [1.48.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.48.0...v1.48.1) (2024-05-09)
 
 
