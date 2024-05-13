@@ -104,8 +104,9 @@ func ResourceIPRoute() *schema.Resource {
 			Computed: true,
 		},
 		"suppress_hw_offload": {
-			Type:     schema.TypeBool,
-			Computed: true,
+			Type:             schema.TypeBool,
+			Optional:         true,
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"target_scope": {
 			Type:     schema.TypeInt,
