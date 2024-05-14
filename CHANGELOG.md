@@ -1,3 +1,10 @@
+## [1.48.3](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.48.2...v1.48.3) (2024-05-14)
+
+
+### Bug Fixes
+
+* Add comment to routeros_wifi resource ([#455](https://github.com/terraform-routeros/terraform-provider-routeros/issues/455)) ([5a2782c](https://github.com/terraform-routeros/terraform-provider-routeros/commit/5a2782c30e01ce2e7fa17944058a68eed03e9a2b))
+
 ## [1.48.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.48.1...v1.48.2) (2024-05-13)
 
 
