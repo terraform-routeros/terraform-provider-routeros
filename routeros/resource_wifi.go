@@ -72,6 +72,7 @@ func ResourceWifi() *schema.Resource {
 			Description:      "Datapath inline settings.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		KeyComment: PropCommentRw,
 		"default_name": {
 			Type:        schema.TypeString,
 			Computed:    true,
