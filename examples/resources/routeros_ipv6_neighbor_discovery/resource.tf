@@ -16,4 +16,3 @@ resource "routeros_ipv6_neighbor_discovery" "test" {
   reachable_time					= "10m"
   retransmit_interval				= "12m"
 }
-`
