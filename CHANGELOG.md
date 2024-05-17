@@ -1,3 +1,10 @@
+## [1.50.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.49.0...v1.50.0) (2024-05-17)
+
+
+### Features
+
+* **ovpn:** Add routeros_interface_ovpn_client ([85fd6be](https://github.com/terraform-routeros/terraform-provider-routeros/commit/85fd6be76bfb5a474f419ff226a969a40bc90c92)), closes [#452](https://github.com/terraform-routeros/terraform-provider-routeros/issues/452)
+
 ## [1.49.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.48.3...v1.49.0) (2024-05-17)
 
 
