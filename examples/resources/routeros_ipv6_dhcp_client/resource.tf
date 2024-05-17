@@ -13,5 +13,4 @@ resource "routeros_ipv6_dhcp_client" "client" {
   add-default-route = true
   pool_prefix_length = 64
   request            = ["prefix"]
-  interface          = "ether1"
 }

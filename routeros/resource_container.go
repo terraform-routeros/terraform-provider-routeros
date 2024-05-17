@@ -199,7 +199,7 @@ func startContainer(ctx context.Context, s map[string]*schema.Schema, d *schema.
 	}
 	_, err := stopStateConf.WaitForStateContext(ctx)
 	if err != nil {
-		err = fmt.Errorf("Error waiting for container instance (%s) to be pulled: %s", d.Id(), err)
+		err = fmt.Errorf("error waiting for container instance (%s) to be pulled: %s", d.Id(), err)
 		return diag.FromErr(err)
 	}
 
@@ -235,7 +235,7 @@ func startContainer(ctx context.Context, s map[string]*schema.Schema, d *schema.
 	}
 	_, err = startStateConf.WaitForStateContext(ctx)
 	if err != nil {
-		err = fmt.Errorf("Error waiting for container instance (%s) to be started: %s", d.Id(), err)
+		err = fmt.Errorf("error waiting for container instance (%s) to be started: %s", d.Id(), err)
 		return diag.FromErr(err)
 	}
 
@@ -274,7 +274,7 @@ func stopContainer(ctx context.Context, s map[string]*schema.Schema, d *schema.R
 	}
 	_, err = stopStateConf.WaitForStateContext(ctx)
 	if err != nil {
-		err = fmt.Errorf("Error waiting for container instance (%s) to be stopped: %s", d.Id(), err)
+		err = fmt.Errorf("error waiting for container instance (%s) to be stopped: %s", d.Id(), err)
 		return diag.FromErr(err)
 	}
 	return nil
