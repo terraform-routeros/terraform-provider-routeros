@@ -94,14 +94,13 @@ func ResourceMoveItems() *schema.Resource {
 			list = append(list, v.(string))
 		}
 
-		var item MikrotikItem
 		// if anchor, ok := d.GetOk("anchor_rule"); ok {
 		// 	item = MikrotikItem{
 		// 		"numbers":     strings.Join(list, ","),
 		// 		"destination": anchor.(string),
 		// 	}
 		// } else {
-		item = MikrotikItem{
+		var item MikrotikItem = MikrotikItem{
 			"numbers":     strings.Join(list[:len(list)-1], ","),
 			"destination": list[len(list)-1],
 		}
