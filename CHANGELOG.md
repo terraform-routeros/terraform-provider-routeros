@@ -1,3 +1,16 @@
+## [1.49.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.48.3...v1.49.0) (2024-05-17)
+
+
+### Features
+
+* **clock:** Add routeros_system_clock ([e7b3131](https://github.com/terraform-routeros/terraform-provider-routeros/commit/e7b3131606bb1fb6e957c3e4ed68f352f674fa23)), closes [#453](https://github.com/terraform-routeros/terraform-provider-routeros/issues/453)
+
+
+### Bug Fixes
+
+* **vrf:** Change import method ([915df28](https://github.com/terraform-routeros/terraform-provider-routeros/commit/915df28f7489e35b97c401f1ff4b8fbe1a223826))
+* Warnings ([7fe815b](https://github.com/terraform-routeros/terraform-provider-routeros/commit/7fe815b91311a4b62ca0f42940b8cbdca938fbea))
+
 ## [1.48.3](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.48.2...v1.48.3) (2024-05-14)
 
 
