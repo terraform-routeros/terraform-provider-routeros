@@ -29,7 +29,7 @@ func main() {
 
 	var err error
 	var client *routeros.Client
-	for i := 0; i < 5; i++ {
+	for i := 0; i < 12; i++ {
 		log.Printf("Connection attempt #%v... ", i)
 		client, err = routeros.Dial(host+":8728", username, password)
 		if err == nil {
