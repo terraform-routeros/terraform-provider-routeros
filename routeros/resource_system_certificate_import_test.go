@@ -9,6 +9,12 @@ import (
 const testSystemCertificatesImportAddress = "routeros_system_certificate.external"
 
 func TestAccSystemCertificatesTest_import(t *testing.T) {
+	// ROS 7.12.x does not return IDs for created files.
+	if !testCheckMinVersion(t, testFileMinVersion) {
+		t.Logf("Test skipped, the minimum required version is %v", testFileMinVersion)
+		return
+	}
+
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			var externalCrt MikrotikItem
