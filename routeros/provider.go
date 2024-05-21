@@ -290,6 +290,7 @@ func Provider() *schema.Provider {
 			"routeros_ip_services":           DatasourceIPServices(),
 			"routeros_ipv6_addresses":        DatasourceIPv6Addresses(),
 			"routeros_system_resource":       DatasourceSystemResource(),
+			"routeros_x509":                  DatasourceX509(),
 		},
 		ConfigureContextFunc: NewClient,
 	}
