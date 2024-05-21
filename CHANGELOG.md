@@ -1,3 +1,11 @@
+## [1.51.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.50.0...v1.51.0) (2024-05-21)
+
+
+### Features
+
+* **x509:** Datasource for PEM data normalization and common_name extraction ([5f29176](https://github.com/terraform-routeros/terraform-provider-routeros/commit/5f29176d8109379bea87eeb65e8b49cbbc0ceffb))
+* **x509:** Import certificates ([5a3bf8e](https://github.com/terraform-routeros/terraform-provider-routeros/commit/5a3bf8ed177e984a7b52322bd70a25431bfb42cd)), closes [#448](https://github.com/terraform-routeros/terraform-provider-routeros/issues/448)
+
 ## [1.50.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.49.0...v1.50.0) (2024-05-17)
 
 

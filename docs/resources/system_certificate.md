@@ -69,6 +69,7 @@ resource "routeros_system_certificate" "scep_client" {
 - `copy_from` (String)
 - `country` (String) Country Name (2 letter code).
 - `days_valid` (Number) Certificate lifetime.
+- `import` (Block Set) (see [below for nested schema](#nestedblock--import))
 - `key_size` (String)
 - `key_usage` (Set of String) Detailed key usage descriptions can be found in RFC 5280.
 - `locality` (String) Locality Name (eg, city).
@@ -108,6 +109,19 @@ resource "routeros_system_certificate" "scep_client" {
 - `skid` (String) Subject Key Identifier.
 - `smart_card_key` (String)
 - `status` (String) Shows current status of scep client.
+
+<a id="nestedblock--import"></a>
+### Nested Schema for `import`
+
+Required:
+
+- `cert_file_name` (String) Certificate file name that will be imported.
+
+Optional:
+
+- `key_file_name` (String) Key file name that will be imported.
+- `passphrase` (String, Sensitive) File passphrase if there is such.
+
 
 <a id="nestedblock--sign"></a>
 ### Nested Schema for `sign`
