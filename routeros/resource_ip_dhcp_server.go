@@ -48,11 +48,11 @@ func ResourceDhcpServer() *schema.Resource {
 				"* lease-time - use time from lease-time parameter",
 		},
 		"bootp_support": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Default:      "static",
-			Description:  "Support for BOOTP clients.",
-			ValidateFunc: validation.StringInSlice([]string{"none", "static", "dynamic"}, false),
+			Type:             schema.TypeString,
+			Optional:         true,
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			Description:      "Support for BOOTP clients.",
+			ValidateFunc:     validation.StringInSlice([]string{"none", "static", "dynamic"}, false),
 		},
 		"client_mac_limit": {
 			Type:        schema.TypeInt,
@@ -94,9 +94,9 @@ func ResourceDhcpServer() *schema.Resource {
 			Description: "A script that will be executed after a lease is assigned or de-assigned.",
 		},
 		"lease_time": {
-			Type:     schema.TypeString,
-			Optional: true,
-			Default:  "10m",
+			Type:             schema.TypeString,
+			Optional:         true,
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 			Description: "The time that a client may use the assigned address. The client will try to renew this " +
 				"address after half of this time and will request a new address after the time limit expires.",
 		},
