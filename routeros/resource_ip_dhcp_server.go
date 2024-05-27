@@ -19,9 +19,9 @@ func ResourceDhcpServer() *schema.Resource {
 		"address_pool": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Default:  "static-only",
 			Description: "IP pool, from which to take IP addresses for the clients. If set to static-only, then only " +
 				"the clients that have a static lease (added in lease submenu) will be allowed.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"allow_dual_stack_queue": {
 			Type:     schema.TypeBool,
@@ -35,11 +35,11 @@ func ResourceDhcpServer() *schema.Resource {
 			Description: "Always send replies as broadcasts even if destination IP is known.",
 		},
 		"authoritative": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Default:      "yes",
-			Description:  "Option changes the way how a server responds to DHCP requests.",
-			ValidateFunc: validation.StringInSlice([]string{"after-10sec-delay", "after-2sec-delay", "yes", "no"}, false),
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Option changes the way how a server responds to DHCP requests.",
+			ValidateFunc:     validation.StringInSlice([]string{"after-10sec-delay", "after-2sec-delay", "yes", "no"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"bootp_lease_time": {
 			Type:     schema.TypeString,
@@ -48,11 +48,11 @@ func ResourceDhcpServer() *schema.Resource {
 				"* lease-time - use time from lease-time parameter",
 		},
 		"bootp_support": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Default:      "static",
-			Description:  "Support for BOOTP clients.",
-			ValidateFunc: validation.StringInSlice([]string{"none", "static", "dynamic"}, false),
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Support for BOOTP clients.",
+			ValidateFunc:     validation.StringInSlice([]string{"none", "static", "dynamic"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"client_mac_limit": {
 			Type:        schema.TypeInt,
@@ -96,9 +96,9 @@ func ResourceDhcpServer() *schema.Resource {
 		"lease_time": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Default:  "10m",
 			Description: "The time that a client may use the assigned address. The client will try to renew this " +
 				"address after half of this time and will request a new address after the time limit expires.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyName: PropNameForceNewRw,
 		"parent_queue": {
@@ -124,11 +124,11 @@ func ResourceDhcpServer() *schema.Resource {
 			Description: "Forward RADIUS Framed-Route as a DHCP Classless-Static-Route to DHCP-client.",
 		},
 		"use_radius": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Default:      "no",
-			Description:  "Whether to use RADIUS server.",
-			ValidateFunc: validation.StringInSlice([]string{"yes", "no", "accounting"}, false),
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Whether to use RADIUS server.",
+			ValidateFunc:     validation.StringInSlice([]string{"yes", "no", "accounting"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 	}
 	return &schema.Resource{
