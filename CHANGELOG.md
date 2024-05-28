@@ -1,3 +1,10 @@
+## [1.52.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.52.0...v1.52.1) (2024-05-28)
+
+
+### Bug Fixes
+
+* **firewall-raw:** Fix resource name ([e956f9f](https://github.com/terraform-routeros/terraform-provider-routeros/commit/e956f9ff5d72478f65e4db3e86808f689d0b3a40))
+
 ## [1.52.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.51.0...v1.52.0) (2024-05-28)
 
 

@@ -1,4 +1,4 @@
-# routeros_firewall_raw (Resource)
+# routeros_ip_firewall_raw (Resource)
 
 
 
