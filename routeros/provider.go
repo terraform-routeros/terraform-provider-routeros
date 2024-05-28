@@ -94,7 +94,7 @@ func Provider() *schema.Provider {
 			"routeros_ip_firewall_filter":              ResourceIPFirewallFilter(),
 			"routeros_ip_firewall_mangle":              ResourceIPFirewallMangle(),
 			"routeros_ip_firewall_nat":                 ResourceIPFirewallNat(),
-			"routeros_firewall_raw":                    ResourceIPFirewallRaw(),
+			"routeros_ip_firewall_raw":                 ResourceIPFirewallRaw(),
 			"routeros_ip_address":                      ResourceIPAddress(),
 			"routeros_ip_pool":                         ResourceIPPool(),
 			"routeros_ip_route":                        ResourceIPRoute(),
