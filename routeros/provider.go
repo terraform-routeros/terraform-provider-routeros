@@ -245,6 +245,7 @@ func Provider() *schema.Provider {
 			"routeros_move_items":     ResourceMoveItems(),
 
 			// Tools
+			"routeros_tool_bandwidth_server":  ResourceToolBandwidthServer(),
 			"routeros_tool_mac_server":        ResourceToolMacServer(),
 			"routeros_tool_mac_server_winbox": ResourceToolMacServerWinBox(),
 
