@@ -1,0 +1,27 @@
+# {{.Name}} ({{.Type}})
+{{ .Description | trimspace }}
+
+Certificate resource management consists of two independent processes:
+* key creation and certificate signing request (`key` + `csr`)
+* certificate signing by the issuer (`crt`)
+
+For a complete certificate creation cycle, both of the above steps must be performed. In this case the `sign {}` block must be specified in the configuration.
+
+If you need to import the current state of the certificate resource, then do not specify the `sign{}` block.
+
+Importing an external certificate is also done without specifying the `sign{}` block, because the certificate should have already been signed by the issuer at this step.
+
+---
+
+{{ if .HasExample -}}
+## Example Usage
+{{ tffile .ExampleFile }}
+{{- end }}
+
+{{ .SchemaMarkdown | trimspace }}
+
+{{ if .HasImport -}}
+## Import
+Import is supported using the following syntax:
+{{ codefile "shell" .ImportFile }}
+{{- end }}
