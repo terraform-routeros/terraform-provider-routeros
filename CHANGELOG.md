@@ -1,3 +1,15 @@
+## [1.52.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.51.0...v1.52.0) (2024-05-28)
+
+
+### Features
+
+* **firewall/raw:** Add new resource ([90eb2fa](https://github.com/terraform-routeros/terraform-provider-routeros/commit/90eb2fa762a92e61bdb408095f7c2ef5a1c03e8e)), closes [#462](https://github.com/terraform-routeros/terraform-provider-routeros/issues/462)
+
+
+### Bug Fixes
+
+* **dhcp-server:** Remove default values ([#470](https://github.com/terraform-routeros/terraform-provider-routeros/issues/470)) ([884e464](https://github.com/terraform-routeros/terraform-provider-routeros/commit/884e464d7f16f016b99c12371c2cbfca84a149fb)), closes [#466](https://github.com/terraform-routeros/terraform-provider-routeros/issues/466)
+
 ## [1.51.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.50.0...v1.51.0) (2024-05-21)
 
 

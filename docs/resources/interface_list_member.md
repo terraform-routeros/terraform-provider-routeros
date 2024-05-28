@@ -19,6 +19,7 @@ resource "routeros_interface_list_member" "list_member" {
 
 ### Optional
 
+- `comment` (String)
 - `disabled` (Boolean)
 
 ### Read-Only
