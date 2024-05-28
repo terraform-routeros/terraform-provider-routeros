@@ -11,7 +11,7 @@ import (
 */
 
 // https://help.mikrotik.com/docs/display/ROS/Bandwidth+Test
-func ResourceToolMacServer() *schema.Resource {
+func ResourceToolBandwidthServer() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/tool/bandwidth-server"),
 		MetaId:           PropId(Id),
