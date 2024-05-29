@@ -69,11 +69,7 @@ func ResourceOpenVPNServer() *schema.Resource {
 			Optional:    true,
 			Description: "Specifies if IPv6 IP tunneling mode should be possible with this OVPN server.",
 		},
-		"enabled": {
-			Type:        schema.TypeBool,
-			Optional:    true,
-			Description: "Defines whether the OVPN server is enabled or not.",
-		},
+		KeyEnabled: PropEnabled("Defines whether the OVPN server is enabled or not."),
 		"ipv6_prefix_len": {
 			Type:     schema.TypeInt,
 			Optional: true,

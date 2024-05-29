@@ -69,11 +69,7 @@ func ResourceInterfaceWirelessCap() *schema.Resource {
 			Elem:        &schema.Schema{Type: schema.TypeString},
 			Description: "List of interfaces over which CAP should attempt to discover CAPs Manager.",
 		},
-		"enabled": {
-			Type:        schema.TypeBool,
-			Optional:    true,
-			Description: "Disable or enable the CAP functionality.",
-		},
+		KeyEnabled: PropEnabled("Disable or enable the CAP functionality."),
 		"interfaces": {
 			Type:        schema.TypeSet,
 			Optional:    true,
