@@ -19,16 +19,19 @@ func TestAccToolsBandwidthServerTest_basic(t *testing.T) {
 				ProviderFactories: testAccProviderFactories,
 				Steps: []resource.TestStep{
 					{
-						Config: testAccToolsBandwidthServerConfig_none("none"),
+						Config: testAccToolsBandwidthServerConfig_none(),
 						Check: resource.ComposeTestCheckFunc(
 							testResourcePrimaryInstanceId(testToolsBandwidthServer),
-							resource.TestCheckResourceAttr(testToolsBandwidthServer),
+							resource.TestCheckResourceAttr(testToolsBandwidthServer, "enabled", "false"),
 						),
 					},
 					{
-						Config: testAccToolsBandwidthServerConfig_complex("all"),
+						Config: testAccToolsBandwidthServerConfig_complex(),
 						Check: resource.ComposeTestCheckFunc(
-							resource.TestCheckResourceAttr(testToolsBandwidthServer),
+							resource.TestCheckResourceAttr(testToolsBandwidthServer, "enabled", "true"),
+							resource.TestCheckResourceAttr(testToolsBandwidthServer, "authenticate", "false"),
+							resource.TestCheckResourceAttr(testToolsBandwidthServer, "max_sessions", "100"),
+							resource.TestCheckResourceAttr(testToolsBandwidthServer, "allocate_udp_ports_from", "2000"),
 						),
 					},
 				},
@@ -37,22 +40,22 @@ func TestAccToolsBandwidthServerTest_basic(t *testing.T) {
 	}
 }
 
-func testAccToolsBandwidthServerConfig_none(acl string) string {
+func testAccToolsBandwidthServerConfig_none() string {
 	return providerConfig + `
 
-resource "routeros_tool_bandwidth_test_server" "test" {
+resource "routeros_tool_bandwidth_server" "test" {
 	enabled = false
 }
 `
 }
 
-func testAccToolsBandwidthServerConfig_complex(acl string) string {
+func testAccToolsBandwidthServerConfig_complex() string {
 	return providerConfig + `
 
-resource "routeros_tool_bandwidth_test_server" "test" {
-	enabled = true
-	authenticate = false
-	max_sessions = 100
+resource "routeros_tool_bandwidth_server" "test" {
+	enabled                 = true
+	authenticate            = false
+	max_sessions            = 100
 	allocate_udp_ports_from = 2000
 }
 `

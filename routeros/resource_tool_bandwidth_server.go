@@ -2,11 +2,15 @@ package routeros
 
 import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
 
 /*
 {
-  "allowed-interface-list": "LAN"
+  "allocate-udp-ports-from": "2000",
+  "authenticate": "true",
+  "enabled": "true",
+  "max-sessions": "100"
 }
 */
 
@@ -16,29 +20,26 @@ func ResourceToolBandwidthServer() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/tool/bandwidth-server"),
 		MetaId:           PropId(Id),
 
-		"enabled": {
-			Type:        schema.TypeBool,
-			Optional:    true,
-			Default:     true,
-			Description: "Defines whether bandwidth server is enabled or not.",
+		"allocate_udp_ports_from": {
+			Type:             schema.TypeInt,
+			Optional:         true,
+			Description:      "Beginning of UDP port range.",
+			ValidateFunc:     validation.IntBetween(1000, 65535),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"authenticate": {
-			Type:        schema.TypeBool,
-			Optional:    true,
-			Default:     true,
-			Description: "Communicate only with authenticated clients.",
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Description:      "Communicate only with authenticated clients.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
-		"max_sessions ": {
-			Type:        schema.TypeInt,
-			Optional:    true,
-			Default:     100,
-			Description: "Maximal simultaneous test count.",
-		},
-		"allocate_udp_ports_from ": {
-			Type:        schema.TypeBool,
-			Optional:    true,
-			Default:     2000,
-			Description: "Beginning of UDP port range.",
+		KeyEnabled: PropEnabled("Defines whether bandwidth server is enabled or not."),
+		"max_sessions": {
+			Type:             schema.TypeInt,
+			Optional:         true,
+			Description:      "Maximal simultaneous test count.",
+			ValidateFunc:     validation.IntBetween(1, 1000),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 	}
 
