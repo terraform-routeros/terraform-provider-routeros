@@ -1,3 +1,15 @@
+## [1.53.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.52.1...v1.53.0) (2024-05-29)
+
+
+### Features
+
+* **logging-action:** Support for logging actions setup ([f8b9824](https://github.com/terraform-routeros/terraform-provider-routeros/commit/f8b9824a1f00ee456ab3a87793900922942daf42)), closes [#477](https://github.com/terraform-routeros/terraform-provider-routeros/issues/477)
+
+
+### Bug Fixes
+
+* **certificate-scep-server:** Rename the resource from "routeros_certificate_scep_server" to "routeros_system_certificate_scep_server" ([a9a8138](https://github.com/terraform-routeros/terraform-provider-routeros/commit/a9a81385f2280fa1485d142b7c1e1d9dde541aff)), closes [#473](https://github.com/terraform-routeros/terraform-provider-routeros/issues/473)
+
 ## [1.52.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.52.0...v1.52.1) (2024-05-28)
 
 
