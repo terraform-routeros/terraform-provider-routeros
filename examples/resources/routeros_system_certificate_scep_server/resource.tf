@@ -7,7 +7,8 @@ resource "routeros_system_certificate" "example_root_ca" {
   }
 }
 
-resource "routeros_certificate_scep_server" "example_scep_server" {
+# You can also use the alias "routeros_certificate_scep_server"
+resource "routeros_system_certificate_scep_server" "example_scep_server" {
   ca_cert    = routeros_system_certificate.example_root_ca.name
   path       = "/scep/example_scep_server"
   days_valid = 30
