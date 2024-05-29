@@ -16,10 +16,10 @@ resource "routeros_tool_bandwidth_test_server" "test" {
 
 ### Optional
 
-- `allocate_udp_ports_from ` (Boolean) Beginning of UDP port range.
+- `allocate_udp_ports_from` (Number) Beginning of UDP port range.
 - `authenticate` (Boolean) Communicate only with authenticated clients.
 - `enabled` (Boolean) Defines whether bandwidth server is enabled or not.
-- `max_sessions ` (Number) Maximal simultaneous test count.
+- `max_sessions` (Number) Maximal simultaneous test count.
 
 ### Read-Only
 

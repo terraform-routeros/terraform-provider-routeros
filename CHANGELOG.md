@@ -1,3 +1,10 @@
+## [1.54.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.53.0...v1.54.0) (2024-05-29)
+
+
+### Features
+
+* Add bandwidth server resource ([#475](https://github.com/terraform-routeros/terraform-provider-routeros/issues/475)) ([d98ce0f](https://github.com/terraform-routeros/terraform-provider-routeros/commit/d98ce0f3aeb918ca02cbfc42eef6b9ba98ef7382)), closes [#474](https://github.com/terraform-routeros/terraform-provider-routeros/issues/474)
+
 ## [1.53.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.52.1...v1.53.0) (2024-05-29)
 
 
