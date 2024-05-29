@@ -35,6 +35,7 @@ const (
 	KeyDisabled                = "disabled"
 	KeyDontFragment            = "dont_fragment"
 	KeyDscp                    = "dscp"
+	KeyEnabled                 = "enabled"
 	KeyFilter                  = "filter"
 	KeyInactive                = "inactive"
 	KeyInterface               = "interface"
@@ -151,6 +152,16 @@ func PropName(description string) *schema.Schema {
 		Type:        schema.TypeString,
 		Required:    true,
 		Description: description,
+	}
+}
+
+// PropEnabled
+func PropEnabled(description string) *schema.Schema {
+	return &schema.Schema{
+		Type:             schema.TypeBool,
+		Optional:         true,
+		Description:      description,
+		DiffSuppressFunc: AlwaysPresentNotUserProvided,
 	}
 }
 

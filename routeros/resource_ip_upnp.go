@@ -19,11 +19,7 @@ func ResourceUPNPSettings() *schema.Resource {
 				"unwanted in UPnP deployments which the standard was not designed for (it was designed mostly for " +
 				"home users to establish their own local networks), you can disable this behavior",
 		},
-		"enabled": {
-			Type:        schema.TypeBool,
-			Optional:    true,
-			Description: "Enable UPnP service.",
-		},
+		KeyEnabled: PropEnabled("Enable UPnP service."),
 		"show_dummy_rule": {
 			Type:     schema.TypeBool,
 			Optional: true,

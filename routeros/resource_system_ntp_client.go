@@ -25,12 +25,7 @@ func ResourceSystemNtpClient() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/system/ntp/client"),
 		MetaId:           PropId(Id),
 
-		"enabled": {
-			Type:             schema.TypeBool,
-			Optional:         true,
-			Description:      "Enable NTP client.",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
-		},
+		KeyEnabled: PropEnabled("Enable NTP client."),
 		"freq_drift": {
 			Type:        schema.TypeString,
 			Computed:    true,

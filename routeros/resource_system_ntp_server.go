@@ -43,12 +43,7 @@ func ResourceSystemNtpServer() *schema.Resource {
 			Optional:    true,
 			Description: "Set broadcast address to use for NTP server broadcast mode.",
 		},
-		"enabled": {
-			Type:             schema.TypeBool,
-			Optional:         true,
-			Description:      "Enable NTP server.",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
-		},
+		KeyEnabled: PropEnabled("Enable NTP server."),
 		"local_clock_stratum": {
 			Type:             schema.TypeInt,
 			Optional:         true,
