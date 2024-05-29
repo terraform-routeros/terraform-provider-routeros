@@ -186,6 +186,7 @@ func Provider() *schema.Provider {
 			"routeros_system_ntp_server":               ResourceSystemNtpServer(),
 			"routeros_system_routerboard_button_mode":  ResourceSystemRouterboardButtonMode(),
 			"routeros_system_routerboard_button_reset": ResourceSystemRouterboardButtonReset(),
+			"routeros_system_routerboard_button_wps":   ResourceSystemRouterboardButtonWps(),
 			"routeros_system_routerboard_settings":     ResourceSystemRouterboardSettings(),
 			"routeros_system_scheduler":                ResourceSystemScheduler(),
 			"routeros_system_script":                   ResourceSystemScript(),
