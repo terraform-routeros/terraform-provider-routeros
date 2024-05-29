@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-const testIPFirewallRawAddress = "routeros_firewall_raw.rule"
+const testIPFirewallRawAddress = "routeros_ip_firewall_raw.rule"
 
 func TestAccIPFirewallRawTest_basic(t *testing.T) {
 	for _, name := range testNames {
@@ -17,7 +17,7 @@ func TestAccIPFirewallRawTest_basic(t *testing.T) {
 					testSetTransportEnv(t, name)
 				},
 				ProviderFactories: testAccProviderFactories,
-				CheckDestroy:      testCheckResourceDestroy("/ip/firewall/raw", "routeros_firewall_raw"),
+				CheckDestroy:      testCheckResourceDestroy("/ip/firewall/raw", "routeros_ip_firewall_raw"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccIPFirewallRawConfig(),
@@ -35,7 +35,7 @@ func TestAccIPFirewallRawTest_basic(t *testing.T) {
 
 func testAccIPFirewallRawConfig() string {
 	return providerConfig + `
-resource "routeros_firewall_raw" "rule" {
+resource "routeros_ip_firewall_raw" "rule" {
 	action 		= "accept"
 	chain   	= "prerouting"
 	src_address = "10.0.0.1"
