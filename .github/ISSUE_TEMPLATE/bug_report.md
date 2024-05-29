@@ -16,6 +16,9 @@ Steps to reproduce the behavior and the problem section from the TF file, withou
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
+**Debug Information**
+If needed, be ready to publish debug output of the provider (green lines after executing `TF_LOG=debug ROS_LOG_COLOR=1 terraform <command>`).
+
 **Stack Trace**
 If applicable, add the stack trace the crash produced.
 
