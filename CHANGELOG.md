@@ -1,3 +1,10 @@
+## [1.54.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.54.0...v1.54.1) (2024-05-30)
+
+
+### Bug Fixes
+
+* **vrrp:** Add `group-authority` attribute handling to the `group-master` replacement ([58cf139](https://github.com/terraform-routeros/terraform-provider-routeros/commit/58cf139015490181973170d97d1e3931919b1af0)), closes [#446](https://github.com/terraform-routeros/terraform-provider-routeros/issues/446)
+
 ## [1.54.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.53.0...v1.54.0) (2024-05-29)
 
 

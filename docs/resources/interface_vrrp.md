@@ -31,7 +31,8 @@ resource "routeros_interface_vrrp" "interface_vrrp" {
 - `authentication` (String) Authentication method to use for VRRP advertisement packets.
 - `comment` (String)
 - `disabled` (Boolean)
-- `group_master` (String) Allows combining multiple VRRP interfaces to maintain the same VRRP status within the group.
+- `group_authority` (String) Allows combining multiple VRRP interfaces to maintain the same VRRP status within the group. `group_authority` was previously called `group_master`, `group_master` is kept for compatibility with scripts, but if both are set only `group_authority` will be taken into account.
+- `group_master` (String) Allows combining multiple VRRP interfaces to maintain the same VRRP status within the group. `group_authority` was previously called `group_master`, `group_master` is kept for compatibility with scripts, but if both are set only `group_authority` will be taken into account.
 - `interval` (String) VRRP update interval in seconds. Defines how often master sends advertisement packets.
 - `mtu` (String) Layer3 Maximum transmission unit ('auto', 0 .. 65535)
 - `on_backup` (String) Script to execute when the node is switched to the backup state.
