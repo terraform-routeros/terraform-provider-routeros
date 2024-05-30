@@ -46,20 +46,21 @@ func ResourceInterfaceVrrp() *schema.Resource {
 		KeyArp:        PropArpRw,
 		KeyArpTimeout: PropArpTimeoutRw,
 		"authentication": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Default:      "none",
-			Description:  "Authentication method to use for VRRP advertisement packets.",
-			ValidateFunc: validation.StringInSlice([]string{"ah", "none", "simple"}, false),
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Authentication method to use for VRRP advertisement packets.",
+			ValidateFunc:     validation.StringInSlice([]string{"ah", "none", "simple"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
-		"group_master": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Computed:    true,
-			Description: "Allows combining multiple VRRP interfaces to maintain the same VRRP status within the group.",
-			// Maybe this is a bug, but for the 'none' value, the Mikrotik ROS 7.5 returns an empty string.
+		"group_authority": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Allows combining multiple VRRP interfaces to maintain the same VRRP status within the group. " +
+				"`group_authority` was previously called `group_master`, `group_master` is kept for compatibility with " +
+				"scripts, but if both are set only `group_authority` will be taken into account.",
+			// This resource behavior has not changed in ROS 7.14.2.
 			DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
 				if old == new {
 					return true
@@ -68,17 +69,38 @@ func ResourceInterfaceVrrp() *schema.Resource {
 				if new == "none" && old == "" {
 					return true
 				}
-				return false
+
+				return AlwaysPresentNotUserProvided(k, old, new, d)
+			},
+		},
+		"group_master": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Allows combining multiple VRRP interfaces to maintain the same VRRP status within the group. " +
+				"`group_authority` was previously called `group_master`, `group_master` is kept for compatibility with " +
+				"scripts, but if both are set only `group_authority` will be taken into account.",
+			// Maybe this is a bug, but for the 'none' value, the Mikrotik ROS 7.5 returns an empty string.
+			// This resource behavior has not changed in ROS 7.14.2.
+			DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+				if old == new {
+					return true
+				}
+
+				if new == "none" && old == "" {
+					return true
+				}
+
+				return AlwaysPresentNotUserProvided(k, old, new, d)
 			},
 		},
 		KeyInterface: PropInterfaceRw,
 		"interval": {
 			Type:        schema.TypeString,
 			Optional:    true,
-			Default:     "1s",
 			Description: "VRRP update interval in seconds. Defines how often master sends advertisement packets.",
 			ValidateFunc: validation.StringMatch(regexp.MustCompile(`^(\d+(ms|s|M)?)+$`),
 				"expected hello interval 10ms..4m15s"),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"invalid": {
 			Type:     schema.TypeBool,
@@ -111,19 +133,19 @@ func ResourceInterfaceVrrp() *schema.Resource {
 		"preemption_mode": {
 			Type:     schema.TypeBool,
 			Optional: true,
-			Default:  true,
 			Description: "Whether the master node always has the priority. When set to 'no' the backup node will not " +
 				"be elected to be a master until the current master fails, even if the backup node has higher priority " +
 				"than the current master. This setting is ignored if the owner router becomes available",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"priority": {
 			Type:     schema.TypeInt,
 			Optional: true,
-			Default:  100,
 			Description: "Priority of VRRP node used in Master election algorithm. A higher number means higher " +
 				"priority. '255' is reserved for the router that owns VR IP and '0' is reserved for the Master router " +
 				"to indicate that it is releasing responsibility.",
-			ValidateFunc: validation.IntBetween(1, 254),
+			ValidateFunc:     validation.IntBetween(1, 254),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"remote_address": {
 			Type:     schema.TypeString,
@@ -143,25 +165,25 @@ func ResourceInterfaceVrrp() *schema.Resource {
 			Description: "Synchronize connection tracking entries from Master to Backup device.",
 		},
 		"v3_protocol": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Default:      "ipv4",
-			Description:  "A protocol that will be used by VRRPv3. Valid only if the version is 3.",
-			ValidateFunc: validation.StringInSlice([]string{"ipv4", "ipv6"}, false),
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "A protocol that will be used by VRRPv3. Valid only if the version is 3.",
+			ValidateFunc:     validation.StringInSlice([]string{"ipv4", "ipv6"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"version": {
-			Type:         schema.TypeInt,
-			Optional:     true,
-			Default:      3,
-			Description:  "Which VRRP version to use.",
-			ValidateFunc: validation.IntBetween(2, 3),
+			Type:             schema.TypeInt,
+			Optional:         true,
+			Description:      "Which VRRP version to use.",
+			ValidateFunc:     validation.IntBetween(2, 3),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"vrid": {
-			Type:         schema.TypeInt,
-			Optional:     true,
-			Default:      1,
-			Description:  "Virtual Router identifier. Each Virtual router must have a unique id number.",
-			ValidateFunc: validation.IntBetween(1, 255),
+			Type:             schema.TypeInt,
+			Optional:         true,
+			Description:      "Virtual Router identifier. Each Virtual router must have a unique id number.",
+			ValidateFunc:     validation.IntBetween(1, 255),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 	}
 
