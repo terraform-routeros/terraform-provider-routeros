@@ -1,0 +1,1 @@
+terraform import routeros_system_routerboard_usb.settings .
