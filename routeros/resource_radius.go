@@ -67,6 +67,13 @@ func ResourceRadius() *schema.Resource {
 			Optional:    true,
 			Description: "Explicitly stated realm (user domain), so the users do not have to provide proper ISP domain name in the user name.",
 		},
+		"require_message_auth": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "An option whether to require `Message-Authenticator` in received Access-Accept/Challenge/Reject messages.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			ValidateFunc:     validation.StringInSlice([]string{"no", "yes-for-request-resp"}, false),
+		},
 		"secret": {
 			Type:        schema.TypeString,
 			Optional:    true,
