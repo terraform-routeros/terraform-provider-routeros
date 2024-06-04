@@ -1,3 +1,10 @@
+## [1.54.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.54.1...v1.54.2) (2024-06-04)
+
+
+### Bug Fixes
+
+* **fw-mangle:** Fix `dst_address_list` validation ([0eb25c9](https://github.com/terraform-routeros/terraform-provider-routeros/commit/0eb25c973c2022704a1f85670f125fb5c772388b)), closes [#480](https://github.com/terraform-routeros/terraform-provider-routeros/issues/480)
+
 ## [1.54.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.54.0...v1.54.1) (2024-05-30)
 
 
