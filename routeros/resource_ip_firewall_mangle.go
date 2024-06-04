@@ -137,10 +137,10 @@ func ResourceIPFirewallMangle() *schema.Resource {
 			Description: "Matches destination address of a packet against user-defined address list.",
 		},
 		"dst_address_type": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Description:  "Matches destination address type.",
-			ValidateFunc: validation.StringInSlice([]string{"unicast", "local", "broadcast", "multicast"}, false),
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Matches destination address type.",
+			ValidateDiagFunc: ValidationMultiValInSlice([]string{"unicast", "local", "broadcast", "multicast", "blackhole"}, false, true),
 		},
 		"dst_limit": {
 			Type:        schema.TypeString,
