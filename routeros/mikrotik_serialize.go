@@ -232,7 +232,7 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 
 				// skip if object is empty
 				if value.([]interface{})[0] == nil {
-					break
+					continue
 				}
 
 				list := value.([]interface{})[0].(map[string]interface{})
