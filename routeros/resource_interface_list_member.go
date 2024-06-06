@@ -9,6 +9,7 @@ func ResourceInterfaceListMember() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/interface/list/member"),
 		MetaId:           PropId(Id),
 
+		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
 		"dynamic": {
 			Type:     schema.TypeBool,

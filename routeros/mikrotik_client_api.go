@@ -25,6 +25,7 @@ var (
 		crudUpdate:      "/set",
 		crudDelete:      "/remove",
 		crudPost:        "/set",
+		crudImport:      "/import",
 		crudSign:        "/sign",
 		crudSignViaScep: "/add-scep",
 		crudRemove:      "/remove",

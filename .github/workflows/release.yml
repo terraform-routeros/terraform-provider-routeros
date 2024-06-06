@@ -64,7 +64,7 @@ jobs:
 
       - name: Run GoReleaser
         if: steps.release.outputs.new_release_published == 'true'
-        uses: goreleaser/goreleaser-action@v5
+        uses: goreleaser/goreleaser-action@v6
         with:
           version: latest
           args: release --clean

@@ -32,11 +32,7 @@ func ResourceSNMP() *schema.Resource {
 			Optional:    true,
 			Description: "Contact information.",
 		},
-		"enabled": {
-			Type:        schema.TypeBool,
-			Required:    true,
-			Description: "Used to disable/enable SNMP service",
-		},
+		KeyEnabled: PropEnabled("Used to disable/enable SNMP service"),
 		"engine_id": {
 			Type:     schema.TypeString,
 			Computed: true,

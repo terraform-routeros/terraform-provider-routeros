@@ -41,12 +41,7 @@ func ResourceUserManagerSettings() *schema.Resource {
 			Default:     "none",
 			Description: "Certificate for use in EAP TLS-type authentication methods.",
 		},
-		"enabled": {
-			Type:        schema.TypeBool,
-			Optional:    true,
-			Default:     false,
-			Description: "An option whether the User Manager functionality is enabled.",
-		},
+		KeyEnabled: PropEnabled("An option whether the User Manager functionality is enabled."),
 		"use_profiles": {
 			Type:        schema.TypeBool,
 			Optional:    true,

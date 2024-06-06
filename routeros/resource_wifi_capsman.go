@@ -35,11 +35,7 @@ func ResourceWifiCapsman() *schema.Resource {
 			Optional:    true,
 			Description: "Device certificate.",
 		},
-		"enabled": {
-			Type:        schema.TypeBool,
-			Optional:    true,
-			Description: "Disable or enable CAPsMAN functionality.",
-		},
+		KeyEnabled: PropEnabled("Disable or enable CAPsMAN functionality."),
 		"generated_ca_certificate": {
 			Type:        schema.TypeString,
 			Computed:    true,

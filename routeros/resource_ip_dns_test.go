@@ -19,14 +19,14 @@ func TestAccResourceDnsTest_basic(t *testing.T) {
 				ProviderFactories: testAccProviderFactories,
 				Steps: []resource.TestStep{
 					{
-						Config: testAccResourceDnsConfig(0),
+						Config: testAccResourceDnsConfig(),
 						Check: resource.ComposeTestCheckFunc(
 							testResourcePrimaryInstanceId(testResourceDnsTask),
 							resource.TestCheckResourceAttr(testResourceDnsTask, "allow_remote_requests", "true"),
 						),
 					},
 					{
-						Config: testAccResourceDnsConfig(1),
+						Config: testAccResourceDnsConfig(),
 					},
 				},
 			})
@@ -35,7 +35,7 @@ func TestAccResourceDnsTest_basic(t *testing.T) {
 	}
 }
 
-func testAccResourceDnsConfig(n int) string {
+func testAccResourceDnsConfig() string {
 	return providerConfig + `
 resource "routeros_dns" "test" {
 	allow_remote_requests = true

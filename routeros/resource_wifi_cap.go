@@ -28,7 +28,7 @@ func ResourceWifiCap() *schema.Resource {
 		"caps_man_addresses": {
 			Type:     schema.TypeList,
 			Optional: true,
-			Elem:     &schema.Schema{
+			Elem: &schema.Schema{
 				Type:         schema.TypeString,
 				ValidateFunc: validation.IsIPAddress,
 			},
@@ -57,11 +57,7 @@ func ResourceWifiCap() *schema.Resource {
 			Elem:        &schema.Schema{Type: schema.TypeString},
 			Description: "List of interfaces over which CAP should attempt to discover CAPs Manager.",
 		},
-		"enabled": {
-			Type:        schema.TypeBool,
-			Optional:    true,
-			Description: "Disable or enable the CAP functionality.",
-		},
+		KeyEnabled: PropEnabled("Disable or enable the CAP functionality."),
 		"lock_to_caps_man": {
 			Type:        schema.TypeBool,
 			Optional:    true,
