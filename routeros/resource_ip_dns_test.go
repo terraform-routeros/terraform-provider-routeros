@@ -46,7 +46,12 @@ resource "routeros_dns" "test" {
 	max_udp_packet_size = 8192
 	query_server_timeout = "500ms"
 	query_total_timeout = "15"
-	servers = "2606:4700:4700::1112,1.1.1.2,2606:4700:4700::1002,1.0.0.2"
+	servers = [
+		"2606:4700:4700::1112",
+		"1.1.1.2",
+		"2606:4700:4700::1002",
+		"1.0.0.2",
+	]
 	use_doh_server = "https://cloudflare-dns.com/dns-query"
 	verify_doh_cert = true
 }`
