@@ -23,7 +23,7 @@ import (
 */
 
 // ResourceInterfaceBridgeVlan https://wiki.mikrotik.com/wiki/Manual:Interface/Bridge#Bridge_VLAN_Filtering
-func ResourceInterfaceBridgeVlan() *schema.Resource {
+func ResourceInterfaceBridgeVlanV0() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/bridge/vlan"),
 		MetaId:           PropId(Id),
@@ -79,11 +79,8 @@ func ResourceInterfaceBridgeVlan() *schema.Resource {
 				"separated values. E.g. untagged=ether3,ether4",
 		},
 		"vlan_ids": {
-			Type:     schema.TypeSet,
+			Type:     schema.TypeString,
 			Required: true,
-			Elem: &schema.Schema{
-				Type: schema.TypeString,
-			},
 			Description: "The list of VLAN IDs for certain port configuration. This setting accepts VLAN ID range " +
 				"as well as comma separated values. E.g. vlan-ids=100-115,120,122,128-130.",
 		},
@@ -99,13 +96,5 @@ func ResourceInterfaceBridgeVlan() *schema.Resource {
 		},
 
 		Schema: resSchema,
-		SchemaVersion: 1,
-		StateUpgraders: []schema.StateUpgrader{
-			{
-				Type: ResourceInterfaceBridgeVlanV0().CoreConfigSchema().ImpliedType(),
-				Upgrade: stateMigrationScalarToList("vlan_ids"),
-				Version: 0,
-			},
-		},
 	}
 }
