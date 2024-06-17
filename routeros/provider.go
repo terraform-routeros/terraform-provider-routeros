@@ -285,16 +285,20 @@ func Provider() *schema.Provider {
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"routeros_files":                 DatasourceFiles(),
-			"routeros_firewall":              DatasourceFirewall(),
 			"routeros_interfaces":            DatasourceInterfaces(),
 			"routeros_ip_addresses":          DatasourceIPAddresses(),
 			"routeros_ip_arp":                DatasourceIpArp(),
 			"routeros_ip_dhcp_server_leases": DatasourceIpDhcpServerLeases(),
+			"routeros_ip_firewall":           DatasourceIPFirewall(),
 			"routeros_ip_routes":             DatasourceIPRoutes(),
 			"routeros_ip_services":           DatasourceIPServices(),
 			"routeros_ipv6_addresses":        DatasourceIPv6Addresses(),
+			"routeros_ipv6_firewall":         DatasourceIPv6Firewall(),
 			"routeros_system_resource":       DatasourceSystemResource(),
 			"routeros_x509":                  DatasourceX509(),
+
+			// Aliases for entries that have been renamed
+			"routeros_firewall": DatasourceIPFirewall(),
 		},
 		ConfigureContextFunc: NewClient,
 	}
