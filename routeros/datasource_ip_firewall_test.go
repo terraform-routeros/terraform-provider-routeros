@@ -33,7 +33,7 @@ func TestAccDatasourceIpFirewallTest_basic(t *testing.T) {
 
 func testAccDatasourceIpFirewallConfig() string {
 	return providerConfig + `
-data "routeros_firewall" "fw" {
+data "routeros_ip_firewall" "fw" {
   address_list {}
   mangle {}
   nat {}
