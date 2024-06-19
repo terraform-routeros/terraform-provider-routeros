@@ -241,7 +241,7 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 		"mvrp_registrar_state": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Default:  "normal",
+			//Default:  "normal",
 			Description: "MVRP registrar options (available since RouterOS 7.15): " +
 				"- fixed - port ignores all MRP messages, and remains Registered (IN) in all configured vlans. " +
 				"- normal - port receives MRP messages and handles them according to the standard.",
