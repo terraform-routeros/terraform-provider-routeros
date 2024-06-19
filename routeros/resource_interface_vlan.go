@@ -22,8 +22,16 @@ func ResourceInterfaceVlan() *schema.Resource {
 		KeyLoopProtectStatus:       PropLoopProtectStatusRo,
 		KeyMacAddress:              PropMacAddressRo,
 		KeyMtu:                     PropMtuRw(),
-		KeyName:                    PropNameForceNewRw,
-		KeyRunning:                 PropRunningRo,
+		"mvrp": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Default:  false,
+			Description: "Specifies whether this VLAN should declare its attributes through Multiple VLAN Registration Protocol (MVRP) as an applicant. " +
+				"It can be used to register the VLAN with connected bridges that support MVRP. " +
+				"This property only has an effect when use-service-tag is disabled.",
+		},
+		KeyName:    PropNameForceNewRw,
+		KeyRunning: PropRunningRo,
 		"use_service_tag": {
 			Type:     schema.TypeBool,
 			Optional: true,
