@@ -57,7 +57,8 @@ func ResourceInterfaceBridgeVlan() *schema.Resource {
 			Elem: &schema.Schema{
 				Type: schema.TypeString,
 			},
-			Description: "Ports that ignore all MRP messages and remains Not Registered (MT), as well as disables applicant from declaring specific VLAN ID.",
+			Description:      "Ports that ignore all MRP messages and remains Not Registered (MT), as well as disables applicant from declaring specific VLAN ID (available since RouterOS 7.15).",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"tagged": {
 			Type:     schema.TypeList,
