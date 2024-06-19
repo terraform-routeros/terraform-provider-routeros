@@ -61,7 +61,7 @@ func ResourceInterfaceBridgeVlan() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"tagged": {
-			Type:     schema.TypeList,
+			Type:     schema.TypeSet,
 			Optional: true,
 			Elem: &schema.Schema{
 				Type: schema.TypeString,
@@ -70,7 +70,7 @@ func ResourceInterfaceBridgeVlan() *schema.Resource {
 				"separated values. E.g. tagged=ether1,ether2.",
 		},
 		"untagged": {
-			Type:     schema.TypeList,
+			Type:     schema.TypeSet,
 			Optional: true,
 			Elem: &schema.Schema{
 				Type: schema.TypeString,
