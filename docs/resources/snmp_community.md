@@ -13,6 +13,7 @@ resource "routeros_snmp_community" "test" {
 	name                    = "private"
 	read_access             = true
 	security                = "private"
+	addresses                = ["192.0.2.0/24", "198.51.100.1", "::" ]
 	write_access            = true
 }
 ```
@@ -22,7 +23,7 @@ resource "routeros_snmp_community" "test" {
 
 ### Optional
 
-- `addresses` (String) Addresses from which connections to SNMP server is allowed.
+- `addresses` (Set of String) Set of IP (v4 or v6) addresses or CIDR networks from which connections to SNMP server are allowed.
 - `authentication_password` (String, Sensitive) Password used to authenticate the connection to the server (SNMPv3).
 - `authentication_protocol` (String) The protocol used for authentication (SNMPv3).
 - `comment` (String)

@@ -30,11 +30,17 @@ func ResourceSNMPCommunity() *schema.Resource {
 		MetaId:           PropId(Id),
 
 		"addresses": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Default:      "::/0",
-			Description:  "Addresses from which connections to SNMP server is allowed.",
-			ValidateFunc: validation.IsIPAddress,
+			Type:        schema.TypeSet,
+			Optional:    true,
+			Description: "Set of IP (v4 or v6) addresses or CIDR networks from which connections to SNMP server are allowed.",
+			Elem: &schema.Schema{
+				Type: schema.TypeString,
+				ValidateFunc: validation.Any(
+					validation.IsIPv4Address,
+					validation.IsIPv6Address,
+					validation.IsCIDRNetwork(0, 128),
+				),
+			},
 		},
 		"authentication_password": {
 			Type:        schema.TypeString,
