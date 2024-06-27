@@ -2,7 +2,7 @@ package routeros
 
 import "github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-func getFirewallAddrListSchema() *schema.Schema {
+func getIPFirewallAddrListSchema() *schema.Schema {
 	return &schema.Schema{
 		Type:     schema.TypeList,
 		Computed: true,

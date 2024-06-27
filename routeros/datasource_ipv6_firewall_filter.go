@@ -2,7 +2,7 @@ package routeros
 
 import "github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-func getFirewallFilterSchema() *schema.Schema {
+func getIPv6FirewallFilterSchema() *schema.Schema {
 	return &schema.Schema{
 		Type:     schema.TypeList,
 		Computed: true,
@@ -15,10 +15,6 @@ func getFirewallFilterSchema() *schema.Schema {
 					Computed: true,
 				},
 				"action": {
-					Type:     schema.TypeString,
-					Computed: true,
-				},
-				"address_list_timeout": {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
@@ -98,14 +94,6 @@ func getFirewallFilterSchema() *schema.Schema {
 					Type:     schema.TypeBool,
 					Computed: true,
 				},
-				"fragment": {
-					Type:     schema.TypeBool,
-					Computed: true,
-				},
-				"hotspot": {
-					Type:     schema.TypeString,
-					Computed: true,
-				},
 				"icmp_options": {
 					Type:     schema.TypeString,
 					Computed: true,
@@ -135,22 +123,6 @@ func getFirewallFilterSchema() *schema.Schema {
 					Computed: true,
 				},
 				"ipsec_policy": {
-					Type:     schema.TypeString,
-					Computed: true,
-				},
-				"ipv4_options": {
-					Type:     schema.TypeString,
-					Computed: true,
-				},
-				"jump_target": {
-					Type:     schema.TypeString,
-					Computed: true,
-				},
-				"hw_offload": {
-					Type:     schema.TypeBool,
-					Computed: true,
-				},
-				"layer7_protocol": {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
@@ -211,10 +183,6 @@ func getFirewallFilterSchema() *schema.Schema {
 					Computed: true,
 				},
 				"protocol": {
-					Type:     schema.TypeString,
-					Computed: true,
-				},
-				"psd": {
 					Type:     schema.TypeString,
 					Computed: true,
 				},

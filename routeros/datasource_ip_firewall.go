@@ -2,15 +2,16 @@ package routeros
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
-var firewallSections = []string{"address_list", "nat", "mangle", "rules"}
+var ipFirewallSections = []string{"address_list", "nat", "mangle", "rules"}
 
-func DatasourceFirewall() *schema.Resource {
+func DatasourceIPFirewall() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: datasourceFirewallFilterRead,
+		ReadContext: datasourceIPFirewallFilterRead,
 		Description: `This datasource contains all supported firewall resources:
 - address_list
 - nat
@@ -18,22 +19,22 @@ func DatasourceFirewall() *schema.Resource {
 - rules (aka filter)
 `,
 		Schema: map[string]*schema.Schema{
-			"address_list": getFirewallAddrListSchema(),
-			"mangle":       getFirewallMangleSchema(),
-			"nat":          getFirewallNatSchema(),
-			"rules":        getFirewallFilterSchema(),
+			"address_list": getIPFirewallAddrListSchema(),
+			"mangle":       getIPFirewallMangleSchema(),
+			"nat":          getIPFirewallNatSchema(),
+			"rules":        getIPFirewallFilterSchema(),
 		},
 	}
 }
 
-func datasourceFirewallFilterRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func datasourceIPFirewallFilterRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
 	basePath := "/ip/firewall/"
 
-	s := DatasourceFirewall().Schema
+	s := DatasourceIPFirewall().Schema
 
 	var isEmpty = true
-	for _, section := range firewallSections {
+	for _, section := range ipFirewallSections {
 		isEmpty = isEmpty && len(d.Get(section).([]interface{})) == 0
 	}
 
@@ -48,7 +49,7 @@ func datasourceFirewallFilterRead(ctx context.Context, d *schema.ResourceData, m
 		}
 	}
 
-	for _, section := range firewallSections {
+	for _, section := range ipFirewallSections {
 		if len(d.Get(section).([]interface{})) == 0 {
 			continue
 		}

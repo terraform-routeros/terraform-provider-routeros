@@ -6,9 +6,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-const testDatasourceFirewall = "data.routeros_firewall.fw"
+const testDatasourceIpFirewall = "data.routeros_ip_firewall.fw"
 
-func TestAccDatasourceFirewallTest_basic(t *testing.T) {
+func TestAccDatasourceIpFirewallTest_basic(t *testing.T) {
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{
@@ -19,9 +19,9 @@ func TestAccDatasourceFirewallTest_basic(t *testing.T) {
 				ProviderFactories: testAccProviderFactories,
 				Steps: []resource.TestStep{
 					{
-						Config: testAccDatasourceFirewallConfig(),
+						Config: testAccDatasourceIpFirewallConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testResourcePrimaryInstanceId(testDatasourceFirewall),
+							testResourcePrimaryInstanceId(testDatasourceIpFirewall),
 						),
 					},
 				},
@@ -31,9 +31,9 @@ func TestAccDatasourceFirewallTest_basic(t *testing.T) {
 	}
 }
 
-func testAccDatasourceFirewallConfig() string {
+func testAccDatasourceIpFirewallConfig() string {
 	return providerConfig + `
-data "routeros_firewall" "fw" {
+data "routeros_ip_firewall" "fw" {
   address_list {}
   mangle {}
   nat {}

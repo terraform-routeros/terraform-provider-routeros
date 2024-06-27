@@ -4,7 +4,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
-func getFirewallNatSchema() *schema.Schema {
+func getIPFirewallMangleSchema() *schema.Schema {
 	return &schema.Schema{
 		Type:     schema.TypeList,
 		Computed: true,
@@ -52,7 +52,15 @@ func getFirewallNatSchema() *schema.Schema {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
+				"connection_nat_state": {
+					Type:     schema.TypeString,
+					Computed: true,
+				},
 				"connection_rate": {
+					Type:     schema.TypeString,
+					Computed: true,
+				},
+				"connection_state": {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
@@ -160,6 +168,34 @@ func getFirewallNatSchema() *schema.Schema {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
+				"new_connection_mark": {
+					Type:     schema.TypeString,
+					Computed: true,
+				},
+				"new_dscp": {
+					Type:     schema.TypeInt,
+					Computed: true,
+				},
+				"new_mss": {
+					Type:     schema.TypeInt,
+					Computed: true,
+				},
+				"new_packet_mark": {
+					Type:     schema.TypeString,
+					Computed: true,
+				},
+				"new_priority": {
+					Type:     schema.TypeString,
+					Computed: true,
+				},
+				"new_routing_mark": {
+					Type:     schema.TypeString,
+					Computed: true,
+				},
+				"new_ttl": {
+					Type:     schema.TypeString,
+					Computed: true,
+				},
 				"nth": {
 					Type:     schema.TypeString,
 					Computed: true,
@@ -192,16 +228,16 @@ func getFirewallNatSchema() *schema.Schema {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
+				"passthrough": {
+					Type:     schema.TypeBool,
+					Computed: true,
+				},
 				"per_connection_classifier": {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
 				"port": {
 					Type:     schema.TypeString,
-					Computed: true,
-				},
-				"priority": {
-					Type:     schema.TypeInt,
 					Computed: true,
 				},
 				"protocol": {
@@ -216,13 +252,12 @@ func getFirewallNatSchema() *schema.Schema {
 					Type:     schema.TypeInt,
 					Computed: true,
 				},
-
 				"routing_mark": {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
-				"same_not_by_dst": {
-					Type:     schema.TypeBool,
+				"route_dst": {
+					Type:     schema.TypeString,
 					Computed: true,
 				},
 				"src_address": {
@@ -245,6 +280,10 @@ func getFirewallNatSchema() *schema.Schema {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
+				"tcp_flags": {
+					Type:     schema.TypeString,
+					Computed: true,
+				},
 				"tcp_mss": {
 					Type:     schema.TypeString,
 					Computed: true,
@@ -253,11 +292,7 @@ func getFirewallNatSchema() *schema.Schema {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
-				"to_addresses": {
-					Type:     schema.TypeString,
-					Computed: true,
-				},
-				"to_ports": {
+				"tls_host": {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
