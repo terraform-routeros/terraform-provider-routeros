@@ -36,6 +36,7 @@ resource "routeros_interface_vlan" "interface_vlan" {
 - `loop_protect_disable_time` (String)
 - `loop_protect_send_interval` (String)
 - `mtu` (String) Layer3 Maximum transmission unit ('auto', 0 .. 65535)
+- `mvrp` (Boolean) Specifies whether this VLAN should declare its attributes through Multiple VLAN Registration Protocol (MVRP) as an applicant (available since RouterOS 7.15). It can be used to register the VLAN with connected bridges that support MVRP. This property only has an effect when use-service-tag is disabled.
 - `use_service_tag` (Boolean)
 
 ### Read-Only
