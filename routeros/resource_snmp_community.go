@@ -41,6 +41,7 @@ func ResourceSNMPCommunity() *schema.Resource {
 					validation.IsCIDRNetwork(0, 128),
 				),
 			},
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"authentication_password": {
 			Type:        schema.TypeString,
