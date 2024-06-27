@@ -154,6 +154,14 @@ func PropName(description string) *schema.Schema {
 		Description: description,
 	}
 }
+func PropNameOptional(description string) *schema.Schema {
+	return &schema.Schema{
+		Type:             schema.TypeString,
+		Optional:         true,
+		Description:      description,
+		DiffSuppressFunc: AlwaysPresentNotUserProvided,
+	}
+}
 
 // PropEnabled
 func PropEnabled(description string) *schema.Schema {

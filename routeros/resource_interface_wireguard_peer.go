@@ -89,6 +89,7 @@ func ResourceInterfaceWireguardPeer() *schema.Resource {
 			Computed:    true,
 			Description: "Time in seconds after the last successful handshake.",
 		},
+		KeyName: PropNameOptional("Name of the tunnel."),
 		"persistent_keepalive": {
 			Type:     schema.TypeString,
 			Optional: true,
