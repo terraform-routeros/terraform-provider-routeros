@@ -14,7 +14,7 @@ import (
 }
 */
 
-// https://help.mikrotik.com/docs/display/ROS/MAC+server
+// https://help.mikrotik.com/docs/display/ROS/Neighbor+discovery
 func ResourceIpNeighborDiscoverySettings() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/neighbor/discovery-settings"),
@@ -24,6 +24,22 @@ func ResourceIpNeighborDiscoverySettings() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Interface list on which members the discovery protocol will run on.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"lldp_mac_phy_config": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "Whether to send MAC/PHY Configuration/Status TLV in LLDP, which indicates the interface " +
+				"capabilities, current setting of the duplex status, bit rate, and auto-negotiation. Only applies " +
+				"to the Ethernet interfaces. While TLV is optional in LLDP, it is mandatory when sending LLDP-MED, " +
+				"meaning this TLV will be included when necessary even though the property is configured as disabled.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"lldp_max_frame_size": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "Whether to send Maximum Frame Size TLV in LLDP, which indicates the maximum frame size capability" +
+				" of the interface in bytes (`l2mtu + 18`). Only applies to the Ethernet interfaces.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"lldp_med_net_policy_vlan": {
@@ -42,6 +58,13 @@ func ResourceIpNeighborDiscoverySettings() *schema.Resource {
 		
 		Additionally, other neighbor discovery protocols (e.g. CDP) should be excluded using protocol setting to 
 		avoid LLDP-MED misconfiguration.`,
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"lldp_poe_power": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "Two specific TLVs facilitate Power over Ethernet (PoE) management between Power Sourcing " +
+				"Equipment (PSE) and Powered Devices (PD).",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"mode": {
