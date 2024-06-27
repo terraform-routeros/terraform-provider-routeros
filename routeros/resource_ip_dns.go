@@ -134,6 +134,7 @@ func ResourceDns() *schema.Resource {
 			Optional:    true,
 			Description: "List of DNS server IPv4/IPv6 addresses.",
 		},
+		KeyVrf: PropVrfRw,
 		"use_doh_server": {
 			Type:     schema.TypeString,
 			Optional: true,
