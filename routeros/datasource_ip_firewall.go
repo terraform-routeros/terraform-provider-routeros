@@ -7,7 +7,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
-var ipfirewallSections = []string{"address_list", "nat", "mangle", "rules"}
+var ipFirewallSections = []string{"address_list", "nat", "mangle", "rules"}
 
 func DatasourceIPFirewall() *schema.Resource {
 	return &schema.Resource{
@@ -34,7 +34,7 @@ func datasourceIPFirewallFilterRead(ctx context.Context, d *schema.ResourceData,
 	s := DatasourceIPFirewall().Schema
 
 	var isEmpty = true
-	for _, section := range ipfirewallSections {
+	for _, section := range ipFirewallSections {
 		isEmpty = isEmpty && len(d.Get(section).([]interface{})) == 0
 	}
 
@@ -49,7 +49,7 @@ func datasourceIPFirewallFilterRead(ctx context.Context, d *schema.ResourceData,
 		}
 	}
 
-	for _, section := range ipfirewallSections {
+	for _, section := range ipFirewallSections {
 		if len(d.Get(section).([]interface{})) == 0 {
 			continue
 		}
