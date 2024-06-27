@@ -4,16 +4,21 @@
 ## Example Usage
 ```terraform
 resource "routeros_snmp_community" "test" {
-	authentication_password = "authpasswd"
-	authentication_protocol = "MD5"
-	comment                 = "Comment"
-	disabled                = true
-	encryption_password     = "encpassword"
-	encryption_protocol     = "DES"
-	name                    = "private"
-	read_access             = true
-	security                = "private"
-	write_access            = true
+  authentication_password = "authpasswd"
+  authentication_protocol = "MD5"
+  comment                 = "Comment"
+  disabled                = true
+  encryption_password     = "encpassword"
+  encryption_protocol     = "DES"
+  name                    = "private"
+  read_access             = true
+  security                = "private"
+  write_access            = true
+}
+
+resource "routeros_snmp_community" "mything" {
+  addresses = ["10.0.1.12", "10.10.0.129"]
+  name      = "mything"
 }
 ```
 
@@ -22,7 +27,7 @@ resource "routeros_snmp_community" "test" {
 
 ### Optional
 
-- `addresses` (String) Addresses from which connections to SNMP server is allowed.
+- `addresses` (Set of String) Set of IP (v4 or v6) addresses or CIDR networks from which connections to SNMP server are allowed.
 - `authentication_password` (String, Sensitive) Password used to authenticate the connection to the server (SNMPv3).
 - `authentication_protocol` (String) The protocol used for authentication (SNMPv3).
 - `comment` (String)

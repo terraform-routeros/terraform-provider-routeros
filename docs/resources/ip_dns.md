@@ -33,6 +33,7 @@ resource "routeros_dns" "dns-server" {
 
 	> RouterOS prioritize DoH over DNS server if both are configured on the device.
 - `verify_doh_cert` (Boolean) DoH certificate verification. [See docs](https://wiki.mikrotik.com/wiki/Manual:IP/DNS#DNS_over_HTTPS).
+- `vrf` (String) The VRF table this resource operates on.
 
 ### Read-Only
 

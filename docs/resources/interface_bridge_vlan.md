@@ -28,6 +28,7 @@ resource "routeros_interface_bridge_vlan" "bridge_vlan" {
 
 - `comment` (String)
 - `disabled` (Boolean)
+- `mvrp_forbidden` (List of String) Ports that ignore all MRP messages and remains Not Registered (MT), as well as disables applicant from declaring specific VLAN ID (available since RouterOS 7.15).
 - `tagged` (List of String) Interface list with a VLAN tag adding action in egress. This setting accepts comma separated values. E.g. tagged=ether1,ether2.
 - `untagged` (List of String) Interface list with a VLAN tag removing action in egress. This setting accepts comma separated values. E.g. untagged=ether3,ether4
 

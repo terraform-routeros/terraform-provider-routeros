@@ -230,6 +230,11 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 
 			case *schema.Resource:
 
+				// skip if object is empty
+				if value.([]interface{})[0] == nil {
+					continue
+				}
+
 				list := value.([]interface{})[0].(map[string]interface{})
 				ctyList := rawConfig.GetAttr(terraformSnakeName).AsValueSlice()[0]
 

@@ -192,6 +192,13 @@ func ResourceInterfaceBridge() *schema.Resource {
 			ValidateFunc: validation.StringInSlice([]string{"disabled", "permanent", "temporary-query"}, false),
 			RequiredWith: []string{"igmp_snooping"},
 		},
+		"mvrp": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			//Default:          false,
+			Description:      "Enables MVRP for bridge (available since RouterOS 7.15). It ensures that the MAC address 01:80:C2:00:00:21 is trapped and not forwarded, the vlan-filtering must be enabled.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		KeyName: PropNameForceNewRw,
 		"port_cost_mode": {
 			Type:             schema.TypeString,

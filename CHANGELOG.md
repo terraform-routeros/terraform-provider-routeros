@@ -1,3 +1,20 @@
+## [1.54.3](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.54.2...v1.54.3) (2024-06-27)
+
+
+### Features
+
+* **no-release:** Added ipv6 filter data ([#496](https://github.com/terraform-routeros/terraform-provider-routeros/issues/496)) ([6d45e88](https://github.com/terraform-routeros/terraform-provider-routeros/commit/6d45e88d0af4e99fd552754835d865a034bb54ac))
+* **no-release:** Support Multiple VLAN Registration protocol (MVRP). ([#497](https://github.com/terraform-routeros/terraform-provider-routeros/issues/497)) ([0dc994a](https://github.com/terraform-routeros/terraform-provider-routeros/commit/0dc994aed90ed6453dbe422b0ede093b1fae08c7)), closes [#492](https://github.com/terraform-routeros/terraform-provider-routeros/issues/492) [#493](https://github.com/terraform-routeros/terraform-provider-routeros/issues/493)
+
+
+### Bug Fixes
+
+* Field 'vrf' not found in the schema (introduced in 7.15) ([563401b](https://github.com/terraform-routeros/terraform-provider-routeros/commit/563401bc8c8b8b980afdbd2ad36c424ad8134ebb)), closes [#490](https://github.com/terraform-routeros/terraform-provider-routeros/issues/490)
+* **no-release:** Allow a set of `addresses` ([#498](https://github.com/terraform-routeros/terraform-provider-routeros/issues/498)) ([bcf417f](https://github.com/terraform-routeros/terraform-provider-routeros/commit/bcf417f491090bad60cb4f2a9fe313c146259d19)), closes [#495](https://github.com/terraform-routeros/terraform-provider-routeros/issues/495)
+* **no-release:** nil resources ([#486](https://github.com/terraform-routeros/terraform-provider-routeros/issues/486)) ([8571dea](https://github.com/terraform-routeros/terraform-provider-routeros/commit/8571dea493a5a22d167c083e65e744f97a50c05b))
+* **routeros_interface_wireguard_peer:** Field 'name' not found in the schema (introduced in 7.15) ([9fb13ad](https://github.com/terraform-routeros/terraform-provider-routeros/commit/9fb13ad7523be815ae41cd5b35c5d7e889e02a9e)), closes [#494](https://github.com/terraform-routeros/terraform-provider-routeros/issues/494)
+* **routeros_ip_neighbor_discovery_settings:** Multiple fields not found in schema (introduced in 7.15) ([7f44443](https://github.com/terraform-routeros/terraform-provider-routeros/commit/7f44443784cfe5b4372c7af7aee1da94acc0d1c1)), closes [#491](https://github.com/terraform-routeros/terraform-provider-routeros/issues/491)
+
 ## [1.54.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.54.1...v1.54.2) (2024-06-04)
 
 
