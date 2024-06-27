@@ -228,6 +228,26 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 			ValidateFunc:     validation.StringInSlice([]string{"disabled", "permanent", "temporary-query"}, false),
 		},
+		"mvrp_applicant_state": {
+			Type:     schema.TypeString,
+			Optional: true,
+			//Default:  "normal-participant",
+			Description: "MVRP applicant options (available since RouterOS 7.15): " +
+				"- non-participant - port does not send any MRP messages; " +
+				"- normal-participant - port participates normally in MRP exchanges.",
+			ValidateFunc:     validation.StringInSlice([]string{"non-participant", "normal-participant"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"mvrp_registrar_state": {
+			Type:     schema.TypeString,
+			Optional: true,
+			//Default:  "normal",
+			Description: "MVRP registrar options (available since RouterOS 7.15): " +
+				"- fixed - port ignores all MRP messages, and remains Registered (IN) in all configured vlans. " +
+				"- normal - port receives MRP messages and handles them according to the standard.",
+			ValidateFunc:     validation.StringInSlice([]string{"fixed", "normal"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		// This field has a string value because on the x86 architecture there is no good way to validate
 		// values up to 4294967295. And in this case, an overflow occurs with an errors:
 		// "Cannot use 4294967295 (untyped int constant) as int value in argument to validation.IntBetween (overflows)"
