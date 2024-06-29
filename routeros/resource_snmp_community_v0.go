@@ -24,23 +24,15 @@ import (
 */
 
 // https://help.mikrotik.com/docs/display/ROS/SNMP#SNMP-CommunityProperties
-func ResourceSNMPCommunity() *schema.Resource {
+func ResourceSNMPCommunityV0() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/snmp/community"),
 		MetaId:           PropId(Id),
 
 		"addresses": {
-			Type:        schema.TypeSet,
+			Type:        schema.TypeString,
 			Optional:    true,
 			Description: "Set of IP (v4 or v6) addresses or CIDR networks from which connections to SNMP server are allowed.",
-			Elem: &schema.Schema{
-				Type: schema.TypeString,
-				ValidateFunc: validation.Any(
-					validation.IsIPv4Address,
-					validation.IsIPv6Address,
-					validation.IsCIDRNetwork(0, 128),
-				),
-			},
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"authentication_password": {
@@ -114,13 +106,5 @@ func ResourceSNMPCommunity() *schema.Resource {
 		},
 
 		Schema: resSchema,
-		SchemaVersion: 1,
-		StateUpgraders: []schema.StateUpgrader{
-			{
-				Type: ResourceSNMPCommunityV0().CoreConfigSchema().ImpliedType(),
-				Upgrade: stateMigrationScalarToList("addresses"),
-				Version: 0,
-			},
-		},
 	}
 }
