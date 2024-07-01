@@ -27,7 +27,7 @@ import (
 */
 
 // ResourceDns https://wiki.mikrotik.com/wiki/Manual:IP/DNS
-func ResourceDns() *schema.Resource {
+func ResourceDnsV0() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/dns"),
 		MetaId:           PropId(Name),
@@ -130,9 +130,8 @@ func ResourceDns() *schema.Resource {
 			DiffSuppressFunc: TimeEquall,
 		},
 		"servers": {
-			Type:        schema.TypeList,
+			Type:        schema.TypeString,
 			Optional:    true,
-			Elem:        &schema.Schema{Type: schema.TypeString},
 			Description: "List of DNS server IPv4/IPv6 addresses.",
 		},
 		KeyVrf: PropVrfRw,
@@ -191,13 +190,5 @@ func ResourceDns() *schema.Resource {
 		},
 
 		Schema: resSchema,
-		SchemaVersion: 1,
-		StateUpgraders: []schema.StateUpgrader{
-			{
-				Type: ResourceDnsV0().CoreConfigSchema().ImpliedType(),
-				Upgrade: stateMigrationScalarToList("servers"),
-				Version: 0,
-			},
-		},
 	}
 }

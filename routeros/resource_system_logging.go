@@ -59,7 +59,7 @@ func ResourceSystemLogging() *schema.Resource {
 			Computed: true,
 		},
 		"topics": {
-			Type:     schema.TypeList,
+			Type:     schema.TypeSet,
 			Elem:     &schema.Schema{Type: schema.TypeString, ValidateFunc: validation.StringInSlice(validTopics, false)},
 			Optional: true,
 			Description: `log all messages that falls into specified topic or list of topics.

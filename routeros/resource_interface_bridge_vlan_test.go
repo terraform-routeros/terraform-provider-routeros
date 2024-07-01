@@ -41,7 +41,7 @@ resource "routeros_interface_bridge_vlan" "test_vlan" {
 	bridge   = "bridge"
 	untagged = ["ether1"]
 	tagged	 = ["bridge"]
-	vlan_ids = 200
+	vlan_ids = [200]
   }
 
 `
