@@ -3,6 +3,8 @@ package routeros
 import (
 	"context"
 	"fmt"
+	"reflect"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
@@ -29,6 +31,31 @@ func stateMigrationNameToId(resourcePath string) schema.StateUpgradeFunc {
 		}
 
 		ColorizedMessage(ctx, INFO, fmt.Sprintf("ID attribute after migration: %#v", rawState["id"]))
+
+		return rawState, nil
+	}
+}
+
+func stateMigrationScalarToList(keys ...string) schema.StateUpgradeFunc {
+	return func(ctx context.Context, rawState map[string]interface{}, m interface{}) (map[string]interface{}, error) {
+		for _, key := range keys {
+			if rawState[key] == nil {
+				continue
+			}
+
+			value := reflect.ValueOf(rawState[key])
+			if value.IsZero() {
+				rawState[key] = []interface{}{}
+			}
+
+			if reflect.ValueOf(value).Kind() == reflect.String {
+				rawState[key] = strings.Split(rawState[key].(string), ",")
+			}
+
+			slice := reflect.MakeSlice(reflect.SliceOf(value.Type()), 0, 1)
+			reflect.Append(slice, value)
+			rawState[key] = slice.Interface()
+		}
 
 		return rawState, nil
 	}
