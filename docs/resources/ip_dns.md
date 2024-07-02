@@ -5,9 +5,9 @@ A MikroTik router with DNS feature enabled can be set as a DNS server for any DN
 ```terraform
 resource "routeros_dns" "dns-server" {
   allow_remote_requests = true
-  servers               = [
+  servers = [
     "2606:4700:4700::1111,1.1.1.1",
-	"2606:4700:4700::1001,1.0.0.1",
+    "2606:4700:4700::1001,1.0.0.1",
   ]
 }
 ```
@@ -29,7 +29,7 @@ resource "routeros_dns" "dns-server" {
 - `max_udp_packet_size` (Number) Maximum size of allowed UDP packet. *Default: 4096*
 - `query_server_timeout` (String) Specifies how long to wait for query response from one server. Time can be specified in milliseconds. *Default: 2s*
 - `query_total_timeout` (String) Specifies how long to wait for query response in total. Note that this setting must be configured taking into account query_server_timeout and number of used DNS server. Time can be specified in milliseconds. *Default: 10s*
-- `servers` (String) List of DNS server IPv4/IPv6 addresses.
+- `servers` (List of String) List of DNS server IPv4/IPv6 addresses.
 - `use_doh_server` (String) DNS over HTTPS (DoH) server URL.
 	> Mikrotik strongly suggest not use third-party download links for certificate fetching. 
 	Use the Certificate Authority's own website.

@@ -1,3 +1,23 @@
+## [1.55.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.54.3...v1.55.0) (2024-07-02)
+
+
+### Features
+
+* Add state migrator helper to convert scalar values to lists ([858ecab](https://github.com/terraform-routeros/terraform-provider-routeros/commit/858ecab2b52c8933051c2ae992d272969b90c6be))
+* Update properties in `routeros_interface_dot1x_client` and `routeros_interface_dot1x_server` to support multiple values ([66ab1d2](https://github.com/terraform-routeros/terraform-provider-routeros/commit/66ab1d2cec80d8c677190315d258b47ca9fe50fa))
+* Update properties in `routeros_ip_dhcp_server_network` to support multiple values ([bc1cf68](https://github.com/terraform-routeros/terraform-provider-routeros/commit/bc1cf68b5f3126f0f19bd3f4b4288cc269f25f67))
+* Update the `servers` property in `routeros_dns` to support multiple values ([ea25f00](https://github.com/terraform-routeros/terraform-provider-routeros/commit/ea25f0088d2da7dfaa001fab0b06c0bc67bbc847))
+* Update the `service` property in `routeros_radius` to support multiple values ([a1becca](https://github.com/terraform-routeros/terraform-provider-routeros/commit/a1beccacd612960abb27b4c66c4941e0e3f0cf4c))
+* Update the `vlan_ids` property in `routeros_interface_bridge_vlan` to support multiple values ([3ec3d34](https://github.com/terraform-routeros/terraform-provider-routeros/commit/3ec3d343d9ed0bf501624fae89aae5840da8fa8e))
+* Update the frequency properties in `routeros_capsman_channel` to support multiple values ([14a6e4e](https://github.com/terraform-routeros/terraform-provider-routeros/commit/14a6e4e45a91be4f4811f97a7696c25460e1313b))
+
+
+### Bug Fixes
+
+* Add state migrator to `routeros_snmp_community` to fix backward compatibility ([27c8588](https://github.com/terraform-routeros/terraform-provider-routeros/commit/27c858806bdf9f79bf96a4cd5e85746abc2b2e99))
+* Fix `tagged` and `untagged` properties in `routeros_interface_bridge_vlan` to ignore values order ([eb8ff28](https://github.com/terraform-routeros/terraform-provider-routeros/commit/eb8ff28b6c125f20c45ebb783ed248a28f72b935))
+* Fix `topics` property type in `routeros_system_logging` to ignore values order ([0e3c29f](https://github.com/terraform-routeros/terraform-provider-routeros/commit/0e3c29f62f587db7b340fee8299c6ec0a3622898))
+
 ## [1.54.3](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.54.2...v1.54.3) (2024-06-27)
 
 

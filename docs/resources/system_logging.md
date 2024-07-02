@@ -20,7 +20,7 @@ resource "routeros_system_logging" "log_snmp_disk" {
 
 - `disabled` (Boolean) Whether or not this logging should be disabled
 - `prefix` (String) prefix added at the beginning of log messages
-- `topics` (List of String) log all messages that falls into specified topic or list of topics.
+- `topics` (Set of String) log all messages that falls into specified topic or list of topics.
 						  '!' character can be used before topic to exclude messages falling under this topic. For example, we want to log NTP debug info without too much details:
 						  /system logging add topics=ntp,debug,!packet
 
