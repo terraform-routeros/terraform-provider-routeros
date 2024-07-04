@@ -39,7 +39,7 @@ resource "routeros_ppp_secret" "test" {
 resource "routeros_ovpn_server" "server" {
   enabled         = true
   certificate     = routeros_system_certificate.ovpn_server_crt.name
-  auth            = "sha256,sha512"
+  auth            = ["sha256", "sha512"]
   tls_version     = "only-1.2"
   default_profile = routeros_ppp_profile.test.name
 }
