@@ -1,3 +1,20 @@
+## [1.56.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.55.0...v1.56.0) (2024-07-04)
+
+
+### Features
+
+* Add `enable_ipv6_accounting` introduced in 7.15 to the `routeros_ppp_aaa` resource ([4c792c7](https://github.com/terraform-routeros/terraform-provider-routeros/commit/4c792c74a4d5e5de43fc5c62176ea6f74925336c))
+* Add `require_message_auth` introduced in 7.15 to the `routeros_radius` resource ([6946d95](https://github.com/terraform-routeros/terraform-provider-routeros/commit/6946d95654b504dbc214d046dbab0723dbdb4e0d))
+* Add `require_message_auth` introduced in 7.15 to the `routeros_user_manager_settings` resource ([91b41b7](https://github.com/terraform-routeros/terraform-provider-routeros/commit/91b41b7b3c184ec1f0c2cede4e61fadc437171a2))
+* Add `reselect_interval` introduced in 7.15 to the `routeros_wifi_channel` resource ([77186c0](https://github.com/terraform-routeros/terraform-provider-routeros/commit/77186c0fbc478c2e8c4a06bc1b5e330e5db402ac))
+* Add `sfp_ignore_rx_los` introduced in 7.15 to the `routeros_interface_ethernet` resource ([a361715](https://github.com/terraform-routeros/terraform-provider-routeros/commit/a36171577d57a5af9050cf8e57639f962c5f4ae8))
+* Add current CAPsMAN identity computed properties introduced in 7.15 to the `routeros_wifi_cap` resource ([f0fae7b](https://github.com/terraform-routeros/terraform-provider-routeros/commit/f0fae7baf1771b6f65665269794bc68a25b40e23))
+
+
+### Bug Fixes
+
+* Fix the `AlwaysPresentNotUserProvided` helper to ignore stored empty values as RouterOS started returning such in 7.15 ([c22e017](https://github.com/terraform-routeros/terraform-provider-routeros/commit/c22e017534a6024a35d530d8da689a69ce07f360))
+
 ## [1.55.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.54.3...v1.55.0) (2024-07-02)
 
 

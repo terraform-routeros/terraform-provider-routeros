@@ -26,6 +26,8 @@ resource "routeros_wifi_cap" "settings" {
 
 ### Read-Only
 
+- `current_caps_man_address` (String) Currently used CAPsMAN address.
+- `current_caps_man_identity` (String) Currently used CAPsMAN identity.
 - `id` (String) The ID of this resource.
 - `locked_caps_man_common_name` (String) Common name of the CAPsMAN that the CAP is locked to.
 - `requested_certificate` (String) Requested certificate.

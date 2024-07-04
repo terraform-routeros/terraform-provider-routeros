@@ -61,6 +61,7 @@ resource "routeros_interface_ethernet" "test" {
 - `power_cycle_ping_timeout` (String) If the host does not respond over the specified period, the PoE-Out port is switched off for 5s.
 - `rx_flow_control` (String) When set to on, the port will process received pause frames and suspend transmission if required.
 					auto is the same as on except when auto-negotiation=yes flow control status is resolved by taking into account what other end advertises.
+- `sfp_ignore_rx_los` (Boolean) An option to ignore RX LOS (Loss of Signal) status of the SFP module.
 - `sfp_rate_select` (String) Allows to control rate select pin for SFP ports. Values: high | low
 - `sfp_shutdown_temperature` (Number) The temperature in Celsius at which the interface will be temporarily turned off due to too high detected SFP module temperature (introduced v6.48).The default value for SFP/SFP+/SFP28 interfaces is 95, and for QSFP+/QSFP28 interfaces 80 (introduced v7.6).
 - `speed` (String) Sets interface data transmission speed which takes effect only when ```auto_negotiation``` is disabled.
