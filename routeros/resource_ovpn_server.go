@@ -47,8 +47,9 @@ func ResourceOpenVPNServer() *schema.Resource {
 		},
 		"certificate": {
 			Type:        schema.TypeString,
-			Required:    true,
+			Optional:    true,
 			Description: "Name of the certificate that the OVPN server will use.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"cipher": {
 			Type:     schema.TypeSet,
@@ -73,6 +74,7 @@ func ResourceOpenVPNServer() *schema.Resource {
 		"enable_tun_ipv6": {
 			Type:        schema.TypeBool,
 			Optional:    true,
+			Default:     false,
 			Description: "Specifies if IPv6 IP tunneling mode should be possible with this OVPN server.",
 		},
 		KeyEnabled: PropEnabled("Defines whether the OVPN server is enabled or not."),
@@ -169,12 +171,14 @@ func ResourceOpenVPNServer() *schema.Resource {
 		"require_client_certificate": {
 			Type:     schema.TypeBool,
 			Optional: true,
+			Default:  false,
 			Description: "If set to yes, then the server checks whether the client's certificate belongs to the " +
 				"same certificate chain.",
 		},
 		"tls_version": {
 			Type:         schema.TypeString,
 			Optional:     true,
+			Default:      "any",
 			Description:  "Specifies which TLS versions to allow.",
 			ValidateFunc: validation.StringInSlice([]string{"any", "only-1.2"}, false),
 		},
