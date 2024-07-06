@@ -180,6 +180,7 @@ func Provider() *schema.Provider {
 			"routeros_certificate_scep_server":         ResourceCertificateScepServer(),
 			"routeros_system_clock":                    ResourceSystemClock(),
 			"routeros_system_identity":                 ResourceSystemIdentity(),
+			"routeros_system_led":                      ResourceSystemLed(),
 			"routeros_system_led_settings":             ResourceSystemLedSettings(),
 			"routeros_system_logging":                  ResourceSystemLogging(),
 			"routeros_system_logging_action":           ResourceSystemLoggingAction(),
