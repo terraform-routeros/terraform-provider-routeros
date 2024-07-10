@@ -19,7 +19,7 @@ func getIPv6FirewallFilterSchema() *schema.Schema {
 					Computed: true,
 				},
 				"bytes": {
-					Type:     schema.TypeInt,
+					Type:     schema.TypeFloat,
 					Computed: true,
 				},
 				"chain": {
@@ -159,7 +159,7 @@ func getIPv6FirewallFilterSchema() *schema.Schema {
 					Computed: true,
 				},
 				"packets": {
-					Type:     schema.TypeInt,
+					Type:     schema.TypeFloat,
 					Computed: true,
 				},
 				"packet_mark": {
