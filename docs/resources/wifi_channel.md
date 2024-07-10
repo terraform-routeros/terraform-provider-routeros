@@ -26,6 +26,7 @@ resource "routeros_wifi_channel" "channel1" {
 - `comment` (String)
 - `disabled` (Boolean)
 - `frequency` (List of String) Channel frequency value or range in MHz on which AP or station will operate.
+- `reselect_interval` (String) An option that specifies when the interface should rescan channel availability and select the most appropriate one to use.
 - `secondary_frequency` (List of String) Specifies the second frequency that will be used for 80+80MHz configuration. Set it to `disabled` in order to disable 80+80MHz capability.
 - `skip_dfs_channels` (String) An option to avoid using channels on which channel availability check (listening for the presence of radar signals) is required.
 - `width` (String) Channel width.

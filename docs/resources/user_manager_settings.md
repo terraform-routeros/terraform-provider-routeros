@@ -17,6 +17,7 @@ resource "routeros_user_manager_settings" "settings" {
 - `authentication_port` (Number) Port to listen for RADIUS authentication requests.
 - `certificate` (String) Certificate for use in EAP TLS-type authentication methods.
 - `enabled` (Boolean) An option whether the User Manager functionality is enabled.
+- `require_message_auth` (String) An option whether to require `Message-Authenticator` in received Access-Accept/Challenge/Reject messages.
 - `use_profiles` (Boolean) An option whether to use Profiles and Limitations. When set to `false`, only User configuration is required to run User Manager.
 
 ### Read-Only

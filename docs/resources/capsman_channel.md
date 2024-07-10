@@ -9,10 +9,10 @@ resource "routeros_capsman_channel" "test_channel" {
 	band                  = "2ghz-b/g/n"
 	control_channel_width = "10mhz"
 	extension_channel     = "eCee"
-	frequency             = 2412
+	frequency             = [2412]
 	reselect_interval     = "1h"
 	save_selected         = true
-	secondary_frequency   = "disabled"
+	secondary_frequency   = ["disabled"]
 	skip_dfs_channels     = true
 	tx_power              = 20
 }
@@ -33,10 +33,10 @@ resource "routeros_capsman_channel" "test_channel" {
 - `comment` (String)
 - `control_channel_width` (String) Control channel width.
 - `extension_channel` (String) Extension channel configuration. (E.g. Ce = extension channel is above Control channel, eC = extension channel is below Control channel)
-- `frequency` (Number) Channel frequency value in MHz on which AP will operate. If left blank, CAPsMAN will automatically determine the best frequency that is least occupied.
+- `frequency` (List of Number) Channel frequency value in MHz on which AP will operate. If left blank, CAPsMAN will automatically determine the best frequency that is least occupied.
 - `reselect_interval` (String) The interval after which the least occupied frequency is chosen, can be defined as a random interval, ex. as '30m..60m'. Works only if channel.frequency is left blank.
 - `save_selected` (Boolean) If channel frequency is chosen automatically and channel.reselect-interval is used, then saves the last picked frequency.
-- `secondary_frequency` (String) Specifies the second frequency that will be used for 80+80MHz configuration. Set it to Disabled in order to disable 80+80MHz capability.
+- `secondary_frequency` (List of String) Specifies the second frequency that will be used for 80+80MHz configuration. Set it to Disabled in order to disable 80+80MHz capability.
 - `skip_dfs_channels` (Boolean) If channel.frequency is left blank, the selection will skip DFS channels.
 - `tx_power` (Number) TX  Power for CAP interface (for the whole interface not for individual  chains) in dBm. It is not possible to set higher than allowed by country  regulations or interface. By default max allowed by country or  interface is used.
 - `width` (String) Channel Width in MHz.

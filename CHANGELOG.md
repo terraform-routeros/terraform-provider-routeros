@@ -1,3 +1,40 @@
+## [1.56.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.55.0...v1.56.0) (2024-07-04)
+
+
+### Features
+
+* Add `enable_ipv6_accounting` introduced in 7.15 to the `routeros_ppp_aaa` resource ([4c792c7](https://github.com/terraform-routeros/terraform-provider-routeros/commit/4c792c74a4d5e5de43fc5c62176ea6f74925336c))
+* Add `require_message_auth` introduced in 7.15 to the `routeros_radius` resource ([6946d95](https://github.com/terraform-routeros/terraform-provider-routeros/commit/6946d95654b504dbc214d046dbab0723dbdb4e0d))
+* Add `require_message_auth` introduced in 7.15 to the `routeros_user_manager_settings` resource ([91b41b7](https://github.com/terraform-routeros/terraform-provider-routeros/commit/91b41b7b3c184ec1f0c2cede4e61fadc437171a2))
+* Add `reselect_interval` introduced in 7.15 to the `routeros_wifi_channel` resource ([77186c0](https://github.com/terraform-routeros/terraform-provider-routeros/commit/77186c0fbc478c2e8c4a06bc1b5e330e5db402ac))
+* Add `sfp_ignore_rx_los` introduced in 7.15 to the `routeros_interface_ethernet` resource ([a361715](https://github.com/terraform-routeros/terraform-provider-routeros/commit/a36171577d57a5af9050cf8e57639f962c5f4ae8))
+* Add current CAPsMAN identity computed properties introduced in 7.15 to the `routeros_wifi_cap` resource ([f0fae7b](https://github.com/terraform-routeros/terraform-provider-routeros/commit/f0fae7baf1771b6f65665269794bc68a25b40e23))
+
+
+### Bug Fixes
+
+* Fix the `AlwaysPresentNotUserProvided` helper to ignore stored empty values as RouterOS started returning such in 7.15 ([c22e017](https://github.com/terraform-routeros/terraform-provider-routeros/commit/c22e017534a6024a35d530d8da689a69ce07f360))
+
+## [1.55.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.54.3...v1.55.0) (2024-07-02)
+
+
+### Features
+
+* Add state migrator helper to convert scalar values to lists ([858ecab](https://github.com/terraform-routeros/terraform-provider-routeros/commit/858ecab2b52c8933051c2ae992d272969b90c6be))
+* Update properties in `routeros_interface_dot1x_client` and `routeros_interface_dot1x_server` to support multiple values ([66ab1d2](https://github.com/terraform-routeros/terraform-provider-routeros/commit/66ab1d2cec80d8c677190315d258b47ca9fe50fa))
+* Update properties in `routeros_ip_dhcp_server_network` to support multiple values ([bc1cf68](https://github.com/terraform-routeros/terraform-provider-routeros/commit/bc1cf68b5f3126f0f19bd3f4b4288cc269f25f67))
+* Update the `servers` property in `routeros_dns` to support multiple values ([ea25f00](https://github.com/terraform-routeros/terraform-provider-routeros/commit/ea25f0088d2da7dfaa001fab0b06c0bc67bbc847))
+* Update the `service` property in `routeros_radius` to support multiple values ([a1becca](https://github.com/terraform-routeros/terraform-provider-routeros/commit/a1beccacd612960abb27b4c66c4941e0e3f0cf4c))
+* Update the `vlan_ids` property in `routeros_interface_bridge_vlan` to support multiple values ([3ec3d34](https://github.com/terraform-routeros/terraform-provider-routeros/commit/3ec3d343d9ed0bf501624fae89aae5840da8fa8e))
+* Update the frequency properties in `routeros_capsman_channel` to support multiple values ([14a6e4e](https://github.com/terraform-routeros/terraform-provider-routeros/commit/14a6e4e45a91be4f4811f97a7696c25460e1313b))
+
+
+### Bug Fixes
+
+* Add state migrator to `routeros_snmp_community` to fix backward compatibility ([27c8588](https://github.com/terraform-routeros/terraform-provider-routeros/commit/27c858806bdf9f79bf96a4cd5e85746abc2b2e99))
+* Fix `tagged` and `untagged` properties in `routeros_interface_bridge_vlan` to ignore values order ([eb8ff28](https://github.com/terraform-routeros/terraform-provider-routeros/commit/eb8ff28b6c125f20c45ebb783ed248a28f72b935))
+* Fix `topics` property type in `routeros_system_logging` to ignore values order ([0e3c29f](https://github.com/terraform-routeros/terraform-provider-routeros/commit/0e3c29f62f587db7b340fee8299c6ec0a3622898))
+
 ## [1.54.3](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.54.2...v1.54.3) (2024-06-27)
 
 

@@ -4,7 +4,7 @@
 ## Example Usage
 ```terraform
 resource "routeros_interface_dot1x_server" "ether2" {
-  auth_types = "mac-auth"
+  auth_types = ["mac-auth"]
   interface = "ether2"
 }
 ```
@@ -20,7 +20,7 @@ resource "routeros_interface_dot1x_server" "ether2" {
 
 - `accounting` (Boolean) Whether to send RADIUS accounting requests to the authentication server.
 - `auth_timeout` (String) Total time available for EAP authentication.
-- `auth_types` (String) Used authentication type on a server interface. Comma-separated list of `dot1x` and `mac-auth`.
+- `auth_types` (Set of String) Used authentication type on a server interface. Comma-separated list of `dot1x` and `mac-auth`.
 - `comment` (String)
 - `disabled` (Boolean)
 - `guest_vlan_id` (Number) Assigned VLAN when end devices do not support dot1x authentication and no mac-auth fallback is configured.

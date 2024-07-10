@@ -6,7 +6,7 @@ import (
 )
 
 // ResourceDhcpServerNetwork https://wiki.mikrotik.com/wiki/Manual:IP/DHCP_Server#Networks
-func ResourceDhcpServerNetwork() *schema.Resource {
+func ResourceDhcpServerNetworkV0() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/dhcp-server/network"),
 		MetaId:           PropId(Id),
@@ -22,21 +22,15 @@ func ResourceDhcpServerNetwork() *schema.Resource {
 			Description: "Boot filename.",
 		},
 		"caps_manager": {
-			Type:     schema.TypeList,
+			Type:     schema.TypeString,
 			Optional: true,
-			Elem: &schema.Schema{
-				Type: schema.TypeString,
-			},
-			Description: "A list of IP addresses for one or more CAPsMAN system managers. " +
+			Description: "A comma-separated list of IP addresses for one or more CAPsMAN system managers. " +
 				"DHCP Option 138 (capwap) will be used.",
 		},
 		KeyComment: PropCommentRw,
 		"dhcp_option": {
-			Type:     schema.TypeList,
-			Optional: true,
-			Elem: &schema.Schema{
-				Type: schema.TypeString,
-			},
+			Type:        schema.TypeString,
+			Optional:    true,
 			Description: "Add additional DHCP options from the option list.",
 		},
 		"dhcp_option_set": {
@@ -51,12 +45,9 @@ func ResourceDhcpServerNetwork() *schema.Resource {
 				"DHCP clients if no DNS Server in DNS-server is set.",
 		},
 		"dns_server": {
-			Type:     schema.TypeList,
+			Type:     schema.TypeString,
 			Optional: true,
-			Elem: &schema.Schema{
-				Type: schema.TypeString,
-			},
-			Description: "The DHCP client will use these as the default DNS servers. Two DNS servers " +
+			Description: "the DHCP client will use these as the default DNS servers. Two comma-separated DNS servers " +
 				"can be specified to be used by the DHCP client as primary and secondary DNS servers.",
 		},
 		"domain": {
@@ -87,24 +78,18 @@ func ResourceDhcpServerNetwork() *schema.Resource {
 			ValidateFunc: validation.IsIPv4Address,
 		},
 		"ntp_server": {
-			Type:     schema.TypeList,
+			Type:     schema.TypeString,
 			Optional: true,
-			Elem: &schema.Schema{
-				Type:         schema.TypeString,
-				ValidateFunc: validation.IsIPv4Address,
-			},
-			Description: "The DHCP client will use these as the default NTP servers. Two NTP servers " +
+			Description: "The DHCP client will use these as the default NTP servers. Two comma-separated NTP servers " +
 				"can be specified to be used by the DHCP client as primary and secondary NTP servers",
+			ValidateFunc: validation.IsIPv4Address,
 		},
 		"wins_server": {
-			Type:     schema.TypeList,
+			Type:     schema.TypeString,
 			Optional: true,
-			Elem: &schema.Schema{
-				Type:         schema.TypeString,
-				ValidateFunc: validation.IsIPv4Address,
-			},
-			Description: "The Windows DHCP client will use these as the default WINS servers. Two WINS servers " +
-				"can be specified to be used by the DHCP client as primary and secondary WINS servers",
+			Description: "The Windows DHCP client will use these as the default WINS servers. Two comma-separated " +
+				"WINS servers can be specified to be used by the DHCP client as primary and secondary WINS servers",
+			ValidateFunc: validation.IsIPv4Address,
 		},
 	}
 	return &schema.Resource{
@@ -117,13 +102,5 @@ func ResourceDhcpServerNetwork() *schema.Resource {
 		},
 
 		Schema: resSchema,
-		SchemaVersion: 1,
-		StateUpgraders: []schema.StateUpgrader{
-			{
-				Type: ResourceDhcpServerNetworkV0().CoreConfigSchema().ImpliedType(),
-				Upgrade: stateMigrationScalarToList("caps_manager", "dhcp_option", "dns_server", "ntp_server", "wins_server"),
-				Version: 0,
-			},
-		},
 	}
 }

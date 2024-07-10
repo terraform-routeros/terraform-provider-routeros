@@ -246,6 +246,12 @@ func ResourceInterfaceEthernet() *schema.Resource {
 				"The default value for SFP/SFP+/SFP28 interfaces is 95, and for QSFP+/QSFP28 interfaces 80 (introduced v7.6).",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"sfp_ignore_rx_los": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "An option to ignore RX LOS (Loss of Signal) status of the SFP module.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"slave": {
 			Type:        schema.TypeBool,
 			Computed:    true,

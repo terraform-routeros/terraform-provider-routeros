@@ -4,7 +4,7 @@
 ## Example Usage
 ```terraform
 resource "routeros_interface_dot1x_client" "ether2" {
-  eap_methods = "eap-peap,eap-mschapv2"
+  eap_methods = ["eap-peap", "eap-mschapv2"]
   identity = "router"
   interface = "ether2"
 }
@@ -15,7 +15,7 @@ resource "routeros_interface_dot1x_client" "ether2" {
 
 ### Required
 
-- `eap_methods` (String) A list of EAP methods used for authentication: `eap-tls`, `eap-ttls`, `eap-peap`, `eap-mschapv2`.
+- `eap_methods` (Set of String) A set of EAP methods used for authentication: `eap-tls`, `eap-ttls`, `eap-peap`, `eap-mschapv2`.
 - `identity` (String) The supplicant identity that is used for EAP authentication.
 - `interface` (String) Name of the interface.
 

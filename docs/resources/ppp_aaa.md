@@ -14,6 +14,7 @@ resource "routeros_ppp_aaa" "settings" {
 ### Optional
 
 - `accounting` (Boolean) An option that enables accounting for users.
+- `enable_ipv6_accounting` (Boolean) An option that enables IPv6 separate accounting.
 - `interim_update` (String) Interval between scheduled RADIUS Interim-Update messages.
 - `use_circuit_id_in_nas_port_id` (Boolean)
 - `use_radius` (Boolean) An option whether to use RADIUS server.

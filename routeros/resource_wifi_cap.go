@@ -11,6 +11,8 @@ import (
     "caps-man-certificate-common-names": "CAPsMAN-0000000",
     "caps-man-names": "router",
     "certificate": "request",
+    "current-caps-man-address": "192.168.88.1",
+    "current-caps-man-identity": "router",
     "discovery-interfaces": "lan",
     "enabled": "no",
     "lock-to-caps-man": "true",
@@ -50,6 +52,16 @@ func ResourceWifiCap() *schema.Resource {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Description: "Certificate to use for authentication.",
+		},
+		"current_caps_man_address": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "Currently used CAPsMAN address.",
+		},
+		"current_caps_man_identity": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "Currently used CAPsMAN identity.",
 		},
 		"discovery_interfaces": {
 			Type:        schema.TypeSet,

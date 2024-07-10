@@ -6,7 +6,7 @@ import (
 )
 
 // https://help.mikrotik.com/docs/display/ROS/RADIUS#RADIUS-RADIUSClient
-func ResourceRadius() *schema.Resource {
+func ResourceRadiusV0() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/radius"),
 		MetaId:           PropId(Id),
@@ -67,13 +67,6 @@ func ResourceRadius() *schema.Resource {
 			Optional:    true,
 			Description: "Explicitly stated realm (user domain), so the users do not have to provide proper ISP domain name in the user name.",
 		},
-		"require_message_auth": {
-			Type:             schema.TypeString,
-			Optional:         true,
-			Description:      "An option whether to require `Message-Authenticator` in received Access-Accept/Challenge/Reject messages.",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
-			ValidateFunc:     validation.StringInSlice([]string{"no", "yes-for-request-resp"}, false),
-		},
 		"secret": {
 			Type:        schema.TypeString,
 			Optional:    true,
@@ -81,14 +74,9 @@ func ResourceRadius() *schema.Resource {
 			Description: "The shared secret to access the RADIUS server.",
 		},
 		"service": {
-			Type:     schema.TypeSet,
+			Type:     schema.TypeString,
 			Optional: true,
-			Elem: &schema.Schema{
-				Type: schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"hotspot", "login", "ppp", "wireless",
-					"dhcp", "ipsec", "dot1x"}, false),
-			},
-			Description: "A set of router services that will use the RADIUS server. Possible values: " +
+			Description: "A comma-separated list of router services that will use the RADIUS server. Possible values: " +
 				"`hotspot`, `login`, `ppp`, `wireless`, `dhcp`, `ipsec`, `dot1x`.",
 		},
 		"src_address": {
@@ -111,55 +99,6 @@ func ResourceRadius() *schema.Resource {
 		ReadContext:   DefaultRead(resSchema),
 		UpdateContext: DefaultUpdate(resSchema),
 		DeleteContext: DefaultDelete(resSchema),
-
-		Importer: &schema.ResourceImporter{
-			StateContext: schema.ImportStatePassthroughContext,
-		},
-
-		Schema: resSchema,
-		SchemaVersion: 1,
-		StateUpgraders: []schema.StateUpgrader{
-			{
-				Type: ResourceRadiusV0().CoreConfigSchema().ImpliedType(),
-				Upgrade: stateMigrationScalarToList("service"),
-				Version: 0,
-			},
-		},
-	}
-}
-
-// https://help.mikrotik.com/docs/display/ROS/RADIUS#RADIUS-ConnectionTerminatingfromRADIUS
-func ResourceRadiusIncoming() *schema.Resource {
-	resSchema := map[string]*schema.Schema{
-		MetaResourcePath: PropResourcePath("/radius/incoming"),
-		MetaId:           PropId(Name),
-
-		"accept": {
-			Type:        schema.TypeBool,
-			Optional:    true,
-			Default:     false,
-			Description: "An option whether to accept the unsolicited messages.",
-		},
-		"port": {
-			Type:         schema.TypeInt,
-			Optional:     true,
-			Default:      3799,
-			Description:  "The port number to listen for the requests on.",
-			ValidateFunc: validation.IntBetween(0, 65535),
-		},
-		"vrf": {
-			Type:             schema.TypeString,
-			Optional:         true,
-			Description:      "VRF on which service is listening for incoming connections. This option is available in RouterOS starting from version 7.4.",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
-		},
-	}
-
-	return &schema.Resource{
-		CreateContext: DefaultSystemCreate(resSchema),
-		ReadContext:   DefaultSystemRead(resSchema),
-		UpdateContext: DefaultSystemUpdate(resSchema),
-		DeleteContext: DefaultSystemDelete(resSchema),
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,

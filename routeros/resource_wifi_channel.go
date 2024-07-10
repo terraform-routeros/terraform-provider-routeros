@@ -39,6 +39,12 @@ func ResourceWifiChannel() *schema.Resource {
 			Description: "Channel frequency value or range in MHz on which AP or station will operate.",
 		},
 		KeyName: PropName("Name of the channel."),
+		"reselect_interval": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "An option that specifies when the interface should rescan channel availability and select the most appropriate one to use.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"secondary_frequency": {
 			Type:        schema.TypeList,
 			Elem:        &schema.Schema{Type: schema.TypeString},

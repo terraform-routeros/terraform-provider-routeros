@@ -4,7 +4,7 @@
 ## Example Usage
 ```terraform
 resource "routeros_interface_bridge_vlan" "bridge_vlan" {
-  vlan_ids = "50"
+  vlan_ids = ["50"]
   bridge   = "bridge"
   tagged = [
     "bridge",
@@ -22,15 +22,15 @@ resource "routeros_interface_bridge_vlan" "bridge_vlan" {
 ### Required
 
 - `bridge` (String) The bridge interface which the respective VLAN entry is intended for.
-- `vlan_ids` (String) The list of VLAN IDs for certain port configuration. This setting accepts VLAN ID range as well as comma separated values. E.g. vlan-ids=100-115,120,122,128-130.
+- `vlan_ids` (Set of String) The list of VLAN IDs for certain port configuration. This setting accepts VLAN ID range as well as comma separated values. E.g. vlan-ids=100-115,120,122,128-130.
 
 ### Optional
 
 - `comment` (String)
 - `disabled` (Boolean)
 - `mvrp_forbidden` (List of String) Ports that ignore all MRP messages and remains Not Registered (MT), as well as disables applicant from declaring specific VLAN ID (available since RouterOS 7.15).
-- `tagged` (List of String) Interface list with a VLAN tag adding action in egress. This setting accepts comma separated values. E.g. tagged=ether1,ether2.
-- `untagged` (List of String) Interface list with a VLAN tag removing action in egress. This setting accepts comma separated values. E.g. untagged=ether3,ether4
+- `tagged` (Set of String) Interface list with a VLAN tag adding action in egress. This setting accepts comma separated values. E.g. tagged=ether1,ether2.
+- `untagged` (Set of String) Interface list with a VLAN tag removing action in egress. This setting accepts comma separated values. E.g. untagged=ether3,ether4
 
 ### Read-Only
 

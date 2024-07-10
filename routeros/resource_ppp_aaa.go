@@ -25,6 +25,12 @@ func ResourcePppAaa() *schema.Resource {
 			Default:     true,
 			Description: "An option that enables accounting for users.",
 		},
+		"enable_ipv6_accounting": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Description: "An option that enables IPv6 separate accounting.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"interim_update": {
 			Type:             schema.TypeString,
 			Optional:         true,
