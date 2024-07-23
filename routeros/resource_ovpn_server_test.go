@@ -68,8 +68,8 @@ func testAccOpenVPNServerConfig() string {
 	  resource "routeros_ovpn_server" "server" {
 		enabled          = false
 		certificate      = routeros_system_certificate.ovpn_server_crt.name
-		auth             = "sha256,sha512"
-		redirect_gateway = "def1,ipv6"
+		auth             = ["sha256", "sha512"]
+		redirect_gateway = ["def1", "ipv6"]
 		tls_version      = "only-1.2"
 	  }
 	  
