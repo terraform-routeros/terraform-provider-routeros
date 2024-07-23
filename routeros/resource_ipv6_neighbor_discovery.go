@@ -50,11 +50,15 @@ func ResourceIPv6NeighborDiscovery() *schema.Resource {
 			Default:     true,
 		},
 		KeyComment: PropCommentRw,
-		"dns_servers": {
+		"default": {
+			Type:        schema.TypeBool,
+			Computed:    true,
+			Description: "Neighbor discovery entry is the default configuration.",
+		},
+		"dns": {
 			Type:         schema.TypeString,
 			Optional:     true,
-			Description:  "Specify a single IPv6 address or list of addresses that will be provided to hosts for DNS server configuration.",
-			ValidateFunc: validation.IsCIDR,
+			Description:  "Specify a single IPv6 address or comma separated list of addresses that will be provided to hosts for DNS server configuration.",
 		},
 		KeyDisabled: PropDisabledRw,
 		"hop_limit": {
@@ -68,6 +72,11 @@ func ResourceIPv6NeighborDiscovery() *schema.Resource {
 			Required: true,
 			Description: "The interface on which to run neighbor discovery." +
 				"all - run ND on all running interfaces.",
+		},
+		"invalid": {
+			Type:        schema.TypeBool,
+			Computed:    true,
+			Description: "Neighbor discovery configuration is invalid.",
 		},
 		"managed_address_configuration": {
 			Type:        schema.TypeBool,
