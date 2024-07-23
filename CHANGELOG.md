@@ -1,3 +1,16 @@
+## [1.57.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.56.0...v1.57.0) (2024-07-23)
+
+
+### Features
+
+* Update the `routeros_ovpn_server` resource to support multiple values ([668ef09](https://github.com/terraform-routeros/terraform-provider-routeros/commit/668ef0986404bea864150b64509b86f43e5b4494))
+
+
+### Bug Fixes
+
+* **ipv6_neighbor_discovery:** Change the schema attributes ([9688bab](https://github.com/terraform-routeros/terraform-provider-routeros/commit/9688babe485e51b2acc981b6e8a8bb8edd26e98a)), closes [#509](https://github.com/terraform-routeros/terraform-provider-routeros/issues/509)
+* Update the `routeros_ovpn_server` resource to handle default values correctly ([f377a26](https://github.com/terraform-routeros/terraform-provider-routeros/commit/f377a2615219baed70ffc779f9be0fe022e42712))
+
 ## [1.56.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.55.0...v1.56.0) (2024-07-04)
 
 
