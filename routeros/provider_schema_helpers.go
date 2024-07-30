@@ -32,6 +32,7 @@ const (
 	KeyClampTcpMss             = "clamp_tcp_mss"
 	KeyComment                 = "comment"
 	KeyDynamic                 = "dynamic"
+	KeyDefaultName             = "default_name"
 	KeyDisabled                = "disabled"
 	KeyDontFragment            = "dont_fragment"
 	KeyDscp                    = "dscp"
@@ -192,6 +193,13 @@ func PropMacAddressRw(description string, required bool) *schema.Schema {
 		mac.Optional = true
 	}
 	return mac
+}
+func PropDefaultNameRo(description string) *schema.Schema {
+	return &schema.Schema{
+		Type:        schema.TypeString,
+		Computed:    true,
+		Description: description,
+	}
 }
 
 // Schema properties.
