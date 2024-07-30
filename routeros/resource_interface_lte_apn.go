@@ -11,13 +11,15 @@ import (
     "add-default-route": "true",
     "apn": "internet",
     "authentication": "none",
-    "comment": "default",
+    "comment": "wan",
     "default": "true",
     "default-route-distance": "2",
     "ip-type": "auto",
     "name": "default",
+    "passthrough-interface": "ether2",
+    "passthrough-mac": "00:00:00:00:00:00",
     "use-network-apn": "true",
-    "use-peer-dns": "true"
+    "use-peer-dns": "false"
   }
 */
 
@@ -46,6 +48,10 @@ func ResourceInterfaceLteApn() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyComment: PropCommentRw,
+		"default": {
+			Type:     schema.TypeBool,
+			Computed: true,
+		},
 		"default_route_distance": {
 			Type:     schema.TypeInt,
 			Optional: true,
@@ -57,7 +63,7 @@ func ResourceInterfaceLteApn() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Requested PDN type.",
-			ValidateFunc:     validation.StringInSlice([]string{"ipv4", "ipv4-ipv6", "ipv6"}, false),
+			ValidateFunc:     validation.StringInSlice([]string{"auto", "ipv4", "ipv4-ipv6", "ipv6"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"ipv6_interface": {
