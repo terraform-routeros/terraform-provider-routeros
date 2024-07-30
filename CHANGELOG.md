@@ -1,3 +1,10 @@
+## [1.57.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.57.1...v1.57.2) (2024-07-30)
+
+
+### Bug Fixes
+
+* **certificate:** Certificate import ambiguous value of file-name ([01f4294](https://github.com/terraform-routeros/terraform-provider-routeros/commit/01f4294a2898ecdceb4772db048dd620fa9a221e)), closes [#511](https://github.com/terraform-routeros/terraform-provider-routeros/issues/511)
+
 ## [1.57.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.57.0...v1.57.1) (2024-07-30)
 
 
