@@ -1,3 +1,10 @@
+## [1.57.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.57.0...v1.57.1) (2024-07-30)
+
+
+### Bug Fixes
+
+* **ospf_interface_template:** RouterOS 7.x & OSPF Interface Template Auth Key ([995ba46](https://github.com/terraform-routeros/terraform-provider-routeros/commit/995ba46e8d8f8fc11c9d47a300f36879876c285f)), closes [#510](https://github.com/terraform-routeros/terraform-provider-routeros/issues/510)
+
 ## [1.57.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.56.0...v1.57.0) (2024-07-23)
 
 
