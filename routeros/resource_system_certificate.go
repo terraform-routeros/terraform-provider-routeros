@@ -70,10 +70,11 @@ func ResourceSystemCertificate() *schema.Resource {
 			Description: "A challenge password for scep client.",
 		},
 		"common_name": {
-			Type:        schema.TypeString,
-			Required:    true,
-			ForceNew:    true,
-			Description: "Common Name (e.g. server FQDN or YOUR name).",
+			Type:             schema.TypeString,
+			Required:         true,
+			ForceNew:         true,
+			Description:      "Common Name (e.g. server FQDN or YOUR name).",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"copy_from": {
 			Type:        schema.TypeString,
@@ -82,22 +83,23 @@ func ResourceSystemCertificate() *schema.Resource {
 			Description: "",
 		},
 		"country": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			ForceNew:     true,
-			Description:  "Country Name (2 letter code).",
-			ValidateFunc: validation.StringLenBetween(2, 2),
+			Type:             schema.TypeString,
+			Optional:         true,
+			ForceNew:         true,
+			Description:      "Country Name (2 letter code).",
+			ValidateFunc:     validation.StringLenBetween(2, 2),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"crl": {
 			Type:     schema.TypeString,
 			Computed: true,
 		},
 		"days_valid": {
-			Type:        schema.TypeInt,
-			Optional:    true,
-			Computed:    true,
-			ForceNew:    true,
-			Description: "Certificate lifetime.",
+			Type:             schema.TypeInt,
+			Optional:         true,
+			ForceNew:         true,
+			Description:      "Certificate lifetime.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"dsa": {
 			Type:     schema.TypeBool,
@@ -179,7 +181,6 @@ func ResourceSystemCertificate() *schema.Resource {
 		"key_usage": {
 			Type:        schema.TypeSet,
 			Optional:    true,
-			Computed:    true,
 			ForceNew:    true,
 			Description: "Detailed key usage descriptions can be found in RFC 5280.",
 			Elem: &schema.Schema{
@@ -207,19 +208,22 @@ func ResourceSystemCertificate() *schema.Resource {
 						"tls-server",
 						"tls-client",
 					}, false)},
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"locality": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			ForceNew:    true,
-			Description: "Locality Name (eg, city).",
+			Type:             schema.TypeString,
+			Optional:         true,
+			ForceNew:         true,
+			Description:      "Locality Name (eg, city).",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyName: PropName("Name of the certificate. Name can be edited."),
 		"organization": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			ForceNew:    true,
-			Description: "Organizational Unit Name (eg, section)",
+			Type:             schema.TypeString,
+			Optional:         true,
+			ForceNew:         true,
+			Description:      "Organizational Unit Name (eg, section)",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"private_key": {
 			Type:     schema.TypeBool,
@@ -327,10 +331,11 @@ func ResourceSystemCertificate() *schema.Resource {
 			Computed: true,
 		},
 		"state": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			ForceNew:    true,
-			Description: "State or Province Name (full name).",
+			Type:             schema.TypeString,
+			Optional:         true,
+			ForceNew:         true,
+			Description:      "State or Province Name (full name).",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"status": {
 			Type:        schema.TypeString,
@@ -338,22 +343,24 @@ func ResourceSystemCertificate() *schema.Resource {
 			Description: "Shows current status of scep client.",
 		},
 		"subject_alt_name": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			ForceNew:    true,
-			Description: "SANs (subject alternative names).",
+			Type:             schema.TypeString,
+			Optional:         true,
+			ForceNew:         true,
+			Description:      "SANs (subject alternative names).",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"trusted": {
 			Type:             schema.TypeBool,
 			Optional:         true,
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 			Description:      "If set to yes certificate is included 'in trusted certificate chain'.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"unit": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			ForceNew:    true,
-			Description: "Organizational Unit Name (eg, section).",
+			Type:             schema.TypeString,
+			Optional:         true,
+			ForceNew:         true,
+			Description:      "Organizational Unit Name (eg, section).",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 	}
 
@@ -377,7 +384,7 @@ func ResourceSystemCertificate() *schema.Resource {
 			return diag.FromErr(err)
 		}
 
-		if keyFile, ok := bl["key_file_name"]; ok {
+		if keyFile, ok := bl["key_file_name"]; ok && keyFile.(string) != "" {
 			params = MikrotikItem{KeyName: d.Get(KeyName).(string), "file-name": keyFile.(string)}
 			if passwd, ok := bl["passphrase"]; ok {
 				params["passphrase"] = passwd.(string)
