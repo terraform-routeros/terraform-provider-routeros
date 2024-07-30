@@ -56,10 +56,18 @@ func ResourceRoutingOspfInterfaceTemplate() *schema.Resource {
 			ValidateFunc: validation.IntBetween(0, 255),
 		},
 		"authentication_key": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Sensitive:   true,
-			Description: "The authentication key to be used, should match on all the neighbors of the network segment.",
+			Type:      schema.TypeString,
+			Optional:  true,
+			Sensitive: true,
+			Description: "The authentication key to be used, should match on all the neighbors of the network segment " +
+				"(for versions before RouterOS 7.x).",
+		},
+		"auth_key": {
+			Type:      schema.TypeString,
+			Optional:  true,
+			Sensitive: true,
+			Description: "The authentication key to be used, should match on all the neighbors of the network segment " +
+				"(available since RouterOS 7.x).",
 		},
 		KeyComment: PropCommentRw,
 		"cost": {
