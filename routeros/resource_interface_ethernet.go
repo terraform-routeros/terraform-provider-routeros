@@ -110,13 +110,9 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			ValidateFunc:     validation.StringInSlice([]string{"auto", "copper", "sfp"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
-		KeyComment: PropCommentRw,
-		"default_name": {
-			Type:        schema.TypeString,
-			Computed:    true,
-			Description: "The default name for an interface.",
-		},
-		KeyDisabled: PropDisabledRw,
+		KeyComment:     PropCommentRw,
+		KeyDefaultName: PropDefaultNameRo("The default name for an interface."),
+		KeyDisabled:    PropDisabledRw,
 		"disable_running_check": {
 			Type:     schema.TypeBool,
 			Optional: true,

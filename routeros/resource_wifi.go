@@ -72,13 +72,9 @@ func ResourceWifi() *schema.Resource {
 			Description:      "Datapath inline settings.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
-		KeyComment: PropCommentRw,
-		"default_name": {
-			Type:        schema.TypeString,
-			Computed:    true,
-			Description: "The interface's default name.",
-		},
-		KeyDisabled: PropDisabledRw,
+		KeyComment:     PropCommentRw,
+		KeyDefaultName: PropDefaultNameRo("The interface's default name."),
+		KeyDisabled:    PropDisabledRw,
 		"disable_running_check": {
 			Type:             schema.TypeBool,
 			Optional:         true,
