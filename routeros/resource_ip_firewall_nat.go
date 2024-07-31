@@ -40,8 +40,8 @@ func ResourceIPFirewallNat() *schema.Resource {
 			Required:    true,
 			Description: "Action to take if a packet is matched by the rule",
 			ValidateFunc: validation.StringInSlice([]string{
-				"accept", "add-dst-to-address-list", "add-src-to-address-list", "dst-nat", "jump", "log",
-				"masquerade", "netmap", "passthrough", "redirect", "return", "same", "src-nat",
+				"accept", "add-dst-to-address-list", "add-src-to-address-list", "dst-nat", "endpoint-independent-nat",
+				"jump", "log", "masquerade", "netmap", "passthrough", "redirect", "return", "same", "src-nat",
 			}, false),
 		},
 		"address_list": {
