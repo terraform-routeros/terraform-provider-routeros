@@ -33,10 +33,9 @@ func ResourceSystemLogging() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/system/logging"),
 		MetaId:           PropId(Id),
 		"action": {
-			Type:         schema.TypeString,
-			Required:     true,
-			Description:  "specifies one of the system default actions or user specified action listed in actions menu",
-			ValidateFunc: validation.StringInSlice([]string{"disk", "echo", "memory", "remote"}, false),
+			Type:        schema.TypeString,
+			Required:    true,
+			Description: "specifies one of the system default actions or user specified action listed in actions menu",
 		},
 		"default": {
 			Type:     schema.TypeString,
