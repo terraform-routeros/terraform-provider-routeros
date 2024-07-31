@@ -1,3 +1,17 @@
+## [1.58.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.57.2...v1.58.0) (2024-07-31)
+
+
+### Features
+
+* **lte:** Add LTE resources ([fcaf349](https://github.com/terraform-routeros/terraform-provider-routeros/commit/fcaf3495a50f3cabed77c240de9604d4d5347b3e)), closes [#464](https://github.com/terraform-routeros/terraform-provider-routeros/issues/464)
+
+
+### Bug Fixes
+
+* **ethernet:** Schema Error on SFP Ports ([01e4c11](https://github.com/terraform-routeros/terraform-provider-routeros/commit/01e4c119d86ade3cfaf040e3deb68749f14282b5)), closes [#514](https://github.com/terraform-routeros/terraform-provider-routeros/issues/514)
+* **firewall_nat:** add NAT firewall action "endpoint-independent-nat" ([d55b30d](https://github.com/terraform-routeros/terraform-provider-routeros/commit/d55b30d07ef8f9c2d7c3b53088c8224e819907d9)), closes [#516](https://github.com/terraform-routeros/terraform-provider-routeros/issues/516)
+* **system_logging:** Bugfix in routeros_system_logging ([aa1d376](https://github.com/terraform-routeros/terraform-provider-routeros/commit/aa1d3762000006aac00d13a7ae74ee5330c0245f)), closes [#515](https://github.com/terraform-routeros/terraform-provider-routeros/issues/515)
+
 ## [1.57.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.57.1...v1.57.2) (2024-07-30)
 
 
