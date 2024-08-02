@@ -44,5 +44,11 @@ resource "routeros_system_logging" "simple_logging" {
     prefix = "simple_prefix"
     topics = ["snmp", "gsm"]
 }
+
+resource "routeros_system_logging" "info" {
+	action = "echo"
+	prefix = ":Info"
+	topics = ["info", "!wireguard"]
+}
 `
 }
