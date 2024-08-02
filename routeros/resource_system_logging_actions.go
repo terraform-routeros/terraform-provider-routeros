@@ -1,6 +1,10 @@
 package routeros
 
 import (
+	"context"
+	"fmt"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
@@ -141,11 +145,46 @@ func ResourceSystemLoggingAction() *schema.Resource {
 		},
 	}
 
+	resCreate := func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+		switch d.Get("name").(string) {
+		case "disk", "echo", "memory", "remote":
+			d.SetId(d.Get("name").(string))
+			id, err := dynamicIdLookup(Name, resSchema[MetaResourcePath].Default.(string), m.(Client), d)
+			if err != nil {
+				ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgPatch, err))
+				return diag.FromErr(err)
+			}
+			d.SetId(id)
+
+			return ResourceUpdate(ctx, resSchema, d, m)
+		default:
+			return ResourceCreate(ctx, resSchema, d, m)
+		}
+	}
+
+	resRead := func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+		switch d.Get("name").(string) {
+		case "disk", "echo", "memory", "remote":
+			return ResourceRead(ctx, resSchema, d, m)
+		default:
+			return ResourceRead(ctx, resSchema, d, m)
+		}
+	}
+
+	resDelete := func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+		switch d.Get("name").(string) {
+		case "disk", "echo", "memory", "remote":
+			return SystemResourceDelete(ctx, resSchema, d, m)
+		default:
+			return ResourceDelete(ctx, resSchema, d, m)
+		}
+	}
+
 	return &schema.Resource{
-		CreateContext: DefaultCreate(resSchema),
-		ReadContext:   DefaultRead(resSchema),
+		CreateContext: resCreate,
+		ReadContext:   resRead,
 		UpdateContext: DefaultUpdate(resSchema),
-		DeleteContext: DefaultDelete(resSchema),
+		DeleteContext: resDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
