@@ -1,3 +1,11 @@
+## [1.58.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.58.0...v1.58.1) (2024-08-02)
+
+
+### Bug Fixes
+
+* resource_system_logging missing topics and excluding Fixes [#518](https://github.com/terraform-routeros/terraform-provider-routeros/issues/518) ([2805dc3](https://github.com/terraform-routeros/terraform-provider-routeros/commit/2805dc35453f8b8051bb9b612814d5fef34a31df))
+* routeros_system_logging_action and default settings ([1a5d02c](https://github.com/terraform-routeros/terraform-provider-routeros/commit/1a5d02ce5a8b27bdb97ba38f241db24627621882)), closes [#517](https://github.com/terraform-routeros/terraform-provider-routeros/issues/517)
+
 ## [1.58.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.57.2...v1.58.0) (2024-07-31)
 
 
