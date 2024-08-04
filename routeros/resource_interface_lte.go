@@ -68,10 +68,13 @@ func ResourceInterfaceLte() *schema.Resource {
 		KeyMtu:  PropMtuRw(),
 		KeyName: PropName("Descriptive name of the interface."),
 		"network_mode": {
-			Type:             schema.TypeString,
-			Optional:         true,
-			Description:      "Select/force mode for LTE interface to operate with.",
-			ValidateFunc:     validation.StringInSlice([]string{"3g", "gsm", "lte", "5g"}, false),
+			Type:        schema.TypeSet,
+			Optional:    true,
+			Description: "Select/force mode for LTE interface to operate with.",
+			Elem: &schema.Schema{
+				Type:         schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"3g", "gsm", "lte", "5g"}, false),
+			},
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"nr_band": {
@@ -99,6 +102,11 @@ func ResourceInterfaceLte() *schema.Resource {
 			Optional: true,
 			Description: "SMS functionality. `mbim`: uses MBIM driver. `at`: uses AT-Commands. `auto`: selects the " +
 				"appropriate option depending on the modem.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"sms_read": {
+			Type:             schema.TypeBool,
+			Optional:         true,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 	}
