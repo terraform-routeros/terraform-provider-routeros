@@ -26,7 +26,7 @@ import (
   }
 */
 
-// ResourceIPFirewallNat https://wiki.mikrotik.com/wiki/Manual:IP/Firewall/NAT
+// ResourceIPFirewallNat https://help.mikrotik.com/docs/display/ROS/NAT
 func ResourceIPFirewallNat() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/firewall/nat"),
@@ -308,7 +308,12 @@ func ResourceIPFirewallNat() *schema.Resource {
 			Description:  "Matches packets randomly with a given probability.",
 			ValidateFunc: validation.IntBetween(1, 99),
 		},
-
+		"randomise_ports": {
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Description:      "Randomize to which public port connections will be mapped.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"routing_mark": {
 			Type:        schema.TypeString,
 			Optional:    true,
