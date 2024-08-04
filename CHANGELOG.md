@@ -1,3 +1,12 @@
+## [1.58.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.58.1...v1.58.2) (2024-08-04)
+
+
+### Bug Fixes
+
+* **interface_lte:** Add missing attributes ([f67e8d9](https://github.com/terraform-routeros/terraform-provider-routeros/commit/f67e8d90242b0b1e0f9c630cf0ffd37a819bd049)), closes [#522](https://github.com/terraform-routeros/terraform-provider-routeros/issues/522)
+* **ip_firewall:** Deleting routeros_ip_firewall_filter.in_interface tries to PATCH ([2189054](https://github.com/terraform-routeros/terraform-provider-routeros/commit/21890540901501e7f8da61eb23a452ad52791f44)), closes [#521](https://github.com/terraform-routeros/terraform-provider-routeros/issues/521)
+* **ipv4_nat:** Need new filed 'randomise_ports' in action 'endpoint-independent-nat' ([51e161d](https://github.com/terraform-routeros/terraform-provider-routeros/commit/51e161d5b090762fed7bd6f638d36f9d31564ddc)), closes [#520](https://github.com/terraform-routeros/terraform-provider-routeros/issues/520)
+
 ## [1.58.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.58.0...v1.58.1) (2024-08-02)
 
 
