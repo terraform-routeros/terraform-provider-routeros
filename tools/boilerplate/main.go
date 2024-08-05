@@ -2,14 +2,16 @@
 package main
 
 import (
+	"bufio"
 	"flag"
 	"fmt"
-	"html/template"
 	"log"
 	"os"
 	"path/filepath"
 	"regexp"
+	"strconv"
 	"strings"
+	"text/template"
 	"unicode"
 
 	"github.com/fatih/color"
@@ -19,6 +21,7 @@ var (
 	reNewItemName = regexp.MustCompile(`^routeros_[a-z_]+$`)
 	// isDS          = flag.Bool("ds", false, "This is a datasource")
 	isSystem = flag.Bool("system", false, "This is a system resource")
+	csvTable = flag.Bool("table", false, "Extracting attributes from the WIKI table")
 )
 
 func Fatalf(format string, a ...any) {
@@ -63,6 +66,14 @@ func main() {
 		Fatalf("Usage: go run tools/bolerplate/main.go routeros_new_resource")
 	}
 
+	if *csvTable {
+		if _, err := os.Stat(flag.Args()[0]); err != nil {
+			Fatalf("CSV file %v not found", flag.Args()[0])
+		}
+		extractAttributes(flag.Args()[0])
+		os.Exit(0)
+	}
+
 	resName := flag.Args()[0]
 	if !reNewItemName.MatchString(resName) {
 		Fatalf("The resource name must be in the format: 'routeros_[a-z_]+', got '%v'", resName)
@@ -79,6 +90,8 @@ func main() {
 	log.Printf("Creating a template for '%v' %v (%v)", resName, color.YellowString(itemType.String()), color.YellowString(itemCrud))
 
 	goName := Capitalize(resName)
+
+	os.MkdirAll("routeros", os.ModePerm)
 
 	// if !*isDS {
 	fName := fmt.Sprintf("%v_%v", Resource.HCL(), strings.TrimPrefix(resName, "routeros_"))
@@ -152,11 +165,16 @@ func main() {
 	}
 	f.Close()
 
-	f, err = os.OpenFile(filepath.Join("routeros", "provider.go"), os.O_WRONLY|os.O_APPEND, os.ModePerm)
+	var flags int = os.O_WRONLY | os.O_APPEND
+	if _, err := os.Stat(filepath.Join("routeros", "provider.go")); err != nil {
+		flags |= os.O_CREATE
+	}
+
+	f, err = os.OpenFile(filepath.Join("routeros", "provider.go"), flags, os.ModePerm)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Fprintf(f, `"%v":    %v(),\n`, resName, Resource.String()+goName)
+	fmt.Fprintf(f, "\"%v\":    %v(),\n", resName, Resource.String()+goName)
 	f.Close()
 	// }
 }
@@ -274,4 +292,118 @@ func Capitalize(s string) (res string) {
 	}
 
 	return
+}
+
+var attribute = `    "{{.Attribute}}": {
+        Type: schema.Type{{.Type}},
+        Optional: true,
+        Description: "{{.Description}}",
+        {{- if .Slice }}
+	ValidateFunc: validation.StringInSlice([]string{ "{{.Slice}}" }, false),{{ end }}
+        {{- if .DiffSuppress }}
+	DiffSuppressFunc: AlwaysPresentNotUserProvided,{{ end }}
+    },
+`
+
+var (
+	reCSV         = regexp.MustCompile(`(?m)"(.*?)"(?:,|$)`)
+	reAttrName    = regexp.MustCompile(`[a-z-]+`)
+	reAttrDefault = regexp.MustCompile(`(?m)Default:?\s*(""|\w+)`)
+	reAttrEnum    = regexp.MustCompile(`(?m)\(\s*([\w-| ]+);`)
+	enumReplacer  = strings.NewReplacer(" ", "", `"`, "`", "'", "`", "|", `", "`)
+)
+
+func extractAttributes(filename string) {
+	tmpl, err := template.New("attr").Parse(attribute)
+	if err != nil {
+		panic(err)
+	}
+	tmpl.Option()
+
+	file, err := os.Open(filename)
+	if err != nil {
+		Fatalf("[extractAttributes] %v", err)
+	}
+	defer file.Close()
+
+	w := os.Stdout
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		row := scanner.Text()
+		rec := reCSV.FindAllStringSubmatch(row, -1)
+		if len(rec) != 2 {
+			fmt.Fprintln(w, row)
+			continue
+		}
+
+		r1, r2 := rec[0][1], rec[1][1]
+
+		if len(r1) > 0 && r1[0] == '"' {
+			r1 = r1[1:]
+		}
+		if len(r1) > 0 && r1[len(r1)-1] == '"' {
+			r1 = r1[:len(r1)-1]
+		}
+
+		if len(r2) > 0 && r2[0] == '"' {
+			r2 = r2[1:]
+		}
+		if len(r2) > 0 && r2[len(r2)-1] == '"' {
+			r2 = r2[:len(r2)-1]
+		}
+
+		// [ ["Property", Property] ["Description" Description] ]
+		if r1 == "Property" && r2 == "Description" {
+			continue
+		}
+
+		var diffSuppress bool
+		attrType := "String"
+		if res := reAttrDefault.FindStringSubmatch(r1); len(res) > 1 {
+			switch res[1] {
+			// src-address (Default:"")
+			case `""`:
+			// use-network-apn (yes | no; Default: yes)
+			case "yes", "no":
+				attrType = "Bool"
+				diffSuppress = true
+			// startup-delay (Default: 5m)
+			default:
+				diffSuppress = true
+				if _, err := strconv.Atoi(res[1]); err == nil {
+					attrType = "Int"
+				}
+			}
+		}
+
+		var validate string
+		for _, match := range reAttrEnum.FindAllStringSubmatch(r1, -1) {
+			validate = enumReplacer.Replace(match[1])
+		}
+
+		ww := os.Stdout
+
+		tmpl.Execute(ww, struct {
+			Attribute    string
+			Type         string
+			Description  string
+			Slice        string
+			DiffSuppress bool
+		}{
+			Attribute:    strings.ReplaceAll(reAttrName.FindString(r1), "-", "_"),
+			Type:         attrType,
+			Description:  strings.ReplaceAll(r2, `"`, "`"),
+			Slice:        validate,
+			DiffSuppress: diffSuppress,
+		})
+
+		if r1 == "type" {
+			os.Exit(0)
+		}
+
+		if err != nil {
+			Fatalf("%v", err)
+		}
+	}
 }
