@@ -281,7 +281,7 @@ func ResourceRoutingBGPConnection() *schema.Resource {
 						Optional:     true,
 						Default:      179,
 						Description:  "Local connection port.",
-						ValidateFunc: validation.IntBetween(0, 65535),
+						ValidateFunc: Validation64k,
 					},
 					"role": {
 						Type:     schema.TypeString,
@@ -468,7 +468,7 @@ func ResourceRoutingBGPConnection() *schema.Resource {
 						Optional:     true,
 						Description:  "Local connection port.",
 						Default:      179,
-						ValidateFunc: validation.IntBetween(0, 65535),
+						ValidateFunc: Validation64k,
 					},
 					"ttl": {
 						Type:     schema.TypeInt,

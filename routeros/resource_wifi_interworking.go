@@ -161,9 +161,9 @@ func ResourceWifiInterworking() *schema.Resource {
 			Description: "An option to enable Unauthenticated Emergency Service Accessibility.",
 		},
 		"venue": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Description:  "Information about the venue in which the Access Point is located.",
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Information about the venue in which the Access Point is located.",
 		},
 		"venue_names": {
 			Type:        schema.TypeList,
@@ -188,10 +188,10 @@ func ResourceWifiInterworking() *schema.Resource {
 			ValidateFunc: validation.IntBetween(0, 255),
 		},
 		"wan_measurement_duration": {
-			Type:        schema.TypeInt,
-			Optional:    true,
-			Description: "The duration during which `wan_downlink_load` and `wan_uplink_load` are measured.",
-			ValidateFunc: validation.IntBetween(0, 65535),
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Description:  "The duration during which `wan_downlink_load` and `wan_uplink_load` are measured.",
+			ValidateFunc: Validation64k,
 		},
 		"wan_status": {
 			Type:         schema.TypeString,

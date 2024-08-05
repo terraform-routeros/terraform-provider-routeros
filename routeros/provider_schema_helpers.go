@@ -495,6 +495,8 @@ func PropMtuRw() *schema.Schema {
 
 // Properties validation.
 var (
+	Validation64k = validation.IntBetween(0, 65535)
+
 	ValidationTime = validation.StringMatch(regexp.MustCompile(`^(\d+([smhdw]|ms)?)+$`),
 		"value should be an integer or a time interval: 0..4294967295 (seconds) or 500ms, 2d, 1w")
 

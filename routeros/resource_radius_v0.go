@@ -22,7 +22,7 @@ func ResourceRadiusV0() *schema.Resource {
 			Optional:     true,
 			Default:      1813,
 			Description:  "RADIUS server port used for accounting.",
-			ValidateFunc: validation.IntBetween(0, 65535),
+			ValidateFunc: Validation64k,
 		},
 		"address": {
 			Type:         schema.TypeString,
@@ -35,7 +35,7 @@ func ResourceRadiusV0() *schema.Resource {
 			Optional:     true,
 			Default:      1812,
 			Description:  "RADIUS server port used for authentication.",
-			ValidateFunc: validation.IntBetween(0, 65535),
+			ValidateFunc: Validation64k,
 		},
 		"called_id": {
 			Type:        schema.TypeString,
