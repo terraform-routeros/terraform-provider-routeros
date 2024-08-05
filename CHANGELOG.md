@@ -1,3 +1,11 @@
+## [1.59.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.58.2...v1.59.0) (2024-08-05)
+
+
+### Features
+
+* Add `routeros_routing_rule` resource ([a263193](https://github.com/terraform-routeros/terraform-provider-routeros/commit/a26319308ae96b41fd0ffe291fb62073459378f7)), closes [#524](https://github.com/terraform-routeros/terraform-provider-routeros/issues/524)
+* Add `routeros_tool_netwatch` resource ([2150241](https://github.com/terraform-routeros/terraform-provider-routeros/commit/215024137033233ab13a22ae731ef8a72f4a3612)), closes [#487](https://github.com/terraform-routeros/terraform-provider-routeros/issues/487)
+
 ## [1.58.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.58.1...v1.58.2) (2024-08-04)
 
 
