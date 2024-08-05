@@ -116,7 +116,7 @@ func ResourceDnsRecord() *schema.Resource {
 			Optional:     true,
 			Computed:     true,
 			Description:  "The TCP or UDP port on which the service is to be found.",
-			ValidateFunc: validation.IntBetween(0, 65535),
+			ValidateFunc: Validation64k,
 			RequiredWith: []string{"srv_target"},
 		},
 		"srv_priority": {

@@ -75,7 +75,7 @@ func ResourceRoutingOspfInterfaceTemplate() *schema.Resource {
 			Optional:     true,
 			Default:      1,
 			Description:  "Interface cost expressed as link state metric.",
-			ValidateFunc: validation.IntBetween(0, 65535),
+			ValidateFunc: Validation64k,
 		},
 		"dead_interval": {
 			Type:             schema.TypeString,

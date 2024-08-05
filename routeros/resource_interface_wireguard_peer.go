@@ -55,7 +55,7 @@ func ResourceInterfaceWireguardPeer() *schema.Resource {
 			Optional: true,
 			Description: "The local port upon which this WireGuard tunnel will listen for incoming traffic from peers, " +
 				"and the port from which it will source outgoing packets.",
-			ValidateFunc:     validation.IntBetween(0, 65535),
+			ValidateFunc:     Validation64k,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"current_endpoint_address": {
