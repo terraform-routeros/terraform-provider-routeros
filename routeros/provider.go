@@ -252,6 +252,7 @@ func Provider() *schema.Provider {
 			"routeros_tool_bandwidth_server":  ResourceToolBandwidthServer(),
 			"routeros_tool_mac_server":        ResourceToolMacServer(),
 			"routeros_tool_mac_server_winbox": ResourceToolMacServerWinBox(),
+			"routeros_tool_netwatch":          ResourceToolNetwatch(),
 
 			// User Manager
 			"routeros_user_manager_advanced":           ResourceUserManagerAdvanced(),
