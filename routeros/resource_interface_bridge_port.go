@@ -277,8 +277,7 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 			Optional: true,
 			Description: "The priority of the interface, used by STP to determine the root port, " +
 				"used by MSTP to determine root port between regions.",
-			ValidateFunc:     validation.IntBetween(0, 240),
-			DiffSuppressFunc: HexEqual,
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"pvid": {
 			Type:     schema.TypeInt,
