@@ -40,6 +40,7 @@ resource "routeros_interface_bridge_port" "test_port" {
 	interface = "ether1"
 	pvid 	  = 200
 	disabled  = true
+	priority  = "80"
   }
 
 `
