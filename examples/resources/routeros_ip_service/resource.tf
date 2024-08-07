@@ -1,7 +1,7 @@
 locals {
-  tls_service     = {"api-ssl" = 8729, "www-ssl" = 443}
-  disable_service = {"api" = 8728, "ftp" = 21, "telnet" = 23, "www" = 80}
-  enable_service  = {"ssh" = 22, "winbox" = 8291}
+  tls_service     = { "api-ssl" = 8729, "www-ssl" = 443 }
+  disable_service = { "api" = 8728, "ftp" = 21, "telnet" = 23, "www" = 80 }
+  enable_service  = { "ssh" = 22, "winbox" = 8291 }
 }
 
 resource "routeros_system_certificate" "tls_cert" {
