@@ -11,12 +11,12 @@ resource "routeros_wifi_aaa" "aaa1" {
 }
 
 resource "routeros_wifi_channel" "channel1" {
-  name                  = "1"
-  band                  = "2ghz-n"
-  frequency             = [2412]
-  secondary_frequency   = ["disabled"]
-  skip_dfs_channels     = "disabled"
-  width                 = "20mhz"
+  name                = "1"
+  band                = "2ghz-n"
+  frequency           = [2412]
+  secondary_frequency = ["disabled"]
+  skip_dfs_channels   = "disabled"
+  width               = "20mhz"
 }
 
 resource "routeros_wifi_datapath" "datapath1" {

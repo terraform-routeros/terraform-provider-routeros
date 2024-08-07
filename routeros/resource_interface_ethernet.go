@@ -110,13 +110,9 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			ValidateFunc:     validation.StringInSlice([]string{"auto", "copper", "sfp"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
-		KeyComment: PropCommentRw,
-		"default_name": {
-			Type:        schema.TypeString,
-			Computed:    true,
-			Description: "The default name for an interface.",
-		},
-		KeyDisabled: PropDisabledRw,
+		KeyComment:     PropCommentRw,
+		KeyDefaultName: PropDefaultNameRo("The default name for an interface."),
+		KeyDisabled:    PropDisabledRw,
 		"disable_running_check": {
 			Type:     schema.TypeBool,
 			Optional: true,
@@ -128,6 +124,15 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Type:        schema.TypeString,
 			Required:    true,
 			Description: "The factory name of the identifier, serves as resource identifier. Determines which interface will be updated.",
+		},
+		"fec_mode": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Changes Forward Error Correction (FEC) mode for SFP28, QSFP+ and QSFP28 interfaces. " +
+				"Same mode should be used on both link ends, otherwise FEC mismatch could result in non-working link " +
+				"or even false link-ups. ",
+			ValidateFunc:     validation.StringInSlice([]string{"auto", "fec74", "fec91", "off"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"full_duplex": {
 			Type:             schema.TypeBool,

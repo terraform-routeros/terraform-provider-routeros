@@ -33,11 +33,7 @@ func ResourceUserManagerUserGroup() *schema.Resource {
 			Type:     schema.TypeBool,
 			Computed: true,
 		},
-		"default_name": {
-			Type:        schema.TypeString,
-			Computed:    true,
-			Description: "The default name of the group.",
-		},
+		KeyDefaultName: PropDefaultNameRo("The default name of the group."),
 		"inner_auths": {
 			Type:     schema.TypeSet,
 			Optional: true,

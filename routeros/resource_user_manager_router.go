@@ -2,7 +2,6 @@ package routeros
 
 import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
 
 /*
@@ -33,7 +32,7 @@ func ResourceUserManagerRouter() *schema.Resource {
 			Optional:     true,
 			Default:      3799,
 			Description:  "Port number of CoA (Change of Authorization) communication.",
-			ValidateFunc: validation.IntBetween(0, 65535),
+			ValidateFunc: Validation64k,
 		},
 		KeyDisabled: PropDisabledRw,
 		KeyName:     PropName("Unique name of the RADIUS client."),

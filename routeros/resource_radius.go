@@ -22,7 +22,7 @@ func ResourceRadius() *schema.Resource {
 			Optional:     true,
 			Default:      1813,
 			Description:  "RADIUS server port used for accounting.",
-			ValidateFunc: validation.IntBetween(0, 65535),
+			ValidateFunc: Validation64k,
 		},
 		"address": {
 			Type:         schema.TypeString,
@@ -35,7 +35,7 @@ func ResourceRadius() *schema.Resource {
 			Optional:     true,
 			Default:      1812,
 			Description:  "RADIUS server port used for authentication.",
-			ValidateFunc: validation.IntBetween(0, 65535),
+			ValidateFunc: Validation64k,
 		},
 		"called_id": {
 			Type:        schema.TypeString,
@@ -116,11 +116,11 @@ func ResourceRadius() *schema.Resource {
 			StateContext: schema.ImportStatePassthroughContext,
 		},
 
-		Schema: resSchema,
+		Schema:        resSchema,
 		SchemaVersion: 1,
 		StateUpgraders: []schema.StateUpgrader{
 			{
-				Type: ResourceRadiusV0().CoreConfigSchema().ImpliedType(),
+				Type:    ResourceRadiusV0().CoreConfigSchema().ImpliedType(),
 				Upgrade: stateMigrationScalarToList("service"),
 				Version: 0,
 			},
@@ -145,7 +145,7 @@ func ResourceRadiusIncoming() *schema.Resource {
 			Optional:     true,
 			Default:      3799,
 			Description:  "The port number to listen for the requests on.",
-			ValidateFunc: validation.IntBetween(0, 65535),
+			ValidateFunc: Validation64k,
 		},
 		"vrf": {
 			Type:             schema.TypeString,

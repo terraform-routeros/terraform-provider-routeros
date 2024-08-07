@@ -31,8 +31,8 @@ func ResourceIPFirewallRaw() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/ip/firewall/raw"),
 		MetaId:           PropId(Id),
 		MetaSkipFields:   PropSkipFields("bytes", "packets"),
-		MetaSetUnsetFields: PropSetUnsetFields("dst_address_list", "src_address_list", "in_interface_list",
-			"out_interface_list", "in_bridge_port_list", "out_bridge_port_list", "protocol"),
+		MetaSetUnsetFields: PropSetUnsetFields("dst_address_list", "src_address_list", "in_interface", "in_interface_list",
+			"out_interface", "out_interface_list", "in_bridge_port_list", "out_bridge_port_list", "protocol"),
 
 		"action": {
 			Type:        schema.TypeString,
@@ -40,7 +40,7 @@ func ResourceIPFirewallRaw() *schema.Resource {
 			Description: "Action to take if a packet is matched by the rule",
 			ValidateFunc: validation.StringInSlice([]string{
 				"accept", "add-dst-to-address-list", "add-src-to-address-list", "drop",
-				"jump", "log", "no-track", "passthrough", "return",
+				"jump", "log", "notrack", "passthrough", "return",
 			}, false),
 		},
 		"address_list": {

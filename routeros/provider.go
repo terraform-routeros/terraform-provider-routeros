@@ -151,6 +151,8 @@ func Provider() *schema.Provider {
 			"routeros_interface_wireless_cap":                   ResourceInterfaceWirelessCap(),
 			"routeros_interface_list":                           ResourceInterfaceList(),
 			"routeros_interface_list_member":                    ResourceInterfaceListMember(),
+			"routeros_interface_lte":                            ResourceInterfaceLte(),
+			"routeros_interface_lte_apn":                        ResourceInterfaceLteApn(),
 			"routeros_interface_ovpn_server":                    ResourceInterfaceOpenVPNServer(),
 			"routeros_interface_ovpn_client":                    ResourceOpenVPNClient(),
 			"routeros_interface_veth":                           ResourceInterfaceVeth(),
@@ -220,6 +222,7 @@ func Provider() *schema.Provider {
 			"routeros_routing_bgp_template":   ResourceRoutingBGPTemplate(),
 			"routeros_routing_filter_rule":    ResourceRoutingFilterRule(),
 			"routeros_routing_table":          ResourceRoutingTable(),
+			"routeros_routing_rule":           ResourceRoutingRule(),
 
 			// OSPF
 			"routeros_routing_ospf_instance":           ResourceRoutingOspfInstance(),
@@ -250,6 +253,7 @@ func Provider() *schema.Provider {
 			"routeros_tool_bandwidth_server":  ResourceToolBandwidthServer(),
 			"routeros_tool_mac_server":        ResourceToolMacServer(),
 			"routeros_tool_mac_server_winbox": ResourceToolMacServerWinBox(),
+			"routeros_tool_netwatch":          ResourceToolNetwatch(),
 
 			// User Manager
 			"routeros_user_manager_advanced":           ResourceUserManagerAdvanced(),

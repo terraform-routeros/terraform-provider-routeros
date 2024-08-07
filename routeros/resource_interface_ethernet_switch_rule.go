@@ -45,7 +45,7 @@ func ResourceInterfaceEthernetSwitchRule() *schema.Resource {
 			Type:         schema.TypeInt,
 			Optional:     true,
 			Description:  "Matching destination protocol port number or range.",
-			ValidateFunc: validation.IntBetween(0, 65535),
+			ValidateFunc: Validation64k,
 		},
 		"dscp": {
 			Type:         schema.TypeInt,
@@ -142,7 +142,7 @@ func ResourceInterfaceEthernetSwitchRule() *schema.Resource {
 			Type:         schema.TypeInt,
 			Optional:     true,
 			Description:  "Matching source protocol port number or range.",
-			ValidateFunc: validation.IntBetween(0, 65535),
+			ValidateFunc: Validation64k,
 		},
 		"switch": {
 			Type:        schema.TypeString,

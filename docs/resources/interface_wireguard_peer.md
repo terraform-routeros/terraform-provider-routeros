@@ -39,6 +39,7 @@ resource "routeros_interface_wireguard_peer" "wg_peer" {
 - `disabled` (Boolean)
 - `endpoint_address` (String) An endpoint IP or hostname can be left blank to allow remote connection from any address.
 - `endpoint_port` (String) An endpoint port can be left blank to allow remote connection from any port.
+- `is_responder` (Boolean) Specifies if peer is intended to be connection initiator or only responder. Should be used on WireGuard devices that are used as `servers` for other devices as clients to connect to. Otherwise router will all repeatedly try to connect `endpoint-address` or `current-endpoint-address` causing unnecessary system logs to be written.
 - `name` (String) Name of the tunnel.
 - `persistent_keepalive` (String) A seconds interval, between 1 and 65535 inclusive, of how often to send an authenticated empty packet to the peer for the purpose of keeping a stateful firewall or NAT mapping valid persistently. For example, if the interface very rarely sends traffic, but it might at anytime receive traffic from a peer, and it is behind NAT, the interface might benefit from having a persistent keepalive interval of 25 seconds.
 - `preshared_key` (String, Sensitive) A **base64** preshared key. Optional, and may be omitted. This option adds an additional layer of symmetric-key cryptography to be mixed into the already existing public-key cryptography, for post-quantum resistance.

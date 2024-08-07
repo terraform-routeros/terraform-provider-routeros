@@ -26,22 +26,22 @@ import (
   }
 */
 
-// ResourceIPFirewallNat https://wiki.mikrotik.com/wiki/Manual:IP/Firewall/NAT
+// ResourceIPFirewallNat https://help.mikrotik.com/docs/display/ROS/NAT
 func ResourceIPFirewallNat() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/firewall/nat"),
 		MetaId:           PropId(Id),
 		MetaSkipFields:   PropSkipFields("bytes", "packets"),
-		MetaSetUnsetFields: PropSetUnsetFields("dst_address_list", "src_address_list", "in_interface_list",
-			"out_interface_list", "in_bridge_port_list", "out_bridge_port_list"),
+		MetaSetUnsetFields: PropSetUnsetFields("dst_address_list", "src_address_list", "in_interface", "in_interface_list",
+			"out_interface", "out_interface_list", "in_bridge_port_list", "out_bridge_port_list"),
 
 		"action": {
 			Type:        schema.TypeString,
 			Required:    true,
 			Description: "Action to take if a packet is matched by the rule",
 			ValidateFunc: validation.StringInSlice([]string{
-				"accept", "add-dst-to-address-list", "add-src-to-address-list", "dst-nat", "jump", "log",
-				"masquerade", "netmap", "passthrough", "redirect", "return", "same", "src-nat",
+				"accept", "add-dst-to-address-list", "add-src-to-address-list", "dst-nat", "endpoint-independent-nat",
+				"jump", "log", "masquerade", "netmap", "passthrough", "redirect", "return", "same", "src-nat",
 			}, false),
 		},
 		"address_list": {
@@ -308,7 +308,12 @@ func ResourceIPFirewallNat() *schema.Resource {
 			Description:  "Matches packets randomly with a given probability.",
 			ValidateFunc: validation.IntBetween(1, 99),
 		},
-
+		"randomise_ports": {
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Description:      "Randomize to which public port connections will be mapped.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"routing_mark": {
 			Type:        schema.TypeString,
 			Optional:    true,

@@ -4,8 +4,8 @@
 ## Example Usage
 ```terraform
 resource "routeros_interface_ethernet_switch_port_isolation" "test" {
- name                = "ether1"
- forwarding_override = "ether1"
+  name                = "ether1"
+  forwarding_override = "ether1"
 }
 ```
 

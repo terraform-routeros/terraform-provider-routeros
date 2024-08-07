@@ -4,21 +4,21 @@
 ## Example Usage
 ```terraform
 resource "routeros_ipv6_neighbor_discovery" "test" {
-  interface 						= "ether1"
-  hop_limit 						= 33
-  advertise_dns 					= false
-  advertise_mac_address 		    = true
-  disabled 						= false
-  managed_address_configuration	= true
-  mtu 							= 9000
-  other_configuration				= true
-  pref64_prefixes					= []
-  ra_delay						= "3s"
-  ra_interval						= "3m20s-10m"
-  ra_lifetime						= "30m"
-  ra_preference					= "high"
-  reachable_time					= "10m"
-  retransmit_interval				= "12m"
+  interface                     = "ether1"
+  hop_limit                     = 33
+  advertise_dns                 = false
+  advertise_mac_address         = true
+  disabled                      = false
+  managed_address_configuration = true
+  mtu                           = 9000
+  other_configuration           = true
+  pref64_prefixes               = []
+  ra_delay                      = "3s"
+  ra_interval                   = "3m20s-10m"
+  ra_lifetime                   = "30m"
+  ra_preference                 = "high"
+  reachable_time                = "10m"
+  retransmit_interval           = "12m"
 }
 ```
 
@@ -36,6 +36,7 @@ resource "routeros_ipv6_neighbor_discovery" "test" {
 - `advertise_mac_address` (Boolean) When set, the link-layer address of the outgoing interface is included in the RA.
 - `comment` (String)
 - `disabled` (Boolean)
+- `dns` (String) Specify a single IPv6 address or comma separated list of addresses that will be provided to hosts for DNS server configuration.
 - `dns_servers` (String) Specify a single IPv6 address or list of addresses that will be provided to hosts for DNS server configuration.
 - `hop_limit` (Number) The default value that should be placed in the Hop Count field of the IP header for outgoing (unicast) IP packets.
 - `managed_address_configuration` (Boolean) Name of the IPv6 pool in which received IPv6 prefix will be added
@@ -51,7 +52,9 @@ resource "routeros_ipv6_neighbor_discovery" "test" {
 
 ### Read-Only
 
+- `default` (Boolean) Neighbor discovery entry is the default configuration.
 - `id` (String) The ID of this resource.
+- `invalid` (Boolean)
 
 ## Import
 Import is supported using the following syntax:

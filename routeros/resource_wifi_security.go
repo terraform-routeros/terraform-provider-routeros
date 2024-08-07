@@ -51,9 +51,9 @@ func ResourceWifiSecurity() *schema.Resource {
 		MetaId:           PropId(Id),
 
 		"authentication_types": {
-			Type:        schema.TypeSet,
-			Optional:    true,
-			Elem:        &schema.Schema{
+			Type:     schema.TypeSet,
+			Optional: true,
+			Elem: &schema.Schema{
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"wpa-psk", "wpa2-psk", "wpa-eap", "wpa2-eap", "wpa3-psk", "owe", "wpa3-eap", "wpa3-eap-192"}, false),
 			},
@@ -71,9 +71,9 @@ func ResourceWifiSecurity() *schema.Resource {
 			Description: "An option to determine how a connection is handled if the MAC address of the client device is the same as that of another active connection to another AP.",
 		},
 		"dh_groups": {
-			Type:        schema.TypeSet,
-			Optional:    true,
-			Elem:        &schema.Schema{
+			Type:     schema.TypeSet,
+			Optional: true,
+			Elem: &schema.Schema{
 				Type:         schema.TypeInt,
 				ValidateFunc: validation.IntInSlice([]int{19, 20, 21}),
 			},
@@ -126,9 +126,9 @@ func ResourceWifiSecurity() *schema.Resource {
 			Description: "Username to use when the chosen EAP method requires one. ",
 		},
 		"encryption": {
-			Type:         schema.TypeSet,
-			Optional:     true,
-			Elem:         &schema.Schema{
+			Type:     schema.TypeSet,
+			Optional: true,
+			Elem: &schema.Schema{
 				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"ccmp", "ccmp-256", "gcmp", "gcmp-256", "tkip"}, false),
 			},
@@ -143,12 +143,12 @@ func ResourceWifiSecurity() *schema.Resource {
 			Type:         schema.TypeInt,
 			Optional:     true,
 			Description:  "The fast BSS transition mobility domain ID.",
-			ValidateFunc: validation.IntBetween(0, 65535),
+			ValidateFunc: Validation64k,
 		},
 		"ft_nas_identifier": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Description:  "Fast BSS transition PMK-R0 key holder identifier.",
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Fast BSS transition PMK-R0 key holder identifier.",
 			ValidateFunc: validation.StringMatch(regexp.MustCompile(`^[0-9a-zA-Z]{2,96}$`),
 				"Must be a string of 2 - 96 hex characters."),
 		},
@@ -215,9 +215,9 @@ func ResourceWifiSecurity() *schema.Resource {
 			Description: "A parameter to mitigate DoS attacks by specifying a threshold of in-progress SAE authentications.",
 		},
 		"sae_max_failure_rate": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Description:  "Rate of failed SAE (WPA3) associations per minute, at which the AP will stop processing new association requests.",
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Rate of failed SAE (WPA3) associations per minute, at which the AP will stop processing new association requests.",
 		},
 		"sae_pwe": {
 			Type:         schema.TypeString,
