@@ -34,7 +34,7 @@ func ResourceToolNetwatch() *schema.Resource {
 			// TCP
 			"tcp_connect_time",
 			// HTTP, HTTPS
-			"http_status_code",
+			"http_status_code", "http_codes",
 			// DNS
 			"ip", "ip6", "mail_servers", "name_servers",
 		),
