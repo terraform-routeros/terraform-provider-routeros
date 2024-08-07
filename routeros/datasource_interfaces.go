@@ -23,10 +23,6 @@ func DatasourceInterfaces() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"actual_mtu": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
 						"default_name": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -39,26 +35,6 @@ func DatasourceInterfaces() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
-						"fp_rx_byte": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-						"fp_rx_packet": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-						"fp_tx_byte": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-						"fp_tx_packet": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-						"l2mtu": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
 						"last_link_down_time": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -67,16 +43,8 @@ func DatasourceInterfaces() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"link_downs": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
 						"mac_address": {
 							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"max_l2mtu": {
-							Type:     schema.TypeInt,
 							Computed: true,
 						},
 						// Can be - 'auto'
@@ -92,44 +60,8 @@ func DatasourceInterfaces() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
-						"rx_byte": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-						"rx_drop": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-						"rx_error": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-						"rx_packet": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
 						"slave": {
 							Type:     schema.TypeBool,
-							Computed: true,
-						},
-						"tx_byte": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-						"tx_drop": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-						"tx_error": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-						"tx_packet": {
-							Type:     schema.TypeInt,
-							Computed: true,
-						},
-						"tx_queue_drop": {
-							Type:     schema.TypeInt,
 							Computed: true,
 						},
 						"type": {
