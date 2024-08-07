@@ -29,7 +29,6 @@ Read-Only:
 - `connect` (Boolean)
 - `dhcp` (Boolean)
 - `disabled` (Boolean)
-- `distance` (Number)
 - `dst_address` (String)
 - `dynamic` (Boolean)
 - `ecmp` (Boolean)
@@ -41,10 +40,8 @@ Read-Only:
 - `local_address` (String)
 - `pref_src` (String)
 - `routing_table` (String)
-- `scope` (Number)
 - `static` (Boolean)
 - `suppress_hw_offload` (Boolean)
-- `target_scope` (Number)
 - `vrf_interface` (String)
 
 
