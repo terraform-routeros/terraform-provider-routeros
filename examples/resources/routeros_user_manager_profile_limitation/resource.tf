@@ -16,7 +16,7 @@ resource "routeros_user_manager_profile_limitation" "weekend_night" {
   profile    = routeros_user_manager_profile.test.name
   from_time  = "0s"
   till_time  = "6h"
-  weekdays   = [
+  weekdays = [
     "sunday",
     "saturday",
   ]
