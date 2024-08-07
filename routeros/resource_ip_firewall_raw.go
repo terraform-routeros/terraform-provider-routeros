@@ -40,7 +40,7 @@ func ResourceIPFirewallRaw() *schema.Resource {
 			Description: "Action to take if a packet is matched by the rule",
 			ValidateFunc: validation.StringInSlice([]string{
 				"accept", "add-dst-to-address-list", "add-src-to-address-list", "drop",
-				"jump", "log", "no-track", "passthrough", "return",
+				"jump", "log", "notrack", "passthrough", "return",
 			}, false),
 		},
 		"address_list": {
