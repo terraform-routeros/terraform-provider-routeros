@@ -1,3 +1,12 @@
+## [1.59.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.59.0...v1.59.1) (2024-08-07)
+
+
+### Bug Fixes
+
+* **bridge_port:** Fix the `priority` attribute type. ([4f342fb](https://github.com/terraform-routeros/terraform-provider-routeros/commit/4f342fb0fcedce97f0dbff806f0c60a6ed072b8b)), closes [#528](https://github.com/terraform-routeros/terraform-provider-routeros/issues/528)
+* **firewall_raw:** "no track" action in routeros_ip_firewall_raw needs tweaking ([9d46a55](https://github.com/terraform-routeros/terraform-provider-routeros/commit/9d46a5503163b60534d63f414ddfd1b1a50ea631)), closes [#529](https://github.com/terraform-routeros/terraform-provider-routeros/issues/529)
+* **wireguard_peer:** Need new filed 'is-responder' in resource 'routeros_interface_wireguard_peer' ([a31a394](https://github.com/terraform-routeros/terraform-provider-routeros/commit/a31a394e3abd8bcab3af06d6ab35d4b4f0abc89a)), closes [#530](https://github.com/terraform-routeros/terraform-provider-routeros/issues/530)
+
 ## [1.59.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.58.2...v1.59.0) (2024-08-05)
 
 
