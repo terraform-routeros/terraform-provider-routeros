@@ -84,6 +84,15 @@ func ResourceInterfaceWireguardPeer() *schema.Resource {
 			Description: "An endpoint port can be left blank to allow remote connection from any port.",
 		},
 		KeyInterface: PropInterfaceRw,
+		"is_responder": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "Specifies if peer is intended to be connection initiator or only responder. Should be used on " +
+				"WireGuard devices that are used as `servers` for other devices as clients to connect to. Otherwise " +
+				"router will all repeatedly try to connect `endpoint-address` or `current-endpoint-address` causing " +
+				"unnecessary system logs to be written.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"last_handshake": {
 			Type:        schema.TypeString,
 			Computed:    true,
