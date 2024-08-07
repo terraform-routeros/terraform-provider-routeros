@@ -4,8 +4,8 @@
 ## Example Usage
 ```terraform
 resource "routeros_routing_table" "test_table" {
-    name    = "to_ISP1"
-    fib     = false
+  name = "to_ISP1"
+  fib  = false
 }
 ```
 

@@ -2,7 +2,6 @@ package routeros
 
 import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
 
 /*
@@ -18,25 +17,26 @@ import (
 */
 
 var validTopics = []string{
-	"account", " bfd", "caps", "ddns", "dns", "error", "gsm", "info", "iscsi", "l2tp", "manager", "ntp", "packet",
-	"pppoe", "radvd", "rip", "script", "smb", "sstp", "system", "timer", "vrrp", "web-proxy", "async", "bgp",
-	"certificate", "debug", "dot1x", "dude", "event", "hotspot", "interface", "isdn", "ldp", "mme", "ospf", "pim",
-	"pptp", "raw", "route", "sertcp", "snmp", "state", "telephony", "upnp", "warning", "wireless", "backup", "calc",
-	"critical", "dhcp", "e-mail", "firewall", "igmp-proxy", "ipsec", "kvm", "lte", "mpls", "ovpn", "ppp", "radius",
-	"read", "rsvp", "simulator", "ssh", "store", "tftp", "ups", "watchdog", "write",
+	"account", "async", "backup", "bfd", "bgp", "bridge", "calc", "caps", "certificate", "container", "critical",
+	"ddns", "debug", "dhcp", "dns", "dot1x", "dude", "e-mail", "error", "event", "fetch", "firewall", "gps", "gsm",
+	"health", "hotspot", "igmp-proxy", "info", "interface", "ipsec", "iscsi", "isdn", "isis", "kvm", "l2tp", "ldp",
+	"lora", "lte", "manager", "mme", "mpls", "mqtt", "natpmp", "netinstall", "netwatch", "ntp", "ospf", "ovpn",
+	"packet", "pim", "poe-out", "ppp", "pppoe", "pptp", "queue", "radius", "radvd", "raw", "read", "rip", "route",
+	"rpki", "rsvp", "script", "sertcp", "simulator", "smb", "snmp", "ssh", "sstp", "state", "store", "stp", "system",
+	"telephony", "tftp", "timer", "tr069", "update", "upnp", "ups", "vpls", "vrrp", "warning", "watchdog", "web-proxy",
+	"wireguard", "wireless", "write",
 }
 
 // ResourceSystemLogging defines the resource for configuring logging rules
-// https://wiki.mikrotik.com/wiki/Manual:System/Log
+// https://help.mikrotik.com/docs/display/ROS/Log
 func ResourceSystemLogging() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/system/logging"),
 		MetaId:           PropId(Id),
 		"action": {
-			Type:         schema.TypeString,
-			Required:     true,
-			Description:  "specifies one of the system default actions or user specified action listed in actions menu",
-			ValidateFunc: validation.StringInSlice([]string{"disk", "echo", "memory", "remote"}, false),
+			Type:        schema.TypeString,
+			Required:    true,
+			Description: "specifies one of the system default actions or user specified action listed in actions menu",
 		},
 		"default": {
 			Type:     schema.TypeString,
@@ -59,8 +59,11 @@ func ResourceSystemLogging() *schema.Resource {
 			Computed: true,
 		},
 		"topics": {
-			Type:     schema.TypeSet,
-			Elem:     &schema.Schema{Type: schema.TypeString, ValidateFunc: validation.StringInSlice(validTopics, false)},
+			Type: schema.TypeSet,
+			Elem: &schema.Schema{
+				Type:             schema.TypeString,
+				ValidateDiagFunc: ValidationValInSlice(validTopics, false, true),
+			},
 			Optional: true,
 			Description: `log all messages that falls into specified topic or list of topics.
 						  '!' character can be used before topic to exclude messages falling under this topic. For example, we want to log NTP debug info without too much details:

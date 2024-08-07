@@ -67,6 +67,7 @@ resource "routeros_ip_firewall_nat" "rule" {
 - `protocol` (String) Matches particular IP protocol specified by protocol name or number.
 - `psd` (String) Attempts to detect TCP and UDP scans. Parameters are in the following format WeightThreshold, DelayThreshold, LowPortWeight, HighPortWeight.
 - `random` (Number) Matches packets randomly with a given probability.
+- `randomise_ports` (Boolean) Randomize to which public port connections will be mapped.
 - `routing_mark` (String) Matches packets marked by mangle facility with particular routing mark.
 - `same_not_by_dst` (Boolean) Specifies whether to take into account or not destination IP address when selecting a new source IP address. Applicable if action=same
 - `src_address` (String) Matches packets which source is equal to specified IP or falls into a specified IP range.

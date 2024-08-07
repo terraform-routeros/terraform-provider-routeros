@@ -268,7 +268,7 @@ func ResourceInterfaceBridge() *schema.Resource {
 			Type:         schema.TypeInt,
 			Optional:     true,
 			Description:  "MSTP configuration revision number. This property only has effect when protocol-mode is set to mstp.",
-			ValidateFunc: validation.IntBetween(0, 65535),
+			ValidateFunc: Validation64k,
 		},
 		"startup_query_count": {
 			Type:     schema.TypeInt,

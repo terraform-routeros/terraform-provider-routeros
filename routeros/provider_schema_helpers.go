@@ -32,6 +32,7 @@ const (
 	KeyClampTcpMss             = "clamp_tcp_mss"
 	KeyComment                 = "comment"
 	KeyDynamic                 = "dynamic"
+	KeyDefaultName             = "default_name"
 	KeyDisabled                = "disabled"
 	KeyDontFragment            = "dont_fragment"
 	KeyDscp                    = "dscp"
@@ -192,6 +193,13 @@ func PropMacAddressRw(description string, required bool) *schema.Schema {
 		mac.Optional = true
 	}
 	return mac
+}
+func PropDefaultNameRo(description string) *schema.Schema {
+	return &schema.Schema{
+		Type:        schema.TypeString,
+		Computed:    true,
+		Description: description,
+	}
 }
 
 // Schema properties.
@@ -487,6 +495,8 @@ func PropMtuRw() *schema.Schema {
 
 // Properties validation.
 var (
+	Validation64k = validation.IntBetween(0, 65535)
+
 	ValidationTime = validation.StringMatch(regexp.MustCompile(`^(\d+([smhdw]|ms)?)+$`),
 		"value should be an integer or a time interval: 0..4294967295 (seconds) or 500ms, 2d, 1w")
 

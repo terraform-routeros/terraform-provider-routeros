@@ -1,6 +1,11 @@
 package routeros
 
 import (
+	"fmt"
+	"strconv"
+
+	"github.com/hashicorp/go-cty/cty"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
@@ -277,7 +282,54 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 			Optional: true,
 			Description: "The priority of the interface, used by STP to determine the root port, " +
 				"used by MSTP to determine root port between regions.",
-			ValidateFunc:     validation.IntBetween(0, 240),
+			// ValidateFunc:     validation.IntBetween(0, 240),
+			ValidateDiagFunc: func(i interface{}, p cty.Path) diag.Diagnostics {
+				min, max := 0, 240
+
+				v, ok := i.(string)
+				if !ok {
+					return diag.Diagnostics{
+						diag.Diagnostic{
+							Severity: diag.Error,
+							Summary:  "bad value type",
+							Detail:   fmt.Sprintf("Value should be a string: %v (type = %T)", v, v),
+						},
+					}
+				}
+
+				value, err := strconv.ParseInt(v, 0, 64)
+				if err != nil {
+					return diag.Diagnostics{
+						diag.Diagnostic{
+							Severity: diag.Error,
+							Summary:  err.Error(),
+							Detail:   fmt.Sprintf("Value should be dec or hex: %v", v),
+						},
+					}
+				}
+
+				if int(value) < min || int(value) > max {
+					return diag.Diagnostics{
+						diag.Diagnostic{
+							Severity: diag.Error,
+							Summary:  "value is out of range",
+							Detail:   fmt.Sprintf("Expected `priority` to be in the range (%d - %d), got %v", min, max, v),
+						},
+					}
+				}
+
+				if int(value)&0xF > 0 {
+					return diag.Diagnostics{
+						diag.Diagnostic{
+							Severity: diag.Error,
+							Summary:  "wrong priority value",
+							Detail:   fmt.Sprintf("Only 4 highest bits can be used in priority, got '%04b %04b'", value&0xFF>>4, value&0xF),
+						},
+					}
+				}
+
+				return nil
+			},
 			DiffSuppressFunc: HexEqual,
 		},
 		"pvid": {

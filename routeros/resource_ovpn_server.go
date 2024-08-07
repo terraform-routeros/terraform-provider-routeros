@@ -36,27 +36,34 @@ func ResourceOpenVPNServer() *schema.Resource {
 		MetaId:           PropId(Id),
 
 		"auth": {
-			Type:             schema.TypeString,
-			Optional:         true,
-			Default:          "sha1,md5,sha256,sha512",
+			Type:     schema.TypeSet,
+			Optional: true,
+			Elem: &schema.Schema{
+				Type: schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"md5", "sha1", "null", "sha256", "sha512"}, false),
+			},
 			Description:      "Authentication methods that the server will accept.",
-			ValidateDiagFunc: ValidationMultiValInSlice([]string{"md5", "sha1", "null", "sha256", "sha512"}, false, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"certificate": {
 			Type:        schema.TypeString,
-			Required:    true,
+			Optional:    true,
 			Description: "Name of the certificate that the OVPN server will use.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"cipher": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Default:     "blowfish128,aes128-cbc",
-			Description: `Allowed ciphers.`,
-			ValidateDiagFunc: ValidationMultiValInSlice([]string{
-				"null", "aes128-cbc", "aes128-gcm", "aes192-cbc", "aes192-gcm", "aes256-cbc", "aes256-gcm", "blowfish128",
-				// Backward compatibility with ROS v7.7
-				"aes128", "aes192", "aes256",
-			}, false, false),
+			Type:     schema.TypeSet,
+			Optional: true,
+			Elem: &schema.Schema{
+				Type: schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{
+					"null", "aes128-cbc", "aes128-gcm", "aes192-cbc", "aes192-gcm", "aes256-cbc", "aes256-gcm", "blowfish128",
+					// Backward compatibility with ROS v7.7
+					"aes128", "aes192", "aes256",
+				}, false),
+			},
+			Description:      `Allowed ciphers.`,
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"default_profile": {
 			Type:        schema.TypeString,
@@ -67,6 +74,7 @@ func ResourceOpenVPNServer() *schema.Resource {
 		"enable_tun_ipv6": {
 			Type:        schema.TypeBool,
 			Optional:    true,
+			Default:     false,
 			Description: "Specifies if IPv6 IP tunneling mode should be possible with this OVPN server.",
 		},
 		KeyEnabled: PropEnabled("Defines whether the OVPN server is enabled or not."),
@@ -139,9 +147,12 @@ func ResourceOpenVPNServer() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"redirect_gateway": {
-			Type:     schema.TypeString,
+			Type:     schema.TypeSet,
 			Optional: true,
-			Default:  "",
+			Elem: &schema.Schema{
+				Type: schema.TypeString,
+				ValidateFunc: validation.StringInSlice([]string{"def1", "disabled", "ipv6"}, false),
+			},
 			Description: "Specifies what kind of routes the OVPN client must add to the routing table. def1 – Use " +
 				"this flag to override the default gateway by using 0.0.0.0/1 and  128.0.0.0/1 rather " +
 				"than 0.0.0.0/0. This has the benefit of overriding  but not wiping out the original " +
@@ -149,7 +160,7 @@ func ResourceOpenVPNServer() *schema.Resource {
 				"- Redirect IPv6 routing into the tunnel on the client side. This works  similarly to the " +
 				"def1 flag, that is, more specific IPv6 routes are added  (2000::/4 and 3000::/4), " +
 				"covering the whole IPv6 unicast space.",
-			ValidateDiagFunc: ValidationMultiValInSlice([]string{"def1", "disabled", "ipv6"}, false, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"reneg_sec": {
 			Type:        schema.TypeInt,
@@ -160,12 +171,14 @@ func ResourceOpenVPNServer() *schema.Resource {
 		"require_client_certificate": {
 			Type:     schema.TypeBool,
 			Optional: true,
+			Default:  false,
 			Description: "If set to yes, then the server checks whether the client's certificate belongs to the " +
 				"same certificate chain.",
 		},
 		"tls_version": {
 			Type:         schema.TypeString,
 			Optional:     true,
+			Default:      "any",
 			Description:  "Specifies which TLS versions to allow.",
 			ValidateFunc: validation.StringInSlice([]string{"any", "only-1.2"}, false),
 		},
@@ -190,5 +203,13 @@ func ResourceOpenVPNServer() *schema.Resource {
 		},
 
 		Schema: resSchema,
+		SchemaVersion: 1,
+		StateUpgraders: []schema.StateUpgrader{
+			{
+				Type: ResourceOpenVPNServerV0().CoreConfigSchema().ImpliedType(),
+				Upgrade: stateMigrationScalarToList("auth", "cipher", "redirect_gateway"),
+				Version: 0,
+			},
+		},
 	}
 }

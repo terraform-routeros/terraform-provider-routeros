@@ -30,8 +30,8 @@ func ResourceIPFirewallMangle() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/ip/firewall/mangle"),
 		MetaId:           PropId(Id),
 		MetaSkipFields:   PropSkipFields("bytes", "packets"),
-		MetaSetUnsetFields: PropSetUnsetFields("dst_address_list", "src_address_list", "in_interface_list",
-			"out_interface_list", "in_bridge_port_list", "out_bridge_port_list"),
+		MetaSetUnsetFields: PropSetUnsetFields("dst_address_list", "src_address_list", "in_interface", "in_interface_list",
+			"out_interface", "out_interface_list", "in_bridge_port_list", "out_bridge_port_list"),
 
 		"action": {
 			Type:        schema.TypeString,

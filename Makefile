@@ -2,7 +2,7 @@ VERSION=$(shell git describe --tags --abbrev=0)
 
 .PHONY: docs debug
 
-all: docs compile checksum clean
+all: docs tfformat compile checksum clean
 
 test:
 	go test -timeout 30s github.com/terraform-routeros/terraform-provider-routeros
@@ -11,6 +11,10 @@ docs:
 	go generate
 	# !!! GNU Sed
 	find docs -type f -exec sed -i -E '/^.*__[[:alpha:]]+__/d' {} \;
+
+tfformat:
+	terraform fmt -recursive examples/
+
 debug:
 	go build -gcflags="all=-N -l" -o terraform-provider-routeros_${VERSION} main.go
 
