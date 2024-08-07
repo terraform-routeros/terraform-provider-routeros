@@ -25,6 +25,19 @@ func ResourceToolNetwatch() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/tool/netwatch"),
 		MetaId:           PropId(Id),
+		MetaSkipFields: PropSkipFields(
+			// Generic
+			"since", "status", "done_tests", "failed_tests",
+			// ICMP
+			"sent_count", "response_count", "loss_count", "loss_percent", "rtt_avg", "rtt_min", "rtt_max", "rtt_jitter",
+			"rtt_stdev",
+			// TCP
+			"tcp_connect_time",
+			// HTTP, HTTPS
+			"http_status_code",
+			// DNS
+			"ip", "ip6", "mail_servers", "name_servers",
+		),
 
 		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
@@ -135,25 +148,25 @@ func ResourceToolNetwatch() *schema.Resource {
 			Description:      "Fail threshold for loss-percent.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
-		"thr_rtt_avg": {
+		"thr_avg": {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Fail threshold for rtt-avg.",
 			DiffSuppressFunc: TimeEquall,
 		},
-		"thr_rtt_jitter": {
+		"thr_jitter": {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Fail threshold for rtt-jitter.",
 			DiffSuppressFunc: TimeEquall,
 		},
-		"thr_rtt_max": {
+		"thr_max": {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Fail threshold for rtt-max (a value above thr-max is a probe fail).",
 			DiffSuppressFunc: TimeEquall,
 		},
-		"thr_rtt_stdev": {
+		"thr_stdev": {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Fail threshold for rtt-stdev.",
