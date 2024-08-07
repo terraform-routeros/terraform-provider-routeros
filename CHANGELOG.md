@@ -1,3 +1,10 @@
+## [1.59.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.59.1...v1.59.2) (2024-08-07)
+
+
+### Bug Fixes
+
+* Can not set rtt parameters in `routeros_tool_netwatch` ([afa971e](https://github.com/terraform-routeros/terraform-provider-routeros/commit/afa971e337f6141c4dfa717c791807a52ffc0692)), closes [#535](https://github.com/terraform-routeros/terraform-provider-routeros/issues/535)
+
 ## [1.59.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.59.0...v1.59.1) (2024-08-07)
 
 

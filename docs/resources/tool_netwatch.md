@@ -5,9 +5,11 @@
 ```terraform
 resource "routeros_tool_netwatch" "test" {
   name      = "watch-google-pdns"
+  type      = "icmp"
   host      = "8.8.8.8"
   interval  = "30s"
   up_script = ":log info \"Ping to 8.8.8.8 successful\""
+  thr_max   = "400ms"
 }
 ```
 
@@ -43,13 +45,13 @@ resource "routeros_tool_netwatch" "test" {
 - `start_delay` (String) Time to wait before starting probe (on add, enable, or system start).
 - `startup_delay` (String) Time to wait until starting Netwatch probe after system startup.
 - `test_script` (String) Script to execute at the end of every probe test.
+- `thr_avg` (String) Fail threshold for rtt-avg.
 - `thr_http_time` (String) Fail threshold for http-resp-time.
+- `thr_jitter` (String) Fail threshold for rtt-jitter.
 - `thr_loss_count` (Number) Fail threshold for loss-count.
 - `thr_loss_percent` (Number) Fail threshold for loss-percent.
-- `thr_rtt_avg` (String) Fail threshold for rtt-avg.
-- `thr_rtt_jitter` (String) Fail threshold for rtt-jitter.
-- `thr_rtt_max` (String) Fail threshold for rtt-max (a value above thr-max is a probe fail).
-- `thr_rtt_stdev` (String) Fail threshold for rtt-stdev.
+- `thr_max` (String) Fail threshold for rtt-max (a value above thr-max is a probe fail).
+- `thr_stdev` (String) Fail threshold for rtt-stdev.
 - `thr_tcp_conn_time` (String) Fail threshold for tcp-connect-time, the configuration uses microseconds, if the time unit is not specified (s/m/h), log and status pages display the same value in milliseconds.
 - `timeout` (String) Max time limit to wait for a response.
 - `ttl` (Number) Manually set time to live value for ICMP packet.
