@@ -30,24 +30,8 @@ func DatasourceSystemResource() *schema.Resource {
 			Type:     schema.TypeInt,
 			Computed: true,
 		},
-		"cpu_frequency": { // Sample = cpu-frequency: "2396"
-			Type:     schema.TypeInt,
-			Computed: true,
-		},
-		"cpu_load": { // Sample = cpu-load: "3"
-			Type:     schema.TypeInt,
-			Computed: true,
-		},
 		"factory_software": { // Sample = factory-software: "7.1"
 			Type:     schema.TypeString,
-			Computed: true,
-		},
-		"free_hdd_space": { // Sample = free-hdd-space: "74567680"
-			Type:     schema.TypeInt,
-			Computed: true,
-		},
-		"free_memory": { // Sample = free-memory: "393805824"
-			Type:     schema.TypeFloat,
 			Computed: true,
 		},
 		"platform": { // Sample = platform: "MikroTik"
@@ -62,20 +46,8 @@ func DatasourceSystemResource() *schema.Resource {
 			Type:     schema.TypeFloat,
 			Computed: true,
 		},
-		"uptime": { // Sample = uptime: "21h43m21s"
-			Type:     schema.TypeString,
-			Computed: true,
-		},
 		"version": { // Sample = version: "7.10 (stable)"
 			Type:     schema.TypeString,
-			Computed: true,
-		},
-		"write_sect_since_reboot": { // Sample = write-sect-since-reboot: "6936"
-			Type:     schema.TypeFloat,
-			Computed: true,
-		},
-		"write_sect_total": { // Sample = write-sect-total: "6936"
-			Type:     schema.TypeFloat,
 			Computed: true,
 		},
 	}

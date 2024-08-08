@@ -114,10 +114,6 @@ func getIPv6FirewallFilterSchema() *schema.Schema {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
-				"ingress_priority": {
-					Type:     schema.TypeInt,
-					Computed: true,
-				},
 				"invalid": {
 					Type:     schema.TypeBool,
 					Computed: true,
@@ -158,10 +154,6 @@ func getIPv6FirewallFilterSchema() *schema.Schema {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
-				"packets": {
-					Type:     schema.TypeFloat,
-					Computed: true,
-				},
 				"packet_mark": {
 					Type:     schema.TypeString,
 					Computed: true,
@@ -184,10 +176,6 @@ func getIPv6FirewallFilterSchema() *schema.Schema {
 				},
 				"protocol": {
 					Type:     schema.TypeString,
-					Computed: true,
-				},
-				"random": {
-					Type:     schema.TypeInt,
 					Computed: true,
 				},
 				"reject_with": {

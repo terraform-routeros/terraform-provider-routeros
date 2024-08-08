@@ -40,22 +40,6 @@ func DatasourceInterfaces() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
-						"fp_rx_byte": {
-							Type:     schema.TypeFloat,
-							Computed: true,
-						},
-						"fp_rx_packet": {
-							Type:     schema.TypeFloat,
-							Computed: true,
-						},
-						"fp_tx_byte": {
-							Type:     schema.TypeFloat,
-							Computed: true,
-						},
-						"fp_tx_packet": {
-							Type:     schema.TypeFloat,
-							Computed: true,
-						},
 						"l2mtu": {
 							Type:     schema.TypeInt,
 							Computed: true,
@@ -66,10 +50,6 @@ func DatasourceInterfaces() *schema.Resource {
 						},
 						"last_link_up_time": {
 							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"link_downs": {
-							Type:     schema.TypeFloat,
 							Computed: true,
 						},
 						"mac_address": {
@@ -93,44 +73,8 @@ func DatasourceInterfaces() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
-						"rx_byte": {
-							Type:     schema.TypeFloat,
-							Computed: true,
-						},
-						"rx_drop": {
-							Type:     schema.TypeFloat,
-							Computed: true,
-						},
-						"rx_error": {
-							Type:     schema.TypeFloat,
-							Computed: true,
-						},
-						"rx_packet": {
-							Type:     schema.TypeFloat,
-							Computed: true,
-						},
 						"slave": {
 							Type:     schema.TypeBool,
-							Computed: true,
-						},
-						"tx_byte": {
-							Type:     schema.TypeFloat,
-							Computed: true,
-						},
-						"tx_drop": {
-							Type:     schema.TypeFloat,
-							Computed: true,
-						},
-						"tx_error": {
-							Type:     schema.TypeFloat,
-							Computed: true,
-						},
-						"tx_packet": {
-							Type:     schema.TypeFloat,
-							Computed: true,
-						},
-						"tx_queue_drop": {
-							Type:     schema.TypeFloat,
 							Computed: true,
 						},
 						"type": {
