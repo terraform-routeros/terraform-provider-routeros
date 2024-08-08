@@ -22,6 +22,10 @@ func getIPFirewallFilterSchema() *schema.Schema {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
+				"bytes": {
+					Type:     schema.TypeInt,
+					Computed: true,
+				},
 				"chain": {
 					Type:     schema.TypeString,
 					Computed: true,
@@ -64,6 +68,10 @@ func getIPFirewallFilterSchema() *schema.Schema {
 				},
 				KeyDisabled: {
 					Type:     schema.TypeBool,
+					Computed: true,
+				},
+				"dscp": {
+					Type:     schema.TypeInt,
 					Computed: true,
 				},
 				"dst_address": {
@@ -188,6 +196,10 @@ func getIPFirewallFilterSchema() *schema.Schema {
 				},
 				"port": {
 					Type:     schema.TypeString,
+					Computed: true,
+				},
+				"priority": {
+					Type:     schema.TypeInt,
 					Computed: true,
 				},
 				"protocol": {

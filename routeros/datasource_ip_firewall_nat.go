@@ -28,6 +28,10 @@ func getIPFirewallNatSchema() *schema.Schema {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
+				"bytes": {
+					Type:     schema.TypeInt,
+					Computed: true,
+				},
 				"chain": {
 					Type:     schema.TypeString,
 					Computed: true,
@@ -62,6 +66,10 @@ func getIPFirewallNatSchema() *schema.Schema {
 				},
 				KeyDisabled: {
 					Type:     schema.TypeBool,
+					Computed: true,
+				},
+				"dscp": {
+					Type:     schema.TypeInt,
 					Computed: true,
 				},
 				"dst_address": {
@@ -182,6 +190,10 @@ func getIPFirewallNatSchema() *schema.Schema {
 				},
 				"port": {
 					Type:     schema.TypeString,
+					Computed: true,
+				},
+				"priority": {
+					Type:     schema.TypeInt,
 					Computed: true,
 				},
 				"protocol": {

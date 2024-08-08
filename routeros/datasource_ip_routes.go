@@ -48,6 +48,10 @@ func DatasourceIPRoutes() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						"distance": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"dst_address": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -88,12 +92,20 @@ func DatasourceIPRoutes() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"scope": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"static": {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
 						"suppress_hw_offload": {
 							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"target_scope": {
+							Type:     schema.TypeInt,
 							Computed: true,
 						},
 						"vrf_interface": {

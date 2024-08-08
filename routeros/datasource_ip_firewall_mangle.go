@@ -76,6 +76,10 @@ func getIPFirewallMangleSchema() *schema.Schema {
 					Type:     schema.TypeBool,
 					Computed: true,
 				},
+				"dscp": {
+					Type:     schema.TypeInt,
+					Computed: true,
+				},
 				"dst_address": {
 					Type:     schema.TypeString,
 					Computed: true,
@@ -162,6 +166,14 @@ func getIPFirewallMangleSchema() *schema.Schema {
 				},
 				"new_connection_mark": {
 					Type:     schema.TypeString,
+					Computed: true,
+				},
+				"new_dscp": {
+					Type:     schema.TypeInt,
+					Computed: true,
+				},
+				"new_mss": {
+					Type:     schema.TypeInt,
 					Computed: true,
 				},
 				"new_packet_mark": {

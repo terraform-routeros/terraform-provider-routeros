@@ -23,6 +23,10 @@ func DatasourceInterfaces() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"actual_mtu": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"default_name": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -35,6 +39,10 @@ func DatasourceInterfaces() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						"l2mtu": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"last_link_down_time": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -45,6 +53,10 @@ func DatasourceInterfaces() *schema.Resource {
 						},
 						"mac_address": {
 							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"max_l2mtu": {
+							Type:     schema.TypeInt,
 							Computed: true,
 						},
 						// Can be - 'auto'
