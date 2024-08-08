@@ -23,7 +23,7 @@ func getIPFirewallFilterSchema() *schema.Schema {
 					Computed: true,
 				},
 				"bytes": {
-					Type:     schema.TypeInt,
+					Type:     schema.TypeFloat,
 					Computed: true,
 				},
 				"chain": {
