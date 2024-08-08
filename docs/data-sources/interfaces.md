@@ -23,13 +23,16 @@ data "routeros_interfaces" "interfaces" {}
 
 Read-Only:
 
+- `actual_mtu` (Number)
 - `comment` (String)
 - `default_name` (String)
 - `disabled` (Boolean)
 - `id` (String)
+- `l2mtu` (Number)
 - `last_link_down_time` (String)
 - `last_link_up_time` (String)
 - `mac_address` (String)
+- `max_l2mtu` (Number)
 - `mtu` (String)
 - `name` (String)
 - `running` (Boolean)

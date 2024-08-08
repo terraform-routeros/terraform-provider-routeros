@@ -25,6 +25,7 @@ Optional:
 Read-Only:
 
 - `action` (String)
+- `bytes` (Number)
 - `chain` (String)
 - `comment` (String)
 - `connection_bytes` (String)
@@ -36,6 +37,7 @@ Read-Only:
 - `connection_type` (String)
 - `content` (String)
 - `disabled` (Boolean)
+- `dscp` (Number)
 - `dst_address` (String)
 - `dst_address_list` (String)
 - `dst_address_type` (String)
@@ -62,6 +64,7 @@ Read-Only:
 - `packet_size` (String)
 - `per_connection_classifier` (String)
 - `port` (String)
+- `priority` (Number)
 - `protocol` (String)
 - `reject_with` (String)
 - `routing_mark` (String)
