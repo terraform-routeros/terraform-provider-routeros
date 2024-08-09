@@ -43,11 +43,11 @@ func DatasourceSystemResource() *schema.Resource {
 			Computed: true,
 		},
 		"total_hdd_space": { // Sample = total-hdd-space: "93564928"
-			Type:     schema.TypeFloat,
+			Type:     schema.TypeInt,
 			Computed: true,
 		},
 		"total_memory": { // Sample = total-memory: "469762048"
-			Type:     schema.TypeFloat,
+			Type:     schema.TypeInt,
 			Computed: true,
 		},
 		"version": { // Sample = version: "7.10 (stable)"

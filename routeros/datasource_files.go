@@ -53,7 +53,7 @@ func DatasourceFiles() *schema.Resource {
 							Computed: true,
 						},
 						"size": {
-							Type:     schema.TypeFloat,
+							Type:     schema.TypeInt,
 							Computed: true,
 						},
 						"type": {
