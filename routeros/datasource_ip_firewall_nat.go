@@ -29,7 +29,7 @@ func getIPFirewallNatSchema() *schema.Schema {
 					Computed: true,
 				},
 				"bytes": {
-					Type:     schema.TypeInt,
+					Type:     schema.TypeFloat,
 					Computed: true,
 				},
 				"chain": {
@@ -124,10 +124,6 @@ func getIPFirewallNatSchema() *schema.Schema {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
-				"ingress_priority": {
-					Type:     schema.TypeInt,
-					Computed: true,
-				},
 				"invalid": {
 					Type:     schema.TypeBool,
 					Computed: true,
@@ -180,10 +176,6 @@ func getIPFirewallNatSchema() *schema.Schema {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
-				"packets": {
-					Type:     schema.TypeInt,
-					Computed: true,
-				},
 				"packet_mark": {
 					Type:     schema.TypeString,
 					Computed: true,
@@ -212,11 +204,6 @@ func getIPFirewallNatSchema() *schema.Schema {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
-				"random": {
-					Type:     schema.TypeInt,
-					Computed: true,
-				},
-
 				"routing_mark": {
 					Type:     schema.TypeString,
 					Computed: true,
