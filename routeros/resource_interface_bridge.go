@@ -134,6 +134,12 @@ func ResourceInterfaceBridge() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 			ValidateFunc:     validation.IntBetween(6, 40),
 		},
+		"max_learned_entries": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "An option to set the maximum number of learned hosts for the bridge interface. This option is available in RouterOS starting from version 7.16.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"max_message_age": {
 			Type:     schema.TypeString,
 			Optional: true,
