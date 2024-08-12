@@ -19,9 +19,7 @@ func DatasourceIPFirewall() *schema.Resource {
 - rules (aka filter)
 `,
 		Schema: map[string]*schema.Schema{
-			MetaSkipFields: PropSkipFields(
-				"ingress_priority", "packets", "random",
-			),
+			MetaSkipFields: PropSkipFields("packets"),
 
 			"address_list": getIPFirewallAddrListSchema(),
 			"mangle":       getIPFirewallMangleSchema(),

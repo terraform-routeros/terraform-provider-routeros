@@ -132,6 +132,10 @@ func getIPFirewallMangleSchema() *schema.Schema {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
+				"ingress_priority": {
+					Type:     schema.TypeInt,
+					Computed: true,
+				},
 				"invalid": {
 					Type:     schema.TypeBool,
 					Computed: true,
@@ -182,6 +186,10 @@ func getIPFirewallMangleSchema() *schema.Schema {
 				},
 				"new_priority": {
 					Type:     schema.TypeString,
+					Computed: true,
+				},
+				"random": {
+					Type:     schema.TypeInt,
 					Computed: true,
 				},
 				"new_routing_mark": {
