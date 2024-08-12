@@ -31,7 +31,8 @@ resource "routeros_interface_ethernet_switch_rule" "test" {
 - `flow_label` (Number) Matching IPv6 flow label.
 - `mac_protocol` (String) Matching particular MAC protocol specified by protocol name or number (skips VLAN tags if any).
 - `mirror` (Boolean) Whether to send a frame copy to mirror-target port from a frame with matching MAC destination address (matching destination or source address for CRS3xx series switches).
-- `new_dst_ports` (String) Changes the destination port as specified, multiple ports allowed, including a switch CPU port. An empty setting will drop the packet. When the parameter is not used, the packet will be accepted.
+- `mirror_ports` (Set of String) Selects multiple mirroring target ports, only available on 88E6393X switch chip. Matched packets in the ACL rule will be copied and sent to selected ports.
+- `new_dst_ports` (Set of String) Changes the destination port as specified, multiple ports allowed, including a switch CPU port. An empty setting will drop the packet. When the parameter is not used, the packet will be accepted.
 - `new_vlan_id` (Number) Changes the VLAN ID to the specified value or adds a new VLAN tag if one was not already present (the property only applies to the Atheros8316, and 88E6393X switch chips).
 - `new_vlan_priority` (Number) Changes the VLAN priority field (priority code point, the property only applies to Atheros8327, QCA8337 and Atheros8316 switch chips).
 - `protocol` (String) Matching particular IP protocol specified by protocol name or number.

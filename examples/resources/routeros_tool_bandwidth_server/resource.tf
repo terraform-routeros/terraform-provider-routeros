@@ -1,4 +1,4 @@
-resource "routeros_tool_bandwidth_test_server" "test" {
+resource "routeros_tool_bandwidth_server" "test" {
   enabled                 = true
   authenticate            = false
   max_sessions            = 100

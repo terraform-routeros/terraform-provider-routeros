@@ -1,3 +1,11 @@
+## [1.59.3](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.59.2...v1.59.3) (2024-08-12)
+
+
+### Bug Fixes
+
+* Add missing attributes, add fields to ignore. Fix wrong `new_dst_ports` type ([c570002](https://github.com/terraform-routeros/terraform-provider-routeros/commit/c570002b40171054b85b62a1e59b2dc907791100)), closes [#538](https://github.com/terraform-routeros/terraform-provider-routeros/issues/538)
+* **netwatch:** Add `http_codes` attribute to skip fields. ([e7d0356](https://github.com/terraform-routeros/terraform-provider-routeros/commit/e7d03563143c4a70e7052cb8652513f375e4bfb3))
+
 ## [1.59.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.59.1...v1.59.2) (2024-08-07)
 
 

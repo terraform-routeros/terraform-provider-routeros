@@ -70,7 +70,10 @@ func ResourceInterfaceEthernetSwitchPort() *schema.Resource {
 			"rx_pause", "rx_too_long", "rx_too_short", "tx_1024_1518", "tx_128_255", "tx_1519_max", "tx_256_511", "tx_512_1023", "tx_64",
 			"tx_65_127", "tx_broadcast", "tx_bytes", "tx_collision", "tx_deferred", "tx_excessive_collision", "tx_excessive_deferred",
 			"tx_late_collision", "tx_multicast", "tx_multiple_collision", "tx_pause", "tx_single_collision", "tx_too_long", "tx_underrun",
-			"driver_tx_byte", "driver_rx_packet", "driver_rx_byte", "driver_tx_packet", "tx_carrier_sense_error"),
+			"driver_tx_byte", "driver_rx_packet", "driver_rx_byte", "driver_tx_packet", "tx_carrier_sense_error",
+			"rx_jabber", "tx_rx_65_127", "tx_rx_512_1023", "rx_unicast", "tx_fcs_error", "tx_rx_128_255", "tx_unicast",
+			"tx_rx_1024_max", "tx_rx_256_511", "rx_error_events", "tx_rx_64",
+		),
 
 		"default_vlan_id": {
 			Type:     schema.TypeString,
@@ -83,7 +86,27 @@ func ResourceInterfaceEthernetSwitchPort() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyInvalid: PropInvalidRo,
+		"mirror_egress": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "Whether to send egress packet copy to the `mirror-egress-target` port, only available on " +
+				"88E6393X, 88E6191X and 88E6190 switch chips.",
+		},
+		"mirror_ingress": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "Whether to send ingress packet copy to the `mirror-ingress-target` port, only available on " +
+				"88E6393X, 88E6191X and 88E6190 switch chips.",
+		},
+		"mirror_ingress_target": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Selects a single mirroring ingress target port, only available on  88E6393X, 88E6191X and " +
+				"88E6190 switch chips. Mirrored packets from `mirror-ingress` will be sent to the selected port.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		KeyName:    PropName("Port name."),
+		KeyRunning: PropRunningRo,
 		"switch": {
 			Type:        schema.TypeString,
 			Computed:    true,
