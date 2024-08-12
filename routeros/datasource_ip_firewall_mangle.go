@@ -188,10 +188,6 @@ func getIPFirewallMangleSchema() *schema.Schema {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
-				"random": {
-					Type:     schema.TypeInt,
-					Computed: true,
-				},
 				"new_routing_mark": {
 					Type:     schema.TypeString,
 					Computed: true,
@@ -246,6 +242,10 @@ func getIPFirewallMangleSchema() *schema.Schema {
 				},
 				"psd": {
 					Type:     schema.TypeString,
+					Computed: true,
+				},
+				"random": {
+					Type:     schema.TypeInt,
 					Computed: true,
 				},
 				"routing_mark": {
