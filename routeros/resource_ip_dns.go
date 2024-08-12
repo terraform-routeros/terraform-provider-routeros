@@ -110,6 +110,15 @@ func ResourceDns() *schema.Resource {
 			Description:  "Maximum size of allowed UDP packet. *Default: 4096*",
 			ValidateFunc: validation.IntBetween(50, 65507),
 		},
+		"mdns_repeat_ifaces": {
+			Type:        schema.TypeSet,
+			Optional:    true,
+			Description: "An option to enable mDNS repeater on specified interfaces. This option is available in RouterOS starting from version 7.16.",
+			Elem: &schema.Schema{
+				Type: schema.TypeString,
+			},
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"query_server_timeout": {
 			Type:     schema.TypeString,
 			Optional: true,
