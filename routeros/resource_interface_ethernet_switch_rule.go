@@ -70,8 +70,17 @@ func ResourceInterfaceEthernetSwitchRule() *schema.Resource {
 			Description: "Whether to send a frame copy to mirror-target port from a frame with matching MAC destination address " +
 				"(matching destination or source address for CRS3xx series switches).",
 		},
+		"mirror_ports": {
+			Type:     schema.TypeSet,
+			Optional: true,
+			Description: "Selects multiple mirroring target ports, only available on 88E6393X switch chip. " +
+				"Matched packets in the ACL rule will be copied and sent to selected ports.",
+			Elem: &schema.Schema{
+				Type:             schema.TypeString,
+				DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			}},
 		"new_dst_ports": {
-			Type:     schema.TypeString,
+			Type:     schema.TypeSet,
 			Optional: true,
 			Description: "Changes the destination port as specified, multiple ports allowed, including a switch CPU port. An empty " +
 				"setting will drop the packet. When the parameter is not used, the packet will be accepted.",
