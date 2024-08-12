@@ -10,6 +10,10 @@ func DatasourceSystemResource() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/system/resource"),
 		MetaId:           PropId(Id),
+		MetaSkipFields: PropSkipFields(
+			"cpu_frequency", "cpu_load", "free_hdd_space", "free_memory",
+			"uptime", "write_sect_since_reboot", "write_sect_total",
+		),
 		"architecture_name": { // Sample = architecture-name: "x86_64"
 			Type:     schema.TypeString,
 			Computed: true,
@@ -39,11 +43,11 @@ func DatasourceSystemResource() *schema.Resource {
 			Computed: true,
 		},
 		"total_hdd_space": { // Sample = total-hdd-space: "93564928"
-			Type:     schema.TypeFloat,
+			Type:     schema.TypeInt,
 			Computed: true,
 		},
 		"total_memory": { // Sample = total-memory: "469762048"
-			Type:     schema.TypeFloat,
+			Type:     schema.TypeInt,
 			Computed: true,
 		},
 		"version": { // Sample = version: "7.10 (stable)"

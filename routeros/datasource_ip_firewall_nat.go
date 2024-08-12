@@ -29,7 +29,7 @@ func getIPFirewallNatSchema() *schema.Schema {
 					Computed: true,
 				},
 				"bytes": {
-					Type:     schema.TypeFloat,
+					Type:     schema.TypeInt,
 					Computed: true,
 				},
 				"chain": {
