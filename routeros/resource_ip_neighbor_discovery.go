@@ -67,6 +67,13 @@ func ResourceIpNeighborDiscoverySettings() *schema.Resource {
 				"Equipment (PSE) and Powered Devices (PD).",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"lldp_vlan_info": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "An option whether to send IEEE 802.1 Organizationally Specific TLVs in LLDP related to VLANs. " +
+				"The setting is available since RouterOS version 7.16.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"mode": {
 			Type:     schema.TypeString,
 			Optional: true,
