@@ -20,6 +20,7 @@ resource "routeros_ipv6_route" "a_route" {
 ### Optional
 
 - `blackhole` (Boolean) It's a blackhole route. If you need to cancel route marking, then simply delete the parameter from the configuration of the TF. The value of the parameter (true or false) has no effect on the MT processing logic.
+- `check_gateway` (String) Currently used check-gateway option.
 - `comment` (String)
 - `disabled` (Boolean)
 - `distance` (Number) Value used in route selection. Routes with smaller distance value are given preference.
@@ -28,6 +29,7 @@ resource "routeros_ipv6_route" "a_route" {
 - `scope` (Number) Used in nexthop resolution. Route can resolve nexthop only through routes that have scope less than or equal to the target-scope of this route.
 - `target_scope` (Number) Used in nexthop resolution. This is the maximum value of scope for a route through which a nexthop of this route can be resolved.
 - `vrf_interface` (String) VRF interface name.
+- `suppress_hw_offload` (Boolean)
 
 ### Read-Only
 
@@ -39,7 +41,6 @@ resource "routeros_ipv6_route" "a_route" {
 - `immediate_gw` (String) Shows actual (resolved) gateway and interface that will be used for packet forwarding.
 - `inactive` (Boolean)
 - `static` (Boolean)
-- `suppress_hw_offload` (Boolean)
 
 ## Import
 Import is supported using the following syntax:
