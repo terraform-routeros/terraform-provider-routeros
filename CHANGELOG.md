@@ -1,3 +1,10 @@
+## [1.59.4](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.59.3...v1.59.4) (2024-08-13)
+
+
+### Bug Fixes
+
+* **datasources:** Datasource int overflow ([#507](https://github.com/terraform-routeros/terraform-provider-routeros/issues/507)) ([aea6028](https://github.com/terraform-routeros/terraform-provider-routeros/commit/aea60289833ae74e15740447d36020d4485f72b2))
+
 ## [1.59.3](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.59.2...v1.59.3) (2024-08-12)
 
 
