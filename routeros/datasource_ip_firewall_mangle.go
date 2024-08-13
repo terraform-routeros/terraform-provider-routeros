@@ -216,10 +216,6 @@ func getIPFirewallMangleSchema() *schema.Schema {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
-				"packets": {
-					Type:     schema.TypeInt,
-					Computed: true,
-				},
 				"packet_mark": {
 					Type:     schema.TypeString,
 					Computed: true,

@@ -63,7 +63,6 @@ Read-Only:
 - `out_interface_list` (String)
 - `packet_mark` (String)
 - `packet_size` (String)
-- `packets` (Number)
 - `per_connection_classifier` (String)
 - `port` (String)
 - `priority` (Number)
