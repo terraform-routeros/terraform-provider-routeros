@@ -118,17 +118,25 @@ func ResourceInterfaceEthernetSwitch() *schema.Resource {
 		"mirror_source": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Default:  "none",
 			Description: "Selects a single mirroring source port. Ingress and egress traffic will be sent to the " +
 				"mirror-target port. Note that mirror-target port has to belong to the same switch (see which port " +
 				"belongs to which switch in /interface ethernet menu).",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"mirror_target": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Default:  "none",
 			Description: "Selects a single mirroring target port. Mirrored packets from mirror-source and mirror " +
 				"(see the property in rule and host table) will be sent to the selected port.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"mirror_egress_target": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Selects a single mirroring egress target port, only available on 88E6393X, 88E6191X and " +
+				"88E6190 switch chips. Mirrored packets from `mirror-egress` (see the property in port menu) will be sent " +
+				"to the selected port.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyName: PropName("Name of the switch."),
 		"switch_id": {

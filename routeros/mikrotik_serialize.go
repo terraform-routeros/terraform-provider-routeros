@@ -547,6 +547,11 @@ func MikrotikResourceDataToTerraformDatasource(items *[]MikrotikItem, resourceDa
 	var dsItems []map[string]interface{}
 	// System resource have an empty 'resourceDataKeyName'.
 	var isSystemDatasource bool = (resourceDataKeyName == "")
+	var skipFields map[string]struct{}
+
+	if sf, ok := s[MetaSkipFields]; ok {
+		skipFields = loadSkipFields(sf.Default.(string))
+	}
 
 	// Checking the schema.
 	if !isSystemDatasource {
@@ -598,6 +603,13 @@ func MikrotikResourceDataToTerraformDatasource(items *[]MikrotikItem, resourceDa
 
 			// field-name => field_name
 			terraformSnakeName := KebabToSnake(mikrotikKebabName)
+
+			if skipFields != nil {
+				if _, ok := skipFields[terraformSnakeName]; ok {
+					continue
+				}
+			}
+
 			if _, ok := s[terraformSnakeName]; !ok {
 				// For development.
 				//panic("[MikrotikResourceDataToTerraformDatasource] the field was lost during development.: " + terraformSnakeName)
