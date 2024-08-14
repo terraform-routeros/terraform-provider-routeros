@@ -26,6 +26,13 @@ func ResourceIpNeighborDiscoverySettings() *schema.Resource {
 			Description:      "Interface list on which members the discovery protocol will run on.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"discover_interval": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "An option to adjust the frequency at which neighbor discovery packets are transmitted. " +
+				"The setting is available since RouterOS version 7.16.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"lldp_mac_phy_config": {
 			Type:     schema.TypeBool,
 			Optional: true,
