@@ -58,6 +58,13 @@ func ResourceIpService() *schema.Resource {
 		},
 		KeyDisabled: PropDisabledRw,
 		KeyInvalid:  PropInvalidRo,
+		"max_sessions": {
+			Type:             schema.TypeInt,
+			Optional:         true,
+			Description:      "Maximum number of concurrent connections to a particular service. This option is available in RouterOS starting from version 7.16.",
+			ValidateFunc:     validation.IntAtLeast(1),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"name": {
 			Type:        schema.TypeString,
 			Computed:    true,
