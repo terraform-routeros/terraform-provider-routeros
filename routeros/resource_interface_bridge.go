@@ -68,6 +68,12 @@ func ResourceInterfaceBridge() *schema.Resource {
 				"bridge will start functioning normally.",
 			DiffSuppressFunc: TimeEquall,
 		},
+		"forward_reserved_addresses": {
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Description:      "An option whether to forward IEEE reserved multicast MAC addresses that are in the `01:80:C2:00:00:0x` range. This option is available in RouterOS starting from version 7.16.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"frame_types": {
 			Type:     schema.TypeString,
 			Optional: true,
