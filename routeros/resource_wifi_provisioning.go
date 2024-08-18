@@ -78,6 +78,12 @@ func ResourceWifiProvisioning() *schema.Resource {
 			Description: "If action specifies to create interfaces, then a new slave interface for each configuration " +
 				"profile in this list is created.",
 		},
+		"slave_name_format": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "The name format of the slave CAP interfaces. This option is available in RouterOS starting from version 7.16.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"supported_bands": {
 			Type:     schema.TypeList,
 			Optional: true,
