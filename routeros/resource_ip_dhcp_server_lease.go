@@ -68,6 +68,12 @@ func ResourceDhcpServerLease() *schema.Resource {
 			Optional:    true,
 			Description: "Send all replies as broadcasts.",
 		},
+		"class_id": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Class ID of the client. This option is available in RouterOS starting from version 7.16.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"block_access": {
 			Type:        schema.TypeBool,
 			Optional:    true,
