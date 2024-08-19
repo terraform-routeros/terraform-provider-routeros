@@ -1,3 +1,16 @@
+## [1.60.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.59.4...v1.60.0) (2024-08-19)
+
+
+### Features
+
+* Add the `routeros_system_led_settings` resource to manage the LED settings ([82434f8](https://github.com/terraform-routeros/terraform-provider-routeros/commit/82434f8c3d7f266dbd6624860d23019f29907975))
+* Add the `routeros_system_led` resource to manage LEDs ([5131156](https://github.com/terraform-routeros/terraform-provider-routeros/commit/5131156a03608b531813cb7f340a1e5201d56187))
+* Add the `routeros_system_routerboard_button_mode` resource to manage the mode button ([243dd9d](https://github.com/terraform-routeros/terraform-provider-routeros/commit/243dd9d0686643b1e02ba15699897228cc08fa7f))
+* Add the `routeros_system_routerboard_button_reset` resource to manage the reset button ([358f640](https://github.com/terraform-routeros/terraform-provider-routeros/commit/358f640dd1f246c8a67af35fc5f1bdd01a8d7230))
+* Add the `routeros_system_routerboard_button_wps` resource to manage the WPS button ([85db3b5](https://github.com/terraform-routeros/terraform-provider-routeros/commit/85db3b566a8641ac0256344e554a79ddb2fb39d0))
+* Add the `routeros_system_routerboard_settings` resource to manage the RouterBOARD settings ([39a7e39](https://github.com/terraform-routeros/terraform-provider-routeros/commit/39a7e3957b46e47e4fd0c83da252eb7039c84f34))
+* Add the `routeros_system_routerboard_usb` resource to manage the USB port ([4251b6a](https://github.com/terraform-routeros/terraform-provider-routeros/commit/4251b6a6552bd8a07edebab046f5f97a0d85300a))
+
 ## [1.59.4](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.59.3...v1.59.4) (2024-08-13)
 
 
