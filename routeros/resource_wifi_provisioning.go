@@ -65,11 +65,11 @@ func ResourceWifiProvisioning() *schema.Resource {
 			Description:  "Specify the format of the CAP interface name creation.",
 		},
 		"radio_mac": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Default:      "00:00:00:00:00:00",
-			Description:  "MAC address of radio to be matched, empty MAC (00:00:00:00:00:00) means match all MAC addresses.",
-			ValidateFunc: ValidationMacAddress,
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "MAC address of radio to be matched, empty MAC means match all MAC addresses. `00:00:00:00:00:00` is not considered empty MAC-address.",
+			ValidateFunc:     ValidationMacAddress,
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"slave_configurations": {
 			Type:     schema.TypeList,
