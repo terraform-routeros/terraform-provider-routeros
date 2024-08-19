@@ -22,6 +22,7 @@ func ResourceDhcpServerOption() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/dhcp-server/option"),
 		MetaId:           PropId(Id),
+		KeyComment:       PropCommentRw,
 		"code": {
 			Type:         schema.TypeInt,
 			Required:     true,
