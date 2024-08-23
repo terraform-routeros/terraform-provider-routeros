@@ -26,6 +26,12 @@ func ResourceIPv6Route() *schema.Resource {
 				"parameter from the configuration of the TF. The value of the parameter (true or false) has no " +
 				"effect on the MT processing logic.",
 		},
+		"check_gateway": {
+			Type:         schema.TypeString,
+			Optional:     true,
+			Description:  "Currently used check-gateway option.",
+			ValidateFunc: validation.StringInSlice([]string{"arp", "bfd", "ping"}, false),
+		},
 		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
 		"distance": {
@@ -92,7 +98,7 @@ func ResourceIPv6Route() *schema.Resource {
 		},
 		"suppress_hw_offload": {
 			Type:     schema.TypeBool,
-			Computed: true,
+			Optional: true,
 		},
 		"target_scope": {
 			Type:     schema.TypeInt,
