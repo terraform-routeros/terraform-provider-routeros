@@ -12,7 +12,7 @@ func DatasourceSystemResource() *schema.Resource {
 		MetaId:           PropId(Id),
 		MetaSkipFields: PropSkipFields(
 			"cpu_frequency", "cpu_load", "free_hdd_space", "free_memory",
-			"uptime", "write_sect_since_reboot", "write_sect_total",
+			"uptime", "write_sect_since_reboot", "write_sect_total", "bad_blocks",
 		),
 		"architecture_name": { // Sample = architecture-name: "x86_64"
 			Type:     schema.TypeString,
