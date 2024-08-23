@@ -27,6 +27,7 @@ resource "routeros_ip_dhcp_server_option" "tftp_option" {
 
 ### Optional
 
+- `comment` (String)
 - `force` (Boolean) Force the DHCP option from the server-side even if the DHCP-client does not request such parameter.
 
 ### Read-Only

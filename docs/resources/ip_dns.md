@@ -27,6 +27,7 @@ resource "routeros_dns" "dns-server" {
 - `max_concurrent_queries` (Number) Specifies how much concurrent queries are allowed. *Default: 100*
 - `max_concurrent_tcp_sessions` (Number) Specifies how much concurrent TCP sessions are allowed. *Default: 20*
 - `max_udp_packet_size` (Number) Maximum size of allowed UDP packet. *Default: 4096*
+- `mdns_repeat_ifaces` (Set of String) An option to enable mDNS repeater on specified interfaces. This option is available in RouterOS starting from version 7.16.
 - `query_server_timeout` (String) Specifies how long to wait for query response from one server. Time can be specified in milliseconds. *Default: 2s*
 - `query_total_timeout` (String) Specifies how long to wait for query response in total. Note that this setting must be configured taking into account query_server_timeout and number of used DNS server. Time can be specified in milliseconds. *Default: 10s*
 - `servers` (List of String) List of DNS server IPv4/IPv6 addresses.

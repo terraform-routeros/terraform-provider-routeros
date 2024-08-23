@@ -37,6 +37,7 @@ resource "routeros_interface_bridge" "bridge" {
 - `ether_type` (String) This property only has effect when vlan-filtering is set to yes.
 - `fast_forward` (Boolean)
 - `forward_delay` (String) Time which is spent during the initialization phase of the bridge interface (i.e., after router startup or enabling the interface) in listening/learning state before the bridge will start functioning normally.
+- `forward_reserved_addresses` (Boolean) An option whether to forward IEEE reserved multicast MAC addresses that are in the `01:80:C2:00:00:0x` range. This option is available in RouterOS starting from version 7.16.
 - `frame_types` (String) Specifies allowed frame types on a bridge port. This property only has effect when vlan-filtering is set to yes.
 - `igmp_snooping` (Boolean) Enables multicast group and port learning to prevent multicast traffic from flooding all interfaces in a bridge.
 - `igmp_version` (Number) Selects the IGMP version in which IGMP general membership queries will be generated. This property only has effect when igmp-snooping is set to yes.
@@ -44,6 +45,7 @@ resource "routeros_interface_bridge" "bridge" {
 - `last_member_interval` (String) If a port has fast-leave set to no and a bridge port receives a IGMP Leave message, then a IGMP Snooping enabled bridge will send a IGMP query to make sure that no devices has subscribed to a certain multicast stream on a bridge port.
 - `last_member_query_count` (Number) How many times should last-member-interval pass until a IGMP Snooping bridge will stop forwarding a certain multicast stream. This property only has effect when igmp-snooping is set to yes.
 - `max_hops` (Number) Bridge count which BPDU can pass in a MSTP enabled network in the same region before BPDU is being ignored. This property only has effect when protocol-mode is set to mstp.
+- `max_learned_entries` (String) An option to set the maximum number of learned hosts for the bridge interface. This option is available in RouterOS starting from version 7.16.
 - `max_message_age` (String) Changes the Max Age value in BPDU packets, which is transmitted by the root bridge. This property only has effect when protocol-mode is set to stp or rstp. Value: 6s..40s
 - `membership_interval` (String) Amount of time after an entry in the Multicast Database (MDB) is removed if a IGMP membership report is not received on a certain port. This property only has effect when igmp-snooping is set to yes.
 - `mld_version` (Number) Selects the MLD version. Version 2 adds support for source-specific multicast. This property only has effect when RouterOS IPv6 package is enabled and igmp-snooping is set to yes.

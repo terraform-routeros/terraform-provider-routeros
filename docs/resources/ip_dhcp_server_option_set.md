@@ -31,6 +31,7 @@ resource "routeros_ip_dhcp_server_option_set" "lan_option_set" {
 
 ### Optional
 
+- `comment` (String)
 
 ### Read-Only
 

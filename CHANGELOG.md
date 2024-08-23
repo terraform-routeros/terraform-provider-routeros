@@ -1,3 +1,25 @@
+## [1.61.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.60.0...v1.61.0) (2024-08-23)
+
+
+### Features
+
+* Add `class_id` property support to the `routeros_ip_dhcp_server_lease` resource ([90033af](https://github.com/terraform-routeros/terraform-provider-routeros/commit/90033afb96247b4f9f70ea5974259cdcc16d9a08))
+* Add `discover_interval` property support to the `routeros_ip_neighbor_discovery_settings` resource ([8233ace](https://github.com/terraform-routeros/terraform-provider-routeros/commit/8233ace372ea9dd9bbb0b9ad83dfbaf58c27a912))
+* Add `forward_reserved_addresses` property support to the `routeros_interface_bridge` resource ([600e2af](https://github.com/terraform-routeros/terraform-provider-routeros/commit/600e2af88f0a8e6ed9c4fe0e8e3c0a73a7359f0b))
+* Add `lldp_vlan_info` property support to the `routeros_ip_neighbor_discovery_settings` resource ([c2b07af](https://github.com/terraform-routeros/terraform-provider-routeros/commit/c2b07aff724758326f5551aa1d7efa87b72d16fa))
+* Add `max_learned_entries` property support to the `routeros_interface_bridge` resource ([a8b4191](https://github.com/terraform-routeros/terraform-provider-routeros/commit/a8b4191e67ad2e399f18729352244898caebdbf3))
+* Add `max_sessions` property support to the `routeros_ip_service` resource ([9007755](https://github.com/terraform-routeros/terraform-provider-routeros/commit/9007755b50236cb8676e191c9af4e6db8629f976))
+* Add `mdns_repeat_ifaces` property support to the `routeros_ip_dns` resource ([fb71ff7](https://github.com/terraform-routeros/terraform-provider-routeros/commit/fb71ff71ad7392088f4ee21434e9b0fc833ed252))
+* Add `slave_name_format` property support to the `routeros_wifi_provisioning` resource ([2ad0de6](https://github.com/terraform-routeros/terraform-provider-routeros/commit/2ad0de6ac0e10f431000022badec0c6595c8938c))
+* Add the `comment` property support to the DHCP resources ([0d326e9](https://github.com/terraform-routeros/terraform-provider-routeros/commit/0d326e93ea28e4f7bf2d71a0399a116d759033e0))
+
+
+### Bug Fixes
+
+* Remove the default value for the `radio_mac` property in the `routeros_wifi_provisioning` resource ([a35d307](https://github.com/terraform-routeros/terraform-provider-routeros/commit/a35d307c659d973c5a7ab0e48f70a38d0e70d17e))
+* **routeros_system_resource:** Add `bad_blocks` attribute to the ignored ones ([7b03141](https://github.com/terraform-routeros/terraform-provider-routeros/commit/7b03141f5fbbcbf56301149610dea93d1debdd82)), closes [#541](https://github.com/terraform-routeros/terraform-provider-routeros/issues/541)
+* supress hw offload writable ([6c358eb](https://github.com/terraform-routeros/terraform-provider-routeros/commit/6c358eba75de36baf5653f79da653cd10ab26982)), closes [#540](https://github.com/terraform-routeros/terraform-provider-routeros/issues/540)
+
 ## [1.60.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.59.4...v1.60.0) (2024-08-19)
 
 

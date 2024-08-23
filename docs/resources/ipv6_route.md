@@ -27,9 +27,9 @@ resource "routeros_ipv6_route" "a_route" {
 - `pref_src` (String) Which of the local IP addresses to use for locally originated packets that are sent via this route. Value of this property has no effect on forwarded packets. If value of this property is set to IP address that is not local address of this router then the route will be inactive (in ROS v6, ROS v7 allows IP spoofing).
 - `routing_table` (String) Routing table this route belongs to.
 - `scope` (Number) Used in nexthop resolution. Route can resolve nexthop only through routes that have scope less than or equal to the target-scope of this route.
+- `suppress_hw_offload` (Boolean)
 - `target_scope` (Number) Used in nexthop resolution. This is the maximum value of scope for a route through which a nexthop of this route can be resolved.
 - `vrf_interface` (String) VRF interface name.
-- `suppress_hw_offload` (Boolean)
 
 ### Read-Only
 

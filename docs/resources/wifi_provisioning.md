@@ -32,8 +32,9 @@ resource "routeros_wifi_provisioning" "provisioning1" {
 - `identity_regexp` (String) Regular expression to match radios by router identity.
 - `master_configuration` (String) If action specifies to create interfaces, then a new master interface with its configuration set to this configuration profile will be created.
 - `name_format` (String) Specify the format of the CAP interface name creation.
-- `radio_mac` (String) MAC address of radio to be matched, empty MAC (00:00:00:00:00:00) means match all MAC addresses.
+- `radio_mac` (String) MAC address of radio to be matched, empty MAC means match all MAC addresses. `00:00:00:00:00:00` is not considered empty MAC-address.
 - `slave_configurations` (List of String) If action specifies to create interfaces, then a new slave interface for each configuration profile in this list is created.
+- `slave_name_format` (String) The name format of the slave CAP interfaces. This option is available in RouterOS starting from version 7.16.
 - `supported_bands` (List of String) Match CAPs by supported modes.
 
 ### Read-Only

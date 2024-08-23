@@ -17,6 +17,7 @@ resource "routeros_ip_neighbor_discovery_settings" "test" {
 ### Optional
 
 - `discover_interface_list` (String) Interface list on which members the discovery protocol will run on.
+- `discover_interval` (String) An option to adjust the frequency at which neighbor discovery packets are transmitted. The setting is available since RouterOS version 7.16.
 - `lldp_mac_phy_config` (Boolean) Whether to send MAC/PHY Configuration/Status TLV in LLDP, which indicates the interface capabilities, current setting of the duplex status, bit rate, and auto-negotiation. Only applies to the Ethernet interfaces. While TLV is optional in LLDP, it is mandatory when sending LLDP-MED, meaning this TLV will be included when necessary even though the property is configured as disabled.
 - `lldp_max_frame_size` (Boolean) Whether to send Maximum Frame Size TLV in LLDP, which indicates the maximum frame size capability of the interface in bytes (`l2mtu + 18`). Only applies to the Ethernet interfaces.
 - `lldp_med_net_policy_vlan` (String) Advertised VLAN ID for LLDP-MED Network Policy TLV. This allows assigning a VLAN ID for 
@@ -33,6 +34,7 @@ resource "routeros_ip_neighbor_discovery_settings" "test" {
 		Additionally, other neighbor discovery protocols (e.g. CDP) should be excluded using protocol setting to 
 		avoid LLDP-MED misconfiguration.
 - `lldp_poe_power` (Boolean) Two specific TLVs facilitate Power over Ethernet (PoE) management between Power Sourcing Equipment (PSE) and Powered Devices (PD).
+- `lldp_vlan_info` (Boolean) An option whether to send IEEE 802.1 Organizationally Specific TLVs in LLDP related to VLANs. The setting is available since RouterOS version 7.16.
 - `mode` (String) Selects the neighbor discovery packet sending and receiving mode. The setting is available since RouterOS version 7.7.
 - `protocol` (Set of String) List of used discovery protocols.
 
