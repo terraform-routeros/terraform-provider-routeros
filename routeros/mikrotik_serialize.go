@@ -3,6 +3,7 @@ package routeros
 import (
 	"fmt"
 	"regexp"
+	"slices"
 	"strconv"
 	"strings"
 	"sync"
@@ -266,6 +267,25 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 			}
 			// Used to represent an unordered collection of items.
 		case schema.TypeSet:
+			if _, ok := setUnsetFields[terraformSnakeName]; ok {
+				// policy = ["api", "read", "winbox"] -> ["api", "read"]
+				// old = ... read, !telnet, !rommon, api, !local, winbox
+				// new = api, read
+				var res []string
+				for _, v := range d.GetRawConfig().GetAttr(terraformSnakeName).AsValueSet().Values() {
+					res = append(res, v.AsString())
+				}
+
+				old, _ := d.GetChange(terraformSnakeName)
+				for _, v := range old.(*schema.Set).List() {
+					elem := v.(string)
+					if len(elem) > 0 && elem[0] != '!' && !slices.Contains(res, elem) {
+						res = append(res, "!"+elem)
+					}
+				}
+				item[mikrotikKebabName] = strings.Join(res, ",")
+				continue
+			}
 			item[mikrotikKebabName] = ListToString(value.(*schema.Set).List())
 		case schema.TypeMap:
 			for k, v := range value.(map[string]interface{}) {
