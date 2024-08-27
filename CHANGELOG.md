@@ -1,3 +1,10 @@
+## [1.61.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.61.0...v1.61.1) (2024-08-27)
+
+
+### Bug Fixes
+
+* **routeros_system_user_group:** Fix change detection in sets with `SetUnset` values ([#547](https://github.com/terraform-routeros/terraform-provider-routeros/issues/547)) ([d51c4c2](https://github.com/terraform-routeros/terraform-provider-routeros/commit/d51c4c207e9f5df3979c0b090a34f24ad713c062)), closes [#544](https://github.com/terraform-routeros/terraform-provider-routeros/issues/544)
+
 ## [1.61.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.60.0...v1.61.0) (2024-08-23)
 
 
