@@ -20,6 +20,7 @@ func ResourceCapsManConfigurationV0() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+				ValidateDiagFunc: ValidationMapKeyNames,
 			},
 			KeyComment: PropCommentRw,
 			"country": {
@@ -35,6 +36,7 @@ func ResourceCapsManConfigurationV0() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+				ValidateDiagFunc: ValidationMapKeyNames,
 			},
 			"disconnect_timeout": {
 				Type:     schema.TypeString,
@@ -136,6 +138,7 @@ func ResourceCapsManConfigurationV0() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+				ValidateDiagFunc: ValidationMapKeyNames,
 			},
 			"rx_chains": {
 				Type:        schema.TypeList,
@@ -153,6 +156,7 @@ func ResourceCapsManConfigurationV0() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+				ValidateDiagFunc: ValidationMapKeyNames,
 			},
 			"ssid": {
 				Type:     schema.TypeString,

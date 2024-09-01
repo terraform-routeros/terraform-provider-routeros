@@ -42,6 +42,7 @@ func ResourceWifi() *schema.Resource {
 			Optional:         true,
 			Elem:             &schema.Schema{Type: schema.TypeString},
 			Description:      "AAA inline settings.",
+			ValidateDiagFunc: ValidationMapKeyNames,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyArp:        PropArpRw,
@@ -56,6 +57,7 @@ func ResourceWifi() *schema.Resource {
 			Optional:         true,
 			Elem:             &schema.Schema{Type: schema.TypeString},
 			Description:      "Channel inline settings.",
+			ValidateDiagFunc: ValidationMapKeyNames,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"configuration": {
@@ -63,6 +65,7 @@ func ResourceWifi() *schema.Resource {
 			Optional:         true,
 			Elem:             &schema.Schema{Type: schema.TypeString},
 			Description:      "Configuration inline settings.",
+			ValidateDiagFunc: ValidationMapKeyNames,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"datapath": {
@@ -70,6 +73,7 @@ func ResourceWifi() *schema.Resource {
 			Optional:         true,
 			Elem:             &schema.Schema{Type: schema.TypeString},
 			Description:      "Datapath inline settings.",
+			ValidateDiagFunc: ValidationMapKeyNames,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyComment:     PropCommentRw,
@@ -91,6 +95,7 @@ func ResourceWifi() *schema.Resource {
 			Optional:         true,
 			Elem:             &schema.Schema{Type: schema.TypeString},
 			Description:      "Interworking inline settings.",
+			ValidateDiagFunc: ValidationMapKeyNames,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyL2Mtu: PropL2MtuRw,
@@ -133,6 +138,7 @@ func ResourceWifi() *schema.Resource {
 			Optional:         true,
 			Elem:             &schema.Schema{Type: schema.TypeString},
 			Description:      "Security inline settings.",
+			ValidateDiagFunc: ValidationMapKeyNames,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"steering": {
@@ -140,6 +146,7 @@ func ResourceWifi() *schema.Resource {
 			Optional:         true,
 			Elem:             &schema.Schema{Type: schema.TypeString},
 			Description:      "Steering inline settings.",
+			ValidateDiagFunc: ValidationMapKeyNames,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 	}
