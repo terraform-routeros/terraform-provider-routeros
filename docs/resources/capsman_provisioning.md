@@ -31,13 +31,13 @@ resource "routeros_capsman_provisioning" "test_provisioning" {
 - `comment` (String)
 - `common_name_regexp` (String) Regular expression to match radios by common name. Each CAP's common name identifier can be found under "/caps-man radio" as value "REMOTE-CAP-NAME"
 - `disabled` (Boolean)
-- `hw_supported_modes` (String) Match radios by supported wireless modes.
+- `hw_supported_modes` (Set of String) Match radios by supported wireless modes.
 - `identity_regexp` (String) Regular expression to match radios by router identity.
-- `ip_address_ranges` (String) Match CAPs with IPs within configured address range.
+- `ip_address_ranges` (Set of String) Match CAPs with IPs within configured address range.
 - `name_format` (String) Specify the syntax of the CAP interface name creation.
 - `name_prefix` (String) Name prefix which can be used in the name-format for creating the CAP interface names.
 - `radio_mac` (String) MAC address of radio to be matched, empty MAC (00:00:00:00:00:00) means match all MAC addresses.
-- `slave_configurations` (String) If action specifies to create interfaces, then a new slave interface for each configuration profile in this list is created.
+- `slave_configurations` (Set of String) If action specifies to create interfaces, then a new slave interface for each configuration profile in this list is created.
 
 ### Read-Only
 

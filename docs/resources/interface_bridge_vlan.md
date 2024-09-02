@@ -4,8 +4,8 @@
 ## Example Usage
 ```terraform
 resource "routeros_interface_bridge_vlan" "bridge_vlan" {
-  vlan_ids = ["50"]
   bridge   = "bridge"
+  vlan_ids = ["50"]
   tagged = [
     "bridge",
     "ether1"
@@ -13,6 +13,21 @@ resource "routeros_interface_bridge_vlan" "bridge_vlan" {
   untagged = [
     "ether5"
   ]
+}
+
+resource "routeros_interface_bridge_vlan" "bridge_vlan" {
+  bridge   = "bridge"
+  vlan_ids = ["4", "10", "20", "50", "100", "101", "102", "103", "112", "201", "202", "220", "254"]
+}
+
+resource "routeros_interface_bridge_vlan" "bridge_vlan" {
+  bridge   = "bridge"
+  vlan_ids = ["4", "10", "20", "50", "100-103", "112", "201", "202", "220", "254"]
+}
+
+resource "routeros_interface_bridge_vlan" "bridge_vlan" {
+  bridge   = "bridge"
+  vlan_ids = ["100-115", "120", "122", "128-130"]
 }
 ```
 
@@ -22,7 +37,7 @@ resource "routeros_interface_bridge_vlan" "bridge_vlan" {
 ### Required
 
 - `bridge` (String) The bridge interface which the respective VLAN entry is intended for.
-- `vlan_ids` (Set of String) The list of VLAN IDs for certain port configuration. This setting accepts VLAN ID range as well as comma separated values. E.g. vlan-ids=100-115,120,122,128-130.
+- `vlan_ids` (Set of String) The list of VLAN IDs for certain port configuration. This setting accepts VLAN ID range as well as comma separated values. E.g. `vlan-ids=["100-115","120","122","128-130"]`.
 
 ### Optional
 

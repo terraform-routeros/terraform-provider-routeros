@@ -1,3 +1,13 @@
+## [1.61.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.61.1...v1.61.2) (2024-09-02)
+
+
+### Bug Fixes
+
+* Add a validator for map name keys. ([059de30](https://github.com/terraform-routeros/terraform-provider-routeros/commit/059de305bcc829fb9be16c49c9903049f074cb13)), closes [#552](https://github.com/terraform-routeros/terraform-provider-routeros/issues/552)
+* **data.routeros_interfaces:** Fix the schema ([f9489a2](https://github.com/terraform-routeros/terraform-provider-routeros/commit/f9489a23148c4bb96a1b8db76cc409a4a9bda00a)), closes [#550](https://github.com/terraform-routeros/terraform-provider-routeros/issues/550)
+* **routeros_capsman_provisioning :** Change attributes type ([b9967d9](https://github.com/terraform-routeros/terraform-provider-routeros/commit/b9967d9c65f20da871cd6bc60597b49bd9d99d14)), closes [#551](https://github.com/terraform-routeros/terraform-provider-routeros/issues/551) [#551](https://github.com/terraform-routeros/terraform-provider-routeros/issues/551)
+* **system_user_group:** Fix `policy` validator ([6a0a0bd](https://github.com/terraform-routeros/terraform-provider-routeros/commit/6a0a0bdd370680b0ac19172ff40bc555a08c82cc))
+
 ## [1.61.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.61.0...v1.61.1) (2024-08-27)
 
 

@@ -27,6 +27,7 @@ Read-Only:
 - `comment` (String)
 - `default_name` (String)
 - `disabled` (Boolean)
+- `dynamic` (Boolean)
 - `id` (String)
 - `l2mtu` (Number)
 - `last_link_down_time` (String)
