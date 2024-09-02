@@ -23,7 +23,7 @@ import (
 */
 
 // https://help.mikrotik.com/docs/display/ROS/CAPsMAN
-func ResourceCapsManProvisioning() *schema.Resource {
+func ResourceCapsManProvisioningV0() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/caps-man/provisioning"),
 		MetaId:           PropId(Id),
@@ -45,13 +45,10 @@ func ResourceCapsManProvisioning() *schema.Resource {
 		},
 		KeyDisabled: PropDisabledRw,
 		"hw_supported_modes": {
-			Type:     schema.TypeSet,
-			Optional: true,
-			Elem: &schema.Schema{
-				Type:         schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"a", "a-turbo", "ac", "an", "b", "g", "g-turbo", "gn"}, false),
-			},
-			Description: "Match radios by supported wireless modes.",
+			Type:         schema.TypeString,
+			Optional:     true,
+			Description:  "Match radios by supported wireless modes.",
+			ValidateFunc: validation.StringInSlice([]string{"a", "a-turbo", "ac", "an", "b", "g", "g-turbo", "gn"}, false),
 		},
 		"identity_regexp": {
 			Type:        schema.TypeString,
@@ -59,11 +56,8 @@ func ResourceCapsManProvisioning() *schema.Resource {
 			Description: "Regular expression to match radios by router identity.",
 		},
 		"ip_address_ranges": {
-			Type:     schema.TypeSet,
-			Optional: true,
-			Elem: &schema.Schema{
-				Type: schema.TypeString,
-			},
+			Type:        schema.TypeString,
+			Optional:    true,
 			Description: "Match CAPs with IPs within configured address range.",
 		},
 		"master_configuration": {
@@ -92,11 +86,8 @@ func ResourceCapsManProvisioning() *schema.Resource {
 			ValidateFunc: ValidationMacAddress,
 		},
 		"slave_configurations": {
-			Type:     schema.TypeSet,
+			Type:     schema.TypeString,
 			Optional: true,
-			Elem: &schema.Schema{
-				Type: schema.TypeString,
-			},
 			Description: "If action specifies to create interfaces, then a new slave interface for each configuration " +
 				"profile in this list is created.",
 		},
@@ -112,14 +103,6 @@ func ResourceCapsManProvisioning() *schema.Resource {
 			StateContext: schema.ImportStatePassthroughContext,
 		},
 
-		Schema:        resSchema,
-		SchemaVersion: 1,
-		StateUpgraders: []schema.StateUpgrader{
-			{
-				Type:    ResourceCapsManProvisioningV0().CoreConfigSchema().ImpliedType(),
-				Upgrade: stateMigrationScalarToList("hw_supported_modes", "ip_address_ranges", "slave_configurations"),
-				Version: 0,
-			},
-		},
+		Schema: resSchema,
 	}
 }
