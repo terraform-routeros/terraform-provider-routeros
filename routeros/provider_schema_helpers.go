@@ -298,10 +298,11 @@ var (
 			"and cannot be directly modified.",
 	}
 	PropFilterRw = &schema.Schema{
-		Type:        schema.TypeMap,
-		Optional:    true,
-		Elem:        schema.TypeString,
-		Description: "Additional request filtering options.",
+		Type:             schema.TypeMap,
+		Optional:         true,
+		Elem:             schema.TypeString,
+		Description:      "Additional request filtering options.",
+		ValidateDiagFunc: ValidationMapKeyNames,
 	}
 	PropInactiveRo = &schema.Schema{
 		Type:     schema.TypeBool,
@@ -617,6 +618,30 @@ var (
 
 			return
 		}
+	}
+
+	reTerraformField = regexp.MustCompile("^[a-z0-9_]+$")
+	// ValidationMapKeyNames, A function to check map names for compliance with the TF standard.
+	// When copying keys from a real configuration it is easy to make a mistake and transfer a key
+	// containing dashes instead of underscores. This validator is added to prevent such errors.
+	ValidationMapKeyNames = func(v interface{}, path cty.Path) diag.Diagnostics {
+		var diags diag.Diagnostics
+
+		for key := range v.(map[string]interface{}) {
+			if reTerraformField.MatchString(key) {
+				continue
+			}
+
+			diags = append(diags, diag.Diagnostic{
+				Severity: diag.Error,
+				Summary:  "Invalid attribute name",
+				Detail: fmt.Sprintf("%s: Attribute name may only contain lowercase alphanumeric characters & "+
+					"underscores.", key),
+				AttributePath: append(path, cty.IndexStep{Key: cty.StringVal(key)}),
+			})
+		}
+
+		return diags
 	}
 )
 

@@ -29,7 +29,7 @@ func ResourceUserGroup() *schema.Resource {
 			Optional: true,
 			Elem: &schema.Schema{
 				Type: schema.TypeString,
-				ValidateDiagFunc: ValidationMultiValInSlice([]string{
+				ValidateDiagFunc: ValidationValInSlice([]string{
 					"api", "dude", "ftp", "local", "password", "policy", "read", "reboot", "rest-api", "romon", "sensitive", "sniff",
 					"ssh", "telnet", "test", "tikapp", "web", "winbox", "write",
 				}, false, true),

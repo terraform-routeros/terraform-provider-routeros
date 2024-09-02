@@ -49,6 +49,7 @@ func ResourceCapsManConfiguration() *schema.Resource {
 			Elem: &schema.Schema{
 				Type: schema.TypeString,
 			},
+			ValidateDiagFunc: ValidationMapKeyNames,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyComment: PropCommentRw,
@@ -65,6 +66,7 @@ func ResourceCapsManConfiguration() *schema.Resource {
 			Elem: &schema.Schema{
 				Type: schema.TypeString,
 			},
+			ValidateDiagFunc: ValidationMapKeyNames,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"disconnect_timeout": {
@@ -167,6 +169,7 @@ func ResourceCapsManConfiguration() *schema.Resource {
 			Elem: &schema.Schema{
 				Type: schema.TypeString,
 			},
+			ValidateDiagFunc: ValidationMapKeyNames,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"rx_chains": {
@@ -185,6 +188,7 @@ func ResourceCapsManConfiguration() *schema.Resource {
 			Elem: &schema.Schema{
 				Type: schema.TypeString,
 			},
+			ValidateDiagFunc: ValidationMapKeyNames,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"ssid": {

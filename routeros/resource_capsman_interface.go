@@ -50,6 +50,7 @@ func ResourceCapsManInterface() *schema.Resource {
 			Optional:         true,
 			Elem:             &schema.Schema{Type: schema.TypeString},
 			Description:      "Channel inline settings.",
+			ValidateDiagFunc: ValidationMapKeyNames,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"configuration": {
@@ -57,6 +58,7 @@ func ResourceCapsManInterface() *schema.Resource {
 			Optional:         true,
 			Elem:             &schema.Schema{Type: schema.TypeString},
 			Description:      "Configuration inline settings.",
+			ValidateDiagFunc: ValidationMapKeyNames,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyComment: PropCommentRw,
@@ -65,6 +67,7 @@ func ResourceCapsManInterface() *schema.Resource {
 			Optional:         true,
 			Elem:             &schema.Schema{Type: schema.TypeString},
 			Description:      "Datapath inline settings.",
+			ValidateDiagFunc: ValidationMapKeyNames,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyDisabled: PropDisabledRw,
@@ -109,6 +112,7 @@ func ResourceCapsManInterface() *schema.Resource {
 			Optional:         true,
 			Elem:             &schema.Schema{Type: schema.TypeString},
 			Description:      "Rates inline settings.",
+			ValidateDiagFunc: ValidationMapKeyNames,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"running": {
@@ -121,6 +125,7 @@ func ResourceCapsManInterface() *schema.Resource {
 			Optional:         true,
 			Elem:             &schema.Schema{Type: schema.TypeString},
 			Description:      "Security inline settings.",
+			ValidateDiagFunc: ValidationMapKeyNames,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 	}
