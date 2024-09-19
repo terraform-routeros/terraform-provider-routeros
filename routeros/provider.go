@@ -125,6 +125,7 @@ func Provider() *schema.Provider {
 			"routeros_firewall_mangle":     ResourceIPFirewallMangle(),
 			"routeros_firewall_nat":        ResourceIPFirewallNat(),
 			"routeros_dns":                 ResourceDns(),
+			"routeros_dns_adlist":          ResourceDnsAdlist(),
 			"routeros_dns_record":          ResourceDnsRecord(),
 
 			// Interface Objects
