@@ -1,3 +1,10 @@
+## [1.62.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.61.2...v1.62.0) (2024-09-19)
+
+
+### Features
+
+* **resource_dns_adlist:** Add dns ad list support ([b1ca164](https://github.com/terraform-routeros/terraform-provider-routeros/commit/b1ca164c8e1b2b5f6e9ecca90abe62f84c5a488c)), closes [#554](https://github.com/terraform-routeros/terraform-provider-routeros/issues/554)
+
 ## [1.61.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.61.1...v1.61.2) (2024-09-02)
 
 
