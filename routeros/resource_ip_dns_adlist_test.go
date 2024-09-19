@@ -6,9 +6,15 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
+const testDnsAdlistMinVersion = "7.15"
 const testResourceDnsAdlist = "routeros_dns_adlist.test"
 
 func TestAccResourceDnsAdlistTest_basic(t *testing.T) {
+	if !testCheckMinVersion(t, testDnsAdlistMinVersion) {
+		t.Logf("Test skipped, the minimum required version is %v", testDnsAdlistMinVersion)
+		return
+	}
+
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{
