@@ -99,6 +99,7 @@ func Provider() *schema.Provider {
 			"routeros_ip_pool":                         ResourceIPPool(),
 			"routeros_ip_route":                        ResourceIPRoute(),
 			"routeros_ip_dns":                          ResourceDns(),
+			"routeros_ip_dns_adlist":                   ResourceDnsAdlist(),
 			"routeros_ip_dns_record":                   ResourceDnsRecord(),
 			"routeros_ip_service":                      ResourceIpService(),
 			"routeros_ip_neighbor_discovery_settings":  ResourceIpNeighborDiscoverySettings(),
@@ -125,7 +126,6 @@ func Provider() *schema.Provider {
 			"routeros_firewall_mangle":     ResourceIPFirewallMangle(),
 			"routeros_firewall_nat":        ResourceIPFirewallNat(),
 			"routeros_dns":                 ResourceDns(),
-			"routeros_dns_adlist":          ResourceDnsAdlist(),
 			"routeros_dns_record":          ResourceDnsRecord(),
 
 			// Interface Objects
