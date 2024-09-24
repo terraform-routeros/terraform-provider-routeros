@@ -101,6 +101,7 @@ func Provider() *schema.Provider {
 			"routeros_ip_firewall_raw":                 ResourceIPFirewallRaw(),
 			"routeros_ip_hotspot_ip_binding":           ResourceIpHotspotIpBinding(),
 			"routeros_ip_hotspot_service_port":         ResourceIpHotspotServicePort(),
+			"routeros_ip_hotspot_user_profile":         ResourceIpHotspotUserProfile(),
 			"routeros_ip_hotspot_walled_garden":        ResourceIpHotspotWalledGarden(),
 			"routeros_ip_hotspot_walled_garden_ip":     ResourceIpHotspotWalledGardenIp(),
 			"routeros_ip_neighbor_discovery_settings":  ResourceIpNeighborDiscoverySettings(),
