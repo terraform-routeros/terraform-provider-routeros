@@ -3,6 +3,7 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"flag"
 	"fmt"
 	"log"
@@ -21,7 +22,7 @@ var (
 	reNewItemName = regexp.MustCompile(`^routeros_[a-z_]+$`)
 	// isDS          = flag.Bool("ds", false, "This is a datasource")
 	isSystem = flag.Bool("system", false, "This is a system resource")
-	csvTable = flag.Bool("table", false, "Extracting attributes from the WIKI table")
+	csvTable = flag.String("table", "", "Extracting attributes from the WIKI table (CSV file)")
 )
 
 func Fatalf(format string, a ...any) {
@@ -63,20 +64,20 @@ func main() {
 	flag.Parse()
 
 	if len(flag.Args()) < 1 {
-		Fatalf("Usage: go run tools/bolerplate/main.go routeros_new_resource")
-	}
-
-	if *csvTable {
-		if _, err := os.Stat(flag.Args()[0]); err != nil {
-			Fatalf("CSV file %v not found", flag.Args()[0])
-		}
-		extractAttributes(flag.Args()[0])
-		os.Exit(0)
+		Fatalf("Usage: go run tools/bolerplate/main.go [-table file.csv] [-system] <routeros_new_resource>")
 	}
 
 	resName := flag.Args()[0]
 	if !reNewItemName.MatchString(resName) {
 		Fatalf("The resource name must be in the format: 'routeros_[a-z_]+', got '%v'", resName)
+	}
+
+	var Schema string
+	if *csvTable != "" {
+		if _, err := os.Stat(*csvTable); err != nil {
+			Fatalf("CSV file %v not found", *csvTable)
+		}
+		Schema = extractAttributes(*csvTable)
 	}
 
 	itemType := Resource
@@ -107,7 +108,8 @@ func main() {
 	err = tmpl.Execute(f, struct {
 		GoResourceName string
 		System         bool
-	}{Resource.String() + goName, *isSystem})
+		Schema         string
+	}{Resource.String() + goName, *isSystem, Schema})
 	if err != nil {
 		panic(err)
 	}
@@ -257,6 +259,7 @@ func {{.GoResourceName}}() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/"),
 		MetaId:           PropId(Id),
 
+		{{.Schema}}
 	}
 
 	return &schema.Resource{
@@ -313,7 +316,36 @@ var (
 	enumReplacer  = strings.NewReplacer(" ", "", `"`, "`", "'", "`", "|", `", "`)
 )
 
-func extractAttributes(filename string) {
+func splitDescription(s string) (res string) {
+	if len(s) == 0 {
+		return
+	}
+
+	s = string(unicode.ToUpper(rune(s[0]))) + s[1:]
+	if s[len(s)-1] != '.' {
+		s += "."
+	}
+
+	if len(s) < 86 {
+		return s
+	}
+
+	var maxLen = 90
+	var i int
+	for _, c := range s {
+		res += string(c)
+		i++
+
+		if c == ' ' && i >= maxLen {
+			res += "\" +\n	\""
+			maxLen = 100
+			i = 0
+		}
+	}
+	return
+}
+
+func extractAttributes(filename string) string {
 	tmpl, err := template.New("attr").Parse(attribute)
 	if err != nil {
 		panic(err)
@@ -326,14 +358,14 @@ func extractAttributes(filename string) {
 	}
 	defer file.Close()
 
-	w := os.Stdout
+	ww := bytes.NewBuffer(nil)
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		row := scanner.Text()
 		rec := reCSV.FindAllStringSubmatch(row, -1)
 		if len(rec) != 2 {
-			fmt.Fprintln(w, row)
+			fmt.Fprintln(ww, row)
 			continue
 		}
 
@@ -354,7 +386,7 @@ func extractAttributes(filename string) {
 		}
 
 		// [ ["Property", Property] ["Description" Description] ]
-		if r1 == "Property" && r2 == "Description" {
+		if (r1 == "Property" || r1 == "Parameters") && r2 == "Description" {
 			continue
 		}
 
@@ -382,8 +414,6 @@ func extractAttributes(filename string) {
 			validate = enumReplacer.Replace(match[1])
 		}
 
-		ww := os.Stdout
-
 		tmpl.Execute(ww, struct {
 			Attribute    string
 			Type         string
@@ -393,17 +423,19 @@ func extractAttributes(filename string) {
 		}{
 			Attribute:    strings.ReplaceAll(reAttrName.FindString(r1), "-", "_"),
 			Type:         attrType,
-			Description:  strings.ReplaceAll(r2, `"`, "`"),
+			Description:  splitDescription(strings.ReplaceAll(r2, `"`, "`")),
 			Slice:        validate,
 			DiffSuppress: diffSuppress,
 		})
 
 		if r1 == "type" {
-			os.Exit(0)
+			return ww.String()
 		}
 
 		if err != nil {
 			Fatalf("%v", err)
 		}
 	}
+
+	return ww.String()
 }
