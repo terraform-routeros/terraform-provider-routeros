@@ -1,3 +1,23 @@
+## [1.63.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.62.0...v1.63.0) (2024-09-24)
+
+
+### Features
+
+* Add new resource `routeros_tool_sniffer` ([f046966](https://github.com/terraform-routeros/terraform-provider-routeros/commit/f0469663fe7ea395825dc92c6a246e09dcd0f81c))
+* **hotspot:** Add new resource `routeros_ip_hotspot_ip_binding` ([f2e27b4](https://github.com/terraform-routeros/terraform-provider-routeros/commit/f2e27b4732f863400c6f6c7f8341315019623f47))
+* **hotspot:** Add new resource `routeros_ip_hotspot_profile` ([06b974b](https://github.com/terraform-routeros/terraform-provider-routeros/commit/06b974bdfbd6508a3f32a6b52456f0c8a6ba10b0))
+* **hotspot:** Add new resource `routeros_ip_hotspot_service_port` ([153bf68](https://github.com/terraform-routeros/terraform-provider-routeros/commit/153bf68723a1def279431593ed5f5cc2bf2f1ddc))
+* **hotspot:** Add new resource `routeros_ip_hotspot_user_profile` ([4de2db9](https://github.com/terraform-routeros/terraform-provider-routeros/commit/4de2db943c82de89e2081b8b32ffed8621f42ab9))
+* **hotspot:** Add new resource `routeros_ip_hotspot_user` ([b897532](https://github.com/terraform-routeros/terraform-provider-routeros/commit/b897532232c12245b4c92f27ca129ebe8f6c8d31))
+* **hotspot:** Add new resource `routeros_ip_hotspot_walled_garden_ip` ([92778ff](https://github.com/terraform-routeros/terraform-provider-routeros/commit/92778ff184124ce8d2d7dc0dfc266b29b6f306ef))
+* **hotspot:** Add new resource `routeros_ip_hotspot_walled_garden` ([9c111ee](https://github.com/terraform-routeros/terraform-provider-routeros/commit/9c111eeefa0ce90e0bc2f02c9c2d9a4794487cbe))
+* **hotspot:** Add new resource `routeros_ip_hotspot` ([1da8f3d](https://github.com/terraform-routeros/terraform-provider-routeros/commit/1da8f3d755ec0a35836b67037d57e40d27d3453f))
+
+
+### Bug Fixes
+
+* **dns_adlist:** Change an invalid resource name. ([e77bcbf](https://github.com/terraform-routeros/terraform-provider-routeros/commit/e77bcbf6f3bccfc3271269a4ad1fbff00038cfaf)), closes [#554](https://github.com/terraform-routeros/terraform-provider-routeros/issues/554)
+
 ## [1.62.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.61.2...v1.62.0) (2024-09-19)
 
 
