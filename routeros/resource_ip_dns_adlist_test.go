@@ -7,7 +7,7 @@ import (
 )
 
 const testDnsAdlistMinVersion = "7.15"
-const testResourceDnsAdlist = "routeros_dns_adlist.test"
+const testResourceDnsAdlist = "routeros_ip_dns_adlist.test"
 
 func TestAccResourceDnsAdlistTest_basic(t *testing.T) {
 	if !testCheckMinVersion(t, testDnsAdlistMinVersion) {
@@ -23,7 +23,7 @@ func TestAccResourceDnsAdlistTest_basic(t *testing.T) {
 					testSetTransportEnv(t, name)
 				},
 				ProviderFactories: testAccProviderFactories,
-				CheckDestroy:      testCheckResourceDestroy("/ip/dns/adlist", "routeros_dns_adlist"),
+				CheckDestroy:      testCheckResourceDestroy("/ip/dns/adlist", "routeros_ip_dns_adlist"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccResourceDnsAdlistConfig(),
@@ -42,7 +42,7 @@ func TestAccResourceDnsAdlistTest_basic(t *testing.T) {
 
 func testAccResourceDnsAdlistConfig() string {
 	return providerConfig + `
-resource "routeros_dns_adlist" "test" {
+resource "routeros_ip_dns_adlist" "test" {
 	url        = "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"
 	ssl_verify = false
 }`

@@ -80,6 +80,7 @@ func Provider() *schema.Provider {
 		ResourcesMap: map[string]*schema.Resource{
 
 			// IP objects
+			"routeros_ip_address":                      ResourceIPAddress(),
 			"routeros_ip_dhcp_client":                  ResourceDhcpClient(),
 			"routeros_ip_dhcp_client_option":           ResourceDhcpClientOption(),
 			"routeros_ip_dhcp_relay":                   ResourceDhcpRelay(),
@@ -89,19 +90,27 @@ func Provider() *schema.Provider {
 			"routeros_ip_dhcp_server_lease":            ResourceDhcpServerLease(),
 			"routeros_ip_dhcp_server_option":           ResourceDhcpServerOption(),
 			"routeros_ip_dhcp_server_option_set":       ResourceDhcpServerOptionSet(),
+			"routeros_ip_dns":                          ResourceDns(),
+			"routeros_ip_dns_adlist":                   ResourceDnsAdlist(),
+			"routeros_ip_dns_record":                   ResourceDnsRecord(),
 			"routeros_ip_firewall_addr_list":           ResourceIPFirewallAddrList(),
 			"routeros_ip_firewall_connection_tracking": ResourceIPConnectionTracking(),
 			"routeros_ip_firewall_filter":              ResourceIPFirewallFilter(),
 			"routeros_ip_firewall_mangle":              ResourceIPFirewallMangle(),
 			"routeros_ip_firewall_nat":                 ResourceIPFirewallNat(),
 			"routeros_ip_firewall_raw":                 ResourceIPFirewallRaw(),
-			"routeros_ip_address":                      ResourceIPAddress(),
+			"routeros_ip_hotspot":                      ResourceIpHotspot(),
+			"routeros_ip_hotspot_ip_binding":           ResourceIpHotspotIpBinding(),
+			"routeros_ip_hotspot_profile":              ResourceIpHotspotProfile(),
+			"routeros_ip_hotspot_service_port":         ResourceIpHotspotServicePort(),
+			"routeros_ip_hotspot_user":                 ResourceIpHotspotUser(),
+			"routeros_ip_hotspot_user_profile":         ResourceIpHotspotUserProfile(),
+			"routeros_ip_hotspot_walled_garden":        ResourceIpHotspotWalledGarden(),
+			"routeros_ip_hotspot_walled_garden_ip":     ResourceIpHotspotWalledGardenIp(),
+			"routeros_ip_neighbor_discovery_settings":  ResourceIpNeighborDiscoverySettings(),
 			"routeros_ip_pool":                         ResourceIPPool(),
 			"routeros_ip_route":                        ResourceIPRoute(),
-			"routeros_ip_dns":                          ResourceDns(),
-			"routeros_ip_dns_record":                   ResourceDnsRecord(),
 			"routeros_ip_service":                      ResourceIpService(),
-			"routeros_ip_neighbor_discovery_settings":  ResourceIpNeighborDiscoverySettings(),
 			"routeros_ip_ssh_server":                   ResourceIpSSHServer(),
 			"routeros_ip_upnp":                         ResourceUPNPSettings(),
 			"routeros_ip_upnp_interfaces":              ResourceUPNPInterfaces(),
@@ -125,7 +134,6 @@ func Provider() *schema.Provider {
 			"routeros_firewall_mangle":     ResourceIPFirewallMangle(),
 			"routeros_firewall_nat":        ResourceIPFirewallNat(),
 			"routeros_dns":                 ResourceDns(),
-			"routeros_dns_adlist":          ResourceDnsAdlist(),
 			"routeros_dns_record":          ResourceDnsRecord(),
 
 			// Interface Objects
@@ -262,6 +270,7 @@ func Provider() *schema.Provider {
 			"routeros_tool_mac_server":        ResourceToolMacServer(),
 			"routeros_tool_mac_server_winbox": ResourceToolMacServerWinBox(),
 			"routeros_tool_netwatch":          ResourceToolNetwatch(),
+			"routeros_tool_sniffer":           ResourceToolSniffer(),
 
 			// User Manager
 			"routeros_user_manager_advanced":           ResourceUserManagerAdvanced(),
