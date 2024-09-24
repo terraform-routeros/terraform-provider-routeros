@@ -262,6 +262,7 @@ func Provider() *schema.Provider {
 			"routeros_tool_mac_server":        ResourceToolMacServer(),
 			"routeros_tool_mac_server_winbox": ResourceToolMacServerWinBox(),
 			"routeros_tool_netwatch":          ResourceToolNetwatch(),
+			"routeros_tool_sniffer":           ResourceToolSniffer(),
 
 			// User Manager
 			"routeros_user_manager_advanced":           ResourceUserManagerAdvanced(),
