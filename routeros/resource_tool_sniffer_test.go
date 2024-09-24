@@ -27,7 +27,7 @@ func TestAccToolSnifferTest_basic(t *testing.T) {
 							resource.TestCheckResourceAttr(testToolSniffer, "streaming_enabled", "true"),
 							resource.TestCheckResourceAttr(testToolSniffer, "streaming_server", "192.168.88.5:37008"),
 							resource.TestCheckResourceAttr(testToolSniffer, "filter_stream", "true"),
-							resource.TestCheckResourceAttr(testToolSniffer, "filter_interface.0", "ether2"),
+							resource.TestCheckResourceAttr(testToolSniffer, "filter_interface.0", "ether3"),
 							resource.TestCheckResourceAttr(testToolSniffer, "filter_direction", "rx"),
 							resource.TestCheckResourceAttr(testToolSniffer, "filter_operator_between_entries", "or"),
 						),
@@ -39,7 +39,7 @@ func TestAccToolSnifferTest_basic(t *testing.T) {
 							resource.TestCheckResourceAttr(testToolSniffer, "streaming_enabled", "true"),
 							resource.TestCheckResourceAttr(testToolSniffer, "streaming_server", "192.168.88.5:37008"),
 							resource.TestCheckResourceAttr(testToolSniffer, "filter_stream", "true"),
-							resource.TestCheckResourceAttr(testToolSniffer, "filter_interface.0", "ether2"),
+							resource.TestCheckResourceAttr(testToolSniffer, "filter_interface.0", "ether3"),
 							resource.TestCheckResourceAttr(testToolSniffer, "filter_direction", "rx"),
 							resource.TestCheckResourceAttr(testToolSniffer, "filter_operator_between_entries", "and"),
 						),
@@ -59,7 +59,7 @@ resource "routeros_tool_sniffer" "test" {
   streaming_server  = "192.168.88.5:37008"
   filter_stream     = true
 
-  filter_interface                = ["ether2"]
+  filter_interface                = ["ether3"]
   filter_direction                = "rx"
   filter_operator_between_entries = "%v"
 }

@@ -26,7 +26,7 @@ func TestAccIpHotspotTest_basic(t *testing.T) {
 						Check: resource.ComposeTestCheckFunc(
 							testResourcePrimaryInstanceId(testIpHotspot),
 							resource.TestCheckResourceAttr(testIpHotspot, "name", "server-1"),
-							resource.TestCheckResourceAttr(testIpHotspot, "interface", "ether2"),
+							resource.TestCheckResourceAttr(testIpHotspot, "interface", "ether3"),
 						),
 					},
 				},
@@ -41,7 +41,7 @@ func testAccIpHotspotConfig() string {
 
 resource "routeros_ip_hotspot" "test" {
   name      = "server-1"
-  interface = "ether2"
+  interface = "ether3"
 }
 `, providerConfig)
 }
