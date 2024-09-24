@@ -5,3 +5,6 @@ issues/*
 terraform-provider-routeros*
 terraform.tfstate*
 node_modules
+tools/boilerplate/examples/**
+tools/boilerplate/routeros/**
+tools/boilerplate/*.csv
