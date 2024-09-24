@@ -100,6 +100,7 @@ func Provider() *schema.Provider {
 			"routeros_ip_firewall_nat":                 ResourceIPFirewallNat(),
 			"routeros_ip_firewall_raw":                 ResourceIPFirewallRaw(),
 			"routeros_ip_hotspot_walled_garden":        ResourceIpHotspotWalledGarden(),
+			"routeros_ip_hotspot_walled_garden_ip":     ResourceIpHotspotWalledGardenIp(),
 			"routeros_ip_neighbor_discovery_settings":  ResourceIpNeighborDiscoverySettings(),
 			"routeros_ip_pool":                         ResourceIPPool(),
 			"routeros_ip_route":                        ResourceIPRoute(),
