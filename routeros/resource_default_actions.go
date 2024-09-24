@@ -290,3 +290,40 @@ func DefaultSystemDatasourceRead(s map[string]*schema.Schema) schema.ReadContext
 		return MikrotikResourceDataToTerraformDatasource(&[]MikrotikItem{res}, "", s, d)
 	}
 }
+
+// FIXME Replace fucntions in resources: ResourceInterfaceEthernetSwitchPortIsolation, ResourceInterfaceEthernetSwitchPort
+// ResourceInterfaceEthernetSwitch, ResourceInterfaceLte, ResourceIpService
+func DefaultCreateUpdate(s map[string]*schema.Schema) func(context.Context, *schema.ResourceData, interface{}) diag.Diagnostics {
+	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+		item, metadata := TerraformResourceDataToMikrotik(s, d)
+
+		res, err := ReadItems(&ItemId{Name, d.Get("name").(string)}, metadata.Path, m.(Client))
+		if err != nil {
+			// API/REST client error.
+			ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgPatch, err))
+			return diag.FromErr(err)
+		}
+
+		// Resource not found.
+		if len(*res) == 0 {
+			d.SetId("")
+			ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgPatch, err))
+			return diag.FromErr(errorNoLongerExists)
+		}
+
+		d.SetId((*res)[0].GetID(Id))
+		item[".id"] = d.Id()
+
+		var resUrl string
+		if m.(Client).GetTransport() == TransportREST {
+			resUrl = "/set"
+		}
+
+		err = m.(Client).SendRequest(crudPost, &URL{Path: metadata.Path + resUrl}, item, nil)
+		if err != nil {
+			return diag.FromErr(err)
+		}
+
+		return ResourceRead(ctx, s, d, m)
+	}
+}
