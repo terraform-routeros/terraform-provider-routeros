@@ -96,7 +96,7 @@ func main() {
 
 	// if !*isDS {
 	fName := fmt.Sprintf("%v_%v", Resource.HCL(), strings.TrimPrefix(resName, "routeros_"))
-	f, err := os.OpenFile(filepath.Join("routeros", fName+".go"), os.O_WRONLY|os.O_TRUNC|os.O_CREATE, os.ModePerm)
+	f, err := os.OpenFile(filepath.Join("routeros", fName+".go"), os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0644)
 	if err != nil {
 		panic(err)
 	}
@@ -109,13 +109,14 @@ func main() {
 		GoResourceName string
 		System         bool
 		Schema         string
-	}{Resource.String() + goName, *isSystem, Schema})
+		ResourcePath   string
+	}{Resource.String() + goName, *isSystem, Schema, strings.ReplaceAll(strings.TrimPrefix(resName, "routeros_"), "_", "/")})
 	if err != nil {
 		panic(err)
 	}
 	f.Close()
 
-	f, err = os.OpenFile(filepath.Join("routeros", fName+"_test.go"), os.O_WRONLY|os.O_TRUNC|os.O_CREATE, os.ModePerm)
+	f, err = os.OpenFile(filepath.Join("routeros", fName+"_test.go"), os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0644)
 	if err != nil {
 		panic(err)
 	}
@@ -136,7 +137,7 @@ func main() {
 
 	os.MkdirAll(filepath.Join("examples", "resources", resName), os.ModePerm)
 
-	f, err = os.OpenFile(filepath.Join("examples", "resources", resName, "import.sh"), os.O_WRONLY|os.O_TRUNC|os.O_CREATE, os.ModePerm)
+	f, err = os.OpenFile(filepath.Join("examples", "resources", resName, "import.sh"), os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0644)
 	if err != nil {
 		panic(err)
 	}
@@ -153,7 +154,7 @@ func main() {
 	}
 	f.Close()
 
-	f, err = os.OpenFile(filepath.Join("examples", "resources", resName, "resource.tf"), os.O_WRONLY|os.O_TRUNC|os.O_CREATE, os.ModePerm)
+	f, err = os.OpenFile(filepath.Join("examples", "resources", resName, "resource.tf"), os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0644)
 	if err != nil {
 		panic(err)
 	}
@@ -174,7 +175,7 @@ func main() {
 		flags |= os.O_CREATE
 	}
 
-	f, err = os.OpenFile(filepath.Join("routeros", "provider.go"), flags, os.ModePerm)
+	f, err = os.OpenFile(filepath.Join("routeros", "provider.go"), flags, 0644)
 	if err != nil {
 		panic(err)
 	}
@@ -259,7 +260,7 @@ REST JSON
 // https://help.mikrotik.com/docs/display/ROS/
 func {{.GoResourceName}}() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
-		MetaResourcePath: PropResourcePath("/"),
+		MetaResourcePath: PropResourcePath("/{{.ResourcePath}}"),
 		MetaId:           PropId(Id),
 
 		{{.Schema}}
