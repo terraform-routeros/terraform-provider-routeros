@@ -19,6 +19,7 @@ var (
 		"/ip/pool/add name=dhcp ranges=192.168.88.100-192.168.88.200",
 		"/interface/wireguard/add name=wg1",
 		"/interface/list/add name=list",
+		"/interface/print",
 	}
 )
 
