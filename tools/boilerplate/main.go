@@ -127,7 +127,8 @@ func main() {
 	err = tmpl.Execute(f, struct {
 		GoResourceName string
 		ResourceName   string
-	}{goName, resName})
+		ResourcePath   string
+	}{goName, resName, strings.ReplaceAll(strings.TrimPrefix(resName, "routeros_"), "_", "/")})
 	if err != nil {
 		panic(err)
 	}
@@ -145,7 +146,8 @@ func main() {
 	}
 	err = tmpl.Execute(f, struct {
 		ResourceName string
-	}{resName})
+		ResourcePath string
+	}{resName, strings.ReplaceAll(strings.TrimPrefix(resName, "routeros_"), "_", "/")})
 	if err != nil {
 		panic(err)
 	}
@@ -182,7 +184,7 @@ func main() {
 }
 
 var exampleImportFile = `#The ID can be found via API or the terminal
-#The command for the terminal is -> :put [/ get [print show-ids]]
+#The command for the terminal is -> :put [/{{.ResourcePath}} get [print show-ids]]
 terraform import {{.ResourceName}}.test *3`
 
 var exampleResourceFile = `
@@ -211,6 +213,7 @@ func TestAcc{{.GoResourceName}}Test_basic(t *testing.T) {
 					testSetTransportEnv(t, name)
 				},
 				ProviderFactories: testAccProviderFactories,
+				CheckDestroy:      testCheckResourceDestroy("/{{.ResourcePath}}", "{{.ResourceName}}"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAcc{{.GoResourceName}}Config(""),
