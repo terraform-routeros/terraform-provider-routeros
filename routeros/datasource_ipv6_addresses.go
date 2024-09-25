@@ -36,6 +36,10 @@ func DatasourceIPv6Addresses() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						"deprecated": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"comment": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -69,6 +73,10 @@ func DatasourceIPv6Addresses() *schema.Resource {
 							Computed: true,
 						},
 						"no_dad": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"slave": {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
