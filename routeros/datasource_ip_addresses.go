@@ -53,6 +53,10 @@ func DatasourceIPAddresses() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"slave": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 					},
 				},
 			},
