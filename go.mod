@@ -28,10 +28,12 @@ require (
 	go.abhg.dev/goldmark/frontmatter v0.2.0 // indirect
 	golang.org/x/exp v0.0.0-20230809150735-7b3493d9a819 // indirect
 	golang.org/x/sync v0.8.0 // indirect
+	golang.org/x/term v0.24.0 // indirect
 	golang.org/x/tools v0.21.1-0.20240508182429-e35e4ccd0d2d // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240227224415-6ceb2ff114de // indirect
 	gopkg.in/yaml.v2 v2.3.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
+	rsc.io/qr v0.2.0 // indirect
 )
 
 require (
@@ -66,6 +68,7 @@ require (
 	github.com/imdario/mergo v0.3.15 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
+	github.com/mdp/qrterminal/v3 v3.2.0
 	github.com/mitchellh/copystructure v1.2.0 // indirect
 	github.com/mitchellh/go-testing-interface v1.14.1 // indirect
 	github.com/mitchellh/go-wordwrap v1.0.1 // indirect
