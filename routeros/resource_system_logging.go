@@ -17,8 +17,8 @@ import (
 */
 
 var validTopics = []string{
-	"account", "async", "backup", "bfd", "bgp", "bridge", "calc", "caps", "certificate", "container", "critical",
-	"ddns", "debug", "dhcp", "dns", "dot1x", "dude", "e-mail", "error", "event", "fetch", "firewall", "gps", "gsm",
+	"account", "async", "backup", "bfd", "bgp", "bridge", "calc", "caps", "certificate", "clock", "container", "critical",
+	"ddns", "debug", "dhcp", "disk", "dns", "dot1x", "dude", "e-mail", "error", "event", "fetch", "firewall", "gps", "gsm",
 	"health", "hotspot", "igmp-proxy", "info", "interface", "ipsec", "iscsi", "isdn", "isis", "kvm", "l2tp", "ldp",
 	"lora", "lte", "manager", "mme", "mpls", "mqtt", "natpmp", "netinstall", "netwatch", "ntp", "ospf", "ovpn",
 	"packet", "pim", "poe-out", "ppp", "pppoe", "pptp", "queue", "radius", "radvd", "raw", "read", "rip", "route",
