@@ -1,3 +1,16 @@
+## [1.63.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.63.0...v1.63.1) (2024-09-26)
+
+### Features
+
+* **no-release:** Add QR code generation for WiFi ([#564](https://github.com/terraform-routeros/terraform-provider-routeros/issues/564)) ([9c39ae2](https://github.com/terraform-routeros/terraform-provider-routeros/commit/9c39ae2b52e62dfc7b3451887ee726a137b1c64c))
+
+### Bug Fixes
+
+* Missing fields in `routeros_system_user ` (introduced in 7.16) ([3ae2e10](https://github.com/terraform-routeros/terraform-provider-routeros/commit/3ae2e1030a7e30e935da4cdc316028c2abd3c91b)), closes [#560](https://github.com/terraform-routeros/terraform-provider-routeros/issues/560)
+* **no-release:** Add field introduced in 7.16 `routeros_ip_address` ([de72d8e](https://github.com/terraform-routeros/terraform-provider-routeros/commit/de72d8e6c421dc4c4dee36c0a45d207a8d232c9c))
+* **no-release:** Update `datasource_ipv6_addresses.go` ROS 7.16 ([0c0306b](https://github.com/terraform-routeros/terraform-provider-routeros/commit/0c0306b975c6be0314ea773b6ccc6f4acbfbe04d))
+* **no-release:** Update `resource_system_logging.go` ROS 7.16 ([884addc](https://github.com/terraform-routeros/terraform-provider-routeros/commit/884addca655d60e91b74bd9cc507bb17cc55e6ca))
+
 ## [1.63.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.62.0...v1.63.0) (2024-09-24)
 
 

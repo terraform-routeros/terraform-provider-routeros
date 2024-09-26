@@ -27,6 +27,7 @@ Read-Only:
 - `address` (String)
 - `advertise` (Boolean)
 - `comment` (String)
+- `deprecated` (Boolean)
 - `disabled` (Boolean)
 - `dynamic` (Boolean)
 - `eui_64` (Boolean)
@@ -36,5 +37,6 @@ Read-Only:
 - `invalid` (Boolean)
 - `link_local` (Boolean)
 - `no_dad` (Boolean)
+- `slave` (Boolean)
 
 

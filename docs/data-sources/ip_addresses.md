@@ -32,5 +32,6 @@ Read-Only:
 - `interface` (String)
 - `invalid` (Boolean)
 - `network` (String)
+- `slave` (Boolean)
 
 
