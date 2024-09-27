@@ -129,8 +129,9 @@ func ResourceInterfaceWirelessSecurityProfiles() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"management_protection_key": {
-			Type:     schema.TypeString,
-			Optional: true,
+			Type:      schema.TypeString,
+			Optional:  true,
+			Sensitive: true,
 			Description: "Management protection shared secret. When interface is in AP mode, default management " +
 				"protection key (configured in security-profile) can be overridden by key specified in access-list or " +
 				"RADIUS attribute.",
@@ -239,26 +240,30 @@ func ResourceInterfaceWirelessSecurityProfiles() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"static_key_0": {
-			Type:     schema.TypeString,
-			Optional: true,
+			Type:      schema.TypeString,
+			Optional:  true,
+			Sensitive: true,
 			Description: "Hexadecimal representation of the key. Length of key must be appropriate for selected algorithm. " +
 				"See the Statically configured WEP keys section.",
 		},
 		"static_key_1": {
-			Type:     schema.TypeString,
-			Optional: true,
+			Type:      schema.TypeString,
+			Optional:  true,
+			Sensitive: true,
 			Description: "Hexadecimal representation of the key. Length of key must be appropriate for selected algorithm. " +
 				"See the Statically configured WEP keys section.",
 		},
 		"static_key_2": {
-			Type:     schema.TypeString,
-			Optional: true,
+			Type:      schema.TypeString,
+			Optional:  true,
+			Sensitive: true,
 			Description: "Hexadecimal representation of the key. Length of key must be appropriate for selected algorithm. " +
 				"See the Statically configured WEP keys section.",
 		},
 		"static_key_3": {
-			Type:     schema.TypeString,
-			Optional: true,
+			Type:      schema.TypeString,
+			Optional:  true,
+			Sensitive: true,
 			Description: "Hexadecimal representation of the key. Length of key must be appropriate for selected algorithm. " +
 				"See the Statically configured WEP keys section.",
 		},
@@ -273,8 +278,9 @@ func ResourceInterfaceWirelessSecurityProfiles() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"static_sta_private_key": {
-			Type:     schema.TypeString,
-			Optional: true,
+			Type:      schema.TypeString,
+			Optional:  true,
+			Sensitive: true,
 			Description: "Length of key must be appropriate for selected algorithm, see the Statically configured WEP " +
 				"keys section. This property is used only on Stations. Access Point uses corresponding key either from " +
 				"private-key property, or from Mikrotik-Wireless-Enc-Key attribute.",
@@ -291,8 +297,9 @@ func ResourceInterfaceWirelessSecurityProfiles() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"supplicant_identity": {
-			Type:     schema.TypeString,
-			Optional: true,
+			Type:      schema.TypeString,
+			Optional:  true,
+			Sensitive: true,
 			Description: "EAP identity that is sent by client at the beginning of EAP authentication. This value is " +
 				"used as a value for User-Name attribute in RADIUS messages sent by RADIUS EAP accounting and RADIUS " +
 				"EAP pass-through authentication.",
@@ -334,16 +341,18 @@ func ResourceInterfaceWirelessSecurityProfiles() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"wpa_pre_shared_key": {
-			Type:     schema.TypeString,
-			Optional: true,
+			Type:      schema.TypeString,
+			Optional:  true,
+			Sensitive: true,
 			Description: "`WPA` pre-shared key mode requires all devices in a BSS to have common secret key. Value of " +
 				"this key can be an arbitrary text. Commonly referred to as the network password for WPA mode. property " +
 				"only has effect when wpa-psk is added to authentication-types.",
 			ValidateFunc: validation.StringLenBetween(8, 64),
 		},
 		"wpa2_pre_shared_key": {
-			Type:     schema.TypeString,
-			Optional: true,
+			Type:      schema.TypeString,
+			Optional:  true,
+			Sensitive: true,
 			Description: "`WPA2` pre-shared key mode requires all devices in a BSS to have common secret key. Value of " +
 				"this key can be an arbitrary text. Commonly referred to as the network password for WPA2 mode. property " +
 				"only has effect when wpa2-psk is added to authentication-types.",
