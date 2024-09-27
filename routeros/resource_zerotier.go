@@ -26,7 +26,7 @@ func ResourceZerotier() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/zerotier"),
 		MetaId:           PropId(Id),
-		MetaTransformSet: PropTransformSet("identity.public: identity_public"),
+		MetaTransformSet: PropTransformSet("identity_public: identity.public"),
 
 		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,

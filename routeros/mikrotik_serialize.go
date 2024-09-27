@@ -121,9 +121,9 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 	var transformSet map[string]string
 	var skipFields, setUnsetFields map[string]struct{}
 
-	// {"channel.config": "channel", "schema-field-name": "mikrotik-field-name"}
+	// {"channel: channel.config", "datapath: datapath.config", "schema-field-name": "mikrotik-field-name"}
 	if ts, ok := s[MetaTransformSet]; ok {
-		transformSet = loadTransformSet(ts.Default.(string), true)
+		transformSet = loadTransformSet(ts.Default.(string), false)
 	}
 
 	// "field_first", "field_second", "field_third"
@@ -195,6 +195,13 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 		// NewMikrotikItem.Fields["fast-forward"] = "true"
 		mikrotikKebabName := SnakeToKebab(terraformSnakeName)
 		value := d.Get(terraformSnakeName)
+
+		// WiFi basic_rates_ag -> basic-rates-a/g
+		if transformSet != nil && terraformMetadata.Type != schema.TypeMap {
+			if new, ok := transformSet[terraformSnakeName]; ok {
+				mikrotikKebabName = SnakeToKebab(new)
+			}
+		}
 
 		switch terraformMetadata.Type {
 		case schema.TypeString:
@@ -322,7 +329,7 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 
 	// {"channel": "channel.config", "mikrotik-field-name": "schema-field-name"}
 	if ts, ok := s[MetaTransformSet]; ok {
-		transformSet = loadTransformSet(ts.Default.(string), false)
+		transformSet = loadTransformSet(ts.Default.(string), true)
 	}
 
 	// "field_first", "field_second", "field_third"
