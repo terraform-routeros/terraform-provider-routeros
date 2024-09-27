@@ -27,7 +27,7 @@ resource "routeros_user_manager_attribute" "mikrotik_wireless_comment" {
 
 ### Read-Only
 
-- `default` (Boolean)
+- `default` (Boolean) It's the default item.
 - `default_name` (String) The attribute's default name.
 - `id` (String) The ID of this resource.
 - `standard_name` (String)

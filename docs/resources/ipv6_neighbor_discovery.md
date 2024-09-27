@@ -52,7 +52,7 @@ resource "routeros_ipv6_neighbor_discovery" "test" {
 
 ### Read-Only
 
-- `default` (Boolean) Neighbor discovery entry is the default configuration.
+- `default` (Boolean) It's the default item.
 - `id` (String) The ID of this resource.
 - `invalid` (Boolean)
 

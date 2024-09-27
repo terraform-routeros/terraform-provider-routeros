@@ -24,7 +24,7 @@ resource "routeros_capsman_manager_interface" "test_manager_interface" {
 
 ### Read-Only
 
-- `default` (Boolean)
+- `default` (Boolean) It's the default item.
 - `dynamic` (Boolean) Configuration item created by software, not by management interface. It is not exported, and cannot be directly modified.
 - `id` (String) The ID of this resource.
 

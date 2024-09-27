@@ -47,7 +47,7 @@ resource "routeros_user_manager_user_group" "test" {
 
 ### Read-Only
 
-- `default` (Boolean)
+- `default` (Boolean) It's the default item.
 - `default_name` (String) The default name of the group.
 - `id` (String) The ID of this resource.
 

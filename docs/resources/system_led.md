@@ -23,7 +23,7 @@ resource "routeros_system_led" "sfp1" {
 
 ### Read-Only
 
-- `default` (Boolean)
+- `default` (Boolean) It's the default item.
 - `id` (String) The ID of this resource.
 
 ## Import

@@ -4,6 +4,8 @@
 ## Example Usage
 ```terraform
 resource "routeros_tool_sniffer" "test" {
+  enabled = true
+
   streaming_enabled = true
   streaming_server  = "192.168.88.5:37008"
   filter_stream     = true
@@ -19,6 +21,7 @@ resource "routeros_tool_sniffer" "test" {
 
 ### Optional
 
+- `enabled` (Boolean) Start packet capture.
 - `file_limit` (Number) File size limit. Sniffer will stop when a limit is reached.
 - `file_name` (String) Name of the file where sniffed packets will be saved.
 - `filter_cpu` (String) CPU core used as a filter.

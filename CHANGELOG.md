@@ -1,3 +1,19 @@
+## [1.64.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.63.1...v1.64.0) (2024-09-27)
+
+### Features
+
+* **wireless:** Add new resource `routeros_interface_wireless_access_list` ([cd82592](https://github.com/terraform-routeros/terraform-provider-routeros/commit/cd825923390b489e41463b71e6ea253286f28c25))
+* **wireless:** Add new resource `routeros_interface_wireless_security_profiles` ([ef40fd2](https://github.com/terraform-routeros/terraform-provider-routeros/commit/ef40fd25f448c3ae1d92d2c2a60fcdde782f5df4))
+* **wireless:** Add new resource `routeros_interface_wireless` ([15c2650](https://github.com/terraform-routeros/terraform-provider-routeros/commit/15c265088c024a5b770fda1990ea3713c724d253))
+
+### Bug Fixes
+
+* **serialize:** Fix `PropTransformSet` ([8baebae](https://github.com/terraform-routeros/terraform-provider-routeros/commit/8baebae070e047a3dad3f86aa72cf502f053d781))
+* **serialize:** Fix the transformation of attribute names. ([9796820](https://github.com/terraform-routeros/terraform-provider-routeros/commit/9796820aa413ad6f45731b613a1cfa88fc124e0a))
+* **tool_sniffer:** Add resource state control ([eb53e45](https://github.com/terraform-routeros/terraform-provider-routeros/commit/eb53e456ffce679464bb9023df59056663b9c6e9))
+* **wireless_security_profile:** Add `Sensitive` flag to attributes ([909b4c7](https://github.com/terraform-routeros/terraform-provider-routeros/commit/909b4c792e169eec5c60619156be8bd10dfab7df))
+* **wireless:** Add missing field ([c112740](https://github.com/terraform-routeros/terraform-provider-routeros/commit/c112740a660362528f9d53037e97e59c7138441f))
+
 ## [1.63.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.63.0...v1.63.1) (2024-09-26)
 
 ### Features

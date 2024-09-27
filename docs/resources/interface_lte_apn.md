@@ -37,7 +37,7 @@ resource "routeros_interface_lte_apn" "test" {
 
 ### Read-Only
 
-- `default` (Boolean)
+- `default` (Boolean) It's the default item.
 - `id` (String) The ID of this resource.
 
 ## Import

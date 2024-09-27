@@ -54,7 +54,7 @@ resource "routeros_ip_hotspot_user_profile" "test" {
 
 ### Read-Only
 
-- `default` (Boolean) It's the default rule.
+- `default` (Boolean) It's the default item.
 - `id` (String) The ID of this resource.
 
 ## Import

@@ -32,7 +32,7 @@
 
 ### Read-Only
 
-- `default` (Boolean) This is a default action.
+- `default` (Boolean) It's the default item.
 - `id` (String) The ID of this resource.
 
 

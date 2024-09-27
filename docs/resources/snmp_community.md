@@ -41,7 +41,7 @@ resource "routeros_snmp_community" "mything" {
 
 ### Read-Only
 
-- `default` (Boolean) It's a default community.
+- `default` (Boolean) It's the default item.
 - `id` (String) The ID of this resource.
 
 ## Import
