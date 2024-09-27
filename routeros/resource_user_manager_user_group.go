@@ -29,10 +29,7 @@ func ResourceUserManagerUserGroup() *schema.Resource {
 			Elem:        &schema.Schema{Type: schema.TypeString},
 			Description: "A custom set of colon-separated attributes with their values will be added to `Access-Accept` messages for users in this group.",
 		},
-		"default": {
-			Type:     schema.TypeBool,
-			Computed: true,
-		},
+		KeyDefault:     PropDefaultRo,
 		KeyDefaultName: PropDefaultNameRo("The default name of the group."),
 		"inner_auths": {
 			Type:     schema.TypeSet,

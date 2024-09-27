@@ -36,11 +36,7 @@ func ResourceSystemLoggingAction() *schema.Resource {
 			Optional:    true,
 			Description: `Whether to use bsd-syslog as defined in RFC 3164.`,
 		},
-		"default": {
-			Type:        schema.TypeBool,
-			Computed:    true,
-			Description: "This is a default action.",
-		},
+		KeyDefault: PropDefaultRo,
 		"disk_file_count": {
 			Type:             schema.TypeInt,
 			Optional:         true,

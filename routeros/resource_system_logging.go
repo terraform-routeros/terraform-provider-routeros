@@ -38,10 +38,7 @@ func ResourceSystemLogging() *schema.Resource {
 			Required:    true,
 			Description: "specifies one of the system default actions or user specified action listed in actions menu",
 		},
-		"default": {
-			Type:     schema.TypeString,
-			Computed: true,
-		},
+		KeyDefault: PropDefaultRo,
 		"prefix": {
 			Type:        schema.TypeString,
 			Optional:    true,

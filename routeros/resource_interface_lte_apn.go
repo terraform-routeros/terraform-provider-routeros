@@ -48,10 +48,7 @@ func ResourceInterfaceLteApn() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyComment: PropCommentRw,
-		"default": {
-			Type:     schema.TypeBool,
-			Computed: true,
-		},
+		KeyDefault: PropDefaultRo,
 		"default_route_distance": {
 			Type:     schema.TypeInt,
 			Optional: true,

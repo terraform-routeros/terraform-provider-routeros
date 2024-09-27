@@ -22,10 +22,7 @@ func ResourceSystemLed() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/system/leds"),
 		MetaId:           PropId(Id),
 
-		"default": {
-			Type:     schema.TypeBool,
-			Computed: true,
-		},
+		KeyDefault:  PropDefaultRo,
 		KeyDisabled: PropDisabledRw,
 		"interface": {
 			Type:             schema.TypeString,

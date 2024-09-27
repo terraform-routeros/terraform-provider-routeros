@@ -105,10 +105,7 @@ func ResourceRoutingBGPTemplate() *schema.Resource {
 			ValidateFunc: validation.IsIPv4Address,
 		},
 		KeyComment:  PropCommentRw,
-		"default": {
-			Type:     schema.TypeBool,
-			Computed: true,
-		},
+		KeyDefault:  PropDefaultRo,
 		KeyDisabled: PropDisabledRw,
 		// hold-time ( time[3s..1h] | infinity ; Default: 3m )
 		"hold_time": {
