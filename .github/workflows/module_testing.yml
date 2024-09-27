@@ -21,8 +21,8 @@ jobs:
         os: [ubuntu-latest]
         routeros_version:
           - "7.12"
-          - "7.13"
-          - "7.14"
+          - "7.15"
+          - "7.16"
 
     steps:
       - name: Check out code into the Go module directory
