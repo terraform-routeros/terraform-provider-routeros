@@ -38,8 +38,8 @@ func ResourceWifiConfiguration() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/wifi/configuration"),
 		MetaId:           PropId(Id),
-		MetaTransformSet: PropTransformSet("aaa: aaa.config", "channel: channel.config", "datapath: datapath.config",
-			"interworking: interworking.config", "security: security.config", "steering: steering.config"),
+		MetaTransformSet: PropTransformSet("aaa.config: aaa", "channel.config: channel", "datapath.config: datapath",
+			"interworking.config: interworking", "security.config: security", "steering.config: steering"),
 
 		"aaa": {
 			Type:             schema.TypeMap,

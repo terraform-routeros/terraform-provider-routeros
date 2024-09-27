@@ -109,7 +109,7 @@ func PropDropByValue(s ...string) *schema.Schema {
 	}
 }
 
-// PropTransformSet List of []string{"TF", "MT"} string pairs.
+// PropTransformSet List of []string{"TF : MT", "TF : MT", ...} string pairs.
 func PropTransformSet(s ...string) *schema.Schema {
 	return &schema.Schema{
 		Type:        schema.TypeString,
