@@ -35,7 +35,7 @@ func TestAccIPConnectionTrackingTest_basic(t *testing.T) {
 							resource.TestCheckResourceAttr(testIPConnectionTracking, "generic_timeout", "3m"),
 							resource.TestCheckResourceAttr(testIPConnectionTracking, "icmp_timeout", "3m"),
 							resource.TestCheckResourceAttr(testIPConnectionTracking, "loose_tcp_tracking", "false"),
-							resource.TestCheckResourceAttr(testIPConnectionTracking, "max_entries", "419840"),
+							// resource.TestCheckResourceAttr(testIPConnectionTracking, "max_entries", "419840"), ROS 7.16 - 337920
 							resource.TestCheckResourceAttr(testIPConnectionTracking, "tcp_close_timeout", "3m"),
 							resource.TestCheckResourceAttr(testIPConnectionTracking, "tcp_close_wait_timeout", "3m"),
 							resource.TestCheckResourceAttr(testIPConnectionTracking, "tcp_established_timeout", "3m"),
@@ -61,7 +61,7 @@ func TestAccIPConnectionTrackingTest_basic(t *testing.T) {
 							resource.TestCheckResourceAttr(testIPConnectionTracking, "generic_timeout", "3m"),
 							resource.TestCheckResourceAttr(testIPConnectionTracking, "icmp_timeout", "3m"),
 							resource.TestCheckResourceAttr(testIPConnectionTracking, "loose_tcp_tracking", "false"),
-							resource.TestCheckResourceAttr(testIPConnectionTracking, "max_entries", "419840"),
+							// resource.TestCheckResourceAttr(testIPConnectionTracking, "max_entries", "419840"), ROS 7.16 - 337920
 							resource.TestCheckResourceAttr(testIPConnectionTracking, "tcp_close_timeout", "3m"),
 							resource.TestCheckResourceAttr(testIPConnectionTracking, "tcp_close_wait_timeout", "3m"),
 							resource.TestCheckResourceAttr(testIPConnectionTracking, "tcp_established_timeout", "3m"),
