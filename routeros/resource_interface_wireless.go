@@ -440,6 +440,10 @@ func ResourceInterfaceWireless() *schema.Resource {
 			ValidateFunc:     validation.StringInSlice([]string{"any", "indoor", "outdoor"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"interface_type": {
+			Type:     schema.TypeString,
+			Computed: true,
+		},
 		"interworking_profile": {
 			Type:             schema.TypeString,
 			Optional:         true,
