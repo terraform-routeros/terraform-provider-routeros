@@ -92,11 +92,7 @@ func ResourceIpHotspotUserProfile() *schema.Resource {
 				"from the begining.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
-		"default": {
-			Type:        schema.TypeBool,
-			Computed:    true,
-			Description: "It's the default rule.",
-		},
+		KeyDefault: PropDefaultRo,
 		"idle_timeout": {
 			Type:     schema.TypeString,
 			Optional: true,

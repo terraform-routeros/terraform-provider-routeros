@@ -56,12 +56,8 @@ func ResourceSNMPCommunity() *schema.Resource {
 			Description:  "The protocol used for authentication (SNMPv3).",
 			ValidateFunc: validation.StringInSlice([]string{"MD5", "SHA1"}, false),
 		},
-		KeyComment: PropCommentRw,
-		"default": {
-			Type:        schema.TypeBool,
-			Computed:    true,
-			Description: "It's a default community.",
-		},
+		KeyComment:  PropCommentRw,
+		KeyDefault:  PropDefaultRo,
 		KeyDisabled: PropDisabledRw,
 		"encryption_password": {
 			Type:        schema.TypeString,
@@ -113,11 +109,11 @@ func ResourceSNMPCommunity() *schema.Resource {
 			StateContext: schema.ImportStatePassthroughContext,
 		},
 
-		Schema: resSchema,
+		Schema:        resSchema,
 		SchemaVersion: 1,
 		StateUpgraders: []schema.StateUpgrader{
 			{
-				Type: ResourceSNMPCommunityV0().CoreConfigSchema().ImpliedType(),
+				Type:    ResourceSNMPCommunityV0().CoreConfigSchema().ImpliedType(),
 				Upgrade: stateMigrationScalarToList("addresses"),
 				Version: 0,
 			},

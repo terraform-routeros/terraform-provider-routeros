@@ -30,9 +30,9 @@ func ResourceSNMPCommunityV0() *schema.Resource {
 		MetaId:           PropId(Id),
 
 		"addresses": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Description: "Set of IP (v4 or v6) addresses or CIDR networks from which connections to SNMP server are allowed.",
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Set of IP (v4 or v6) addresses or CIDR networks from which connections to SNMP server are allowed.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"authentication_password": {
@@ -48,12 +48,8 @@ func ResourceSNMPCommunityV0() *schema.Resource {
 			Description:  "The protocol used for authentication (SNMPv3).",
 			ValidateFunc: validation.StringInSlice([]string{"MD5", "SHA1"}, false),
 		},
-		KeyComment: PropCommentRw,
-		"default": {
-			Type:        schema.TypeBool,
-			Computed:    true,
-			Description: "It's a default community.",
-		},
+		KeyComment:  PropCommentRw,
+		KeyDefault:  PropDefaultRo,
 		KeyDisabled: PropDisabledRw,
 		"encryption_password": {
 			Type:        schema.TypeString,

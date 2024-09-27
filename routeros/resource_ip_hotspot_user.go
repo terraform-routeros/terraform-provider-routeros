@@ -41,12 +41,8 @@ func ResourceIpHotspotUser() *schema.Resource {
 			Description: "IP address, when specified client will get the address from the HotSpot one-to-one NAT translations. " +
 				"Address does not restrict HotSpot login only from this address.",
 		},
-		KeyComment: PropCommentRw,
-		"default": {
-			Type:        schema.TypeBool,
-			Computed:    true,
-			Description: "It's the default rule.",
-		},
+		KeyComment:  PropCommentRw,
+		KeyDefault:  PropDefaultRo,
 		KeyDisabled: PropDisabledRw,
 		KeyDynamic:  PropDynamicRo,
 		"email": {

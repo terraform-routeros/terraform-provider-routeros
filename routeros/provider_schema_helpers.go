@@ -31,6 +31,7 @@ const (
 	KeyArpTimeout              = "arp_timeout"
 	KeyClampTcpMss             = "clamp_tcp_mss"
 	KeyComment                 = "comment"
+	KeyDefault                 = "default"
 	KeyDynamic                 = "dynamic"
 	KeyDefaultName             = "default_name"
 	KeyDisabled                = "disabled"
@@ -254,6 +255,11 @@ var (
 		Type:             schema.TypeBool,
 		Optional:         true,
 		DiffSuppressFunc: AlwaysPresentNotUserProvided,
+	}
+	PropDefaultRo = &schema.Schema{
+		Type:        schema.TypeBool,
+		Computed:    true,
+		Description: "It's the default item.",
 	}
 	PropDontFragmentRw = &schema.Schema{
 		Type:             schema.TypeString,

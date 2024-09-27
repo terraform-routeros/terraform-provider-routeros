@@ -50,11 +50,7 @@ func ResourceIPv6NeighborDiscovery() *schema.Resource {
 			Default:     true,
 		},
 		KeyComment: PropCommentRw,
-		"default": {
-			Type:        schema.TypeBool,
-			Computed:    true,
-			Description: "Neighbor discovery entry is the default configuration.",
-		},
+		KeyDefault: PropDefaultRo,
 		"dns_servers": {
 			Type:        schema.TypeString,
 			Optional:    true,

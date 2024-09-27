@@ -91,11 +91,7 @@ func ResourcePPPProfile() *schema.Resource {
 			ValidateFunc: validation.StringInSlice([]string{"yes", "no", "default"}, false),
 		},
 		KeyComment: PropCommentRw,
-		"default": {
-			Type:        schema.TypeString,
-			Computed:    true,
-			Description: "Default profile sign.",
-		},
+		KeyDefault: PropDefaultRo,
 		"dhcpv6_pd_pool": {
 			Type:     schema.TypeString,
 			Optional: true,

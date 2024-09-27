@@ -101,11 +101,8 @@ func ResourceCapsManManagerInterface() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/caps-man/manager/interface"),
 		MetaId:           PropId(Id),
 
-		KeyComment: PropCommentRw,
-		"default": {
-			Type:     schema.TypeBool,
-			Computed: true,
-		},
+		KeyComment:  PropCommentRw,
+		KeyDefault:  PropDefaultRo,
 		KeyDisabled: PropDisabledRw,
 		KeyDynamic:  PropDynamicRo,
 		"forbid": {
