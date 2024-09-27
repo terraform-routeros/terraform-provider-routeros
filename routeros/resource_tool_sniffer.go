@@ -49,8 +49,14 @@ func ResourceToolSniffer() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/tool/sniffer"),
 		MetaId:           PropId(Id),
-		MetaSkipFields:   PropSkipFields("quick_rows", "quick_show_frame", "show_frame"),
+		MetaSkipFields:   PropSkipFields("quick_rows", "quick_show_frame", "show_frame", "enabled"),
 
+		"enabled": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Default:     true,
+			Description: "Start packet capture.",
+		},
 		"file_limit": {
 			Type:             schema.TypeInt,
 			Optional:         true,
@@ -335,12 +341,19 @@ func ResourceToolSniffer() *schema.Resource {
 				return diags
 			}
 
-			startSniffer(ctx, resSchema, d, m)
+			setSnifferState(ctx, resSchema, d, m)
 
 			return SystemResourceRead(ctx, resSchema, d, m)
 		},
 
-		ReadContext: DefaultSystemRead(resSchema),
+		ReadContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+			if d := SystemResourceRead(ctx, resSchema, d, m); d.HasError() {
+				return d
+			}
+			d.Set("enabled", d.Get(KeyRunning).(bool))
+
+			return nil
+		},
 
 		UpdateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 			stopSniffer(ctx, resSchema, d, m)
@@ -349,7 +362,7 @@ func ResourceToolSniffer() *schema.Resource {
 			if diags.HasError() {
 				return diags
 			}
-			startSniffer(ctx, resSchema, d, m)
+			setSnifferState(ctx, resSchema, d, m)
 
 			return SystemResourceRead(ctx, resSchema, d, m)
 		},
@@ -366,6 +379,13 @@ func ResourceToolSniffer() *schema.Resource {
 
 		Schema: resSchema,
 	}
+}
+
+func setSnifferState(ctx context.Context, s map[string]*schema.Schema, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	if d.Get("enabled").(bool) {
+		return startSniffer(ctx, s, d, m)
+	}
+	return stopSniffer(ctx, s, d, m)
 }
 
 func startSniffer(ctx context.Context, s map[string]*schema.Schema, d *schema.ResourceData, m interface{}) diag.Diagnostics {
