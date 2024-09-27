@@ -10,6 +10,11 @@ import (
 const testInterfaceWirelessSecurityProfiles = "routeros_interface_wireless_security_profiles.test"
 
 func TestAccInterfaceWirelessSecurityProfilesTest_basic(t *testing.T) {
+	if !testCheckMaxVersion(t, testCapsManChannelMaxVersion) {
+		t.Logf("Test skipped, the maximum supported version is %v", testCapsManChannelMaxVersion)
+		return
+	}
+
 	t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
