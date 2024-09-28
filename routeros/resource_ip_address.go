@@ -49,6 +49,11 @@ func ResourceIPAddress() *schema.Resource {
 				"(point to point links)",
 			ValidateFunc: validation.IsIPAddress,
 		},
+		"slave": {
+			Type:        schema.TypeBool,
+			Computed:    true,
+			Description: "Whether address belongs to an interface which is a slave port to some other master interface",
+		},
 	}
 	return &schema.Resource{
 		CreateContext: DefaultCreate(resSchema),
