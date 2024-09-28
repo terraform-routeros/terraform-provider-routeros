@@ -25,7 +25,7 @@ import (
 ]
 */
 
-// ResourceIPv6Address https://wiki.mikrotik.com/wiki/Manual:IPv6/Address
+// ResourceIPv6Address https://help.mikrotik.com/docs/display/ROS/IP+Addressing
 func ResourceIPv6Address() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ipv6/address"),
@@ -106,6 +106,11 @@ func ResourceIPv6Address() *schema.Resource {
 		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
 		KeyDynamic:  PropDynamicRo,
+		"deprecated": {
+			Type:        schema.TypeBool,
+			Computed:    true,
+			Description: "Whether address is deprecated",
+		},
 		"eui_64": {
 			Type:        schema.TypeBool,
 			Optional:    true,
@@ -135,6 +140,11 @@ func ResourceIPv6Address() *schema.Resource {
 			Optional: true,
 			Description: "If set indicates that address is anycast address and Duplicate Address Detection should " +
 				"not be performed.",
+		},
+		"slave": {
+			Type:        schema.TypeBool,
+			Computed:    true,
+			Description: "Whether address belongs to an interface which is a slave port to some other master interface",
 		},
 	}
 	return &schema.Resource{
