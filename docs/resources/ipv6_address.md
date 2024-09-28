@@ -30,11 +30,13 @@ resource "routeros_ipv6_address" "ipv6_address" {
 ### Read-Only
 
 - `actual_interface` (String) Name of the actual interface the logical one is bound to.
+- `deprecated` (Boolean) Whether address is deprecated
 - `dynamic` (Boolean) Configuration item created by software, not by management interface. It is not exported, and cannot be directly modified.
 - `global` (Boolean) Whether address is global.
 - `id` (String) The ID of this resource.
 - `invalid` (Boolean)
 - `link_local` (Boolean) Whether address is link local.
+- `slave` (Boolean) Whether address belongs to an interface which is a slave port to some other master interface
 
 ## Import
 Import is supported using the following syntax:

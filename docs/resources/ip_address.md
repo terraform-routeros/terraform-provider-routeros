@@ -30,6 +30,7 @@ resource "routeros_ip_address" "address" {
 - `dynamic` (Boolean) Configuration item created by software, not by management interface. It is not exported, and cannot be directly modified.
 - `id` (String) The ID of this resource.
 - `invalid` (Boolean)
+- `slave` (Boolean) Whether address belongs to an interface which is a slave port to some other master interface
 
 ## Import
 Import is supported using the following syntax:

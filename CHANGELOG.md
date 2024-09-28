@@ -1,3 +1,10 @@
+## [1.64.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.64.0...v1.64.1) (2024-09-28)
+
+### Bug Fixes
+
+* **no-release:** Update resource_ipv6_address.go ([#568](https://github.com/terraform-routeros/terraform-provider-routeros/issues/568)) ([587f527](https://github.com/terraform-routeros/terraform-provider-routeros/commit/587f527c532ffabfe404508512ab5b9185f68695))
+* Update resource_ip_address.go ([#569](https://github.com/terraform-routeros/terraform-provider-routeros/issues/569)) ([25a6496](https://github.com/terraform-routeros/terraform-provider-routeros/commit/25a64968c0bb8279f599859af371309fcbca1871))
+
 ## [1.64.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.63.1...v1.64.0) (2024-09-27)
 
 ### Features
