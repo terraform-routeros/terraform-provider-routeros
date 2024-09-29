@@ -122,7 +122,7 @@ func PropTransformSet(s ...string) *schema.Schema {
 	}
 }
 
-// PropSkipFields
+// PropSkipFields SnakeName notation
 func PropSkipFields(s ...string) *schema.Schema {
 	return &schema.Schema{
 		Type:        schema.TypeString,

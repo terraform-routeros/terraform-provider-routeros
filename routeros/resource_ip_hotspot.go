@@ -26,7 +26,7 @@ func ResourceIpHotspot() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/hotspot"),
 		MetaId:           PropId(Id),
-		MetaSkipFields:   PropSkipFields("HTTPS", "keepalive-timeout", "proxy_status"),
+		MetaSkipFields:   PropSkipFields("HTTPS", "keepalive_timeout", "proxy_status"),
 
 		"address_pool": {
 			Type:     schema.TypeString,
