@@ -1,3 +1,9 @@
+## [1.64.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.64.1...v1.64.2) (2024-09-29)
+
+### Bug Fixes
+
+* Unable to remove routeros_interface_wireless from config ([#571](https://github.com/terraform-routeros/terraform-provider-routeros/issues/571)) ([8990eb0](https://github.com/terraform-routeros/terraform-provider-routeros/commit/8990eb05c63859b0d58be996d7d2a886868ab13a)), closes [#570](https://github.com/terraform-routeros/terraform-provider-routeros/issues/570)
+
 ## [1.64.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.64.0...v1.64.1) (2024-09-28)
 
 ### Bug Fixes
