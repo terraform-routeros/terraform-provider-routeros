@@ -1,8 +1,12 @@
 package routeros
 
 import (
+	"context"
+	"fmt"
 	"regexp"
+	"strings"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
@@ -107,6 +111,7 @@ func ResourceInterfaceWireless() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath:   PropResourcePath("/interface/wireless"),
 		MetaId:             PropId(Id),
+		MetaSkipFields:     PropSkipFields(".about", "pci_info"),
 		MetaTransformSet:   PropTransformSet("basic_rates_ag: basic-rates-a/g", "supported_rates_ag: supported-rates-a/g"),
 		MetaSetUnsetFields: PropSetUnsetFields("secondary_frequency"),
 
@@ -550,6 +555,21 @@ func ResourceInterfaceWireless() *schema.Resource {
 			ValidateFunc:     validation.IntBetween(10, 200),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"nv2_downlink_ratio": {
+			Type:     schema.TypeInt,
+			Optional: true,
+			Description: "Specifies the Nv2 downlink ratio. Uplink ratio is automatically calculated from the " +
+				"downlink-ratio value. When using dynamic-downlink mode the downlink-ratio is also used when link get " +
+				"fully saturated. Minimum value is 20 and maximum 80.",
+			ValidateFunc:     validation.IntBetween(20, 80),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"nv2_mode": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Specifies to use dynamic or fixed downlink/uplink ratio.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"nv2_noise_floor_offset": {
 			Type:             schema.TypeString,
 			Optional:         true,
@@ -560,7 +580,7 @@ func ResourceInterfaceWireless() *schema.Resource {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Sensitive:   true,
-			Description: "",
+			Description: "Specifies preshared key to be used.",
 		},
 		"nv2_qos": {
 			Type:     schema.TypeString,
@@ -576,15 +596,23 @@ func ResourceInterfaceWireless() *schema.Resource {
 		"nv2_queue_count": {
 			Type:             schema.TypeInt,
 			Optional:         true,
-			Description:      "",
+			Description:      "Specifies how many priority queues are used in Nv2 network.",
 			ValidateFunc:     validation.IntBetween(2, 8),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"nv2_security": {
 			Type:             schema.TypeString,
 			Optional:         true,
-			Description:      "",
+			Description:      "Specifies Nv2 security mode.",
 			ValidateFunc:     validation.StringInSlice([]string{"disabled", "enabled"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"nv2_sync_secret": {
+			Type:      schema.TypeString,
+			Optional:  true,
+			Sensitive: true,
+			Description: "Specifies secret key for use in the Nv2 synchronization. Secret should match on Master " +
+				"and Slave devices in order to establish the synced state.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"on_fail_retry_time": {
@@ -916,10 +944,64 @@ func ResourceInterfaceWireless() *schema.Resource {
 	}
 
 	return &schema.Resource{
-		CreateContext: DefaultCreate(resSchema),
+		// Interaction with mixed types of elements within a single resource.
+		// In this case, there are physical and virtual interfaces that need to be created and deleted in different ways.
+		CreateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
+			metadata := GetMetadata(resSchema)
+			filter := buildReadFilter(map[string]interface{}{"name": d.Get("name")})
+			items, err := ReadItemsFiltered(filter, metadata.Path, m.(Client))
+			if err != nil {
+				return diag.FromErr(err)
+			}
+
+			var diags diag.Diagnostics
+			if items == nil || len(*items) == 0 {
+				// No interface with the specified name was found. Adding...
+				diags = ResourceCreate(ctx, resSchema, d, m)
+			} else {
+				// An interface with the specified name is found. There are two options:
+				//		it is physical and then we will update it with existing settings,
+				//		or it is virtual and needs to be imported.
+				iface := (*items)[0]
+				if ifType, ok := iface["interface-type"]; ok {
+					if strings.ToLower(ifType) != "virtual" {
+						// It's a physical interface.
+						d.SetId(iface.GetID(Id))
+						diags = ResourceUpdate(ctx, resSchema, d, m)
+					} else {
+						diags = diag.Diagnostics{diag.Diagnostic{
+							Severity: diag.Error,
+							Summary:  fmt.Sprintf("A virtual interface named '%v' already exists", d.Get("name")),
+						}}
+					}
+				} else {
+					diags = diag.Diagnostics{diag.Diagnostic{
+						Severity: diag.Error,
+						Summary: fmt.Sprintf("The Mikrotik resource (%v print where name=%v) does not contain "+
+							"'interface-type' attribute in the response",
+							metadata.Path, d.Get("name")),
+					}}
+				}
+			}
+
+			if diags.HasError() {
+				return diags
+			}
+
+			return ResourceRead(ctx, resSchema, d, m)
+		},
+
 		ReadContext:   DefaultRead(resSchema),
 		UpdateContext: DefaultUpdate(resSchema),
-		DeleteContext: DefaultDelete(resSchema),
+		DeleteContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+			if strings.ToLower(d.Get("interface_type").(string)) != "virtual" {
+				// It's a physical interface.
+				return SystemResourceDelete(ctx, resSchema, d, m)
+			}
+
+			return ResourceDelete(ctx, resSchema, d, m)
+		},
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
