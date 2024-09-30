@@ -198,6 +198,7 @@ func ResourceInterfaceWireless() *schema.Resource {
 			Description: "Defines set of used data rates, channel frequencies and widths.",
 			ValidateFunc: validation.StringInSlice([]string{"2ghz-b", "2ghz-b/g", "2ghz-b/g/n", "2ghz-onlyg",
 				"2ghz-onlyn", "5ghz-a", "5ghz-a/n", "5ghz-onlyn", "5ghz-a/n/ac", "5ghz-onlyac", "5ghz-n/ac"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"basic_rates_ag": {
 			Type:     schema.TypeSet,
@@ -483,7 +484,7 @@ func ResourceInterfaceWireless() *schema.Resource {
 		},
 		"mode": {
 			Type:     schema.TypeString,
-			Required: true,
+			Optional: true,
 			Description: "Selection between different station and access point (AP) modes. **Station modes**: `station` - Basic " +
 				"station mode. Find and connect to acceptable AP. `station-wds` - Same as station, but create WDS link with " +
 				"AP, using proprietary extension. AP configuration has to allow WDS links with this device. Note that " +
@@ -727,9 +728,10 @@ func ResourceInterfaceWireless() *schema.Resource {
 			ValidateFunc: validation.StringInSlice([]string{"integer"}, false),
 		},
 		"ssid": {
-			Type:        schema.TypeString,
-			Required:    true,
-			Description: "SSID (service set identifier) is a name that identifies wireless network.",
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "SSID (service set identifier) is a name that identifies wireless network.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"skip_dfs_channels": {
 			Type:     schema.TypeString,
