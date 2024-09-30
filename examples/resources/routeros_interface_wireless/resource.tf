@@ -1,3 +1,13 @@
+variable "wlan_2ghz_disabled" {
+  type    = bool
+  default = false
+}
+
+resource "routeros_interface_wireless" "wlan-2ghz" {
+  name     = "wlan1"
+  disabled = var.wlan_2ghz_disabled
+}
+
 resource "routeros_interface_wireless_security_profiles" "test" {
   name                 = "test-profile"
   mode                 = "dynamic-keys"
@@ -10,7 +20,7 @@ resource "routeros_interface_wireless" "test" {
   depends_on       = [resource.routeros_interface_wireless_security_profiles.test]
   security_profile = resource.routeros_interface_wireless_security_profiles.test.name
   mode             = "ap-bridge"
-  master_interface = "wlan1"
+  master_interface = resource.routeros_interface_wireless.wlan-2ghz.name
   name             = "wlan-guest"
   ssid             = "guests"
   basic_rates_ag   = ["6Mbps", "9Mbps"]
