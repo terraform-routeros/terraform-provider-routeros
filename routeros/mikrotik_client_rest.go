@@ -16,6 +16,7 @@ type RestClient struct {
 	Username  string
 	Password  string
 	Transport TransportType
+	extra     *ExtraParams
 	*http.Client
 }
 
@@ -42,6 +43,10 @@ var (
 		crudStop:        "POST",
 	}
 )
+
+func (c *RestClient) GetExtraParams() *ExtraParams {
+	return c.extra
+}
 
 func (c *RestClient) GetTransport() TransportType {
 	return c.Transport

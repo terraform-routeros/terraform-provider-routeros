@@ -204,6 +204,9 @@ func SystemResourceCreateUpdate(ctx context.Context, s map[string]*schema.Schema
 // No delete functionality provided by API for System Resources.
 func SystemResourceDelete(ctx context.Context, s map[string]*schema.Schema, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	d.SetId("")
+	if m.(Client).GetExtraParams().SuppressSysODelWarn {
+		return nil
+	}
 	return DeleteSystemObject
 }
 

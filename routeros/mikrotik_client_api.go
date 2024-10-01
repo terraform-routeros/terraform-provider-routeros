@@ -15,6 +15,7 @@ type ApiClient struct {
 	Username  string
 	Password  string
 	Transport TransportType
+	extra     *ExtraParams
 	*routeros.Client
 }
 
@@ -35,6 +36,10 @@ var (
 		crudStop:        "/stop",
 	}
 )
+
+func (c *ApiClient) GetExtraParams() *ExtraParams {
+	return c.extra
+}
 
 func (c *ApiClient) GetTransport() TransportType {
 	return c.Transport

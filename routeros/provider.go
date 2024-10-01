@@ -76,6 +76,15 @@ func Provider() *schema.Provider {
 				),
 				Description: "Whether to verify the SSL certificate or not.",
 			},
+			"suppress_syso_del_warn": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				DefaultFunc: schema.MultiEnvDefaultFunc(
+					[]string{"ROS_SUPPRESS_SYSO_DEL_WARN"},
+					false,
+				),
+				Description: "Suppress the system object deletion warning.",
+			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
 
