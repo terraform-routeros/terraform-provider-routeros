@@ -26,7 +26,8 @@ type Client interface {
 type crudMethod int
 
 const (
-	crudCreate crudMethod = iota
+	crudUnknown crudMethod = iota
+	crudCreate
 	crudRead
 	crudUpdate
 	crudDelete
@@ -39,6 +40,7 @@ const (
 	crudMove
 	crudStart
 	crudStop
+	crudGenerateKey
 )
 
 type ExtraParams struct {
@@ -152,7 +154,10 @@ func NewClient(ctx context.Context, d *schema.ResourceData) (interface{}, diag.D
 	}
 
 	rest.Client = &http.Client{
-		Timeout: time.Minute,
+		// ... By default, CreateContext has a 20 minute timeout ...
+		// but MT REST API timeout is in 60 seconds for any operation.
+		// Make the timeout smaller so that the lifetime of the context is less than the lifetime of the session.
+		Timeout: 59 * time.Second,
 		Transport: &http.Transport{
 			TLSClientConfig: &tlsConf,
 		},

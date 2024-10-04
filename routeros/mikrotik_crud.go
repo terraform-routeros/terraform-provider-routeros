@@ -1,6 +1,7 @@
 package routeros
 
 import (
+	"context"
 	"fmt"
 )
 
@@ -14,7 +15,7 @@ var (
 
 // https://help.mikrotik.com/docs/display/ROS/REST+API
 
-func CreateItem(item MikrotikItem, resourcePath string, c Client) (MikrotikItem, error) {
+func CreateItem(ctx context.Context, item MikrotikItem, resourcePath string, c Client) (MikrotikItem, error) {
 	if item == nil {
 		return nil, errEmptyItem
 	}
@@ -22,8 +23,18 @@ func CreateItem(item MikrotikItem, resourcePath string, c Client) (MikrotikItem,
 		return nil, errEmptyPath
 	}
 
+	var crud = crudCreate
+
+	if cm := ctxGetCrudMethod(ctx); cm != crudUnknown {
+		crud = cm
+		if c.GetTransport() == TransportREST {
+			// apiMethodName[crud] is CLI path
+			resourcePath += apiMethodName[crud]
+		}
+	}
+
 	res := MikrotikItem{}
-	err := c.SendRequest(crudCreate, &URL{Path: resourcePath}, item, &res)
+	err := c.SendRequest(crud, &URL{Path: resourcePath}, item, &res)
 
 	return res, err
 }

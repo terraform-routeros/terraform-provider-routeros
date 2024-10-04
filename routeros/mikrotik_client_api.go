@@ -34,6 +34,7 @@ var (
 		crudMove:        "/move",
 		crudStart:       "/start",
 		crudStop:        "/stop",
+		crudGenerateKey: "/generate-key",
 	}
 )
 

@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"reflect"
 	"strings"
 )
 
@@ -41,6 +42,7 @@ var (
 		crudMove:        "POST",
 		crudStart:       "POST",
 		crudStop:        "POST",
+		crudGenerateKey: "POST",
 	}
 )
 
@@ -102,13 +104,24 @@ func (c *RestClient) SendRequest(method crudMethod, url *URL, item MikrotikItem,
 
 	ColorizedDebug(c.ctx, "response body: "+string(body))
 
+	// Cast single return values to an array.
+	if !isJsonArray(body) {
+		body = append([]byte{'['}, append(body, []byte{']'}...)...)
+	}
+
+	// If the requested value is a slice, then parse the JSON directly into it.
+	var slice = new([]MikrotikItem)
+	if isSlice(result) {
+		slice = result.(*[]MikrotikItem)
+	}
+
 	if len(body) != 0 && result != nil {
-		if err = json.Unmarshal(body, &result); err != nil {
+		if err = json.Unmarshal(body, &slice); err != nil {
 
 			if e, ok := err.(*json.SyntaxError); ok {
 				ColorizedDebug(c.ctx, fmt.Sprintf("json.Unmarshal(response body): syntax error at byte offset %d", e.Offset))
 
-				if err = json.Unmarshal(EscapeChars(body), &result); err != nil {
+				if err = json.Unmarshal(EscapeChars(body), &slice); err != nil {
 					return fmt.Errorf("json.Unmarshal(response body): %v", err)
 				}
 			} else {
@@ -116,5 +129,29 @@ func (c *RestClient) SendRequest(method crudMethod, url *URL, item MikrotikItem,
 			}
 		}
 	}
+
+	if !isSlice(result) && len(*slice) > 0 {
+		result = &(*slice)[0]
+	}
+
 	return nil
+}
+
+// isSlice The function returns information whether the passed parameter is a slice.
+// The incoming type is a variable or pointer.
+func isSlice(i any) bool {
+	t := reflect.TypeOf(i)
+	if t.Kind() == reflect.Pointer {
+		t = t.Elem()
+	}
+	return t.Kind() == reflect.Slice
+}
+
+// isJsonArray The function returns information about the type of JSON response.
+// Based on the response, we can cast MT's response to an array of values.
+// After some time, we can say that it is easier to operate with an array of values,
+// since MT can return '[]' which is not obvious in the process of creating a single resource.
+func isJsonArray(b []byte) bool {
+	b = bytes.TrimLeft(b, " \t\r\n")
+	return len(b) > 0 && b[0] == '['
 }
