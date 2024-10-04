@@ -353,3 +353,51 @@ func SystemResourceDelete(ctx context.Context, s map[string]*schema.Schema, d *s
 	}
 	return DeleteSystemObject
 }
+
+// ImportStateCustomContext is an implementation of StateContextFunc that can be used to
+// import resources with the ability to explicitly or implicitly specify a key field.
+// `terraform [global options] import [options] ADDR ID`.
+// During import the content of the `ID` is checked and depending on the specified string it is possible to automatically search for the internal Mikrotik identifier.
+// Logic of `ID` processing
+// - The first character of the string contains an asterisk (standard Mikrotik identifier `*3E`): import without additional search.
+// - String containing no "=" character (`wifi-01`): the "name" field is used for searching.
+// - String containing only one "=" character (`"comment=hAP-ac3"`): the "word left" and "word right" pair is used for searching.
+func ImportStateCustomContext(s map[string]*schema.Schema) schema.StateContextFunc {
+	return func(ctx context.Context, d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+		id := d.Id()
+		fieldName := "name"
+
+		if len(id) == 0 || id[0] == '*' {
+			return []*schema.ResourceData{d}, nil
+		} else {
+			// By default, we filter by the "name" field
+			if s := strings.Split(id, "="); len(s) == 2 {
+				// field=value
+				fieldName = s[0]
+				id = s[1]
+			}
+		}
+
+		path := s[MetaResourcePath].Default.(string)
+
+		res, err := ReadItemsFiltered([]string{SnakeToKebab(fieldName) + "=" + id}, path, m.(Client))
+		if err != nil {
+			return nil, err
+		}
+
+		switch len(*res) {
+		case 0:
+			return nil, fmt.Errorf("resource not found: %v=%v", fieldName, id)
+		case 1:
+			retId, ok := (*res)[0][Id.String()]
+			if !ok {
+				return nil, fmt.Errorf("attribute %v not found in the response", Id.String())
+			}
+			d.SetId(retId)
+		default:
+			return nil, fmt.Errorf("more than one resource found: %v=%v", fieldName, id)
+		}
+
+		return []*schema.ResourceData{d}, nil
+	}
+}
