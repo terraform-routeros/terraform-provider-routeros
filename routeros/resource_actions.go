@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -33,14 +34,157 @@ func dynamicIdLookup(idType IdType, path string, c Client, d *schema.ResourceDat
 	return (*res)[0].GetID(Id), nil
 }
 
-// ResourceCreate Creation of a resource in accordance with the TF Schema.
+// Passing the called CRUD method on creation through an existing context.
+type ctxCrudMethod string
+
+const ctxCrudMethodKey = "crudMethod"
+
+// Specifies a CRUD method as part of the resource schema description.
+func ctxSetCrudMethod(ctx context.Context, m crudMethod) context.Context {
+	return context.WithValue(ctx, ctxCrudMethod(ctxCrudMethodKey), m)
+}
+
+// Retrieve a CRUD method as part of the processing  of a resource creation request.
+func ctxGetCrudMethod(ctx context.Context) crudMethod {
+	if v := ctx.Value(ctxCrudMethod(ctxCrudMethodKey)); v != nil {
+		return v.(crudMethod)
+	}
+	return crudUnknown
+}
+
+// ResourceCreate - Creation of a resource in accordance with the TF Schema.
+// It is possible to transparently pass the request type (CRUD Method) within an existing context.
+//
+//	CreateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+//		return ResourceCreate(ctxSetCrudMethod(ctx, crudGenerateKey), resSchema, d, m)
+//	},
 func ResourceCreate(ctx context.Context, s map[string]*schema.Schema, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	item, metadata := TerraformResourceDataToMikrotik(s, d)
 
-	res, err := CreateItem(item, metadata.Path, m.(Client))
+	res, err := CreateItem(ctx, item, metadata.Path, m.(Client))
 	if err != nil {
 		ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgPut, err))
 		return diag.FromErr(err)
+	}
+
+	// Some resources may return an empty array as a response when executing commands other than 'create'.
+	// For these cases, we will try to find the created element by name (if available).
+	if res.GetID(Id) == "" && item[KeyName] != "" {
+		items, err := ReadItems(&ItemId{Name, item[KeyName]}, metadata.Path, m.(Client))
+		if err != nil {
+			return diag.FromErr(err)
+		}
+
+		if items != nil && len(*items) == 1 {
+			res = (*items)[0]
+		}
+	}
+
+	// ... If no ID is set, Terraform assumes the resource was not created successfully;
+	// as a result, no state will be saved for that resource.
+	if res.GetID(Id) == "" {
+		return diag.Diagnostics{
+			diag.Diagnostic{
+				Severity: diag.Error,
+				Summary:  "The resource ID was not found in the response",
+			},
+		}
+	}
+
+	// At this time, we have a successfully created resource,
+	// regardless of the success of its reading.
+	switch metadata.IdType {
+	case Id:
+		// Response ID.
+		d.SetId(res.GetID(Id))
+	case Name:
+		// Resource ID.
+		d.SetId(item.GetID(Name))
+	}
+
+	// We ask for information again in the case of API.
+	if m.(Client).GetTransport() == TransportAPI {
+		r, err := ReadItems(&ItemId{Id, res.GetID(Id)}, metadata.Path, m.(Client))
+		if err != nil {
+			ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgPut, err))
+			return diag.FromErr(err)
+		}
+
+		if len(*r) == 0 {
+			return diag.Diagnostics{
+				diag.Diagnostic{
+					Severity: diag.Error,
+					Summary: fmt.Sprintf("Mikrotik resource path='%v' id='%v' not found",
+						metadata.Path, res.GetID(Id)),
+				},
+			}
+		}
+
+		res = (*r)[0]
+	}
+
+	//spew.Dump(res)
+	return MikrotikResourceDataToTerraform(res, s, d)
+}
+
+func ResourceCreateAndWait(ctx context.Context, s map[string]*schema.Schema, d *schema.ResourceData, m interface{}, timeout time.Duration) diag.Diagnostics {
+	item, metadata := TerraformResourceDataToMikrotik(s, d)
+	if item[KeyName] == "" {
+		panic("Asynchronous resource creation should be applied to objects that have the 'name' attribute.")
+	}
+	ColorizedDebug(ctx, fmt.Sprintf("Wait timeout is %s", timeout))
+
+	// The lifetime of a REST session is 60 seconds.
+	_, err := CreateItem(ctx, item, metadata.Path, m.(Client))
+	if err != nil {
+		// context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+		// {"detail":"Session closed","error":400,"message":"Bad Request"}
+		// from RouterOS device: action timed out - try again, if error continues contact MikroTik support and send a supout file (13)
+		if !strings.Contains(err.Error(), context.DeadlineExceeded.Error()) && !strings.Contains(err.Error(), "Session closed") &&
+			!strings.Contains(err.Error(), "action timed out - try again") {
+			ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgPut, err))
+			return diag.FromErr(err)
+		}
+		ColorizedDebug(ctx, "Timeout, the Create context is canceled, waiting for the resource to be created. "+
+			"Session termination by MikroTik is ignored.")
+	}
+
+	// context deadline exceeded
+	var res MikrotikItem
+
+	// During RSA key generation, we can get 100% CPU utilization of the MT.
+	// During this time MT may stop accepting external requests!
+	localCtx, cancel := context.WithTimeout(context.Background(), timeout)
+	attempt := 0
+	for {
+		defer cancel()
+
+		// We will try to find the created element by name (if available).
+		items, err := ReadItems(&ItemId{Name, item[KeyName]}, metadata.Path, m.(Client))
+		if err != nil {
+			ColorizedMessage(ctx, TRACE, fmt.Sprintf("Timeout, the Read context is canceled, waiting for the resource to be created. "+
+				"Session termination by MikroTik is ignored. Attempt #%v", attempt))
+			attempt++
+		}
+
+		if items != nil && len(*items) == 1 {
+			res = (*items)[0]
+			break
+		}
+
+		select {
+		case <-localCtx.Done():
+			// The context deadline has been exceeded.
+			return diag.Diagnostics{
+				diag.Diagnostic{
+					Severity: diag.Error,
+					Summary:  "The resource ID was not found in the response",
+				},
+			}
+		default:
+			time.Sleep(15 * time.Second)
+		}
+
 	}
 
 	// ... If no ID is set, Terraform assumes the resource was not created successfully;
@@ -208,125 +352,4 @@ func SystemResourceDelete(ctx context.Context, s map[string]*schema.Schema, d *s
 		return nil
 	}
 	return DeleteSystemObject
-}
-
-func DefaultCreate(s map[string]*schema.Schema) schema.CreateContextFunc {
-	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-		return ResourceCreate(ctx, s, d, m)
-	}
-}
-
-func DefaultRead(s map[string]*schema.Schema) schema.ReadContextFunc {
-	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-		return ResourceRead(ctx, s, d, m)
-	}
-}
-
-func DefaultUpdate(s map[string]*schema.Schema) schema.UpdateContextFunc {
-	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-		return ResourceUpdate(ctx, s, d, m)
-	}
-}
-
-func DefaultDelete(s map[string]*schema.Schema) schema.DeleteContextFunc {
-	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-		return ResourceDelete(ctx, s, d, m)
-	}
-}
-
-func DefaultValidateCreate(s map[string]*schema.Schema, f DataValidateFunc) schema.CreateContextFunc {
-	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-		if f != nil {
-			if diags := f(d); diags.HasError() {
-				return diags
-			}
-		}
-		return ResourceCreate(ctx, s, d, m)
-	}
-}
-
-func DefaultValidateUpdate(s map[string]*schema.Schema, f DataValidateFunc) schema.UpdateContextFunc {
-	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-		if f != nil {
-			if diags := f(d); diags.HasError() {
-				return diags
-			}
-		}
-		return ResourceUpdate(ctx, s, d, m)
-	}
-}
-
-func DefaultSystemCreate(s map[string]*schema.Schema) schema.CreateContextFunc {
-	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-		return SystemResourceCreateUpdate(ctx, s, d, m)
-	}
-}
-
-func DefaultSystemRead(s map[string]*schema.Schema) schema.ReadContextFunc {
-	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-		return SystemResourceRead(ctx, s, d, m)
-	}
-}
-
-func DefaultSystemUpdate(s map[string]*schema.Schema) schema.UpdateContextFunc {
-	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-		return SystemResourceCreateUpdate(ctx, s, d, m)
-	}
-}
-
-func DefaultSystemDelete(s map[string]*schema.Schema) schema.DeleteContextFunc {
-	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-		return SystemResourceDelete(ctx, s, d, m)
-	}
-}
-
-func DefaultSystemDatasourceRead(s map[string]*schema.Schema) schema.ReadContextFunc {
-	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-		res := MikrotikItem{}
-		path := s[MetaResourcePath].Default.(string)
-
-		err := m.(Client).SendRequest(crudRead, &URL{Path: path}, nil, &res)
-		if err != nil {
-			return diag.FromErr(err)
-		}
-
-		return MikrotikResourceDataToTerraformDatasource(&[]MikrotikItem{res}, "", s, d)
-	}
-}
-
-// FIXME Replace fucntions in resources: ResourceInterfaceEthernetSwitchPortIsolation, ResourceInterfaceEthernetSwitchPort
-// ResourceInterfaceEthernetSwitch, ResourceInterfaceLte, ResourceIpService
-func DefaultCreateUpdate(s map[string]*schema.Schema) func(context.Context, *schema.ResourceData, interface{}) diag.Diagnostics {
-	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-		item, metadata := TerraformResourceDataToMikrotik(s, d)
-
-		res, err := ReadItems(&ItemId{Name, d.Get("name").(string)}, metadata.Path, m.(Client))
-		if err != nil {
-			// API/REST client error.
-			ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgPatch, err))
-			return diag.FromErr(err)
-		}
-
-		// Resource not found.
-		if len(*res) == 0 {
-			d.SetId("")
-			ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgPatch, err))
-			return diag.FromErr(errorNoLongerExists)
-		}
-
-		d.SetId((*res)[0].GetID(Id))
-		item[".id"] = d.Id()
-
-		var resUrl string
-		if m.(Client).GetTransport() == TransportREST {
-			resUrl = "/set"
-		}
-
-		err = m.(Client).SendRequest(crudPost, &URL{Path: metadata.Path + resUrl}, item, nil)
-		if err != nil {
-			return diag.FromErr(err)
-		}
-
-		return ResourceRead(ctx, s, d, m)
-	}
 }
