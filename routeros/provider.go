@@ -258,6 +258,7 @@ func Provider() *schema.Provider {
 			"routeros_routing_ospf_interface_template": ResourceRoutingOspfInterfaceTemplate(),
 
 			// VPN
+			"routeros_ip_ipsec_identity":     ResourceIpIpsecIdentity(),
 			"routeros_ip_ipsec_key":          ResourceIpIpsecKey(),
 			"routeros_ip_ipsec_mode_config":  ResourceIpIpsecModeConfig(),
 			"routeros_ip_ipsec_peer":         ResourceIpIpsecPeer(),
