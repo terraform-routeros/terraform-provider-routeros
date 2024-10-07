@@ -21,11 +21,12 @@ func ResourceFile() *schema.Resource {
 			Computed:    true,
 			Description: "A time when the file was created",
 		},
-		"name": {
+		"last_modified": {
 			Type:        schema.TypeString,
-			Required:    true,
-			Description: "Name of the file",
+			Computed:    true,
+			Description: "A time when the file was modified",
 		},
+		KeyName: PropName("Name of the file"),
 		"package_architecture": {
 			Type:        schema.TypeString,
 			Computed:    true,
