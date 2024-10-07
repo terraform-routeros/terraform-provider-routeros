@@ -61,7 +61,8 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			"tx_broadcast", "tx_bytes", "tx_control", "tx_drop", "tx_fcs_error", "tx_fragment", "tx_jabber", "tx_multicast", "tx_packet", "tx_pause", "tx_too_short", "tx_too_long",
 			"rx_align_error", "rx_carrier_error", "rx_code_error", "rx_error_events", "rx_length_error", "rx_overflow", "rx_unicast", "rx_unknown_op",
 			"tx_collision", "tx_excessive_collision", "tx_late_collision", "tx_multiple_collision", "tx_single_collision", "tx_total_collision",
-			"tx_deferred", "tx_excessive_deferred", "tx_unicast", "tx_underrun",
+			"tx_deferred", "tx_excessive_deferred", "tx_unicast", "tx_underrun", "rx_tcp_checksum_error", "rx_udp_checksum_error", "rx_ip_header_checksum_error",
+			"tx_carrier_sense_error",
 		),
 
 		"advertise": {
