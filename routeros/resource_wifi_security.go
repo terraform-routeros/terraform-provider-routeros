@@ -229,7 +229,7 @@ func ResourceWifiSecurity() *schema.Resource {
 			Type:         schema.TypeString,
 			Optional:     true,
 			Description:  "An option to enable WPS (Wi-Fi Protected Setup).",
-			ValidateFunc: validation.StringInSlice([]string{"disabled", "push-button"}, false),
+			ValidateFunc: validation.StringInSlice([]string{"disable", "push-button"}, false),
 		},
 	}
 
