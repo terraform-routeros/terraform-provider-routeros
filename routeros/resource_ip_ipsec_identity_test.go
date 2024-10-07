@@ -64,7 +64,7 @@ resource "routeros_ip_ipsec_mode_config" "mode-for-identity" {
 }
 
 resource "routeros_ip_ipsec_peer" "peer-for-identity" {
-  address       = "lv20.nordvpn.com"
+  address       = "lv30.nordvpn.com"
   exchange_mode = "ike2"
   name          = "NordVPN-i"
 }

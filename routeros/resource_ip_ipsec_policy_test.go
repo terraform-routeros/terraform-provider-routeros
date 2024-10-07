@@ -27,7 +27,7 @@ func TestAccIpIpsecPolicyTest_basic(t *testing.T) {
 						Check: resource.ComposeTestCheckFunc(
 							testResourcePrimaryInstanceId(testIpIpsecPolicy),
 							resource.TestCheckResourceAttr(testIpIpsecPolicy, "dst_address", "0.0.0.0/0"),
-							resource.TestCheckResourceAttr(testIpIpsecPolicy, "group", "test-group"),
+							resource.TestCheckResourceAttr(testIpIpsecPolicy, "group", "test-group-p"),
 							resource.TestCheckResourceAttr(testIpIpsecPolicy, "proposal", "default"),
 							resource.TestCheckResourceAttr(testIpIpsecPolicy, "src_address", "0.0.0.0/0"),
 							resource.TestCheckResourceAttr(testIpIpsecPolicy, "template", "true"),
@@ -36,7 +36,7 @@ func TestAccIpIpsecPolicyTest_basic(t *testing.T) {
 					{
 						Config:        testAccIpIpsecPolicyConfig(),
 						ResourceName:  testIpIpsecPolicy,
-						ImportStateId: `group=test-group`,
+						ImportStateId: `group=test-group-p`,
 						ImportState:   true,
 						ImportStateCheck: func(states []*terraform.InstanceState) error {
 							if len(states) != 1 {
@@ -56,7 +56,7 @@ func testAccIpIpsecPolicyConfig() string {
 	return fmt.Sprintf(`%v
 
 resource "routeros_ip_ipsec_policy_group" "group-for-policy" {
-  name = "test-group"
+  name = "test-group-p"
 }
 
 resource "routeros_ip_ipsec_policy" "policy" {
