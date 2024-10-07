@@ -264,6 +264,7 @@ func Provider() *schema.Provider {
 			"routeros_ip_ipsec_peer":         ResourceIpIpsecPeer(),
 			"routeros_ip_ipsec_policy_group": ResourceIpIpsecPolicyGroup(),
 			"routeros_ip_ipsec_profile":      ResourceIpIpsecProfile(),
+			"routeros_ip_ipsec_proposal":     ResourceIpIpsecProposal(),
 			"routeros_ip_ipsec_settings":     ResourceIpIpsecSettings(),
 			"routeros_ovpn_server":           ResourceOpenVPNServer(),
 
