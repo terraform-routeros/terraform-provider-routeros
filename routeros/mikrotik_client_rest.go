@@ -131,7 +131,10 @@ func (c *RestClient) SendRequest(method crudMethod, url *URL, item MikrotikItem,
 	}
 
 	if result != nil && !isSlice(result) && len(*slice) > 0 {
-		result = &(*slice)[0]
+		// result.(*MikrotikItem).replace(&(*slice)[0])
+		for k, v := range (*slice)[0] {
+			(*result.(*MikrotikItem))[k] = v
+		}
 	}
 
 	return nil
