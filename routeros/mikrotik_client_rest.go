@@ -111,7 +111,7 @@ func (c *RestClient) SendRequest(method crudMethod, url *URL, item MikrotikItem,
 
 	// If the requested value is a slice, then parse the JSON directly into it.
 	var slice = new([]MikrotikItem)
-	if isSlice(result) {
+	if result != nil && isSlice(result) {
 		slice = result.(*[]MikrotikItem)
 	}
 
@@ -130,7 +130,7 @@ func (c *RestClient) SendRequest(method crudMethod, url *URL, item MikrotikItem,
 		}
 	}
 
-	if !isSlice(result) && len(*slice) > 0 {
+	if result != nil && !isSlice(result) && len(*slice) > 0 {
 		result = &(*slice)[0]
 	}
 
