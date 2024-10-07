@@ -3,6 +3,16 @@
 
 ## Example Usage
 ```terraform
+variable "wlan_2ghz_disabled" {
+  type    = bool
+  default = false
+}
+
+resource "routeros_interface_wireless" "wlan-2ghz" {
+  name     = "wlan1"
+  disabled = var.wlan_2ghz_disabled
+}
+
 resource "routeros_interface_wireless_security_profiles" "test" {
   name                 = "test-profile"
   mode                 = "dynamic-keys"
@@ -15,7 +25,7 @@ resource "routeros_interface_wireless" "test" {
   depends_on       = [resource.routeros_interface_wireless_security_profiles.test]
   security_profile = resource.routeros_interface_wireless_security_profiles.test.name
   mode             = "ap-bridge"
-  master_interface = "wlan1"
+  master_interface = resource.routeros_interface_wireless.wlan-2ghz.name
   name             = "wlan-guest"
   ssid             = "guests"
   basic_rates_ag   = ["6Mbps", "9Mbps"]
@@ -27,9 +37,7 @@ resource "routeros_interface_wireless" "test" {
 
 ### Required
 
-- `mode` (String) Selection between different station and access point (AP) modes. **Station modes**: `station` - Basic station mode. Find and connect to acceptable AP. `station-wds` - Same as station, but create WDS link with AP, using proprietary extension. AP configuration has to allow WDS links with this device. Note that this mode does not use entries in wds. `station-pseudobridge` - Same as station, but additionally perform MAC address translation of all traffic. Allows interface to be bridged. `station-pseudobridge-clone` - Same as station-pseudobridge, but use station-bridge-clone-mac address to connect to AP. `station-bridge` - Provides support for transparent protocol-independent L2 bridging on the station device. RouterOS AP accepts clients in station-bridge mode when enabled using bridge-mode parameter. In this mode, the AP maintains a forwarding table with information on which MAC addresses are reachable over which station device. Only works with RouterOS APs. With station-bridge mode, it is not possible to connect to CAPsMAN controlled CAP. **AP modes**: `ap-bridge` - Basic access point mode. `bridge` - Same as ap-bridge, but limited to one associated client. `wds-slave` - Same as ap-bridge, but scan for AP with the same ssid and establishes WDS link. If this link is lost or cannot be established, then continue scanning. If dfs-mode is radar-detect, then APs with enabled hide-ssid will not be found during scanning. **Special modes**: `alignment-only` - Put the interface in a continuous transmit mode that is used for aiming the remote antenna. `nstreme-dual-slave` - allow this interface to be used in nstreme-dual setup. MAC address translation in pseudobridge modes works by inspecting packets and building a table of corresponding IP and MAC addresses. All packets are sent to AP with the MAC address used by pseudobridge, and MAC addresses of received packets are restored from the address translation table. There is a single entry in the address translation table for all non-IP packets, hence more than one host in the bridged network cannot reliably use non-IP protocols. Note: Currently IPv6 doesn't work over Pseudobridge.
 - `name` (String) Name of the interface.
-- `ssid` (String) SSID (service set identifier) is a name that identifies wireless network.
 
 ### Optional
 
@@ -79,6 +87,7 @@ resource "routeros_interface_wireless" "test" {
 - `mac_address` (String) MAC address.
 - `master_interface` (String) Name of wireless interface that has virtual-ap capability. Virtual AP interface will only work if master interface is in ap-bridge, bridge, station or wds-slave mode. This property is only for virtual AP interfaces.
 - `max_station_count` (Number) Maximum number of associated clients. WDS links also count toward this limit.
+- `mode` (String) Selection between different station and access point (AP) modes. **Station modes**: `station` - Basic station mode. Find and connect to acceptable AP. `station-wds` - Same as station, but create WDS link with AP, using proprietary extension. AP configuration has to allow WDS links with this device. Note that this mode does not use entries in wds. `station-pseudobridge` - Same as station, but additionally perform MAC address translation of all traffic. Allows interface to be bridged. `station-pseudobridge-clone` - Same as station-pseudobridge, but use station-bridge-clone-mac address to connect to AP. `station-bridge` - Provides support for transparent protocol-independent L2 bridging on the station device. RouterOS AP accepts clients in station-bridge mode when enabled using bridge-mode parameter. In this mode, the AP maintains a forwarding table with information on which MAC addresses are reachable over which station device. Only works with RouterOS APs. With station-bridge mode, it is not possible to connect to CAPsMAN controlled CAP. **AP modes**: `ap-bridge` - Basic access point mode. `bridge` - Same as ap-bridge, but limited to one associated client. `wds-slave` - Same as ap-bridge, but scan for AP with the same ssid and establishes WDS link. If this link is lost or cannot be established, then continue scanning. If dfs-mode is radar-detect, then APs with enabled hide-ssid will not be found during scanning. **Special modes**: `alignment-only` - Put the interface in a continuous transmit mode that is used for aiming the remote antenna. `nstreme-dual-slave` - allow this interface to be used in nstreme-dual setup. MAC address translation in pseudobridge modes works by inspecting packets and building a table of corresponding IP and MAC addresses. All packets are sent to AP with the MAC address used by pseudobridge, and MAC addresses of received packets are restored from the address translation table. There is a single entry in the address translation table for all non-IP packets, hence more than one host in the bridged network cannot reliably use non-IP protocols. Note: Currently IPv6 doesn't work over Pseudobridge.
 - `mtu` (String) Layer3 Maximum transmission unit ('auto', 0 .. 65535)
 - `multicast_buffering` (String) For a client that has power saving, buffer multicast packets until next beacon time. A client should wake up to receive a beacon, by receiving beacon it sees that there are multicast packets pending, and it should wait for multicast packets to be sent.
 - `multicast_helper` (String) When set to full, multicast packets will be sent with a unicast destination MAC address, resolving  multicast problem on the wireless link. This option should be enabled only on the access point, clients should be configured in station-bridge mode. Available starting from v5.15.disabled - disables the helper and sends multicast packets with multicast destination MAC addressesdhcp - dhcp packet mac addresses are changed to unicast mac addresses prior to sending them outfull - all multicast packet mac address are changed to unicast mac addresses prior to sending them outdefault - default choice that currently is set to dhcp. Value can be changed in future releases.
@@ -105,6 +114,7 @@ resource "routeros_interface_wireless" "test" {
 - `secondary_frequency` (String) Specifies secondary channel, required to enable 80+80MHz transmission. To disable 80+80MHz functionality, set secondary-frequency to `` or unset the value via CLI/GUI.
 - `security_profile` (String) Name of profile from  security-profiles.
 - `skip_dfs_channels` (String) These values are used to skip all DFS channels or specifically skip DFS CAC channels in range 5600-5650MHz which detection could go up to 10min.
+- `ssid` (String) SSID (service set identifier) is a name that identifies wireless network.
 - `station_bridge_clone_mac` (String) This property has effect only in the station-pseudobridge-clone mode.Use this MAC address when connection to AP. If this value is 00:00:00:00:00:00, station will initially use MAC address of the wireless interface.As soon as packet with MAC address of another device needs to be transmitted, station will reconnect to AP using that address.
 - `station_roaming` (String) Station Roaming feature is available only for 802.11 wireless protocol and only for station modes.
 - `supported_rates_ag` (String) List of supported rates, used for all bands except 2ghz-b.

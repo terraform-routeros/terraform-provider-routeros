@@ -1,3 +1,27 @@
+## [1.65.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.64.2...v1.65.0) (2024-10-07)
+
+### Features
+
+* Disable warning output on system resources ([c799f29](https://github.com/terraform-routeros/terraform-provider-routeros/commit/c799f299629fd82c3004dd1903487d694aeffbbf))
+* **ipsec:** Add new resource `routeros_ip_ipsec_identity` ([afdbadb](https://github.com/terraform-routeros/terraform-provider-routeros/commit/afdbadb7297560dc97d07cbd0abe8d1f7fa0fb9f))
+* **ipsec:** Add new resource `routeros_ip_ipsec_key` ([14865b9](https://github.com/terraform-routeros/terraform-provider-routeros/commit/14865b9fa989e79a07a9e46857399cf560208f61))
+* **ipsec:** Add new resource `routeros_ip_ipsec_mode_config` ([ca88a77](https://github.com/terraform-routeros/terraform-provider-routeros/commit/ca88a77f14bd5177938d20930da4ccd515e647fa))
+* **ipsec:** Add new resource `routeros_ip_ipsec_policy_group` ([d4c0817](https://github.com/terraform-routeros/terraform-provider-routeros/commit/d4c0817f6af31a3b5d1fa766bf9c4c415b43aefd))
+* **ipsec:** Add new resource `routeros_ip_ipsec_policy` ([9ba2bf9](https://github.com/terraform-routeros/terraform-provider-routeros/commit/9ba2bf961a0d7dafaf5d778a10f0a2e153f0d666))
+* **ipsec:** Add new resource `routeros_ip_ipsec_profile` ([66aa2f8](https://github.com/terraform-routeros/terraform-provider-routeros/commit/66aa2f8c830a4cfe925a315c36114ded9842264d))
+* **ipsec:** Add new resource `routeros_ip_ipsec_proposal` ([9fee803](https://github.com/terraform-routeros/terraform-provider-routeros/commit/9fee803c5a19ad244d63ff8f052dc6c9de90c47f))
+* **ipsec:** Add new resource `routeros_ip_ipsec_settings` ([7388cae](https://github.com/terraform-routeros/terraform-provider-routeros/commit/7388cae3a5753ef9c0dfbf5c2423497ee9eba838))
+* **ipsec:** New resource `routeros_ip_ipsec_peer` ([7600d45](https://github.com/terraform-routeros/terraform-provider-routeros/commit/7600d457e5e4245c9c743f2f28d42194c2a0f0e8))
+
+### Bug Fixes
+
+* Adding fields to skip for rx and tx on resource_interface_ethernet.go ([#573](https://github.com/terraform-routeros/terraform-provider-routeros/issues/573)) ([1a905f5](https://github.com/terraform-routeros/terraform-provider-routeros/commit/1a905f5e26afbd782bbd9f67c18e49abe6937ea1))
+* **file:** Field 'last_modified' not found in the schema ([#580](https://github.com/terraform-routeros/terraform-provider-routeros/issues/580)) ([cb4635a](https://github.com/terraform-routeros/terraform-provider-routeros/commit/cb4635a97b50b1e33c82622ee3f3a3defe1e6b69)), closes [#579](https://github.com/terraform-routeros/terraform-provider-routeros/issues/579)
+* **ipsec:** Add the lost attributes ([6f61879](https://github.com/terraform-routeros/terraform-provider-routeros/commit/6f61879ef8e84254fbf0a602ec8a09b714bc58be))
+* validation for routeros_wifi_security.wps ([#578](https://github.com/terraform-routeros/terraform-provider-routeros/issues/578)) ([770bfe3](https://github.com/terraform-routeros/terraform-provider-routeros/commit/770bfe37c5708227daa3a891581d86f09c9c4b54))
+* **wireless:** Delete required parameters ([616049e](https://github.com/terraform-routeros/terraform-provider-routeros/commit/616049e04bd351111c7515e801b3e9e229dc3da8))
+* **wireless:** Delete required parameters ([33793fd](https://github.com/terraform-routeros/terraform-provider-routeros/commit/33793fd70aef7580862b577cd6f001cf9d954306))
+
 ## [1.64.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.64.1...v1.64.2) (2024-09-29)
 
 ### Bug Fixes

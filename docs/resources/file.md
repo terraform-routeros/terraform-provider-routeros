@@ -24,6 +24,7 @@ resource "routeros_file" "test" {
 
 - `creation_time` (String) A time when the file was created
 - `id` (String) The ID of this resource.
+- `last_modified` (String) A time when the file was modified
 - `package_architecture` (String) Architecture that package is built for. Applies only to RouterOS ".npk" files
 - `package_built_time` (String) A time when the package was built. Applies only to RouterOS ".npk" files
 - `package_name` (String) Name of the installable package. Applies only to RouterOS ".npk" files
