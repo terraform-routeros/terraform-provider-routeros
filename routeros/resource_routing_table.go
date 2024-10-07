@@ -83,7 +83,7 @@ func ResourceRoutingTable() *schema.Resource {
 				}
 			}
 
-			res, err := CreateItem(item, metadata.Path, m.(Client))
+			res, err := CreateItem(ctx, item, metadata.Path, m.(Client))
 			if err != nil {
 				ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgPut, err))
 				return diag.FromErr(err)

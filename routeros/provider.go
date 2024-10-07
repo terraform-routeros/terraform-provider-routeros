@@ -76,6 +76,15 @@ func Provider() *schema.Provider {
 				),
 				Description: "Whether to verify the SSL certificate or not.",
 			},
+			"suppress_syso_del_warn": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				DefaultFunc: schema.MultiEnvDefaultFunc(
+					[]string{"ROS_SUPPRESS_SYSO_DEL_WARN"},
+					false,
+				),
+				Description: "Suppress the system object deletion warning.",
+			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
 
@@ -249,7 +258,16 @@ func Provider() *schema.Provider {
 			"routeros_routing_ospf_interface_template": ResourceRoutingOspfInterfaceTemplate(),
 
 			// VPN
-			"routeros_ovpn_server": ResourceOpenVPNServer(),
+			"routeros_ip_ipsec_identity":     ResourceIpIpsecIdentity(),
+			"routeros_ip_ipsec_key":          ResourceIpIpsecKey(),
+			"routeros_ip_ipsec_mode_config":  ResourceIpIpsecModeConfig(),
+			"routeros_ip_ipsec_peer":         ResourceIpIpsecPeer(),
+			"routeros_ip_ipsec_policy":       ResourceIpIpsecPolicy(),
+			"routeros_ip_ipsec_policy_group": ResourceIpIpsecPolicyGroup(),
+			"routeros_ip_ipsec_profile":      ResourceIpIpsecProfile(),
+			"routeros_ip_ipsec_proposal":     ResourceIpIpsecProposal(),
+			"routeros_ip_ipsec_settings":     ResourceIpIpsecSettings(),
+			"routeros_ovpn_server":           ResourceOpenVPNServer(),
 
 			// PPP
 			"routeros_ppp_aaa":     ResourcePppAaa(),

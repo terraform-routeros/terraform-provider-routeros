@@ -21,8 +21,9 @@ import (
 var (
 	reNewItemName = regexp.MustCompile(`^routeros_[a-z_]+$`)
 	// isDS          = flag.Bool("ds", false, "This is a datasource")
-	isSystem = flag.Bool("system", false, "This is a system resource")
-	csvTable = flag.String("table", "", "Extracting attributes from the WIKI table (CSV file)")
+	isSystem    = flag.Bool("system", false, "This is a system resource")
+	csvTable    = flag.String("table", "", "Extracting attributes from the WIKI table (CSV file)")
+	fromCsvName = flag.Bool("from-csv", false, "Generate resource name from CSV file name routeros_csv_file_name")
 )
 
 func Fatalf(format string, a ...any) {
@@ -63,13 +64,26 @@ func (t ItemType) HCL() string {
 func main() {
 	flag.Parse()
 
-	if len(flag.Args()) < 1 {
-		Fatalf("Usage: go run tools/bolerplate/main.go [-table file.csv] [-system] <routeros_new_resource>")
+	if len(flag.Args()) < 1 && !*fromCsvName {
+		Fatalf(`
+Usage: 	go run tools/bolerplate/main.go [-from-csv] [-table file.csv] [-system] [routeros_new_resource]
+   	go run main.go -from-csv -table ip_ipsec_key.csv
+		`)
 	}
 
-	resName := flag.Args()[0]
+	var resName string
+	if len(flag.Args()) > 0 {
+		resName = flag.Args()[0]
+	}
 	if !reNewItemName.MatchString(resName) {
-		Fatalf("The resource name must be in the format: 'routeros_[a-z_]+', got '%v'", resName)
+		if !*fromCsvName {
+			Fatalf("The resource name must be in the format: 'routeros_[a-z_]+', got '%v'", resName)
+		}
+
+		resName = fmt.Sprintf("routeros_%v", strings.TrimSuffix(*csvTable, filepath.Ext(*csvTable)))
+		if !reNewItemName.MatchString(resName) {
+			Fatalf("The resource name must be in the format: 'routeros_[a-z_]+', got '%v'", resName)
+		}
 	}
 
 	var Schema string
@@ -129,7 +143,8 @@ func main() {
 		GoResourceName string
 		ResourceName   string
 		ResourcePath   string
-	}{goName, resName, strings.ReplaceAll(strings.TrimPrefix(resName, "routeros_"), "_", "/")})
+		System         bool
+	}{goName, resName, strings.ReplaceAll(strings.TrimPrefix(resName, "routeros_"), "_", "/"), *isSystem})
 	if err != nil {
 		panic(err)
 	}
@@ -170,12 +185,12 @@ func main() {
 	}
 	f.Close()
 
-	var flags int = os.O_WRONLY | os.O_APPEND
-	if _, err := os.Stat(filepath.Join("routeros", "provider.go")); err != nil {
-		flags |= os.O_CREATE
-	}
+	// var flags int = os.O_WRONLY | os.O_APPEND
+	// if _, err := os.Stat(filepath.Join("routeros", "provider.go")); err != nil {
+	// 	flags |= os.O_CREATE
+	// }
 
-	f, err = os.OpenFile(filepath.Join("routeros", "provider.go"), flags, 0644)
+	f, err = os.OpenFile(filepath.Join("routeros", resName+"_provider.go"), os.O_WRONLY|os.O_CREATE, 0644)
 	if err != nil {
 		panic(err)
 	}
@@ -186,7 +201,9 @@ func main() {
 
 var exampleImportFile = `#The ID can be found via API or the terminal
 #The command for the terminal is -> :put [/{{.ResourcePath}} get [print show-ids]]
-terraform import {{.ResourceName}}.test *3`
+terraform import {{.ResourceName}}.test *3
+#Or you can import a resource using one of its attributes
+terraform import {{.ResourceName}}.test "name=xxx"`
 
 var exampleResourceFile = `
 resource "{{.ResourceName}}" "test" {
@@ -217,19 +234,19 @@ func TestAcc{{.GoResourceName}}Test_basic(t *testing.T) {
 				CheckDestroy:      testCheckResourceDestroy("/{{.ResourcePath}}", "{{.ResourceName}}"),
 				Steps: []resource.TestStep{
 					{
-						Config: testAcc{{.GoResourceName}}Config(""),
+						Config: testAcc{{.GoResourceName}}Config({{- if .System }}""{{end}}),
 						Check: resource.ComposeTestCheckFunc(
 							testResourcePrimaryInstanceId(test{{.GoResourceName}}),
 							resource.TestCheckResourceAttr(test{{.GoResourceName}}, "", ""),
 						),
-					},
+					},{{- if .System }}
 					{
 						Config: testAcc{{.GoResourceName}}Config(""),
 						Check: resource.ComposeTestCheckFunc(
 							testResourcePrimaryInstanceId(test{{.GoResourceName}}),
 							resource.TestCheckResourceAttr(test{{.GoResourceName}}, "", ""),
 						),
-					},
+					},{{end}}
 				},
 			})
 
@@ -237,12 +254,12 @@ func TestAcc{{.GoResourceName}}Test_basic(t *testing.T) {
 	}
 }
 
-func testAcc{{.GoResourceName}}Config(param string) string {
+func testAcc{{.GoResourceName}}Config({{- if .System }}param string{{end}}) string {
 	return fmt.Sprintf(` + "`" + `%v
 
 resource "{{.ResourceName}}" "test" {
 }
-` + "`" + `, providerConfig, param)
+` + "`" + `, providerConfig{{- if .System }}, param{{end}})
 }
 `
 
@@ -274,6 +291,7 @@ func {{.GoResourceName}}() *schema.Resource {
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
+			StateContext: ImportStateCustomContext(resSchema),
 		},
 
 		Schema: resSchema,
