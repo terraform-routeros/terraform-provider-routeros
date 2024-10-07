@@ -8,7 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
 )
 
-const testIpIpsecIdentity = "routeros_ip_ipsec_identity.test"
+const testIpIpsecIdentity = "routeros_ip_ipsec_identity.identity"
 
 func TestAccIpIpsecIdentityTest_basic(t *testing.T) {
 	t.Parallel()
@@ -30,8 +30,8 @@ func TestAccIpIpsecIdentityTest_basic(t *testing.T) {
 							resource.TestCheckResourceAttr(testIpIpsecIdentity, "certificate", ""),
 							resource.TestCheckResourceAttr(testIpIpsecIdentity, "eap_methods", "eap-mschapv2"),
 							resource.TestCheckResourceAttr(testIpIpsecIdentity, "generate_policy", "port-strict"),
-							resource.TestCheckResourceAttr(testIpIpsecIdentity, "mode_config", "NordVPN"),
-							resource.TestCheckResourceAttr(testIpIpsecIdentity, "peer", "NordVPN"),
+							resource.TestCheckResourceAttr(testIpIpsecIdentity, "mode_config", "NordVPN-i"),
+							resource.TestCheckResourceAttr(testIpIpsecIdentity, "peer", "NordVPN-i"),
 							resource.TestCheckResourceAttr(testIpIpsecIdentity, "username", "support@mikrotik.com"),
 							resource.TestCheckResourceAttr(testIpIpsecIdentity, "password", "secret"),
 						),
@@ -39,7 +39,7 @@ func TestAccIpIpsecIdentityTest_basic(t *testing.T) {
 					{
 						Config:        testAccIpIpsecIdentityConfig(),
 						ResourceName:  testIpIpsecIdentity,
-						ImportStateId: `peer=NordVPN`,
+						ImportStateId: `peer=NordVPN-i`,
 						ImportState:   true,
 						ImportStateCheck: func(states []*terraform.InstanceState) error {
 							if len(states) != 1 {
@@ -58,24 +58,24 @@ func TestAccIpIpsecIdentityTest_basic(t *testing.T) {
 func testAccIpIpsecIdentityConfig() string {
 	return fmt.Sprintf(`%v
 
-resource "routeros_ip_ipsec_mode_config" "test" {
-  name      = "NordVPN"
+resource "routeros_ip_ipsec_mode_config" "mode-for-identity" {
+  name      = "NordVPN-i"
   responder = false
 }
 
-resource "routeros_ip_ipsec_peer" "test" {
+resource "routeros_ip_ipsec_peer" "peer-for-identity" {
   address       = "lv20.nordvpn.com"
   exchange_mode = "ike2"
-  name          = "NordVPN"
+  name          = "NordVPN-i"
 }
 
-resource "routeros_ip_ipsec_identity" "test" {
+resource "routeros_ip_ipsec_identity" "identity" {
   auth_method     = "eap"
   certificate     = ""
   eap_methods     = "eap-mschapv2"
   generate_policy = "port-strict"
-  mode_config     = routeros_ip_ipsec_mode_config.test.name
-  peer            = routeros_ip_ipsec_peer.test.name
+  mode_config     = routeros_ip_ipsec_mode_config.mode-for-identity.name
+  peer            = routeros_ip_ipsec_peer.peer-for-identity.name
   username        = "support@mikrotik.com"
   password        = "secret"
 }
