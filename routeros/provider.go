@@ -262,6 +262,7 @@ func Provider() *schema.Provider {
 			"routeros_ip_ipsec_key":          ResourceIpIpsecKey(),
 			"routeros_ip_ipsec_mode_config":  ResourceIpIpsecModeConfig(),
 			"routeros_ip_ipsec_peer":         ResourceIpIpsecPeer(),
+			"routeros_ip_ipsec_policy":       ResourceIpIpsecPolicy(),
 			"routeros_ip_ipsec_policy_group": ResourceIpIpsecPolicyGroup(),
 			"routeros_ip_ipsec_profile":      ResourceIpIpsecProfile(),
 			"routeros_ip_ipsec_proposal":     ResourceIpIpsecProposal(),
