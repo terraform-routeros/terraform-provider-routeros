@@ -202,7 +202,7 @@ Usage: 	go run tools/bolerplate/main.go [-from-csv] [-table file.csv] [-system] 
 var exampleImportFile = `#The ID can be found via API or the terminal
 #The command for the terminal is -> :put [/{{.ResourcePath}} get [print show-ids]]
 terraform import {{.ResourceName}}.test *3
-#Or you can import a certificate using one of its attributes
+#Or you can import a resource using one of its attributes
 terraform import {{.ResourceName}}.test "name=xxx"`
 
 var exampleResourceFile = `
