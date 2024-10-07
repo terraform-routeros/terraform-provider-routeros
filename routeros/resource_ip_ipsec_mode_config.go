@@ -45,6 +45,12 @@ func ResourceIpIpsecModeConfig() *schema.Resource {
 			ValidateFunc:     validation.IntBetween(1, 32),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"connection_mark": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Firewall connection mark.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		// KeyComment: PropCommentRw,
 		KeyName: PropName(""),
 		"responder": {
@@ -88,6 +94,13 @@ func ResourceIpIpsecModeConfig() *schema.Resource {
 			Type:             schema.TypeBool,
 			Optional:         true,
 			Description:      "When this option is enabled DNS addresses will be taken from `/ip dns`.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"use_responder_dns": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "",
+			ValidateFunc:     validation.StringInSlice([]string{"exclusively", "yes", "no"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 	}
