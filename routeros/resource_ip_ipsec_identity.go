@@ -36,7 +36,7 @@ func ResourceIpIpsecIdentity() *schema.Resource {
 				"in keys menu. Only supported in IKEv1; `pre-shared-key-xauth` - authenticate by a password (pre-shared " +
 				"secret) string shared between the peers + XAuth username and password. Only supported in IKEv1; `rsa-signature-hybrid` " +
 				"- responder certificate authentication with initiator XAuth. Only supported in IKEv1.",
-			ValidateFunc: validation.StringInSlice([]string{"digital-signature", "eap", "eap-radius", "`pre-shared-key`",
+			ValidateFunc: validation.StringInSlice([]string{"digital-signature", "eap", "eap-radius", "pre-shared-key",
 				"pre-shared-key-xauth", "rsa-key", "rsa-signature-hybrid"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
