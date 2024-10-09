@@ -1,3 +1,9 @@
+## [1.65.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.65.0...v1.65.1) (2024-10-09)
+
+### Bug Fixes
+
+* **ipsec:** Fix `auth_method` attribute validation ([#582](https://github.com/terraform-routeros/terraform-provider-routeros/issues/582)) ([98516b0](https://github.com/terraform-routeros/terraform-provider-routeros/commit/98516b07f1dbf99b9fa444f95b4a04ed61b5dcec)), closes [#581](https://github.com/terraform-routeros/terraform-provider-routeros/issues/581)
+
 ## [1.65.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.64.2...v1.65.0) (2024-10-07)
 
 ### Features
