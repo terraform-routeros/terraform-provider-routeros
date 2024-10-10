@@ -19,7 +19,7 @@ import (
 )
 
 var (
-	reNewItemName = regexp.MustCompile(`^routeros_[a-z_]+$`)
+	reNewItemName = regexp.MustCompile(`^routeros_[a-z0-9_]+$`)
 	// isDS          = flag.Bool("ds", false, "This is a datasource")
 	isSystem    = flag.Bool("system", false, "This is a system resource")
 	csvTable    = flag.String("table", "", "Extracting attributes from the WIKI table (CSV file)")
