@@ -1,3 +1,12 @@
+## [1.66.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.65.1...v1.66.0) (2024-10-11)
+
+### Features
+
+* **ipv6:** Add new resource `routeros_ipv6_dhcp_server_option` ([c224bb1](https://github.com/terraform-routeros/terraform-provider-routeros/commit/c224bb192b090ac553cf67aade61e81aab9db93a))
+* **ipv6:** Add new resource `routeros_ipv6_dhcp_server` ([23ec941](https://github.com/terraform-routeros/terraform-provider-routeros/commit/23ec9414b9c17a6acf483a602ad741135104b012))
+* **ipv6:** Add new resource `routeros_ipv6_pool` ([96d1c48](https://github.com/terraform-routeros/terraform-provider-routeros/commit/96d1c48ed30efe0ff0d36e716bbac84282431e33))
+* **ipv6:** New resource `routeros_ipv6_dhcp_server_option_sets` ([b92458b](https://github.com/terraform-routeros/terraform-provider-routeros/commit/b92458bf79cc9e987beb137df85e40d2b76c436b))
+
 ## [1.65.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.65.0...v1.65.1) (2024-10-09)
 
 ### Bug Fixes
