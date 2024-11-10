@@ -20,10 +20,10 @@ import (
 
 var (
 	reNewItemName = regexp.MustCompile(`^routeros_[a-z0-9_]+$`)
-	// isDS          = flag.Bool("ds", false, "This is a datasource")
-	isSystem    = flag.Bool("system", false, "This is a system resource")
-	csvTable    = flag.String("table", "", "Extracting attributes from the WIKI table (CSV file)")
-	fromCsvName = flag.Bool("from-csv", false, "Generate resource name from CSV file name routeros_csv_file_name")
+	isDS          = flag.Bool("ds", false, "This is a datasource")
+	isSystem      = flag.Bool("system", false, "This is a system resource")
+	csvTable      = flag.String("table", "", "Extracting attributes from the WIKI table (CSV file)")
+	fromCsvName   = flag.Bool("from-csv", false, "Generate resource name from CSV file name routeros_csv_file_name")
 )
 
 func Fatalf(format string, a ...any) {
@@ -95,9 +95,9 @@ Usage: 	go run tools/bolerplate/main.go [-from-csv] [-table file.csv] [-system] 
 	}
 
 	itemType := Resource
-	// if *isDS {
-	// 	itemType = Datasource
-	// }
+	if *isDS {
+		itemType = Datasource
+	}
 	itemCrud := ""
 	if *isSystem {
 		itemCrud = "System"
@@ -108,14 +108,20 @@ Usage: 	go run tools/bolerplate/main.go [-from-csv] [-table file.csv] [-system] 
 
 	os.MkdirAll("routeros", os.ModePerm)
 
-	// if !*isDS {
-	fName := fmt.Sprintf("%v_%v", Resource.HCL(), strings.TrimPrefix(resName, "routeros_"))
+	fName := fmt.Sprintf("%v_%v", itemType.HCL(), strings.TrimPrefix(resName, "routeros_"))
 	f, err := os.OpenFile(filepath.Join("routeros", fName+".go"), os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0644)
 	if err != nil {
 		panic(err)
 	}
 
-	tmpl, err := template.New("res").Parse(resourceFile)
+	// Resource / Datasource
+	var tmpl *template.Template
+	if !*isDS {
+		tmpl, err = template.New("rs_ds").Parse(resourceFile)
+	} else {
+		tmpl, err = template.New("rs_ds").Parse(datasourceFile)
+
+	}
 	if err != nil {
 		panic(err)
 	}
@@ -124,7 +130,7 @@ Usage: 	go run tools/bolerplate/main.go [-from-csv] [-table file.csv] [-system] 
 		System         bool
 		Schema         string
 		ResourcePath   string
-	}{Resource.String() + goName, *isSystem, Schema, strings.ReplaceAll(strings.TrimPrefix(resName, "routeros_"), "_", "/")})
+	}{itemType.String() + goName, *isSystem, Schema, strings.ReplaceAll(strings.TrimPrefix(resName, "routeros_"), "_", "/")})
 	if err != nil {
 		panic(err)
 	}
@@ -135,7 +141,12 @@ Usage: 	go run tools/bolerplate/main.go [-from-csv] [-table file.csv] [-system] 
 		panic(err)
 	}
 
-	tmpl, err = template.New("test").Parse(testFile)
+	// Test
+	if !*isDS {
+		tmpl, err = template.New("test").Parse(resourceTestFile)
+	} else {
+		tmpl, err = template.New("test").Parse(datasourceTestFile)
+	}
 	if err != nil {
 		panic(err)
 	}
@@ -150,40 +161,58 @@ Usage: 	go run tools/bolerplate/main.go [-from-csv] [-table file.csv] [-system] 
 	}
 	f.Close()
 
-	os.MkdirAll(filepath.Join("examples", "resources", resName), os.ModePerm)
+	// Example
+	if !*isDS {
+		os.MkdirAll(filepath.Join("examples", "resources", resName), os.ModePerm)
+	} else {
+		os.MkdirAll(filepath.Join("examples", "data-sources", resName), os.ModePerm)
+	}
 
-	f, err = os.OpenFile(filepath.Join("examples", "resources", resName, "import.sh"), os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0644)
-	if err != nil {
-		panic(err)
-	}
-	tmpl, err = template.New("ex_import").Parse(exampleImportFile)
-	if err != nil {
-		panic(err)
-	}
-	err = tmpl.Execute(f, struct {
-		ResourceName string
-		ResourcePath string
-	}{resName, strings.ReplaceAll(strings.TrimPrefix(resName, "routeros_"), "_", "/")})
-	if err != nil {
-		panic(err)
-	}
-	f.Close()
+	if !*isDS {
+		f, err = os.OpenFile(filepath.Join("examples", "resources", resName, "import.sh"), os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0644)
+		if err != nil {
+			panic(err)
+		}
+		tmpl, err = template.New("ex_import").Parse(exampleImportFile)
+		if err != nil {
+			panic(err)
+		}
+		err = tmpl.Execute(f, struct {
+			ResourceName string
+			ResourcePath string
+		}{resName, strings.ReplaceAll(strings.TrimPrefix(resName, "routeros_"), "_", "/")})
+		if err != nil {
+			panic(err)
+		}
+		f.Close()
 
-	f, err = os.OpenFile(filepath.Join("examples", "resources", resName, "resource.tf"), os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0644)
-	if err != nil {
-		panic(err)
+		f, err = os.OpenFile(filepath.Join("examples", "resources", resName, "resource.tf"), os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0644)
+		if err != nil {
+			panic(err)
+		}
+		tmpl, err = template.New("ex_res").Parse(exampleResourceFile)
+		if err != nil {
+			panic(err)
+		}
+		err = tmpl.Execute(f, struct {
+			ResourceName string
+		}{resName})
+		if err != nil {
+			panic(err)
+		}
+		f.Close()
+	} else {
+		f, err = os.OpenFile(filepath.Join("examples", "data-sources", resName, "data-source.tf"), os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0644)
+		if err != nil {
+			panic(err)
+		}
+
+		_, err = f.WriteString(fmt.Sprintf("data \"%v\" \"data\" {}", resName))
+		if err != nil {
+			panic(err)
+		}
+		f.Close()
 	}
-	tmpl, err = template.New("ex_res").Parse(exampleResourceFile)
-	if err != nil {
-		panic(err)
-	}
-	err = tmpl.Execute(f, struct {
-		ResourceName string
-	}{resName})
-	if err != nil {
-		panic(err)
-	}
-	f.Close()
 
 	// var flags int = os.O_WRONLY | os.O_APPEND
 	// if _, err := os.Stat(filepath.Join("routeros", "provider.go")); err != nil {
@@ -194,7 +223,7 @@ Usage: 	go run tools/bolerplate/main.go [-from-csv] [-table file.csv] [-system] 
 	if err != nil {
 		panic(err)
 	}
-	fmt.Fprintf(f, "\"%v\":    %v(),\n", resName, Resource.String()+goName)
+	fmt.Fprintf(f, "\"%v\":    %v(),\n", resName, itemType.String()+goName)
 	f.Close()
 	// }
 }
@@ -209,7 +238,7 @@ var exampleResourceFile = `
 resource "{{.ResourceName}}" "test" {
 }`
 
-var testFile = `
+var resourceTestFile = `
 package routeros
 
 import (
@@ -263,6 +292,48 @@ resource "{{.ResourceName}}" "test" {
 }
 `
 
+var datasourceTestFile = `
+package routeros
+
+import (
+	"testing"
+
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+)
+
+const testDatasource{{.GoResourceName}} = "data.{{.ResourceName}}.data"
+
+func TestAccDatasource{{.GoResourceName}}Test_basic(t *testing.T) {
+	t.Parallel()
+	for _, name := range testNames {
+		t.Run(name, func(t *testing.T) {
+			resource.Test(t, resource.TestCase{
+				PreCheck: func() {
+					testAccPreCheck(t)
+					testSetTransportEnv(t, name)
+				},
+				ProviderFactories: testAccProviderFactories,
+				Steps: []resource.TestStep{
+					{
+						Config: testAccDatasource{{.GoResourceName}}Config(),
+						Check: resource.ComposeTestCheckFunc(
+							testResourcePrimaryInstanceId(testDatasource{{.GoResourceName}}),
+						),
+					},
+				},
+			})
+
+		})
+	}
+}
+
+func testAccDatasource{{.GoResourceName}}Config() string {
+	return providerConfig + ` + "`" + `
+
+data "{{.ResourceName}}" "data" {}
+` + "`" + `
+}`
+
 var resourceFile = `
 package routeros
 
@@ -295,6 +366,33 @@ func {{.GoResourceName}}() *schema.Resource {
 		},
 
 		Schema: resSchema,
+	}
+}`
+
+var datasourceFile = `
+package routeros
+
+import (
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+)
+
+/*
+REST JSON
+*/
+
+// https://help.mikrotik.com/docs/display/ROS/
+func {{.GoResourceName}}() *schema.Resource {
+	resSchema := map[string]*schema.Schema{
+		MetaResourcePath: PropResourcePath("/{{.ResourcePath}}"),
+		MetaId:           PropId(Id),
+		MetaSkipFields:   PropSkipFields(),
+
+		{{.Schema}}
+	}
+
+	return &schema.Resource{
+		ReadContext: DefaultSystemDatasourceRead(resSchema),
+		Schema:      resSchema,
 	}
 }`
 
