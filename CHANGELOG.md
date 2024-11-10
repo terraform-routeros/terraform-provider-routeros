@@ -1,3 +1,11 @@
+## [1.67.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.66.0...v1.67.0) (2024-11-10)
+
+### Features
+
+* **ds:** Add new datasource `routeros_system_routerboard` ([2f78e94](https://github.com/terraform-routeros/terraform-provider-routeros/commit/2f78e94ceaf4c484376a5909159675371f3da90b)), closes [#588](https://github.com/terraform-routeros/terraform-provider-routeros/issues/588)
+* **vxlan:** Add new resource `routeros_interface_vxlan_vteps` ([1e72222](https://github.com/terraform-routeros/terraform-provider-routeros/commit/1e72222b890de8ef8a72d2adad7d46138835a0c8)), closes [#590](https://github.com/terraform-routeros/terraform-provider-routeros/issues/590)
+* **vxlan:** Add new resource `routeros_interface_vxlan` ([7ccb49f](https://github.com/terraform-routeros/terraform-provider-routeros/commit/7ccb49f5418b545afda724f933993e94f134324b))
+
 ## [1.66.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.65.1...v1.66.0) (2024-10-11)
 
 ### Features
