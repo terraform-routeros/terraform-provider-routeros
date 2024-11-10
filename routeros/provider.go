@@ -178,6 +178,8 @@ func Provider() *schema.Provider {
 			"routeros_interface_veth":                           ResourceInterfaceVeth(),
 			"routeros_interface_vlan":                           ResourceInterfaceVlan(),
 			"routeros_interface_vrrp":                           ResourceInterfaceVrrp(),
+			"routeros_interface_vxlan":                          ResourceInterfaceVxlan(),
+			"routeros_interface_vxlan_vteps":                    ResourceInterfaceVxlanVteps(),
 			"routeros_interface_wireguard":                      ResourceInterfaceWireguard(),
 			"routeros_interface_wireguard_peer":                 ResourceInterfaceWireguardPeer(),
 			"routeros_interface_wireless":                       ResourceInterfaceWireless(),
@@ -341,6 +343,7 @@ func Provider() *schema.Provider {
 			"routeros_ipv6_addresses":        DatasourceIPv6Addresses(),
 			"routeros_ipv6_firewall":         DatasourceIPv6Firewall(),
 			"routeros_system_resource":       DatasourceSystemResource(),
+			"routeros_system_routerboard":    DatasourceSystemRouterboard(),
 			"routeros_wifi_easy_connect":     DatasourceWiFiEasyConnect(),
 			"routeros_x509":                  DatasourceX509(),
 
