@@ -178,6 +178,7 @@ func Provider() *schema.Provider {
 			"routeros_interface_veth":                           ResourceInterfaceVeth(),
 			"routeros_interface_vlan":                           ResourceInterfaceVlan(),
 			"routeros_interface_vrrp":                           ResourceInterfaceVrrp(),
+			"routeros_interface_vxlan":                          ResourceInterfaceVxlan(),
 			"routeros_interface_wireguard":                      ResourceInterfaceWireguard(),
 			"routeros_interface_wireguard_peer":                 ResourceInterfaceWireguardPeer(),
 			"routeros_interface_wireless":                       ResourceInterfaceWireless(),
