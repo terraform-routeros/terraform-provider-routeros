@@ -341,6 +341,7 @@ func Provider() *schema.Provider {
 			"routeros_ipv6_addresses":        DatasourceIPv6Addresses(),
 			"routeros_ipv6_firewall":         DatasourceIPv6Firewall(),
 			"routeros_system_resource":       DatasourceSystemResource(),
+			"routeros_system_routerboard":    DatasourceSystemRouterboard(),
 			"routeros_wifi_easy_connect":     DatasourceWiFiEasyConnect(),
 			"routeros_x509":                  DatasourceX509(),
 
