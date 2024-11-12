@@ -345,12 +345,12 @@ var (
 				return true
 			}
 
-			if old == "" || new == "" {
-				return false
-			}
-
 			if AlwaysPresentNotUserProvided(k, old, new, d) {
 				return true
+			}
+
+			if old == "" || new == "" {
+				return false
 			}
 
 			o := strings.Split(old, ",")
