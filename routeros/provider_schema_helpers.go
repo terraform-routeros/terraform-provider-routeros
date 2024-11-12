@@ -333,7 +333,6 @@ var (
 	PropKeepaliveRw = &schema.Schema{
 		Type:     schema.TypeString,
 		Optional: true,
-		Default:  "10s,10",
 		ValidateFunc: validation.StringMatch(regexp.MustCompile(`^(\d+[smhdw]?)+(,\d+)?$`),
 			"value must be integer[/time],integer 0..4294967295 (https://help.mikrotik.com/docs/display/ROS/GRE)"),
 		Description: "Tunnel keepalive parameter sets the time interval in which the tunnel running flag will " +
@@ -350,10 +349,14 @@ var (
 				return false
 			}
 
+			if AlwaysPresentNotUserProvided(k, old, new, d) {
+				return true
+			}
+
 			o := strings.Split(old, ",")
 			n := strings.Split(new, ",")
 			if len(o) != 2 || len(n) != 2 {
-				panic(fmt.Sprintf("[GRE keepalive] wrong keepalive format, old: '%v', new: '%v'", old, new))
+				panic(fmt.Sprintf("[Keepalive] wrong keepalive format, old: '%v', new: '%v'", old, new))
 			}
 
 			// Compare keepalive retries.
@@ -364,12 +367,12 @@ var (
 			// Compare keepalive intervals.
 			oDuration, err := ParseDuration(o[0])
 			if err != nil {
-				panic("[GRE keepalive] parse 'old' duration error: " + err.Error())
+				panic("[Keepalive] parse 'old' duration error: " + err.Error())
 			}
 
 			nDuration, err := ParseDuration(n[0])
 			if err != nil {
-				panic("[GRE keepalive] parse 'new' duration error: " + err.Error())
+				panic("[Keepalive] parse 'new' duration error: " + err.Error())
 			}
 
 			return oDuration.Seconds() == nDuration.Seconds()
