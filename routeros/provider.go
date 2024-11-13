@@ -150,6 +150,7 @@ func Provider() *schema.Provider {
 			"routeros_dns_record":          ResourceDnsRecord(),
 
 			// Interface Objects
+			"routeros_interface_6to4":                           ResourceInterface6to4(),
 			"routeros_interface_bonding":                        ResourceInterfaceBonding(),
 			"routeros_interface_bridge_port":                    ResourceInterfaceBridgePort(),
 			"routeros_interface_bridge_settings":                ResourceInterfaceBridgeSettings(),
