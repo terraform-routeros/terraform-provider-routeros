@@ -102,7 +102,7 @@ func ResourceIPFirewallMangle() *schema.Resource {
 			Optional:    true,
 			Description: "Interprets the connection tracking analysis data for a particular packet.",
 			ValidateDiagFunc: ValidationMultiValInSlice([]string{
-				"estabilished", "invalid", "new", "related", "untracked",
+				"established", "invalid", "new", "related", "untracked",
 			}, false, true),
 		},
 		"connection_type": {
