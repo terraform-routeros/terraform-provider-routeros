@@ -1,3 +1,15 @@
+## [1.68.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.67.0...v1.68.0) (2024-11-13)
+
+### Features
+
+* **ipv6:** Add new resource `routeros_interface_6to4` ([742e6bd](https://github.com/terraform-routeros/terraform-provider-routeros/commit/742e6bd55fd4682e952bd35a7acece9968951978)), closes [#593](https://github.com/terraform-routeros/terraform-provider-routeros/issues/593)
+
+### Bug Fixes
+
+* **helpers:** Fix PropKeepaliveRw ([32ee5bc](https://github.com/terraform-routeros/terraform-provider-routeros/commit/32ee5bceffdd4c4ed66461ddfc7e469b95068de8))
+* **helpers:** Fix the plan was not empty ([31d420f](https://github.com/terraform-routeros/terraform-provider-routeros/commit/31d420f4f60998830bc860ba1e0f38025cd241d1))
+* **mangle-connection-state:** typo in `established` value ([#595](https://github.com/terraform-routeros/terraform-provider-routeros/issues/595)) ([19c6c97](https://github.com/terraform-routeros/terraform-provider-routeros/commit/19c6c974a9f03f3848e5662ccb73401a72d0f4cf))
+
 ## [1.67.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.66.0...v1.67.0) (2024-11-10)
 
 ### Features
