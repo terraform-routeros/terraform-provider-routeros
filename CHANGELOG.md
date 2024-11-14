@@ -1,3 +1,9 @@
+## [1.69.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.68.0...v1.69.0) (2024-11-14)
+
+### Features
+
+* **ipv6:** Add new resource `routeros_ipv6_settings` ([4410ddc](https://github.com/terraform-routeros/terraform-provider-routeros/commit/4410ddc9941257e9ff58b40d434d7b59b6ea886b)), closes [#596](https://github.com/terraform-routeros/terraform-provider-routeros/issues/596)
+
 ## [1.68.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.67.0...v1.68.0) (2024-11-13)
 
 ### Features
