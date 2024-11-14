@@ -1,0 +1,1 @@
+terraform import routeros_ipv6_settings.settings .
