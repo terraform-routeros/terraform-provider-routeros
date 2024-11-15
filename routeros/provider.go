@@ -135,7 +135,7 @@ func Provider() *schema.Provider {
 			"routeros_ipv6_neighbor_discovery":         ResourceIPv6NeighborDiscovery(),
 			"routeros_ipv6_pool":                       ResourceIpv6Pool(),
 			"routeros_ipv6_route":                      ResourceIPv6Route(),
-			"routeros_ipv6_settings":                   ResourceIpv6Settings(),
+
 
 			// Aliases for IP objects to retain compatibility between original and fork
 			"routeros_dhcp_client":         ResourceDhcpClient(),
@@ -151,12 +151,12 @@ func Provider() *schema.Provider {
 			"routeros_dns_record":          ResourceDnsRecord(),
 
 			// Interface Objects
-			"routeros_interface_6to4":                           ResourceInterface6to4(),
 			"routeros_interface_bonding":                        ResourceInterfaceBonding(),
 			"routeros_interface_bridge_port":                    ResourceInterfaceBridgePort(),
 			"routeros_interface_bridge_settings":                ResourceInterfaceBridgeSettings(),
 			"routeros_interface_bridge_vlan":                    ResourceInterfaceBridgeVlan(),
 			"routeros_interface_bridge":                         ResourceInterfaceBridge(),
+			"routeros_interface_bridge_filter":                  ResourceInterfaceBridgeFilter(),
 			"routeros_interface_dot1x_client":                   ResourceInterfaceDot1xClient(),
 			"routeros_interface_dot1x_server":                   ResourceInterfaceDot1xServer(),
 			"routeros_interface_eoip":                           ResourceInterfaceEoip(),
@@ -348,6 +348,7 @@ func Provider() *schema.Provider {
 			"routeros_system_routerboard":    DatasourceSystemRouterboard(),
 			"routeros_wifi_easy_connect":     DatasourceWiFiEasyConnect(),
 			"routeros_x509":                  DatasourceX509(),
+			"routeros_interface_bridge_filter": DatasourceInterfaceBridgeFilter(),
 
 			// Aliases for entries that have been renamed
 			"routeros_firewall": DatasourceIPFirewall(),
