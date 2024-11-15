@@ -135,7 +135,7 @@ func Provider() *schema.Provider {
 			"routeros_ipv6_neighbor_discovery":         ResourceIPv6NeighborDiscovery(),
 			"routeros_ipv6_pool":                       ResourceIpv6Pool(),
 			"routeros_ipv6_route":                      ResourceIPv6Route(),
-
+			"routeros_ipv6_settings": ResourceIpv6Settings(),
 
 			// Aliases for IP objects to retain compatibility between original and fork
 			"routeros_dhcp_client":         ResourceDhcpClient(),
@@ -151,6 +151,7 @@ func Provider() *schema.Provider {
 			"routeros_dns_record":          ResourceDnsRecord(),
 
 			// Interface Objects
+			"routeros_interface_6to4": 							 ResourceInterface6to4(),
 			"routeros_interface_bonding":                        ResourceInterfaceBonding(),
 			"routeros_interface_bridge_port":                    ResourceInterfaceBridgePort(),
 			"routeros_interface_bridge_settings":                ResourceInterfaceBridgeSettings(),
