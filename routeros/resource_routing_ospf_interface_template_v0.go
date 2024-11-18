@@ -1,9 +1,6 @@
 package routeros
 
 import (
-	"context"
-	"reflect"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
@@ -35,7 +32,7 @@ import (
 */
 
 // ResourceRoutingOspfInterfaceTemplate https://help.mikrotik.com/docs/display/ROS/OSPF
-func ResourceRoutingOspfInterfaceTemplate() *schema.Resource {
+func ResourceRoutingOspfInterfaceTemplateV0() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath:   PropResourcePath("/routing/ospf/interface-template"),
 		MetaId:             PropId(Id),
@@ -113,14 +110,10 @@ func ResourceRoutingOspfInterfaceTemplate() *schema.Resource {
 			Default:      0,
 			ValidateFunc: validation.IntBetween(0, 255),
 		},
-		"networks": {
-			Type:     schema.TypeSet,
-			Optional: true,
-			Elem: &schema.Schema{
-				Type:         schema.TypeString,
-				ValidateFunc: validation.IsCIDR,
-			},
-			Description: "The network prefixes associated with the area.",
+		"network": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "The network prefix associated with the area.",
 		},
 		"passive": {
 			Type:     schema.TypeBool,
@@ -189,32 +182,6 @@ func ResourceRoutingOspfInterfaceTemplate() *schema.Resource {
 			StateContext: schema.ImportStatePassthroughContext,
 		},
 
-		Schema:        resSchema,
-		SchemaVersion: 1,
-		StateUpgraders: []schema.StateUpgrader{
-			{
-				Type: ResourceRoutingOspfInterfaceTemplateV0().CoreConfigSchema().ImpliedType(),
-				Upgrade: func(ctx context.Context, rawState map[string]interface{}, meta interface{}) (map[string]interface{}, error) {
-					defer delete(rawState, "network")
-
-					if rawState["network"] == nil {
-						return rawState, nil
-					}
-
-					value := reflect.ValueOf(rawState["network"])
-					if value.IsZero() {
-						rawState["networks"] = []interface{}{}
-						return rawState, nil
-					}
-
-					slice := reflect.MakeSlice(reflect.SliceOf(value.Type()), 0, 1)
-					reflect.Append(slice, value)
-					rawState["networks"] = slice.Interface()
-
-					return rawState, nil
-				},
-				Version: 0,
-			},
-		},
+		Schema: resSchema,
 	}
 }
