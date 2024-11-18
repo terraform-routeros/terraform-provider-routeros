@@ -1,3 +1,9 @@
+## [1.69.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.69.0...v1.69.1) (2024-11-18)
+
+### Bug Fixes
+
+* **ospf:** Change the “network” attribute ([f057f18](https://github.com/terraform-routeros/terraform-provider-routeros/commit/f057f184608e9de9c08e2f5b773e0ed4f4f740af)), closes [#598](https://github.com/terraform-routeros/terraform-provider-routeros/issues/598)
+
 ## [1.69.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.68.0...v1.69.0) (2024-11-14)
 
 ### Features

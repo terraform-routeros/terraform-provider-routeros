@@ -37,7 +37,7 @@ resource "routeros_routing_ospf_interface_template" "test_routing_ospf_interface
 - `hello_interval` (String) The interval between HELLO packets that the router sends out this interface.
 - `instance_id` (Number) Interface cost expressed as link state metric.
 - `interfaces` (Set of String) Interfaces to match.
-- `network` (String) The network prefix associated with the area.
+- `networks` (Set of String) The network prefixes associated with the area.
 - `passive` (Boolean) If enabled, then do not send or receive OSPF traffic on the matching interfaces. <em>The correct value of this attribute may not be displayed in Winbox. Please check the parameters in the console!</em>
 - `prefix_list` (String) Name of the address list containing networks that should be advertised to the v3 interface.
 - `priority` (Number) Router's priority. Used to determine the designated router in a broadcast network.
