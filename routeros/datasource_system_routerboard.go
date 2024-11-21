@@ -39,6 +39,10 @@ func DatasourceSystemRouterboard() *schema.Resource {
 			Type:     schema.TypeString,
 			Computed: true,
 		},
+		"revision": {
+			Type:     schema.TypeString,
+			Computed: true,
+		},
 		"routerboard": {
 			Type:     schema.TypeBool,
 			Computed: true,
