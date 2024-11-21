@@ -1,1 +1,1 @@
-terraform import routeros_ip_cloud.test .
+terraform import routeros_bridge_mlag.mlag .
