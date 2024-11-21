@@ -27,5 +27,5 @@ resource "routeros_bridge_mlag" "mlag" {
 ## Import
 Import is supported using the following syntax:
 ```shell
-terraform import routeros_ip_cloud.test .
+terraform import routeros_bridge_mlag.mlag .
 ```

@@ -19,6 +19,7 @@ data "routeros_system_routerboard" "data" {}
 - `firmware_type` (String)
 - `id` (String) The ID of this resource.
 - `model` (String)
+- `revision` (String)
 - `routerboard` (Boolean)
 - `serial_number` (String)
 - `upgrade_firmware` (String)

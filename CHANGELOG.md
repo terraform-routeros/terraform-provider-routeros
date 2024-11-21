@@ -1,3 +1,9 @@
+## [1.69.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.69.1...v1.69.2) (2024-11-21)
+
+### Bug Fixes
+
+* **ds:** warning  Field 'revision' not found in the schema in routeros_system_routerboard datasource ([1b6f86b](https://github.com/terraform-routeros/terraform-provider-routeros/commit/1b6f86b28b5d566dbda32e6f0ed3cf95cacd251c)), closes [#602](https://github.com/terraform-routeros/terraform-provider-routeros/issues/602)
+
 ## [1.69.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.69.0...v1.69.1) (2024-11-18)
 
 ### Bug Fixes
