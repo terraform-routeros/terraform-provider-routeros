@@ -1,3 +1,9 @@
+## [1.70.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.69.2...v1.70.0) (2024-11-24)
+
+### Features
+
+* **wave2:** Add new resource `routeros_interface_wireless_connect_list` ([10078df](https://github.com/terraform-routeros/terraform-provider-routeros/commit/10078df6c341d20e2d7e94344bafbff224312828)), closes [#605](https://github.com/terraform-routeros/terraform-provider-routeros/issues/605)
+
 ## [1.69.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.69.1...v1.69.2) (2024-11-21)
 
 ### Bug Fixes
