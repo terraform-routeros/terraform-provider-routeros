@@ -187,6 +187,7 @@ func Provider() *schema.Provider {
 			"routeros_interface_wireless":                       ResourceInterfaceWireless(),
 			"routeros_interface_wireless_access_list":           ResourceInterfaceWirelessAccessList(),
 			"routeros_interface_wireless_cap":                   ResourceInterfaceWirelessCap(),
+			"routeros_interface_wireless_connect_list":          ResourceInterfaceWirelessConnectList(),
 			"routeros_interface_wireless_security_profiles":     ResourceInterfaceWirelessSecurityProfiles(),
 
 			// Aliases for interface objects to retain compatibility between original and fork
