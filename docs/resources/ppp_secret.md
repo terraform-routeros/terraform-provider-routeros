@@ -19,6 +19,8 @@ resource "routeros_ppp_secret" "test" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `caller_id` (String) For PPTP and L2TP it is the IP address a client must connect from. For PPPoE it is the MAC address (written in CAPITAL letters) a client must  connect from. For ISDN it is the caller's number (that may or may not be  provided by the operator) the client may dial-in from.
 - `comment` (String)
 - `disabled` (Boolean)

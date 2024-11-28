@@ -19,6 +19,8 @@ resource "routeros_interface_lte_apn" "test" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `add_default_route` (Boolean) Whether to add a default route to forward all traffic over the LTE interface.
 - `apn` (String) Service Provider's Access Point Name.
 - `authentication` (String) Allowed protocol to use for authentication.

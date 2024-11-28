@@ -16,6 +16,8 @@ resource "routeros_ip_hotspot_ip_binding" "test" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `address` (String) The original IP address of the client.
 - `comment` (String)
 - `disabled` (Boolean)

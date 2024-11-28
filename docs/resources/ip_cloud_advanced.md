@@ -13,6 +13,8 @@ resource "routeros_ip_cloud_advanced" "settings" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `use_local_address` (Boolean) An option whether to assign an internal router address to the dynamic DNS name.
 
 ### Read-Only

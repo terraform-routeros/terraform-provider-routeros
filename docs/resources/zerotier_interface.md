@@ -47,6 +47,8 @@ resource "routeros_zerotier_interface" "zerotier1" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `allow_default` (Boolean) An option to override the default route.
 - `allow_global` (Boolean) An option to allow overlapping public IP space by the ZeroTier routes. .
 - `allow_managed` (Boolean) An option to allow assignment of managed IPs.

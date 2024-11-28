@@ -13,6 +13,8 @@ resource "routeros_ipv6_settings" "settings" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `accept_redirects` (String) Whether to accept ICMP redirect messages. Typically should be enabled on the host and disabled on routers.
 - `accept_router_advertisements` (String) Accept router advertisement (RA) messages. If enabled, the router will be able to get the address using stateless address configuration.
 - `disable_ipv6` (Boolean) Enable/disable system wide IPv6 settings (prevents LL address generation).

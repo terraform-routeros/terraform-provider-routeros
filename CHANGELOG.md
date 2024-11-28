@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## [1.70.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.69.2...v1.70.0) (2024-11-24)
 
 ### Features
@@ -34,6 +35,8 @@
 * **helpers:** Fix the plan was not empty ([31d420f](https://github.com/terraform-routeros/terraform-provider-routeros/commit/31d420f4f60998830bc860ba1e0f38025cd241d1))
 * **mangle-connection-state:** typo in `established` value ([#595](https://github.com/terraform-routeros/terraform-provider-routeros/issues/595)) ([19c6c97](https://github.com/terraform-routeros/terraform-provider-routeros/commit/19c6c974a9f03f3848e5662ccb73401a72d0f4cf))
 
+=======
+>>>>>>> bc-add-interface-bridge-filter-resource
 ## [1.67.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.66.0...v1.67.0) (2024-11-10)
 
 ### Features

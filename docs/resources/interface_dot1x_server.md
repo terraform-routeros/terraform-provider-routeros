@@ -18,6 +18,8 @@ resource "routeros_interface_dot1x_server" "ether2" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `accounting` (Boolean) Whether to send RADIUS accounting requests to the authentication server.
 - `auth_timeout` (String) Total time available for EAP authentication.
 - `auth_types` (Set of String) Used authentication type on a server interface. Comma-separated list of `dot1x` and `mac-auth`.

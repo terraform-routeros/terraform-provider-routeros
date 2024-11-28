@@ -24,6 +24,8 @@ resource "routeros_ipv6_dhcp_server_option_sets" "test" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `comment` (String)
 - `options` (Set of String) The list of options.
 

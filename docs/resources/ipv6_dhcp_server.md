@@ -29,6 +29,8 @@ resource "routeros_ipv6_dhcp_server" "test" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `allow_dual_stack_queue` (Boolean) Creates a single simple queue entry for both IPv4 and IPv6 addresses, and uses the MAC address and DUID for identification. Requires IPv6 DHCP Server to have this option enabled as well to work properly.
 - `binding_script` (String) A script that will be executed after binding is assigned or de-assigned. Internal `global` variables that can be used in the script:
     - bindingBound - set to `1` if bound, otherwise set to `0`

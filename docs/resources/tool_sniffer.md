@@ -21,6 +21,9 @@ resource "routeros_tool_sniffer" "test" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
+- `___skip___` (String) <em>A set of transformations for field names. This is an internal service field, setting a value is not required.</em>
 - `enabled` (Boolean) Start packet capture.
 - `file_limit` (Number) File size limit. Sniffer will stop when a limit is reached.
 - `file_name` (String) Name of the file where sniffed packets will be saved.

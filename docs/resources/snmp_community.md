@@ -27,6 +27,8 @@ resource "routeros_snmp_community" "mything" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `addresses` (Set of String) Set of IP (v4 or v6) addresses or CIDR networks from which connections to SNMP server are allowed.
 - `authentication_password` (String, Sensitive) Password used to authenticate the connection to the server (SNMPv3).
 - `authentication_protocol` (String) The protocol used for authentication (SNMPv3).

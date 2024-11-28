@@ -13,6 +13,8 @@ resource "routeros_system_routerboard_usb" "settings" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `type` (String) An option to set the type of the USB port. Possible value: `auto`, `mini-PCIe`, `USB-type-A`.
 - `usb_mode` (String) An option to set the USB port mode. Possible values: `automatic`, `force-host`.
 

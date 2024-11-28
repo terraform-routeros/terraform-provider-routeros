@@ -14,6 +14,8 @@ resource "routeros_system_routerboard_settings" "settings" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `auto_upgrade` (Boolean) An option to enable firmware upgrade automatically after the RouterOS upgrade.
 - `baud_rate` (Number) An option to choose the onboard RS232 speed in bits per second.
 - `boot_delay` (String) A delay for a keystroke while booting.

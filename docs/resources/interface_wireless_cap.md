@@ -15,6 +15,9 @@ resource "routeros_interface_wireless_cap" "settings" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
+- `___skip___` (String) <em>A set of transformations for field names. This is an internal service field, setting a value is not required.</em>
 - `bridge` (String) Bridge interface to add the interface as a bridge port.
 - `caps_man_addresses` (List of String) List of Manager IP addresses that CAP will attempt to contact during discovery.
 - `caps_man_certificate_common_names` (List of String) List of manager certificate common names that CAP will connect to.

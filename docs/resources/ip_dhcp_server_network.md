@@ -19,6 +19,8 @@ resource "routeros_ip_dhcp_server_network" "dhcp_server_network" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `boot_file_name` (String) Boot filename.
 - `caps_manager` (List of String) A list of IP addresses for one or more CAPsMAN system managers. DHCP Option 138 (capwap) will be used.
 - `comment` (String)

@@ -21,6 +21,8 @@ resource "routeros_user_manager_attribute" "mikrotik_wireless_comment" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `packet_types` (Set of String) A set of `access-accept` and `access-challenge`.
 - `value_type` (String) The attribute's value type.
 - `vendor_id` (String) IANA allocated a specific enterprise identification number.

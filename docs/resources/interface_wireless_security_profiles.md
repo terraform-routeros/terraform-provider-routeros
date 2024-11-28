@@ -21,6 +21,8 @@ resource "routeros_interface_wireless_security_profiles" "test" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `authentication_types` (Set of String) Set of supported authentication types, multiple values can be selected. Access Point will advertise supported authentication types, and client will connect to Access Point only if it supports any of the advertised authentication types.
 - `comment` (String)
 - `disable_pmkid` (Boolean) Whether to include `PMKID` into the `EAPOL` frame sent out by the Access Point. Disabling PMKID can cause compatibility issues with devices that use the PMKID to connect to an Access Point. `yes` - removes PMKID from EAPOL frames (improves security, reduces compatibility). `no` - includes PMKID into EAPOL frames (reduces security, improves compatibility).This property only has effect on Access Points.

@@ -13,6 +13,8 @@
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `bsd_syslog` (Boolean) Whether to use bsd-syslog as defined in RFC 3164.
 - `disk_file_count` (Number) Specifies number of files used to store log messages, applicable only if `action=disk`.
 - `disk_file_name` (String) Name of the file used to store log messages, applicable only if `action=disk`.

@@ -14,6 +14,8 @@ resource "routeros_system_user_settings" "settings" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `minimum_categories` (Number) An option specifies the complexity requirements of the password, with categories being uppercase, lowercase, digit, and symbol.
 - `minimum_password_length` (Number) An option specifies the minimum length of the password.
 

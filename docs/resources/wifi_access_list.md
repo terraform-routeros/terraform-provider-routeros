@@ -15,6 +15,8 @@ resource "routeros_wifi_access_list" "radius" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `action` (String) An action to take when a client matches.
 - `allow_signal_out_of_range` (String) An option that permits the client's signal to be out of the range always or for some time interval.
 - `client_isolation` (Boolean) An option that specifies whether to deny forwarding data between clients connected to the same interface.

@@ -76,6 +76,8 @@ resource "routeros_dns_record" "txt_record" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `address` (String) The A record to be returend from the DNS hostname.
 - `address_list` (String) Name of the Firewall address list to which address must be dynamically added when some request matches the entry.
 - `cname` (String) Alias name for a domain name.

@@ -17,6 +17,8 @@ resource "routeros_dns" "dns-server" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `address_list_extra_time` (String)
 - `allow_remote_requests` (Boolean) Specifies whether to allow network requests.
 - `cache_max_ttl` (String) Maximum time-to-live for cache records. In other words, cache records will expire unconditionally after cache-max-ttl time. Shorter TTL received from DNS servers are respected. *Default: 1w*

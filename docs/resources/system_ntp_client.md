@@ -15,6 +15,8 @@ resource "routeros_system_ntp_client" "test" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `enabled` (Boolean) Enable NTP client.
 - `mode` (String) Mode that the NTP client will operate in
 - `servers` (Set of String) The list of NTP servers. It is possible to add static entries.

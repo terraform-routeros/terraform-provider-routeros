@@ -46,6 +46,7 @@ resource "routeros_ip_firewall" "rule_3" {
 
 ### Optional
 
+- `___skip___` (String) <em>A set of transformations for field names. This is an internal service field, setting a value is not required.</em>
 - `address_list` (Block List) (see [below for nested schema](#nestedblock--address_list))
 - `mangle` (Block List) (see [below for nested schema](#nestedblock--mangle))
 - `nat` (Block List) (see [below for nested schema](#nestedblock--nat))

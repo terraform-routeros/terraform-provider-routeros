@@ -18,6 +18,8 @@ resource "routeros_system_ntp_server" "test" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `auth_key` (String) NTP symmetric key, used for authentication between the NTP client and server. Key Identifier (Key ID) - an integer identifying the cryptographic key used to generate the message-authentication code.
 - `broadcast` (Boolean) Enable certain NTP server mode, for this mode to work you have to set up broadcast-addresses field.
 - `broadcast_addresses` (String) Set broadcast address to use for NTP server broadcast mode.

@@ -30,6 +30,8 @@ resource "routeros_capsman_security" "test_security" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `authentication_types` (Set of String) Specify the type of Authentication from wpa-psk, wpa2-psk, wpa-eap or wpa2-eap.
 - `comment` (String)
 - `disable_pmkid` (Boolean) Whether to include PMKID into the EAPOL frame sent out by the Access Point. Disabling PMKID can cause compatibility issues with devices that use the PMKID to connect to an Access Point.

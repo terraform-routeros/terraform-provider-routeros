@@ -19,6 +19,8 @@ resource "routeros_ip_hotspot_profile" "test" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `dns_name` (String) DNS name of the HotSpot server (it appears as the location of the login page). This name will automatically be added as a static DNS entry in the DNS cache. Name can affect if Hotspot is automatically detected by client device. For example, iOS devices may not detect Hotspot that has a name which includes `.local`.
 - `hotspot_address` (String) IP address of HotSpot service.
 - `html_directory` (String) Directory name in which HotSpot HTML pages are stored (by default hotspot directory). It is possible to specify different directory with modified HTML pages. To change HotSpot login page, connect to the router with FTP and download hotspot directory contents. v6.31 and older software builds: For devices where `flash` directory is present, hotspot html directory must be stored there and path must be typed in as follows: `/(hotspot_dir)`. This must be done in this order as hotspot sees `flash` directory as root location. v6.32 and newer software builds: full path must be typed in html-directory field, including `/flash/(hotspot_dir)`.

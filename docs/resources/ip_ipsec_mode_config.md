@@ -20,6 +20,8 @@ resource "routeros_ip_ipsec_mode_config" "test" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `address` (String) Single IP address for the initiator instead of specifying a whole address pool.
 - `address_pool` (String) Name of the address pool from which the responder will try to assign address if mode-config is enabled.
 - `address_prefix_length` (Number) Prefix length (netmask) of the assigned address from the pool.

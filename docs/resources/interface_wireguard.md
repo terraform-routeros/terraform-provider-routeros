@@ -21,6 +21,8 @@ resource "routeros_interface_wireguard" "test_wg_interface" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `comment` (String)
 - `disabled` (Boolean)
 - `mtu` (String) Layer3 Maximum transmission unit ('auto', 0 .. 65535)

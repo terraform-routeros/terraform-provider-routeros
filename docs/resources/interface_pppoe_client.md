@@ -23,6 +23,8 @@ resource "routeros_interface_pppoe_client" "test" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `ac_name` (String) Access Concentrator name, this may be left blank and the client will connect to any access concentrator on the broadcast domain.
 - `add_default_route` (Boolean) Enable/Disable whether to add default route automatically.
 - `allow` (Set of String) Allowed authentication methods, by default all methods are allowed.

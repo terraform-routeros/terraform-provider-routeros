@@ -29,6 +29,8 @@ resource "routeros_capsman_channel" "test_channel" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `band` (String) Define operational radio frequency band and mode taken from hardware capability of wireless card.
 - `comment` (String)
 - `control_channel_width` (String) Control channel width.

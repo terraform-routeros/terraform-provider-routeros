@@ -20,6 +20,8 @@ resource "routeros_user_manager_router" "test" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `coa_port` (Number) Port number of CoA (Change of Authorization) communication.
 - `disabled` (Boolean)
 - `shared_secret` (String, Sensitive) The shared secret to secure communication.

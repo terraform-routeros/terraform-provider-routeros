@@ -27,6 +27,8 @@ resource "routeros_capsman_provisioning" "test_provisioning" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `action` (String) Provisioning action.
 - `comment` (String)
 - `common_name_regexp` (String) Regular expression to match radios by common name. Each CAP's common name identifier can be found under "/caps-man radio" as value "REMOTE-CAP-NAME"

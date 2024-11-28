@@ -22,6 +22,9 @@ resource "routeros_zerotier" "zt1" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
+- `___ts___` (String) <em>A set of transformations for field names. This is an internal service field, setting a value is not required.</em>
 - `comment` (String)
 - `disabled` (Boolean)
 - `identity` (String) The 40-bit unique instance address.

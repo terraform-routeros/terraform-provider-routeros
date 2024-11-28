@@ -21,6 +21,8 @@ resource "routeros_ip_dhcp_relay" "relay" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `add_relay_info` (Boolean) Adds DHCP relay agent information if enabled according to RFC 3046. Agent Circuit ID Sub-option contains mac address of an interface, Agent Remote ID Sub-option contains MAC address of the client from which request was received.
 - `delay_threshold` (String) If secs field in DHCP packet is smaller than delay-threshold, then this packet is ignored.
 - `disabled` (Boolean)

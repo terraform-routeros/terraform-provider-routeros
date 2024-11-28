@@ -15,6 +15,8 @@ resource "routeros_routing_rule" "test" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `action` (String) An action to take on the matching packet:drop - silently drop the packet.lookup - perform a lookup in routing tables.lookup-only-in-table - perform lookup only in the specified routing table (see table parameter).unreachable - generate ICMP unreachable message and send it back to the source.
 - `comment` (String)
 - `disabled` (Boolean)

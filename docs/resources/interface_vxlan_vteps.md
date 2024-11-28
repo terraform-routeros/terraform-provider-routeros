@@ -23,6 +23,8 @@ resource "routeros_interface_vxlan_vteps" "test" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `comment` (String)
 - `port` (Number) Used UDP port number.
 - `remote_ip` (String) The IPv4 or IPv6 destination address of remote VTEP.

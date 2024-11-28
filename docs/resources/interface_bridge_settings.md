@@ -13,6 +13,8 @@ resource "routeros_interface_bridge_settings" "settings" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `allow_fast_path` (Boolean) Whether to enable a bridge FastPath globally.
 - `use_ip_firewall` (Boolean) Force bridged traffic to also be processed by prerouting, forward and postrouting sections of IP routing ( Packet Flow). This does not apply to routed traffic. This property is required in case you want to assign Simple Queues or global Queue Tree to traffic in a bridge. Property use-ip-firewall-for-vlan is required in case bridge vlan-filtering is used.
 - `use_ip_firewall_for_pppoe` (Boolean) Send bridged un-encrypted PPPoE traffic to also be processed by IP/Firewall. This property only has effect when use-ip-firewall is set to yes. This property is required in case you want to assign Simple Queues or global Queue Tree to PPPoE traffic in a bridge.

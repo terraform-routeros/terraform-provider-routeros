@@ -20,6 +20,8 @@ resource "routeros_user_manager_limitation" "test" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `download_limit` (Number) The total amount of traffic a user can download in bytes.
 - `rate_limit_burst_rx` (Number)
 - `rate_limit_burst_threshold_rx` (Number)

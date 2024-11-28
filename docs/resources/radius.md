@@ -18,6 +18,8 @@ resource "routeros_radius" "user_manager" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `accounting_backup` (Boolean) An option whether the configuration is for the backup RADIUS server.
 - `accounting_port` (Number) RADIUS server port used for accounting.
 - `authentication_port` (Number) RADIUS server port used for authentication.

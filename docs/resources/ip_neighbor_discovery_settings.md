@@ -16,6 +16,8 @@ resource "routeros_ip_neighbor_discovery_settings" "test" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `discover_interface_list` (String) Interface list on which members the discovery protocol will run on.
 - `discover_interval` (String) An option to adjust the frequency at which neighbor discovery packets are transmitted. The setting is available since RouterOS version 7.16.
 - `lldp_mac_phy_config` (Boolean) Whether to send MAC/PHY Configuration/Status TLV in LLDP, which indicates the interface capabilities, current setting of the duplex status, bit rate, and auto-negotiation. Only applies to the Ethernet interfaces. While TLV is optional in LLDP, it is mandatory when sending LLDP-MED, meaning this TLV will be included when necessary even though the property is configured as disabled.

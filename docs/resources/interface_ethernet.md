@@ -20,6 +20,9 @@ resource "routeros_interface_ethernet" "test" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
+- `___skip___` (String) <em>A set of transformations for field names. This is an internal service field, setting a value is not required.</em>
 - `advertise` (String) Advertised speed and duplex modes for Ethernet interfaces over twisted pair, 
 				only applies when auto-negotiation is enabled. Advertising higher speeds than 
 				the actual interface supported speed will have no effect, multiple options are allowed.

@@ -39,6 +39,8 @@ resource "routeros_user_manager_user" "test" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `attributes` (List of String) A custom set of colon-separated attributes with their values will be added to `Access-Accept` messages for users in this group.
 - `caller_id` (String) Allow user's authentication with a specific Calling-Station-Id value.
 - `comment` (String)

@@ -35,6 +35,8 @@ resource "routeros_ip_ipsec_identity" "test" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `auth_method` (String) Authentication method: `digital-signature` - authenticate using a pair of RSA certificates; `eap` - IKEv2 EAP authentication for initiator (peer with a netmask of `/32`). Must be used together with eap-methods; `eap-radius` - IKEv2 EAP RADIUS passthrough authentication for the responder (RFC 3579). A server certificate in this case is required. If a server certificate is not specified then only clients supporting EAP-only (RFC 5998) will be able to connect. Note that the EAP method should be compatible with EAP-only; `pre-shared-key` - authenticate by a password (pre-shared secret) string shared between the peers (not recommended since an offline attack on the pre-shared key is possible); `rsa-key` - authenticate using an RSA key imported in keys menu. Only supported in IKEv1; `pre-shared-key-xauth` - authenticate by a password (pre-shared secret) string shared between the peers + XAuth username and password. Only supported in IKEv1; `rsa-signature-hybrid` - responder certificate authentication with initiator XAuth. Only supported in IKEv1.
 - `certificate` (String) Name of a certificate listed in System/Certificates (signing packets; the certificate must have the private key). Applicable if digital signature authentication method (`auth-method=digital-signature`) or EAP (a`uth-method=eap`) is used.
 - `comment` (String)

@@ -27,6 +27,8 @@ resource "routeros_ip_dhcp_server_option" "tftp_option" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `comment` (String)
 - `force` (Boolean) Force the DHCP option from the server-side even if the DHCP-client does not request such parameter.
 

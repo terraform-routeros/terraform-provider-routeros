@@ -19,6 +19,8 @@ resource "routeros_ip_ipsec_proposal" "test" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `auth_algorithms` (Set of String) Allowed algorithms for authorization. SHA (Secure Hash Algorithm) is stronger but slower. MD5 uses a 128-bit key, sha1-160bit key.
 - `comment` (String)
 - `disabled` (Boolean)

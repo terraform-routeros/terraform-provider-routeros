@@ -14,6 +14,9 @@ resource "routeros_ip_dns_adlist" "test" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
+- `___skip___` (String) <em>A set of transformations for field names. This is an internal service field, setting a value is not required.</em>
 - `disabled` (Boolean)
 - `file` (String) Used to specify a local file path from which to read adlist data.
 - `ssl_verify` (Boolean) Specifies whether to validate the server's SSL certificate when connecting to an online resource. Will use the `/certificate` list to verify server validity.

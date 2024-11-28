@@ -20,6 +20,8 @@ resource "routeros_ppp_profile" "test" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `address_list` (String) Address list name to which ppp assigned (on server) or received (on client) address will be added.
 - `bridge` (String) Name of the bridge interface to which ppp interface will be added as a slave port. Both  tunnel endpoints (server and client) must be in bridge in order to make  this work, see more details on the BCP bridging manual.
 - `bridge_horizon` (Number) Used  split-horizon value for the dynamically created bridge port. Can be  used to prevent bridging loops and isolate traffic. Set the same value  for a group of ports, to prevent them from sending data to ports with  the same horizon value.

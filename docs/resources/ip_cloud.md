@@ -15,6 +15,8 @@ resource "routeros_ip_cloud" "test" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `back_to_home_vpn` (String) Enables or revokes and disables the Back to Home service. ddns-enabled has to be set to yes, for BTH to function.
 - `ddns_enabled` (Boolean) If set to yes, then the device will send an encrypted message to the MikroTik's Cloud server. The server will then decrypt the message and verify that the sender is an authentic MikroTik device. If all is OK, then the MikroTik's Cloud server will create a DDNS record for this device and send a response to the device. Every minute the IP/Cloud service on the router will check if WAN IP address matches the one sent to MikroTik's Cloud server and will send encrypted update to cloud server if IP address changes.
 - `ddns_update_interval` (String) If set DDNS will attempt to connect IP Cloud servers at the set interval. If set to none it will continue to internally check IP address update and connect to IP Cloud servers as needed. Useful if IP address used is not on the router itself and thus, cannot be checked as a value internal to the router.

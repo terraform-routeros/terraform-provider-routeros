@@ -18,6 +18,10 @@ resource "routeros_interface_ethernet_switch_port_isolation" "test" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
+- `___skip___` (String) <em>A set of transformations for field names. This is an internal service field, setting a value is not required.</em>
+- `___unset___` (String) <em>A set of fields that require setting/unsetting. This is an internal service field, setting a value is not required.</em>
 - `forwarding_override` (String) Forces ingress traffic to be forwarded to a specific interface. Multiple interfaces can be specified by separating them with a comma.
 
 ### Read-Only

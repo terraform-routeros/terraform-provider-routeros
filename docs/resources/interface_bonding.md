@@ -19,6 +19,8 @@ resource "routeros_interface_bonding" "test" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `arp` (String) Address Resolution Protocol for the interface. disabled - the interface will not use ARP enabled - the interface will use ARP proxy-arp - the interface will use the ARP proxy feature reply-only -the interface will only reply to requests originated from matching IPaddress/MAC address combinations which are entered as static entries inthe '/ip arp' table. No dynamic entries will be automatically stored inthe '/ip arp' table. Therefore for communications to be successful, avalid static entry must already exist.
 - `arp_interval` (String) Time in milliseconds defines how often to monitor ARP requests.
 - `arp_ip_targets` (String) IP target address which will be monitored if link-monitoring is set to arp. You can specify multiple IP addresses, separated by a comma.

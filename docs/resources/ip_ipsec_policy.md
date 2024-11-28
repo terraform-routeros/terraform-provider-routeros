@@ -21,6 +21,9 @@ resource "routeros_ip_ipsec_policy" "policy" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
+- `___skip___` (String) <em>A set of transformations for field names. This is an internal service field, setting a value is not required.</em>
 - `action` (String) Specifies what to do with the packet matched by the policy.none - pass the packet unchanged.discard - drop the packet.encrypt - apply transformations specified in this policy and it's SA.
 - `comment` (String)
 - `disabled` (Boolean)

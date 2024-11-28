@@ -14,6 +14,8 @@ resource "routeros_wifi_cap" "settings" {
 
 ### Optional
 
+- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
+- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `caps_man_addresses` (List of String) List of Manager IP addresses that CAP will attempt to contact during discovery.
 - `caps_man_certificate_common_names` (List of String) List of manager certificate common names that CAP will connect to.
 - `caps_man_names` (List of String) An ordered list of CAPs Manager names that the CAP will connect to.
