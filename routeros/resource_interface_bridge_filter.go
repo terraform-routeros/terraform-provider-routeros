@@ -117,9 +117,10 @@ func ResourceInterfaceBridgeFilter() *schema.Resource {
 			ValidateFunc: ValidationIpAddress,
 		},
 		"dst_mac_address": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Description: "Destination MAC address.",
+			Type:         schema.TypeString,
+			Optional:     true,
+			Description:  "Destination MAC address.",
+			ValidateFunc: ValidationMacAddressWithMask,
 		},
 		"dst_port": {
 			Type:        schema.TypeString,
