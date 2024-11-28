@@ -1,5 +1,0 @@
-# routeros_certificate_scep_server (Resource)
----
-
-#### This is an alias for backwards compatibility between plugin versions. 
-Please see documentation for [routeros_system_certificate_scep_server](system_certificate_scep_server.md)

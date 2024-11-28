@@ -2,7 +2,6 @@
 .idea
 pkg/*
 issues/*
-docs/*
 terraform-provider-routeros*
 terraform.tfstate*
 node_modules
