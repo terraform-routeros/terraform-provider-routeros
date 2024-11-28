@@ -135,7 +135,7 @@ func Provider() *schema.Provider {
 			"routeros_ipv6_neighbor_discovery":         ResourceIPv6NeighborDiscovery(),
 			"routeros_ipv6_pool":                       ResourceIpv6Pool(),
 			"routeros_ipv6_route":                      ResourceIPv6Route(),
-			"routeros_ipv6_settings": ResourceIpv6Settings(),
+			"routeros_ipv6_settings":                   ResourceIpv6Settings(),
 
 			// Aliases for IP objects to retain compatibility between original and fork
 			"routeros_dhcp_client":         ResourceDhcpClient(),
@@ -151,7 +151,7 @@ func Provider() *schema.Provider {
 			"routeros_dns_record":          ResourceDnsRecord(),
 
 			// Interface Objects
-			"routeros_interface_6to4": 							 ResourceInterface6to4(),
+			"routeros_interface_6to4":                           ResourceInterface6to4(),
 			"routeros_interface_bonding":                        ResourceInterfaceBonding(),
 			"routeros_interface_bridge_port":                    ResourceInterfaceBridgePort(),
 			"routeros_interface_bridge_settings":                ResourceInterfaceBridgeSettings(),
@@ -335,20 +335,20 @@ func Provider() *schema.Provider {
 			"routeros_zerotier_interface":  ResourceZerotierInterface(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
-			"routeros_files":                 DatasourceFiles(),
-			"routeros_interfaces":            DatasourceInterfaces(),
-			"routeros_ip_addresses":          DatasourceIPAddresses(),
-			"routeros_ip_arp":                DatasourceIpArp(),
-			"routeros_ip_dhcp_server_leases": DatasourceIpDhcpServerLeases(),
-			"routeros_ip_firewall":           DatasourceIPFirewall(),
-			"routeros_ip_routes":             DatasourceIPRoutes(),
-			"routeros_ip_services":           DatasourceIPServices(),
-			"routeros_ipv6_addresses":        DatasourceIPv6Addresses(),
-			"routeros_ipv6_firewall":         DatasourceIPv6Firewall(),
-			"routeros_system_resource":       DatasourceSystemResource(),
-			"routeros_system_routerboard":    DatasourceSystemRouterboard(),
-			"routeros_wifi_easy_connect":     DatasourceWiFiEasyConnect(),
-			"routeros_x509":                  DatasourceX509(),
+			"routeros_files":                   DatasourceFiles(),
+			"routeros_interfaces":              DatasourceInterfaces(),
+			"routeros_ip_addresses":            DatasourceIPAddresses(),
+			"routeros_ip_arp":                  DatasourceIpArp(),
+			"routeros_ip_dhcp_server_leases":   DatasourceIpDhcpServerLeases(),
+			"routeros_ip_firewall":             DatasourceIPFirewall(),
+			"routeros_ip_routes":               DatasourceIPRoutes(),
+			"routeros_ip_services":             DatasourceIPServices(),
+			"routeros_ipv6_addresses":          DatasourceIPv6Addresses(),
+			"routeros_ipv6_firewall":           DatasourceIPv6Firewall(),
+			"routeros_system_resource":         DatasourceSystemResource(),
+			"routeros_system_routerboard":      DatasourceSystemRouterboard(),
+			"routeros_wifi_easy_connect":       DatasourceWiFiEasyConnect(),
+			"routeros_x509":                    DatasourceX509(),
 			"routeros_interface_bridge_filter": DatasourceInterfaceBridgeFilter(),
 
 			// Aliases for entries that have been renamed

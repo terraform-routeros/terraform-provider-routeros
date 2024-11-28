@@ -42,49 +42,48 @@ import (
 
 */
 
-
 // ResourceIPFirewallFilter https://wiki.mikrotik.com/wiki/Manual:IP/Firewall/Filter
 func ResourceInterfaceBridgeFilter() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/bridge/filter"),
 		MetaId:           PropId(Id),
-		MetaSkipFields:   PropSkipFields("bytes", "packets","invalid"),
-		MetaSetUnsetFields: PropSetUnsetFields("arp_dst_mac_address","arp_gratuitous","arp_hardware_type",
-		"arp_opcode","arp_packet_type","arp_src_address","arp_src_mac_address","dst_address","dst_mac_address",
-		"dst_port","in_bridge","in_interface_list","ingress_priority","ip_protocol","limit","mac_protocol",
-		"new_packet_mark","new_priority","out_bridge","out_bridge_list","out_interface","out_interface_list","packet_mark","packet_type","src_address","src_mac_address","src_port","stp_flags","stp_forward_delay","stp_hello_time","stp_max_age","stp_root_address","stp_port","stp_root_cost","stp_root_priority","stp_sender_address","stp_sender_priority","stp_type","tls_host","vlan_encap","vlan_id","vlan_priority"),
+		MetaSkipFields:   PropSkipFields("bytes", "packets", "invalid"),
+		MetaSetUnsetFields: PropSetUnsetFields("arp_dst_mac_address", "arp_gratuitous", "arp_hardware_type",
+			"arp_opcode", "arp_packet_type", "arp_src_address", "arp_src_mac_address", "dst_address", "dst_mac_address",
+			"dst_port", "in_bridge", "in_interface_list", "ingress_priority", "ip_protocol", "limit", "mac_protocol",
+			"new_packet_mark", "new_priority", "out_bridge", "out_bridge_list", "out_interface", "out_interface_list", "packet_mark", "packet_type", "src_address", "src_mac_address", "src_port", "stp_flags", "stp_forward_delay", "stp_hello_time", "stp_max_age", "stp_root_address", "stp_port", "stp_root_cost", "stp_root_priority", "stp_sender_address", "stp_sender_priority", "stp_type", "tls_host", "vlan_encap", "vlan_id", "vlan_priority"),
 		"action": {
 			Type:        schema.TypeString,
 			Required:    true,
 			Description: "Action to take if a packet is matched by the rule",
 			ValidateFunc: validation.StringInSlice([]string{
 				"accept", "drop", "mark-packet",
-				"jump", "log", "passthrough", "set-priority", "return", 
+				"jump", "log", "passthrough", "set-priority", "return",
 			}, false),
 		},
 		"arp_dst_mac_address": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Description: "ARP destination MAC address",
+			Type:         schema.TypeString,
+			Optional:     true,
+			Description:  "ARP destination MAC address",
 			ValidateFunc: ValidationMacAddress,
 		},
 		"arp_gratuitous": {
-			Type:     schema.TypeBool,
-			Optional: true,
+			Type:        schema.TypeBool,
+			Optional:    true,
 			Description: "Matches ARP gratuitous packets.",
 		},
 		"arp_hardware_type": {
-			Type:         schema.TypeInt,
-			Optional:     true,
-			Description:  "ARP hardware type. This is normally Ethernet (Type 1).",
+			Type:        schema.TypeInt,
+			Optional:    true,
+			Description: "ARP hardware type. This is normally Ethernet (Type 1).",
 		},
 		"arp_opcode": {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Description: "Action to take if a packet is matched by the rule",
 			ValidateFunc: validation.StringInSlice([]string{
-				"arp-nak","drarp-error","rarp-reply","drarp-request","inarp-reply",
-				"inarp-request","reply","reply-reverse","request","request-reverse",
+				"arp-nak", "drarp-error", "rarp-reply", "drarp-request", "inarp-reply",
+				"inarp-request", "reply", "reply-reverse", "request", "request-reverse",
 			}, true),
 		},
 		"arp_packet_type": {
@@ -129,8 +128,8 @@ func ResourceInterfaceBridgeFilter() *schema.Resource {
 			Description: "List of destination port numbers or port number ranges.",
 		},
 		"in_bridge": {
-			Type:     schema.TypeString,
-			Optional: true,
+			Type:        schema.TypeString,
+			Optional:    true,
 			Description: "Bridge interface through which the packet is coming in.",
 		},
 
@@ -140,9 +139,9 @@ func ResourceInterfaceBridgeFilter() *schema.Resource {
 			Description: "Set of interfaces defined in interface list. Works the same as in-interface.",
 		},
 		"ingress_priority": {
-			Type:     schema.TypeInt,
-			Optional: true,
-			Description: "Integer. Matches the priority of an ingress packet. Priority may be derived from VLAN, WMM, DSCP,or MPLS EXP bit.",
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Description:  "Integer. Matches the priority of an ingress packet. Priority may be derived from VLAN, WMM, DSCP,or MPLS EXP bit.",
 			ValidateFunc: validation.IntBetween(0, 63),
 		},
 		"ip_protocol": {
@@ -150,11 +149,11 @@ func ResourceInterfaceBridgeFilter() *schema.Resource {
 			Optional:    true,
 			Description: "IP protocol (only if MAC protocol is set to IPv4)",
 			ValidateFunc: validation.StringInSlice([]string{
-			"dccp","egp","encap","etherip","ggp","gre","hmp","icmp","icmpv6",
-			"idpr-cmtp","igmp","ipencap","ipip","ipsec-ah","ipsec-esp","ipv6",
-			"ipv6-frag","ipv6-nonxt","ipv6-opts","ipv6-route","iso-tp4","l2tp",
-			"ospf","pim","pup","rdp","rspf","rsvp","sctp","st","tcp","udp","udp-lite",
-			"vmtp","vrrp","xns-idp","xtp",
+				"dccp", "egp", "encap", "etherip", "ggp", "gre", "hmp", "icmp", "icmpv6",
+				"idpr-cmtp", "igmp", "ipencap", "ipip", "ipsec-ah", "ipsec-esp", "ipv6",
+				"ipv6-frag", "ipv6-nonxt", "ipv6-opts", "ipv6-route", "iso-tp4", "l2tp",
+				"ospf", "pim", "pup", "rdp", "rspf", "rsvp", "sctp", "st", "tcp", "udp", "udp-lite",
+				"vmtp", "vrrp", "xns-idp", "xtp",
 			}, true),
 		},
 		"jump_target": {
@@ -186,31 +185,31 @@ func ResourceInterfaceBridgeFilter() *schema.Resource {
 			Optional:    true,
 			Description: "Ethernet payload type (MAC-level protocol). To match protocol type for VLAN encapsulated frames (0x8100 or 0x88a8), a vlan-encap property should be used.",
 			ValidateFunc: validation.StringInSlice([]string{
-			"802.2","arp","homeplug-av","ip","ipv6","ipx","length",
-			"lldp","loop-protect","mpls-multicast","mpls-unicast","packing-compr",
-			"packing-simple","pppoe","pppoe-discovery","rarp","service-vlan","vlan",
+				"802.2", "arp", "homeplug-av", "ip", "ipv6", "ipx", "length",
+				"lldp", "loop-protect", "mpls-multicast", "mpls-unicast", "packing-compr",
+				"packing-simple", "pppoe", "pppoe-discovery", "rarp", "service-vlan", "vlan",
 			}, true),
 		},
-		
+
 		"new_packet_mark": {
-			Type:     schema.TypeString,
-			Optional: true,
+			Type:        schema.TypeString,
+			Optional:    true,
 			Description: "Sets a new packet-mark value.",
 		},
 		"new_priority": {
-			Type:     schema.TypeInt,
-			Optional: true,
-			Description: "Sets a new priority for a packet. This can be the VLAN, WMM or MPLS EXP priority",
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Description:  "Sets a new priority for a packet. This can be the VLAN, WMM or MPLS EXP priority",
 			ValidateFunc: validation.IntBetween(0, 65535),
 		},
 		"out_bridge": {
-			Type:     schema.TypeString,
-			Optional: true,
+			Type:        schema.TypeString,
+			Optional:    true,
 			Description: "Bridge interface through which the packet going out.",
 		},
 		"out_bridge_list": {
-			Type:     schema.TypeString,
-			Optional: true,
+			Type:        schema.TypeString,
+			Optional:    true,
 			Description: "Set of bridge interfaces defined in interface list. Works the same as out-bridge.",
 		},
 		"out_interface": {
@@ -233,8 +232,8 @@ func ResourceInterfaceBridgeFilter() *schema.Resource {
 			Optional:    true,
 			Description: "Match packets with a certain packet mark.",
 			ValidateFunc: validation.StringInSlice([]string{
-				"broadcast","host","multicast","other-host",
-				}, true),
+				"broadcast", "host", "multicast", "other-host",
+			}, true),
 		},
 		"src_address": {
 			Type:         schema.TypeString,
@@ -258,25 +257,25 @@ func ResourceInterfaceBridgeFilter() *schema.Resource {
 			Optional:    true,
 			Description: "Match packets with a certain packet mark.",
 			ValidateFunc: validation.StringInSlice([]string{
-				"topology-change","topology-change-ack",
-				}, false),
+				"topology-change", "topology-change-ack",
+			}, false),
 		},
 		"stp_forward_delay": {
-			Type:     schema.TypeInt,
-			Optional: true,
-			Description: "Forward delay timer.",
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Description:  "Forward delay timer.",
 			ValidateFunc: validation.IntBetween(0, 65535),
 		},
 		"stp_hello_time": {
-			Type:     schema.TypeInt,
-			Optional: true,
-			Description: "STP hello packets time.",
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Description:  "STP hello packets time.",
 			ValidateFunc: validation.IntBetween(0, 65535),
 		},
 		"stp_max_age": {
-			Type:     schema.TypeInt,
-			Optional: true,
-			Description: "Maximal STP message age.",
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Description:  "Maximal STP message age.",
 			ValidateFunc: validation.IntBetween(0, 65535),
 		},
 		"stp_root_address": {
@@ -286,22 +285,22 @@ func ResourceInterfaceBridgeFilter() *schema.Resource {
 			ValidateFunc: ValidationMacAddress,
 		},
 		"stp_port": {
-			Type:     schema.TypeInt,
-			Optional: true,
-			Description: "STP port identifier.",
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Description:  "STP port identifier.",
 			ValidateFunc: validation.IntBetween(0, 65535),
 		},
 		"stp_root_cost": {
-			Type:     schema.TypeInt,
-			Optional: true,
-			Description: "Root bridge cost.",
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Description:  "Root bridge cost.",
 			ValidateFunc: validation.IntBetween(0, 65535),
 		},
 
 		"stp_root_priority": {
-			Type:     schema.TypeInt,
-			Optional: true,
-			Description: "",
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Description:  "",
 			ValidateFunc: validation.IntBetween(0, 65535),
 		},
 		"stp_sender_address": {
@@ -311,9 +310,9 @@ func ResourceInterfaceBridgeFilter() *schema.Resource {
 			ValidateFunc: ValidationMacAddress,
 		},
 		"stp_sender_priority": {
-			Type:     schema.TypeInt,
-			Optional: true,
-			Description: "STP sender priority.",
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Description:  "STP sender priority.",
 			ValidateFunc: validation.IntBetween(0, 65535),
 		},
 		"stp_type": {
@@ -321,36 +320,35 @@ func ResourceInterfaceBridgeFilter() *schema.Resource {
 			Optional:    true,
 			Description: "The BPDU type: config - configuration BPDU OR tcn - topology change notification",
 			ValidateFunc: validation.StringInSlice([]string{
-				"config","tcn",
-				}, false),
+				"config", "tcn",
+			}, false),
 		},
 		"tls_host": {
-			Type:     schema.TypeString,
-			Optional: true,
+			Type:        schema.TypeString,
+			Optional:    true,
 			Description: "Allows matching https traffic based on TLS SNI hostname. Accepts GLOB syntax for wildcard matching",
 		},
 		"vlan_encap": {
-			Type:     schema.TypeInt,
-			Optional:    true,
-			Description: "Matches the MAC protocol type encapsulated in the VLAN frame.",
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Description:  "Matches the MAC protocol type encapsulated in the VLAN frame.",
 			ValidateFunc: validation.IntBetween(0, 65535),
 		},
 		"vlan_id": {
-			Type:     schema.TypeInt,
-			Optional:    true,
-			Description: "Matches the VLAN identifier field.",
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Description:  "Matches the VLAN identifier field.",
 			ValidateFunc: validation.IntBetween(0, 4095),
 		},
 		"vlan_priority": {
-			Type:     schema.TypeInt,
-			Optional:    true,
-			Description: "Matches the VLAN identifier field.",
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Description:  "Matches the VLAN identifier field.",
 			ValidateFunc: validation.IntBetween(0, 7),
 		},
-		KeyComment: PropCommentRw,
+		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
-		KeyDynamic: PropDynamicRo,
-
+		KeyDynamic:  PropDynamicRo,
 	}
 	return &schema.Resource{
 		CreateContext: DefaultCreate(resSchema),
