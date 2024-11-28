@@ -34,6 +34,10 @@ func DatasourceInterfaceBridgeFilter() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"in_interface": { // Sample = chain: "ether1"
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"chain": { // Sample = chain: "forward"
 							Type:     schema.TypeString,
 							Computed: true,

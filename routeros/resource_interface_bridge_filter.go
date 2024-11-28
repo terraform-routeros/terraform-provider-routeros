@@ -50,7 +50,7 @@ func ResourceInterfaceBridgeFilter() *schema.Resource {
 		MetaSkipFields:   PropSkipFields("bytes", "packets", "invalid"),
 		MetaSetUnsetFields: PropSetUnsetFields("arp_dst_mac_address", "arp_gratuitous", "arp_hardware_type",
 			"arp_opcode", "arp_packet_type", "arp_src_address", "arp_src_mac_address", "dst_address", "dst_mac_address",
-			"dst_port", "in_bridge", "in_interface_list", "ingress_priority", "ip_protocol", "limit", "mac_protocol",
+			"dst_port", "in_bridge", "in_bridge_list", "in_interface", "in_interface_list", "ingress_priority", "ip_protocol", "limit", "mac_protocol",
 			"new_packet_mark", "new_priority", "out_bridge", "out_bridge_list", "out_interface", "out_interface_list", "packet_mark", "packet_type", "src_address", "src_mac_address", "src_port", "stp_flags", "stp_forward_delay", "stp_hello_time", "stp_max_age", "stp_root_address", "stp_port", "stp_root_cost", "stp_root_priority", "stp_sender_address", "stp_sender_priority", "stp_type", "tls_host", "vlan_encap", "vlan_id", "vlan_priority"),
 		"action": {
 			Type:        schema.TypeString,
@@ -101,7 +101,7 @@ func ResourceInterfaceBridgeFilter() *schema.Resource {
 		"arp_src_mac_address": {
 			Type:         schema.TypeString,
 			Optional:     true,
-			Description:  "	ARP source MAC address.",
+			Description:  "ARP source MAC address.",
 			ValidateFunc: ValidationMacAddress,
 		},
 		"chain": {
@@ -117,10 +117,9 @@ func ResourceInterfaceBridgeFilter() *schema.Resource {
 			ValidateFunc: ValidationIpAddress,
 		},
 		"dst_mac_address": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Description:  "Destination MAC address.",
-			ValidateFunc: ValidationMacAddress,
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Destination MAC address.",
 		},
 		"dst_port": {
 			Type:        schema.TypeString,
@@ -132,7 +131,16 @@ func ResourceInterfaceBridgeFilter() *schema.Resource {
 			Optional:    true,
 			Description: "Bridge interface through which the packet is coming in.",
 		},
-
+		"in_bridge_list": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Set of bridge interfaces defined in interface list. Works the same as in-bridge.",
+		},
+		"in_interface": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Physical interface (i.e., bridge port) through which the packet is coming in.",
+		},
 		"in_interface_list": {
 			Type:        schema.TypeString,
 			Optional:    true,
@@ -190,7 +198,6 @@ func ResourceInterfaceBridgeFilter() *schema.Resource {
 				"packing-simple", "pppoe", "pppoe-discovery", "rarp", "service-vlan", "vlan",
 			}, true),
 		},
-
 		"new_packet_mark": {
 			Type:        schema.TypeString,
 			Optional:    true,
