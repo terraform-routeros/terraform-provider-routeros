@@ -24,7 +24,14 @@ func TestAccBridgeFilterTest_basic(t *testing.T) {
 						Config: testAccBridgeFilterConfig(),
 						Check: resource.ComposeTestCheckFunc(
 							testResourcePrimaryInstanceId(testBridgeFilterRule),
-							resource.TestCheckResourceAttr(testBridgeFilterRule, "action", "accept"),
+							resource.TestCheckResourceAttr(testBridgeFilterRule, "chain", "forward"),
+							resource.TestCheckResourceAttr(testBridgeFilterRule, "action", "drop"),
+							resource.TestCheckResourceAttr(testBridgeFilterRule, "log_prefix", "Blocking MS broadcast"),
+							resource.TestCheckResourceAttr(testBridgeFilterRule, "comment", "HSIA - Block MS broadcast"),
+							resource.TestCheckResourceAttr(testBridgeFilterRule, "ip_protocol", "udp"),
+							resource.TestCheckResourceAttr(testBridgeFilterRule, "dst_port", "135-137"),
+							resource.TestCheckResourceAttr(testBridgeFilterRule, "mac_protocol", "ip"),
+							resource.TestCheckResourceAttr(testBridgeFilterRule, "disabled", "true"),
 						),
 					},
 				},
@@ -36,16 +43,15 @@ func TestAccBridgeFilterTest_basic(t *testing.T) {
 
 func testAccBridgeFilterConfig() string {
 	return providerConfig + `
-resource "routeros_ip_firewall_filter" "rule" {
-  chain             = "forward"
-  action            = "accept"
-  comment           = "test comment"
-  log               = true
-  log_prefix        = "log prefix here"
-  disabled          = false
-  dst_port          = "80"
-  protocol          = "tcp"
-  jump_target       = "test_target"
+resource "routeros_interface_bridge_filter" "rule" {
+  chain        = "forward"
+  action       = "drop"
+  log_prefix   = "Blocking MS broadcast"
+  comment      = "HSIA - Block MS broadcast"
+  ip_protocol  = "udp"
+  dst_port     = "135-137"
+  mac_protocol = "ip"
+  disabled     = true
 }
 `
 }
