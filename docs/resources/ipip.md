@@ -12,8 +12,6 @@
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `allow_fast_path` (Boolean) Whether to allow FastPath processing. Must be disabled if IPsec tunneling is used.
 - `clamp_tcp_mss` (Boolean) Controls whether to change MSS size for received TCP SYN packets. When enabled, a router will change the MSS size for received TCP SYN packets if the current MSS size exceeds the tunnel interface MTU (taking into account the TCP/IP overhead). The received encapsulated packet will still contain the original MSS, and only after decapsulation the MSS is changed.
 - `comment` (String)

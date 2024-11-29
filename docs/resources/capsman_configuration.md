@@ -117,9 +117,6 @@ resource "routeros_capsman_configuration" "test_configuration_2" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
-- `___ts___` (String) <em>A set of transformations for field names. This is an internal service field, setting a value is not required.</em>
 - `channel` (Map of String) Channel inline settings.
 - `comment` (String)
 - `country` (String) Limits available bands, frequencies and maximum transmit power for each frequency. Also specifies default value of scan-list. Value no_country_set is an FCC compliant set of channels.

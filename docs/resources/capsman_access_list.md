@@ -17,8 +17,6 @@ resource "routeros_capsman_datapath" "test_rule" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `action` (String) An action to take when a client matches.
 - `allow_signal_out_of_range` (String) An option that permits the client's signal to be out of the range always or for some time interval.
 - `ap_tx_limit` (Number) Transmission speed limit in the direction of the client..

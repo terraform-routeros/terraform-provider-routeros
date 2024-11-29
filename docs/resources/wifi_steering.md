@@ -18,8 +18,6 @@ resource "routeros_wifi_steering" "steering1" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `comment` (String)
 - `disabled` (Boolean)
 - `neighbor_group` (List of String) Neighbor group of potential roaming candidates.

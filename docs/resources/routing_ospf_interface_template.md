@@ -26,9 +26,6 @@ resource "routeros_routing_ospf_interface_template" "test_routing_ospf_interface
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
-- `___unset___` (String) <em>A set of fields that require setting/unsetting. This is an internal service field, setting a value is not required.</em>
 - `auth` (String) Specifies authentication method for OSPF protocol messages.
 - `auth_id` (Number) The key id is used to calculate message digest (used when MD5 or SHA authentication is enabled).
 - `auth_key` (String, Sensitive) The authentication key to be used, should match on all the neighbors of the network segment (available since RouterOS 7.x).

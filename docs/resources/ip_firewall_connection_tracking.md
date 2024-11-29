@@ -28,9 +28,6 @@ resource "routeros_ip_firewall_connection_tracking" "data" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
-- `___skip___` (String) <em>A set of transformations for field names. This is an internal service field, setting a value is not required.</em>
 - `enabled` (String) Allows to disable or enable connection tracking. Disabling connection tracking will cause several firewall features to stop working. 
 				          See the list of affected features. Starting from v6.0rc2 default value is auto. This means that connection tracing is disabled until at least one firewall rule is added.
 - `generic_timeout` (String) Timeout for all other connection entries

@@ -18,9 +18,6 @@ resource "routeros_interface_ethernet_switch" "sw0" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
-- `___skip___` (String) <em>A set of transformations for field names. This is an internal service field, setting a value is not required.</em>
 - `cpu_flow_control` (Boolean) All switch chips have a special port that is called switchX-cpu, this is the CPU port for a switch chip, it is meant to forward traffic from a switch chip to the CPU, such a port is required for management traffic and for routing features. By default the switch chip ensures that this special CPU port is not congested and sends out Pause Frames when link capacity is exceeded to make sure the port is not oversaturated, this feature is called CPU Flow Control. Without this feature packets that might be crucial for routing or management purposes might get dropped.
 - `l3_hw_offloading` (Boolean) Layer 3 Hardware Offloading (L3HW, otherwise known as IP switching or HW routing) allows to offload some router features onto the switch chip. This allows reaching wire speeds when routing packets, which simply would not be possible with the CPU.
 - `mirror_egress_target` (String) Selects a single mirroring egress target port, only available on 88E6393X, 88E6191X and 88E6190 switch chips. Mirrored packets from `mirror-egress` (see the property in port menu) will be sent to the selected port.

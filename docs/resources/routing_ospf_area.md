@@ -25,9 +25,6 @@ resource "routeros_routing_ospf_area" "test_routing_ospf_area" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
-- `___unset___` (String) <em>A set of fields that require setting/unsetting. This is an internal service field, setting a value is not required.</em>
 - `area_id` (String) OSPF area identifier.
 - `comment` (String)
 - `default_cost` (Number) Default cost of injected LSAs into the area.

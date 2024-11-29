@@ -18,9 +18,6 @@ resource "routeros_interface_ethernet_switch_port" "test" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
-- `___skip___` (String) <em>A set of transformations for field names. This is an internal service field, setting a value is not required.</em>
 - `default_vlan_id` (String) Adds a VLAN tag with the specified VLAN ID on all untagged ingress traffic on a port, should be used with ```vlan-header``` set to ```always-strip``` on a port to configure the port to be the access port. For hybrid ports ```default-vlan-id``` is used to tag untagged traffic. If two ports have the same ```default-vlan-id```, then VLAN tag is not added since the switch chip assumes that traffic is being forwarded between access ports.
 - `mirror_egress` (Boolean) Whether to send egress packet copy to the `mirror-egress-target` port, only available on 88E6393X, 88E6191X and 88E6190 switch chips.
 - `mirror_ingress` (Boolean) Whether to send ingress packet copy to the `mirror-ingress-target` port, only available on 88E6393X, 88E6191X and 88E6190 switch chips.

@@ -21,8 +21,6 @@ resource "routeros_wifi_security" "security1" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `authentication_types` (Set of String) Authentication types to enable on the interface.
 - `comment` (String)
 - `connect_group` (String) APs within the same connect group do not allow more than 1 client device with the same MAC address.

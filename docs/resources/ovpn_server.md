@@ -62,8 +62,6 @@ resource "routeros_interface_ovpn_server" "user1" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `auth` (Set of String) Authentication methods that the server will accept.
 - `certificate` (String) Name of the certificate that the OVPN server will use.
 - `cipher` (Set of String) Allowed ciphers.

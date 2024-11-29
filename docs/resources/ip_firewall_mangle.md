@@ -24,10 +24,6 @@ resource "routeros_ip_firewall_mangle" "rule" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
-- `___skip___` (String) <em>A set of transformations for field names. This is an internal service field, setting a value is not required.</em>
-- `___unset___` (String) <em>A set of fields that require setting/unsetting. This is an internal service field, setting a value is not required.</em>
 - `address_list` (String) Name of the address list to be used. Applicable if action is add-dst-to-address-list or add-src-to-address-list.
 - `address_list_timeout` (String) Time interval after which the address will be removed from the address list specified by address-list parameter. Used in conjunction with add-dst-to-address-list or add-src-to-address-list actions.
 - `comment` (String)

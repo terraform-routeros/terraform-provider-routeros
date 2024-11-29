@@ -25,8 +25,6 @@ resource "routeros_interface_lte" "test" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `allow_roaming` (Boolean) Enable data roaming for connecting to other countries data-providers. Not all LTE modems support this feature. Some modems, that do not fully support this feature, will connect to the network but will not establish an IP data connection with allow-roaming set to no.
 - `apn_profiles` (String) Which APN profile to use for this interface.
 - `band` (Set of Number) LTE Frequency band used in communication [LTE Bands and bandwidths](https://en.wikipedia.org/wiki/LTE_frequency_bands#Frequency_bands_and_channel_bandwidths).

@@ -13,8 +13,6 @@ resource "routeros_system_led_settings" "settings" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `all_leds_off` (String) An option to set when all LEDs should be turned off. Possible values: `after-1h`, `after-1min`, `immediate`, `never`.
 
 ### Read-Only

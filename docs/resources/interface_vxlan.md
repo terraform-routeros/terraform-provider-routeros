@@ -18,8 +18,6 @@ resource "routeros_interface_vxlan" "test" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `allow_fast_path` (Boolean) Whether to allow Fast Path processing. Fragmented and flooded packets over VXLAN are redirected via a slow path. Fast Path is disabled for VXLAN interface that uses IPv6 VTEP version or VRF. The setting is available since RouterOS version 7.8.
 - `arp` (String) Address Resolution Protocol setting disabled - the interface will not use ARP enabled - the interface will use ARP local-proxy-arp - the router performs proxy ARP on the interface and sends replies to the same interface proxy-arp - the router performs proxy ARP on the interface and sends replies to other interfaces reply-only - the interface will only reply to requests originating from matching IP address/MAC address combinations which are entered as static entries in the IP/ARP table. No dynamic entries will be automatically stored in the IP/ARP table. Therefore for communications to be successful, a valid static entry must already exist.
 - `arp_timeout` (String) How long the ARP record is kept in the ARP table after no packets are received from IP. Value auto equals to the value of arp-timeout in IP/Settings, default is the 30s.

@@ -16,8 +16,6 @@ resource "routeros_ip_dhcp_server_config" "settings" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `accounting` (Boolean) An option that enables accounting for DHCP leases.
 - `interim_update` (String) An option determining whether the DHCP server sends periodic updates to the accounting server during a lease.
 - `radius_password` (String) An option to set the password parameter for the RADIUS server. This option is available in RouterOS starting from version 7.0.

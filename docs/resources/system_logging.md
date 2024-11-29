@@ -18,8 +18,6 @@ resource "routeros_system_logging" "log_snmp_disk" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `disabled` (Boolean) Whether or not this logging should be disabled
 - `prefix` (String) prefix added at the beginning of log messages
 - `topics` (Set of String) log all messages that falls into specified topic or list of topics.

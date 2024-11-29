@@ -19,8 +19,6 @@ resource "routeros_wifi_datapath" "datapath1" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `bridge` (String) Bridge interface to add the interface as a bridge port.
 - `bridge_cost` (String) Spanning tree protocol cost of the bridge port.
 - `bridge_horizon` (String) Bridge horizon to use when adding as a bridge port.

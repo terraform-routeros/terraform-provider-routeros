@@ -30,8 +30,6 @@ resource "routeros_system_certificate_scep_server" "example_scep_server" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `days_valid` (Number) The number of days to sign certificates for.
 - `disabled` (Boolean)
 - `next_ca_cert` (String) Name of the next CA certificate or `none`.

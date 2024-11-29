@@ -22,8 +22,6 @@ output "wg_key" {
 
 ### Optional
 
-- `___id___` (Number)
-- `___path___` (String)
 - `number` (Number) The number of key sets.
 
 ### Read-Only

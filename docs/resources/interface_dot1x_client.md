@@ -21,8 +21,6 @@ resource "routeros_interface_dot1x_client" "ether2" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `anon_identity` (String) Identity for outer layer EAP authentication. Used only with `eap-ttls` and `eap-peap` methods. If not set, the value from the identity parameter will be used for outer layer EAP authentication.
 - `certificate` (String) Name of a certificate. Required when the `eap-tls` method is used.
 - `comment` (String)

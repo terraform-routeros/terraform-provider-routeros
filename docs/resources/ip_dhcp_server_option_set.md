@@ -31,8 +31,6 @@ resource "routeros_ip_dhcp_server_option_set" "lan_option_set" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `comment` (String)
 
 ### Read-Only

@@ -15,8 +15,6 @@ resource "routeros_ip_ssh_server" "test" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `allow_none_crypto` (Boolean) Whether to allow connection if cryptographic algorithms are set to none.
 - `always_allow_password_login` (Boolean) Whether to allow password login at the same time when public key authorization is configured for a user.
 - `forwarding_enabled` (String) Allows to control which SSH forwarding method to allow:

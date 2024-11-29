@@ -18,8 +18,6 @@ resource "routeros_ip_route" "a_route" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `blackhole` (Boolean) It's a blackhole route. If you need to cancel route marking, then simply delete the parameter from the configuration of the TF. The value of the parameter (true or false) has no effect on the MT processing logic.
 - `check_gateway` (String) Currently used check-gateway option.
 - `comment` (String)

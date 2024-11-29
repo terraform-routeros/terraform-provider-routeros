@@ -13,8 +13,6 @@ resource "routeros_system_user_aaa" "settings" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `accounting` (Boolean) An option that enables accounting for users.
 - `default_group` (String) The user group that is used by default for users authenticated via a RADIUS server.
 - `exclude_groups` (Set of String) A set of groups that are not allowed for users authenticated by RADIUS.

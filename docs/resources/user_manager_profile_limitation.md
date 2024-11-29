@@ -38,8 +38,6 @@ resource "routeros_user_manager_profile_limitation" "weekend_night" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `from_time` (String) Time of the day when the limitation should take place.
 - `till_time` (String) Time of the day when the limitation should end.
 - `weekdays` (Set of String) Days of the week when the limitation is active.

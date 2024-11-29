@@ -15,8 +15,6 @@ resource "routeros_system_led" "sfp1" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `disabled` (Boolean)
 - `interface` (String) An option to set the interface to which the LED is connected.
 - `leds` (List of String) An option to set the LED name.

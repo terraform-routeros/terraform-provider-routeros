@@ -32,8 +32,6 @@ resource "routeros_capsman_datapath" "test_datapath" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `arp` (String) ARP mode. See [docs](https://wiki.mikrotik.com/wiki/Manual:IP/ARP#ARP_Modes) for info.
 - `bridge` (String) Bridge to which particular interface should be automatically added as port. Required only when local-forwarding is not used.
 - `bridge_cost` (Number) Bridge port cost to use when adding as bridge port.

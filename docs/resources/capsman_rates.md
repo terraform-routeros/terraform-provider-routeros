@@ -26,8 +26,6 @@ resource "routeros_capsman_rates" "test_rates" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `basic` (Set of String) List of basic rates. Client will connect to AP only if it supports all basic rates announced by the AP. AP will establish WDS link only if it supports all basic rates of the other AP.
 - `comment` (String)
 - `ht_basic_mcs` (Set of String) Modulation and Coding Schemes that every connecting client must support. Refer to 802.11n for MCS specification.

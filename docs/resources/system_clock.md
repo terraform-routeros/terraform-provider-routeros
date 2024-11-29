@@ -15,8 +15,6 @@ resource "routeros_system_clock" "set" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `date` (String) Date.
 - `time` (String) Time.
 - `time_zone_autodetect` (Boolean) Feature available from v6.27. If enabled, the time zone will be set automatically.

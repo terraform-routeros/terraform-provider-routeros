@@ -41,11 +41,6 @@ resource "routeros_interface_wireless" "test" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
-- `___skip___` (String) <em>A set of transformations for field names. This is an internal service field, setting a value is not required.</em>
-- `___ts___` (String) <em>A set of transformations for field names. This is an internal service field, setting a value is not required.</em>
-- `___unset___` (String) <em>A set of fields that require setting/unsetting. This is an internal service field, setting a value is not required.</em>
 - `adaptive_noise_immunity` (String) This property is only effective for cards based on Atheros chipset.
 - `allow_sharedkey` (Boolean) Allow WEP Shared Key clients to connect. Note that no authentication is done for these clients (WEP Shared keys are not compared to anything) - they are just accepted at once (if access list allows that).
 - `ampdu_priorities` (Set of Number) Frame priorities for which AMPDU sending (aggregating frames and sending using block acknowledgment) should get negotiated and used. Using AMPDUs will increase throughput, but may increase latency, therefore, may not be desirable for real-time traffic (voice, video). Due to this, by default AMPDUs are enabled only for best-effort traffic.

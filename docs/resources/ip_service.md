@@ -55,8 +55,6 @@ resource "routeros_ip_service" "enabled" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `address` (String) List of IP/IPv6 prefixes from which the service is accessible.
 - `certificate` (String) The name of the certificate used by a particular service. Applicable only for services that depend on certificates ( www-ssl, api-ssl ).
 - `disabled` (Boolean)

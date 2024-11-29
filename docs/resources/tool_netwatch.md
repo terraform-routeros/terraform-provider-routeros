@@ -28,9 +28,6 @@ resource "routeros_tool_netwatch" "test" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
-- `___skip___` (String) <em>A set of transformations for field names. This is an internal service field, setting a value is not required.</em>
 - `accept_icmp_time_exceeded` (Boolean) If the ICMP `time exceeded` message should be considered a valid response.
 - `comment` (String)
 - `disabled` (Boolean)

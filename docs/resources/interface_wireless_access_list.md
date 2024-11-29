@@ -15,8 +15,6 @@ resource "routeros_interface_wireless_access_list" "test" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `allow_signal_out_of_range` (String) Option which permits client's signal to be out of the range always or for some time interval.
 - `ap_tx_limit` (Number) Limit rate of data transmission to this client. Value 0 means no limit. Value is in bits per second.
 - `authentication` (Boolean) No - Client association will always fail.yes - Use authentication procedure that is specified in the security-profile of the interface.

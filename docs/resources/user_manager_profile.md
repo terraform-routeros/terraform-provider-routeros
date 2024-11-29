@@ -19,8 +19,6 @@ resource "routeros_user_manager_profile" "test" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `name_for_users` (String) The name that will be shown to users in the web interface.
 - `override_shared_users` (String) An option whether to allow multiple sessions with the same user name.
 - `price` (Number) The price of the profile.

@@ -14,8 +14,6 @@ resource "routeros_user_manager_advanced" "settings" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `paypal_allow` (Boolean) An option whether to enable PayPal functionality for User Manager.
 - `paypal_currency` (String) The currency related to price setting in which users will be billed.
 - `paypal_password` (String) The password of the PayPal API account.

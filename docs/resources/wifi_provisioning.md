@@ -24,8 +24,6 @@ resource "routeros_wifi_provisioning" "provisioning1" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `action` (String) Provisioning action.
 - `address_ranges` (List of String) Match CAPs by IPs within configured address ranges.
 - `comment` (String)

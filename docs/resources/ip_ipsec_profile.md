@@ -21,8 +21,6 @@ resource "routeros_ip_ipsec_profile" "test" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `dh_group` (Set of String) Diffie-Hellman group (cipher strength).
 - `dpd_interval` (String) Dead peer detection interval. If set to disable-dpd, dead peer detection will not be used.
 - `dpd_maximum_failures` (Number) Maximum count of failures until peer is considered to be dead. Applicable if DPD is enabled.

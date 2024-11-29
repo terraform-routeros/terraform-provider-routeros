@@ -13,8 +13,6 @@ resource "routeros_user_manager_settings" "settings" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `accounting_port` (Number) Port to listen for RADIUS accounting requests.
 - `authentication_port` (Number) Port to listen for RADIUS authentication requests.
 - `certificate` (String) Certificate for use in EAP TLS-type authentication methods.

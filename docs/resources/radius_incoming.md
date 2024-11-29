@@ -13,8 +13,6 @@ resource "routeros_radius_incoming" "settings" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `accept` (Boolean) An option whether to accept the unsolicited messages.
 - `port` (Number) The port number to listen for the requests on.
 - `vrf` (String) VRF on which service is listening for incoming connections. This option is available in RouterOS starting from version 7.4.

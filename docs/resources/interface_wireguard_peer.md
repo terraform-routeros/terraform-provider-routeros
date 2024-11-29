@@ -30,8 +30,6 @@ resource "routeros_interface_wireguard_peer" "wg_peer" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `client_address` (String) When imported using a qr code for a client (for example, a phone), then this address for the wg interface is set on that device.
 - `client_dns` (String) Specify when using WireGuard Server as a VPN gateway for peer traffic.
 - `client_endpoint` (String) The IP address and port number of the WireGuard Server.

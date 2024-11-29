@@ -93,8 +93,6 @@ resource "routeros_move_items" "fw_rules" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `resource_name` (String) Resource name in the notation ```routeros_ip_firewall_filter```.
 - `resource_path` (String) URL path of the resource in the notation ```/ip/firewall/filter```.
 

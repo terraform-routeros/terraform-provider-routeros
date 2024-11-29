@@ -19,9 +19,6 @@ resource "routeros_ip_hotspot" "test" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
-- `___skip___` (String) <em>A set of transformations for field names. This is an internal service field, setting a value is not required.</em>
 - `address_pool` (String) Address space used to change HotSpot client any IP address to a valid address. Useful for providing public network access to mobile clients that are not willing to change their networking settings.
 - `addresses_per_mac` (String) Number of IP addresses allowed to be bind with the MAC address, when multiple HotSpot clients connected with one MAC-address.
 - `disabled` (Boolean)

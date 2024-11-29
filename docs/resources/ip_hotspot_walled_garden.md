@@ -15,9 +15,6 @@ resource "routeros_ip_hotspot_walled_garden" "test" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
-- `___skip___` (String) <em>A set of transformations for field names. This is an internal service field, setting a value is not required.</em>
 - `action` (String) Action to perform, when packet matches the rule `allow` - allow access to the web-page without authorization, `deny` - the authorization is required to access the web-page.
 - `comment` (String)
 - `disabled` (Boolean)

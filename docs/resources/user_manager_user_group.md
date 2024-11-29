@@ -41,8 +41,6 @@ resource "routeros_user_manager_user_group" "test" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `attributes` (List of String) A custom set of colon-separated attributes with their values will be added to `Access-Accept` messages for users in this group.
 - `inner_auths` (Set of String) A set of allowed authentication methods for tunneled authentication methods (`ttls-pap`, `ttls-chap`, `ttls-mschap1`, `ttls-mschap2`, `peap-mschap2`).
 - `outer_auths` (Set of String) A set of allowed authentication methods (`pap`, `chap`, `mschap1`, `mschap2`, `eap-tls`, `eap-ttls`, `eap-peap`, `eap-mschap2`).

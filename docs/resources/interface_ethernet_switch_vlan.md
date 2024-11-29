@@ -21,8 +21,6 @@ resource "routeros_interface_ethernet_switch_vlan" "test" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `comment` (String)
 - `disabled` (Boolean)
 - `independent_learning` (Boolean) Whether to use shared-VLAN-learning (SVL) or independent-VLAN-learning (IVL).

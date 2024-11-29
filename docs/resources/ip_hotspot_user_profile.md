@@ -26,9 +26,6 @@ resource "routeros_ip_hotspot_user_profile" "test" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
-- `___unset___` (String) <em>A set of fields that require setting/unsetting. This is an internal service field, setting a value is not required.</em>
 - `add_mac_cookie` (Boolean) Allows to add mac cookie for users.
 - `address_list` (String) Name of the address list in which users IP address will be added. Useful to mark traffic per user groups for queue tree configurations.
 - `address_pool` (String) IP pool name from which the user will get IP. When user has improper network settings configuration on the computer, HotSpot server makes translation and assigns correct IP address from the pool instead of incorrect one.

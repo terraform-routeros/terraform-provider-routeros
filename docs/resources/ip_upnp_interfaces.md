@@ -19,9 +19,6 @@ resource "routeros_ip_upnp_interfaces" "test" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
-- `___unset___` (String) <em>A set of fields that require setting/unsetting. This is an internal service field, setting a value is not required.</em>
 - `disabled` (Boolean)
 - `forced_ip` (String) Allow specifying what public IP to use if the external interface has more than one IP available.
 - `type` (String) UPnP interface type:

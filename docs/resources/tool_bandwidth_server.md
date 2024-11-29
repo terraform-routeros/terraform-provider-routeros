@@ -16,8 +16,6 @@ resource "routeros_tool_bandwidth_server" "test" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `allocate_udp_ports_from` (Number) Beginning of UDP port range.
 - `authenticate` (Boolean) Communicate only with authenticated clients.
 - `enabled` (Boolean) Defines whether bandwidth server is enabled or not.

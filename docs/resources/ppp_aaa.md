@@ -13,8 +13,6 @@ resource "routeros_ppp_aaa" "settings" {
 
 ### Optional
 
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `accounting` (Boolean) An option that enables accounting for users.
 - `enable_ipv6_accounting` (Boolean) An option that enables IPv6 separate accounting.
 - `interim_update` (String) Interval between scheduled RADIUS Interim-Update messages.

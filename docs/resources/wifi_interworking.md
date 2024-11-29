@@ -20,8 +20,6 @@ resource "routeros_wifi_interworking" "interworking1" {
 
 - `3gpp_info` (List of String) Cellular network advertisement information - country and network codes.
 - `3gpp_raw` (String) Cellular network advertisement information - country and network codes.
-- `___id___` (Number) <em>Resource ID type (.id / name). This is an internal service field, setting a value is not required.</em>
-- `___path___` (String) <em>Resource path for CRUD operations. This is an internal service field, setting a value is not required.</em>
 - `asra` (Boolean) An option to enable Additional Steps Required for Access.
 - `authentication_types` (List of String) A list of authentication types that is only effective when `asra` is set to yes.
 - `comment` (String)
