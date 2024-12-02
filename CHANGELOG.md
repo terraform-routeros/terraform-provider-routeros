@@ -1,3 +1,13 @@
+## [1.71.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.70.0...v1.71.0) (2024-12-02)
+
+### Features
+
+* Add interface bridge filter ([#608](https://github.com/terraform-routeros/terraform-provider-routeros/issues/608)) ([441f11c](https://github.com/terraform-routeros/terraform-provider-routeros/commit/441f11cc21f0637096f68bc1c22c90afb01dfb08))
+
+### Bug Fixes
+
+* routeros_ipv6_dhcp_client prefix_hint validation issue ([#611](https://github.com/terraform-routeros/terraform-provider-routeros/issues/611)) ([fb51382](https://github.com/terraform-routeros/terraform-provider-routeros/commit/fb51382092de81ad6846c980403a314cc479fbf7)), closes [#609](https://github.com/terraform-routeros/terraform-provider-routeros/issues/609)
+
 ## [1.70.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.69.2...v1.70.0) (2024-11-24)
 
 ### Features
