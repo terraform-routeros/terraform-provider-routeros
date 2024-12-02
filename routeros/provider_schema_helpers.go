@@ -540,6 +540,10 @@ var (
 		regexp.MustCompile(`^!?\b(?:[0-9A-F]{2}\:){5}(?:[0-9A-F]{2})$`),
 		"Allowed MAC addresses should be [!]AA:BB:CC:DD:EE:FF",
 	)
+	ValidationMacAddressWithMask = validation.StringMatch(
+		regexp.MustCompile(`^!?\b(?:[0-9A-F]{2}\:){5}(?:[0-9A-F]{2})\/\b(?:[0-9A-F]{2}\:){5}(?:[0-9A-F]{2})$`),
+		"Allowed MAC addresses should be [!]AA:BB:CC:DD:EE:FF/FF:FF:FF:FF:FF:FF",
+	)
 
 	// ValidationMultiValInSlice returns a SchemaValidateDiagFunc which works like the StringInSlice function,
 	// but the provided value can be a single value or a comma-separated list of values.

@@ -1,0 +1,1 @@
+data "routeros_ip_firewall_filter" "rules" {}
