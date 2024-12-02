@@ -26,6 +26,7 @@ func TestAccIPv6DhcpClient_basic(t *testing.T) {
 							resource.TestCheckResourceAttr(testIPv6DhcpClient, "interface", "ether1"),
 							resource.TestCheckResourceAttr(testIPv6DhcpClient, "pool_name", "inet-provider-pool"),
 							resource.TestCheckResourceAttr(testIPv6DhcpClient, "request.0", "prefix"),
+							resource.TestCheckResourceAttr(testIPv6DhcpClient, "prefix_hint", "::/60"),
 						),
 					},
 				},
@@ -38,10 +39,11 @@ func testAccIPv6DhcpClientConfig() string {
 	return providerConfig + `
 
 resource "routeros_ipv6_dhcp_client" "client" {	
-    request = ["prefix"]
-	pool_name = "inet-provider-pool"
-	pool_prefix_length = 64
-	interface = "ether1"
+  request            = ["prefix"]
+  pool_name          = "inet-provider-pool"
+  pool_prefix_length = 64
+  interface          = "ether1"
+  prefix_hint        = "::/60"
 }
 
 `

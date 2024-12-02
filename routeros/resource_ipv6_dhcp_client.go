@@ -105,7 +105,6 @@ func ResourceIPv6DhcpClient() *schema.Resource {
 			Optional:         true,
 			Computed:         true,
 			Description:      "Include a preferred prefix length.",
-			ValidateFunc:     validation.IsIPv6Address,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"rapid_commit": {
