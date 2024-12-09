@@ -18,8 +18,9 @@ func DatasourceIPv6Firewall() *schema.Resource {
 		Schema: map[string]*schema.Schema{
 			MetaSkipFields: PropSkipFields("packets"),
 
-			"nat":   getIPv6FirewallNatSchema(),
-			"rules": getIPv6FirewallFilterSchema(),
+			"mangle": getIPv6FirewallMangleSchema(),
+			"nat":    getIPv6FirewallNatSchema(),
+			"rules":  getIPv6FirewallFilterSchema(),
 		},
 	}
 }
