@@ -10,7 +10,7 @@ test:
 docs:
 	go generate
 	# !!! GNU Sed
-	find docs -type f -exec sed -i -E '/^.*__[[:alpha:]]+__/d' {} \;
+	find docs -type f -exec sed -i -E '/^.*__[[:alpha:]_]+__/d' {} \;
 
 tfformat:
 	terraform fmt -recursive examples/

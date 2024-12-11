@@ -154,34 +154,34 @@ func ResourceToolSniffer() *schema.Resource {
 			Type:     schema.TypeSet,
 			Optional: true,
 			Description: "Up to 16 comma-separated IP/IPv6 protocols used as a filter. IP protocols (instead of protocol " +
-				"names, protocol numbers can be used):\n" +
-				"* ipsec-ah - IPsec AH protocol\n" +
-				"* ipsec-esp - IPsec ESP protocol\n" +
-				"* ddp - datagram delivery protocol\n" +
-				"* egp - exterior gateway protocol\n" +
-				"* ggp - gateway-gateway protocol\n" +
-				"* gre - general routing encapsulation\n" +
-				"* hmp - host monitoring protocol\n" +
-				"* idpr-cmtp - idpr control message transport\n" +
-				"* icmp - internet control message protocol\n" +
-				"* icmpv6 - internet control message protocol v6\n" +
-				"* igmp - internet group management protocol\n" +
-				"* ipencap - ip encapsulated in ip\n" +
-				"* ipip - ip encapsulation\n" +
-				"* encap - ip encapsulation\n" +
-				"* iso-tp4 - iso transport protocol class 4\n" +
-				"* ospf - open shortest path first\n" +
-				"* pup - parc universal packet protocol\n" +
-				"* pim - protocol independent multicast\n" +
-				"* rspf - radio shortest path first\n" +
-				"* rdp - reliable datagram protocol\n" +
-				"* st - st datagram mode\n" +
-				"* tcp - transmission control protocol\n" +
-				"* udp - user datagram protocol\n" +
-				"* vmtp versatile message transport\n" +
-				"* vrrp - virtual router redundancy protocol\n" +
-				"* xns-idp - xerox xns idp\n" +
-				"* xtp - xpress transfer protocol",
+				"names, protocol numbers can be used):" +
+				"\n  * ipsec-ah - IPsec AH protocol" +
+				"\n  * ipsec-esp - IPsec ESP protocol" +
+				"\n  * ddp - datagram delivery protocol" +
+				"\n  * egp - exterior gateway protocol" +
+				"\n  * ggp - gateway-gateway protocol" +
+				"\n  * gre - general routing encapsulation" +
+				"\n  * hmp - host monitoring protocol" +
+				"\n  * idpr-cmtp - idpr control message transport" +
+				"\n  * icmp - internet control message protocol" +
+				"\n  * icmpv6 - internet control message protocol v6" +
+				"\n  * igmp - internet group management protocol" +
+				"\n  * ipencap - ip encapsulated in ip" +
+				"\n  * ipip - ip encapsulation" +
+				"\n  * encap - ip encapsulation" +
+				"\n  * iso-tp4 - iso transport protocol class 4" +
+				"\n  * ospf - open shortest path first" +
+				"\n  * pup - parc universal packet protocol" +
+				"\n  * pim - protocol independent multicast" +
+				"\n  * rspf - radio shortest path first" +
+				"\n  * rdp - reliable datagram protocol" +
+				"\n  * st - st datagram mode" +
+				"\n  * tcp - transmission control protocol" +
+				"\n  * udp - user datagram protocol" +
+				"\n  * vmtp versatile message transport" +
+				"\n  * vrrp - virtual router redundancy protocol" +
+				"\n  * xns-idp - xerox xns idp" +
+				"\n  * xtp - xpress transfer protocol",
 			Elem: &schema.Schema{
 				Type:             schema.TypeString,
 				ValidateDiagFunc: ValidationValInSlice([]string{}, false, true),
@@ -202,24 +202,24 @@ func ResourceToolSniffer() *schema.Resource {
 			Type:     schema.TypeSet,
 			Optional: true,
 			Description: "Up to 16 comma separated entries used as a filter. Mac protocols (instead of protocol names, " +
-				"protocol number can be used):\n" +
-				"* 802.2 - 802.2 Frames (0x0004)\n" +
-				"* arp - Address Resolution Protocol (0x0806)\n" +
-				"* homeplug-av - HomePlug AV MME (0x88E1)\n" +
-				"* ip - Internet Protocol version 4 (0x0800)\n" +
-				"* ipv6 - Internet Protocol Version 6 (0x86DD)\n" +
-				"* ipx - Internetwork Packet Exchange (0x8137)\n" +
-				"* lldp - Link Layer Discovery Protocol (0x88CC)\n" +
-				"* loop-protect - Loop Protect Protocol (0x9003)\n" +
-				"* mpls-multicast - MPLS multicast (0x8848)\n" +
-				"* mpls-unicast - MPLS unicast (0x8847)\n" +
-				"* packing-compr - Encapsulated packets with compressed IP packing (0x9001)\n" +
-				"* packing-simple - Encapsulated packets with simple IP packing (0x9000)\n" +
-				"* pppoe - PPPoE Session Stage (0x8864)\n" +
-				"* pppoe-discovery - PPPoE Discovery Stage (0x8863)\n" +
-				"* rarp - Reverse Address Resolution Protocol (0x8035)\n" +
-				"* service-vlan - Provider Bridging (IEEE 802.1ad) & Shortest Path Bridging IEEE 802.1aq (0x88A8)\n" +
-				"* vlan - VLAN-tagged frame (IEEE 802.1Q) and Shortest Path Bridging IEEE 802.1aq with NNI compatibility (0x8100)",
+				"protocol number can be used):" +
+				"\n  * 802.2 - 802.2 Frames (0x0004)" +
+				"\n  * arp - Address Resolution Protocol (0x0806)" +
+				"\n  * homeplug-av - HomePlug AV MME (0x88E1)" +
+				"\n  * ip - Internet Protocol version 4 (0x0800)" +
+				"\n  * ipv6 - Internet Protocol Version 6 (0x86DD)" +
+				"\n  * ipx - Internetwork Packet Exchange (0x8137)" +
+				"\n  * lldp - Link Layer Discovery Protocol (0x88CC)" +
+				"\n  * loop-protect - Loop Protect Protocol (0x9003)" +
+				"\n  * mpls-multicast - MPLS multicast (0x8848)" +
+				"\n  * mpls-unicast - MPLS unicast (0x8847)" +
+				"\n  * packing-compr - Encapsulated packets with compressed IP packing (0x9001)" +
+				"\n  * packing-simple - Encapsulated packets with simple IP packing (0x9000)" +
+				"\n  * pppoe - PPPoE Session Stage (0x8864)" +
+				"\n  * pppoe-discovery - PPPoE Discovery Stage (0x8863)" +
+				"\n  * rarp - Reverse Address Resolution Protocol (0x8035)" +
+				"\n  * service-vlan - Provider Bridging (IEEE 802.1ad) & Shortest Path Bridging IEEE 802.1aq (0x88A8)" +
+				"\n  * vlan - VLAN-tagged frame (IEEE 802.1Q) and Shortest Path Bridging IEEE 802.1aq with NNI compatibility (0x8100)",
 			Elem: &schema.Schema{
 				Type: schema.TypeString,
 			},

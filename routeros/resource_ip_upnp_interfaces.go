@@ -27,10 +27,9 @@ func ResourceUPNPInterfaces() *schema.Resource {
 		"type": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Description: `UPnP interface type:
-
-			external - the interface a global IP address is assigned to
-			internal - router's local interface the clients are connected to`,
+			Description: "UPnP interface type:" +
+				"\n  * external - the interface a global IP address is assigned to" +
+				"\n  * internal - router's local interface the clients are connected to",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 	}

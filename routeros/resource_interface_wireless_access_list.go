@@ -63,14 +63,14 @@ func ResourceInterfaceWirelessAccessList() *schema.Resource {
 		"forwarding": {
 			Type:     schema.TypeBool,
 			Optional: true,
-			Description: "`No` - Client cannot send frames to other station that are connected to same access point.yes - " +
-				"Client can send frames to other stations on the same access point.",
+			Description: "\n  * false - Client cannot send frames to other station that are connected to same access point." +
+				"\n  *true - Client can send frames to other stations on the same access point.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"interface": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Description: "Rules with interface=any are used for any wireless interface and the interface=all defines interface-list `all` " +
+			Description: "Rules with interface=any are used for any wireless interface and the `interface = all` defines interface-list `all` " +
 				"name. To make rule that applies only to one wireless interface, specify that interface as a value of " +
 				"this property.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,

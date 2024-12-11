@@ -1,8 +1,9 @@
 package routeros
 
 import (
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"regexp"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 /*
@@ -68,7 +69,7 @@ func ResourceIPFirewallAddrList() *schema.Resource {
 			Description: `Time after address will be removed from address list. If timeout is not specified,
 the address will be stored into the address list permanently.  
 	> Please plan your work logic based on the fact that after the timeout    
-	> the resource has been destroyed outside of Terraform. 
+	> the resource has been destroyed outside of a Terraform. 
 `,
 			DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
 				if old == new {

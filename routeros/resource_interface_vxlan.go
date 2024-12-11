@@ -45,40 +45,22 @@ func ResourceInterfaceVxlan() *schema.Resource {
 				"is available since RouterOS version 7.8.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
-		"arp": {
-			Type:     schema.TypeString,
-			Optional: true,
-			Description: "Address Resolution Protocol setting disabled - the interface will not use ARP enabled - the " +
-				"interface will use ARP local-proxy-arp - the router performs proxy ARP on the interface and sends replies " +
-				"to the same interface proxy-arp - the router performs proxy ARP on the interface and sends replies to " +
-				"other interfaces reply-only - the interface will only reply to requests originating from matching IP " +
-				"address/MAC address combinations which are entered as static entries in the IP/ARP table. No dynamic " +
-				"entries will be automatically stored in the IP/ARP table. Therefore for communications to be successful, " +
-				"a valid static entry must already exist.",
-			ValidateFunc:     validation.StringInSlice([]string{"disabled", "enabled", "local-proxy-arp", "proxy-arp", "reply-only"}, false),
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
-		},
-		"arp_timeout": {
-			Type:     schema.TypeString,
-			Optional: true,
-			Description: "How long the ARP record is kept in the ARP table after no packets are received from IP. Value " +
-				"auto equals to the value of arp-timeout in IP/Settings, default is the 30s.",
-			DiffSuppressFunc: TimeEquall,
-		},
-		KeyComment:  PropCommentRw,
-		KeyDisabled: PropDisabledRw,
+		KeyArp:        PropArpRw,
+		KeyArpTimeout: PropArpTimeoutRw,
+		KeyComment:    PropCommentRw,
+		KeyDisabled:   PropDisabledRw,
 		"dont_fragment": {
 			Type:     schema.TypeString,
 			Optional: true,
 			Description: "The Don't Fragment (DF) flag controls whether a packet can be broken into smaller packets, " +
 				"called fragments, before being sent over a network. When configuring VXLAN, this setting determines " +
 				"the presence of the DF flag on the outer IPv4 header and can control packet fragmentation if the encapsulated " +
-				"packet exceeds the outgoing interface MTU. This setting has three options: disabled - the DF flag is " +
+				"packet exceeds the outgoing interface MTU. This setting has three options:\n  * disabled - the DF flag is " +
 				"not set on the outer IPv4 header, which means that packets can be fragmented if they are too large to " +
 				"be sent over the outgoing interface. This also allows packet fragmentation when VXLAN uses IPv6 underlay. " +
-				"enabled - the DF flag is always set on the outer IPv4 header, which means that packets will not be fragmented " +
+				"\n  * enabled - the DF flag is always set on the outer IPv4 header, which means that packets will not be fragmented " +
 				"and will be dropped if they exceed the outgoing interface's MTU. This also avoids packet fragmentation " +
-				"when VXLAN uses IPv6 underlay. inherit - The DF flag on the outer IPv4 header is based on the inner " +
+				"when VXLAN uses IPv6 underlay.\n  * inherit - The DF flag on the outer IPv4 header is based on the inner " +
 				"IPv4 DF flag. If the inner IPv4 header has the DF flag set, the outer IPv4 header will also have it " +
 				"set. If the packet exceeds the outgoing interface's MTU and DF is set, it will be dropped. If the inner " +
 				"packet is non-IP, the outer IPv4 header will not have the DF flag set and packets can be fragmented. " +

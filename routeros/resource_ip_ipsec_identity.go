@@ -26,15 +26,15 @@ func ResourceIpIpsecIdentity() *schema.Resource {
 		"auth_method": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Description: "Authentication method: `digital-signature` - authenticate using a pair of RSA certificates; `eap` " +
-				"- IKEv2 EAP authentication for initiator (peer with a netmask of `/32`). Must be used together with eap-methods; `eap-radius` " +
+			Description: "Authentication method:\n  * digital-signature - authenticate using a pair of RSA certificates;\n  * eap " +
+				"- IKEv2 EAP authentication for initiator (peer with a netmask of `/32`). Must be used together with eap-methods;\n  * eap-radius " +
 				"- IKEv2 EAP RADIUS passthrough authentication for the responder (RFC 3579). A server certificate in " +
 				"this case is required. If a server certificate is not specified then only clients supporting EAP-only " +
-				"(RFC 5998) will be able to connect. Note that the EAP method should be compatible with EAP-only; `pre-shared-key` " +
+				"(RFC 5998) will be able to connect. Note that the EAP method should be compatible with EAP-only;\n  * pre-shared-key " +
 				"- authenticate by a password (pre-shared secret) string shared between the peers (not recommended since " +
-				"an offline attack on the pre-shared key is possible); `rsa-key` - authenticate using an RSA key imported " +
-				"in keys menu. Only supported in IKEv1; `pre-shared-key-xauth` - authenticate by a password (pre-shared " +
-				"secret) string shared between the peers + XAuth username and password. Only supported in IKEv1; `rsa-signature-hybrid` " +
+				"an offline attack on the pre-shared key is possible);\n  * rsa-key - authenticate using an RSA key imported " +
+				"in keys menu. Only supported in IKEv1;\n  * pre-shared-key-xauth - authenticate by a password (pre-shared " +
+				"secret) string shared between the peers + XAuth username and password. Only supported in IKEv1;\n  * rsa-signature-hybrid " +
 				"- responder certificate authentication with initiator XAuth. Only supported in IKEv1.",
 			ValidateFunc: validation.StringInSlice([]string{"digital-signature", "eap", "eap-radius", "pre-shared-key",
 				"pre-shared-key-xauth", "rsa-key", "rsa-signature-hybrid"}, false),
@@ -56,8 +56,8 @@ func ResourceIpIpsecIdentity() *schema.Resource {
 			Description: "All EAP methods requires whole certificate chain including intermediate and root CA certificates " +
 				"to be present in System/Certificates menu. Also, the username and password (if required by the authentication " +
 				"server) must be specified. Multiple EAP methods may be specified and will be used in a specified order. " +
-				"Currently supported EAP methods: `eap-mschapv2`; `eap-peap` - also known as PEAPv0/EAP-MSCHAPv2; `eap-tls` - " +
-				"requires additional client certificate specified under certificate parameter; `eap-ttls`.",
+				"Currently supported EAP methods:\n  * eap-mschapv2;\n  * eap-peap - also known as PEAPv0/EAP-MSCHAPv2;\n  * eap-tls - " +
+				"requires additional client certificate specified under certificate parameter;\n  * eap-ttls.",
 			ValidateFunc:     validation.StringInSlice([]string{"eap-mschapv2", "eap-peap", "eap-tls", "eap-ttls"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
