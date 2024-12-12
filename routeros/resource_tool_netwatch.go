@@ -49,13 +49,12 @@ func ResourceToolNetwatch() *schema.Resource {
 		"host": {
 			Type:     schema.TypeString,
 			Required: true,
-			Description: `The IP address of the server to be probed. Formats:
-			- ipv4
-			- ipv4@vrf
-			- ipv6 
-			- ipv6@vrf
-			- ipv6-linklocal%interface
-			`,
+			Description: "The IP address of the server to be probed. Formats:" +
+				"\n  * ipv4" +
+				"\n  * ipv4@vrf" +
+				"\n  * ipv6 " +
+				"\n  * ipv6@vrf" +
+				"\n  * ipv6-linklocal%interface",
 		},
 		"interval": {
 			Type:             schema.TypeString,
@@ -96,12 +95,12 @@ func ResourceToolNetwatch() *schema.Resource {
 		"type": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Description: `Type of the probe:
-			- icmp - (ping-style) series of ICMP request-response with statistics
-			- tcp-conn - test TCP connection (3-way handshake) to a server specified by IP and port
-			- http-get - do an HTTP Get request and test for a range of correct replies
-			- simple - simplified ICMP probe, with fewer options than **ICMP** type, used for backward compatibility with the older Netwatch version
-			`,
+			Description: "Type of the probe:" +
+				"\n  *  icmp - (ping-style) series of ICMP request-response with statistics" +
+				"\n  *  tcp-conn - test TCP connection (3-way handshake) to a server specified by IP and port" +
+				"\n  *  http-get - do an HTTP Get request and test for a range of correct replies" +
+				"\n  *  simple - simplified ICMP probe, with fewer options than **ICMP** type, used for backward " +
+				"compatibility with the older Netwatch version",
 			ValidateFunc:     validation.StringInSlice([]string{"icmp", "tcp-conn", "http-get", "simple"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},

@@ -80,9 +80,9 @@ func ResourceCapsManRates() *schema.Resource {
 			Optional: true,
 			Computed: true,
 			Description: "Modulation and Coding Schemes that every connecting client must support. Refer to " +
-				"802.11ac for MCS specification. You can set MCS interval for each of Spatial Stream none " +
-				"- will not use selected Spatial Stream MCS 0-7 - client must support MCS-0 to MCS-7 MCS " +
-				"0-8 - client must support MCS-0 to MCS-8 MCS 0-9 - client must support MCS-0 to MCS-9",
+				"802.11ac for MCS specification. You can set MCS interval for each of Spatial Stream\n  * none " +
+				"- will not use selected\n  * MCS 0-7 - client must support MCS-0 to MCS-7\n  * MCS " +
+				"0-8 - client must support MCS-0 to MCS-8\n  * MCS 0-9 - client must support MCS-0 to MCS-9",
 			ValidateDiagFunc: ValidationMultiValInSlice([]string{"none", "mcs0-7", "mcs0-8", "mcs0-9"}, false, false),
 		},
 		"vht_supported_mcs": {
@@ -90,9 +90,9 @@ func ResourceCapsManRates() *schema.Resource {
 			Optional: true,
 			Computed: true,
 			Description: "Modulation and Coding Schemes that this device advertises as supported. Refer to " +
-				"802.11ac for MCS specification. You can set MCS interval for each of Spatial Stream none " +
-				"- will not use selected Spatial Stream MCS 0-7 - devices will advertise as supported " +
-				"MCS-0 to MCS-7 MCS 0-8 - devices will advertise as supported MCS-0 to MCS-8 MCS 0-9 - " +
+				"802.11ac for MCS specification. You can set MCS interval for each of Spatial Stream\n  * none " +
+				"- will not use selected\n  * MCS 0-7 - devices will advertise as supported " +
+				"MCS-0 to MCS-7\n  * MCS 0-8 - devices will advertise as supported MCS-0 to MCS-8\n  * MCS 0-9 - " +
 				"devices will advertise as supported MCS-0 to MCS-9",
 			ValidateDiagFunc: ValidationMultiValInSlice([]string{"none", "mcs0-7", "mcs0-8", "mcs0-9"}, false, false),
 		},

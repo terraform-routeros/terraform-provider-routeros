@@ -52,19 +52,16 @@ func ResourceIpNeighborDiscoverySettings() *schema.Resource {
 		"lldp_med_net_policy_vlan": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Description: `Advertised VLAN ID for LLDP-MED Network Policy TLV. This allows assigning a VLAN ID for 
-			LLDP-MED capable devices, such as VoIP phones. The TLV will only be added to interfaces where LLDP-MED 
-			capable devices are discovered. Other TLV values are predefined and cannot be changed:
-
-			- Application Type - Voice
-			- VLAN Type - Tagged
-			- L2 Priority - 0
-			- DSCP Priority - 0
-		
-		When used together with the bridge interface, the (R/M)STP protocol should be enabled with protocol-mode setting. 
-		
-		Additionally, other neighbor discovery protocols (e.g. CDP) should be excluded using protocol setting to 
-		avoid LLDP-MED misconfiguration.`,
+			Description: "Advertised VLAN ID for LLDP-MED Network Policy TLV. This allows assigning a VLAN ID for " +
+				"LLDP-MED capable devices, such as VoIP phones. The TLV will only be added to interfaces where LLDP-MED " +
+				"capable devices are discovered. Other TLV values are predefined and cannot be changed:" +
+				"\n  * Application Type - Voice" +
+				"\n  * VLAN Type - Tagged" +
+				"\n  * L2 Priority - 0" +
+				"\n  * DSCP Priority - 0\n" +
+				"When used together with the bridge interface, the (R/M)STP protocol should be enabled with protocol-mode setting.\n" +
+				"Additionally, other neighbor discovery protocols (e.g. CDP) should be excluded using protocol setting to " +
+				"avoid LLDP-MED misconfiguration.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"lldp_poe_power": {

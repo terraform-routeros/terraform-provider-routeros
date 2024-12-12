@@ -36,12 +36,11 @@ func ResourceIpSSHServer() *schema.Resource {
 		"forwarding_enabled": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Description: `Allows to control which SSH forwarding method to allow:
-
-			* no - SSH forwarding is disabled;
-			* local - Allow SSH clients to originate connections from the server(router), this setting controls also dynamic forwarding;
-			* remote - Allow SSH clients to listen on the server(router) and forward incoming connections;
-			* both - Allow both local and remote forwarding methods.`,
+			Description: "Allows to control which SSH forwarding method to allow:" +
+				"\n  * no - SSH forwarding is disabled;" +
+				"\n  * local - Allow SSH clients to originate connections from the server(router), this setting controls also dynamic forwarding;" +
+				"\n  * remote - Allow SSH clients to listen on the server(router) and forward incoming connections;" +
+				"\n  * both - Allow both local and remote forwarding methods.",
 			ValidateFunc:     validation.StringInSlice([]string{"both", "local", "no", "remote"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},

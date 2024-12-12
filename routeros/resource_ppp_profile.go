@@ -144,7 +144,7 @@ func ResourcePPPProfile() *schema.Resource {
 			Type:     schema.TypeString,
 			Optional: true,
 			Description: "Execute script on user login-event. These are available variables that are accessible " +
-				"for the event script: *user *local-address *remote-address *caller-id *called-id *interface.",
+				"for the event script:\n  * user\n  * local-address\n  * remote-address\n  * caller-id\n  * called-id\n  * interface.",
 		},
 		"on_down": {
 			Type:        schema.TypeString,

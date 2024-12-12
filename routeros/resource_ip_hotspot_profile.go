@@ -87,19 +87,19 @@ func ResourceIpHotspotProfile() *schema.Resource {
 		"login_by": {
 			Type:     schema.TypeSet,
 			Optional: true,
-			Description: "Used HotSpot authentication method\n" +
-				"* mac-cookie - enables login by mac cookie method.\n" +
+			Description: "Used HotSpot authentication method\n " +
+				"* mac-cookie - enables login by mac cookie method.\n " +
 				"* cookie - may only be used with other HTTP authentication method. HTTP cookie is generated, when user authenticates " +
 				"in HotSpot for the first time. User is not asked for the login/password and authenticated automatically, " +
-				"until cookie-lifetime is active.\n" +
+				"until cookie-lifetime is active.\n " +
 				"* http-chap - login/password is required for the user to authenticate in HotSpot. CHAP " +
-				"challenge-response method with MD5 hashing algorithm is used for protecting passwords. \n" +
+				"challenge-response method with MD5 hashing algorithm is used for protecting passwords. \n " +
 				"* http-pap - login/password is required for user to authenticate in HotSpot. Username and password are " +
-				"sent over network in plain text.\n" +
+				"sent over network in plain text.\n " +
 				"* https - login/password is required for user to authenticate in HotSpot. Client login/password " +
-				"exchange between client and server is encrypted with SSL tunnel.\n" +
+				"exchange between client and server is encrypted with SSL tunnel.\n " +
 				"* mac - client is authenticated without asking login form. Client MAC-address is added to `/ip hotspot " +
-				"user` database, client is authenticated as soon as connected to the HotSpot\n" +
+				"user` database, client is authenticated as soon as connected to the HotSpot\n " +
 				"* trial - client is allowed to use internet without HotSpot login for the specified amount of time.",
 			Elem: &schema.Schema{
 				Type: schema.TypeString,

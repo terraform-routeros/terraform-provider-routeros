@@ -25,8 +25,28 @@ jobs:
           - "7.16"
 
     steps:
+      - name: Container check
+        run: |
+          echo "Wait for the container to finish launching..."
+          while true; do
+            docker logs ${{ job.services.routeros.id }} 2>&1 | grep MikroTik && break
+            # docker logs ${{ job.services.routeros.id }} 2>&1
+            echo "waiting..."
+            sleep 10
+          done
+
       - name: Check out code into the Go module directory
         uses: actions/checkout@v4
+
+      - name: Cache restore
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
 
       - name: Setup Go environment
         uses: actions/setup-go@v5
@@ -66,8 +86,8 @@ jobs:
           - 443:443
           - 8728:8728
           - 8729:8729
-        volumes:
-          - /dev/net/tun:/dev/net/tun
         options: >-
           --cap-add=NET_ADMIN
           --entrypoint /routeros/entrypoint_with_four_interfaces.sh
+          --device /dev/net/tun
+          --device /dev/kvm

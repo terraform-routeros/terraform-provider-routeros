@@ -215,7 +215,7 @@ func ResourceInterfaceWireless() *schema.Resource {
 		"basic_rates_b": {
 			Type:     schema.TypeSet,
 			Optional: true,
-			Description: "List of basic rates, used for 2.4ghz-b, 2.4ghz-b/g and 2.4ghz-onlyg bands.Client will connect " +
+			Description: "List of basic rates, used for `2.4ghz-b`, `2.4ghz-b/g` and `2.4ghz-onlyg` bands.Client will connect " +
 				"to AP only if it supports all basic rates announced by the AP. AP will establish WDS link only if it " +
 				"supports all basic rates of the other AP.This property has effect only in AP modes, and when value of " +
 				"rate-set is configured.",
@@ -242,10 +242,10 @@ func ResourceInterfaceWireless() *schema.Resource {
 		"channel_width": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Description: "Use of extension channels (e.g. Ce, eC etc) allows additional 20MHz extension channels and " +
+			Description: "Use of extension channels (e.g. `C`e, `eC` etc) allows additional 20MHz extension channels and " +
 				"if it should be located below or above the control (main) channel. Extension channel allows 802.11n " +
 				"devices to use up to 40MHz (802.11ac up to 160MHz) of spectrum in total thus increasing max throughput. " +
-				"Channel widths with XX and XXXX extensions automatically scan for a less crowded control channel frequency " +
+				"Channel widths with `XX` and `XXXX` extensions automatically scan for a less crowded control channel frequency " +
 				"based on the number of concurrent devices running in every frequency and chooses the `C` - Control channel " +
 				"frequency automatically.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
@@ -282,13 +282,13 @@ func ResourceInterfaceWireless() *schema.Resource {
 		"default_client_tx_limit": {
 			Type:     schema.TypeInt,
 			Optional: true,
-			Description: "This is the value of client-tx-limit for clients that do not match any entry in the  access-list. " +
+			Description: "This is the value of `client-tx-limit` for clients that do not match any entry in the access-list. " +
 				"0 means no limit.",
 		},
 		"default_forwarding": {
 			Type:             schema.TypeBool,
 			Optional:         true,
-			Description:      "This is the value of forwarding for clients that do not match any entry in the  access-list.",
+			Description:      "This is the value of forwarding for clients that do not match any entry in the access-list.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"default_name": {
@@ -307,7 +307,7 @@ func ResourceInterfaceWireless() *schema.Resource {
 			Type:     schema.TypeString,
 			Optional: true,
 			Description: "This interval is measured from third sending failure on the lowest data rate. At this point " +
-				"3 * (hw-retries + 1) frame transmits on the lowest data rate had failed. During disconnect-timeout packet " +
+				"`3 * (hw-retries + 1)` frame transmits on the lowest data rate had failed. During disconnect-timeout packet " +
 				"transmission will be retried with on-fail-retry-time interval. If no frame can be transmitted successfully " +
 				"during disconnect-timeout, the connection is closed, and this event is logged as `extensive data loss`. " +
 				"Successful frame transmission resets this timer.",
@@ -317,10 +317,10 @@ func ResourceInterfaceWireless() *schema.Resource {
 			Type:     schema.TypeString,
 			Optional: true,
 			Description: "How long to wait for confirmation of unicast frames (ACKs) before considering transmission " +
-				"unsuccessful, or in short ACK-Timeout. Distance value has these behaviors:Dynamic - causes AP to detect " +
-				"and use the smallest timeout that works with all connected clients.Indoor - uses the default ACK timeout " +
-				"value that the hardware chip manufacturer has set.Number - uses the input value in formula: ACK-timeout " +
-				"= ((distance * 1000) + 299) / 300 us;Acknowledgments are not used in Nstreme/NV2 protocols.",
+				"unsuccessful, or in short ACK-Timeout. Distance value has these behaviors:\n  * Dynamic - causes AP to detect " +
+				"and use the smallest timeout that works with all connected clients.\n  * Indoor - uses the default ACK timeout " +
+				"value that the hardware chip manufacturer has set.\n  * Number - uses the input value in formula: `ACK-timeout " +
+				"= ((distance * 1000) + 299) / 300 us`\nAcknowledgments are not used in Nstreme/NV2 protocols.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"frame_lifetime": {
@@ -332,19 +332,19 @@ func ResourceInterfaceWireless() *schema.Resource {
 		"frequency": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Description: "Channel frequency value in MHz on which AP will operate.Allowed values depend on the selected " +
+			Description: "Channel frequency value in MHz on which AP will operate. Allowed values depend on the selected " +
 				"band, and are restricted by country setting and wireless card capabilities. This setting has no effect " +
 				"if interface is in any of station modes, or in wds-slave mode, or if DFS is active.Note: If using mode " +
-				"`superchannel.",
+				"`superchannel`.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"frequency_mode": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Description: "Three frequency modes are available: `regulatory-domain` - Limit available channels and maximum " +
-				"transmit power for each channel according to the value of country `manual-txpower` - Same as above, but " +
-				"do not limit maximum transmit power.`superchannel` - Conformance Testing Mode. Allow all channels supported " +
-				"by the card.List of available channels for each band can be seen in `/interface wireless` info allowed-channels. " +
+			Description: "Three frequency modes are available:\n  * regulatory-domain - Limit available channels and maximum " +
+				"transmit power for each channel according to the value of country\n  * manual-txpower - Same as above, but " +
+				"do not limit maximum transmit power\n  *`superchannel` - Conformance Testing Mode. Allow all channels supported " +
+				"by the card.\nList of available channels for each band can be seen in `/interface wireless` info allowed-channels. " +
 				"This mode allows you to test wireless channels outside the default scan-list and/or regulatory domain. " +
 				"This mode should only be used in controlled environments, or if you have special permission to use it " +
 				"in your region. Before v4.3 this was called Custom Frequency Upgrade, or Superchannel. Since RouterOS " +
@@ -371,8 +371,8 @@ func ResourceInterfaceWireless() *schema.Resource {
 		"hide_ssid": {
 			Type:     schema.TypeBool,
 			Optional: true,
-			Description: "Yes - AP does not include SSID in the beacon frames, and does not reply to probe requests " +
-				"that have broadcast SSID.no - AP includes SSID in the beacon frames, and replies to probe requests that " +
+			Description: "`true` - AP does not include SSID in the beacon frames, and does not reply to probe requests " +
+				"that have broadcast SSID. `false` - AP includes SSID in the beacon frames, and replies to probe requests that " +
 				"have broadcast SSID.This property has an effect only in AP mode. Setting it to yes can remove this network " +
 				"from the list of wireless networks that are shown by some client software. Changing this setting does " +
 				"not improve the security of the wireless network, because SSID is included in other frames sent by the " +
@@ -460,7 +460,7 @@ func ResourceInterfaceWireless() *schema.Resource {
 		"keepalive_frames": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Description: "Applies only if wireless interface is in mode=ap-bridge. If a client has not communicated " +
+			Description: "Applies only if wireless interface is in `mode = ap-bridge`. If a client has not communicated " +
 				"for around 20 seconds, AP sends a `keepalive-frame`. Note, disabling the feature can lead to `ghost` " +
 				"clients in registration-table.",
 			ValidateFunc:     validation.StringInSlice([]string{"enabled", "disabled"}, false),
@@ -485,7 +485,7 @@ func ResourceInterfaceWireless() *schema.Resource {
 		"mode": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Description: "Selection between different station and access point (AP) modes. **Station modes**: `station` - Basic " +
+			Description: "Selection between different station and access point (AP) modes.\n  * Station modes: `station` - Basic " +
 				"station mode. Find and connect to acceptable AP. `station-wds` - Same as station, but create WDS link with " +
 				"AP, using proprietary extension. AP configuration has to allow WDS links with this device. Note that " +
 				"this mode does not use entries in wds. `station-pseudobridge` - Same as station, but additionally perform " +
@@ -495,10 +495,10 @@ func ResourceInterfaceWireless() *schema.Resource {
 				"AP accepts clients in station-bridge mode when enabled using bridge-mode parameter. In this mode, the " +
 				"AP maintains a forwarding table with information on which MAC addresses are reachable over which station " +
 				"device. Only works with RouterOS APs. With station-bridge mode, it is not possible to connect to CAPsMAN " +
-				"controlled CAP. **AP modes**: `ap-bridge` - Basic access point mode. `bridge` - Same as ap-bridge, but limited " +
+				"controlled CAP.\n  * AP modes: `ap-bridge` - Basic access point mode. `bridge` - Same as ap-bridge, but limited " +
 				"to one associated client. `wds-slave` - Same as ap-bridge, but scan for AP with the same ssid and establishes " +
 				"WDS link. If this link is lost or cannot be established, then continue scanning. If dfs-mode is radar-detect, " +
-				"then APs with enabled hide-ssid will not be found during scanning. **Special modes**: `alignment-only` - Put " +
+				"then APs with enabled hide-ssid will not be found during scanning.\n  * Special modes: `alignment-only` - Put " +
 				"the interface in a continuous transmit mode that is used for aiming the remote antenna. `nstreme-dual-slave` " +
 				"- allow this interface to be used in nstreme-dual setup. MAC address translation in pseudobridge modes " +
 				"works by inspecting packets and building a table of corresponding IP and MAC addresses. All packets " +
@@ -640,10 +640,10 @@ func ResourceInterfaceWireless() *schema.Resource {
 		"preamble_mode": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Description: "Short preamble mode is an option of 802.11b standard that reduces per-frame overhead.On AP:long " +
-				"- Do not use short preamble.short - Announce short preamble capability. Do not accept connections from " +
-				"clients that do not have this capability.both - Announce short preamble capability.On station:long - " +
-				"do not use short preamble.short - do not connect to AP if it does not support short preamble.both - " +
+			Description: "Short preamble mode is an option of 802.11b standard that reduces per-frame overhead.On AP:\n  * long " +
+				"- Do not use short preamble.\n  * short - Announce short preamble capability. Do not accept connections from " +
+				"clients that do not have this capability.\n  * both - Announce short preamble capability.\nOn station:\n  *long - " +
+				"do not use short preamble.\n  * short - do not connect to AP if it does not support short preamble.\n  * both - " +
 				"Use short preamble if AP supports it.",
 			ValidateFunc:     validation.StringInSlice([]string{"both", "long", "short"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
@@ -773,7 +773,7 @@ func ResourceInterfaceWireless() *schema.Resource {
 		"supported_rates_b": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Description: "List of supported rates, used for 2ghz-b, 2ghz-b/g and 2ghz-b/g/n bands. Two devices will " +
+			Description: "List of supported rates, used for `2ghz-b, `2ghz-b/g` and `2ghz-b/g/n` bands. Two devices will " +
 				"communicate only using rates that are supported by both devices. This property has effect only when " +
 				"value of rate-set is configured.",
 			Elem: &schema.Schema{
@@ -844,9 +844,9 @@ func ResourceInterfaceWireless() *schema.Resource {
 			Type:     schema.TypeString,
 			Optional: true,
 			Description: "Modulation and Coding Schemes that every connecting client must support. Refer to 802.11ac " +
-				"for MCS specification. You can set MCS interval for each of Spatial Stream `none` - will not use selected; " +
-				"Spatial Stream `mcs0-7` - client must support MCS-0 to MCS-7; `mcs0-8` - client must support MCS-0 to MCS-8; " +
-				"`mcs0-9` - client must support MCS-0 to MCS-9.",
+				"for MCS specification. You can set MCS interval for each of Spatial Stream\n  * none - will not use selected;" +
+				"\n  * mcs0-7 - client must support MCS-0 to MCS-7;\n  * mcs0-8 - client must support MCS-0 to MCS-8;" +
+				"\n  * mcs0-9 - client must support MCS-0 to MCS-9.",
 			ValidateDiagFunc: ValidationMultiValInSlice([]string{"none", "mcs0-7", "`mcs0-8`", "mcs0-9"}, false, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
@@ -854,9 +854,9 @@ func ResourceInterfaceWireless() *schema.Resource {
 			Type:     schema.TypeString,
 			Optional: true,
 			Description: "Modulation and Coding Schemes that this device advertises as supported. Refer to 802.11ac " +
-				"for MCS specification. You can set MCS interval for each of Spatial Stream `none` - will not use selected; " +
-				"Spatial Stream `mcs0-7` - devices will advertise as supported MCS-0 to MCS-7; `mcs0-8` - devices will advertise " +
-				"as supported MCS-0 to MCS-8; `mcs0-9` - devices will advertise as supported MCS-0 to MCS-9.",
+				"for MCS specification. You can set MCS interval for each of Spatial Stream\n  * none - will not use selected; " +
+				"\n  * mcs0-7 - devices will advertise as supported MCS-0 to MCS-7;\n  * mcs0-8 - devices will advertise " +
+				"as supported MCS-0 to MCS-8;\n  * mcs0-9 - devices will advertise as supported MCS-0 to MCS-9.",
 			ValidateDiagFunc: ValidationMultiValInSlice([]string{"none", "mcs0-7", "`mcs0-8`", "mcs0-9"}, false, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
@@ -897,10 +897,10 @@ func ResourceInterfaceWireless() *schema.Resource {
 		"wds_mode": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Description: "Controls how WDS links with other devices (APs and clients in station-wds mode) are established. `disabled` " +
-				"does not allow WDS links. `static` only allows WDS links that are manually configured in WDS. `dynamic` also " +
+			Description: "Controls how WDS links with other devices (APs and clients in station-wds mode) are established.\n  * disabled " +
+				"does not allow WDS links.\n  * static only allows WDS links that are manually configured in WDS.\n  * dynamic also " +
 				"allows WDS links with devices that are not configured in WDS, by creating required entries dynamically. " +
-				"Such dynamic WDS entries are removed automatically after the connection with the other AP is lost. `-mesh` " +
+				"Such dynamic WDS entries are removed automatically after the connection with the other AP is lost.\n  * -mesh " +
 				"modes use different (better) method for establishing link between AP, that is not compatible with APs " +
 				"in non-mesh mode. This method avoids one-sided WDS links that are created only by one of the two APs. " +
 				"Such links cannot pass any data.When AP or station is establishing WDS connection with another AP, it " +
@@ -913,13 +913,13 @@ func ResourceInterfaceWireless() *schema.Resource {
 		"wireless_protocol": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Description: "Specifies protocol used on wireless interface; `unspecified` - protocol mode used on previous " +
+			Description: "Specifies protocol used on wireless interface;\n  * unspecified - protocol mode used on previous " +
 				"RouterOS versions (v3.x, v4.x). Nstreme is enabled by old enable-nstreme setting, Nv2 configuration " +
-				"is not possible. `any` : on AP - regular 802.11 Access Point or Nstreme Access Point; on station - selects " +
-				"Access Point without specific sequence, it could be changed by connect-list rules. `nstreme` - enables " +
-				"Nstreme protocol (the same as old enable-nstreme setting). `nv2` - enables Nv2 protocol. `nv2 nstreme` : on " +
+				"is not possible.\n  * any : on AP - regular 802.11 Access Point or Nstreme Access Point; on station - selects " +
+				"Access Point without specific sequence, it could be changed by connect-list rules.\n  * nstreme - enables " +
+				"Nstreme protocol (the same as old enable-nstreme setting).\n  * nv2 - enables Nv2 protocol.\n  * nv2 nstreme : on " +
 				"AP - uses first wireless-protocol setting, always Nv2; on station - searches for Nv2 Access Point, then " +
-				"for Nstreme Access Point. `nv2 nstreme 802.11` - on AP - uses first wireless-protocol setting, always Nv2; " +
+				"for Nstreme Access Point.\n  * nv2 nstreme 802.11 - on AP - uses first wireless-protocol setting, always Nv2; " +
 				"on station - searches for Nv2 Access Point, then for Nstreme Access Point, then for regular 802.11 Access " +
 				"Point.Warning! Nv2 doesn't have support for Virtual AP.",
 			ValidateFunc: validation.StringInSlice([]string{"802.11", "any", "nstreme", "nv2", "nv2-nstreme",
@@ -930,7 +930,7 @@ func ResourceInterfaceWireless() *schema.Resource {
 		"wmm_support": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Description: "Specifies whether to enable  WMM.  Only applies to bands B and G. Other bands will have it " +
+			Description: "Specifies whether to enable  WMM.  Only applies to bands `B` and `G`. Other bands will have it " +
 				"enabled regardless of this setting.",
 			ValidateFunc:     validation.StringInSlice([]string{"disabled", "enabled", "required"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,

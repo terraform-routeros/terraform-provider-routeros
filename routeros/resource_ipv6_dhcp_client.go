@@ -67,9 +67,10 @@ func ResourceIPv6DhcpClient() *schema.Resource {
 		},
 		KeyDisabled: PropDisabledRw,
 		"duid": {
-			Type:        schema.TypeString,
-			Computed:    true,
-			Description: "Auto-generated DUID that is sent to the server. DUID is generated using one of the MAC addresses available on the router.",
+			Type:     schema.TypeString,
+			Computed: true,
+			Description: "Auto-generated DUID that is sent to the server. DUID is generated using one of the MAC " +
+				"addresses available on the router.",
 		},
 		KeyDynamic: PropDynamicRo,
 		"expires_after": {
@@ -90,9 +91,11 @@ func ResourceIPv6DhcpClient() *schema.Resource {
 			Description: "Name of the IPv6 pool in which received IPv6 prefix will be added",
 		},
 		"pool_prefix_length": {
-			Type:         schema.TypeInt,
-			Optional:     true,
-			Description:  "Prefix length parameter that will be set for IPv6 pool in which received IPv6 prefix is added. Prefix length must be greater than the length of the received prefix, otherwise, prefix-length will be set to received prefix length + 8 bits.",
+			Type:     schema.TypeInt,
+			Optional: true,
+			Description: "Prefix length parameter that will be set for IPv6 pool in which received IPv6 prefix is " +
+				"added. Prefix length must be greater than the length of the received prefix, otherwise, prefix-length " +
+				"will be set to received prefix length + 8 bits.",
 			ValidateFunc: validation.IntBetween(0, 128),
 		},
 		"prefix": {
@@ -124,24 +127,25 @@ func ResourceIPv6DhcpClient() *schema.Resource {
 		"script": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Description: `Run this script on the DHCP-client status change. Available variables:
-			- pd-valid - if the prefix is acquired by the client;
-			- pd-prefix - the prefix acquired by the client if any;
-			- na-valid - if the address is acquired by the client;
-			- na-address - the address acquired by the client if any.
-			- options - array of received options (only ROSv7)`,
+			Description: "Run this script on the DHCP-client status change. Available variables:" +
+				"\n  * pd-valid - if the prefix is acquired by the client;" +
+				"\n  * pd-prefix - the prefix acquired by the client if any;" +
+				"\n  * na-valid - if the address is acquired by the client;" +
+				"\n  * na-address - the address acquired by the client if any." +
+				"\n  * options - array of received options (only ROSv7)",
 		},
 		"status": {
 			Type:     schema.TypeString,
 			Computed: true,
-			Description: `Shows the status of DHCPv6 Client:
-			- stopped - dhcpv6 client is stopped
-			- searching - sending "solicit" and trying to get "advertise"  Shows actual (resolved) gateway and interface that will be used for packet forwarding.requesting - sent "request" waiting for "reply"
-			- bound - received "reply". Prefix assigned.
-			- renewing - sent "renew", waiting for "reply"
-			- rebinding - sent "rebind", waiting for "reply"
-			- error - reply was not received in time or some other error occurred.
-			- stopping - sent "release"`,
+			Description: "Shows the status of DHCPv6 Client:" +
+				"\n  * stopped - dhcpv6 client is stopped" +
+				"\n  * searching - sending `solicit` and trying to get `advertise`  Shows actual (resolved) gateway and " +
+				"interface that will be used for packet forwarding.requesting - sent `request` waiting for `reply`" +
+				"\n  * bound - received `reply`. Prefix assigned." +
+				"\n  * renewing - sent `renew`, waiting for `reply`" +
+				"\n  * rebinding - sent `rebind`, waiting for `reply`" +
+				"\n  * error - reply was not received in time or some other error occurred." +
+				"\n  * stopping - sent `release`",
 		},
 		"use_interface_duid": {
 			Type:        schema.TypeBool,

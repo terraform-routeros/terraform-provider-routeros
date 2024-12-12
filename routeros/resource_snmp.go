@@ -62,7 +62,7 @@ func ResourceSNMP() *schema.Resource {
 			Type:     schema.TypeString,
 			Optional: true,
 			Computed: true,
-			Description: "What action will generate traps: interfaces - interface changes; start-trap - snmp " +
+			Description: "What action will generate traps:\n  * interfaces - interface changes;\n  * start-trap - snmp " +
 				"server starting on the router.",
 			ValidateFunc: validation.StringInSlice([]string{"interfaces", "start-trap", "temp-exception"}, false),
 		},

@@ -44,17 +44,16 @@ func ResourceSystemNtpClient() *schema.Resource {
 			Elem: &schema.Schema{
 				Type: schema.TypeString,
 			},
-			Description: `The list of NTP servers. It is possible to add static entries.
-			The following formats are accepted:
-
-			- FQDN ("Resolved Address" will appear in the "Servers"- window in an appropriate column if the address is 
-			resolved) or IP address can be used. If DHCP-Client property ` + "`use-peer-ntp=yes`" + ` - the dynamic entries 
-			advertised by DHCP
-			- ipv4
-			- ipv4@vrf
-			- ipv6
-			- ipv6@vrf
-			- ipv6-linklocal%interface`,
+			Description: "The list of NTP servers. It is possible to add static entries." +
+				"The following formats are accepted:" +
+				"\n  * FQDN (\"Resolved Address\" will appear in the \"Servers\"- window in an appropriate column if the address is " +
+				"resolved) or IP address can be used. If DHCP-Client property `use-peer-ntp=yes` - the dynamic entries " +
+				"advertised by DHCP" +
+				"\n  * ipv4" +
+				"\n  * ipv4@vrf" +
+				"\n  * ipv6" +
+				"\n  * ipv6@vrf" +
+				"\n  * ipv6-linklocal%interface",
 
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},

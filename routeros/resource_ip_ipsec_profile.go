@@ -102,9 +102,9 @@ func ResourceIpIpsecProfile() *schema.Resource {
 		"proposal_check": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Description: "Phase 2 lifetime check logic:claim - take shortest of proposed and configured lifetimes and " +
-				"notify initiator about itexact - require lifetimes to be the sameobey - accept whatever is sent by an " +
-				"initiatorstrict - if the proposed lifetime is longer than the default then reject the proposal otherwise " +
+			Description: "Phase 2 lifetime check logic:\n  * claim - take shortest of proposed and configured lifetimes and " +
+				"notify initiator about it\n  * exact - require lifetimes to be the same\n  * obey - accept whatever is sent by an " +
+				"initiator\n  * strict - if the proposed lifetime is longer than the default then reject the proposal otherwise " +
 				"accept a proposed lifetime.",
 			ValidateFunc:     validation.StringInSlice([]string{"claim", "exact", "obey", "strict"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,

@@ -48,9 +48,9 @@ func ResourceIpHotspotIpBinding() *schema.Resource {
 		"type": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Description: "Type of the IP-binding action `regular` - performs One-to-One NAT according to the rule, translates " +
-				"the address to to-address; `bypassed` - performs the translation, but excludes client from login to the " +
-				"HotSpot; `blocked` - translation is not performed and packets from a host are dropped.",
+			Description: "Type of the IP-binding action\n  * regular - performs One-to-One NAT according to the rule, translates " +
+				"the address to to-address;\n  * bypassed - performs the translation, but excludes client from login to the " +
+				"HotSpot;\n  * blocked - translation is not performed and packets from a host are dropped.",
 			ValidateFunc: validation.StringInSlice([]string{"blocked", "bypassed", "regular"}, false),
 		},
 	}

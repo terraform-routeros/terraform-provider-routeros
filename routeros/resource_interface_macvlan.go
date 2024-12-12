@@ -23,10 +23,10 @@ func ResourceInterfaceMacVlan() *schema.Resource {
 			Type:     schema.TypeString,
 			Optional: true,
 			Default:  "bridge",
-			Description: `Sets MACVLAN interface mode:
-	private - does not allow communication between MACVLAN instances on the same parent interface.
-	bridge - allows communication between MACVLAN instances on the same parent interface.`,
-			ValidateFunc:     validation.StringInSlice([]string{"private", "bridge"}, true),
+			Description: "Sets MACVLAN interface mode:\n  *	private - does not allow communication between MACVLAN " +
+				"instances on the same parent interface.\n  * bridge - allows communication between MACVLAN instances on " +
+				"the same parent interface.",
+			ValidateFunc: validation.StringInSlice([]string{"private", "bridge"}, true),
 		},
 		KeyMacAddress: PropMacAddressRw(
 			`Static MAC address of the interface. A randomly generated MAC address will be assigned when not specified.`,
