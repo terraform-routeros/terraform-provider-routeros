@@ -83,9 +83,9 @@ func ResourceIpIpsecPolicy() *schema.Resource {
 		"level": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Description: "Specifies what to do if some of the SAs for this policy cannot be found:use - skip this transform, " +
-				"do not drop the packet, and do not acquire SA from IKE daemon;require - drop the packet and acquire " +
-				"SA;unique - drop the packet and acquire a unique SA that is only used with this particular policy. It " +
+			Description: "Specifies what to do if some of the SAs for this policy cannot be found:\n  * use - skip this transform, " +
+				"do not drop the packet, and do not acquire SA from IKE daemon;\n  * require - drop the packet and acquire " +
+				"SA;\n  * unique - drop the packet and acquire a unique SA that is only used with this particular policy. It " +
 				"is used in setups where multiple clients can sit behind one public IP address (clients behind NAT).",
 			ValidateFunc:     validation.StringInSlice([]string{"require", "unique", "use"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
@@ -128,9 +128,9 @@ func ResourceIpIpsecPolicy() *schema.Resource {
 			Type:     schema.TypeBool,
 			Optional: true,
 			Description: "Creates a template and assigns it to a specified policy group.Following parameters are used " +
-				"by template: `group` - name of the policy group to which this template is assigned; `src-address`, `dst-address` " +
-				"- Requested subnet must match in both directions (for example 0.0.0.0/0 to allow all); `protocol` - protocol " +
-				"to match, if set to all, then any protocol is accepted; `proposal` - SA parameters used for this template; `level` " +
+				"by template:\n  * group - name of the policy group to which this template is assigned;\n  * src-address,\n  * dst-address " +
+				"- Requested subnet must match in both directions (for example 0.0.0.0/0 to allow all);\n  * protocol - protocol " +
+				"to match, if set to all, then any protocol is accepted;\n  * proposal - SA parameters used for this template;\n  * level " +
 				"- useful when unique is required in setups with multiple clients behind NAT.",
 		},
 		"tunnel": {

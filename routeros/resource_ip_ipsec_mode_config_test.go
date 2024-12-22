@@ -10,7 +10,7 @@ import (
 const testIpIpsecModeConfig = "routeros_ip_ipsec_mode_config.test"
 
 func TestAccIpIpsecModeConfigTest_basic(t *testing.T) {
-	t.Parallel()
+	// t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

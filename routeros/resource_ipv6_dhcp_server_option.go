@@ -42,7 +42,7 @@ func ResourceIpv6DhcpServerOption() *schema.Resource {
 				"    - `'10'` -> Decimal to Hex 0x0a\n" +
 				"    - `0x0a0a` -> No conversion\n" +
 				"    - `$(VARIABLE)` -> hardcoded values\n\n" +
-				"RouterOS has predefined variables that can be used:\n" +
+				"	RouterOS has predefined variables that can be used:\n" +
 				"    - `HOSTNAME` - client hostname\n" +
 				"    - `RADIUS_MT_STR1` - from radius MT attr nr. `24`\n" +
 				"    - `RADIUS_MT_STR2` - from radius MT attr nr. `25`\n" +

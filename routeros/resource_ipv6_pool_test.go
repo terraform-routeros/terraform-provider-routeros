@@ -10,7 +10,7 @@ import (
 const testIpv6Pool = "routeros_ipv6_pool.test"
 
 func TestAccIpv6PoolTest_basic(t *testing.T) {
-	t.Parallel()
+	// t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

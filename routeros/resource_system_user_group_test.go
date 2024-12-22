@@ -9,7 +9,7 @@ import (
 const testUserGroupAddress = "routeros_system_user_group.test"
 
 func TestAccUserGroupTest_basic(t *testing.T) {
-	t.Parallel()
+	// t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

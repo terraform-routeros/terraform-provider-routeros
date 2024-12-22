@@ -10,7 +10,7 @@ import (
 const testIpHotspotServicePort = "routeros_ip_hotspot_service_port.test"
 
 func TestAccIpHotspotServicePortTest_basic(t *testing.T) {
-	t.Parallel()
+	// t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

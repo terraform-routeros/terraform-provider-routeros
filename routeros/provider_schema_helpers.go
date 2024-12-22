@@ -217,12 +217,13 @@ var (
 	PropArpRw = &schema.Schema{
 		Type:     schema.TypeString,
 		Optional: true,
-		Description: `Address Resolution Protocol mode:
-		* disabled - the interface will not use ARP
-		* enabled - the interface will use ARP
-		* local-proxy-arp - the router performs proxy ARP on the interface and sends replies to the same interface
-		* proxy-arp - the router performs proxy ARP on the interface and sends replies to other interfaces
-		* reply-only - the interface will only reply to requests originated from matching IP address/MAC address combinations which are entered as static entries in the ARP table. No dynamic entries will be automatically stored in the ARP table. Therefore for communications to be successful, a valid static entry must already exist.`,
+		Description: "Address Resolution Protocol mode:\n  * disabled - the interface will not use ARP\n  * enabled - " +
+			"the interface will use ARP\n  * local-proxy-arp - the router performs proxy ARP on the interface and sends " +
+			"replies to the same interface\n  * proxy-arp - the router performs proxy ARP on the interface and sends " +
+			"replies to other interfaces\n  * reply-only - the interface will only reply to requests originated from " +
+			"matching IP address/MAC address combinations which are entered as static entries in the ARP table. No " +
+			"dynamic entries will be automatically stored in the ARP table. Therefore for communications to be " +
+			"successful, a valid static entry must already exist.",
 		ValidateFunc: validation.StringInSlice([]string{"disabled", "enabled", "local-proxy-arp", "proxy-arp",
 			"reply-only"}, false),
 		DiffSuppressFunc: AlwaysPresentNotUserProvided,
@@ -232,7 +233,7 @@ var (
 		Optional: true,
 		Description: "ARP timeout is time how long ARP record is kept in ARP table after no packets are received " +
 			"from IP. Value auto equals to the value of arp-timeout in IP/Settings, default is 30s. Can use postfix " +
-			"ms, s, M, h, d for milliseconds, seconds, minutes, hours or days. If no postfix is set then seconds (s) is used.",
+			"`ms`, `s`, `M`, `h`, `d` for milliseconds, seconds, minutes, hours or days. If no postfix is set then seconds (s) is used.",
 		ValidateFunc: validation.StringMatch(regexp.MustCompile(`^$|auto$|(\d+(ms|s|M|h|d)?)+$`),
 			"expected arp_timout value to be 'auto' string or time value"),
 		DiffSuppressFunc: AlwaysPresentNotUserProvided,
@@ -338,8 +339,8 @@ var (
 		Description: "Tunnel keepalive parameter sets the time interval in which the tunnel running flag will " +
 			"remain even if the remote end of tunnel goes down. If configured time,retries fail, interface " +
 			"running flag is removed. Parameters are written in following format: " +
-			"KeepaliveInterval,KeepaliveRetries where KeepaliveInterval is time interval and " +
-			"KeepaliveRetries - number of retry attempts. KeepaliveInterval is integer 0..4294967295",
+			"`KeepaliveInterval,KeepaliveRetries` where `KeepaliveInterval` is time interval and " +
+			"`KeepaliveRetries` - number of retry attempts. `KeepaliveInterval` is integer 0..4294967295",
 		DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
 			if old == new {
 				return true
@@ -443,7 +444,7 @@ var (
 		ForceNew: true,
 		Description: `Before which position the rule will be inserted.  
 	> Please check the effect of this option, as it does not work as you think!  
-	> Best way to use in conjunction with a data source. See [example](../data-sources/firewall.md#example-usage).  
+	> Best way to use in conjunction with a data source. See [example](../data-sources/ip_firewall.md#example-usage).  
 `,
 	}
 	PropRemoteAddressRw = &schema.Schema{

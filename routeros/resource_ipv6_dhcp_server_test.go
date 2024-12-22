@@ -10,7 +10,7 @@ import (
 const testIpv6DhcpServer = "routeros_ipv6_dhcp_server.test"
 
 func TestAccIpv6DhcpServerTest_basic(t *testing.T) {
-	t.Parallel()
+	// t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

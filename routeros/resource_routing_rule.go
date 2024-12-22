@@ -29,9 +29,9 @@ func ResourceRoutingRule() *schema.Resource {
 		"action": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Description: "An action to take on the matching packet:drop - silently drop the packet.lookup - perform a " +
-				"lookup in routing tables.lookup-only-in-table - perform lookup only in the specified routing table " +
-				"(see table parameter).unreachable - generate ICMP unreachable message and send it back to the source.",
+			Description: "An action to take on the matching packet:\n  * drop - silently drop the packet.\n  * lookup - perform a " +
+				"lookup in routing tables.\n  * lookup-only-in-table - perform lookup only in the specified routing table " +
+				"(see table parameter).\n  * unreachable - generate ICMP unreachable message and send it back to the source.",
 			ValidateFunc:     validation.StringInSlice([]string{"drop", "lookup", "lookup-only-in-table", "unreachable"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},

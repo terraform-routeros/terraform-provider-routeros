@@ -15,7 +15,7 @@ func TestAccInterfaceWirelessSecurityProfilesTest_basic(t *testing.T) {
 		return
 	}
 
-	t.Parallel()
+	// t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

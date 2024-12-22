@@ -1,0 +1,42 @@
+name: Go mod cache management
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    branches:
+      - 'main'
+      - 'devel'
+    paths:
+      - 'main.go'
+      - 'routeros/*.go'
+
+jobs:
+  go-cache:
+    name: Go Cache
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v4
+
+      - name: Setup Go environment
+        uses: actions/setup-go@v5
+        with:
+          go-version: 1.23.4
+        id: go  
+      
+      - name: Get dependencies
+        shell: bash
+        run:  go mod download all
+
+      - name: Cache Go Modules
+        uses: actions/cache@v4.1.1
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-

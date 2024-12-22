@@ -10,7 +10,7 @@ import (
 const testIpIpsecPeer = "routeros_ip_ipsec_peer.test"
 
 func TestAccIpIpsecPeerTest_basic(t *testing.T) {
-	t.Parallel()
+	// t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{
