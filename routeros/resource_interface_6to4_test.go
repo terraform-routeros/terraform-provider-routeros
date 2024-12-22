@@ -10,7 +10,7 @@ import (
 const testInterface6to4 = "routeros_interface_6to4.test"
 
 func TestAccInterface6to4Test_basic(t *testing.T) {
-	t.Parallel()
+	// t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

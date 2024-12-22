@@ -10,7 +10,7 @@ import (
 const testUserSettings = "routeros_system_user_settings.test"
 
 func TestAccUserSettingsTest_basic(t *testing.T) {
-	t.Parallel()
+	// t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

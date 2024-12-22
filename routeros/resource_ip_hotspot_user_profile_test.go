@@ -10,7 +10,7 @@ import (
 const testIpHotspotUserProfile = "routeros_ip_hotspot_user_profile.test"
 
 func TestAccIpHotspotUserProfileTest_basic(t *testing.T) {
-	t.Parallel()
+	// t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

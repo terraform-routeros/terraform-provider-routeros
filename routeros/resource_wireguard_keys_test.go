@@ -9,7 +9,7 @@ import (
 const testResourceWireGuardKeys = "routeros_wireguard_keys.keys"
 
 func TestAccResourceWireGuardKeys_basic(t *testing.T) {
-	t.Parallel()
+	// t.Parallel()
 	t.Run("WG keys", func(t *testing.T) {
 		resource.Test(t, resource.TestCase{
 			ProviderFactories: testAccProviderFactories,

@@ -11,7 +11,7 @@ import (
 const testIpIpsecPolicyGroup = "routeros_ip_ipsec_policy_group.test"
 
 func TestAccIpIpsecPolicyGroupTest_basic(t *testing.T) {
-	t.Parallel()
+	// t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

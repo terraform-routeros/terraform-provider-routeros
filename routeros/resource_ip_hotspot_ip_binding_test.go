@@ -10,7 +10,7 @@ import (
 const testIpHotspotIpBinding = "routeros_ip_hotspot_ip_binding.test"
 
 func TestAccIpHotspotIpBindingTest_basic(t *testing.T) {
-	t.Parallel()
+	// t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{
