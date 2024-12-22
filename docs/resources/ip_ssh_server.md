@@ -18,11 +18,10 @@ resource "routeros_ip_ssh_server" "test" {
 - `allow_none_crypto` (Boolean) Whether to allow connection if cryptographic algorithms are set to none.
 - `always_allow_password_login` (Boolean) Whether to allow password login at the same time when public key authorization is configured for a user.
 - `forwarding_enabled` (String) Allows to control which SSH forwarding method to allow:
-
-			* no - SSH forwarding is disabled;
-			* local - Allow SSH clients to originate connections from the server(router), this setting controls also dynamic forwarding;
-			* remote - Allow SSH clients to listen on the server(router) and forward incoming connections;
-			* both - Allow both local and remote forwarding methods.
+  * no - SSH forwarding is disabled;
+  * local - Allow SSH clients to originate connections from the server(router), this setting controls also dynamic forwarding;
+  * remote - Allow SSH clients to listen on the server(router) and forward incoming connections;
+  * both - Allow both local and remote forwarding methods.
 - `host_key_size` (Number) RSA key size when host key is being regenerated.
 - `host_key_type` (String) Select host key type.
 - `strong_crypto` (Boolean) Use stronger encryption.

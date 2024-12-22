@@ -30,7 +30,11 @@ resource "routeros_ip_ipsec_profile" "test" {
 - `lifetime` (String) Phase 1 lifetime: specifies how long the SA will be valid.
 - `nat_traversal` (Boolean) Use Linux NAT-T mechanism to solve IPsec incompatibility with NAT routers between IPsec peers. This can only be used with ESP protocol (AH is not supported by design, as it signs the complete packet, including the IP header, which is changed by NAT, rendering AH signature invalid). The method encapsulates IPsec ESP traffic into UDP streams in order to overcome some minor issues that made ESP incompatible with NAT.
 - `prf_algorithm` (String)
-- `proposal_check` (String) Phase 2 lifetime check logic:claim - take shortest of proposed and configured lifetimes and notify initiator about itexact - require lifetimes to be the sameobey - accept whatever is sent by an initiatorstrict - if the proposed lifetime is longer than the default then reject the proposal otherwise accept a proposed lifetime.
+- `proposal_check` (String) Phase 2 lifetime check logic:
+  * claim - take shortest of proposed and configured lifetimes and notify initiator about it
+  * exact - require lifetimes to be the same
+  * obey - accept whatever is sent by an initiator
+  * strict - if the proposed lifetime is longer than the default then reject the proposal otherwise accept a proposed lifetime.
 
 ### Read-Only
 

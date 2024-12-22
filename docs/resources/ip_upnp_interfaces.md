@@ -22,9 +22,8 @@ resource "routeros_ip_upnp_interfaces" "test" {
 - `disabled` (Boolean)
 - `forced_ip` (String) Allow specifying what public IP to use if the external interface has more than one IP available.
 - `type` (String) UPnP interface type:
-
-			external - the interface a global IP address is assigned to
-			internal - router's local interface the clients are connected to
+  * external - the interface a global IP address is assigned to
+  * internal - router's local interface the clients are connected to
 
 ### Read-Only
 

@@ -28,13 +28,22 @@ resource "routeros_ip_ipsec_policy" "policy" {
 - `dst_port` (String) Destination port to be matched in packets. If set to any all ports will be matched.
 - `group` (String) Name of the policy group to which this **template** is assigned.
 - `ipsec_protocols` (String) Specifies what combination of Authentication Header and Encapsulating Security Payload protocols you want to apply to matched traffic.
-- `level` (String) Specifies what to do if some of the SAs for this policy cannot be found:use - skip this transform, do not drop the packet, and do not acquire SA from IKE daemon;require - drop the packet and acquire SA;unique - drop the packet and acquire a unique SA that is only used with this particular policy. It is used in setups where multiple clients can sit behind one public IP address (clients behind NAT).
+- `level` (String) Specifies what to do if some of the SAs for this policy cannot be found:
+  * use - skip this transform, do not drop the packet, and do not acquire SA from IKE daemon;
+  * require - drop the packet and acquire SA;
+  * unique - drop the packet and acquire a unique SA that is only used with this particular policy. It is used in setups where multiple clients can sit behind one public IP address (clients behind NAT).
 - `peer` (String) Name of the peer on which the policy applies.
 - `proposal` (String) Name of the proposal template that will be sent by IKE daemon to establish SAs for this policy.
 - `protocol` (String) IP packet protocol to match.
 - `src_address` (String) Source address to be matched in packets. Applicable when tunnel mode (`tunnel=yes`) or template (`template=yes`) is used.
 - `src_port` (String) Source port to be matched in packets. If set to any all ports will be matched.
-- `template` (Boolean) Creates a template and assigns it to a specified policy group.Following parameters are used by template: `group` - name of the policy group to which this template is assigned; `src-address`, `dst-address` - Requested subnet must match in both directions (for example 0.0.0.0/0 to allow all); `protocol` - protocol to match, if set to all, then any protocol is accepted; `proposal` - SA parameters used for this template; `level` - useful when unique is required in setups with multiple clients behind NAT.
+- `template` (Boolean) Creates a template and assigns it to a specified policy group.Following parameters are used by template:
+  * group - name of the policy group to which this template is assigned;
+  * src-address,
+  * dst-address - Requested subnet must match in both directions (for example 0.0.0.0/0 to allow all);
+  * protocol - protocol to match, if set to all, then any protocol is accepted;
+  * proposal - SA parameters used for this template;
+  * level - useful when unique is required in setups with multiple clients behind NAT.
 - `tunnel` (Boolean) Specifies whether to use tunnel mode.
 
 ### Read-Only

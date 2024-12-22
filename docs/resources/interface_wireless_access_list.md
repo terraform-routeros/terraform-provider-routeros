@@ -21,8 +21,9 @@ resource "routeros_interface_wireless_access_list" "test" {
 - `client_tx_limit` (Number) Ask client to limit rate of data transmission. Value 0 means no limit.This is a proprietary extension that is supported by RouterOS clients.Value is in bits per second.
 - `comment` (String)
 - `disabled` (Boolean)
-- `forwarding` (Boolean) `No` - Client cannot send frames to other station that are connected to same access point.yes - Client can send frames to other stations on the same access point.
-- `interface` (String) Rules with interface=any are used for any wireless interface and the interface=all defines interface-list `all` name. To make rule that applies only to one wireless interface, specify that interface as a value of this property.
+- `forwarding` (Boolean) * false - Client cannot send frames to other station that are connected to same access point.
+  *true - Client can send frames to other stations on the same access point.
+- `interface` (String) Rules with interface=any are used for any wireless interface and the `interface = all` defines interface-list `all` name. To make rule that applies only to one wireless interface, specify that interface as a value of this property.
 - `mac_address` (String) Rule matches client with the specified MAC address. Value 00:00:00:00:00:00 matches always.
 - `management_protection_key` (String) Management protection shared secret.
 - `private_algo` (String) Only for `WEP` modes.

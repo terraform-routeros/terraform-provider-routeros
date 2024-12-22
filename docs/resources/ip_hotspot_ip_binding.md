@@ -22,7 +22,10 @@ resource "routeros_ip_hotspot_ip_binding" "test" {
 - `mac_address` (String) MAC address of the client.
 - `server` (String) Name of the HotSpot server. `all` - will be applied to all hotspot servers.
 - `to_address` (String) New IP address of the client, translation occurs on the router (client does not know anything about the translation).
-- `type` (String) Type of the IP-binding action `regular` - performs One-to-One NAT according to the rule, translates the address to to-address; `bypassed` - performs the translation, but excludes client from login to the HotSpot; `blocked` - translation is not performed and packets from a host are dropped.
+- `type` (String) Type of the IP-binding action
+  * regular - performs One-to-One NAT according to the rule, translates the address to to-address;
+  * bypassed - performs the translation, but excludes client from login to the HotSpot;
+  * blocked - translation is not performed and packets from a host are dropped.
 
 ### Read-Only
 

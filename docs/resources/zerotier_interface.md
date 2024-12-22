@@ -50,7 +50,7 @@ resource "routeros_zerotier_interface" "zerotier1" {
 - `allow_default` (Boolean) An option to override the default route.
 - `allow_global` (Boolean) An option to allow overlapping public IP space by the ZeroTier routes. .
 - `allow_managed` (Boolean) An option to allow assignment of managed IPs.
-- `arp_timeout` (String) ARP timeout is time how long ARP record is kept in ARP table after no packets are received from IP. Value auto equals to the value of arp-timeout in IP/Settings, default is 30s. Can use postfix ms, s, M, h, d for milliseconds, seconds, minutes, hours or days. If no postfix is set then seconds (s) is used.
+- `arp_timeout` (String) ARP timeout is time how long ARP record is kept in ARP table after no packets are received from IP. Value auto equals to the value of arp-timeout in IP/Settings, default is 30s. Can use postfix `ms`, `s`, `M`, `h`, `d` for milliseconds, seconds, minutes, hours or days. If no postfix is set then seconds (s) is used.
 - `comment` (String)
 - `disable_running_check` (Boolean) An option to force the `running` property to true.
 - `disabled` (Boolean)

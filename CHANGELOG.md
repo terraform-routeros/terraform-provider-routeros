@@ -1,3 +1,15 @@
+## [1.72.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.71.0...v1.72.0) (2024-12-22)
+
+### Features
+
+* **ipv6:** new resource routeros_ipv6_firewall_mangle ([e6a0c1e](https://github.com/terraform-routeros/terraform-provider-routeros/commit/e6a0c1e663f6a6e0ed447e6d2d46167562afe9a0))
+* **ipv6:** new resource routeros_ipv6_firewall_nat ([03c2587](https://github.com/terraform-routeros/terraform-provider-routeros/commit/03c2587c8be7583ff122fafeb96edfe6be489d35))
+* **pppoe:** Add new resource `routeros_interface_pppoe_server` ([f04afd1](https://github.com/terraform-routeros/terraform-provider-routeros/commit/f04afd1993c22a0010f60d2cd1dbd7150d854f84)), closes [#617](https://github.com/terraform-routeros/terraform-provider-routeros/issues/617)
+
+### Bug Fixes
+
+* **ipv6_dhcp_server_option:** Add Hotspot 2.0 fields ([1d64d8c](https://github.com/terraform-routeros/terraform-provider-routeros/commit/1d64d8c04adf9204bb554da2ec8bec9521203db0)), closes [#605](https://github.com/terraform-routeros/terraform-provider-routeros/issues/605)
+
 ## [1.71.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.70.0...v1.71.0) (2024-12-02)
 
 ### Features

@@ -26,7 +26,7 @@ resource "routeros_wifi_access_list" "radius" {
 - `passphrase` (String) PSK passphrase for the client if some PSK authentication algorithm is used.
 - `place_before` (String) Before which position the rule will be inserted.  
 	> Please check the effect of this option, as it does not work as you think!  
-	> Best way to use in conjunction with a data source. See [example](../data-sources/firewall.md#example-usage).
+	> Best way to use in conjunction with a data source. See [example](../data-sources/ip_firewall.md#example-usage).
 - `radius_accounting` (Boolean) An option that specifies if RADIUS traffic accounting should be used in case of RADIUS authentication of the client.
 - `signal_range` (String) The range in which the client signal must fall.
 - `ssid_regexp` (String) The regular expression to compare the actual SSID the client connects to.

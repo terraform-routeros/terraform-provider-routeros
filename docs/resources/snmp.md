@@ -25,7 +25,9 @@ resource "routeros_snmp" "test" {
 - `location` (String) Location information.
 - `src_address` (String) Force the router to always use the same IP source address for all of the SNMP messages.
 - `trap_community` (String, Sensitive) Which communities configured in community menu to use when sending out the trap. This name must be present in the community list.
-- `trap_generators` (String) What action will generate traps: interfaces - interface changes; start-trap - snmp server starting on the router.
+- `trap_generators` (String) What action will generate traps:
+  * interfaces - interface changes;
+  * start-trap - snmp server starting on the router.
 - `trap_interfaces` (String) List of interfaces that traps are going to be sent out.
 - `trap_target` (Set of String) IP (IPv4 or IPv6) addresses of SNMP data collectors that have to receive the trap.
 - `trap_version` (Number) Version of SNMP protocol to use for trap.

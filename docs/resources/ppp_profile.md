@@ -36,7 +36,13 @@ resource "routeros_ppp_profile" "test" {
 - `interface_list` (String) Interface list name.
 - `local_address` (String) Tunnel address or name of the pool from which address is assigned to ppp interface locally.
 - `on_down` (String) Execute script on user logging off. See on-up for more details.
-- `on_up` (String) Execute script on user login-event. These are available variables that are accessible for the event script: *user *local-address *remote-address *caller-id *called-id *interface.
+- `on_up` (String) Execute script on user login-event. These are available variables that are accessible for the event script:
+  * user
+  * local-address
+  * remote-address
+  * caller-id
+  * called-id
+  * interface.
 - `only_one` (String) Defines whether a user is allowed to have more than one ppp session at a time yes - a user is not allowed to have more than one ppp session at a time no - the user is allowed to have more than one ppp session at a time default - derive this value from the interface default profile; same as no if this is the interface default profile.
 - `outgoing_filter` (String) Firewall  chain name for outgoing packets. The specified chain gets control for  each packet going to the client. The PPP chain should be manually added  and rules with action=jump jump-target=ppp should be added to other  relevant chains in order for this feature to work. For more information  look at the Examples section.
 - `parent_queue` (String) Name of parent simple queue.

@@ -77,7 +77,10 @@ resource "routeros_interface_ovpn_server" "user1" {
 - `port` (Number) Port to run the server on.
 - `protocol` (String) indicates the protocol to use when connecting with the remote endpoint.
 - `push_routes` (Set of String) Push routes to the VPN client (available since RouterOS 7.14).
-- `redirect_gateway` (Set of String) Specifies what kind of routes the OVPN client must add to the routing table. def1 – Use this flag to override the default gateway by using 0.0.0.0/1 and  128.0.0.0/1 rather than 0.0.0.0/0. This has the benefit of overriding  but not wiping out the original default gateway. disabled - Do not send redirect-gateway flags to the OVPN client. ipv6 - Redirect IPv6 routing into the tunnel on the client side. This works  similarly to the def1 flag, that is, more specific IPv6 routes are added  (2000::/4 and 3000::/4), covering the whole IPv6 unicast space.
+- `redirect_gateway` (Set of String) Specifies what kind of routes the OVPN client must add to the routing table.
+  * def1 – Use this flag to override the default gateway by using 0.0.0.0/1 and  128.0.0.0/1 rather than 0.0.0.0/0. This has the benefit of overriding  but not wiping out the original default gateway.
+  * disabled - Do not send redirect-gateway flags to the OVPN client.
+  * ipv6 - Redirect IPv6 routing into the tunnel on the client side. This works  similarly to the def1 flag, that is, more specific IPv6 routes are added  (2000::/4 and 3000::/4), covering the whole IPv6 unicast space.
 - `reneg_sec` (Number) Renegotiate data channel key after n seconds (default=3600).
 - `require_client_certificate` (Boolean) If set to yes, then the server checks whether the client's certificate belongs to the same certificate chain.
 - `tls_version` (String) Specifies which TLS versions to allow.

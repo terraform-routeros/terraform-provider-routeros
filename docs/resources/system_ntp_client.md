@@ -17,17 +17,13 @@ resource "routeros_system_ntp_client" "test" {
 
 - `enabled` (Boolean) Enable NTP client.
 - `mode` (String) Mode that the NTP client will operate in
-- `servers` (Set of String) The list of NTP servers. It is possible to add static entries.
-			The following formats are accepted:
-
-			- FQDN ("Resolved Address" will appear in the "Servers"- window in an appropriate column if the address is 
-			resolved) or IP address can be used. If DHCP-Client property `use-peer-ntp=yes` - the dynamic entries 
-			advertised by DHCP
-			- ipv4
-			- ipv4@vrf
-			- ipv6
-			- ipv6@vrf
-			- ipv6-linklocal%interface
+- `servers` (Set of String) The list of NTP servers. It is possible to add static entries.The following formats are accepted:
+  * FQDN ("Resolved Address" will appear in the "Servers"- window in an appropriate column if the address is resolved) or IP address can be used. If DHCP-Client property `use-peer-ntp=yes` - the dynamic entries advertised by DHCP
+  * ipv4
+  * ipv4@vrf
+  * ipv6
+  * ipv6@vrf
+  * ipv6-linklocal%interface
 - `vrf` (String) The VRF table this resource operates on.
 
 ### Read-Only

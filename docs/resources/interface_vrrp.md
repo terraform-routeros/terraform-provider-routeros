@@ -22,12 +22,12 @@ resource "routeros_interface_vrrp" "interface_vrrp" {
 ### Optional
 
 - `arp` (String) Address Resolution Protocol mode:
-		* disabled - the interface will not use ARP
-		* enabled - the interface will use ARP
-		* local-proxy-arp - the router performs proxy ARP on the interface and sends replies to the same interface
-		* proxy-arp - the router performs proxy ARP on the interface and sends replies to other interfaces
-		* reply-only - the interface will only reply to requests originated from matching IP address/MAC address combinations which are entered as static entries in the ARP table. No dynamic entries will be automatically stored in the ARP table. Therefore for communications to be successful, a valid static entry must already exist.
-- `arp_timeout` (String) ARP timeout is time how long ARP record is kept in ARP table after no packets are received from IP. Value auto equals to the value of arp-timeout in IP/Settings, default is 30s. Can use postfix ms, s, M, h, d for milliseconds, seconds, minutes, hours or days. If no postfix is set then seconds (s) is used.
+  * disabled - the interface will not use ARP
+  * enabled - the interface will use ARP
+  * local-proxy-arp - the router performs proxy ARP on the interface and sends replies to the same interface
+  * proxy-arp - the router performs proxy ARP on the interface and sends replies to other interfaces
+  * reply-only - the interface will only reply to requests originated from matching IP address/MAC address combinations which are entered as static entries in the ARP table. No dynamic entries will be automatically stored in the ARP table. Therefore for communications to be successful, a valid static entry must already exist.
+- `arp_timeout` (String) ARP timeout is time how long ARP record is kept in ARP table after no packets are received from IP. Value auto equals to the value of arp-timeout in IP/Settings, default is 30s. Can use postfix `ms`, `s`, `M`, `h`, `d` for milliseconds, seconds, minutes, hours or days. If no postfix is set then seconds (s) is used.
 - `authentication` (String) Authentication method to use for VRRP advertisement packets.
 - `comment` (String)
 - `disabled` (Boolean)
@@ -39,9 +39,9 @@ resource "routeros_interface_vrrp" "interface_vrrp" {
 - `on_fail` (String) Script to execute when the node fails.
 - `on_master` (String) Script to execute when the node is switched to master state.
 - `password` (String, Sensitive) Password required for authentication. Can be ignored if authentication is not used.
-- `preemption_mode` (Boolean) Whether the master node always has the priority. When set to 'no' the backup node will not be elected to be a master until the current master fails, even if the backup node has higher priority than the current master. This setting is ignored if the owner router becomes available
-- `priority` (Number) Priority of VRRP node used in Master election algorithm. A higher number means higher priority. '255' is reserved for the router that owns VR IP and '0' is reserved for the Master router to indicate that it is releasing responsibility.
-- `remote_address` (String) Specifies the remote address of the other VRRP router for syncing connection tracking. If not set, the system autodetects the remote address via VRRP. The remote address is used only if sync-connection-tracking=yes.Sync connection tracking uses UDP port 8275.
+- `preemption_mode` (Boolean) Whether the master node always has the priority. When set to `no` the backup node will not be elected to be a master until the current master fails, even if the backup node has higher priority than the current master. This setting is ignored if the owner router becomes available
+- `priority` (Number) Priority of VRRP node used in Master election algorithm. A higher number means higher priority. `255` is reserved for the router that owns VR IP and `0` is reserved for the Master router to indicate that it is releasing responsibility.
+- `remote_address` (String) Specifies the remote address of the other VRRP router for syncing connection tracking. If not set, the system autodetects the remote address via VRRP. The remote address is used only if `sync_connection_tracking = true`.Sync connection tracking uses UDP port 8275.
 - `sync_connection_tracking` (Boolean) Synchronize connection tracking entries from Master to Backup device.
 - `v3_protocol` (String) A protocol that will be used by VRRPv3. Valid only if the version is 3.
 - `version` (Number) Which VRRP version to use.

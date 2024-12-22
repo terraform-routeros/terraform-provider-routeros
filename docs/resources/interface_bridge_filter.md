@@ -100,7 +100,7 @@ resource "routeros_move_items" "bridge_filter_rules" {
 - `packet_type` (String) Match packets with a certain packet mark.
 - `place_before` (String) Before which position the rule will be inserted.  
 	> Please check the effect of this option, as it does not work as you think!  
-	> Best way to use in conjunction with a data source. See [example](../data-sources/firewall.md#example-usage).
+	> Best way to use in conjunction with a data source. See [example](../data-sources/ip_firewall.md#example-usage).
 - `src_address` (String) Source port number or range (only for TCP or UDP protocols).
 - `src_mac_address` (String) Source MAC address.
 - `src_port` (String) List of source port numbers or port number ranges.

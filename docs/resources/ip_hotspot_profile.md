@@ -27,13 +27,13 @@ resource "routeros_ip_hotspot_profile" "test" {
 - `http_proxy` (String) Address and port of the proxy server for HotSpot service, when default value is used all request are resolved by the local `/ip proxy`.
 - `https_redirect` (Boolean) Whether to redirect unauthenticated user to hotspot login page, if he is visiting a https:// url. Since certificate domain name will mismatch, often this leads to errors, so you can set this parameter to `no` and all https requests will simply be rejected and user will have to visit a http page.
 - `login_by` (Set of String) Used HotSpot authentication method
-* mac-cookie - enables login by mac cookie method.
-* cookie - may only be used with other HTTP authentication method. HTTP cookie is generated, when user authenticates in HotSpot for the first time. User is not asked for the login/password and authenticated automatically, until cookie-lifetime is active.
-* http-chap - login/password is required for the user to authenticate in HotSpot. CHAP challenge-response method with MD5 hashing algorithm is used for protecting passwords. 
-* http-pap - login/password is required for user to authenticate in HotSpot. Username and password are sent over network in plain text.
-* https - login/password is required for user to authenticate in HotSpot. Client login/password exchange between client and server is encrypted with SSL tunnel.
-* mac - client is authenticated without asking login form. Client MAC-address is added to `/ip hotspot user` database, client is authenticated as soon as connected to the HotSpot
-* trial - client is allowed to use internet without HotSpot login for the specified amount of time.
+ * mac-cookie - enables login by mac cookie method.
+ * cookie - may only be used with other HTTP authentication method. HTTP cookie is generated, when user authenticates in HotSpot for the first time. User is not asked for the login/password and authenticated automatically, until cookie-lifetime is active.
+ * http-chap - login/password is required for the user to authenticate in HotSpot. CHAP challenge-response method with MD5 hashing algorithm is used for protecting passwords. 
+ * http-pap - login/password is required for user to authenticate in HotSpot. Username and password are sent over network in plain text.
+ * https - login/password is required for user to authenticate in HotSpot. Client login/password exchange between client and server is encrypted with SSL tunnel.
+ * mac - client is authenticated without asking login form. Client MAC-address is added to `/ip hotspot user` database, client is authenticated as soon as connected to the HotSpot
+ * trial - client is allowed to use internet without HotSpot login for the specified amount of time.
 - `mac_auth_mode` (String) Allows to control User-Name and User-Password RADIUS attributes when using MAC authentication.
 - `mac_auth_password` (String, Sensitive) Used together with MAC authentication, field used to specify password for the users to be authenticated by their MAC addresses. The following option is required, when specific RADIUS server rejects authentication for the clients with blank password.
 - `nas_port_type` (String) `NAS-Port-Type` value to be sent to RADIUS server, `NAS-Port-Type` values are described in the RADIUS RFC 2865. This optional value attribute indicates the type of the physical port of the HotSpot server.

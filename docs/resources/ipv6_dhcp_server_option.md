@@ -30,7 +30,7 @@ resource "routeros_ipv6_dhcp_server_option" "test" {
     - `0x0a0a` -> No conversion
     - `$(VARIABLE)` -> hardcoded values
 
-RouterOS has predefined variables that can be used:
+	RouterOS has predefined variables that can be used:
     - `HOSTNAME` - client hostname
     - `RADIUS_MT_STR1` - from radius MT attr nr. `24`
     - `RADIUS_MT_STR2` - from radius MT attr nr. `25`

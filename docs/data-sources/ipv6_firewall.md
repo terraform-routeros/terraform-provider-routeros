@@ -9,11 +9,158 @@ This datasource contains all supported firewall resources:
 
 ### Optional
 
+- `mangle` (Block List) (see [below for nested schema](#nestedblock--mangle))
+- `nat` (Block List) (see [below for nested schema](#nestedblock--nat))
 - `rules` (Block List) (see [below for nested schema](#nestedblock--rules))
 
 ### Read-Only
 
 - `id` (String) The ID of this resource.
+
+<a id="nestedblock--mangle"></a>
+### Nested Schema for `mangle`
+
+Optional:
+
+- `filter` (Map of String) Additional request filtering options.
+
+Read-Only:
+
+- `action` (String)
+- `address_list` (String)
+- `address_list_timeout` (String)
+- `bytes` (Number)
+- `chain` (String)
+- `comment` (String)
+- `connection_bytes` (String)
+- `connection_limit` (String)
+- `connection_mark` (String)
+- `connection_nat_state` (String)
+- `connection_rate` (String)
+- `connection_state` (String)
+- `connection_type` (String)
+- `content` (String)
+- `disabled` (Boolean)
+- `dscp` (Number)
+- `dst_address` (String)
+- `dst_address_list` (String)
+- `dst_address_type` (String)
+- `dst_limit` (String)
+- `dst_port` (String)
+- `dynamic` (Boolean)
+- `icmp_options` (String)
+- `id` (String)
+- `in_bridge_port` (String)
+- `in_bridge_port_list` (String)
+- `in_interface` (String)
+- `in_interface_list` (String)
+- `ingress_priority` (Number)
+- `invalid` (Boolean)
+- `ipsec_policy` (String)
+- `jump_target` (String)
+- `limit` (String)
+- `log` (Boolean)
+- `log_prefix` (String)
+- `new_connection_mark` (String)
+- `new_dscp` (Number)
+- `new_mss` (Number)
+- `new_packet_mark` (String)
+- `new_priority` (String)
+- `new_routing_mark` (String)
+- `new_ttl` (String)
+- `nth` (String)
+- `out_bridge_port` (String)
+- `out_bridge_port_list` (String)
+- `out_interface` (String)
+- `out_interface_list` (String)
+- `packet_mark` (String)
+- `packet_size` (String)
+- `passthrough` (Boolean)
+- `per_connection_classifier` (String)
+- `port` (String)
+- `priority` (Number)
+- `protocol` (String)
+- `random` (Number)
+- `routing_mark` (String)
+- `src_address` (String)
+- `src_address_list` (String)
+- `src_address_type` (String)
+- `src_mac_address` (String)
+- `src_port` (String)
+- `tcp_flags` (String)
+- `tcp_mss` (String)
+- `time` (String)
+- `tls_host` (String)
+- `ttl` (String)
+
+
+<a id="nestedblock--nat"></a>
+### Nested Schema for `nat`
+
+Optional:
+
+- `filter` (Map of String) Additional request filtering options.
+
+Read-Only:
+
+- `action` (String)
+- `address_list` (String)
+- `address_list_timeout` (String)
+- `bytes` (Number)
+- `chain` (String)
+- `comment` (String)
+- `connection_bytes` (String)
+- `connection_limit` (String)
+- `connection_mark` (String)
+- `connection_rate` (String)
+- `connection_type` (String)
+- `content` (String)
+- `disabled` (Boolean)
+- `dscp` (Number)
+- `dst_address` (String)
+- `dst_address_list` (String)
+- `dst_address_type` (String)
+- `dst_limit` (String)
+- `dst_port` (String)
+- `dynamic` (Boolean)
+- `icmp_options` (String)
+- `id` (String)
+- `in_bridge_port` (String)
+- `in_bridge_port_list` (String)
+- `in_interface` (String)
+- `in_interface_list` (String)
+- `ingress_priority` (Number)
+- `invalid` (Boolean)
+- `ipsec_policy` (String)
+- `jump_target` (String)
+- `limit` (String)
+- `log` (Boolean)
+- `log_prefix` (String)
+- `nth` (String)
+- `out_bridge_port` (String)
+- `out_bridge_port_list` (String)
+- `out_interface` (String)
+- `out_interface_list` (String)
+- `packet_mark` (String)
+- `packet_size` (String)
+- `per_connection_classifier` (String)
+- `port` (String)
+- `priority` (Number)
+- `protocol` (String)
+- `random` (Number)
+- `routing_mark` (String)
+- `src_address` (String)
+- `src_address_list` (String)
+- `src_address_type` (String)
+- `src_mac_address` (String)
+- `src_port` (String)
+- `tcp_flags` (String)
+- `tcp_mss` (String)
+- `time` (String)
+- `tls_host` (String)
+- `to_addresses` (String)
+- `to_ports` (String)
+
 
 <a id="nestedblock--rules"></a>
 ### Nested Schema for `rules`

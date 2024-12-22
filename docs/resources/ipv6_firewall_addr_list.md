@@ -24,7 +24,7 @@ resource "routeros_ipv6_firewall_addr_list" "example_list" {
 - `timeout` (String) Time after address will be removed from address list. If timeout is not specified,
 the address will be stored into the address list permanently.  
 	> Please plan your work logic based on the fact that after the timeout    
-	> the resource has been destroyed outside of Terraform.
+	> the resource has been destroyed outside of a Terraform.
 
 ### Read-Only
 

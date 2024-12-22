@@ -33,53 +33,53 @@ resource "routeros_tool_sniffer" "test" {
 - `filter_interface` (Set of String) Interface name on which sniffer will be running. all indicates that the sniffer will sniff packets on all interfaces.
 - `filter_ip_address` (Set of String) Up to 16 IP addresses used as a filter.
 - `filter_ip_protocol` (Set of String) Up to 16 comma-separated IP/IPv6 protocols used as a filter. IP protocols (instead of protocol names, protocol numbers can be used):
-* ipsec-ah - IPsec AH protocol
-* ipsec-esp - IPsec ESP protocol
-* ddp - datagram delivery protocol
-* egp - exterior gateway protocol
-* ggp - gateway-gateway protocol
-* gre - general routing encapsulation
-* hmp - host monitoring protocol
-* idpr-cmtp - idpr control message transport
-* icmp - internet control message protocol
-* icmpv6 - internet control message protocol v6
-* igmp - internet group management protocol
-* ipencap - ip encapsulated in ip
-* ipip - ip encapsulation
-* encap - ip encapsulation
-* iso-tp4 - iso transport protocol class 4
-* ospf - open shortest path first
-* pup - parc universal packet protocol
-* pim - protocol independent multicast
-* rspf - radio shortest path first
-* rdp - reliable datagram protocol
-* st - st datagram mode
-* tcp - transmission control protocol
-* udp - user datagram protocol
-* vmtp versatile message transport
-* vrrp - virtual router redundancy protocol
-* xns-idp - xerox xns idp
-* xtp - xpress transfer protocol
+  * ipsec-ah - IPsec AH protocol
+  * ipsec-esp - IPsec ESP protocol
+  * ddp - datagram delivery protocol
+  * egp - exterior gateway protocol
+  * ggp - gateway-gateway protocol
+  * gre - general routing encapsulation
+  * hmp - host monitoring protocol
+  * idpr-cmtp - idpr control message transport
+  * icmp - internet control message protocol
+  * icmpv6 - internet control message protocol v6
+  * igmp - internet group management protocol
+  * ipencap - ip encapsulated in ip
+  * ipip - ip encapsulation
+  * encap - ip encapsulation
+  * iso-tp4 - iso transport protocol class 4
+  * ospf - open shortest path first
+  * pup - parc universal packet protocol
+  * pim - protocol independent multicast
+  * rspf - radio shortest path first
+  * rdp - reliable datagram protocol
+  * st - st datagram mode
+  * tcp - transmission control protocol
+  * udp - user datagram protocol
+  * vmtp versatile message transport
+  * vrrp - virtual router redundancy protocol
+  * xns-idp - xerox xns idp
+  * xtp - xpress transfer protocol
 - `filter_ipv6_address` (Set of String) Up to 16 IPv6 addresses used as a filter.
 - `filter_mac_address` (Set of String) Up to 16 MAC addresses and MAC address masks used as a filter.
 - `filter_mac_protocol` (Set of String) Up to 16 comma separated entries used as a filter. Mac protocols (instead of protocol names, protocol number can be used):
-* 802.2 - 802.2 Frames (0x0004)
-* arp - Address Resolution Protocol (0x0806)
-* homeplug-av - HomePlug AV MME (0x88E1)
-* ip - Internet Protocol version 4 (0x0800)
-* ipv6 - Internet Protocol Version 6 (0x86DD)
-* ipx - Internetwork Packet Exchange (0x8137)
-* lldp - Link Layer Discovery Protocol (0x88CC)
-* loop-protect - Loop Protect Protocol (0x9003)
-* mpls-multicast - MPLS multicast (0x8848)
-* mpls-unicast - MPLS unicast (0x8847)
-* packing-compr - Encapsulated packets with compressed IP packing (0x9001)
-* packing-simple - Encapsulated packets with simple IP packing (0x9000)
-* pppoe - PPPoE Session Stage (0x8864)
-* pppoe-discovery - PPPoE Discovery Stage (0x8863)
-* rarp - Reverse Address Resolution Protocol (0x8035)
-* service-vlan - Provider Bridging (IEEE 802.1ad) & Shortest Path Bridging IEEE 802.1aq (0x88A8)
-* vlan - VLAN-tagged frame (IEEE 802.1Q) and Shortest Path Bridging IEEE 802.1aq with NNI compatibility (0x8100)
+  * 802.2 - 802.2 Frames (0x0004)
+  * arp - Address Resolution Protocol (0x0806)
+  * homeplug-av - HomePlug AV MME (0x88E1)
+  * ip - Internet Protocol version 4 (0x0800)
+  * ipv6 - Internet Protocol Version 6 (0x86DD)
+  * ipx - Internetwork Packet Exchange (0x8137)
+  * lldp - Link Layer Discovery Protocol (0x88CC)
+  * loop-protect - Loop Protect Protocol (0x9003)
+  * mpls-multicast - MPLS multicast (0x8848)
+  * mpls-unicast - MPLS unicast (0x8847)
+  * packing-compr - Encapsulated packets with compressed IP packing (0x9001)
+  * packing-simple - Encapsulated packets with simple IP packing (0x9000)
+  * pppoe - PPPoE Session Stage (0x8864)
+  * pppoe-discovery - PPPoE Discovery Stage (0x8863)
+  * rarp - Reverse Address Resolution Protocol (0x8035)
+  * service-vlan - Provider Bridging (IEEE 802.1ad) & Shortest Path Bridging IEEE 802.1aq (0x88A8)
+  * vlan - VLAN-tagged frame (IEEE 802.1Q) and Shortest Path Bridging IEEE 802.1aq with NNI compatibility (0x8100)
 - `filter_operator_between_entries` (String) Changes the logic for filters with multiple entries.
 - `filter_port` (Set of String) Up to 16 comma-separated ports used as a filter. A list of predefined port names is also available, like ssh and telnet.
 - `filter_size` (String) Filters packets of specified size or size range in bytes.

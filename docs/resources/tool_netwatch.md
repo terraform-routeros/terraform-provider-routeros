@@ -19,11 +19,11 @@ resource "routeros_tool_netwatch" "test" {
 ### Required
 
 - `host` (String) The IP address of the server to be probed. Formats:
-			- ipv4
-			- ipv4@vrf
-			- ipv6 
-			- ipv6@vrf
-			- ipv6-linklocal%interface
+  * ipv4
+  * ipv4@vrf
+  * ipv6 
+  * ipv6@vrf
+  * ipv6-linklocal%interface
 - `name` (String) Task name.
 
 ### Optional
@@ -56,10 +56,10 @@ resource "routeros_tool_netwatch" "test" {
 - `timeout` (String) Max time limit to wait for a response.
 - `ttl` (Number) Manually set time to live value for ICMP packet.
 - `type` (String) Type of the probe:
-			- icmp - (ping-style) series of ICMP request-response with statistics
-			- tcp-conn - test TCP connection (3-way handshake) to a server specified by IP and port
-			- http-get - do an HTTP Get request and test for a range of correct replies
-			- simple - simplified ICMP probe, with fewer options than **ICMP** type, used for backward compatibility with the older Netwatch version
+  *  icmp - (ping-style) series of ICMP request-response with statistics
+  *  tcp-conn - test TCP connection (3-way handshake) to a server specified by IP and port
+  *  http-get - do an HTTP Get request and test for a range of correct replies
+  *  simple - simplified ICMP probe, with fewer options than **ICMP** type, used for backward compatibility with the older Netwatch version
 - `up_script` (String) Script to execute on the event of probe state change `fail` --> `OK`.
 
 ### Read-Only

@@ -41,11 +41,11 @@ resource "routeros_ipv6_dhcp_client" "client" {
 - `prefix_hint` (String) Include a preferred prefix length.
 - `rapid_commit` (Boolean) Enable DHCP rapid commit (fast address assignment)
 - `script` (String) Run this script on the DHCP-client status change. Available variables:
-			- pd-valid - if the prefix is acquired by the client;
-			- pd-prefix - the prefix acquired by the client if any;
-			- na-valid - if the address is acquired by the client;
-			- na-address - the address acquired by the client if any.
-			- options - array of received options (only ROSv7)
+  * pd-valid - if the prefix is acquired by the client;
+  * pd-prefix - the prefix acquired by the client if any;
+  * na-valid - if the address is acquired by the client;
+  * na-address - the address acquired by the client if any.
+  * options - array of received options (only ROSv7)
 - `use_interface_duid` (Boolean) Specifies the MAC address of the specified interface as the DHCPv6 client DUID.
 - `use_peer_dns` (Boolean) Whether to accept the DNS settings advertised by the IPv6 DHCP Server.
 
@@ -61,13 +61,13 @@ resource "routeros_ipv6_dhcp_client" "client" {
 - `invalid` (Boolean)
 - `prefix` (String) Shows received IPv6 prefix from DHCPv6-PD server
 - `status` (String) Shows the status of DHCPv6 Client:
-			- stopped - dhcpv6 client is stopped
-			- searching - sending "solicit" and trying to get "advertise"  Shows actual (resolved) gateway and interface that will be used for packet forwarding.requesting - sent "request" waiting for "reply"
-			- bound - received "reply". Prefix assigned.
-			- renewing - sent "renew", waiting for "reply"
-			- rebinding - sent "rebind", waiting for "reply"
-			- error - reply was not received in time or some other error occurred.
-			- stopping - sent "release"
+  * stopped - dhcpv6 client is stopped
+  * searching - sending `solicit` and trying to get `advertise`  Shows actual (resolved) gateway and interface that will be used for packet forwarding.requesting - sent `request` waiting for `reply`
+  * bound - received `reply`. Prefix assigned.
+  * renewing - sent `renew`, waiting for `reply`
+  * rebinding - sent `rebind`, waiting for `reply`
+  * error - reply was not received in time or some other error occurred.
+  * stopping - sent `release`
 
 ## Import
 Import is supported using the following syntax:

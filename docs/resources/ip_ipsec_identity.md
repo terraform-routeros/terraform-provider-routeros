@@ -35,11 +35,22 @@ resource "routeros_ip_ipsec_identity" "test" {
 
 ### Optional
 
-- `auth_method` (String) Authentication method: `digital-signature` - authenticate using a pair of RSA certificates; `eap` - IKEv2 EAP authentication for initiator (peer with a netmask of `/32`). Must be used together with eap-methods; `eap-radius` - IKEv2 EAP RADIUS passthrough authentication for the responder (RFC 3579). A server certificate in this case is required. If a server certificate is not specified then only clients supporting EAP-only (RFC 5998) will be able to connect. Note that the EAP method should be compatible with EAP-only; `pre-shared-key` - authenticate by a password (pre-shared secret) string shared between the peers (not recommended since an offline attack on the pre-shared key is possible); `rsa-key` - authenticate using an RSA key imported in keys menu. Only supported in IKEv1; `pre-shared-key-xauth` - authenticate by a password (pre-shared secret) string shared between the peers + XAuth username and password. Only supported in IKEv1; `rsa-signature-hybrid` - responder certificate authentication with initiator XAuth. Only supported in IKEv1.
+- `auth_method` (String) Authentication method:
+  * digital-signature - authenticate using a pair of RSA certificates;
+  * eap - IKEv2 EAP authentication for initiator (peer with a netmask of `/32`). Must be used together with eap-methods;
+  * eap-radius - IKEv2 EAP RADIUS passthrough authentication for the responder (RFC 3579). A server certificate in this case is required. If a server certificate is not specified then only clients supporting EAP-only (RFC 5998) will be able to connect. Note that the EAP method should be compatible with EAP-only;
+  * pre-shared-key - authenticate by a password (pre-shared secret) string shared between the peers (not recommended since an offline attack on the pre-shared key is possible);
+  * rsa-key - authenticate using an RSA key imported in keys menu. Only supported in IKEv1;
+  * pre-shared-key-xauth - authenticate by a password (pre-shared secret) string shared between the peers + XAuth username and password. Only supported in IKEv1;
+  * rsa-signature-hybrid - responder certificate authentication with initiator XAuth. Only supported in IKEv1.
 - `certificate` (String) Name of a certificate listed in System/Certificates (signing packets; the certificate must have the private key). Applicable if digital signature authentication method (`auth-method=digital-signature`) or EAP (a`uth-method=eap`) is used.
 - `comment` (String)
 - `disabled` (Boolean)
-- `eap_methods` (String) All EAP methods requires whole certificate chain including intermediate and root CA certificates to be present in System/Certificates menu. Also, the username and password (if required by the authentication server) must be specified. Multiple EAP methods may be specified and will be used in a specified order. Currently supported EAP methods: `eap-mschapv2`; `eap-peap` - also known as PEAPv0/EAP-MSCHAPv2; `eap-tls` - requires additional client certificate specified under certificate parameter; `eap-ttls`.
+- `eap_methods` (String) All EAP methods requires whole certificate chain including intermediate and root CA certificates to be present in System/Certificates menu. Also, the username and password (if required by the authentication server) must be specified. Multiple EAP methods may be specified and will be used in a specified order. Currently supported EAP methods:
+  * eap-mschapv2;
+  * eap-peap - also known as PEAPv0/EAP-MSCHAPv2;
+  * eap-tls - requires additional client certificate specified under certificate parameter;
+  * eap-ttls.
 - `generate_policy` (String) Allow this peer to establish SA for non-existing policies. Such policies are created dynamically for the lifetime of SA. Automatic policies allows, for example, to create IPsec secured L2TP tunnels, or any other setup where remote peer's IP address is not known at the configuration time. `no` - do not generate policies; `port-override` - generate policies and force policy to use any port (old behavior); `port-strict` - use ports from peer's proposal, which should match peer's policy.
 - `key` (String) Name of the private key from keys menu. Applicable if RSA key authentication method (`auth-method=rsa-key`) is used.
 - `match_by` (String) Defines the logic used for peer's identity validation. `remote-id` - will verify the peer's ID according to remote-id setting. `certificate` will verify the peer's certificate with what is specified under remote-certificate setting.
