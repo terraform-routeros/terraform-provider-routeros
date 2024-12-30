@@ -198,6 +198,13 @@ func ResourceWifiSecurity() *schema.Resource {
 			Description:  "An option to enable 802.11w management frame protection.",
 			ValidateFunc: validation.StringInSlice([]string{"allowed", "disabled", "required"}, false),
 		},
+		"multi_passphrase_group": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Name of `/interface/wifi/security/multi-passphrase/` group that will be used. Only a " +
+				"single group can be defined under the security profile.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"owe_transition_interface": {
 			Type:        schema.TypeString,
 			Optional:    true,
