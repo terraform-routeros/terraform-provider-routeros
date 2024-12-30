@@ -249,6 +249,13 @@ func ResourceInterfaceBridgeFilter() *schema.Resource {
 			Description:  "Match packets with a certain packet mark.",
 			ValidateFunc: validation.StringInSlice([]string{"broadcast", "host", "multicast", "other-host"}, true),
 		},
+		"passthrough": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "Whether to let the packet to pass further (like action passthrough) into the " +
+				"filter or not (property only valid some actions).",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		KeyPlaceBefore: PropPlaceBefore,
 		"src_address": {
 			Type:         schema.TypeString,
