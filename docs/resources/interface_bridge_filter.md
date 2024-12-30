@@ -98,6 +98,7 @@ resource "routeros_move_items" "bridge_filter_rules" {
 - `out_interface_list` (String) Set of interfaces defined in interface list. Works the same as out-interface.
 - `packet_mark` (String) Match packets with a certain packet mark.
 - `packet_type` (String) Match packets with a certain packet mark.
+- `passthrough` (Boolean) Whether to let the packet to pass further (like action passthrough) into the filter or not (property only valid some actions).
 - `place_before` (String) Before which position the rule will be inserted.  
 	> Please check the effect of this option, as it does not work as you think!  
 	> Best way to use in conjunction with a data source. See [example](../data-sources/ip_firewall.md#example-usage).

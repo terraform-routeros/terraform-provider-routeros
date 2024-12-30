@@ -47,6 +47,7 @@ resource "routeros_wifi_security" "security1" {
 - `group_key_update` (String) The interval at which the group temporal key (key for encrypting broadcast traffic) is renewed.
 - `management_encryption` (String) A cipher to use for encrypting protected management frames.
 - `management_protection` (String) An option to enable 802.11w management frame protection.
+- `multi_passphrase_group` (String) Name of `/interface/wifi/security/multi-passphrase/` group that will be used. Only a single group can be defined under the security profile.
 - `owe_transition_interface` (String) Name or internal ID of an interface which MAC address and SSID to advertise as the matching AP when running in OWE transition mode.
 - `passphrase` (String) Passphrase to use for PSK authentication types.
 - `sae_anti_clogging_threshold` (String) A parameter to mitigate DoS attacks by specifying a threshold of in-progress SAE authentications.

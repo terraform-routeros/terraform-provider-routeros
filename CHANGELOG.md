@@ -1,3 +1,16 @@
+## [1.73.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.72.0...v1.73.0) (2024-12-30)
+
+### Features
+
+* **wifi:** Add new resource `routeros_wifi_security_multi_passphrase` ([4ef710a](https://github.com/terraform-routeros/terraform-provider-routeros/commit/4ef710a25713aa9b5b6faa15eb164f8f9e152205)), closes [#621](https://github.com/terraform-routeros/terraform-provider-routeros/issues/621)
+* **wifi:** Add new resources `routeros_interface_w60g`, `routeros_interface_w60g_station` ([746a223](https://github.com/terraform-routeros/terraform-provider-routeros/commit/746a2235ed90b76eab38f0a8f8ef375d96cde5c9)), closes [#618](https://github.com/terraform-routeros/terraform-provider-routeros/issues/618)
+
+### Bug Fixes
+
+* **bridge_filter:** Missing field in interface_bridge_filter ([63474c8](https://github.com/terraform-routeros/terraform-provider-routeros/commit/63474c834b520591602299e13ae0f7c783367dc8)), closes [#620](https://github.com/terraform-routeros/terraform-provider-routeros/issues/620)
+* **ip_dhcp_relay:** Field 'dhcp_server_vrf' not found in the schema ([f2f12b0](https://github.com/terraform-routeros/terraform-provider-routeros/commit/f2f12b0603685795097b32aa9c4bb4344e44f200)), closes [#622](https://github.com/terraform-routeros/terraform-provider-routeros/issues/622)
+* **wifi:** Using `5ghz-an` for `routeros_wifi_channel` returns status code `400` ([d603682](https://github.com/terraform-routeros/terraform-provider-routeros/commit/d603682702b60e56f079092b0cb98c1f008f38ea)), closes [#619](https://github.com/terraform-routeros/terraform-provider-routeros/issues/619)
+
 ## [1.72.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.71.0...v1.72.0) (2024-12-22)
 
 ### Features
