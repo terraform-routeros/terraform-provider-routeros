@@ -30,6 +30,7 @@ func ResourceDhcpRelay() *schema.Resource {
 			Required:    true,
 			Description: "List of DHCP servers' IP addresses which should the DHCP requests be forwarded to.",
 		},
+		"dhcp_server_vrf": PropVrfRw,
 		"interface": {
 			Type:        schema.TypeString,
 			Required:    true,
