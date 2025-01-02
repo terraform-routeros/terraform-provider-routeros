@@ -49,6 +49,13 @@ func ResourceWifiSecurity() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/wifi/security"),
 		MetaId:           PropId(Id),
+		MetaSetUnsetFields: PropSetUnsetFields("authentication_types", "connect_group", "connect_priority", "dh_groups",
+			"disable_pmkid", "eap_accounting", "eap_anonymous_identity", "eap_certificate_mode", "eap_methods",
+			"eap_password", "eap_tls_certificate", "eap_username", "encryption", "ft", "ft_mobility_domain",
+			"ft_nas_identifier", "ft_over_ds", "ft_preserve_vlanid", "ft_r0_key_lifetime", "ft_reassociation_deadline",
+			"group_encryption", "group_key_update", "management_encryption", "management_protection",
+			"multi_passphrase_group", "owe_transition_interface", "passphrase", "sae_anti_clogging_threshold",
+			"sae_max_failure_rate", "sae_pwe", "wps"),
 
 		"authentication_types": {
 			Type:     schema.TypeSet,
