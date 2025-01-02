@@ -24,10 +24,10 @@ func ResourceToolEmail() *schema.Resource {
 		MetaId:           PropId(Id),
 
 		"from": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Description: "Name or email address that will be shown as a receiver.",
-			Default:     "<>",
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Name or email address that will be shown as a receiver.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"password": {
 			Type:        schema.TypeString,
@@ -36,16 +36,16 @@ func ResourceToolEmail() *schema.Resource {
 			Description: "Password used for authenticating to an SMTP server.",
 		},
 		"port": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Description: "SMTP server's port.",
-			Default:     "25",
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "SMTP server's port.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"server": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Description: "SMTP server's IP address.",
-			Default:     "0.0.0.0",
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "SMTP server's IP address.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"tls": {
 			Type:     schema.TypeString,
@@ -54,7 +54,8 @@ func ResourceToolEmail() *schema.Resource {
 				"\n  * yes - sends STARTTLS and drops the session if TLS is not available on the server" +
 				"\n  * no - do not send STARTTLS" +
 				"\n  * starttls - sends STARTTLS and continue without TLS if a server responds that TLS is not available",
-			ValidateFunc: validation.StringInSlice([]string{"yes", "no", "starttls"}, false),
+			ValidateFunc:     validation.StringInSlice([]string{"yes", "no", "starttls"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"user": {
 			Type:        schema.TypeString,
