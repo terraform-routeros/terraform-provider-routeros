@@ -303,6 +303,7 @@ func Provider() *schema.Provider {
 
 			// Tools
 			"routeros_tool_bandwidth_server":  ResourceToolBandwidthServer(),
+			"routeros_tool_email":             ResourceToolEmail(),
 			"routeros_tool_mac_server":        ResourceToolMacServer(),
 			"routeros_tool_mac_server_winbox": ResourceToolMacServerWinBox(),
 			"routeros_tool_netwatch":          ResourceToolNetwatch(),
