@@ -1,3 +1,13 @@
+## [1.74.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.73.0...v1.74.0) (2025-01-03)
+
+### Features
+
+* **l2tp:** Add new resource `routeros_interface_l2tp_client` ([f2d3f9c](https://github.com/terraform-routeros/terraform-provider-routeros/commit/f2d3f9c372774c69f6edb9e55df5699a3117390f)), closes [#629](https://github.com/terraform-routeros/terraform-provider-routeros/issues/629)
+
+### Bug Fixes
+
+* use DiffSuppressFunc: AlwaysPresentNotUserProvided ([931752c](https://github.com/terraform-routeros/terraform-provider-routeros/commit/931752c20b9b5caaec92391457150dbc001786c0))
+
 ## [1.73.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.72.0...v1.73.0) (2024-12-30)
 
 ### Features

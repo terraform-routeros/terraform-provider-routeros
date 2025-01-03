@@ -1,5 +1,5 @@
 # routeros_wifi_security_multi_passphrase (Resource)
-
+*<span style="color:red">This resource requires a minimum version of RouterOS 7.17beta1.</span>*
 
 ## Example Usage
 ```terraform
