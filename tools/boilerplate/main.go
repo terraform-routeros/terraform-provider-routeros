@@ -234,8 +234,7 @@ terraform import {{.ResourceName}}.test *3
 #Or you can import a resource using one of its attributes
 terraform import {{.ResourceName}}.test "name=xxx"`
 
-var exampleResourceFile = `
-resource "{{.ResourceName}}" "test" {
+var exampleResourceFile = `resource "{{.ResourceName}}" "test" {
 }`
 
 var resourceTestFile = `
@@ -430,7 +429,7 @@ var attribute = `    "{{.Attribute}}": {
 
 var (
 	reCSV         = regexp.MustCompile(`(?m)"(.*?)"(?:,|$)`)
-	reAttrName    = regexp.MustCompile(`[a-z-]+`)
+	reAttrName    = regexp.MustCompile(`[a-z-0-9]+`)
 	reAttrDefault = regexp.MustCompile(`(?m)Default:?\s*(""|\w+)`)
 	reAttrEnum    = regexp.MustCompile(`(?m)\(\s*([\w-| ]+);`)
 	enumReplacer  = strings.NewReplacer(" ", "", `"`, "`", "'", "`", "|", `", "`)
