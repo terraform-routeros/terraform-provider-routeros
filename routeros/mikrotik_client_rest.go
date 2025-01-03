@@ -29,20 +29,21 @@ type errorResponse struct {
 
 var (
 	restMethodName = map[crudMethod]string{
-		crudCreate:      "PUT",
-		crudRead:        "GET",
-		crudUpdate:      "PATCH",
-		crudDelete:      "DELETE",
-		crudPost:        "POST",
-		crudImport:      "POST",
-		crudSign:        "POST",
-		crudSignViaScep: "POST",
-		crudRemove:      "POST",
-		crudRevoke:      "POST",
-		crudMove:        "POST",
-		crudStart:       "POST",
-		crudStop:        "POST",
-		crudGenerateKey: "POST",
+		crudCreate:               "PUT",
+		crudRead:                 "GET",
+		crudUpdate:               "PATCH",
+		crudDelete:               "DELETE",
+		crudPost:                 "POST",
+		crudEnableSslCertificate: "POST",
+		crudImport:               "POST",
+		crudSign:                 "POST",
+		crudSignViaScep:          "POST",
+		crudRemove:               "POST",
+		crudRevoke:               "POST",
+		crudMove:                 "POST",
+		crudStart:                "POST",
+		crudStop:                 "POST",
+		crudGenerateKey:          "POST",
 	}
 )
 
