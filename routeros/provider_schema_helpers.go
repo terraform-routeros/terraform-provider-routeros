@@ -739,7 +739,10 @@ var (
 				break loop
 			}
 
-			if value.IsNull() {
+			// If we remove an attribute from the script, we have the old value present and the new value not present.
+			// (k = "attribute", old = "value", new = "").
+			// For such cases, we have to change the MT configuration.
+			if value.IsNull() && old == "" {
 				return true
 			}
 		}
