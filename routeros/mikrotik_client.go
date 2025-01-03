@@ -32,6 +32,7 @@ const (
 	crudUpdate
 	crudDelete
 	crudPost
+	crudEnableSslCertificate
 	crudImport
 	crudSign
 	crudSignViaScep

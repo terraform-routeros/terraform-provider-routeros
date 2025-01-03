@@ -40,8 +40,36 @@ func ResourceSystemCertificate() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/certificate"),
 		MetaId:           PropId(Id),
-		MetaSkipFields:   PropSkipFields("import", "sign", "sign_via_scep"),
+		MetaSkipFields:   PropSkipFields("acme_ssl_certificate", "import", "sign", "sign_via_scep"),
 
+		"acme_ssl_certificate": {
+			Type:          schema.TypeSet,
+			Optional:      true,
+			Description:   "Enable SSL certificate. This will generate a new certificate using ACME protocol.",
+			ConflictsWith: []string{"import", "sign", "sign_via_scep"},
+			Elem: &schema.Resource{
+				Schema: map[string]*schema.Schema{
+					"directory_url": {
+						Type:             schema.TypeString,
+						Optional:         true,
+						Description:      "ACME directory url.",
+						DiffSuppressFunc: AlwaysPresentNotUserProvided,
+					},
+					"eab_hmac_key": {
+						Type:             schema.TypeString,
+						Optional:         true,
+						Description:      "HMAC key for ACME External Account Binding (optional).",
+						DiffSuppressFunc: AlwaysPresentNotUserProvided,
+					},
+					"eab_kid": {
+						Type:             schema.TypeString,
+						Optional:         true,
+						Description:      "Key identifier.",
+						DiffSuppressFunc: AlwaysPresentNotUserProvided,
+					},
+				},
+			},
+		},
 		"authority": {
 			Type:     schema.TypeString,
 			Computed: true,
@@ -126,7 +154,7 @@ func ResourceSystemCertificate() *schema.Resource {
 			Type:          schema.TypeSet,
 			Optional:      true,
 			ForceNew:      true,
-			ConflictsWith: []string{"sign", "sign_via_scep"},
+			ConflictsWith: []string{"acme_ssl_certificate", "sign", "sign_via_scep"},
 			Elem: &schema.Resource{
 				Schema: map[string]*schema.Schema{
 					"cert_file_name": {
@@ -249,7 +277,7 @@ func ResourceSystemCertificate() *schema.Resource {
 			Type:          schema.TypeSet,
 			Optional:      true,
 			ForceNew:      true,
-			ConflictsWith: []string{"sign_via_scep"},
+			ConflictsWith: []string{"acme_ssl_certificate", "sign_via_scep"},
 			Elem: &schema.Resource{
 				Schema: map[string]*schema.Schema{
 					"ca": {
@@ -282,7 +310,7 @@ func ResourceSystemCertificate() *schema.Resource {
 			Type:          schema.TypeSet,
 			Optional:      true,
 			ForceNew:      true,
-			ConflictsWith: []string{"sign"},
+			ConflictsWith: []string{"acme_ssl_certificate", "sign"},
 			Elem: &schema.Resource{
 				Schema: map[string]*schema.Schema{
 					"scep_url": {
@@ -426,11 +454,13 @@ func ResourceSystemCertificate() *schema.Resource {
 		var command string // MikroTik command to sign certificate
 		var ok bool
 
-		if _, ok = d.GetOk("import"); !ok {
-			// Run DefaultCreate.
-			diags = ResourceCreate(ctx, resSchema, d, m)
-			if diags.HasError() {
-				return diags
+		if _, ok = d.GetOk("acme_ssl_certificate"); !ok {
+			if _, ok = d.GetOk("import"); !ok {
+				// Run DefaultCreate.
+				diags = ResourceCreate(ctx, resSchema, d, m)
+				if diags.HasError() {
+					return diags
+				}
 			}
 		}
 
@@ -447,6 +477,11 @@ func ResourceSystemCertificate() *schema.Resource {
 			crudMethod = crudSignViaScep
 			// https://router/rest/certificate/add-scep
 			command = "/add-scep"
+		} else if cmdBlock, ok = d.GetOk("acme_ssl_certificate"); ok {
+			params = MikrotikItem{"dns-name": d.Get("common_name").(string)}
+			crudMethod = crudEnableSslCertificate
+			// https://router/rest/certificate/enable-ssl-certificate
+			command = "/enable-ssl-certificate"
 		} else if cmdBlock, ok = d.GetOk("import"); ok {
 			return certImport(ctx, cmdBlock, d, m)
 		} else {
@@ -479,6 +514,17 @@ func ResourceSystemCertificate() *schema.Resource {
 		err := m.(Client).SendRequest(crudMethod, resUrl, params, nil)
 		if err != nil {
 			return diag.FromErr(err)
+		}
+
+		if command == "/enable-ssl-certificate" {
+			d.SetId(d.Get("name").(string))
+			id, err := dynamicIdLookup(Name, resSchema[MetaResourcePath].Default.(string), m.(Client), d)
+
+			if err != nil {
+				return diag.FromErr(err)
+			}
+
+			d.SetId(id)
 		}
 
 		return ResourceRead(ctx, resSchema, d, m)
