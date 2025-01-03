@@ -177,6 +177,8 @@ func Provider() *schema.Provider {
 			"routeros_interface_lte":                            ResourceInterfaceLte(),
 			"routeros_interface_lte_apn":                        ResourceInterfaceLteApn(),
 			"routeros_interface_macvlan":                        ResourceInterfaceMacVlan(),
+			"routeros_interface_sstp_client":                    ResourceInterfaceSSTPClient(),
+			"routeros_interface_sstp_server":                    ResourceInterfaceSSTPServer(),
 			"routeros_interface_ovpn_client":                    ResourceOpenVPNClient(),
 			"routeros_interface_ovpn_server":                    ResourceInterfaceOpenVPNServer(),
 			"routeros_interface_pppoe_client":                   ResourceInterfacePPPoEClient(),
