@@ -65,6 +65,7 @@ func ResourceInterfaceSSTPClient() *schema.Resource {
 			Optional:         true,
 			Description:      "Sets distance value applied to auto created default route, if add-default-route is also selected.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			RequiredWith:     []string{"add_default_route"},
 		},
 		"mrru": {
 			Type:     schema.TypeString,
