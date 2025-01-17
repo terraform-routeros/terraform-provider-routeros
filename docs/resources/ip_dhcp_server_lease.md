@@ -23,7 +23,6 @@ resource "routeros_ip_dhcp_server_lease" "dhcp_lease" {
 - `allow_dual_stack_queue` (Boolean) Creates a single simple queue entry for both IPv4 and IPv6 addresses, uses the MAC address and DUID for identification.
 - `always_broadcast` (Boolean) Send all replies as broadcasts.
 - `block_access` (Boolean) Whether to block access for this DHCP client (true|false).
-- `class_id` (String) Class ID of the client. This option is available in RouterOS starting from version 7.16.
 - `client_id` (String) If specified, must match DHCP 'client identifier' option of the request.
 - `comment` (String)
 - `dhcp_option` (String) Add additional DHCP options.
@@ -45,6 +44,7 @@ resource "routeros_ip_dhcp_server_lease" "dhcp_lease" {
 - `agent_circuit_id` (String) Circuit ID of DHCP relay agent. If each character should be valid ASCII text symbol or else this value is displayed as hex dump.
 - `agent_remote_id` (String) Remote ID, set by DHCP relay agent.
 - `blocked` (Boolean) Whether the lease is blocked.
+- `class_id` (String) Class ID of the client. This option is available in RouterOS starting from version 7.16.
 - `dynamic` (Boolean) Whether the dhcp lease is static or dynamic. Dynamic leases are not guaranteed to continue to be assigned to that specific device.
 - `expires_after` (String) Time until lease expires.
 - `host_name` (String) The hostname of the device

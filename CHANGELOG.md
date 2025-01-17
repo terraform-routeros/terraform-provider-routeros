@@ -1,3 +1,16 @@
+## [1.75.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.74.0...v1.75.0) (2025-01-17)
+
+### Features
+
+* add `resource_interface_sstp_*` resources ([219153c](https://github.com/terraform-routeros/terraform-provider-routeros/commit/219153c1b36a268af396d122c66cde75096ce8ff))
+
+### Bug Fixes
+
+* datasource routeros_interface_bridge_filter ([00c3ad3](https://github.com/terraform-routeros/terraform-provider-routeros/commit/00c3ad3fc59a6e25917d59a958db01e1d83d822d))
+* **ip_dhcp_server_lease:** class_id should be computed ([c11c3c4](https://github.com/terraform-routeros/terraform-provider-routeros/commit/c11c3c462f10ad308f27afb020c49a7f616e68b8))
+* **ipv6_firewall_net:** ipv6_firewall_nat has to_address not to_addresses ([c77d027](https://github.com/terraform-routeros/terraform-provider-routeros/commit/c77d027ff196a8a72e0fee26a8b9b14ebd0089b0))
+* Remove DiffSuppress for `multi_passphrase_group` ([367d5e4](https://github.com/terraform-routeros/terraform-provider-routeros/commit/367d5e47e3e9b1aedfa63b6e5fafc0eb440734ba)), closes [#630](https://github.com/terraform-routeros/terraform-provider-routeros/issues/630)
+
 ## [1.74.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.73.0...v1.74.0) (2025-01-03)
 
 ### Features

@@ -158,7 +158,7 @@ Read-Only:
 - `tcp_mss` (String)
 - `time` (String)
 - `tls_host` (String)
-- `to_addresses` (String)
+- `to_address` (String)
 - `to_ports` (String)
 
 

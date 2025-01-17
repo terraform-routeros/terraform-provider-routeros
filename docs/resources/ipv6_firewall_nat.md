@@ -70,7 +70,7 @@ resource "routeros_ipv6_firewall_nat" "rule" {
 - `src_port` (String) List of source ports and ranges of source ports. Applicable only if a protocol is TCP or UDP.
 - `tcp_mss` (String) Matches TCP MSS value of an IP packet.
 - `time` (String) Allows to create a filter based on the packets' arrival time and date or, for locally generated packets, departure time and date.
-- `to_addresses` (String) Replace original address with specified one. Applicable if action is dst-nat, netmap, same, src-nat.
+- `to_address` (String) Replace original address with specified one. Applicable if action is dst-nat, netmap, same, src-nat.
 - `to_ports` (String) Replace the original port with the specified one. Applicable if action is dst-nat, redirect, masquerade, netmap, same, src-nat.
 - `ttl` (String) Matches packets TTL value.
 
