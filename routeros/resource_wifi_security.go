@@ -203,7 +203,6 @@ func ResourceWifiSecurity() *schema.Resource {
 			Optional: true,
 			Description: "Name of `/interface/wifi/security/multi-passphrase/` group that will be used. Only a " +
 				"single group can be defined under the security profile.",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"owe_transition_interface": {
 			Type:        schema.TypeString,
