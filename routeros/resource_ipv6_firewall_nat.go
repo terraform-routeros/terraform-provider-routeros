@@ -322,7 +322,7 @@ func ResourceIPv6FirewallNat() *schema.Resource {
 			Description: "Allows to create a filter based on the packets' arrival time and date or, for locally " +
 				"generated packets, departure time and date.",
 		},
-		"to_addresses": {
+		"to_address": {
 			Type:     schema.TypeString,
 			Optional: true,
 			Description: "Replace original address with specified one. Applicable if action is dst-nat, netmap, " +

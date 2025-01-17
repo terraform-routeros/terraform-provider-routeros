@@ -232,7 +232,7 @@ func getIPv6FirewallNatSchema() *schema.Schema {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
-				"to_addresses": {
+				"to_address": {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
