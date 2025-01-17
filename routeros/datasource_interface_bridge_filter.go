@@ -78,5 +78,5 @@ func datasourceInterfaceBridgeFiltersRead(ctx context.Context, d *schema.Resourc
 		return diag.FromErr(err)
 	}
 
-	return MikrotikResourceDataToTerraformDatasource(res, "data", s, d)
+	return MikrotikResourceDataToTerraformDatasource(res, "filters", s, d)
 }
