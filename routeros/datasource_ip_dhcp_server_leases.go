@@ -26,6 +26,22 @@ func DatasourceIpDhcpServerLeases() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"active_client_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"active_server": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"active_address": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"active_mac_address": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"address": { // Sample = address: "192.168.0.1"
 							Type:     schema.TypeString,
 							Computed: true,
@@ -34,11 +50,23 @@ func DatasourceIpDhcpServerLeases() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"age": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"blocked": { // Sample = blocked: "false"
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
 						"comment": { // Sample = comment: "server1 "
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"class_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"client_id": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -52,6 +80,14 @@ func DatasourceIpDhcpServerLeases() *schema.Resource {
 						},
 						"dynamic": { // Sample = dynamic: "false"
 							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"expires_after": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"host_name": {
+							Type:     schema.TypeString,
 							Computed: true,
 						},
 						"last_seen": { // Sample = last-seen: "never"

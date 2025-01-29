@@ -23,6 +23,15 @@ func ResourceDhcpServer() *schema.Resource {
 				"the clients that have a static lease (added in lease submenu) will be allowed.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"address_lists": {
+			Type:        schema.TypeSet,
+			Optional:    true,
+			Description: "Address list to which address will be added if lease is bound.",
+			Elem: &schema.Schema{
+				Type: schema.TypeString,
+			},
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"allow_dual_stack_queue": {
 			Type:     schema.TypeBool,
 			Optional: true,
