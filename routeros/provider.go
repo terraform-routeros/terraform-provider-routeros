@@ -344,6 +344,9 @@ func Provider() *schema.Provider {
 			"routeros_zerotier":            ResourceZerotier(),
 			"routeros_zerotier_controller": ResourceZerotierController(),
 			"routeros_zerotier_interface":  ResourceZerotierInterface(),
+
+			// Queue
+			"routeros_queue_simple": ResourceQueueSimple(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"routeros_files":                   DatasourceFiles(),
