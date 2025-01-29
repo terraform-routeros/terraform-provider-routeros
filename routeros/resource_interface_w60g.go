@@ -45,9 +45,9 @@ func ResourceInterfaceW60g() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/w60g"),
 		MetaId:           PropId(Id),
-		MetaSkipFields: PropSkipFields("beamforming_event", "rx_mpdu_crc_err", "rx_mpdu_crc_ok", "rx_ppdu", "tx_fw_msdu",
-			"tx_io_msdu", "tx_mpdu_new", "tx_mpdu_retry", "tx_mpdu_total", "tx_ppdu", "tx_ppdu_from_q", "tx_sector",
-			"tx_sw_msdu"),
+		MetaSkipFields: PropSkipFields("default_scan_list", "beamforming_event", "rx_mpdu_crc_err", "rx_mpdu_crc_ok",
+			"rx_ppdu", "tx_fw_msdu", "tx_io_msdu", "tx_mpdu_new", "tx_mpdu_retry", "tx_mpdu_total", "tx_ppdu",
+			"tx_ppdu_from_q", "tx_sector", "tx_sw_msdu"),
 
 		KeyArp:        PropArpRw,
 		KeyArpTimeout: PropArpTimeoutRw,
@@ -97,7 +97,7 @@ func ResourceInterfaceW60g() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"region": {
-			Type:             schema.TypeBool,
+			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Parameter to limit frequency use.",
 			ValidateFunc:     validation.StringInSlice([]string{"asia", "australia", "canada", "china", "eu", "japan", "no-region-set", "usa"}, false),
@@ -131,10 +131,10 @@ func ResourceInterfaceW60g() *schema.Resource {
 	}
 
 	return &schema.Resource{
-		CreateContext: DefaultCreate(resSchema),
-		ReadContext:   DefaultRead(resSchema),
-		UpdateContext: DefaultUpdate(resSchema),
-		DeleteContext: DefaultDelete(resSchema),
+		CreateContext: DefaultSystemCreate(resSchema),
+		ReadContext:   DefaultSystemRead(resSchema),
+		UpdateContext: DefaultSystemUpdate(resSchema),
+		DeleteContext: DefaultSystemDelete(resSchema),
 
 		Importer: &schema.ResourceImporter{
 			StateContext: ImportStateCustomContext(resSchema),

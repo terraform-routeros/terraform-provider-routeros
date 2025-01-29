@@ -31,7 +31,7 @@ func ResourceInterfaceW60gStation() *schema.Resource {
 		KeyArp:        PropArpRw,
 		KeyArpTimeout: PropArpTimeoutRw,
 		KeyDisabled:   PropDisabledRw,
-		KeyMacAddress: PropMacAddressRw("MAC address of the station interface.", false),
+		KeyMacAddress: PropMacAddressRw("MAC address of the station interface.", true),
 		KeyMtu:        PropMtuRw(),
 		KeyName:       PropName("Name of the interface."),
 		"parent": {
