@@ -33,6 +33,13 @@ func ResourceIpSSHServer() *schema.Resource {
 			Description: "Whether to allow password login at the same time when public key authorization is " +
 				"configured for a user.",
 		},
+		"ciphers": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Allow to configure SSH ciphers.",
+			ValidateFunc:     validation.StringInSlice([]string{"3des-cbc", "aes-cbc", "aes-ctr", "aes-gcm", "auto"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"forwarding_enabled": {
 			Type:     schema.TypeString,
 			Optional: true,

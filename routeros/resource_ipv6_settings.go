@@ -57,6 +57,12 @@ func ResourceIpv6Settings() *schema.Resource {
 				"for 128 MB,\n  * 4096 for 256 MB,\n  * 8192 for 512 MB,\n  * 16384 for 1024 MB or higher.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"min_neighbor_entries": {
+			Type:             schema.TypeInt,
+			Optional:         true,
+			Description:      "Minimal number of IPv6/Neighbor entries, for which device must allocate memory.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"multipath_hash_policy": {
 			Type:     schema.TypeString,
 			Optional: true,
@@ -65,6 +71,24 @@ func ResourceIpv6Settings() *schema.Resource {
 				"\n  * l4 -- layer-4 hashing of src IP, dst IP, IP protocol, src port, dst port.",
 			ValidateFunc:     validation.StringInSlice([]string{"l3", "l4", "l3-inner"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"soft_max_neighbor_entries": {
+			Type:             schema.TypeInt,
+			Optional:         true,
+			Description:      "Expected maximum number of IPv6/Neighbor entries which system should handle.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"stale_neighbor_detect_interval": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "",
+			DiffSuppressFunc: TimeEquall,
+		},
+		"stale_neighbor_timeout": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Timeout after which stale IPv6/Neighbor entries should be purged.",
+			DiffSuppressFunc: TimeEquall,
 		},
 	}
 
