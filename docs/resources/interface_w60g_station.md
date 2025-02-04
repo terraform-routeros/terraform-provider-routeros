@@ -16,6 +16,7 @@ resource "routeros_interface_w60g_station" "test" {
 
 ### Required
 
+- `mac_address` (String) MAC address of the station interface.
 - `name` (String) Name of the interface.
 - `parent` (String) Parent interface name.
 
@@ -29,7 +30,6 @@ resource "routeros_interface_w60g_station" "test" {
   * reply-only - the interface will only reply to requests originated from matching IP address/MAC address combinations which are entered as static entries in the ARP table. No dynamic entries will be automatically stored in the ARP table. Therefore for communications to be successful, a valid static entry must already exist.
 - `arp_timeout` (String) ARP timeout is time how long ARP record is kept in ARP table after no packets are received from IP. Value auto equals to the value of arp-timeout in IP/Settings, default is 30s. Can use postfix `ms`, `s`, `M`, `h`, `d` for milliseconds, seconds, minutes, hours or days. If no postfix is set then seconds (s) is used.
 - `disabled` (Boolean)
-- `mac_address` (String) MAC address of the station interface.
 - `mtu` (String) Layer3 Maximum transmission unit ('auto', 0 .. 65535)
 - `put_in_bridge` (String) Add station device interface to specific bridge.
 - `remote_address` (String) MAC address of bridge interface, station is connecting to.

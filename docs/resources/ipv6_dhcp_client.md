@@ -32,12 +32,14 @@ resource "routeros_ipv6_dhcp_client" "client" {
 ### Optional
 
 - `add_default_route` (Boolean) Whether to add default IPv6 route after a client connects.
+- `allow_reconfigure` (Boolean) Allow reconfigure messages.
 - `comment` (String)
 - `default_route_distance` (Number) Distance of default route. Applicable if add-default-route is set to yes.
 - `dhcp_options` (Set of String) Options that are sent to the DHCP server.
 - `disabled` (Boolean)
 - `pool_name` (String) Name of the IPv6 pool in which received IPv6 prefix will be added
 - `pool_prefix_length` (Number) Prefix length parameter that will be set for IPv6 pool in which received IPv6 prefix is added. Prefix length must be greater than the length of the received prefix, otherwise, prefix-length will be set to received prefix length + 8 bits.
+- `prefix_address_lists` (Set of String) Names of the firewall address lists to which received prefix will be added.
 - `prefix_hint` (String) Include a preferred prefix length.
 - `rapid_commit` (Boolean) Enable DHCP rapid commit (fast address assignment)
 - `script` (String) Run this script on the DHCP-client status change. Available variables:

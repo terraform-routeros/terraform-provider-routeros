@@ -1,3 +1,16 @@
+## [1.76.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.75.0...v1.76.0) (2025-02-04)
+
+### Features
+
+* **queue:** Add new resource `routeros_queue_simple` ([b63640c](https://github.com/terraform-routeros/terraform-provider-routeros/commit/b63640ca0dea66e8d7863652508d6fa065f1ef64)), closes [#643](https://github.com/terraform-routeros/terraform-provider-routeros/issues/643)
+* **queue:** Add new resource `routeros_queue_type` ([45aadfb](https://github.com/terraform-routeros/terraform-provider-routeros/commit/45aadfbf6ab6cffc6c960399c9bf584e975e9466)), closes [#643](https://github.com/terraform-routeros/terraform-provider-routeros/issues/643)
+
+### Bug Fixes
+
+* **dhcp:** Update for ROS 7.17 ([9b6a238](https://github.com/terraform-routeros/terraform-provider-routeros/commit/9b6a238b5bb9ceae1dbaeb45215a1fe804f005b8)), closes [#644](https://github.com/terraform-routeros/terraform-provider-routeros/issues/644)
+* Missing fields in the schema with version 7.17.1 ([8199e43](https://github.com/terraform-routeros/terraform-provider-routeros/commit/8199e4339f7e5917c25d28c7028f940a16d52df8)), closes [#650](https://github.com/terraform-routeros/terraform-provider-routeros/issues/650)
+* **w60:** Fix bugs after the first testing ([b1264e7](https://github.com/terraform-routeros/terraform-provider-routeros/commit/b1264e73cdd48d75d4a98e755fe38817eac4d6c9)), closes [#618](https://github.com/terraform-routeros/terraform-provider-routeros/issues/618)
+
 ## [1.75.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.74.0...v1.75.0) (2025-01-17)
 
 ### Features

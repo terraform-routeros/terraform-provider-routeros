@@ -23,10 +23,14 @@ resource "routeros_ipv6_settings" "settings" {
   * 4096 for 256 MB,
   * 8192 for 512 MB,
   * 16384 for 1024 MB or higher.
+- `min_neighbor_entries` (Number) Minimal number of IPv6/Neighbor entries, for which device must allocate memory.
 - `multipath_hash_policy` (String) IPv6 Hash policy used for ECMP routing in `/ipv6/settings` menu
   * l3 -- layer-3 hashing of src IP, dst IP, flow label, IP protocol
   * l3-inner -- layer-3 hashing or inner layer-3 hashing if available
   * l4 -- layer-4 hashing of src IP, dst IP, IP protocol, src port, dst port.
+- `soft_max_neighbor_entries` (Number) Expected maximum number of IPv6/Neighbor entries which system should handle.
+- `stale_neighbor_detect_interval` (String)
+- `stale_neighbor_timeout` (String) Timeout after which stale IPv6/Neighbor entries should be purged.
 
 ### Read-Only
 

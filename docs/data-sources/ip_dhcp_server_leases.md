@@ -23,13 +23,22 @@ data "routeros_ip_dhcp_server_leases" "data" {}
 
 Read-Only:
 
+- `active_address` (String)
+- `active_client_id` (String)
+- `active_mac_address` (String)
+- `active_server` (String)
 - `address` (String)
 - `address_lists` (String)
+- `age` (String)
 - `blocked` (Boolean)
+- `class_id` (String)
+- `client_id` (String)
 - `comment` (String)
 - `dhcp_option` (String)
 - `disabled` (Boolean)
 - `dynamic` (Boolean)
+- `expires_after` (String)
+- `host_name` (String)
 - `id` (String)
 - `last_seen` (String)
 - `mac_address` (String)

@@ -23,6 +23,7 @@ resource "routeros_ip_dhcp_server" "server" {
 ### Optional
 
 - `add_arp` (Boolean) Whether to add dynamic ARP entry.
+- `address_lists` (Set of String) Address list to which address will be added if lease is bound.
 - `address_pool` (String) IP pool, from which to take IP addresses for the clients. If set to static-only, then only the clients that have a static lease (added in lease submenu) will be allowed.
 - `allow_dual_stack_queue` (Boolean) Creates a single simple queue entry for both IPv4 and IPv6 addresses, uses the MAC address and DUID for identification. Requires IPv6 DHCP Server to have this option enabled as well to work properly.
 - `always_broadcast` (Boolean) Always send replies as broadcasts even if destination IP is known.

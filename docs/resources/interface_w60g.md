@@ -39,7 +39,7 @@ resource "routeros_interface_w60g" "test" {
 - `mtu` (String) Layer3 Maximum transmission unit ('auto', 0 .. 65535)
 - `password` (String, Sensitive) Password used for AES encryption.
 - `put_stations_in_bridge` (String) Put newly created station device interfaces in this bridge.
-- `region` (Boolean) Parameter to limit frequency use.
+- `region` (String) Parameter to limit frequency use.
 - `scan_list` (Set of String) Scan list to limit connectivity over frequencies in station mode.
 - `ssid` (String) SSID (service set identifier) is a name that identifies wireless network (0..32 char).
 - `tx_sector` (Number) Disables beamforming and locks to selected radiation pattern.
