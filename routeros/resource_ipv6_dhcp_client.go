@@ -44,6 +44,12 @@ func ResourceIPv6DhcpClient() *schema.Resource {
 			Computed:    true,
 			Description: "IPv6 address, which is assigned to DHCPv6 Client from the Server.",
 		},
+		"allow_reconfigure": {
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Description:      "Allow reconfigure messages.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		KeyComment: PropCommentRw,
 		"default_route_distance": {
 			Type:             schema.TypeInt,
@@ -102,6 +108,15 @@ func ResourceIPv6DhcpClient() *schema.Resource {
 			Type:        schema.TypeString,
 			Computed:    true,
 			Description: "Shows received IPv6 prefix from DHCPv6-PD server",
+		},
+		"prefix_address_lists": {
+			Type:     schema.TypeSet,
+			Optional: true,
+			Elem: &schema.Schema{
+				Type: schema.TypeString,
+			},
+			Description:      "Names of the firewall address lists to which received prefix will be added.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"prefix_hint": {
 			Type:             schema.TypeString,
