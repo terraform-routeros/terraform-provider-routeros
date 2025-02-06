@@ -21,20 +21,21 @@ type ApiClient struct {
 
 var (
 	apiMethodName = map[crudMethod]string{
-		crudCreate:      "/add",
-		crudRead:        "/print",
-		crudUpdate:      "/set",
-		crudDelete:      "/remove",
-		crudPost:        "/set",
-		crudImport:      "/import",
-		crudSign:        "/sign",
-		crudSignViaScep: "/add-scep",
-		crudRemove:      "/remove",
-		crudRevoke:      "/issued-revoke",
-		crudMove:        "/move",
-		crudStart:       "/start",
-		crudStop:        "/stop",
-		crudGenerateKey: "/generate-key",
+		crudCreate:               "/add",
+		crudRead:                 "/print",
+		crudUpdate:               "/set",
+		crudDelete:               "/remove",
+		crudPost:                 "/set",
+		crudEnableSslCertificate: "/enable-ssl-certificate",
+		crudImport:               "/import",
+		crudSign:                 "/sign",
+		crudSignViaScep:          "/add-scep",
+		crudRemove:               "/remove",
+		crudRevoke:               "/issued-revoke",
+		crudMove:                 "/move",
+		crudStart:                "/start",
+		crudStop:                 "/stop",
+		crudGenerateKey:          "/generate-key",
 	}
 )
 
