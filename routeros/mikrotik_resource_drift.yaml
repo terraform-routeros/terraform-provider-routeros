@@ -1,0 +1,4 @@
+7.17:
+  /interface/wireguard/peers:
+    - tf: is_responder
+      mt: responder
