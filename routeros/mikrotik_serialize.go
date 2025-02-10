@@ -126,6 +126,16 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 		transformSet = loadTransformSet(ts.Default.(string), false)
 	}
 
+	// Resource attribute drift compensation.
+	if drift := driftAttributeSlice.GetDriftMap(RouterOSVersion, s[MetaResourcePath].Default.(string), false); len(drift) > 0 {
+		if transformSet == nil {
+			transformSet = make(map[string]string)
+		}
+		for k, v := range drift {
+			transformSet[k] = v
+		}
+	}
+
 	// "field_first", "field_second", "field_third"
 	if sf, ok := s[MetaSkipFields]; ok {
 		skipFields = loadSkipFields(sf.Default.(string))
@@ -330,6 +340,16 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 	// {"channel": "channel.config", "mikrotik-field-name": "schema-field-name"}
 	if ts, ok := s[MetaTransformSet]; ok {
 		transformSet = loadTransformSet(ts.Default.(string), true)
+	}
+
+	// Resource attribute drift compensation.
+	if drift := driftAttributeSlice.GetDriftMap(RouterOSVersion, s[MetaResourcePath].Default.(string), true); len(drift) > 0 {
+		if transformSet == nil {
+			transformSet = make(map[string]string)
+		}
+		for k, v := range drift {
+			transformSet[k] = v
+		}
 	}
 
 	// "field_first", "field_second", "field_third"
@@ -574,7 +594,18 @@ func MikrotikResourceDataToTerraformDatasource(items *[]MikrotikItem, resourceDa
 	var dsItems []map[string]interface{}
 	// System resource have an empty 'resourceDataKeyName'.
 	var isSystemDatasource bool = (resourceDataKeyName == "")
+	var transformSet map[string]string
 	var skipFields map[string]struct{}
+
+	// Resource attribute drift compensation.
+	if drift := driftAttributeSlice.GetDriftMap(RouterOSVersion, s[MetaResourcePath].Default.(string), true); len(drift) > 0 {
+		if transformSet == nil {
+			transformSet = make(map[string]string)
+		}
+		for k, v := range drift {
+			transformSet[k] = v
+		}
+	}
 
 	if sf, ok := s[MetaSkipFields]; ok {
 		skipFields = loadSkipFields(sf.Default.(string))
@@ -626,6 +657,14 @@ func MikrotikResourceDataToTerraformDatasource(items *[]MikrotikItem, resourceDa
 			// Skip all service fields.
 			if mikrotikKebabName[0:1] == "." {
 				continue
+			}
+
+			// Mikrotik fields transformation: "channel" ---> "channel.config".
+			// For further use in the map.
+			if transformSet != nil {
+				if new, ok := transformSet[mikrotikKebabName]; ok {
+					mikrotikKebabName = new
+				}
 			}
 
 			// field-name => field_name
