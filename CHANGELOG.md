@@ -1,3 +1,9 @@
+## [1.76.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.76.0...v1.76.1) (2025-02-11)
+
+### Bug Fixes
+
+* **provider:** Add attribute drift handling between ROS versions ([32141a6](https://github.com/terraform-routeros/terraform-provider-routeros/commit/32141a622f24e903fa3e8601a16498714ac9573d)), closes [#654](https://github.com/terraform-routeros/terraform-provider-routeros/issues/654)
+
 ## [1.76.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.75.0...v1.76.0) (2025-02-04)
 
 ### Features
