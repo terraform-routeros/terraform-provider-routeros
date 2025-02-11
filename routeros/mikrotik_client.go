@@ -8,11 +8,11 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"regexp"
 	"strings"
 	"time"
 
 	"github.com/go-routeros/routeros"
-	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
@@ -61,14 +61,14 @@ func NewClient(ctx context.Context, d *schema.ResourceData) (interface{}, diag.D
 
 	if caCertificate != "" {
 		if _, err := os.Stat(caCertificate); err != nil {
-			tflog.Debug(ctx, "Failed to read CA file '"+caCertificate+"', error: "+err.Error())
+			ColorizedDebug(ctx, "Failed to read CA file '"+caCertificate+"', error: "+err.Error())
 			return nil, diag.FromErr(err)
 		}
 
 		certPool := x509.NewCertPool()
 		file, err := os.ReadFile(caCertificate)
 		if err != nil {
-			tflog.Debug(ctx, "Failed to read CA file '"+caCertificate+"', error: "+err.Error())
+			ColorizedDebug(ctx, "Failed to read CA file '"+caCertificate+"', error: "+err.Error())
 			return nil, diag.Errorf("Failed to read CA file '%s', %v", caCertificate, err)
 		}
 		certPool.AppendCertsFromPEM(file)
@@ -114,6 +114,11 @@ func NewClient(ctx context.Context, d *schema.ResourceData) (interface{}, diag.D
 		panic("[NewClient] wrong transport type: " + routerUrl.Scheme)
 	}
 
+	RouterOSVersion = d.Get("routeros").(string)
+	if RouterOSVersion != "" {
+		ColorizedMessage(ctx, INFO, "RouterOS from env: "+RouterOSVersion)
+	}
+
 	if transport == TransportAPI {
 		api := &ApiClient{
 			ctx:       ctx,
@@ -139,6 +144,16 @@ func NewClient(ctx context.Context, d *schema.ResourceData) (interface{}, diag.D
 		// when an error occurs while creating multiple resources.
 		api.Async()
 
+		if RouterOSVersion == "" {
+			ros, diags := GetRouterOSVersion(api)
+			if diags != nil {
+				return nil, diags
+			}
+
+			RouterOSVersion = ros
+			ColorizedMessage(ctx, INFO, "RouterOS: "+RouterOSVersion)
+		}
+
 		return api, nil
 	}
 
@@ -161,6 +176,16 @@ func NewClient(ctx context.Context, d *schema.ResourceData) (interface{}, diag.D
 		Transport: &http.Transport{
 			TLSClientConfig: &tlsConf,
 		},
+	}
+
+	if RouterOSVersion == "" {
+		ros, diags := GetRouterOSVersion(rest)
+		if diags != nil {
+			return nil, diags
+		}
+
+		RouterOSVersion = ros
+		ColorizedMessage(ctx, INFO, "RouterOS: "+RouterOSVersion)
 	}
 
 	return rest, nil
@@ -204,4 +229,30 @@ func EscapeChars(data []byte) []byte {
 		res = append(res, ch)
 	}
 	return res
+}
+
+// Obtain a version of RouterOS to automatically customize resource schemas.
+func GetRouterOSVersion(m interface{}) (string, diag.Diagnostics) {
+	res, err := ReadItems(nil, "/system/resource", m.(Client))
+	if err != nil {
+		return "", diag.FromErr(err)
+	}
+
+	// Resource not found.
+	if len(*res) == 0 {
+		return "", diag.Errorf("RouterOS version not found")
+	}
+
+	version, ok := (*res)[0]["version"]
+	if !ok {
+		return "", diag.Errorf("RouterOS version not found")
+	}
+
+	re := regexp.MustCompile(`^\d+\.\d+\.\d+`)
+
+	if !re.MatchString(version) {
+		return "", diag.Errorf("RouterOS version not found")
+	}
+
+	return re.FindString(version), nil
 }
