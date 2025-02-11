@@ -33,13 +33,13 @@ var (
 
 	testDatasource = schema.Resource{
 		Schema: map[string]*schema.Schema{
+			MetaResourcePath: PropResourcePath("/test/resource"),
+			MetaId:           PropId(Id),
 			"test_name": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						MetaResourcePath: PropResourcePath("/test/resource"),
-						MetaId:           PropId(Id),
 						"string": {
 							Type: schema.TypeString,
 						},
@@ -130,9 +130,9 @@ func Test_loadTransformSet(t *testing.T) {
 		s       string
 		reverse bool
 	}{
-		{toQuotedCommaSeparatedString("channel: channel.config","datapath: datapath.config"), false},
+		{toQuotedCommaSeparatedString("channel: channel.config", "datapath: datapath.config"), false},
 		{toQuotedCommaSeparatedString("mikrotik-field-name : schema-field-name"), false},
-		{toQuotedCommaSeparatedString("channel: channel.config","datapath: datapath.config"), true},
+		{toQuotedCommaSeparatedString("channel: channel.config", "datapath: datapath.config"), true},
 		{toQuotedCommaSeparatedString("mikrotik-field-name:schema-field-name"), true},
 	}
 
@@ -152,7 +152,7 @@ func Test_loadTransformSet(t *testing.T) {
 
 func Test_loadSkipFields(t *testing.T) {
 	testData := []struct {
-		s       string
+		s string
 	}{
 		{toQuotedCommaSeparatedString("name")},
 		{toQuotedCommaSeparatedString("name", "rx_1024_1518", "rx_128_255", "rx_1519_max", "rx_256_511", "rx_512_1023", "rx_64")},
@@ -160,7 +160,7 @@ func Test_loadSkipFields(t *testing.T) {
 
 	expected := []map[string]struct{}{
 		{"name": struct{}{}},
-		{"name": struct{}{}, "rx_1024_1518": struct{}{}, "rx_128_255": struct{}{}, "rx_1519_max": struct{}{}, 
+		{"name": struct{}{}, "rx_1024_1518": struct{}{}, "rx_128_255": struct{}{}, "rx_1519_max": struct{}{},
 			"rx_256_511": struct{}{}, "rx_512_1023": struct{}{}, "rx_64": struct{}{}},
 	}
 

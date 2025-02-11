@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"os"
 	"regexp"
-	"strconv"
 	"strings"
 	"testing"
 
@@ -40,28 +39,19 @@ func init() {
 func testCheckMinVersion(t *testing.T, version string) bool {
 	// version: 6.39.1
 	var current, min uint64
-	for pos, s := range reVersion.FindAllString(os.Getenv("ROS_VERSION"), -1) {
-		if pos > 2 {
-			t.Fatal("The version does not match the format x[.y[.z]]")
-		}
 
-		i, err := strconv.ParseUint(s, 10, 16)
-		if err != nil {
-			t.Error(err)
-		}
-		current += i << ((2 - pos) * 10)
+	if RouterOSVersion == "" {
+		RouterOSVersion = os.Getenv("ROS_VERSION")
 	}
 
-	for pos, s := range reVersion.FindAllString(version, -1) {
-		if pos > 2 {
-			t.Fatal("The version does not match the format x[.y[.z]]")
-		}
+	current, err := parseRouterOSVersion(RouterOSVersion)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-		i, err := strconv.ParseUint(s, 10, 16)
-		if err != nil {
-			t.Error(err)
-		}
-		min += i << ((2 - pos) * 10)
+	min, err = parseRouterOSVersion(version)
+	if err != nil {
+		t.Fatal(err)
 	}
 
 	return current >= min
@@ -70,37 +60,28 @@ func testCheckMinVersion(t *testing.T, version string) bool {
 func testCheckMaxVersion(t *testing.T, version string) bool {
 	// version: 6.39.1
 	var current, max uint64
-	for pos, s := range reVersion.FindAllString(os.Getenv("ROS_VERSION"), -1) {
-		if pos > 2 {
-			t.Fatal("The version does not match the format x[.y[.z]]")
-		}
 
-		i, err := strconv.ParseUint(s, 10, 16)
-		if err != nil {
-			t.Error(err)
-		}
-		current += i << ((2 - pos) * 10)
+	if RouterOSVersion == "" {
+		RouterOSVersion = os.Getenv("ROS_VERSION")
 	}
 
-	for pos, s := range reVersion.FindAllString(version, -1) {
-		if pos > 2 {
-			t.Fatal("The version does not match the format x[.y[.z]]")
-		}
+	current, err := parseRouterOSVersion(RouterOSVersion)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-		i, err := strconv.ParseUint(s, 10, 16)
-		if err != nil {
-			t.Error(err)
-		}
-		max += i << ((2 - pos) * 10)
+	max, err = parseRouterOSVersion(version)
+	if err != nil {
+		t.Fatal(err)
 	}
 
 	return current <= max
 }
 
 func TestCheckMinVersion(t *testing.T) {
-	originalVersion := os.Getenv("ROS_VERSION")
+	originalVersion := RouterOSVersion
 	defer func() {
-		os.Setenv("ROS_VERSION", originalVersion)
+		RouterOSVersion = originalVersion
 	}()
 
 	type args struct {
@@ -128,9 +109,7 @@ func TestCheckMinVersion(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if err := os.Setenv("ROS_VERSION", tt.args.current); err != nil {
-				t.Error(err)
-			}
+			RouterOSVersion = tt.args.current
 			if got := testCheckMinVersion(t, tt.args.min); got != tt.want {
 				t.Errorf("TestCheckMinVersion() diag got = %v, want = %v", got, tt.want)
 			}

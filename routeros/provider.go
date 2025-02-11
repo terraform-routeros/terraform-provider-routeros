@@ -9,8 +9,13 @@ var (
 	ErrorMsgGet    = "An error was encountered while sending a GET request to the API: %v"
 	ErrorMsgPatch  = "An error was encountered while sending a PATCH request to the API: %v"
 	ErrorMsgDelete = "An error was encountered while sending a DELETE request to the API: %v"
+
+	RouterOSVersion string
 )
 
+// Generate the resources drift:
+//
+//go:generate go run ../tools/drift/main.go
 func Provider() *schema.Provider {
 	return &schema.Provider{
 		Schema: map[string]*schema.Schema{
@@ -84,6 +89,16 @@ func Provider() *schema.Provider {
 					false,
 				),
 				Description: "Suppress the system object deletion warning.",
+			},
+			"routeros": {
+				Type:     schema.TypeString,
+				Optional: true,
+				DefaultFunc: schema.MultiEnvDefaultFunc(
+					[]string{"ROS_VERSION"},
+					nil,
+				),
+				Description: "RouterOS version for which resource schemes will be adapted. The version obtained from " +
+					"MikroTik will be used if not specified.",
 			},
 		},
 		ResourcesMap: map[string]*schema.Resource{

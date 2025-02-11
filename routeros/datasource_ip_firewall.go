@@ -64,6 +64,8 @@ func datasourceIPFirewallFilterRead(ctx context.Context, d *schema.ResourceData,
 			// Kebab case!
 			path += SnakeToKebab(section)
 		}
+		// To handle drift.
+		s[MetaResourcePath] = PropResourcePath(path)
 
 		// Snake case!
 		var res []MikrotikItem
