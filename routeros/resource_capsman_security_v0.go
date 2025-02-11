@@ -64,7 +64,7 @@ func ResourceCapsManSecurityV0() *schema.Resource {
 				Optional: true,
 				Description: "Controls how often Access Point updates the group key. This key is used to encrypt all " +
 					"broadcast and multicast frames. property only has effect for Access Points. (30s..1h)",
-				DiffSuppressFunc: TimeEquall,
+				DiffSuppressFunc: TimeEqual,
 			},
 			KeyName: PropNameForceNewRw,
 			// 802.11i specification:

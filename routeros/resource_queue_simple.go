@@ -75,7 +75,7 @@ func ResourceQueueSimple() *schema.Resource {
 			Optional: true,
 			Description: "Period of time, in seconds, over which the average upload/download data rate is calculated. " +
 				"This is NOT the time of actual burst.",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			DiffSuppressFunc: TimeEqual,
 		},
 		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
@@ -143,7 +143,7 @@ func ResourceQueueSimple() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Allow to specify time when particular queue will be active. Router must have correct time settings.",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"total_bucket_size": {
 			Type:        schema.TypeInt,
@@ -161,9 +161,10 @@ func ResourceQueueSimple() *schema.Resource {
 			Description: "",
 		},
 		"total_burst_time": {
-			Type:        schema.TypeInt,
-			Optional:    true,
-			Description: "",
+			Type:             schema.TypeInt,
+			Optional:         true,
+			Description:      "",
+			DiffSuppressFunc: TimeEqual,
 		},
 		"total_limit_at": {
 			Type:        schema.TypeInt,

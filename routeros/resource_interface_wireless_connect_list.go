@@ -36,7 +36,7 @@ func ResourceInterfaceWirelessConnectList() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"area_prefix": {
 			Type:     schema.TypeString,

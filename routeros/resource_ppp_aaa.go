@@ -26,9 +26,9 @@ func ResourcePppAaa() *schema.Resource {
 			Description: "An option that enables accounting for users.",
 		},
 		"enable_ipv6_accounting": {
-			Type:        schema.TypeBool,
-			Optional:    true,
-			Description: "An option that enables IPv6 separate accounting.",
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Description:      "An option that enables IPv6 separate accounting.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"interim_update": {
@@ -36,12 +36,12 @@ func ResourcePppAaa() *schema.Resource {
 			Optional:         true,
 			Default:          "0s",
 			Description:      "Interval between scheduled RADIUS Interim-Update messages.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"use_circuit_id_in_nas_port_id": {
-			Type:        schema.TypeBool,
-			Optional:    true,
-			Default:     false,
+			Type:     schema.TypeBool,
+			Optional: true,
+			Default:  false,
 		},
 		"use_radius": {
 			Type:        schema.TypeBool,

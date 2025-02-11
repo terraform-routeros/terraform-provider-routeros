@@ -82,13 +82,13 @@ func ResourceIpv6Settings() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"stale_neighbor_timeout": {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Timeout after which stale IPv6/Neighbor entries should be purged.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 	}
 

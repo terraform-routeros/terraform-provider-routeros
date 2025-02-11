@@ -113,7 +113,7 @@ func ResourcePPPProfile() *schema.Resource {
 			Optional: true,
 			Description: "Specifies  the amount of time after which the link will be terminated if there are  no " +
 				"activity present. Timeout is not set by default.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"incoming_filter": {
 			Type:     schema.TypeString,
@@ -210,7 +210,7 @@ func ResourcePPPProfile() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Maximum time the connection can stay up. By default no time limit is set.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"use_compression": {
 			Type:     schema.TypeString,

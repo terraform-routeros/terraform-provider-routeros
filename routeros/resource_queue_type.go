@@ -122,7 +122,7 @@ func ResourceQueueType() *schema.Resource {
 			Optional: true,
 			Description: "Period of time, in seconds, over which the average data rate is calculated. (This is " +
 				"NOT the time of actual burst).",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"pcq_classifier": {
 			Type:        schema.TypeSet,
@@ -197,7 +197,7 @@ func ResourceQueueType() *schema.Resource {
 			Optional: true,
 			Description: "Interval should be set on the order of the worst-case RTT through the bottleneck giving " +
 				"endpoints sufficient time to react.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"codel_limit": {
 			Type:             schema.TypeInt,
@@ -209,7 +209,7 @@ func ResourceQueueType() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Represents an acceptable minimum persistent queue delay.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		// FQ-Codel
 		"fq_codel_ce_threshold": {
@@ -233,7 +233,7 @@ func ResourceQueueType() *schema.Resource {
 			Optional: true,
 			Description: "Interval should be set on the order of the worst-case RTT through the bottleneck giving " +
 				"endpoints sufficient time to react.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"fq_codel_limit": {
 			Type:             schema.TypeInt,
@@ -259,7 +259,7 @@ func ResourceQueueType() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Represents an acceptable minimum persistent queue delay.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		// CAKE
 		"cake_ack_filter": {
@@ -361,7 +361,7 @@ func ResourceQueueType() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Manually specify an RTT. Default 100ms is suitable for most Internet traffic.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"cake_rtt_scheme": {
 			Type:     schema.TypeString,

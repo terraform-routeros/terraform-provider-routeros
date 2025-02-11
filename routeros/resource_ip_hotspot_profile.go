@@ -68,7 +68,7 @@ func ResourceIpHotspotProfile() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "HTTP cookie validity time, the option is related to cookie HotSpot login method.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"http_proxy": {
 			Type:     schema.TypeString,
@@ -149,7 +149,7 @@ func ResourceIpHotspotProfile() *schema.Resource {
 			Optional: true,
 			Description: "How often to send accounting updates . When received is set, interim-time is used from RADIUS " +
 				"server. 0s is the same as received.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"radius_location_name": {
 			Type:     schema.TypeString,
@@ -201,13 +201,13 @@ func ResourceIpHotspotProfile() *schema.Resource {
 			Optional: true,
 			Description: "Used only with trial authentication method. Time value specifies, how long trial user " +
 				"identified by MAC address can use access to public networks without HotSpot authentication.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"trial_uptime_reset": {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Used only with trial authentication method.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"trial_user_profile": {
 			Type:             schema.TypeString,

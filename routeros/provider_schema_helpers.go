@@ -410,13 +410,13 @@ var (
 		Type:             schema.TypeString,
 		Optional:         true,
 		ValidateFunc:     ValidationTime,
-		DiffSuppressFunc: TimeEquall,
+		DiffSuppressFunc: TimeEqual,
 	}
 	PropLoopProtectSendIntervalRw = &schema.Schema{
 		Type:             schema.TypeString,
 		Optional:         true,
 		ValidateFunc:     ValidationTime,
-		DiffSuppressFunc: TimeEquall,
+		DiffSuppressFunc: TimeEqual,
 	}
 	PropLoopProtectStatusRo = &schema.Schema{
 		Type:     schema.TypeString,
@@ -660,7 +660,7 @@ var (
 
 // Properties DiffSuppressFunc.
 var (
-	TimeEquall = func(k, old, new string, d *schema.ResourceData) bool {
+	TimeEqual = func(k, old, new string, d *schema.ResourceData) bool {
 		if old == "" {
 			return false
 		}

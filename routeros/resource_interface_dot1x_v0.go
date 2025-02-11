@@ -78,7 +78,7 @@ func ResourceInterfaceDot1xServerV0() *schema.Resource {
 			Optional:         true,
 			Default:          "1m",
 			Description:      "Total time available for EAP authentication.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"auth_types": {
 			Type:        schema.TypeString,
@@ -100,7 +100,7 @@ func ResourceInterfaceDot1xServerV0() *schema.Resource {
 			Optional:         true,
 			Default:          "0s",
 			Description:      "Interval between scheduled RADIUS Interim-Update messages.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"mac_auth_mode": {
 			Type:         schema.TypeString,
@@ -121,7 +121,7 @@ func ResourceInterfaceDot1xServerV0() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "An option that enables server port re-authentication.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"reject_vlan_id": {
 			Type:         schema.TypeInt,
@@ -134,7 +134,7 @@ func ResourceInterfaceDot1xServerV0() *schema.Resource {
 			Optional:         true,
 			Default:          "30s",
 			Description:      "The time interval between message re-transmissions if no response is received from the supplicant.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"server_fail_vlan_id": {
 			Type:         schema.TypeInt,

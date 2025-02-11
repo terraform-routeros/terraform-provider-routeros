@@ -238,7 +238,7 @@ func ResourceRoutingBGPTemplate() *schema.Resource {
 			Optional:         true,
 			Default:          "3m",
 			Description:      "How long to keep the BGP session open after the last received 'keepalive' message.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"multihop": {
 			Type:     schema.TypeBool,

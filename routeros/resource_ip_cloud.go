@@ -58,7 +58,7 @@ func ResourceIpCloud() *schema.Resource {
 					return false
 				}
 
-				return TimeEquall(k, old, new, d)
+				return TimeEqual(k, old, new, d)
 			},
 		},
 		"dns_name": {

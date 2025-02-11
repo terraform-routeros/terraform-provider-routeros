@@ -37,7 +37,7 @@ func ResourceInterfaceWirelessAccessList() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Option which permits client's signal to be out of the range always or for some time interval.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"ap_tx_limit": {
 			Type:     schema.TypeInt,

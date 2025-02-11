@@ -56,7 +56,7 @@ func ResourceInterfaceBonding() *schema.Resource {
 			Optional:         true,
 			Default:          "100ms",
 			Description:      "Time in milliseconds defines how often to monitor ARP requests.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"arp_ip_targets": {
 			Type:     schema.TypeString,
@@ -74,7 +74,7 @@ func ResourceInterfaceBonding() *schema.Resource {
 			Description: "If a link failure has been detected, the bonding interface is disabled for a down-delay " +
 				"time. The value should be a multiple of mii-interval, otherwise, it will be rounded down " +
 				"to the nearest value. This property only has an effect when link-monitoring is set to mii.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"forced_mac_address": {
 			Type:     schema.TypeString,
@@ -126,7 +126,7 @@ func ResourceInterfaceBonding() *schema.Resource {
 			Default:  "100ms",
 			Description: "How often to monitor the link for failures (the parameter used only if link-monitoring " +
 				"is mii)",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"mlag_id": {
 			Type:     schema.TypeInt,
@@ -208,7 +208,7 @@ func ResourceInterfaceBonding() *schema.Resource {
 				"after this time it is enabled. The value should be a multiple of mii-interval , " +
 				"otherwise, it will be rounded down to the nearest value. This property only has an " +
 				"effect when link-monitoring is set to mii.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"transmit_hash_policy": {
 			Type:     schema.TypeString,

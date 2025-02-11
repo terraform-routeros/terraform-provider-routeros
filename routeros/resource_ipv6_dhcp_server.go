@@ -86,7 +86,7 @@ func ResourceIpv6DhcpServer() *schema.Resource {
 			Optional: true,
 			Description: "The time that a client may use the assigned address. The client will try to renew this address " +
 				"after half of this time and will request a new address after the time limit expires.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		KeyName: PropName("Reference name."),
 		"parent_queue": {

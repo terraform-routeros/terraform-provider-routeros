@@ -71,13 +71,13 @@ func ResourceUserManagerLimitation() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Default:          "0s",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"rate_limit_burst_time_tx": {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Default:          "0s",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"rate_limit_min_rx": {
 			Type:         schema.TypeInt,
@@ -141,7 +141,7 @@ func ResourceUserManagerLimitation() *schema.Resource {
 			Optional:         true,
 			Default:          "0s",
 			Description:      "The total amount of uptime a user can stay active.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 	}
 

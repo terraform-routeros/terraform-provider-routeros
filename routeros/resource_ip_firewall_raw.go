@@ -54,7 +54,7 @@ func ResourceIPFirewallRaw() *schema.Resource {
 			Description: "Time interval after which the address will be removed from the address list specified by " +
 				"address-list parameter. Used in conjunction with add-dst-to-address-list or add-src-to-address-list " +
 				"actions.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"chain": {
 			Type:     schema.TypeString,

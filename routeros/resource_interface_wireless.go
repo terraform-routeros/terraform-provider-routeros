@@ -311,7 +311,7 @@ func ResourceInterfaceWireless() *schema.Resource {
 				"transmission will be retried with on-fail-retry-time interval. If no frame can be transmitted successfully " +
 				"during disconnect-timeout, the connection is closed, and this event is logged as `extensive data loss`. " +
 				"Successful frame transmission resets this timer.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"distance": {
 			Type:     schema.TypeString,
@@ -621,7 +621,7 @@ func ResourceInterfaceWireless() *schema.Resource {
 			Optional: true,
 			Description: "After third sending failure on the lowest data rate, wait for specified time interval before " +
 				"retrying.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"periodic_calibration": {
 			Type:     schema.TypeString,

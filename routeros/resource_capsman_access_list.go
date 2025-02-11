@@ -42,7 +42,7 @@ func ResourceCapsManAccessList() *schema.Resource {
 			Optional:         true,
 			Default:          "10s",
 			Description:      "An option that permits the client's signal to be out of the range always or for some time interval.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"ap_tx_limit": {
 			Type:        schema.TypeInt,

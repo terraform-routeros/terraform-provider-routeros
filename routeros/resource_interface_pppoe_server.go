@@ -52,7 +52,7 @@ func ResourceInterfacePppoeServer() *schema.Resource {
 			Description: "Defines the time period (in seconds) after which the router is starting to send keepalive " +
 				"packets every second. If there is no traffic and no keepalive responses arrive for that period of time " +
 				"(i.e. 2 * keepalive-timeout), the non responding client is proclaimed disconnected.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"max_mru": {
 			Type:     schema.TypeInt,

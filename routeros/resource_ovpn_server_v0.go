@@ -86,7 +86,7 @@ func ResourceOpenVPNServerV0() *schema.Resource {
 				"keepalive packets every second. If no traffic and no keepalive  responses have come for " +
 				"that period of time (i.e. 2 *  keepalive-timeout), not responding client is proclaimed " +
 				"disconnected",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		// Computed only???
 		"mac_address": {

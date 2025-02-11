@@ -45,7 +45,7 @@ func ResourceInterfaceSSTPServer() *schema.Resource {
 			Optional:         true,
 			Default:          "60",
 			Description:      "Sets keepalive timeout in seconds.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"port": {
 			Type:             schema.TypeString,

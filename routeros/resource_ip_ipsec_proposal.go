@@ -54,7 +54,7 @@ func ResourceIpIpsecProposal() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "How long to use SA before throwing it out.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		KeyName: PropName(""),
 		"pfs_group": {
