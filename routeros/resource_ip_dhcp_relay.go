@@ -22,7 +22,7 @@ func ResourceDhcpRelay() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "If secs field in DHCP packet is smaller than delay-threshold, then this packet is ignored.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		KeyDisabled: PropDisabledRw,
 		"dhcp_server": {

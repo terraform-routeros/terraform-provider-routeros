@@ -42,7 +42,7 @@ func ResourceIpIpsecProfile() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Dead peer detection interval. If set to disable-dpd, dead peer detection will not be used.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"dpd_maximum_failures": {
 			Type:             schema.TypeInt,
@@ -80,7 +80,7 @@ func ResourceIpIpsecProfile() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Phase 1 lifetime: specifies how long the SA will be valid.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		KeyName: PropName(""),
 		"nat_traversal": {

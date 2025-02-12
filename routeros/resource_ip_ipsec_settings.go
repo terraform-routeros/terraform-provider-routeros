@@ -27,7 +27,7 @@ func ResourceIpIpsecSettings() *schema.Resource {
 			Optional: true,
 			Description: "The interval between each consecutive RADIUS accounting Interim update. Accounting must be " +
 				"enabled.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"xauth_use_radius": {
 			Type:     schema.TypeBool,

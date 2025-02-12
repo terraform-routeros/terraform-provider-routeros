@@ -53,7 +53,7 @@ func ResourceUser() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Inactivity timeout for non-GUI sessions.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		KeyName: PropName("User name. Although it must start with an alphanumeric character, it may contain '*', " +
 			"'_', '.' and '@' symbols."),

@@ -48,7 +48,7 @@ func ResourceInterfaceWireguardPeer() *schema.Resource {
 			Optional:         true,
 			Description:      "Same as persistent-keepalive but from peer side.",
 			ValidateFunc:     ValidationTime,
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"client_listen_port": {
 			Type:     schema.TypeInt,

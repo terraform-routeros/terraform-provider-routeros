@@ -22,7 +22,7 @@ func ResourceDhcpServerConfig() *schema.Resource {
 			Optional:         true,
 			Default:          "0s",
 			Description:      "An option determining whether the DHCP server sends periodic updates to the accounting server during a lease.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"radius_password": {
 			Type:         schema.TypeString,
@@ -36,7 +36,7 @@ func ResourceDhcpServerConfig() *schema.Resource {
 			Optional:         true,
 			Default:          "5m",
 			Description:      "An option of how often the DHCP leases will be stored on disk.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 	}
 	return &schema.Resource{

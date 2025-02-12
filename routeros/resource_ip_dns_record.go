@@ -149,7 +149,7 @@ func ResourceDnsRecord() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "The ttl of the DNS record.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"type": {
 			Type:        schema.TypeString,

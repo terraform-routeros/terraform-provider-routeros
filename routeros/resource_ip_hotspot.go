@@ -48,7 +48,7 @@ func ResourceIpHotspot() *schema.Resource {
 			Description: "Period of inactivity for unauthorized clients. When there is no traffic from this client (literally " +
 				"client computer should be switched off), once the timeout is reached, a user is dropped from the HotSpot " +
 				"host list, its used address becomes available.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"interface": {
 			Type:        schema.TypeString,
@@ -61,7 +61,7 @@ func ResourceIpHotspot() *schema.Resource {
 			Optional: true,
 			Description: "The exact value of the keepalive-timeout, that is applied to the user. Value shows how long " +
 				"the host can stay out of reach to be removed from the HotSpot.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"login_timeout": {
 			Type:     schema.TypeString,
@@ -69,7 +69,7 @@ func ResourceIpHotspot() *schema.Resource {
 			Description: "Period of time after which if a host hasn't been authorized itself with a system the host " +
 				"entry gets deleted from host table. Loop repeats until the host logs in the system. Enable if there " +
 				"are situations where a host cannot log in after being too long in the host table unauthorized.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		KeyName: PropName("HotSpot server's name or identifier."),
 		"profile": {

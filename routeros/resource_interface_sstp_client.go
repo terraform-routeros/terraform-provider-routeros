@@ -155,7 +155,7 @@ func ResourceInterfaceSSTPClient() *schema.Resource {
 			Optional:         true,
 			Default:          "60",
 			Description:      "Sets keepalive timeout in seconds.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"pfs": {
 			Type:     schema.TypeBool,

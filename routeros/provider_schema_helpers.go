@@ -366,12 +366,12 @@ var (
 			}
 
 			// Compare keepalive intervals.
-			oDuration, err := ParseDuration(o[0])
+			oDuration, err := ParseDuration(o[0], time.Second)
 			if err != nil {
 				panic("[Keepalive] parse 'old' duration error: " + err.Error())
 			}
 
-			nDuration, err := ParseDuration(n[0])
+			nDuration, err := ParseDuration(n[0], time.Second)
 			if err != nil {
 				panic("[Keepalive] parse 'new' duration error: " + err.Error())
 			}
@@ -410,13 +410,13 @@ var (
 		Type:             schema.TypeString,
 		Optional:         true,
 		ValidateFunc:     ValidationTime,
-		DiffSuppressFunc: TimeEquall,
+		DiffSuppressFunc: TimeEqual,
 	}
 	PropLoopProtectSendIntervalRw = &schema.Schema{
 		Type:             schema.TypeString,
 		Optional:         true,
 		ValidateFunc:     ValidationTime,
-		DiffSuppressFunc: TimeEquall,
+		DiffSuppressFunc: TimeEqual,
 	}
 	PropLoopProtectStatusRo = &schema.Schema{
 		Type:     schema.TypeString,
@@ -519,7 +519,7 @@ var (
 				return diag.Errorf("expected type to be string")
 			}
 
-			duration, err := ParseDuration(value)
+			duration, err := ParseDuration(value, time.Second)
 			if err != nil {
 				return diag.FromErr(err)
 			}
@@ -660,7 +660,22 @@ var (
 
 // Properties DiffSuppressFunc.
 var (
-	TimeEquall = func(k, old, new string, d *schema.ResourceData) bool {
+	// Composite parameter splitting function.
+	split = func(r rune) bool { return r == '/' || r == ',' }
+
+	// A common function for comparing time when it is specified in seconds.
+	TimeEqual = func(k, old, new string, d *schema.ResourceData) bool {
+		return timeEqual(k, old, new, d, time.Second)
+	}
+
+	// Function for comparing time at a base value other than seconds.
+	TimeEqualU = func(baseUnits time.Duration) schema.SchemaDiffSuppressFunc {
+		return func(k, old, new string, d *schema.ResourceData) bool {
+			return timeEqual(k, old, new, d, baseUnits)
+		}
+	}
+
+	timeEqual = func(k, old, new string, d *schema.ResourceData, baseUnits time.Duration) bool {
 		if old == "" {
 			return false
 		}
@@ -675,17 +690,29 @@ var (
 		}
 
 		// Compare intervals:
-		oDuration, err := ParseDuration(old)
-		if err != nil {
-			panic("[TimeEquall] parse 'old' duration error: " + err.Error())
+		oldSet := strings.FieldsFunc(old, split)
+		newSet := strings.FieldsFunc(new, split)
+		if len(oldSet) != len(newSet) {
+			return false
 		}
 
-		nDuration, err := ParseDuration(new)
-		if err != nil {
-			panic("[TimeEquall] parse 'new' duration error: " + err.Error())
+		for i, _ := range oldSet {
+			o, err := ParseDuration(oldSet[i], baseUnits)
+			if err != nil {
+				panic("[TimeEquall] parse 'old' duration error: " + err.Error())
+			}
+
+			n, err := ParseDuration(newSet[i], baseUnits)
+			if err != nil {
+				panic("[TimeEquall] parse 'new' duration error: " + err.Error())
+			}
+
+			if o != n {
+				return false
+			}
 		}
 
-		return oDuration.Seconds() == nDuration.Seconds()
+		return true
 	}
 
 	HexEqual = func(k, old, new string, d *schema.ResourceData) bool {
@@ -749,6 +776,41 @@ var (
 
 	MacAddressEqual = func(k, old, new string, d *schema.ResourceData) bool {
 		return strings.EqualFold(old, new)
+	}
+
+	BitsEqual = func(k, old, new string, d *schema.ResourceData) bool {
+		if old == "" {
+			return false
+		}
+
+		if AlwaysPresentNotUserProvided(k, old, new, d) {
+			return true
+		}
+
+		// Compare values 30M/30M <> 30000000/30000000 or 30M <> 30000000:
+		oldSet := strings.FieldsFunc(old, split)
+		newSet := strings.FieldsFunc(new, split)
+		if len(oldSet) != len(newSet) {
+			return false
+		}
+
+		for i, _ := range oldSet {
+			o, err := ParseBitValues(oldSet[i])
+			if err != nil {
+				panic("[BitsEqual] parse 'old' value error: " + err.Error())
+			}
+
+			n, err := ParseBitValues(newSet[i])
+			if err != nil {
+				panic("[BitsEqual] parse 'new' value error: " + err.Error())
+			}
+
+			if o != n {
+				return false
+			}
+		}
+
+		return true
 	}
 )
 

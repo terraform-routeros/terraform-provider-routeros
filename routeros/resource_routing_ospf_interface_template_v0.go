@@ -83,7 +83,7 @@ func ResourceRoutingOspfInterfaceTemplateV0() *schema.Resource {
 			Default:          "40s",
 			Description:      "Specifies the interval after which a neighbor is declared dead.",
 			ValidateFunc:     ValidationTime,
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		KeyDisabled: PropDisabledRw,
 		"hello_interval": {
@@ -92,7 +92,7 @@ func ResourceRoutingOspfInterfaceTemplateV0() *schema.Resource {
 			Default:          "10s",
 			Description:      "The interval between HELLO packets that the router sends out this interface.",
 			ValidateFunc:     ValidationTime,
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		KeyInactive: PropInactiveRo,
 		"interfaces": {
@@ -141,7 +141,7 @@ func ResourceRoutingOspfInterfaceTemplateV0() *schema.Resource {
 			Default:          "5s",
 			Description:      "Time interval the lost link state advertisement will be resent.",
 			ValidateFunc:     ValidationTime,
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"transmit_delay": {
 			Type:     schema.TypeString,
@@ -150,7 +150,7 @@ func ResourceRoutingOspfInterfaceTemplateV0() *schema.Resource {
 			Description: "Link-state transmit delay is the estimated time it takes to transmit a link-state " +
 				"update packet on the interface.",
 			ValidateFunc:     ValidationTime,
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"type": {
 			Type:        schema.TypeString,

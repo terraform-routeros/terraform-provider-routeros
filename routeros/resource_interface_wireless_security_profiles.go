@@ -105,7 +105,7 @@ func ResourceInterfaceWirelessSecurityProfiles() *schema.Resource {
 			Optional: true,
 			Description: "Controls how often Access Point updates the group key. This key is used to encrypt all broadcast " +
 				"and multicast frames. property only has effect for Access Points.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"interim_update": {
 			Type:     schema.TypeString,
@@ -113,7 +113,7 @@ func ResourceInterfaceWirelessSecurityProfiles() *schema.Resource {
 			Description: "When RADIUS accounting is used, Access Point periodically sends accounting information updates " +
 				"to the RADIUS server. This property specifies default update interval that can be overridden by the " +
 				"RADIUS server using Acct-Interim-Interval attribute.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"management_protection": {
 			Type:     schema.TypeString,

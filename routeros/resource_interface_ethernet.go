@@ -222,7 +222,7 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Optional:    true,
 			Description: "If the host does not respond over the specified period, the PoE-Out port is switched off for 5s.",
 			DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
-				return AlwaysPresentNotUserProvided(k, old, new, d) || TimeEquall(k, old, new, d)
+				return AlwaysPresentNotUserProvided(k, old, new, d) || TimeEqual(k, old, new, d)
 			},
 		},
 		"running": {
@@ -253,9 +253,9 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"sfp_ignore_rx_los": {
-			Type:     schema.TypeBool,
-			Optional: true,
-			Description: "An option to ignore RX LOS (Loss of Signal) status of the SFP module.",
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Description:      "An option to ignore RX LOS (Loss of Signal) status of the SFP module.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"slave": {

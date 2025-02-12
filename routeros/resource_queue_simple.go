@@ -60,7 +60,7 @@ func ResourceQueueSimple() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Maximal upload/download data rate which can be reached while the burst is active.",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			DiffSuppressFunc: BitsEqual,
 		},
 		"burst_threshold": {
 			Type:     schema.TypeString,
@@ -68,14 +68,14 @@ func ResourceQueueSimple() *schema.Resource {
 			Description: "When average data rate is below this value - burst is allowed, as soon as average data " +
 				"rate reach this value - burst is denied (basically this is burst on/off switch). For optimal burst " +
 				"behavior this value should above `limit-at` value and below `max-limit` value",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			DiffSuppressFunc: BitsEqual,
 		},
 		"burst_time": {
 			Type:     schema.TypeString,
 			Optional: true,
 			Description: "Period of time, in seconds, over which the average upload/download data rate is calculated. " +
 				"This is NOT the time of actual burst.",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			DiffSuppressFunc: TimeEqual,
 		},
 		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
@@ -91,13 +91,13 @@ func ResourceQueueSimple() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Normal upload/download data rate that is guaranteed to a target.",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			DiffSuppressFunc: BitsEqual,
 		},
 		"max_limit": {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Maximal upload/download data rate that is allowed for a target to reach to reach what.",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			DiffSuppressFunc: BitsEqual,
 		},
 		KeyName: PropName("Queue name."),
 		"packet_marks": {
@@ -143,7 +143,7 @@ func ResourceQueueSimple() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Allow to specify time when particular queue will be active. Router must have correct time settings.",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"total_bucket_size": {
 			Type:        schema.TypeInt,
@@ -161,9 +161,10 @@ func ResourceQueueSimple() *schema.Resource {
 			Description: "",
 		},
 		"total_burst_time": {
-			Type:        schema.TypeInt,
-			Optional:    true,
-			Description: "",
+			Type:             schema.TypeInt,
+			Optional:         true,
+			Description:      "",
+			DiffSuppressFunc: TimeEqual,
 		},
 		"total_limit_at": {
 			Type:        schema.TypeInt,

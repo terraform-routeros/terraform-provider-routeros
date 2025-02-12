@@ -74,7 +74,7 @@ func ResourceIpHotspotUserProfile() *schema.Resource {
 				"for all further advertisements, 10 minutes.",
 			Elem: &schema.Schema{
 				Type:             schema.TypeString,
-				DiffSuppressFunc: TimeEquall,
+				DiffSuppressFunc: TimeEqual,
 			},
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
@@ -124,13 +124,13 @@ func ResourceIpHotspotUserProfile() *schema.Resource {
 			Optional: true,
 			Description: "Keepalive timeout for authorized HotSpot clients. Used to detect, that the computer of the " +
 				"client is alive and reachable. User is logged out, when timeout value is reached.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"mac_cookie_timeout": {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Selects mac-cookie timeout from last login or logout. Read more>>.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		KeyName: PropName("Descriptive name of the profile."),
 		"on_login": {
@@ -201,7 +201,7 @@ func ResourceIpHotspotUserProfile() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Allowed session time for client. After this time, the user is logged out unconditionally.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"shared_users": {
 			Type:             schema.TypeInt,
@@ -213,7 +213,7 @@ func ResourceIpHotspotUserProfile() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "HotSpot status page autorefresh interval.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"transparent_proxy": {
 			Type:             schema.TypeBool,

@@ -28,7 +28,7 @@ func ResourceInterfaceDot1xClient() *schema.Resource {
 			Type:     schema.TypeSet,
 			Required: true,
 			Elem: &schema.Schema{
-				Type: schema.TypeString,
+				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"eap-tls", "eap-ttls", "eap-peap", "eap-mschapv2"}, false),
 			},
 			Description: "A set of EAP methods used for authentication: `eap-tls`, `eap-ttls`, `eap-peap`, `eap-mschapv2`.",
@@ -61,11 +61,11 @@ func ResourceInterfaceDot1xClient() *schema.Resource {
 			StateContext: schema.ImportStatePassthroughContext,
 		},
 
-		Schema: resSchema,
+		Schema:        resSchema,
 		SchemaVersion: 1,
 		StateUpgraders: []schema.StateUpgrader{
 			{
-				Type: ResourceInterfaceDot1xClientV0().CoreConfigSchema().ImpliedType(),
+				Type:    ResourceInterfaceDot1xClientV0().CoreConfigSchema().ImpliedType(),
 				Upgrade: stateMigrationScalarToList("eap_methods"),
 				Version: 0,
 			},
@@ -90,13 +90,13 @@ func ResourceInterfaceDot1xServer() *schema.Resource {
 			Optional:         true,
 			Default:          "1m",
 			Description:      "Total time available for EAP authentication.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"auth_types": {
 			Type:     schema.TypeSet,
 			Optional: true,
 			Elem: &schema.Schema{
-				Type: schema.TypeString,
+				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"dot1x", "mac-auth"}, false),
 			},
 			Description: "Used authentication type on a server interface. Comma-separated list of `dot1x` and `mac-auth`.",
@@ -115,7 +115,7 @@ func ResourceInterfaceDot1xServer() *schema.Resource {
 			Optional:         true,
 			Default:          "0s",
 			Description:      "Interval between scheduled RADIUS Interim-Update messages.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"mac_auth_mode": {
 			Type:         schema.TypeString,
@@ -136,7 +136,7 @@ func ResourceInterfaceDot1xServer() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "An option that enables server port re-authentication.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"reject_vlan_id": {
 			Type:         schema.TypeInt,
@@ -149,7 +149,7 @@ func ResourceInterfaceDot1xServer() *schema.Resource {
 			Optional:         true,
 			Default:          "30s",
 			Description:      "The time interval between message re-transmissions if no response is received from the supplicant.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"server_fail_vlan_id": {
 			Type:         schema.TypeInt,
@@ -169,11 +169,11 @@ func ResourceInterfaceDot1xServer() *schema.Resource {
 			StateContext: schema.ImportStatePassthroughContext,
 		},
 
-		Schema: resSchema,
+		Schema:        resSchema,
 		SchemaVersion: 1,
 		StateUpgraders: []schema.StateUpgrader{
 			{
-				Type: ResourceInterfaceDot1xServerV0().CoreConfigSchema().ImpliedType(),
+				Type:    ResourceInterfaceDot1xServerV0().CoreConfigSchema().ImpliedType(),
 				Upgrade: stateMigrationScalarToList("auth_types"),
 				Version: 0,
 			},

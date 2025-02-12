@@ -166,13 +166,13 @@ func ResourceWifiSecurity() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "The lifetime of the fast BSS transition PMK-R0 encryption key.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"ft_reassociation_deadline": {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Fast BSS transition reassociation deadline.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"group_encryption": {
 			Type:         schema.TypeString,
@@ -184,7 +184,7 @@ func ResourceWifiSecurity() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "The interval at which the group temporal key (key for encrypting broadcast traffic) is renewed.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"management_encryption": {
 			Type:         schema.TypeString,

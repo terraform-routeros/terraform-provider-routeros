@@ -59,7 +59,7 @@ func ResourceWifiConfiguration() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Time interval between beacon frames.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"chains": {
 			Type:     schema.TypeSet,

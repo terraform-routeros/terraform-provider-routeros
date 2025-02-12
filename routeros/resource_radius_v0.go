@@ -90,7 +90,7 @@ func ResourceRadiusV0() *schema.Resource {
 			Optional:         true,
 			Default:          "300ms",
 			Description:      "A timeout, after which the request should be resent.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 	}
 

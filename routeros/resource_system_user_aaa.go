@@ -43,7 +43,7 @@ func ResourceUserAaa() *schema.Resource {
 			Optional:         true,
 			Default:          "0s",
 			Description:      "Interval between scheduled RADIUS Interim-Update messages.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"use_radius": {
 			Type:        schema.TypeBool,

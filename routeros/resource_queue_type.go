@@ -1,6 +1,8 @@
 package routeros
 
 import (
+	"time"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
@@ -109,7 +111,7 @@ func ResourceQueueType() *schema.Resource {
 			Type:             schema.TypeInt,
 			Optional:         true,
 			Description:      "Maximal upload/download data rate which can be reached while the burst for substream is allowed.",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			DiffSuppressFunc: BitsEqual,
 		},
 		"pcq_burst_threshold": {
 			Type:             schema.TypeInt,
@@ -122,7 +124,7 @@ func ResourceQueueType() *schema.Resource {
 			Optional: true,
 			Description: "Period of time, in seconds, over which the average data rate is calculated. (This is " +
 				"NOT the time of actual burst).",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqual,
 		},
 		"pcq_classifier": {
 			Type:        schema.TypeSet,
@@ -158,7 +160,7 @@ func ResourceQueueType() *schema.Resource {
 			Type:             schema.TypeInt,
 			Optional:         true,
 			Description:      "Maximal available data rate of each sub-steam.",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			DiffSuppressFunc: BitsEqual,
 		},
 		"pcq_src_address_mask": {
 			Type:             schema.TypeInt,
@@ -183,9 +185,10 @@ func ResourceQueueType() *schema.Resource {
 		},
 		// CoDel
 		"codel_ce_threshold": {
-			Type:        schema.TypeInt,
-			Optional:    true,
-			Description: "Marks packets above a configured threshold with ECN.",
+			Type:             schema.TypeInt,
+			Optional:         true,
+			Description:      "Marks packets above a configured threshold with ECN.",
+			DiffSuppressFunc: TimeEqualU(time.Nanosecond),
 		},
 		"codel_ecn": {
 			Type:        schema.TypeBool,
@@ -197,7 +200,7 @@ func ResourceQueueType() *schema.Resource {
 			Optional: true,
 			Description: "Interval should be set on the order of the worst-case RTT through the bottleneck giving " +
 				"endpoints sufficient time to react.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqualU(time.Millisecond),
 		},
 		"codel_limit": {
 			Type:             schema.TypeInt,
@@ -209,13 +212,14 @@ func ResourceQueueType() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Represents an acceptable minimum persistent queue delay.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqualU(time.Millisecond),
 		},
 		// FQ-Codel
 		"fq_codel_ce_threshold": {
-			Type:        schema.TypeInt,
-			Optional:    true,
-			Description: "Marks packets above a configured threshold with ECN.",
+			Type:             schema.TypeInt,
+			Optional:         true,
+			Description:      "Marks packets above a configured threshold with ECN.",
+			DiffSuppressFunc: TimeEqualU(time.Nanosecond),
 		},
 		"fq_codel_ecn": {
 			Type:        schema.TypeBool,
@@ -233,7 +237,7 @@ func ResourceQueueType() *schema.Resource {
 			Optional: true,
 			Description: "Interval should be set on the order of the worst-case RTT through the bottleneck giving " +
 				"endpoints sufficient time to react.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqualU(time.Millisecond),
 		},
 		"fq_codel_limit": {
 			Type:             schema.TypeInt,
@@ -259,7 +263,7 @@ func ResourceQueueType() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Represents an acceptable minimum persistent queue delay.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqualU(time.Millisecond),
 		},
 		// CAKE
 		"cake_ack_filter": {
@@ -286,7 +290,7 @@ func ResourceQueueType() *schema.Resource {
 			Type:             schema.TypeInt,
 			Optional:         true,
 			Description:      "Sets the shaper bandwidth.",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			DiffSuppressFunc: BitsEqual,
 		},
 		"cake_diffserv": {
 			Type:     schema.TypeString,
@@ -361,7 +365,7 @@ func ResourceQueueType() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Manually specify an RTT. Default 100ms is suitable for most Internet traffic.",
-			DiffSuppressFunc: TimeEquall,
+			DiffSuppressFunc: TimeEqualU(time.Millisecond),
 		},
 		"cake_rtt_scheme": {
 			Type:     schema.TypeString,
