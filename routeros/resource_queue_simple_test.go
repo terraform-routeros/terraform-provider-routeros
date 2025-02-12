@@ -27,7 +27,7 @@ func TestAccQueueSimpleTest_basic(t *testing.T) {
 							testResourcePrimaryInstanceId(testQueueSimple),
 							resource.TestCheckResourceAttr(testQueueSimple, "name", "server"),
 							resource.TestCheckResourceAttr(testQueueSimple, "target.0", "10.1.1.1/32"),
-							resource.TestCheckResourceAttr(testQueueSimple, "max_limit", "0/0"),
+							resource.TestCheckResourceAttr(testQueueSimple, "max_limit", "20000000/20000000"),
 						),
 					},
 				},
@@ -43,7 +43,11 @@ func testAccQueueSimpleConfig() string {
 resource "routeros_queue_simple" "test" {
   name      = "server"
   target    = ["10.1.1.1/32"]
-  max_limit = "0/0"
+  # issues/643   
+  burst_limit     = "30M/30M"
+  burst_threshold = "25M/25M"
+  burst_time      = "10/10"
+  max_limit       = "20M/20M"
 }
 `, providerConfig)
 }
