@@ -2,6 +2,7 @@ package routeros
 
 import (
 	"regexp"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
@@ -81,12 +82,12 @@ the address will be stored into the address list permanently.
 				}
 
 				// Compare intervals:
-				oDuration, err := ParseDuration(old)
+				oDuration, err := ParseDuration(old, time.Second)
 				if err != nil {
 					panic("[FirewallAddrList Timeout] parse 'old' duration error: " + err.Error())
 				}
 
-				nDuration, err := ParseDuration(new)
+				nDuration, err := ParseDuration(new, time.Second)
 				if err != nil {
 					panic("[FirewallAddrList Timeout] parse 'new' duration error: " + err.Error())
 				}

@@ -366,12 +366,12 @@ var (
 			}
 
 			// Compare keepalive intervals.
-			oDuration, err := ParseDuration(o[0])
+			oDuration, err := ParseDuration(o[0], time.Second)
 			if err != nil {
 				panic("[Keepalive] parse 'old' duration error: " + err.Error())
 			}
 
-			nDuration, err := ParseDuration(n[0])
+			nDuration, err := ParseDuration(n[0], time.Second)
 			if err != nil {
 				panic("[Keepalive] parse 'new' duration error: " + err.Error())
 			}
@@ -519,7 +519,7 @@ var (
 				return diag.Errorf("expected type to be string")
 			}
 
-			duration, err := ParseDuration(value)
+			duration, err := ParseDuration(value, time.Second)
 			if err != nil {
 				return diag.FromErr(err)
 			}
@@ -660,9 +660,22 @@ var (
 
 // Properties DiffSuppressFunc.
 var (
+	// Composite parameter splitting function.
 	split = func(r rune) bool { return r == '/' || r == ',' }
 
+	// A common function for comparing time when it is specified in seconds.
 	TimeEqual = func(k, old, new string, d *schema.ResourceData) bool {
+		return timeEqual(k, old, new, d, time.Second)
+	}
+
+	// Function for comparing time at a base value other than seconds.
+	TimeEqualU = func(baseUnits time.Duration) schema.SchemaDiffSuppressFunc {
+		return func(k, old, new string, d *schema.ResourceData) bool {
+			return timeEqual(k, old, new, d, baseUnits)
+		}
+	}
+
+	timeEqual = func(k, old, new string, d *schema.ResourceData, baseUnits time.Duration) bool {
 		if old == "" {
 			return false
 		}
@@ -684,12 +697,12 @@ var (
 		}
 
 		for i, _ := range oldSet {
-			o, err := ParseDuration(oldSet[i])
+			o, err := ParseDuration(oldSet[i], baseUnits)
 			if err != nil {
 				panic("[TimeEquall] parse 'old' duration error: " + err.Error())
 			}
 
-			n, err := ParseDuration(newSet[i])
+			n, err := ParseDuration(newSet[i], baseUnits)
 			if err != nil {
 				panic("[TimeEquall] parse 'new' duration error: " + err.Error())
 			}
