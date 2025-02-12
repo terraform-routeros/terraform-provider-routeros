@@ -750,6 +750,41 @@ var (
 	MacAddressEqual = func(k, old, new string, d *schema.ResourceData) bool {
 		return strings.EqualFold(old, new)
 	}
+
+	BitsEqual = func(k, old, new string, d *schema.ResourceData) bool {
+		if old == "" {
+			return false
+		}
+
+		if AlwaysPresentNotUserProvided(k, old, new, d) {
+			return true
+		}
+
+		// Compare values 30M/30M <> 30000000/30000000 or 30M <> 30000000:
+		oldSet := strings.FieldsFunc(old, func(r rune) bool { return r == '/' || r == ',' })
+		newSet := strings.FieldsFunc(new, func(r rune) bool { return r == '/' || r == ',' })
+		if len(oldSet) != len(newSet) {
+			return false
+		}
+
+		for i, _ := range oldSet {
+			o, err := ParseBitValues(oldSet[i])
+			if err != nil {
+				panic("[BitsEqual] parse 'old' value error: " + err.Error())
+			}
+
+			n, err := ParseBitValues(newSet[i])
+			if err != nil {
+				panic("[BitsEqual] parse 'new' value error: " + err.Error())
+			}
+
+			if o != n {
+				return false
+			}
+		}
+
+		return true
+	}
 )
 
 func buildReadFilter(m map[string]interface{}) []string {
