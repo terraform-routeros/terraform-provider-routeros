@@ -25,6 +25,11 @@ func ParseBitValues(s string) (uint64, error) {
 		return 0, fmt.Errorf(`bits: invalid value "%v"`, s)
 	}
 
+	// Cut 'bps'.
+	if l := len(s); l > 4 && s[l-3:] == "bps" {
+		s = s[:l-3]
+	}
+
 	// Verifying the value.
 	for i := 0; i < len(s); i++ {
 		if s[i] < '0' || s[i] > '9' {

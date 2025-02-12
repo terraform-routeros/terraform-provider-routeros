@@ -13,6 +13,7 @@ func TestParseBitValue(t *testing.T) {
 		{"Positive #1", "30M", 30000000, false},
 		{"Positive #2", "30", 30, false},
 		{"Positive #3", "3E", 3000000000000000000, false},
+		{"Positive #4", "10Mbps", 10000000, false},
 		{"Negative #1", "30A", 0, true},
 		{"Negative #2", "30.0", 0, true},
 		{"Negative #3", "30Mb", 0, true},
