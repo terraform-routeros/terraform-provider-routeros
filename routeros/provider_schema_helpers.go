@@ -660,6 +660,8 @@ var (
 
 // Properties DiffSuppressFunc.
 var (
+	split = func(r rune) bool { return r == '/' || r == ',' }
+
 	TimeEqual = func(k, old, new string, d *schema.ResourceData) bool {
 		if old == "" {
 			return false
@@ -675,17 +677,29 @@ var (
 		}
 
 		// Compare intervals:
-		oDuration, err := ParseDuration(old)
-		if err != nil {
-			panic("[TimeEquall] parse 'old' duration error: " + err.Error())
+		oldSet := strings.FieldsFunc(old, split)
+		newSet := strings.FieldsFunc(new, split)
+		if len(oldSet) != len(newSet) {
+			return false
 		}
 
-		nDuration, err := ParseDuration(new)
-		if err != nil {
-			panic("[TimeEquall] parse 'new' duration error: " + err.Error())
+		for i, _ := range oldSet {
+			o, err := ParseDuration(oldSet[i])
+			if err != nil {
+				panic("[TimeEquall] parse 'old' duration error: " + err.Error())
+			}
+
+			n, err := ParseDuration(newSet[i])
+			if err != nil {
+				panic("[TimeEquall] parse 'new' duration error: " + err.Error())
+			}
+
+			if o != n {
+				return false
+			}
 		}
 
-		return oDuration.Seconds() == nDuration.Seconds()
+		return true
 	}
 
 	HexEqual = func(k, old, new string, d *schema.ResourceData) bool {
@@ -761,8 +775,8 @@ var (
 		}
 
 		// Compare values 30M/30M <> 30000000/30000000 or 30M <> 30000000:
-		oldSet := strings.FieldsFunc(old, func(r rune) bool { return r == '/' || r == ',' })
-		newSet := strings.FieldsFunc(new, func(r rune) bool { return r == '/' || r == ',' })
+		oldSet := strings.FieldsFunc(old, split)
+		newSet := strings.FieldsFunc(new, split)
 		if len(oldSet) != len(newSet) {
 			return false
 		}
