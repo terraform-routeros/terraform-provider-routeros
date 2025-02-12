@@ -90,7 +90,7 @@ func Provider() *schema.Provider {
 				),
 				Description: "Suppress the system object deletion warning.",
 			},
-			"routeros": {
+			"routeros_version": {
 				Type:     schema.TypeString,
 				Optional: true,
 				DefaultFunc: schema.MultiEnvDefaultFunc(

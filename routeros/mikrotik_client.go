@@ -114,7 +114,7 @@ func NewClient(ctx context.Context, d *schema.ResourceData) (interface{}, diag.D
 		panic("[NewClient] wrong transport type: " + routerUrl.Scheme)
 	}
 
-	RouterOSVersion = d.Get("routeros").(string)
+	RouterOSVersion = d.Get("routeros_version").(string)
 	if RouterOSVersion != "" {
 		ColorizedMessage(ctx, INFO, "RouterOS from env: "+RouterOSVersion)
 	}
