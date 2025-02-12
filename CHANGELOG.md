@@ -1,3 +1,10 @@
+## [1.76.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.76.1...v1.76.2) (2025-02-12)
+
+### Bug Fixes
+
+* Fix the typo ([fa85c7b](https://github.com/terraform-routeros/terraform-provider-routeros/commit/fa85c7b624735dc618333bb251249d34e8bc5404))
+* **queue:** Fix byte attribute comparison error ([9437e77](https://github.com/terraform-routeros/terraform-provider-routeros/commit/9437e77e8ada48393357a60ddcce4c7f064e6826)), closes [#643](https://github.com/terraform-routeros/terraform-provider-routeros/issues/643)
+
 ## [1.76.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.76.0...v1.76.1) (2025-02-11)
 
 ### Bug Fixes
