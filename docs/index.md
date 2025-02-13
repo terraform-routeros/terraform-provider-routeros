@@ -62,8 +62,8 @@ resource "routeros_interface_gre" "gre_hq" {
 
 ### Optional
 
-- `ca_certificate` (String) Path to MikroTik's certificate authority file.
-- `insecure` (Boolean) Whether to verify the SSL certificate or not.
-- `password` (String, Sensitive) Password for the MikroTik user.
-- `routeros` (String) RouterOS version for which resource schemes will be adapted. The version obtained from MikroTik will be used if not specified.
-- `suppress_syso_del_warn` (Boolean) Suppress the system object deletion warning.
+- `ca_certificate` (String) Path to MikroTik's certificate authority file (env: ROS_CA_CERTIFICATE | MIKROTIK_CA_CERTIFICATE).
+- `insecure` (Boolean) Whether to verify the SSL certificate or not (env: ROS_INSECURE | MIKROTIK_INSECURE).
+- `password` (String, Sensitive) Password for the MikroTik user (env: ROS_PASSWORD | MIKROTIK_PASSWORD).
+- `routeros_version` (String) RouterOS version for which resource schemes will be adapted. The version obtained from MikroTik will be used if not specified (env: ROS_VERSION).
+- `suppress_syso_del_warn` (Boolean) Suppress the system object deletion warning (env: ROS_SUPPRESS_SYSO_DEL_WARN).

@@ -1,3 +1,10 @@
+## [1.76.3](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.76.2...v1.76.3) (2025-02-13)
+
+### Bug Fixes
+
+* Modify regex for RouterOS version ([b61d1db](https://github.com/terraform-routeros/terraform-provider-routeros/commit/b61d1db79433895027ae63002311ba062099c251))
+* **routeros_version:** Rename the attribute ([51a4c7c](https://github.com/terraform-routeros/terraform-provider-routeros/commit/51a4c7cbb6b198c53742b382741f74547d67866d)), closes [#658](https://github.com/terraform-routeros/terraform-provider-routeros/issues/658)
+
 ## [1.76.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.76.1...v1.76.2) (2025-02-12)
 
 ### Bug Fixes
