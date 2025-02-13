@@ -230,6 +230,7 @@ func Provider() *schema.Provider {
 			"routeros_ip_cloud":                        ResourceIpCloud(),
 			"routeros_ip_cloud_advanced":               ResourceIpCloudAdvanced(),
 			"routeros_system_certificate":              ResourceSystemCertificate(),
+			"routeros_system_certificate_acme":         ResourceSystemCertificateAcme(),
 			"routeros_system_certificate_scep_server":  ResourceCertificateScepServer(),
 			"routeros_certificate_scep_server":         ResourceCertificateScepServer(),
 			"routeros_system_clock":                    ResourceSystemClock(),
