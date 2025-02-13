@@ -114,7 +114,7 @@ func NewClient(ctx context.Context, d *schema.ResourceData) (interface{}, diag.D
 		panic("[NewClient] wrong transport type: " + routerUrl.Scheme)
 	}
 
-	RouterOSVersion = d.Get("routeros").(string)
+	RouterOSVersion = d.Get("routeros_version").(string)
 	if RouterOSVersion != "" {
 		ColorizedMessage(ctx, INFO, "RouterOS from env: "+RouterOSVersion)
 	}
@@ -248,7 +248,8 @@ func GetRouterOSVersion(m interface{}) (string, diag.Diagnostics) {
 		return "", diag.Errorf("RouterOS version not found")
 	}
 
-	re := regexp.MustCompile(`^\d+\.\d+\.\d+`)
+	// d.d | d.d.d
+	re := regexp.MustCompile(`^(\d+\.){1,2}\d+`)
 
 	if !re.MatchString(version) {
 		return "", diag.Errorf("RouterOS version not found")
