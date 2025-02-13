@@ -248,7 +248,8 @@ func GetRouterOSVersion(m interface{}) (string, diag.Diagnostics) {
 		return "", diag.Errorf("RouterOS version not found")
 	}
 
-	re := regexp.MustCompile(`^\d+\.\d+\.\d+`)
+	// d.d | d.d.d
+	re := regexp.MustCompile(`^(\d+\.){1,2}\d+`)
 
 	if !re.MatchString(version) {
 		return "", diag.Errorf("RouterOS version not found")

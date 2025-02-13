@@ -60,7 +60,7 @@ func Provider() *schema.Provider {
 					[]string{"ROS_PASSWORD", "MIKROTIK_PASSWORD"},
 					nil,
 				),
-				Description: "Password for the MikroTik user.",
+				Description: "Password for the MikroTik user (env: ROS_PASSWORD | MIKROTIK_PASSWORD).",
 				Sensitive:   true,
 			},
 			"ca_certificate": {
@@ -70,7 +70,7 @@ func Provider() *schema.Provider {
 					[]string{"ROS_CA_CERTIFICATE", "MIKROTIK_CA_CERTIFICATE"},
 					nil,
 				),
-				Description: "Path to MikroTik's certificate authority file.",
+				Description: "Path to MikroTik's certificate authority file (env: ROS_CA_CERTIFICATE | MIKROTIK_CA_CERTIFICATE).",
 			},
 			"insecure": {
 				Type:     schema.TypeBool,
@@ -79,7 +79,7 @@ func Provider() *schema.Provider {
 					[]string{"ROS_INSECURE", "MIKROTIK_INSECURE"},
 					false,
 				),
-				Description: "Whether to verify the SSL certificate or not.",
+				Description: "Whether to verify the SSL certificate or not (env: ROS_INSECURE | MIKROTIK_INSECURE).",
 			},
 			"suppress_syso_del_warn": {
 				Type:     schema.TypeBool,
@@ -88,7 +88,7 @@ func Provider() *schema.Provider {
 					[]string{"ROS_SUPPRESS_SYSO_DEL_WARN"},
 					false,
 				),
-				Description: "Suppress the system object deletion warning.",
+				Description: "Suppress the system object deletion warning (env: ROS_SUPPRESS_SYSO_DEL_WARN).",
 			},
 			"routeros_version": {
 				Type:     schema.TypeString,
@@ -98,7 +98,7 @@ func Provider() *schema.Provider {
 					nil,
 				),
 				Description: "RouterOS version for which resource schemes will be adapted. The version obtained from " +
-					"MikroTik will be used if not specified.",
+					"MikroTik will be used if not specified (env: ROS_VERSION).",
 			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
