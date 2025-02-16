@@ -140,10 +140,10 @@ func ResourceWifiSecurity() *schema.Resource {
 			Description: "An option to enable 802.11r fast BSS transitions (roaming).",
 		},
 		"ft_mobility_domain": {
-			Type:         schema.TypeInt,
-			Optional:     true,
-			Description:  "The fast BSS transition mobility domain ID.",
-			ValidateFunc: Validation64k,
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "The fast BSS transition mobility domain ID.",
+			DiffSuppressFunc: HexEqual,
 		},
 		"ft_nas_identifier": {
 			Type:        schema.TypeString,
