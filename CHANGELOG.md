@@ -1,3 +1,9 @@
+## [1.76.4](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.76.3...v1.76.4) (2025-02-16)
+
+### Bug Fixes
+
+* **wifi_security:** ft_mobility_domain is a (hex) string, not an integer ([497e430](https://github.com/terraform-routeros/terraform-provider-routeros/commit/497e4304192979d5f6d25b7220457e16dc3e1344)), closes [#662](https://github.com/terraform-routeros/terraform-provider-routeros/issues/662)
+
 ## [1.76.3](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.76.2...v1.76.3) (2025-02-13)
 
 ### Bug Fixes

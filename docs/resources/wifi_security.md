@@ -37,7 +37,7 @@ resource "routeros_wifi_security" "security1" {
 - `eap_username` (String) Username to use when the chosen EAP method requires one.
 - `encryption` (Set of String) A list of ciphers to support for encrypting unicast traffic.
 - `ft` (Boolean) An option to enable 802.11r fast BSS transitions (roaming).
-- `ft_mobility_domain` (Number) The fast BSS transition mobility domain ID.
+- `ft_mobility_domain` (String) The fast BSS transition mobility domain ID.
 - `ft_nas_identifier` (String) Fast BSS transition PMK-R0 key holder identifier.
 - `ft_over_ds` (Boolean) An option to enable fast BSS transitions over DS (distributed system).
 - `ft_preserve_vlanid` (Boolean) An option to preserve VLAN ID when roaming.
