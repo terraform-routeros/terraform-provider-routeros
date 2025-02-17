@@ -1,3 +1,9 @@
+## [1.76.5](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.76.4...v1.76.5) (2025-02-17)
+
+### Bug Fixes
+
+* **API:** Error: unknown RouterOS reply word: `!empty` (ROS 7.18) ([e1660aa](https://github.com/terraform-routeros/terraform-provider-routeros/commit/e1660aa3efdaebef3b1526b2af084adc8c75f515)), closes [#661](https://github.com/terraform-routeros/terraform-provider-routeros/issues/661)
+
 ## [1.76.4](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.76.3...v1.76.4) (2025-02-16)
 
 ### Bug Fixes
