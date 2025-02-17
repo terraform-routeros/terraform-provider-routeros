@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/go-routeros/routeros"
+	"github.com/go-routeros/routeros/v3"
 )
 
 var (

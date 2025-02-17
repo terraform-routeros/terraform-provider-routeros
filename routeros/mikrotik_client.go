@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/go-routeros/routeros"
+	"github.com/go-routeros/routeros/v3"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )

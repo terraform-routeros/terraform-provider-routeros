@@ -4,11 +4,12 @@ import (
 	"context"
 	"crypto/tls"
 	"fmt"
-	"github.com/go-routeros/routeros"
 	"net/http"
 	"os"
 	"testing"
 	"time"
+
+	"github.com/go-routeros/routeros/v3"
 )
 
 func newApiClient(ctx context.Context, hostUrl, user, pass string, useTLS bool) (*ApiClient, error) {
