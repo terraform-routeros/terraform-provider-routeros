@@ -2,7 +2,9 @@ package routeros
 
 import (
 	"context"
+	"fmt"
 
+	"github.com/hashicorp/go-uuid"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -40,7 +42,7 @@ func ResourceSystemCertificate() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/certificate"),
 		MetaId:           PropId(Id),
-		MetaSkipFields:   PropSkipFields("import", "sign", "sign_via_scep"),
+		MetaSkipFields:   PropSkipFields("import", "sign", "sign_via_scep", "cert_file_content", "key_file_content"),
 
 		"authority": {
 			Type:     schema.TypeString,
@@ -127,16 +129,31 @@ func ResourceSystemCertificate() *schema.Resource {
 			Optional:      true,
 			ForceNew:      true,
 			ConflictsWith: []string{"sign", "sign_via_scep"},
+			MaxItems:      1,
 			Elem: &schema.Resource{
 				Schema: map[string]*schema.Schema{
+					"cert_file_content": {
+						Type:        schema.TypeString,
+						Optional:    true,
+						ForceNew:    true,
+						Description: "Certificate in PEM format.",
+					},
 					"cert_file_name": {
 						Type:        schema.TypeString,
-						Required:    true,
+						Optional:    true,
+						ForceNew:    true,
 						Description: "Certificate file name that will be imported.",
+					},
+					"key_file_content": {
+						Type:        schema.TypeString,
+						Optional:    true,
+						ForceNew:    true,
+						Description: "Key in PEM format.",
 					},
 					"key_file_name": {
 						Type:        schema.TypeString,
 						Optional:    true,
+						ForceNew:    true,
 						Description: "Key file name that will be imported.",
 					},
 					"passphrase": {
@@ -371,6 +388,57 @@ func ResourceSystemCertificate() *schema.Resource {
 		var resUrl = &URL{Path: resSchema[MetaResourcePath].Default.(string)}
 		if m.(Client).GetTransport() == TransportREST {
 			resUrl.Path += "/import"
+		}
+
+		if data := bl["cert_file_content"].(string); data != "" {
+			// Validation
+			if bl["cert_file_name"].(string) != "" {
+				return diag.Errorf("%q: conflicts with %s", "cert_file_content", "cert_file_name")
+			}
+
+			name, err := uuid.GenerateUUID()
+			if err != nil {
+				return diag.FromErr(err)
+			}
+
+			certFileId, diags := fileCreate(ctx, name, data, m)
+			if diags != nil {
+				return diags
+			}
+
+			ColorizedDebug(ctx, fmt.Sprintf("The certificate has been placed on file '%v'", name))
+
+			bl["cert_file_name"] = name
+
+			defer func() {
+				diags = fileDelete(ctx, certFileId, m)
+				if diags != nil {
+					ColorizedMessage(ctx, ERROR, "Certificate file deletion error", map[string]interface{}{"diags": diags})
+				}
+			}()
+		}
+
+		if data := bl["key_file_content"].(string); data != "" {
+			// Validation
+			if bl["key_file_name"].(string) != "" {
+				return diag.Errorf("%q: conflicts with %s", "key_file_content", "key_file_name")
+			}
+
+			name, err := uuid.GenerateUUID()
+			if err != nil {
+				return diag.FromErr(err)
+			}
+
+			bl["key_file_name"] = name
+
+			// File is deleted by the MT after import.
+			// https://github.com/terraform-routeros/terraform-provider-routeros/issues/660
+			_, diags := fileCreate(ctx, name, data, m)
+			if diags != nil {
+				return diags
+			}
+
+			ColorizedDebug(ctx, fmt.Sprintf("The private key has been placed on file '%v'", name))
 		}
 
 		params := MikrotikItem{KeyName: d.Get(KeyName).(string), "file-name": bl["cert_file_name"].(string)}

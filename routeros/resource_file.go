@@ -1,6 +1,10 @@
 package routeros
 
 import (
+	"context"
+	"fmt"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
@@ -71,4 +75,34 @@ func ResourceFile() *schema.Resource {
 
 		Schema: resSchema,
 	}
+}
+
+func fileCreate(ctx context.Context, name, contents string, m interface{}) (id string, diags diag.Diagnostics) {
+	res, err := CreateItem(ctx, MikrotikItem{"name": name, "contents": contents}, "/file", m.(Client))
+	if err != nil {
+		ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgPut, err))
+		diags = diag.FromErr(err)
+		return
+	}
+
+	id = res.GetID(Id)
+	if id == "" {
+		diags = diag.Diagnostics{
+			diag.Diagnostic{
+				Severity: diag.Error,
+				Summary:  "The file ID was not found in the response",
+			},
+		}
+		return
+	}
+
+	return
+}
+
+func fileDelete(ctx context.Context, id string, m interface{}) diag.Diagnostics {
+	if err := DeleteItem(&ItemId{Id, id}, "/file", m.(Client)); err != nil {
+		ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgDelete, err))
+		return diag.FromErr(err)
+	}
+	return nil
 }
