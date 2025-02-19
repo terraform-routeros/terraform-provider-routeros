@@ -66,11 +66,12 @@ data "routeros_x509" "cert" {
 	-----END CERTIFICATE-----
 EOT
 }
-
-resource "routeros_file" "key" {
-  name = "external.key"
-  # The lines of the certificate must not contain indentation.
-  contents = <<EOT
+resource "routeros_system_certificate" "external" {
+  name        = "external.crt"
+  common_name = data.routeros_x509.cert.common_name
+  import {
+    cert_file_content = data.routeros_x509.cert.pem
+    key_file_content  = <<EOT
 -----BEGIN ENCRYPTED PRIVATE KEY-----
 MIHeMEkGCSqGSIb3DQEFDTA8MBsGCSqGSIb3DQEFDDAOBAiy/wEW6/MglgICCAAw
 HQYJYIZIAWUDBAEqBBD6v8dLA2FjPn62Xz57pcu9BIGQhclivPw1eC2b14ea58Tw
@@ -79,21 +80,6 @@ nzDdbYN6/yUiMqapW2xZaT7ZFnbEai4n9/utgtEDnfKHlZvZj2kRhvYoWrvTkt/W
 Sk+abxJ+NMQoh+S5d73niu1CO8uqQjOd8BoSOurURsOh
 -----END ENCRYPTED PRIVATE KEY-----
 EOT
-}
-
-resource "routeros_file" "cert" {
-  name = "external.crt"
-  # Normalized certificate
-  contents = data.routeros_x509.cert.pem
-}
-
-resource "routeros_system_certificate" "external" {
-  name        = "external.crt"
-  common_name = data.routeros_x509.cert.common_name
-  import {
-    cert_file_name = routeros_file.cert.name
-    key_file_name  = routeros_file.key.name
-    passphrase     = "11111111"
+    passphrase        = "11111111"
   }
-  depends_on = [routeros_file.key, routeros_file.cert]
 }
