@@ -83,11 +83,12 @@ data "routeros_x509" "cert" {
 	-----END CERTIFICATE-----
 EOT
 }
-
-resource "routeros_file" "key" {
-  name = "external.key"
-  # The lines of the certificate must not contain indentation.
-  contents = <<EOT
+resource "routeros_system_certificate" "external" {
+  name        = "external.crt"
+  common_name = data.routeros_x509.cert.common_name
+  import {
+    cert_file_content = data.routeros_x509.cert.pem
+    key_file_content  = <<EOT
 -----BEGIN ENCRYPTED PRIVATE KEY-----
 MIHeMEkGCSqGSIb3DQEFDTA8MBsGCSqGSIb3DQEFDDAOBAiy/wEW6/MglgICCAAw
 HQYJYIZIAWUDBAEqBBD6v8dLA2FjPn62Xz57pcu9BIGQhclivPw1eC2b14ea58Tw
@@ -96,23 +97,8 @@ nzDdbYN6/yUiMqapW2xZaT7ZFnbEai4n9/utgtEDnfKHlZvZj2kRhvYoWrvTkt/W
 Sk+abxJ+NMQoh+S5d73niu1CO8uqQjOd8BoSOurURsOh
 -----END ENCRYPTED PRIVATE KEY-----
 EOT
-}
-
-resource "routeros_file" "cert" {
-  name = "external.crt"
-  # Normalized certificate
-  contents = data.routeros_x509.cert.pem
-}
-
-resource "routeros_system_certificate" "external" {
-  name        = "external.crt"
-  common_name = data.routeros_x509.cert.common_name
-  import {
-    cert_file_name = routeros_file.cert.name
-    key_file_name  = routeros_file.key.name
-    passphrase     = "11111111"
+    passphrase        = "11111111"
   }
-  depends_on = [routeros_file.key, routeros_file.cert]
 }
 ```
 
@@ -129,7 +115,7 @@ resource "routeros_system_certificate" "external" {
 - `copy_from` (String)
 - `country` (String) Country Name (2 letter code).
 - `days_valid` (Number) Certificate lifetime.
-- `import` (Block Set) (see [below for nested schema](#nestedblock--import))
+- `import` (Block Set, Max: 1) (see [below for nested schema](#nestedblock--import))
 - `key_size` (String)
 - `key_usage` (Set of String) Detailed key usage descriptions can be found in RFC 5280.
 - `locality` (String) Locality Name (eg, city).
@@ -173,12 +159,11 @@ resource "routeros_system_certificate" "external" {
 <a id="nestedblock--import"></a>
 ### Nested Schema for `import`
 
-Required:
-
-- `cert_file_name` (String) Certificate file name that will be imported.
-
 Optional:
 
+- `cert_file_content` (String) Certificate in PEM format.
+- `cert_file_name` (String) Certificate file name that will be imported.
+- `key_file_content` (String) Key in PEM format.
 - `key_file_name` (String) Key file name that will be imported.
 - `passphrase` (String, Sensitive) File passphrase if there is such.
 

@@ -1,3 +1,9 @@
+## [1.76.6](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.76.5...v1.76.6) (2025-02-19)
+
+### Bug Fixes
+
+* Importing certificate and key without `routeros_file` resource ([8d3374e](https://github.com/terraform-routeros/terraform-provider-routeros/commit/8d3374e74fb2e25983fa58d4ef80dedda823396b)), closes [#660](https://github.com/terraform-routeros/terraform-provider-routeros/issues/660)
+
 ## [1.76.5](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.76.4...v1.76.5) (2025-02-17)
 
 ### Bug Fixes
