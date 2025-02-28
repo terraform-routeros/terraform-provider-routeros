@@ -48,6 +48,7 @@ func ResourceInterfaceBridge() *schema.Resource {
 			Optional: true,
 		},
 		KeyDisabled: PropDisabledRw,
+		KeyDynamic:  PropDynamicRo,
 		"ether_type": {
 			Type:             schema.TypeString,
 			Optional:         true,
@@ -325,7 +326,7 @@ func ResourceInterfaceBridge() *schema.Resource {
 		DeleteContext: DefaultDelete(resSchema),
 
 		Importer: &schema.ResourceImporter{
-			StateContext: schema.ImportStatePassthroughContext,
+			StateContext: ImportStateCustomContext(resSchema),
 		},
 
 		SchemaVersion: 1,

@@ -96,10 +96,26 @@ func ResourceSystemLoggingAction() *schema.Resource {
 			Description:      "Remote logging server's IP/IPv6 address, applicable if `action=remote`.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"remote_log_format": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Format for logs to be sent to remote instance:\n" +
+				"\n    - **cef** - logs are sent in CEF format;" +
+				"\n    - **default** - logs are sent as it is;" +
+				"\n    - **syslog** - logs are sent in BSD-syslog format.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"remote_port": {
 			Type:             schema.TypeInt,
 			Optional:         true,
 			Description:      "Remote logging server's UDP port, applicable if `action=remote`.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"remote_protocol": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Protocol for remote logging messages.",
+			ValidateFunc:     validation.StringInSlice([]string{"tcp", "udp"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"src_address": {
@@ -183,7 +199,7 @@ func ResourceSystemLoggingAction() *schema.Resource {
 		DeleteContext: resDelete,
 
 		Importer: &schema.ResourceImporter{
-			StateContext: schema.ImportStatePassthroughContext,
+			StateContext: ImportStateCustomContext(resSchema),
 		},
 
 		Schema: resSchema,

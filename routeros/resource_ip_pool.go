@@ -9,6 +9,7 @@ func ResourceIPPool() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/pool"),
 		MetaId:           PropId(Id),
+		MetaSkipFields:   PropSkipFields("available", "total", "used"),
 
 		KeyComment: PropCommentRw,
 		KeyName:    PropNameForceNewRw,
@@ -35,7 +36,7 @@ func ResourceIPPool() *schema.Resource {
 		UpdateContext: DefaultUpdate(resSchema),
 		DeleteContext: DefaultDelete(resSchema),
 		Importer: &schema.ResourceImporter{
-			StateContext: schema.ImportStatePassthroughContext,
+			StateContext: ImportStateCustomContext(resSchema),
 		},
 
 		SchemaVersion: 1,

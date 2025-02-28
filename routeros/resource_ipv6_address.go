@@ -103,6 +103,13 @@ func ResourceIPv6Address() *schema.Resource {
 			Computed:    true,
 			Description: "Name of the actual interface the logical one is bound to.",
 		},
+		"auto_link_local": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "If newly created address is manual link-local address this setting allows to override " +
+				"dynamically created IPv6 link-local address.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
 		KeyDynamic:  PropDynamicRo,
@@ -153,7 +160,7 @@ func ResourceIPv6Address() *schema.Resource {
 		UpdateContext: DefaultUpdate(resSchema),
 		DeleteContext: DefaultDelete(resSchema),
 		Importer: &schema.ResourceImporter{
-			StateContext: schema.ImportStatePassthroughContext,
+			StateContext: ImportStateCustomContext(resSchema),
 		},
 
 		Schema: resSchema,
