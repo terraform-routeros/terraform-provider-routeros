@@ -33,27 +33,27 @@ func ResourceSystemLogging() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/system/logging"),
 		MetaId:           PropId(Id),
+
 		"action": {
 			Type:        schema.TypeString,
 			Required:    true,
 			Description: "specifies one of the system default actions or user specified action listed in actions menu",
 		},
-		KeyDefault: PropDefaultRo,
+		KeyDefault:  PropDefaultRo,
+		KeyDisabled: PropDisabledRw,
+		KeyInvalid:  PropInvalidRo,
 		"prefix": {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Description: "prefix added at the beginning of log messages",
 			Default:     "",
 		},
-		KeyDisabled: {
-			Type:        schema.TypeBool,
-			Optional:    true,
-			Default:     false,
-			Description: "Whether or not this logging should be disabled",
-		},
-		"invalid": {
-			Type:     schema.TypeBool,
-			Computed: true,
+		"regex": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Regex which will be used in order to match or not match message. If the regex is not matched, " +
+				"then even if topic is configured to be logged, but log message does not match regex, action will not " +
+				"be performed.",
 		},
 		"topics": {
 			Type: schema.TypeSet,
@@ -75,7 +75,7 @@ func ResourceSystemLogging() *schema.Resource {
 		DeleteContext: DefaultDelete(resSchema),
 
 		Importer: &schema.ResourceImporter{
-			StateContext: schema.ImportStatePassthroughContext,
+			StateContext: ImportStateCustomContext(resSchema),
 		},
 
 		Schema: resSchema,
