@@ -1,3 +1,13 @@
+## [1.76.7](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.76.6...v1.76.7) (2025-02-28)
+
+### Bug Fixes
+
+* **bridge:** Add a `dynamic` attribute (ROS 7.18) ([cccee12](https://github.com/terraform-routeros/terraform-provider-routeros/commit/cccee12d85df6dae22e5d671d7a13c14acbb3025)), closes [#671](https://github.com/terraform-routeros/terraform-provider-routeros/issues/671)
+* **ip-pool:** Ignore new computed attributes (ROS 7.18) ([060d96e](https://github.com/terraform-routeros/terraform-provider-routeros/commit/060d96ecb71344797a8b0ee05a37f325bcfb7c99)), closes [#673](https://github.com/terraform-routeros/terraform-provider-routeros/issues/673)
+* **ipv6:** Add a `auto_link_local` attribute (ROS 7.18) ([c162cb0](https://github.com/terraform-routeros/terraform-provider-routeros/commit/c162cb0627f4d8487d33eb9169d85b489336e8a2)), closes [#672](https://github.com/terraform-routeros/terraform-provider-routeros/issues/672)
+* **logging:** Add new attributes (ROS 7.18) ([337bd74](https://github.com/terraform-routeros/terraform-provider-routeros/commit/337bd741f22d3494289471d9d4c6b1e4cd5f0224)), closes [#674](https://github.com/terraform-routeros/terraform-provider-routeros/issues/674)
+* **neighbor-discovery:** Add a `lldp_dcbx` attribute. ([0f3ea69](https://github.com/terraform-routeros/terraform-provider-routeros/commit/0f3ea6902e4e27882bf590a21e00b94b35023a7a)), closes [#670](https://github.com/terraform-routeros/terraform-provider-routeros/issues/670)
+
 ## [1.76.6](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.76.5...v1.76.6) (2025-02-19)
 
 ### Bug Fixes

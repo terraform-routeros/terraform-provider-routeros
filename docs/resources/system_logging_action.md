@@ -24,7 +24,13 @@
 - `memory_stop_on_full` (Boolean) Whether to stop to save log messages in local buffer after the specified memory-lines number is reached.
 - `remember` (Boolean) Whether to keep log messages, which have not yet been displayed in console, applicable if `action=echo`.
 - `remote` (String) Remote logging server's IP/IPv6 address, applicable if `action=remote`.
+- `remote_log_format` (String) Format for logs to be sent to remote instance:
+
+    - **cef** - logs are sent in CEF format;
+    - **default** - logs are sent as it is;
+    - **syslog** - logs are sent in BSD-syslog format.
 - `remote_port` (Number) Remote logging server's UDP port, applicable if `action=remote`.
+- `remote_protocol` (String) Protocol for remote logging messages.
 - `src_address` (String) Source address used when sending packets to remote server, applicable if `action=remote`.
 - `syslog_facility` (String) SYSLOG facility, applicable if `action=remote`.
 - `syslog_severity` (String) Severity level indicator defined in RFC 3164, applicable if `action=remote`.

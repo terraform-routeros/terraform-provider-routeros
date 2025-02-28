@@ -21,6 +21,7 @@ resource "routeros_ipv6_address" "ipv6_address" {
 
 - `address` (String) IPv6 address. Using the eui_64 and from_pool options can transform the original address! [See docs](https://wiki.mikrotik.com/wiki/Manual:IPv6/Address#Properties)
 - `advertise` (Boolean) Whether to enable stateless address configuration. The prefix of that address is automatically advertised to hosts using ICMPv6 protocol. The option is set by default for addresses with prefix length 64.
+- `auto_link_local` (Boolean) If newly created address is manual link-local address this setting allows to override dynamically created IPv6 link-local address.
 - `comment` (String)
 - `disabled` (Boolean)
 - `eui_64` (Boolean) Whether to calculate EUI-64 address and use it as last 64 bits of the IPv6 address.
