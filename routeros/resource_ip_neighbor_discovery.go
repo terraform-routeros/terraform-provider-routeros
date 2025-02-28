@@ -33,6 +33,14 @@ func ResourceIpNeighborDiscoverySettings() *schema.Resource {
 				"The setting is available since RouterOS version 7.16.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"lldp_dcbx": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "Whether to send Data Center Bridging Capabilities Exchange Protocol (DCBX) TLVs, which " +
+				"allows to communicate switch QoS settings and capabilities with other neighboring devices using LLDP. " +
+				"**Only applies to CRS3xx, CRS5xx, CCR2116 and CCR2216 devices.**",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"lldp_mac_phy_config": {
 			Type:     schema.TypeBool,
 			Optional: true,
@@ -105,7 +113,7 @@ func ResourceIpNeighborDiscoverySettings() *schema.Resource {
 		DeleteContext: DefaultSystemDelete(resSchema),
 
 		Importer: &schema.ResourceImporter{
-			StateContext: schema.ImportStatePassthroughContext,
+			StateContext: ImportStateCustomContext(resSchema),
 		},
 
 		Schema: resSchema,
