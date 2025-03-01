@@ -91,6 +91,11 @@ func ResourceContainer() *schema.Resource {
 			Description:  "The container image name to be installed if an external registry is used (configured under /container/config set registry-url=...)",
 			ExactlyOneOf: []string{"file", "remote_image"},
 		},
+		"repo": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "The repo of the container image",
+		},
 		"root_dir": {
 			Type:        schema.TypeString,
 			Optional:    true,
@@ -164,7 +169,27 @@ func ResourceContainer() *schema.Resource {
 
 	return &schema.Resource{
 		CreateContext: resCreate,
-		ReadContext:   DefaultRead(resSchema),
+		ReadContext: func(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
+			diags := DefaultRead(resSchema)(ctx, d, meta)
+
+			if diags.HasError() {
+				return diags
+			}
+
+			// ROS < 7.18
+			tag, ok := d.Get("tag").(string)
+			if ok && tag != "" {
+				d.Set("remote_image", tag)
+			}
+
+			// ROS >= 7.18
+			repo, ok := d.Get("repo").(string)
+			if ok && repo != "" {
+				d.Set("remote_image", repo)
+			}
+
+			return diags
+		},
 		UpdateContext: resUpdate,
 		DeleteContext: resDelete,
 
