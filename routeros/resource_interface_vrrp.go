@@ -98,7 +98,7 @@ func ResourceInterfaceVrrp() *schema.Resource {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Description: "VRRP update interval in seconds. Defines how often master sends advertisement packets.",
-			ValidateFunc: validation.StringMatch(regexp.MustCompile(`^(\d+(ms|s|M)?)+$`),
+			ValidateFunc: validation.StringMatch(regexp.MustCompile(`^(\d+(ms|s|m)?)+$`),
 				"expected hello interval 10ms..4m15s"),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
