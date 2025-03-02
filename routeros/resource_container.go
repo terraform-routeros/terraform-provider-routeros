@@ -3,12 +3,29 @@ package routeros
 import (
 	"context"
 	"fmt"
+	"net/url"
+	"strings"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
+
+/*
+  {
+    ".id": "*3",
+    "arch": "amd64",
+    "interface": "veth1",
+    "mounts": "",
+    "name": "76e7fc0c-e2c0-4b8c-b3b0-4c985c496a90",
+    "os": "linux",
+    "repo": "registry-1.docker.io/adguard/adguardhome:latest",
+    "root-dir": "sata4-part1/docker/adg",
+    "status": "stopped",
+    "workdir": "/opt/adguardhome/work"
+  }
+*/
 
 // https://help.mikrotik.com/docs/display/ROS/Container#Container-Properties
 func ResourceContainer() *schema.Resource {
@@ -90,6 +107,19 @@ func ResourceContainer() *schema.Resource {
 			ForceNew:     true,
 			Description:  "The container image name to be installed if an external registry is used (configured under /container/config set registry-url=...)",
 			ExactlyOneOf: []string{"file", "remote_image"},
+			DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+				if old == "" {
+					return false
+				}
+
+				if AlwaysPresentNotUserProvided(k, old, new, d) {
+					return true
+				}
+
+				// Checking the presence of a tag:
+				// ~ remote_image = "traefik/whoami:latest" -> "traefik/whoami" # forces replacement
+				return old == new || old == new+":latest"
+			},
 		},
 		"root_dir": {
 			Type:        schema.TypeString,
@@ -129,6 +159,59 @@ func ResourceContainer() *schema.Resource {
 		},
 	}
 
+	resRead := func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+		// Run DefaultRead.
+		diags := ResourceRead(ctx, resSchema, d, m)
+		if diags.HasError() {
+			return diags
+		}
+
+		tag, ok := d.Get("tag").(string)
+		if ok && tag != "" {
+			// Get Registry URL.
+			res, err := ReadItems(nil, "/container/config", m.(Client))
+			if err != nil {
+				ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgPut, err))
+				return diag.FromErr(err)
+			}
+
+			if len(*res) == 0 {
+				return diag.Diagnostics{
+					diag.Diagnostic{
+						Severity: diag.Error,
+						Summary:  "Failed to retrieve the URL of the container registry, the response is empty",
+					},
+				}
+			}
+
+			registryUrl, ok := (*res)[0]["registry-url"]
+			if !ok {
+				return diag.Diagnostics{
+					diag.Diagnostic{
+						Severity: diag.Error,
+						Summary:  "The `registry-url` was not found in the response",
+					},
+				}
+			}
+
+			u, err := url.Parse(registryUrl)
+			if err != nil {
+				return diag.FromErr(err)
+			}
+
+			// Remove http(s); host:port; path...
+			for _, item := range []string{u.Scheme, u.Host, u.Path} {
+				tag = strings.TrimPrefix(tag, item)
+			}
+			// Remove (:////)adguard/adguardhome:latest
+			tag = strings.TrimLeft(tag, ":/")
+
+			d.Set("remote_image", strings.TrimPrefix(tag, registryUrl))
+		}
+
+		return nil
+	}
+
 	resCreate := func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 		// Run DefaultCreate.
 		diags := ResourceCreate(ctx, resSchema, d, m)
@@ -164,12 +247,12 @@ func ResourceContainer() *schema.Resource {
 
 	return &schema.Resource{
 		CreateContext: resCreate,
-		ReadContext:   DefaultRead(resSchema),
+		ReadContext:   resRead,
 		UpdateContext: resUpdate,
 		DeleteContext: resDelete,
 
 		Importer: &schema.ResourceImporter{
-			StateContext: schema.ImportStatePassthroughContext,
+			StateContext: ImportStateCustomContext(resSchema),
 		},
 
 		Schema: resSchema,
