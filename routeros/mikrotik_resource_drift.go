@@ -2,6 +2,7 @@
 package routeros
 
 func init() {
+    driftAttributeSlice.Add("7.1", "/ip/dhcp-server", "src_address", "server-address")
     driftAttributeSlice.Add("7.17", "/interface/wireguard/peers", "is_responder", "responder")
     driftAttributeSlice.SortDesc()
 }
