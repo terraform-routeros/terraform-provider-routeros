@@ -83,7 +83,6 @@ func (do *driftObjects) GetDriftMap(ros, resName string, reverse bool) (res map[
 					res[attr.MT] = attr.TF
 				}
 			}
-			return
 		}
 	}
 	return

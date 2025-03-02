@@ -1,3 +1,7 @@
+7.1:
+  /ip/dhcp-server:
+    - tf: src_address
+      mt: server-address
 7.17:
   /interface/wireguard/peers:
     - tf: is_responder
