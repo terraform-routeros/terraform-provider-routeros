@@ -1,3 +1,15 @@
+## [1.77.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.76.7...v1.77.0) (2025-03-02)
+
+### Features
+
+* **system:** Add user ssh-keys resource ([7c15569](https://github.com/terraform-routeros/terraform-provider-routeros/commit/7c15569b364162a1b1f37a7212ae29aa73a5c3d3))
+
+### Bug Fixes
+
+* **container:** Importing containers and container mounts (inconsistency and force recreate) ([af2585a](https://github.com/terraform-routeros/terraform-provider-routeros/commit/af2585a427479967aaf183980667f656455149ef)), closes [#652](https://github.com/terraform-routeros/terraform-provider-routeros/issues/652)
+* **dhcp-server:** 'Bad Request', details: 'unknown parameter src-address' ([3eb7c44](https://github.com/terraform-routeros/terraform-provider-routeros/commit/3eb7c44b07576a09bf4a164b7c46909c237c8dc1)), closes [#679](https://github.com/terraform-routeros/terraform-provider-routeros/issues/679)
+* minutes short name is lower m ([0379a1a](https://github.com/terraform-routeros/terraform-provider-routeros/commit/0379a1ac2c491683d0401ef1ac8d4241807c178f))
+
 ## [1.76.7](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.76.6...v1.76.7) (2025-02-28)
 
 ### Bug Fixes
