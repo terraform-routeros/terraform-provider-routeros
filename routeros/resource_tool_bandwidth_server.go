@@ -20,6 +20,22 @@ func ResourceToolBandwidthServer() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/tool/bandwidth-server"),
 		MetaId:           PropId(Id),
 
+		"allowed_addresses4": {
+			Type:        schema.TypeSet,
+			Optional:    true,
+			Description: "IPv4 allowed networks.",
+			Elem: &schema.Schema{
+				Type: schema.TypeString,
+			},
+		},
+		"allowed_addresses6": {
+			Type:        schema.TypeSet,
+			Optional:    true,
+			Description: "Ipv6 allowed networks.",
+			Elem: &schema.Schema{
+				Type: schema.TypeString,
+			},
+		},
 		"allocate_udp_ports_from": {
 			Type:             schema.TypeInt,
 			Optional:         true,

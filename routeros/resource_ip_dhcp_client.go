@@ -25,7 +25,7 @@ func ResourceDhcpClient() *schema.Resource {
 		},
 		"script": {
 			Type:        schema.TypeString,
-			Optional:     true,
+			Optional:    true,
 			Description: "A script.",
 		},
 		KeyComment: PropCommentRw,
@@ -43,6 +43,12 @@ func ResourceDhcpClient() *schema.Resource {
 				}
 				return false
 			},
+		},
+		"default_route_tables": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Default route tables.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"dhcp_options": {
 			Type:        schema.TypeString,
