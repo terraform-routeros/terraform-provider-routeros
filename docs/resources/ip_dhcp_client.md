@@ -20,6 +20,7 @@ resource "routeros_ip_dhcp_client" "client" {
 - `add_default_route` (String) Whether to install default route in routing table received from DHCP server.
 - `comment` (String)
 - `default_route_distance` (Number) Distance of default route. Applicable if add-default-route is set to yes.
+- `default_route_tables` (String) Default route tables.
 - `dhcp_options` (String) Options that are sent to the DHCP server.
 - `disabled` (Boolean)
 - `script` (String) A script.

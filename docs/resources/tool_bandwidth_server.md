@@ -17,6 +17,8 @@ resource "routeros_tool_bandwidth_server" "test" {
 ### Optional
 
 - `allocate_udp_ports_from` (Number) Beginning of UDP port range.
+- `allowed_addresses4` (Set of String) IPv4 allowed networks.
+- `allowed_addresses6` (Set of String) Ipv6 allowed networks.
 - `authenticate` (Boolean) Communicate only with authenticated clients.
 - `enabled` (Boolean) Defines whether bandwidth server is enabled or not.
 - `max_sessions` (Number) Maximal simultaneous test count.

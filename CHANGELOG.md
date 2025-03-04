@@ -1,3 +1,10 @@
+## [1.77.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.77.0...v1.77.1) (2025-03-04)
+
+### Bug Fixes
+
+* **bandwidth-server:** Add new attributes (ROS 7.18) ([83d4bda](https://github.com/terraform-routeros/terraform-provider-routeros/commit/83d4bda0f738d404af67d92ee565e7826a08b77e)), closes [#683](https://github.com/terraform-routeros/terraform-provider-routeros/issues/683)
+* **dhcp-client:** Add a new attribute (ROS 7.18) ([253483c](https://github.com/terraform-routeros/terraform-provider-routeros/commit/253483cadea0cb9f7781e3c5727777d46792aa3a)), closes [#684](https://github.com/terraform-routeros/terraform-provider-routeros/issues/684)
+
 ## [1.77.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.76.7...v1.77.0) (2025-03-02)
 
 ### Features
