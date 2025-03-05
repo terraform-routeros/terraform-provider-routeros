@@ -174,10 +174,10 @@ func ResourceIPv6DhcpClient() *schema.Resource {
 			Description: "Whether to accept the DNS settings advertised by the IPv6 DHCP Server.",
 		},
 		"validate_server_duid": {
-			Type:        schema.TypeBool,
-			Optional:    true,
-			Default:     true,
-			Description: "Whether to validate the DUID of the IPv6 DHCP Server.",
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Description:      "Whether to validate the DUID of the IPv6 DHCP Server.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 	}
 	return &schema.Resource{
