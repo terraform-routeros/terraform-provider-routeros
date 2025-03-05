@@ -50,6 +50,7 @@ resource "routeros_ipv6_dhcp_client" "client" {
   * options - array of received options (only ROSv7)
 - `use_interface_duid` (Boolean) Specifies the MAC address of the specified interface as the DHCPv6 client DUID.
 - `use_peer_dns` (Boolean) Whether to accept the DNS settings advertised by the IPv6 DHCP Server.
+- `validate_server_duid` (Boolean) Whether to validate the DUID of the IPv6 DHCP Server.
 
 ### Read-Only
 

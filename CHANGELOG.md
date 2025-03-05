@@ -1,3 +1,11 @@
+## [1.77.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.77.1...v1.77.2) (2025-03-05)
+
+### Bug Fixes
+
+* **ip-cloud:** IP Cloud ddns_enabled 7.17 and newer ([d341c29](https://github.com/terraform-routeros/terraform-provider-routeros/commit/d341c29a2f400319b5dfc6891e8acbd46a0d312f)), closes [#686](https://github.com/terraform-routeros/terraform-provider-routeros/issues/686)
+* **ipv6-dhcp-client:** Add a new attribute (ROS 7.18) ([bcbd262](https://github.com/terraform-routeros/terraform-provider-routeros/commit/bcbd26240fbaf461d51e33bd57d8f889c23fe2e5))
+* **ipv6-dhcp-client:** replace Default parameter with DiffSuppressFunc: AlwaysPresentNotUserProvided ([d5aad3b](https://github.com/terraform-routeros/terraform-provider-routeros/commit/d5aad3b66b03c01340295b151ca76ce927e5b26d))
+
 ## [1.77.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.77.0...v1.77.1) (2025-03-04)
 
 ### Bug Fixes
