@@ -33,6 +33,7 @@ func ResourceIpv6Settings() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ipv6/settings"),
 		MetaId:           PropId(Id),
+		MetaSkipFields:   PropSkipFields("ipv6_fast_path_bytes", "ipv6_fast_path_packets", "ipv6_fasttrack_bytes", "ipv6_fasttrack_packets"),
 
 		"allow_fast_path": {
 			Type:             schema.TypeBool,
@@ -79,30 +80,10 @@ func ResourceIpv6Settings() *schema.Resource {
 			Computed:    true,
 			Description: "Indicates whether fast-path is active.",
 		},
-		"ipv6_fast_path_bytes": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Amount of fast-pathed bytes.",
-		},
-		"ipv6_fast_path_packets": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Amount of fast-pathed packets.",
-		},
 		"ipv6_fasttrack_active": {
 			Type:        schema.TypeBool,
 			Computed:    true,
 			Description: "Indicates whether fasttrack is active.",
-		},
-		"ipv6_fasttrack_bytes": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Amount of fasttracked bytes.",
-		},
-		"ipv6_fasttrack_packets": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Amount of fasttracked packet.",
 		},
 		"max_neighbor_entries": {
 			Type:     schema.TypeInt,
