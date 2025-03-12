@@ -72,10 +72,10 @@ func ResourceInterfaceEthernet() *schema.Resource {
 				Advertised speed and duplex modes for Ethernet interfaces over twisted pair, 
 				only applies when auto-negotiation is enabled. Advertising higher speeds than 
 				the actual interface supported speed will have no effect, multiple options are allowed.`,
-			ValidateFunc: validation.StringMatch(
-				regexp.MustCompile(`^[0-9\.]+(M|G)-(full|half|base\w+(-\w+)?)$`),
-				"Since RouterOS v7.12 the values of this property have changed. Please check the documentation.",
-			),
+			// ValidateFunc: validation.StringMatch(
+			// 	regexp.MustCompile(`^[0-9\.]+(M|G)-(full|half|base\w+(-\w+)?)$`),
+			// 	"Since RouterOS v7.12 the values of this property have changed. Please check the documentation.",
+			// ),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyArp:        PropArpRw,
