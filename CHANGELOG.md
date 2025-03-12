@@ -1,3 +1,11 @@
+## [1.77.3](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.77.2...v1.77.3) (2025-03-12)
+
+### Bug Fixes
+
+* **ethernet:** Ethernet `advertise` do not allow multiple values ([73823e5](https://github.com/terraform-routeros/terraform-provider-routeros/commit/73823e50db10cab5570d5dfac7d7fe1da7bee5d5)), closes [#692](https://github.com/terraform-routeros/terraform-provider-routeros/issues/692)
+* **ipv6-settings:** Add new attributes (ROS 7.18) ([32c8820](https://github.com/terraform-routeros/terraform-provider-routeros/commit/32c882048e875745e7f2c7105618933ce0d1b7f0))
+* **ipv6-settings:** Skip metrics ([a8b3b33](https://github.com/terraform-routeros/terraform-provider-routeros/commit/a8b3b3388176de5189206a681516d96be28d1a3c))
+
 ## [1.77.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.77.1...v1.77.2) (2025-03-05)
 
 ### Bug Fixes
