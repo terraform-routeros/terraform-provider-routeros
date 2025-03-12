@@ -9,9 +9,22 @@ import (
 {
   "accept-redirects": "yes-if-forwarding-disabled",
   "accept-router-advertisements": "yes-if-forwarding-disabled",
+  "allow-fast-path": "true",
   "disable-ipv6": "false",
+  "disable-link-local-address": "false",
   "forward": "true",
-  "max-neighbor-entries": "8192"
+  "ipv6-fast-path-active": "true",
+  "ipv6-fast-path-bytes": "0",
+  "ipv6-fast-path-packets": "0",
+  "ipv6-fasttrack-active": "false",
+  "ipv6-fasttrack-bytes": "0",
+  "ipv6-fasttrack-packets": "0",
+  "max-neighbor-entries": "16384",
+  "min-neighbor-entries": "4096",
+  "multipath-hash-policy": "l3",
+  "soft-max-neighbor-entries": "8192",
+  "stale-neighbor-detect-interval": "30",
+  "stale-neighbor-timeout": "60"
 }
 */
 
@@ -20,7 +33,14 @@ func ResourceIpv6Settings() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ipv6/settings"),
 		MetaId:           PropId(Id),
+		MetaSkipFields:   PropSkipFields("ipv6_fast_path_bytes", "ipv6_fast_path_packets", "ipv6_fasttrack_bytes", "ipv6_fasttrack_packets"),
 
+		"allow_fast_path": {
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Description:      "Allows Fast Path.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"accept_redirects": {
 			Type:     schema.TypeString,
 			Optional: true,
@@ -42,11 +62,28 @@ func ResourceIpv6Settings() *schema.Resource {
 			Optional:    true,
 			Description: "Enable/disable system wide IPv6 settings (prevents LL address generation).",
 		},
+		"disable_link_local_address": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "Disable automatic link-local address generation for non-VPN interfaces. This can be used when " +
+				"manually configured link-local addresses are being used.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"forward": {
 			Type:             schema.TypeBool,
 			Optional:         true,
 			Description:      "Enable/disable packet forwarding between interfaces.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"ipv6_fast_path_active": {
+			Type:        schema.TypeBool,
+			Computed:    true,
+			Description: "Indicates whether fast-path is active.",
+		},
+		"ipv6_fasttrack_active": {
+			Type:        schema.TypeBool,
+			Computed:    true,
+			Description: "Indicates whether fasttrack is active.",
 		},
 		"max_neighbor_entries": {
 			Type:     schema.TypeInt,
