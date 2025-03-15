@@ -25,7 +25,7 @@ func TestAccSystemNoteTest_basic(t *testing.T) {
 						Config: testAccSystemNoteConfig(testSystemNoteNote, false, false),
 						Check: resource.ComposeTestCheckFunc(
 							testResourcePrimaryInstanceId(testSystemNoteTask),
-							resource.TestCheckResourceAttr(testSystemNoteTask, "name", testSystemNoteNote),
+							resource.TestCheckResourceAttr(testSystemNoteTask, "note", testSystemNoteNote),
 							resource.TestCheckResourceAttr(testSystemNoteTask, "show_at_login", "false"),
 							resource.TestCheckResourceAttr(testSystemNoteTask, "show_at_cli_login", "false"),
 						),
@@ -33,7 +33,7 @@ func TestAccSystemNoteTest_basic(t *testing.T) {
 					{
 						Config: testAccSystemNoteConfig(testSystemNoteNote, true, false),
 						Check: resource.ComposeTestCheckFunc(
-							resource.TestCheckResourceAttr(testSystemNoteTask, "name", testSystemNoteNote),
+							resource.TestCheckResourceAttr(testSystemNoteTask, "note", testSystemNoteNote),
 							resource.TestCheckResourceAttr(testSystemNoteTask, "show_at_login", "true"),
 							resource.TestCheckResourceAttr(testSystemNoteTask, "show_at_cli_login", "false"),
 						),
@@ -41,7 +41,7 @@ func TestAccSystemNoteTest_basic(t *testing.T) {
 					{
 						Config: testAccSystemNoteConfig(testSystemNoteNote, false, true),
 						Check: resource.ComposeTestCheckFunc(
-							resource.TestCheckResourceAttr(testSystemNoteTask, "name", testSystemNoteNote),
+							resource.TestCheckResourceAttr(testSystemNoteTask, "note", testSystemNoteNote),
 							resource.TestCheckResourceAttr(testSystemNoteTask, "show_at_login", "false"),
 							resource.TestCheckResourceAttr(testSystemNoteTask, "show_at_cli_login", "true"),
 						),
@@ -49,7 +49,7 @@ func TestAccSystemNoteTest_basic(t *testing.T) {
 					{
 						Config: testAccSystemNoteConfig(testSystemNoteNote, true, true),
 						Check: resource.ComposeTestCheckFunc(
-							resource.TestCheckResourceAttr(testSystemNoteTask, "name", testSystemNoteNote),
+							resource.TestCheckResourceAttr(testSystemNoteTask, "note", testSystemNoteNote),
 							resource.TestCheckResourceAttr(testSystemNoteTask, "show_at_login", "true"),
 							resource.TestCheckResourceAttr(testSystemNoteTask, "show_at_cli_login", "true"),
 						),
