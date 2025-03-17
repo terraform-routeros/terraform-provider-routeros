@@ -26,7 +26,7 @@ func TestAccIpSMBTest_basic(t *testing.T) {
 							resource.TestCheckResourceAttr(testIpSMBTask, "enabled", "auto"),
 							resource.TestCheckResourceAttr(testIpSMBTask, "domain", "MSHOME"),
 							resource.TestCheckResourceAttr(testIpSMBTask, "comment", "MikrotikSMB"),
-							resource.TestCheckResourceAttr(testIpSMBTask, "interfaces", "all"),
+							resource.TestCheckTypeSetElemAttr(testIpSMBTask, "interfaces.*", "all"),
 						),
 					},
 				},
