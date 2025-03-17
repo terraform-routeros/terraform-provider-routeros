@@ -238,6 +238,7 @@ func Provider() *schema.Provider {
 			"routeros_system_led_settings":             ResourceSystemLedSettings(),
 			"routeros_system_logging":                  ResourceSystemLogging(),
 			"routeros_system_logging_action":           ResourceSystemLoggingAction(),
+			"routeros_system_note":                     ResourceSystemNote(),
 			"routeros_system_ntp_client":               ResourceSystemNtpClient(),
 			"routeros_system_ntp_server":               ResourceSystemNtpServer(),
 			"routeros_system_routerboard_button_mode":  ResourceSystemRouterboardButtonMode(),
