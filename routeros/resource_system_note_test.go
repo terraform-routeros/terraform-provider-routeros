@@ -7,11 +7,18 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
+// console - added "show-at-cli-login" option to display a note before telnet login;
+const testSystemNoteTaskMinVersion = "7.14"
 const testSystemNoteTask = "routeros_system_note.test"
 
 const testSystemNoteNote = "For authorized use only."
 
 func TestAccSystemNoteTest_basic(t *testing.T) {
+	if !testCheckMinVersion(t, testSystemNoteTaskMinVersion) {
+		t.Logf("Test skipped, the minimum required version is %v", testSystemNoteTaskMinVersion)
+		return
+	}
+
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{
