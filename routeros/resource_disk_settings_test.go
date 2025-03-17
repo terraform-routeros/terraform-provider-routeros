@@ -7,9 +7,15 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
+const testDiskSettingsTaskMinVersion = "7.14"
 const testDiskSettingsTask = "routeros_disk_settings.test"
 
 func TestAccDiskSettingsTest_basic(t *testing.T) {
+	if !testCheckMinVersion(t, testDiskSettingsTaskMinVersion) {
+		t.Logf("Test skipped, the minimum required version is %v", testDiskSettingsTaskMinVersion)
+		return
+	}
+
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{
