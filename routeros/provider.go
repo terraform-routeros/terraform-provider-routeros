@@ -227,6 +227,7 @@ func Provider() *schema.Provider {
 			"routeros_wireguard_peer": ResourceInterfaceWireguardPeer(),
 
 			// System Objects
+			"routeros_disk_settings":                   ResourceDiskSettings(),
 			"routeros_ip_cloud":                        ResourceIpCloud(),
 			"routeros_ip_cloud_advanced":               ResourceIpCloudAdvanced(),
 			"routeros_system_certificate":              ResourceSystemCertificate(),
@@ -329,6 +330,7 @@ func Provider() *schema.Provider {
 			"routeros_tool_graphing_resource":  ResourceToolGraphingResource(),
 			"routeros_tool_mac_server":         ResourceToolMacServer(),
 			"routeros_tool_mac_server_winbox":  ResourceToolMacServerWinBox(),
+			"routeros_tool_mac_server_ping":    ResourceToolMacServerPing(),
 			"routeros_tool_netwatch":           ResourceToolNetwatch(),
 			"routeros_tool_sniffer":            ResourceToolSniffer(),
 
