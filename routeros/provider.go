@@ -135,6 +135,7 @@ func Provider() *schema.Provider {
 			"routeros_ip_pool":                         ResourceIPPool(),
 			"routeros_ip_route":                        ResourceIPRoute(),
 			"routeros_ip_service":                      ResourceIpService(),
+			"routeros_ip_smb":                          ResourceIpSMB(),
 			"routeros_ip_ssh_server":                   ResourceIpSSHServer(),
 			"routeros_ip_upnp":                         ResourceUPNPSettings(),
 			"routeros_ip_upnp_interfaces":              ResourceUPNPInterfaces(),
