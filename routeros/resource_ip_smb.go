@@ -34,6 +34,7 @@ func ResourceIpSMB() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyComment: {
+			// This is the SMB server comment, not a MikroTik comment, which is why this deserves its own attribute and not PropCommentRw.
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Set comment for the server.",
