@@ -151,6 +151,12 @@ func ResourceIpHotspotProfile() *schema.Resource {
 				"server. 0s is the same as received.",
 			DiffSuppressFunc: TimeEqual,
 		},
+		"radius_location_id": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "`RADIUS-Location-Id` property.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"radius_location_name": {
 			Type:     schema.TypeString,
 			Optional: true,
