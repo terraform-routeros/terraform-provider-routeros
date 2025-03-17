@@ -63,3 +63,26 @@ func ResourceToolMacServerWinBox() *schema.Resource {
 		Schema: resSchema,
 	}
 }
+
+// https://help.mikrotik.com/docs/spaces/ROS/pages/98795539/MAC+server#MACserver-MACPingServer
+func ResourceToolMacServerPing() *schema.Resource {
+	resSchema := map[string]*schema.Schema{
+		MetaResourcePath: PropResourcePath("/tool/mac-server/ping"),
+		MetaId:           PropId(Id),
+
+		KeyEnabled: PropEnabled("Whether to enable the MAC Ping server."),
+	}
+
+	return &schema.Resource{
+		CreateContext: DefaultSystemCreate(resSchema),
+		ReadContext:   DefaultSystemRead(resSchema),
+		UpdateContext: DefaultSystemUpdate(resSchema),
+		DeleteContext: DefaultSystemDelete(resSchema),
+
+		Importer: &schema.ResourceImporter{
+			StateContext: schema.ImportStatePassthroughContext,
+		},
+
+		Schema: resSchema,
+	}
+}

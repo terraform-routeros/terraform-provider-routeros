@@ -69,6 +69,37 @@ func TestAccToolsMacServerWinBoxTest_basic(t *testing.T) {
 	}
 }
 
+const testToolsMacServerPing = "routeros_tool_mac_server_ping.test"
+
+func TestAccToolsMacServerPingTest_basic(t *testing.T) {
+	for _, name := range testNames {
+		t.Run(name, func(t *testing.T) {
+			resource.Test(t, resource.TestCase{
+				PreCheck: func() {
+					testAccPreCheck(t)
+					testSetTransportEnv(t, name)
+				},
+				ProviderFactories: testAccProviderFactories,
+				Steps: []resource.TestStep{
+					{
+						Config: testAccToolsMacServerPingConfig(true),
+						Check: resource.ComposeTestCheckFunc(
+							testResourcePrimaryInstanceId(testToolsMacServerPing),
+							resource.TestCheckResourceAttr(testToolsMacServerPing, "enabled", "yes"),
+						),
+					},
+					{
+						Config: testAccToolsMacServerPingConfig(false),
+						Check: resource.ComposeTestCheckFunc(
+							resource.TestCheckResourceAttr(testToolsMacServerPing, "enabled", "no"),
+						),
+					},
+				},
+			})
+		})
+	}
+}
+
 func testAccToolsMacServerConfig(acl string) string {
 	return fmt.Sprintf(`%v
 
@@ -85,4 +116,13 @@ resource "routeros_tool_mac_server_winbox" "test" {
 	allowed_interface_list  = "%v"
 }
 `, providerConfig, acl)
+}
+
+func testAccToolsMacServerPingConfig(enabled bool) string {
+	return fmt.Sprintf(`%v
+
+resource "routeros_tool_mac_server_ping" "test" {
+	enabled = %v
+}
+`, providerConfig, enabled)
 }
