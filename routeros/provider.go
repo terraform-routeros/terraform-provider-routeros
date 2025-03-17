@@ -322,12 +322,15 @@ func Provider() *schema.Provider {
 			"routeros_move_items":     ResourceMoveItems(),
 
 			// Tools
-			"routeros_tool_bandwidth_server":  ResourceToolBandwidthServer(),
-			"routeros_tool_email":             ResourceToolEmail(),
-			"routeros_tool_mac_server":        ResourceToolMacServer(),
-			"routeros_tool_mac_server_winbox": ResourceToolMacServerWinBox(),
-			"routeros_tool_netwatch":          ResourceToolNetwatch(),
-			"routeros_tool_sniffer":           ResourceToolSniffer(),
+			"routeros_tool_bandwidth_server":   ResourceToolBandwidthServer(),
+			"routeros_tool_email":              ResourceToolEmail(),
+			"routeros_tool_graphing_interface": ResourceToolGraphingInterface(),
+			"routeros_tool_graphing_queue":     ResourceToolGraphingQueue(),
+			"routeros_tool_graphing_resource":  ResourceToolGraphingResource(),
+			"routeros_tool_mac_server":         ResourceToolMacServer(),
+			"routeros_tool_mac_server_winbox":  ResourceToolMacServerWinBox(),
+			"routeros_tool_netwatch":           ResourceToolNetwatch(),
+			"routeros_tool_sniffer":            ResourceToolSniffer(),
 
 			// User Manager
 			"routeros_user_manager_advanced":           ResourceUserManagerAdvanced(),
