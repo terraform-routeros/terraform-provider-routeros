@@ -1,3 +1,9 @@
+## [1.78.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.77.3...v1.78.0) (2025-03-17)
+
+### Features
+
+* **system:** Add /system/note resource ([6e588b3](https://github.com/terraform-routeros/terraform-provider-routeros/commit/6e588b319ecea978178cfc3fdc10af2dd74f7b1f))
+
 ## [1.77.3](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.77.2...v1.77.3) (2025-03-12)
 
 ### Bug Fixes
