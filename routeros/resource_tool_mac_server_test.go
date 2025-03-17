@@ -85,13 +85,13 @@ func TestAccToolsMacServerPingTest_basic(t *testing.T) {
 						Config: testAccToolsMacServerPingConfig(true),
 						Check: resource.ComposeTestCheckFunc(
 							testResourcePrimaryInstanceId(testToolsMacServerPing),
-							resource.TestCheckResourceAttr(testToolsMacServerPing, "enabled", "yes"),
+							resource.TestCheckResourceAttr(testToolsMacServerPing, "enabled", "true"),
 						),
 					},
 					{
 						Config: testAccToolsMacServerPingConfig(false),
 						Check: resource.ComposeTestCheckFunc(
-							resource.TestCheckResourceAttr(testToolsMacServerPing, "enabled", "no"),
+							resource.TestCheckResourceAttr(testToolsMacServerPing, "enabled", "false"),
 						),
 					},
 				},
