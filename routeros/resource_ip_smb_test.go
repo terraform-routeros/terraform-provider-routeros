@@ -7,9 +7,15 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
+const testIpSMBMinVersion = "7.14"
 const testIpSMBTask = "routeros_ip_smb.test"
 
 func TestAccIpSMBTest_basic(t *testing.T) {
+	if !testCheckMinVersion(t, testIpSMBMinVersion) {
+		t.Logf("Test skipped, the minimum required version is %v", testIpSMBMinVersion)
+		return
+	}
+
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{
