@@ -1,3 +1,16 @@
+## [1.79.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.78.0...v1.79.0) (2025-03-18)
+
+### Features
+
+* **ip:** Add /ip/smb resource ([d05f4c0](https://github.com/terraform-routeros/terraform-provider-routeros/commit/d05f4c0a2c0b35e17ccca041047d5f0ce10d0b28))
+* **system:** Add `/disk/settings` resource ([#697](https://github.com/terraform-routeros/terraform-provider-routeros/issues/697)) ([4193991](https://github.com/terraform-routeros/terraform-provider-routeros/commit/4193991203e54079d1dd8e0d1874965313163cc5))
+* **tool:** Add /tool/graphing resources ([722108d](https://github.com/terraform-routeros/terraform-provider-routeros/commit/722108d2e16cab7e0cbcef7898899310c15f4113))
+* **tool:** Add /tool/mac-server/ping resource ([31f9c50](https://github.com/terraform-routeros/terraform-provider-routeros/commit/31f9c509cfea8bf18dd852521c7f8f1297ef3c46))
+
+### Bug Fixes
+
+* **hotspot:** Add "radius_location_id" attribute to routeros_ip_hotspot_profile resource ([6d2dcbc](https://github.com/terraform-routeros/terraform-provider-routeros/commit/6d2dcbc768b09d68f0deb858cb39eba38cbdbcc4)), closes [#701](https://github.com/terraform-routeros/terraform-provider-routeros/issues/701)
+
 ## [1.78.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.77.3...v1.78.0) (2025-03-17)
 
 ### Features
