@@ -2,7 +2,6 @@ package routeros
 
 import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
 
 /*
@@ -34,7 +33,6 @@ func ResourceIpHotspotWalledGardenIp() *schema.Resource {
 				"authorization deny - the authorization is required to access the web-page reject - the authorization " +
 				"is required to access the resource, ICMP reject message will be sent to client, when packet will match " +
 				"the rule.",
-			ValidateFunc:     validation.StringInSlice([]string{"allow", "deny", "reject"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyComment:  PropCommentRw,
