@@ -1,3 +1,13 @@
+## [1.80.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.79.0...v1.80.0) (2025-03-21)
+
+### Features
+
+* **ip-settings:** Add new resource `routeros_ip_settings` ([390f577](https://github.com/terraform-routeros/terraform-provider-routeros/commit/390f5775059a77eb7eea3e9b778251cffcf68275)), closes [#704](https://github.com/terraform-routeros/terraform-provider-routeros/issues/704)
+
+### Bug Fixes
+
+* routeros_ip_hotspot_walled_garden_ip action validation may be incorrect ([3529224](https://github.com/terraform-routeros/terraform-provider-routeros/commit/3529224f637dcdaf713fa55529df2b84d7467a8d)), closes [#708](https://github.com/terraform-routeros/terraform-provider-routeros/issues/708)
+
 ## [1.79.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.78.0...v1.79.0) (2025-03-18)
 
 ### Features
