@@ -20,17 +20,17 @@ func TestAccIpSettingsTest_basic(t *testing.T) {
 				ProviderFactories: testAccProviderFactories,
 				Steps: []resource.TestStep{
 					{
-						Config: testAccIpSettingsConfig("l4"),
+						Config: testAccIpSettingsConfig("false"),
 						Check: resource.ComposeTestCheckFunc(
 							testResourcePrimaryInstanceId(testIpSettings),
-							resource.TestCheckResourceAttr(testIpSettings, "ipv4_multipath_hash_policy", "l4"),
+							resource.TestCheckResourceAttr(testIpSettings, "allow_fast_path", "false"),
 						),
 					},
 					{
-						Config: testAccIpSettingsConfig("l3-inner"),
+						Config: testAccIpSettingsConfig("true"),
 						Check: resource.ComposeTestCheckFunc(
 							testResourcePrimaryInstanceId(testIpSettings),
-							resource.TestCheckResourceAttr(testIpSettings, "ipv4_multipath_hash_policy", "l3-inner"),
+							resource.TestCheckResourceAttr(testIpSettings, "allow_fast_path", "true"),
 						),
 					},
 				},
@@ -44,7 +44,7 @@ func testAccIpSettingsConfig(param string) string {
 	return fmt.Sprintf(`%v
 
 resource "routeros_ip_settings" "settings" {
-  ipv4_multipath_hash_policy = "%v"
+  allow_fast_path = %v
 }
 `, providerConfig, param)
 }
