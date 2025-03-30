@@ -1,3 +1,9 @@
+## [1.81.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.80.0...v1.81.0) (2025-03-30)
+
+### Features
+
+* **ipv6_firewall_filter:** add action fasttrack-connection ([e0ca80c](https://github.com/terraform-routeros/terraform-provider-routeros/commit/e0ca80c93cedf8475f3816b3c52496d4ac3293f5))
+
 ## [1.80.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.79.0...v1.80.0) (2025-03-21)
 
 ### Features
