@@ -21,7 +21,7 @@ func ResourceIPv6FirewallFilter() *schema.Resource {
 			Required:    true,
 			Description: "Action to take if a packet is matched by the rule",
 			ValidateFunc: validation.StringInSlice([]string{
-				"accept", "add-dst-to-address-list", "add-src-to-address-list", "drop",
+				"accept", "add-dst-to-address-list", "add-src-to-address-list", "drop", "fasttrack-connection",
 				"jump", "log", "passthrough", "reject", "return",
 			}, false),
 		},
