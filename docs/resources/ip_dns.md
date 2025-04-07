@@ -3,7 +3,7 @@ A MikroTik router with DNS feature enabled can be set as a DNS server for any DN
 
 ## Example Usage
 ```terraform
-resource "routeros_dns" "dns-server" {
+resource "routeros_ip_dns" "dns-server" {
   allow_remote_requests = true
   servers = [
     "2606:4700:4700::1111,1.1.1.1",

@@ -1,1 +1,1 @@
-data "routeros_ip_firewall_filter" "rules" {}
+data "routeros_interface_bridge_filter" "rules" {}
