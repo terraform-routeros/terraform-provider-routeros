@@ -1,3 +1,9 @@
+## [1.81.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.81.0...v1.81.1) (2025-04-07)
+
+### Bug Fixes
+
+* Resource `routeros_ip_route` schema is missing 2 fields ([c01edad](https://github.com/terraform-routeros/terraform-provider-routeros/commit/c01edad8a49130f154b1c9d5431bbe53415378f8)), closes [#712](https://github.com/terraform-routeros/terraform-provider-routeros/issues/712)
+
 ## [1.81.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.80.0...v1.81.0) (2025-03-30)
 
 ### Features

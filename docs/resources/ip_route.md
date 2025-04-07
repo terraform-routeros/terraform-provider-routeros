@@ -34,6 +34,7 @@ resource "routeros_ip_route" "a_route" {
 ### Read-Only
 
 - `active` (Boolean) A flag indicates whether the route is elected as Active and eligible to be added to the FIB.
+- `connect` (Boolean) The route is directly reachable.
 - `dhcp` (Boolean) A flag indicates whether the route was added by the DHCP service.
 - `dynamic` (Boolean) Configuration item created by software, not by management interface. It is not exported, and cannot be directly modified.
 - `ecmp` (Boolean) A flag indicates whether the route is added as an Equal-Cost Multi-Path route in the FIB.
@@ -41,6 +42,7 @@ resource "routeros_ip_route" "a_route" {
 - `id` (String) The ID of this resource.
 - `immediate_gw` (String) Shows actual (resolved) gateway and interface that will be used for packet forwarding.
 - `inactive` (Boolean)
+- `local_address` (String) Local IP address of the connected network.
 - `static` (Boolean)
 
 ## Import
