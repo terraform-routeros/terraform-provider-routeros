@@ -5,7 +5,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
 
-// ResourceIPRoute https://wiki.mikrotik.com/wiki/Manual:IP/Route
+// ResourceIPRoute
+// https://help.mikrotik.com/docs/spaces/ROS/pages/328084/IP+Routing
+// https://help.mikrotik.com/docs/spaces/ROS/pages/59965493/routing+route
 func ResourceIPRoute() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/route"),
@@ -33,6 +35,11 @@ func ResourceIPRoute() *schema.Resource {
 			ValidateFunc: validation.StringInSlice([]string{"arp", "bfd", "bfd-multihop", "none", "ping"}, false),
 		},
 		KeyComment: PropCommentRw,
+		"connect": {
+			Type:        schema.TypeBool,
+			Computed:    true,
+			Description: "The route is directly reachable.",
+		},
 		"dhcp": {
 			Type:        schema.TypeBool,
 			Computed:    true,
@@ -76,6 +83,11 @@ func ResourceIPRoute() *schema.Resource {
 			Description: "Shows actual (resolved) gateway and interface that will be used for packet forwarding.",
 		},
 		KeyInactive: PropInactiveRo,
+		"local_address": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "Local IP address of the connected network.",
+		},
 		"pref_src": {
 			Type:     schema.TypeString,
 			Optional: true,
