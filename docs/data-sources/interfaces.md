@@ -29,6 +29,7 @@ Read-Only:
 - `disabled` (Boolean)
 - `dynamic` (Boolean)
 - `id` (String)
+- `inactive` (Boolean)
 - `l2mtu` (Number)
 - `last_link_down_time` (String)
 - `last_link_up_time` (String)
