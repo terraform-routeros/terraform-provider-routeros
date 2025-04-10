@@ -48,6 +48,10 @@ func DatasourceInterfaces() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						"inactive": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"l2mtu": {
 							Type:     schema.TypeInt,
 							Computed: true,
