@@ -2,6 +2,9 @@
   /ip/dhcp-server:
     - tf: src_address
       mt: server-address
+  /routing/ospf/area:
+    - tf: nssa_translate
+      mt: nssa-translator
 7.17:
   /interface/wireguard/peers:
     - tf: is_responder
