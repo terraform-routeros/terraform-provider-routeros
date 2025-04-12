@@ -1,3 +1,10 @@
+## [1.81.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.81.1...v1.81.2) (2025-04-12)
+
+### Bug Fixes
+
+* **ospf_area:** NSSA Translator/Translate Schema Error ([1348d32](https://github.com/terraform-routeros/terraform-provider-routeros/commit/1348d32589d3b508faa8e433ad3d925bb11cc012)), closes [#718](https://github.com/terraform-routeros/terraform-provider-routeros/issues/718)
+* routeros_interfaces data source schema is missing "inactive" field ([aeb11b4](https://github.com/terraform-routeros/terraform-provider-routeros/commit/aeb11b4d599a78c2837016bca943fd92a126e93a))
+
 ## [1.81.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.81.0...v1.81.1) (2025-04-07)
 
 ### Bug Fixes
