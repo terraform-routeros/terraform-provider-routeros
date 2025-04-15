@@ -1,3 +1,9 @@
+## [1.82.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.81.2...v1.82.0) (2025-04-15)
+
+### Features
+
+* **queue:** Add new resource `routeros_queue_tree` ([54fe8a2](https://github.com/terraform-routeros/terraform-provider-routeros/commit/54fe8a274be5ea3ab89d28c6d1dbd624af85650a))
+
 ## [1.81.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.81.1...v1.81.2) (2025-04-12)
 
 ### Bug Fixes
