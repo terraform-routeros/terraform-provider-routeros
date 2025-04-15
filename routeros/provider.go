@@ -371,6 +371,7 @@ func Provider() *schema.Provider {
 
 			// Queue
 			"routeros_queue_simple": ResourceQueueSimple(),
+			"routeros_queue_tree":   ResourceQueueTree(),
 			"routeros_queue_type":   ResourceQueueType(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
