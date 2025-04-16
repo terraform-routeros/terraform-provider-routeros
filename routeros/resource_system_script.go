@@ -1,6 +1,9 @@
 package routeros
 
 import (
+	"context"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
@@ -24,6 +27,7 @@ func ResourceSystemScript() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/system/script"),
 		MetaId:           PropId(Id),
+		MetaSkipFields:   PropSkipFields("launch_trigger"),
 
 		KeyComment: PropCommentRw,
 		"dont_require_permissions": {
@@ -65,6 +69,11 @@ func ResourceSystemScript() *schema.Resource {
 policy = ["ftp", "read", "write"]
 `,
 		},
+		"launch_trigger": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Changing the attribute value causes the script to run.",
+		},
 		"run_count": {
 			Type:        schema.TypeString,
 			Computed:    true,
@@ -78,9 +87,33 @@ policy = ["ftp", "read", "write"]
 	}
 
 	return &schema.Resource{
-		CreateContext: DefaultCreate(resSchema),
-		ReadContext:   DefaultRead(resSchema),
-		UpdateContext: DefaultUpdate(resSchema),
+		CreateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+			diags := ResourceCreate(ctx, resSchema, d, m)
+			if diags.HasError() {
+				return diags
+			}
+
+			if d.Get("launch_trigger").(string) != "" {
+				startScript(ctx, resSchema, d, m)
+			}
+
+			return ResourceRead(ctx, resSchema, d, m)
+		},
+
+		ReadContext: DefaultRead(resSchema),
+		UpdateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+			diags := ResourceUpdate(ctx, resSchema, d, m)
+			if diags.HasError() {
+				return diags
+			}
+
+			if d.Get("launch_trigger").(string) != "" {
+				startScript(ctx, resSchema, d, m)
+			}
+
+			return ResourceRead(ctx, resSchema, d, m)
+		},
+
 		DeleteContext: DefaultDelete(resSchema),
 
 		Importer: &schema.ResourceImporter{
@@ -89,4 +122,21 @@ policy = ["ftp", "read", "write"]
 
 		Schema: resSchema,
 	}
+}
+
+func startScript(ctx context.Context, s map[string]*schema.Schema, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	// Start the script.
+	var resUrl = &URL{
+		Path: s[MetaResourcePath].Default.(string),
+	}
+	if m.(Client).GetTransport() == TransportREST {
+		resUrl.Path += "/run"
+	}
+
+	err := m.(Client).SendRequest(crudStart, resUrl, MikrotikItem{Id.String(): d.Id()}, nil)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	return nil
 }
