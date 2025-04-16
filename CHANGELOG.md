@@ -1,3 +1,9 @@
+## [1.83.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.82.0...v1.83.0) (2025-04-16)
+
+### Features
+
+* **script:** Add a script start attribute ([e379996](https://github.com/terraform-routeros/terraform-provider-routeros/commit/e3799964205e4fd1623f7576604b7232ec454708))
+
 ## [1.82.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.81.2...v1.82.0) (2025-04-15)
 
 ### Features
