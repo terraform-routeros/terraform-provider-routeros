@@ -31,6 +31,7 @@ func ResourceUserSshKeys() *schema.Resource {
 		"key": {
 			Type:        schema.TypeString,
 			Required:    true,
+			ForceNew:    true,
 			Sensitive:   true,
 			Description: "key",
 		},
