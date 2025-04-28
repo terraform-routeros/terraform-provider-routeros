@@ -25,10 +25,9 @@ func ResourceRadius() *schema.Resource {
 			ValidateFunc: Validation64k,
 		},
 		"address": {
-			Type:         schema.TypeString,
-			Required:     true,
-			Description:  "IPv4 or IPv6 address of RADIUS server.",
-			ValidateFunc: validation.IsIPAddress,
+			Type:        schema.TypeString,
+			Required:    true,
+			Description: "IPv4 or IPv6 address of RADIUS server.",
 		},
 		"authentication_port": {
 			Type:         schema.TypeInt,
