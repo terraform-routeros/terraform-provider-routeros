@@ -1,3 +1,10 @@
+## [1.83.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.83.0...v1.83.1) (2025-04-28)
+
+### Bug Fixes
+
+* **radius:** Remove server IP address validator ([6c486dd](https://github.com/terraform-routeros/terraform-provider-routeros/commit/6c486ddfaf71ee36271445d3b90adf3a6c8acafa)), closes [#726](https://github.com/terraform-routeros/terraform-provider-routeros/issues/726)
+* **sshkey:** Add `ForceNew` for the `key` attribute ([23f7c82](https://github.com/terraform-routeros/terraform-provider-routeros/commit/23f7c824b8069ce7fe13844aa0dab48fe7b1bb3c)), closes [#725](https://github.com/terraform-routeros/terraform-provider-routeros/issues/725)
+
 ## [1.83.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.82.0...v1.83.0) (2025-04-16)
 
 ### Features
