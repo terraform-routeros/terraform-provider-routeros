@@ -532,6 +532,26 @@ var (
 		}
 	}
 
+	// ValidationDurationBetween returns a SchemaValidateFunc which tests if the provided value
+	// is a valid duration expected by RouterOS and is between minVal and maxVal (inclusive)
+	ValidationDurationBetween = func(minVal, maxVal int) schema.SchemaValidateFunc {
+		return func(i interface{}, k string) (warnings []string, errors []error) {
+			value, ok := i.(string)
+			if !ok {
+				errors = append(errors, fmt.Errorf("expected type of %s to be string", k))
+				return warnings, errors
+			}
+
+			duration, err := ParseDuration(value, time.Second)
+			if err != nil {
+				errors = append(errors, fmt.Errorf("expected %q to be a valid time, got %q: %+v", k, i, err))
+				return warnings, errors
+			}
+
+			return validation.IntBetween(minVal, maxVal)(int(duration.Seconds()), k)
+		}
+	}
+
 	ValidationAutoYesNo = validation.StringInSlice([]string{"auto", "yes", "no"}, false)
 	ValidationIpAddress = validation.StringMatch(
 		regexp.MustCompile(`^$|^!?(\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(/([0-9]|[0-9]|[1-2][0-9]|3[0-2]))?)$`),
