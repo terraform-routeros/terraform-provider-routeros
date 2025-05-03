@@ -104,7 +104,8 @@ func ResourceInterfaceWireguardPeer() *schema.Resource {
 				"persistently. For example, if the interface very rarely sends traffic, but it might at anytime " +
 				"receive traffic from a peer, and it is behind NAT, the interface might benefit from having a " +
 				"persistent keepalive interval of 25 seconds.",
-			ValidateFunc: ValidationDurationBetween(1, 65535),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			ValidateFunc:     ValidationDurationBetween(1, 65535),
 		},
 		"preshared_key": {
 			Type:      schema.TypeString,
