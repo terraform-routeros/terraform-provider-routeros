@@ -33,7 +33,7 @@ func ResourceIpIpsecProfile() *schema.Resource {
 			Description: "Diffie-Hellman group (cipher strength).",
 			Elem: &schema.Schema{
 				Type: schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"modp768", "modp1024 ", "modp1536", "modp2048",
+				ValidateFunc: validation.StringInSlice([]string{"modp768", "modp1024", "modp1536", "modp2048",
 					"modp3072", "modp4096", "modp6144", "modp8192", "ecp256", "ecp384", "ecp521"}, false),
 			},
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
