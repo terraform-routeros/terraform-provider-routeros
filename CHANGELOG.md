@@ -1,3 +1,10 @@
+## [1.84.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.83.1...v1.84.0) (2025-05-06)
+
+### Features
+
+* Implement duration check ([bf1a21d](https://github.com/terraform-routeros/terraform-provider-routeros/commit/bf1a21d89a98389a040bf296a3f261bfc365aae4))
+* **ipv6:** Add new resource `routeros_ipv6_nd_prefix` ([476a70b](https://github.com/terraform-routeros/terraform-provider-routeros/commit/476a70bf59079c5c79582704ed648f40b9c10c9e)), closes [#730](https://github.com/terraform-routeros/terraform-provider-routeros/issues/730)
+
 ## [1.83.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.83.0...v1.83.1) (2025-04-28)
 
 ### Bug Fixes
