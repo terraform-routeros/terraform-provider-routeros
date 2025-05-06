@@ -49,7 +49,7 @@ jobs:
       - name: Setup Go environment
         uses: actions/setup-go@v5
         with:
-          go-version: 1.23.4
+          go-version: 1.24.2
         id: go  
   
       - name: Get dependencies

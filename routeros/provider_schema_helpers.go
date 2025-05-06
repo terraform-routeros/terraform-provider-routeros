@@ -3,6 +3,7 @@ package routeros
 import (
 	"fmt"
 	"regexp"
+	"slices"
 	"strconv"
 	"strings"
 	"time"
@@ -675,6 +676,8 @@ var (
 		}
 	}
 
+	timeControlWords = []string{"immediately", "infinity"}
+
 	timeEqual = func(k, old, new string, d *schema.ResourceData, baseUnits time.Duration) bool {
 		if old == "" {
 			return false
@@ -685,7 +688,8 @@ var (
 		}
 
 		// #447 routeros_ip_dhcp_server_config.store_leases_disk == "immediately"
-		if old == "immediately" || new == "immediately" {
+		// routeros_ipv6_nd_prefix.preferred_lifetime == "infinity"
+		if slices.Contains(timeControlWords, old) || slices.Contains(timeControlWords, old) {
 			return old == new
 		}
 

@@ -46,7 +46,7 @@ func Test_defaultResourceCreateContext(t *testing.T) {
 
 	err := json.Unmarshal([]byte(s), &m2)
 	if err != nil {
-		t.Errorf(err.Error())
+		t.Error(err.Error())
 	}
 
 	for k, v := range m2 {
