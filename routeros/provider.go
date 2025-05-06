@@ -152,6 +152,7 @@ func Provider() *schema.Provider {
 			"routeros_ipv6_firewall_nat":               ResourceIPv6FirewallNat(),
 			"routeros_ipv6_firewall_mangle":            ResourceIPv6FirewallMangle(),
 			"routeros_ipv6_neighbor_discovery":         ResourceIPv6NeighborDiscovery(),
+			"routeros_ipv6_nd_prefix":                  ResourceIpv6NdPrefix(),
 			"routeros_ipv6_pool":                       ResourceIpv6Pool(),
 			"routeros_ipv6_route":                      ResourceIPv6Route(),
 			"routeros_ipv6_settings":                   ResourceIpv6Settings(),
