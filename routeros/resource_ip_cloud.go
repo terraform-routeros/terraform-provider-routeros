@@ -89,13 +89,13 @@ func ResourceIpCloud() *schema.Resource {
 				"possible cause is if router runs out of memory.",
 		},
 		"update_time": {
-			Type:     schema.TypeBool,
+			Type:     schema.TypeString,
 			Optional: true,
-			Default:  true,
 			Description: "If set to yes then router clock will be set to time, provided by cloud server IF there " +
 				"is no NTP or SNTP client enabled. If set to no, then IP/Cloud service will never update " +
 				"the device's clock. If update-time is set to yes, Clock will be updated even when " +
 				"ddns-enabled is set to no.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"warning": {
 			Type:     schema.TypeString,
