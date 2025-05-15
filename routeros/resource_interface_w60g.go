@@ -131,9 +131,10 @@ func ResourceInterfaceW60g() *schema.Resource {
 	}
 
 	return &schema.Resource{
-		CreateContext: DefaultSystemCreate(resSchema),
-		ReadContext:   DefaultSystemRead(resSchema),
-		UpdateContext: DefaultSystemUpdate(resSchema),
+
+		CreateContext: DefaultCreateUpdate(resSchema),
+		ReadContext:   DefaultRead(resSchema),
+		UpdateContext: DefaultCreateUpdate(resSchema),
 		DeleteContext: DefaultSystemDelete(resSchema),
 
 		Importer: &schema.ResourceImporter{
