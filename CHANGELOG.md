@@ -1,3 +1,14 @@
+## [1.85.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.84.0...v1.85.0) (2025-05-15)
+
+### Features
+
+* **GRE v6:** Add new resource `routeros_interface_gre6` ([034cd10](https://github.com/terraform-routeros/terraform-provider-routeros/commit/034cd10e11cc6bb2f7ac5b2ff1158b8dfec55e60)), closes [#737](https://github.com/terraform-routeros/terraform-provider-routeros/issues/737)
+
+### Bug Fixes
+
+* Fix IPSec resource input validation ([72063f5](https://github.com/terraform-routeros/terraform-provider-routeros/commit/72063f53af6a8108719d8137ab3284439d6e3beb))
+* **logging_action changed:**  Update for ROS 7.18 ([129f5fe](https://github.com/terraform-routeros/terraform-provider-routeros/commit/129f5feef2c349938cc09da5c952dca354aaf923)), closes [#735](https://github.com/terraform-routeros/terraform-provider-routeros/issues/735)
+
 ## [1.84.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.83.1...v1.84.0) (2025-05-06)
 
 ### Features
