@@ -67,7 +67,7 @@ func ResourceIpIpsecProfile() *schema.Resource {
 			Optional: true,
 			Description: "Hashing algorithm. SHA (Secure Hash Algorithm) is stronger, but slower. MD5 uses 128-bit key, " +
 				"sha1-160bit key.",
-			ValidateFunc:     validation.StringInSlice([]string{"md5", "sha1", "sha256", "sha512"}, false),
+			ValidateFunc:     validation.StringInSlice([]string{"md5", "sha1", "sha256", "sha384", "sha512"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"lifebytes": {

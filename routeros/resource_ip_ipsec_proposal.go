@@ -45,7 +45,7 @@ func ResourceIpIpsecProposal() *schema.Resource {
 			Elem: &schema.Schema{
 				Type: schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"null", "des", "3des", "aes-128-cbc", "aes-128-cbc",
-					"aes-128gcm", "aes-192-cbc", "aes-192-ctr", "aes-192-gcm", "aes-256-cbc", "aes-256-ctr", "aes-256-gcm",
+					"aes-128-gcm", "aes-192-cbc", "aes-192-ctr", "aes-192-gcm", "aes-256-cbc", "aes-256-ctr", "aes-256-gcm",
 					"blowfish", "camellia-128", "camellia-192", "camellia-256", "twofish"}, false),
 			},
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,

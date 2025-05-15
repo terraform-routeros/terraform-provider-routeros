@@ -71,7 +71,6 @@ func ResourceIpIpsecPeer() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Name of the profile template that will be used during IKE negotiation.",
-			ValidateFunc:     validation.StringInSlice([]string{"string"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"responder": {
