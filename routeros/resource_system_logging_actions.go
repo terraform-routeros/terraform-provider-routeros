@@ -35,6 +35,13 @@ func ResourceSystemLoggingAction() *schema.Resource {
 			Type:        schema.TypeBool,
 			Optional:    true,
 			Description: `Whether to use bsd-syslog as defined in RFC 3164.`,
+			Deprecated:  DeprecatedInfo("7.18"),
+		},
+		"cef_event_delimiter": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Option helps remote syslog to distinguish between individual events within sent batch",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyDefault: PropDefaultRo,
 		"disk_file_count": {

@@ -504,6 +504,11 @@ func PropMtuRw() *schema.Schema {
 	}
 }
 
+// Unified information on attribute deprecation
+func DeprecatedInfo(ros string) string {
+	return "Deprecated since ROS v" + ros
+}
+
 // Properties validation.
 var (
 	Validation64k = validation.IntBetween(0, 65535)
