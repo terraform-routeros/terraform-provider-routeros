@@ -452,7 +452,7 @@ var (
 		Type:             schema.TypeString,
 		Optional:         true,
 		Description:      "IP address of the remote end of the tunnel.",
-		ValidateFunc:     validation.IsIPv4Address,
+		ValidateFunc:     validation.IsIPAddress,
 		DiffSuppressFunc: AlwaysPresentNotUserProvided,
 	}
 	PropRunningRo = &schema.Schema{

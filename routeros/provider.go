@@ -189,6 +189,7 @@ func Provider() *schema.Provider {
 			"routeros_interface_ethernet_switch_rule":           ResourceInterfaceEthernetSwitchRule(),
 			"routeros_interface_ethernet_switch_vlan":           ResourceInterfaceEthernetSwitchVlan(),
 			"routeros_interface_gre":                            ResourceInterfaceGre(),
+			"routeros_interface_gre6":                           ResourceInterfaceGre6(),
 			"routeros_interface_ipip":                           ResourceInterfaceIPIP(),
 			"routeros_interface_list":                           ResourceInterfaceList(),
 			"routeros_interface_list_member":                    ResourceInterfaceListMember(),
