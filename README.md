@@ -42,7 +42,7 @@ For more in-depth documentation about each of the resources and datasources, ple
 
 ### Versions tested
 
-- go 1.21 and ROS 7.12, 7.15, 7.16 (stable)
+- go 1.24.2 and ROS 7.12, 7.15, 7.16 (stable)
 
 ## Changelog
 
