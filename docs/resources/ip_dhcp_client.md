@@ -18,6 +18,8 @@ resource "routeros_ip_dhcp_client" "client" {
 ### Optional
 
 - `add_default_route` (String) Whether to install default route in routing table received from DHCP server.
+- `allow_reconfigure` (Boolean)
+- `check_gateway` (String) Method on how to check gateway reachability.
 - `comment` (String)
 - `default_route_distance` (Number) Distance of default route. Applicable if add-default-route is set to yes.
 - `default_route_tables` (String) Default route tables.
@@ -26,6 +28,7 @@ resource "routeros_ip_dhcp_client" "client" {
 - `script` (String) A script.
 - `use_peer_dns` (Boolean) Whether to accept the DNS settings advertised by DHCP Server (will override the settings put in the /ip dns submenu).
 - `use_peer_ntp` (Boolean) Whether to accept the NTP settings advertised by DHCP Server (will override the settings put in the /system ntp client submenu).
+- `use_reconfigure` (Boolean) Allow the server to send Reconfigure messages to clients, prompting them to renew or update their configuration without waiting for their lease to expire.
 
 ### Read-Only
 
