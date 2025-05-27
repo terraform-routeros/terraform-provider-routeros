@@ -1,3 +1,11 @@
+## [1.85.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.85.0...v1.85.1) (2025-05-27)
+
+### Bug Fixes
+
+* **dhcp-client:** Add new attributes ([#753](https://github.com/terraform-routeros/terraform-provider-routeros/issues/753)) ([b2b8db0](https://github.com/terraform-routeros/terraform-provider-routeros/commit/b2b8db0b74fc1bc42a241fc7a6bc05137048bdb4)), closes [#749](https://github.com/terraform-routeros/terraform-provider-routeros/issues/749)
+* **firewall-v4:** Add Set/Unset attributes ([9886d39](https://github.com/terraform-routeros/terraform-provider-routeros/commit/9886d39b400b83521244f976b20fd2eb2da1844d)), closes [#748](https://github.com/terraform-routeros/terraform-provider-routeros/issues/748)
+* **wg-peers:** Fix drift attributes ([ba95824](https://github.com/terraform-routeros/terraform-provider-routeros/commit/ba95824334b192768be33c5337be9e8ff104f04c)), closes [#750](https://github.com/terraform-routeros/terraform-provider-routeros/issues/750)
+
 ## [1.85.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.84.0...v1.85.0) (2025-05-15)
 
 ### Features
