@@ -73,9 +73,9 @@ func (do *driftObjects) GetDriftMap(ros, resName string, reverse bool) (res map[
 		log.Fatal(err)
 	}
 
+	res = map[string]string{}
 	for i := range *do {
 		if version >= (*do)[i].Version {
-			res = map[string]string{}
 			for _, attr := range (*do)[i].Resources[resName] {
 				if !reverse {
 					res[attr.TF] = attr.MT
