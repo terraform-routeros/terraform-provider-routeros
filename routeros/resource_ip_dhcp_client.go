@@ -23,10 +23,17 @@ func ResourceDhcpClient() *schema.Resource {
 			Computed:    true,
 			Description: "IP address and netmask, which is assigned to DHCP Client from the Server.",
 		},
-		"script": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Description: "A script.",
+		"allow_reconfigure": {
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Description:      "",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"check_gateway": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Method on how to check gateway reachability.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyComment: PropCommentRw,
 		"default_route_distance": {
@@ -85,6 +92,11 @@ func ResourceDhcpClient() *schema.Resource {
 			Computed:    true,
 			Description: "The IP address of the primary NTP server, assigned by the DHCP server.",
 		},
+		"script": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "A script.",
+		},
 		"secondary_dns": {
 			Type:        schema.TypeString,
 			Computed:    true,
@@ -112,6 +124,12 @@ func ResourceDhcpClient() *schema.Resource {
 			Default:  true,
 			Description: "Whether to accept the NTP settings advertised by DHCP Server (will override the settings " +
 				"put in the /system ntp client submenu).",
+		},
+		"use_reconfigure": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "Allow the server to send Reconfigure messages to clients, prompting them to renew or " +
+				"update their configuration without waiting for their lease to expire.",
 		},
 	}
 	return &schema.Resource{
