@@ -9,7 +9,7 @@ import (
      {
     ".id": "*1",
     "add-path-out": "none",
-    "address-families": "ip",
+    "afi": "ip",
     "as": "65521/1",
     "as-override": "true",
     "cisco-vpls-nlri-len-fmt": "auto-bits",
@@ -76,7 +76,7 @@ func ResourceRoutingBGPConnection() *schema.Resource {
 			Default:      "none",
 			ValidateFunc: validation.StringInSlice([]string{"all", "none"}, false),
 		},
-		"address_families": {
+		"afi": {
 			Type:     schema.TypeString,
 			Optional: true,
 			Default:  "ip",
