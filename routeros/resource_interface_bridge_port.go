@@ -85,7 +85,8 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/bridge/port"),
 		MetaId:           PropId(Id),
-		MetaSkipFields:   PropSkipFields("debug_info", "port_number"),
+		MetaSkipFields: PropSkipFields("debug_info", "discard_transitions", "forward_transitions", "port_number",
+			"rx_bpdu", "rx_tc", "topology_changes", "tx_bpdu", "tx_tc"),
 
 		"nextid": {
 			Type:     schema.TypeString,
@@ -144,11 +145,6 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 			Description: "Designated port number.",
 		},
 		KeyDisabled: PropDisabledRw,
-		"discard_transitions": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Counter, registring how often port transitions into discarding state.",
-		},
 		KeyDynamic:  PropDynamicRo,
 		"edge": {
 			Type:     schema.TypeString,
@@ -179,11 +175,6 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 			Optional:         true,
 			Description:      "Enables IGMP Fast leave feature on the port.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
-		},
-		"forward_transitions": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Counter, registring how often port transitions into forwarding state.",
 		},
 		"forwarding": {
 			Type:        schema.TypeBool,
@@ -404,16 +395,6 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 			Computed:    true,
 			Description: "The total cost of the path to the root-bridge.",
 		},
-		"rx_bpdu": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Received bpdu messages counter.",
-		},
-		"rx_tc": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Topology change messages received.",
-		},
 		"sending_rstp": {
 			Type:     schema.TypeString,
 			Computed: true,
@@ -434,11 +415,6 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 				"This property only has effect when vlan-filtering is set to yes.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
-		"topology_changes": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Topology change counter.",
-		},
 		"trusted": {
 			Type:     schema.TypeBool,
 			Optional: true,
@@ -446,16 +422,6 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 				"Mainly used to limit unauthorized servers to provide malicious information for users. " +
 				"This property only has effect when dhcp-snooping is set to yes.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
-		},
-		"tx_bpdu": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Sent bpdu messages counter.",
-		},
-		"tx_tc": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "Topology change messages sent.",
 		},
 		"unknown_multicast_flood": {
 			Type:             schema.TypeBool,
