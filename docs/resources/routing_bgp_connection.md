@@ -14,7 +14,7 @@
 ### Optional
 
 - `add_path_out` (String)
-- `afi` (String) List of address families about which this peer will exchange routing information. The remote peer must support (they usually do) BGP capabilities optional parameter to negotiate any other families than IP.
+- `address_families` (String) List of address families about which this peer will exchange routing information. The remote peer must support (they usually do) BGP capabilities optional parameter to negotiate any other families than IP.
 - `cisco_vpls_nlri_len_fmt` (String) VPLS NLRI length format type. Used for compatibility with Cisco VPLS.
 - `cluster_id` (String) In case this instance is a route reflector: the cluster ID of the router reflector cluster to this instance belongs. This attribute helps to recognize routing updates that come from another route reflector in this cluster and avoid routing information looping. Note that normally there is only one route reflector in a cluster; in this case, 'cluster-id' does not need to be configured and BGP router ID is used instead.
 - `comment` (String)

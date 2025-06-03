@@ -42,7 +42,7 @@ func testAccBGPConnectionConfig() string {
 	return providerConfig + `
 resource "routeros_routing_bgp_connection" "test" {
 	add_path_out            = "none"
-	afi                     = "ip"
+	address_families        = "ip"
 	as                      = "65550/5"
 	cisco_vpls_nlri_len_fmt = "auto-bits"
 	cluster_id              = "0.0.0.0"

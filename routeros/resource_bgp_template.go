@@ -10,7 +10,7 @@ import (
 	".about": "invalid value '0.0.0.0' of 'router-id'",
 	".id": "*2",
 	"add-path-out": "all",
-	"afi": "ip,ipv6,l2vpn,l2vpn-cisco,vpnv4",
+	"address-families": "ip,ipv6,l2vpn,l2vpn-cisco,vpnv4",
 	"as": "65000",
 	"as-override": "true",
 	"cisco-vpls-nlri-len-fmt": "auto-bits",
@@ -64,7 +64,7 @@ func ResourceRoutingBGPTemplate() *schema.Resource {
 			Default:      "none",
 			ValidateFunc: validation.StringInSlice([]string{"all", "none"}, false),
 		},
-		"afi": {
+		"address_families": {
 			Type:     schema.TypeString,
 			Optional: true,
 			Default:  "ip",
