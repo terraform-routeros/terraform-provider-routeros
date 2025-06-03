@@ -13,3 +13,7 @@
   /container:
     - tf: tag
       mt: repo
+7.19.1:
+  /routing/bgp/connection:
+    - tf: address_families
+      mt: afi
