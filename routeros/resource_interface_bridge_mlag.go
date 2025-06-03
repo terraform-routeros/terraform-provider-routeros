@@ -22,6 +22,14 @@ func ResourceInterfaceBridgeMlag() *schema.Resource {
 			Required:    true,
 			Description: "The bridge interface where MLAG is being created.",
 		},
+		"heartbeat": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "This setting controls how often heartbeat messages are sent to check the connection between peers. " +
+				"If no heartbeat message is received for three intervals in a row, the peer logs a warning about " +
+				"potential communication problems. If set to none, heartbeat messages are not sent at all.",
+			DiffSuppressFunc: TimeEqual,
+		},
 		"peer_port": {
 			Type:     schema.TypeString,
 			Required: true,
@@ -29,6 +37,14 @@ func ResourceInterfaceBridgeMlag() *schema.Resource {
 				"communication over these peer ports to establish MLAG and update the host table. Peer port should be " +
 				"isolated on a different untagged VLAN using a pvid setting. Peer port can be configured as a bonding " +
 				"interface.",
+		},
+		"priority": {
+			Type:     schema.TypeInt,
+			Optional: true,
+			Description: "This setting changes the priority for selecting the primary MLAG node. A lower number means " +
+				"higher priority. If both MLAG nodes have the same priority, the one with the lowest bridge MAC address " +
+				"will become the primary device.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 	}
 
