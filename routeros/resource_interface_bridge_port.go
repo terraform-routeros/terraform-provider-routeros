@@ -30,7 +30,9 @@ dtimes: Msg:256 Max: 5120 FD: 3840 HT: 512\n
 dprio: RBI: 8000:744D288FCA7D RPC: 10 BI: 8000:C4AD3407AD79 tP: 0x2 rP: 0x2\n
 ",
     "designated-bridge": "0x8000.74:4D:28:8F:CA:7D",
+    "designated-bridge-id": "0x8000.74:4D:28:8F:CA:7D",
     "designated-cost": "0",
+    "designated-port-id": "0x80.6",
     "designated-port-number": "1",
     "disabled": "false",
     "dynamic": "false",
@@ -39,6 +41,7 @@ dprio: RBI: 8000:744D288FCA7D RPC: 10 BI: 8000:C4AD3407AD79 tP: 0x2 rP: 0x2\n
     "edge-port-discovery": "true",
     "external-fdb-status": "false",
     "fast-leave": "false",
+    "forward-transitions": "1",
     "forwarding": "true",
     "frame-types": "admit-only-vlan-tagged",
     "horizon": "none",
@@ -55,16 +58,22 @@ dprio: RBI: 8000:744D288FCA7D RPC: 10 BI: 8000:C4AD3407AD79 tP: 0x2 rP: 0x2\n
     "point-to-point": "auto",
     "point-to-point-port": "true",
     "port-number": "2",
+    "port-id": "0x80.2",
     "priority": "0x80",
     "pvid": "1",
     "restricted-role": "false",
     "restricted-tcn": "false",
     "role": "root-port",
+    "rx-bpdu": "0",
+    "rx-tc": "0",
     "root-path-cost": "10",
     "sending-rstp": "true",
     "status": "in-bridge",
     "tag-stacking": "false",
+    "topology-changes": "0",
     "trusted": "false",
+    "tx-bpdu": "2157",
+    "tx-tc": "0",
     "unknown-multicast-flood": "true",
     "unknown-unicast-flood": "true"
   },
@@ -76,7 +85,8 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/bridge/port"),
 		MetaId:           PropId(Id),
-		MetaSkipFields:   PropSkipFields("debug_info", "port_number"),
+		MetaSkipFields: PropSkipFields("debug_info", "discard_transitions", "forward_transitions", "port_number",
+			"rx_bpdu", "rx_tc", "topology_changes", "tx_bpdu", "tx_tc"),
 
 		"nextid": {
 			Type:     schema.TypeString,
@@ -114,10 +124,20 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 			Computed:    true,
 			Description: "Root bridge ID (bridge priority and the bridge MAC address).",
 		},
+		"designated_bridge_id": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "Shows the designated bridge identifier, as determined from the port's priority vector.",
+		},
 		"designated_cost": {
 			Type:        schema.TypeString,
 			Computed:    true,
 			Description: "Designated cost.",
+		},
+		"designated_port_id": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "Shows the designated port identifier, as determined from the port's priority vector.",
 		},
 		"designated_port_number": {
 			Type:        schema.TypeInt,
@@ -213,6 +233,11 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 				"protocol-mode is set to mstp.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"last_topology_change": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "Last topology change timer, records time since the last change.",
+		},
 		"learn": {
 			Type:             schema.TypeString,
 			Optional:         true,
@@ -276,6 +301,11 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 			Type:        schema.TypeBool,
 			Computed:    true,
 			Description: "Whether the port is connected to a bridge port using full-duplex (true) or half-duplex (false).",
+		},
+		"port_id": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "In Spanning Tree Protocol each port has a unique Port Identifier. Priority[hex] + port number.",
 		},
 		"priority": {
 			Type:     schema.TypeString,
