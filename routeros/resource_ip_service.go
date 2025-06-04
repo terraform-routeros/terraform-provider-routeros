@@ -57,6 +57,7 @@ func ResourceIpService() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyDisabled: PropDisabledRw,
+		KeyDynamic:  PropDynamicRo,
 		KeyInvalid:  PropInvalidRo,
 		"max_sessions": {
 			Type:             schema.TypeInt,
@@ -78,12 +79,15 @@ func ResourceIpService() *schema.Resource {
 			ValidateDiagFunc: ValidationMultiValInSlice([]string{"api", "api-ssl", "ftp", "ssh", "telnet", "winbox",
 				"www", "www-ssl"}, false, false),
 		},
-
 		"port": {
 			Type:         schema.TypeInt,
 			Required:     true,
 			Description:  "The port particular service listens on.",
 			ValidateFunc: validation.IntBetween(1, 65535),
+		},
+		"proto": {
+			Type:     schema.TypeString,
+			Computed: true,
 		},
 		"tls_version": {
 			Type:             schema.TypeString,
