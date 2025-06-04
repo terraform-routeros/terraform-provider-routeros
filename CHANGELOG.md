@@ -1,3 +1,12 @@
+## [1.85.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.85.1...v1.85.2) (2025-06-04)
+
+### Bug Fixes
+
+* **bridge_port:** Add new attributes (ROS 7.19) ([98c0dbf](https://github.com/terraform-routeros/terraform-provider-routeros/commit/98c0dbf479398a6f94c56530ddc05953d1123ba1))
+* **bridge_port:** Skip counters ([3839756](https://github.com/terraform-routeros/terraform-provider-routeros/commit/38397561413974fc5616053ba8bc3de31fc50201))
+* **bridge-mlag:** Add missing attributes to routeros_bridge_mlag ([47e1d26](https://github.com/terraform-routeros/terraform-provider-routeros/commit/47e1d267227a45bbda5ff666da30944e40737a85)), closes [#755](https://github.com/terraform-routeros/terraform-provider-routeros/issues/755)
+* **ip-service:** routeros_ip_service lead to Warning: Field 'proto' not found in the schema, Warning: Field 'dynamic' not found in the schema ([85dff9b](https://github.com/terraform-routeros/terraform-provider-routeros/commit/85dff9b58859a518d556ec2e015c613e5d2593c1)), closes [#756](https://github.com/terraform-routeros/terraform-provider-routeros/issues/756)
+
 ## [1.85.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.85.0...v1.85.1) (2025-05-27)
 
 ### Bug Fixes

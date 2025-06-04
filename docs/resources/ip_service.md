@@ -64,9 +64,11 @@ resource "routeros_ip_service" "enabled" {
 
 ### Read-Only
 
+- `dynamic` (Boolean) Configuration item created by software, not by management interface. It is not exported, and cannot be directly modified.
 - `id` (String) The ID of this resource.
 - `invalid` (Boolean)
 - `name` (String) Service name.
+- `proto` (String)
 
 ## Import
 Import is supported using the following syntax:

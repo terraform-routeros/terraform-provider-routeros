@@ -50,7 +50,9 @@ resource "routeros_interface_bridge_port" "bridge_port" {
 ### Read-Only
 
 - `designated_bridge` (String) Root bridge ID (bridge priority and the bridge MAC address).
+- `designated_bridge_id` (String) Shows the designated bridge identifier, as determined from the port's priority vector.
 - `designated_cost` (String) Designated cost.
+- `designated_port_id` (String) Shows the designated port identifier, as determined from the port's priority vector.
 - `designated_port_number` (Number) Designated port number.
 - `dynamic` (Boolean) Configuration item created by software, not by management interface. It is not exported, and cannot be directly modified.
 - `edge_port` (Boolean) Whether port is an edge port or not.
@@ -61,9 +63,11 @@ resource "routeros_interface_bridge_port" "bridge_port" {
 - `hw_offload_group` (String) Switch chip used by the port.
 - `id` (String) The ID of this resource.
 - `inactive` (Boolean)
+- `last_topology_change` (String) Last topology change timer, records time since the last change.
 - `learning` (Boolean) Shows whether the port is capable of learning MAC addresses.
 - `nextid` (String)
 - `point_to_point_port` (Boolean) Whether the port is connected to a bridge port using full-duplex (true) or half-duplex (false).
+- `port_id` (String) In Spanning Tree Protocol each port has a unique Port Identifier. Priority[hex] + port number.
 - `role` (String) (R/M)STP algorithm assigned role of the port
 - `root_path_cost` (Number) The total cost of the path to the root-bridge.
 - `sending_rstp` (String) Whether the port is sending RSTP or MSTP BPDU types. A port will transit to STP type when RSTP/MSTP enabled port receives a STP BPDU

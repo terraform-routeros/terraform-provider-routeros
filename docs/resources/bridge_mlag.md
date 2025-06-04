@@ -19,6 +19,8 @@ resource "routeros_bridge_mlag" "mlag" {
 
 ### Optional
 
+- `heartbeat` (String) This setting controls how often heartbeat messages are sent to check the connection between peers. If no heartbeat message is received for three intervals in a row, the peer logs a warning about potential communication problems. If set to none, heartbeat messages are not sent at all.
+- `priority` (Number) This setting changes the priority for selecting the primary MLAG node. A lower number means higher priority. If both MLAG nodes have the same priority, the one with the lowest bridge MAC address will become the primary device.
 
 ### Read-Only
 
