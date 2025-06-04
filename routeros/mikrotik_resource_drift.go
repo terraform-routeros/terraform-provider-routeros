@@ -6,5 +6,7 @@ func init() {
     driftAttributeSlice.Add("7.1", "/routing/ospf/area", "nssa_translate", "nssa-translator")
     driftAttributeSlice.Add("7.17", "/interface/wireguard/peers", "is_responder", "responder")
     driftAttributeSlice.Add("7.18", "/container", "tag", "repo")
+    driftAttributeSlice.Add("7.19", "/routing/bgp/connection", "address_families", "afi")
+    driftAttributeSlice.Add("7.19", "/routing/bgp/template", "address_families", "afi")
     driftAttributeSlice.SortDesc()
 }
