@@ -93,3 +93,5 @@ cd routeros/
 go run ../tools/drift/main.go
 ```
 - Submit your changes!
+
+[Here](https://github.com/terraform-routeros/terraform-provider-routeros/pull/758/files) is a example of pull request.
