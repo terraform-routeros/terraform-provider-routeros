@@ -15,7 +15,7 @@ cd tools/schema_changes
 go run . -r 7.18:7.19 -markdown
 ```
 
-    * ```-r``` - ROS versions to be compared (```-r 7.18:7.19```)
-    * ````-f``` - resource path filter (````-f bgp```)
-    * ```-all``` - output all changed resources, not just those present in the provider
-    * ```-markdown``` - output in Markdown format for copying to GitHub
+* ```-r``` - ROS versions to be compared (```-r 7.18:7.19```)
+* ```-f``` - resource path filter (```-f bgp```)
+* ```-all``` - output all changed resources, not just those present in the provider
+* ```-markdown``` - output in Markdown format for copying to GitHub
