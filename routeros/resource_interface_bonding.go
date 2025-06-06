@@ -85,6 +85,17 @@ func ResourceInterfaceBonding() *schema.Resource {
 				"automatically change the MACaddress for slave interfaces and it will be visible in " +
 				"/interface ethernet configuration export.",
 		},
+		"lacp_mode": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Specifies whether ports actively or passively participates in the LACP:" +
+				"\n    - **active** - ports actively initiate LACP communication, regardless of the partner's LACP mode " +
+				"(i.e, it \"speaks\" even if the partner is silent)" +
+				"\n    - **passive** - ports only respond to LACP messages and do not initiate them unless the partner " +
+				"is in active mode (i.e., it \"listens\" and responds only if spoken to).",
+			ValidateFunc:     validation.StringInSlice([]string{"active", "passive"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"lacp_rate": {
 			Type:     schema.TypeString,
 			Optional: true,
@@ -242,7 +253,7 @@ func ResourceInterfaceBonding() *schema.Resource {
 		DeleteContext: DefaultDelete(resSchema),
 
 		Importer: &schema.ResourceImporter{
-			StateContext: schema.ImportStatePassthroughContext,
+			StateContext: ImportStateCustomContext(resSchema),
 		},
 
 		Schema: resSchema,

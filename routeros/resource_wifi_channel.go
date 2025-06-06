@@ -46,6 +46,24 @@ func ResourceWifiChannel() *schema.Resource {
 			Description:      "An option that specifies when the interface should rescan channel availability and select the most appropriate one to use.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"reselect_time": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Specifies the clock time when the interface should run \"rescan channel availability\" " +
+				"and select the most appropriate one to use. Specifying the clock time will allow the system to select " +
+				"this time dynamically and randomly. This helps to avoid a situation when many APs at the same time scan " +
+				"the network, select the same channel, and prefer to use it at the same time. reselect-time uses a background " +
+				"scan. " +
+				"\nThe reselect process will choose the most suitable channel considering the number of networks in the " +
+				"channel, channel usage, and overlap with networks in adjacent channels. It can be used with a list of " +
+				"frequencies defined, or with frequency not set - using all supported frequencies." +
+				"\nExample:\n" +
+				"\n    - 01:00..01:30 → Would set the rescan of channels to run every night, once, randomly, between " +
+				"01:00 AM to 01:30 AM, system clock time." +
+				"\n    - 14:00..14:30 → Would set the rescan of channels to run every day (after midday), once, randomly " +
+				"between 14:00:00 to 14:30:00 (or 2 PM to 2:30 PM), system clock time.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"secondary_frequency": {
 			Type:     schema.TypeList,
 			Elem:     &schema.Schema{Type: schema.TypeString},
@@ -75,7 +93,7 @@ func ResourceWifiChannel() *schema.Resource {
 		DeleteContext: DefaultDelete(resSchema),
 
 		Importer: &schema.ResourceImporter{
-			StateContext: schema.ImportStatePassthroughContext,
+			StateContext: ImportStateCustomContext(resSchema),
 		},
 
 		Schema: resSchema,

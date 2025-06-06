@@ -303,6 +303,12 @@ func ResourceToolSniffer() *schema.Resource {
 				ValidateFunc: validation.IntBetween(0, 4095),
 			},
 		},
+		"max_packet_size": {
+			Type:             schema.TypeInt,
+			Optional:         true,
+			Description:      "",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"memory_limit": {
 			Type:             schema.TypeInt,
 			Optional:         true,

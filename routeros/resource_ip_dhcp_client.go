@@ -52,9 +52,12 @@ func ResourceDhcpClient() *schema.Resource {
 			},
 		},
 		"default_route_tables": {
-			Type:             schema.TypeString,
-			Optional:         true,
-			Description:      "Default route tables.",
+			Type:        schema.TypeSet,
+			Optional:    true,
+			Description: "Default route tables.",
+			Elem: &schema.Schema{
+				Type: schema.TypeString,
+			},
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"dhcp_options": {

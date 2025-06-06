@@ -139,6 +139,12 @@ func ResourceDhcpServer() *schema.Resource {
 			ValidateFunc:     validation.StringInSlice([]string{"yes", "no", "accounting"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"use_reconfigure": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "Allow the server to send Reconfigure (forcerenew) messages to clients, prompting them to renew " +
+				"configuration without waiting for their lease to expire.",
+		},
 	}
 	return &schema.Resource{
 		CreateContext: DefaultCreate(resSchema),
@@ -146,7 +152,7 @@ func ResourceDhcpServer() *schema.Resource {
 		UpdateContext: DefaultUpdate(resSchema),
 		DeleteContext: DefaultDelete(resSchema),
 		Importer: &schema.ResourceImporter{
-			StateContext: schema.ImportStatePassthroughContext,
+			StateContext: ImportStateCustomContext(resSchema),
 		},
 
 		SchemaVersion: 1,

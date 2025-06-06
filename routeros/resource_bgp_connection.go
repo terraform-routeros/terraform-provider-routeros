@@ -188,6 +188,7 @@ func ResourceRoutingBGPConnection() *schema.Resource {
 							"reject prefixes which means that it will still eat memory and will be visible in " +
 							"/routing route table as 'not active, filtered'. Changes to be applied required session " +
 							"refresh.",
+						Deprecated: "Since ROS v7.19",
 					},
 					// affinity (afi | alone | instance | main | remote-as | vrf; Default: )
 					// May be "0"
@@ -216,6 +217,46 @@ func ResourceRoutingBGPConnection() *schema.Resource {
 						Description: "Name of the routing filter chain to be used on input prefixes. This happens after " +
 							"NLRIs are processed. If the chain is not specified, then BGP by default accepts " +
 							"everything.",
+					},
+					"filter_communities": {
+						Type:     schema.TypeString,
+						Optional: true,
+						Description: "A quick way to filter incoming updates with specific communities. It allows filtering " +
+							"incoming messages directly before they are even parsed and stored in memory, that way significantly " +
+							"reducing memory usage. Regular input filter chain can only reject prefixes which means that it will " +
+							"still eat memory and will be visible in /routing route table as \"not active, filtered\". Changes " +
+							"to be applied required session refresh.",
+						DiffSuppressFunc: AlwaysPresentNotUserProvided,
+					},
+					"filter_ext_communities": {
+						Type:     schema.TypeString,
+						Optional: true,
+						Description: "A quick way to filter incoming updates with specific extended communities. It allows filtering " +
+							"incoming messages directly before they are even parsed and stored in memory, that way significantly " +
+							"reducing memory usage. Regular input filter chain can only reject prefixes which means that it will " +
+							"still eat memory and will be visible in /routing route table as \"not active, filtered\". Changes " +
+							"to be applied required session refresh.",
+						DiffSuppressFunc: AlwaysPresentNotUserProvided,
+					},
+					"filter_large_communities": {
+						Type:     schema.TypeString,
+						Optional: true,
+						Description: "A quick way to filter incoming updates with specific large communities. It allows filtering " +
+							"incoming messages directly before they are even parsed and stored in memory, that way significantly " +
+							"reducing memory usage. Regular input filter chain can only reject prefixes which means that it will " +
+							"still eat memory and will be visible in /routing route table as \"not active, filtered\". Changes " +
+							"to be applied required session refresh.",
+						DiffSuppressFunc: AlwaysPresentNotUserProvided,
+					},
+					"filter_unknown": {
+						Type:     schema.TypeString,
+						Optional: true,
+						Description: "A quick way to filter incoming updates with specific \"unknown\" attributes. It allows filtering " +
+							"incoming messages directly before they are even parsed and stored in memory, that way significantly " +
+							"reducing memory usage. Regular input filter chain can only reject prefixes which means that it will " +
+							"still eat memory and will be visible in /routing route table as \"not active, filtered\". Changes " +
+							"to be applied required session refresh.",
+						DiffSuppressFunc: AlwaysPresentNotUserProvided,
 					},
 					"ignore_as_path_len": {
 						Type:        schema.TypeBool,
@@ -535,7 +576,7 @@ func ResourceRoutingBGPConnection() *schema.Resource {
 		DeleteContext: DefaultDelete(resSchema),
 
 		Importer: &schema.ResourceImporter{
-			StateContext: schema.ImportStatePassthroughContext,
+			StateContext: ImportStateCustomContext(resSchema),
 		},
 
 		Schema: resSchema,
