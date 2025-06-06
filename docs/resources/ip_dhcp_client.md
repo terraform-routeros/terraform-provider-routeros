@@ -22,7 +22,7 @@ resource "routeros_ip_dhcp_client" "client" {
 - `check_gateway` (String) Method on how to check gateway reachability.
 - `comment` (String)
 - `default_route_distance` (Number) Distance of default route. Applicable if add-default-route is set to yes.
-- `default_route_tables` (String) Default route tables.
+- `default_route_tables` (Set of String) Default route tables.
 - `dhcp_options` (String) Options that are sent to the DHCP server.
 - `disabled` (Boolean)
 - `script` (String) A script.

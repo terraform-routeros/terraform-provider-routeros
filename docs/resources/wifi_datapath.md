@@ -26,6 +26,7 @@ resource "routeros_wifi_datapath" "datapath1" {
 - `comment` (String)
 - `disabled` (Boolean)
 - `interface_list` (String) List to which add the interface as a member.
+- `traffic_processing` (String)
 - `vlan_id` (String) Default VLAN ID to assign to client devices connecting to this interface.
 
 ### Read-Only

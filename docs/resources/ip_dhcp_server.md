@@ -44,6 +44,7 @@ resource "routeros_ip_dhcp_server" "server" {
 - `src_address` (String) The address which the DHCP client must send requests to in order to renew an IP address lease.
 - `use_framed_as_classless` (Boolean) Forward RADIUS Framed-Route as a DHCP Classless-Static-Route to DHCP-client.
 - `use_radius` (String) Whether to use RADIUS server.
+- `use_reconfigure` (Boolean) Allow the server to send Reconfigure (forcerenew) messages to clients, prompting them to renew configuration without waiting for their lease to expire.
 
 ### Read-Only
 

@@ -1,3 +1,17 @@
+## [1.85.3](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.85.2...v1.85.3) (2025-06-06)
+
+### Bug Fixes
+
+* **bgp:** Add new filtering attributes ([bb8878d](https://github.com/terraform-routeros/terraform-provider-routeros/commit/bb8878d02ed043ebd1980bff125782ca2bd4999b))
+* **interface-bonding:** Add a `lacp_mode` attribute ([684e81b](https://github.com/terraform-routeros/terraform-provider-routeros/commit/684e81ba2e2f1e44b04d49297a6edcd5b5aeb5f7))
+* **interface-gre6:** Correct local IPv6 address validation ([30da790](https://github.com/terraform-routeros/terraform-provider-routeros/commit/30da790bfc372dc5258853ecd3c281e68a08e13e)), closes [#764](https://github.com/terraform-routeros/terraform-provider-routeros/issues/764)
+* **ip-dhcp-client:** Correct the `default_route_tables` attribute type to TypeSet ([93fe11c](https://github.com/terraform-routeros/terraform-provider-routeros/commit/93fe11c04a4ba27e0b50c45aec42c721aa293ff3))
+* **ip-dhcp-server:** Add an `use_reconfigure` attribute ([db9bc30](https://github.com/terraform-routeros/terraform-provider-routeros/commit/db9bc308886e7cba71dbd037bda2bcf9c3c0db25)), closes [#749](https://github.com/terraform-routeros/terraform-provider-routeros/issues/749)
+* **ipv6-dhcp-client:** Add new attributes ([b8a1ff8](https://github.com/terraform-routeros/terraform-provider-routeros/commit/b8a1ff8b097b99cd0e5ed1ee738bde42563862fd))
+* **tool-sniffer:** Add a `max_packet_size` attribute ([c0d06e0](https://github.com/terraform-routeros/terraform-provider-routeros/commit/c0d06e07c518342724ebfc668862e974e90d868f))
+* **wifi-channel:** Add a `reselect-time` attribute ([28184c9](https://github.com/terraform-routeros/terraform-provider-routeros/commit/28184c91be5c50c9f9256d34f0c6858145c6c507))
+* **wifi-datapath:** Add a `traffic_processing` attribute ([1de9d37](https://github.com/terraform-routeros/terraform-provider-routeros/commit/1de9d378b20bcd25adfcb3a32921a4407aa496f4))
+
 ## [1.85.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.85.1...v1.85.2) (2025-06-04)
 
 ### Bug Fixes

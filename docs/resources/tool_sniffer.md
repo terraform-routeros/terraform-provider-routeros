@@ -89,6 +89,7 @@ resource "routeros_tool_sniffer" "test" {
 - `filter_src_port` (Set of String) Up to 16 comma-separated source ports used as a filter. A list of predefined port names is also available, like ssh and telnet.
 - `filter_stream` (Boolean) Sniffed packets that are devised for the sniffer server are ignored.
 - `filter_vlan` (Set of Number) Up to 16 VLAN IDs used as a filter.
+- `max_packet_size` (Number)
 - `memory_limit` (Number) Memory amount used to store sniffed data.
 - `memory_scroll` (Boolean) Whether to rewrite older sniffed data when the memory limit is reached.
 - `only_headers` (Boolean) Save in the memory only the packet's headers, not the whole packet.

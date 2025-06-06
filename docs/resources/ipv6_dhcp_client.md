@@ -33,8 +33,10 @@ resource "routeros_ipv6_dhcp_client" "client" {
 
 - `add_default_route` (Boolean) Whether to add default IPv6 route after a client connects.
 - `allow_reconfigure` (Boolean) Allow reconfigure messages.
+- `check_gateway` (String) Method on how to check gateway reachability.
 - `comment` (String)
 - `default_route_distance` (Number) Distance of default route. Applicable if add-default-route is set to yes.
+- `default_route_tables` (Set of String) List of routing tables to which default route must be added. Table name can be proceeded with ":x" where x would be the distance for the route to be installed with.
 - `dhcp_options` (Set of String) Options that are sent to the DHCP server.
 - `disabled` (Boolean)
 - `pool_name` (String) Name of the IPv6 pool in which received IPv6 prefix will be added
