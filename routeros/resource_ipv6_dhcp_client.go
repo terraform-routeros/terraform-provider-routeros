@@ -50,12 +50,28 @@ func ResourceIPv6DhcpClient() *schema.Resource {
 			Description:      "Allow reconfigure messages.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"check_gateway": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Method on how to check gateway reachability.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		KeyComment: PropCommentRw,
 		"default_route_distance": {
 			Type:             schema.TypeInt,
 			Optional:         true,
 			Description:      "Distance of default route. Applicable if add-default-route is set to yes.",
 			ValidateFunc:     validation.IntBetween(0, 255),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"default_route_tables": {
+			Type:     schema.TypeSet,
+			Optional: true,
+			Description: "List of routing tables to which default route must be added. Table name can be proceeded with " +
+				"\":x\" where x would be the distance for the route to be installed with.",
+			Elem: &schema.Schema{
+				Type: schema.TypeString,
+			},
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"dhcp_options": {
