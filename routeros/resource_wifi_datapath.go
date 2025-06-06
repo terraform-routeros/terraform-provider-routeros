@@ -2,6 +2,7 @@ package routeros
 
 import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
 
 /*
@@ -44,7 +45,7 @@ func ResourceWifiDatapath() *schema.Resource {
 			Optional:    true,
 			Description: "An option to toggle communication between clients connected to the same AP.",
 		},
-		KeyComment: PropCommentRw,
+		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
 		"interface_list": {
 			Type:        schema.TypeString,
@@ -52,6 +53,13 @@ func ResourceWifiDatapath() *schema.Resource {
 			Description: "List to which add the interface as a member.",
 		},
 		KeyName: PropName("Name of the datapath."),
+		"traffic_processing": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "",
+			ValidateFunc:     validation.StringInSlice([]string{"on-cap", "on-capsman"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"vlan_id": {
 			Type:        schema.TypeString,
 			Optional:    true,
@@ -67,7 +75,7 @@ func ResourceWifiDatapath() *schema.Resource {
 		DeleteContext: DefaultDelete(resSchema),
 
 		Importer: &schema.ResourceImporter{
-			StateContext: schema.ImportStatePassthroughContext,
+			StateContext: ImportStateCustomContext(resSchema),
 		},
 
 		Schema: resSchema,
