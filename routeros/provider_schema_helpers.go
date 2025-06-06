@@ -398,7 +398,7 @@ var (
 		Type:             schema.TypeString,
 		Optional:         true,
 		Description:      "Source address of the tunnel packets, local on the router.",
-		ValidateFunc:     validation.IsIPv4Address,
+		ValidateFunc:     validation.IsIPAddress,
 		DiffSuppressFunc: AlwaysPresentNotUserProvided,
 	}
 	PropLoopProtectRw = &schema.Schema{
