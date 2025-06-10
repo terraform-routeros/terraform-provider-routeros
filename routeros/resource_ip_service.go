@@ -2,6 +2,7 @@ package routeros
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -99,6 +100,38 @@ func ResourceIpService() *schema.Resource {
 		KeyVrf: PropVrfRw,
 	}
 
+	resRead := func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+		path := resSchema[MetaResourcePath].Default.(string)
+		filter := map[string]any{"name": d.Get("numbers")}
+
+		ver, err := parseRouterOSVersion(RouterOSVersion)
+		if err != nil {
+			panic(err)
+		}
+
+		// ROS 7.19 => 463616
+		if ver >= 463616 {
+			filter["dynamic"] = "false"
+		}
+
+		res, err := ReadItemsFiltered(buildReadFilter(filter), path, m.(Client))
+		if err != nil {
+			ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgGet, err))
+			return diag.FromErr(err)
+		}
+
+		// Resource not found.
+		if len(*res) == 0 {
+			d.SetId("")
+			ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgPatch, err))
+			return diag.FromErr(errorNoLongerExists)
+		}
+
+		d.SetId((*res)[0].GetID(Id))
+
+		return MikrotikResourceDataToTerraform((*res)[0], resSchema, d)
+	}
+
 	resCreateUpdate := func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 		item, metadata := TerraformResourceDataToMikrotik(resSchema, d)
 
@@ -116,17 +149,17 @@ func ResourceIpService() *schema.Resource {
 			return diag.FromErr(err)
 		}
 
-		return ResourceRead(ctx, resSchema, d, m)
+		return resRead(ctx, d, m)
 	}
 
 	return &schema.Resource{
 		CreateContext: resCreateUpdate,
-		ReadContext:   DefaultRead(resSchema),
+		ReadContext:   resRead,
 		UpdateContext: resCreateUpdate,
 		DeleteContext: DefaultSystemDelete(resSchema),
 
 		Importer: &schema.ResourceImporter{
-			StateContext: schema.ImportStatePassthroughContext,
+			StateContext: ImportStateCustomContext(resSchema),
 		},
 
 		Schema: resSchema,
