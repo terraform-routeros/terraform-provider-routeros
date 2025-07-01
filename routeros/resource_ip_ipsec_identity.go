@@ -103,7 +103,6 @@ func ResourceIpIpsecIdentity() *schema.Resource {
 				"based connections; `address` - IP address is used as ID;dn - the binary Distinguished Encoding Rules (DER) " +
 				"encoding of an ASN.1 X.500 Distinguished Name; `fqdn` - fully qualified domain name; `key-id` - use the specified " +
 				"key ID for the identity; `user-fqdn` - specifies a fully-qualified username string, for example, `user@domain.com`.",
-			ValidateFunc:     validation.StringInSlice([]string{"auto", "address", "fqdn", "user-fqdn", "key-id"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"notrack_chain": {
@@ -152,7 +151,6 @@ func ResourceIpIpsecIdentity() *schema.Resource {
 				"Only supported in IKEv2; `key-id` - specific key ID for the identity. Only supported in IKEv2; `ignore` - " +
 				"do not verify received ID with certificate (dangerous). * Wildcard key ID matching **is not supported**, " +
 				"for example `remote-id=`key-id:CN=*.domain.com`.",
-			ValidateFunc:     validation.StringInSlice([]string{"auto", "fqdn", "user-fqdn", "key-id", "ignore"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"remote_key": {
