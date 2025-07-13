@@ -6,7 +6,7 @@ require (
 	github.com/fatih/color v1.18.0
 	github.com/go-routeros/routeros/v3 v3.0.1
 	github.com/hashicorp/go-cty v1.5.0
-	github.com/hashicorp/terraform-plugin-docs v0.21.0
+	github.com/hashicorp/terraform-plugin-docs v0.22.0
 	github.com/hashicorp/terraform-plugin-log v0.9.0
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.37.0
 	github.com/sourcegraph/go-diff-patch v0.0.0-20240223163233-798fd1e94a8e
