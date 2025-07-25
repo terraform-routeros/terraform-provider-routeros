@@ -7,9 +7,15 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
+const testIpDnsForwardersMinVersion = "7.17"
 const testIpDnsForwarders = "routeros_ip_dns_forwarders.test"
 
 func TestAccIpDnsForwardersTest_basic(t *testing.T) {
+	if !testCheckMinVersion(t, testIpDnsForwardersMinVersion) {
+		t.Logf("Test skipped, the minimum required version is %v", testIpDnsForwardersMinVersion)
+		return
+	}
+
 	t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
