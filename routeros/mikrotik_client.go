@@ -172,7 +172,7 @@ func NewClient(ctx context.Context, d *schema.ResourceData) (interface{}, diag.D
 		// ... By default, CreateContext has a 20 minute timeout ...
 		// but MT REST API timeout is in 60 seconds for any operation.
 		// Make the timeout smaller so that the lifetime of the context is less than the lifetime of the session.
-		Timeout: 59 * time.Second,
+		Timeout: time.Duration(d.Get("rest_timeout").(int)) * time.Second,
 		Transport: &http.Transport{
 			TLSClientConfig: &tlsConf,
 		},

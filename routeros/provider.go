@@ -2,6 +2,7 @@ package routeros
 
 import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
 
 var (
@@ -99,6 +100,13 @@ func Provider() *schema.Provider {
 				),
 				Description: "RouterOS version for which resource schemes will be adapted. The version obtained from " +
 					"MikroTik will be used if not specified (env: ROS_VERSION).",
+			},
+			"rest_timeout": {
+				Type:         schema.TypeInt,
+				Optional:     true,
+				Default:      59,
+				Description:  "HTTP Client Timeout",
+				ValidateFunc: validation.IntAtLeast(5),
 			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
