@@ -28,7 +28,7 @@ func TestAccRoutingIgmpProxyInterfaceTest_basic(t *testing.T) {
 							resource.TestCheckResourceAttr(testRoutingIgmpProxyInterface, "alternative_subnets.0", "0.0.0.1/32"),
 							resource.TestCheckResourceAttr(testRoutingIgmpProxyInterface, "alternative_subnets.1", "0.0.0.2/32"),
 							resource.TestCheckResourceAttr(testRoutingIgmpProxyInterface, "disabled", "true"),
-							resource.TestCheckResourceAttr(testRoutingIgmpProxyInterface, "interface", "lo"),
+							resource.TestCheckResourceAttr(testRoutingIgmpProxyInterface, "interface", "all"),
 							resource.TestCheckResourceAttr(testRoutingIgmpProxyInterface, "threshold", "5"),
 						),
 					},
@@ -45,7 +45,7 @@ func testAccRoutingIgmpProxyInterfaceConfig() string {
 resource "routeros_routing_igmp_proxy_interface" "test" {
   alternative_subnets = ["0.0.0.1/32", "0.0.0.2/32"]
   disabled            = true
-  interface           = "lo"
+  interface           = "all"
   threshold           = 5
 }
 `, providerConfig)
