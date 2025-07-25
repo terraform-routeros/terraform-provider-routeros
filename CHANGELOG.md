@@ -1,3 +1,10 @@
+## [1.85.4](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.85.3...v1.85.4) (2025-07-25)
+
+### Bug Fixes
+
+* **address-list:** "context deadline exceeded" when working with firewall address-lists ([b450160](https://github.com/terraform-routeros/terraform-provider-routeros/commit/b450160ba65275aaad91815e71a5030ca29b61f6)), closes [#772](https://github.com/terraform-routeros/terraform-provider-routeros/issues/772)
+* routeros_ipv6_nd_prefix data source schema is missing "invalid" field ([e76a987](https://github.com/terraform-routeros/terraform-provider-routeros/commit/e76a98774da428aa27bb968c674b0de41983264f))
+
 ## [1.85.3](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.85.2...v1.85.3) (2025-06-06)
 
 ### Bug Fixes
