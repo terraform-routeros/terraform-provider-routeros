@@ -29,6 +29,14 @@ func ResourceToolEmail() *schema.Resource {
 			Description:      "Name or email address that will be shown as a receiver.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"last_status": {
+			Type:     schema.TypeString,
+			Computed: true,
+		},
+		"last_address": {
+			Type:     schema.TypeString,
+			Computed: true,
+		},
 		"password": {
 			Type:        schema.TypeString,
 			Optional:    true,
