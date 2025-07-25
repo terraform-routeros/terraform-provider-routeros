@@ -49,6 +49,7 @@ func ResourceIpv6NdPrefix() *schema.Resource {
 			Required:    true,
 			Description: "Interface name on which stateless auto-configuration will be running.",
 		},
+		KeyInvalid: PropInvalidRo,
 		"on_link": {
 			Type:     schema.TypeBool,
 			Optional: true,

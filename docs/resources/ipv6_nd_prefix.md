@@ -31,6 +31,7 @@ resource "routeros_ipv6_nd_prefix" "test" {
 ### Read-Only
 
 - `id` (String) The ID of this resource.
+- `invalid` (Boolean)
 
 ## Import
 Import is supported using the following syntax:
