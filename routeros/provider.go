@@ -2,6 +2,7 @@ package routeros
 
 import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
 
 var (
@@ -100,6 +101,13 @@ func Provider() *schema.Provider {
 				Description: "RouterOS version for which resource schemes will be adapted. The version obtained from " +
 					"MikroTik will be used if not specified (env: ROS_VERSION).",
 			},
+			"rest_timeout": {
+				Type:         schema.TypeInt,
+				Optional:     true,
+				Default:      59,
+				Description:  "HTTP Client Timeout",
+				ValidateFunc: validation.IntAtLeast(5),
+			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
 
@@ -116,6 +124,7 @@ func Provider() *schema.Provider {
 			"routeros_ip_dhcp_server_option_set":       ResourceDhcpServerOptionSet(),
 			"routeros_ip_dns":                          ResourceDns(),
 			"routeros_ip_dns_adlist":                   ResourceDnsAdlist(),
+			"routeros_ip_dns_forwarders":               ResourceIpDnsForwarders(),
 			"routeros_ip_dns_record":                   ResourceDnsRecord(),
 			"routeros_ip_firewall_addr_list":           ResourceIPFirewallAddrList(),
 			"routeros_ip_firewall_connection_tracking": ResourceIPConnectionTracking(),
@@ -288,11 +297,12 @@ func Provider() *schema.Provider {
 			"routeros_file": ResourceFile(),
 
 			// Routing
-			"routeros_routing_bgp_connection": ResourceRoutingBGPConnection(),
-			"routeros_routing_bgp_template":   ResourceRoutingBGPTemplate(),
-			"routeros_routing_filter_rule":    ResourceRoutingFilterRule(),
-			"routeros_routing_table":          ResourceRoutingTable(),
-			"routeros_routing_rule":           ResourceRoutingRule(),
+			"routeros_routing_bgp_connection":       ResourceRoutingBGPConnection(),
+			"routeros_routing_bgp_template":         ResourceRoutingBGPTemplate(),
+			"routeros_routing_filter_rule":          ResourceRoutingFilterRule(),
+			"routeros_routing_igmp_proxy_interface": ResourceRoutingIgmpProxyInterface(),
+			"routeros_routing_table":                ResourceRoutingTable(),
+			"routeros_routing_rule":                 ResourceRoutingRule(),
 
 			// OSPF
 			"routeros_routing_ospf_instance":           ResourceRoutingOspfInstance(),
