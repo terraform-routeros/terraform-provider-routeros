@@ -43,6 +43,12 @@ func ResourceDiskSettings() *schema.Resource {
 			Description:      "Interface that will be used in dynamic instance for ip/media when new disk/partition item is added in '/disk'.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"default_mount_point_template": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "TBD by MikroTik support.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 	}
 
 	return &schema.Resource{
