@@ -121,6 +121,7 @@ func Provider() *schema.Provider {
 			"routeros_ip_dhcp_server_network":          ResourceDhcpServerNetwork(),
 			"routeros_ip_dhcp_server_lease":            ResourceDhcpServerLease(),
 			"routeros_ip_dhcp_server_option":           ResourceDhcpServerOption(),
+			"routeros_ip_dhcp_server_option_matcher":   ResourceDhcpServerOptionMatcher(),
 			"routeros_ip_dhcp_server_option_set":       ResourceDhcpServerOptionSet(),
 			"routeros_ip_dns":                          ResourceDns(),
 			"routeros_ip_dns_adlist":                   ResourceDnsAdlist(),
