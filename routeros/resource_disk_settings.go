@@ -9,7 +9,8 @@ import (
 	"auto-smb-sharing": "false",
 	"auto-smb-user": "guest",
 	"auto-media-sharing": "false",
-	"auto-media-interface": "lo"
+	"auto-media-interface": "lo",
+	"default-mount-point-template": "[slot]"
 }
 */
 
@@ -41,6 +42,12 @@ func ResourceDiskSettings() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Interface that will be used in dynamic instance for ip/media when new disk/partition item is added in '/disk'.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"default_mount_point_template": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Sets the default mount point template for each item added in `/disk`.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 	}
