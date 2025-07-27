@@ -22,5 +22,7 @@
 ### Read-Only
 
 - `id` (String) The ID of this resource.
+- `last_address` (String)
+- `last_status` (String)
 
 

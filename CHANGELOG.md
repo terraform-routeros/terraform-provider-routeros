@@ -1,3 +1,19 @@
+## [1.86.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.85.4...v1.86.0) (2025-07-27)
+
+### Features
+
+* implement RouterOS DHCP server option matcher resource ([d459e68](https://github.com/terraform-routeros/terraform-provider-routeros/commit/d459e6891e325f320975213af72ae4971ec1f765))
+* implement RouterOS TFTP resource ([2b98b84](https://github.com/terraform-routeros/terraform-provider-routeros/commit/2b98b8451f7fd5ebe3e03b4fcf338138182c52a5))
+* implement RouterOS TFTP settings resource ([4533151](https://github.com/terraform-routeros/terraform-provider-routeros/commit/4533151c59044db366f8afe4bbc2d17da4fdb5c2))
+* **ip_dns_forwarders:** Add new resource `routeros_ip_dns_forwarders` ([48be482](https://github.com/terraform-routeros/terraform-provider-routeros/commit/48be482cb6f562ae156404f8755c3f8aa4fb3778)), closes [#778](https://github.com/terraform-routeros/terraform-provider-routeros/issues/778)
+* **routing_igmp_proxy_interface:** Add support for IGMP Proxy ([4db8ffa](https://github.com/terraform-routeros/terraform-provider-routeros/commit/4db8ffad0d8233241cfad4b9321838c811b6e3a7)), closes [#773](https://github.com/terraform-routeros/terraform-provider-routeros/issues/773)
+
+### Bug Fixes
+
+* `last_modified` missing on `routeros_files` datasource ([ffa72d3](https://github.com/terraform-routeros/terraform-provider-routeros/commit/ffa72d354291d50baef5ea5cf1ba0a0b70a6773e)), closes [#790](https://github.com/terraform-routeros/terraform-provider-routeros/issues/790)
+* **system:** Add missing default_mount_point_template attribute ([5e5bc6e](https://github.com/terraform-routeros/terraform-provider-routeros/commit/5e5bc6ee37efb8e0fedfa25a5940841cd0a4fdeb))
+* **tool_email:** Add new fields ([c15047a](https://github.com/terraform-routeros/terraform-provider-routeros/commit/c15047a3d57d60a3de891d8ad7fdaeb9f1164ee0)), closes [#779](https://github.com/terraform-routeros/terraform-provider-routeros/issues/779)
+
 ## [1.85.4](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.85.3...v1.85.4) (2025-07-25)
 
 ### Bug Fixes

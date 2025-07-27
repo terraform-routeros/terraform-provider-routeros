@@ -3,8 +3,11 @@
 
 ## Example Usage
 ```terraform
-resource "routeros_ip_tftp_settings" "tftp_settings" {
-  max_block_size = 4096
+resource "routeros_ip_tftp" "file" {
+  ip_addresses  = ["10.0.0.0/24"]
+  req_filename  = "file.txt"
+  real_filename = routeros_file.file.name
+  read_only     = true
 }
 ```
 
@@ -25,7 +28,6 @@ resource "routeros_ip_tftp_settings" "tftp_settings" {
 
 ### Read-Only
 
-- `hits` (Number) How many times this access rule entry has been used.
 - `id` (String) The ID of this resource.
 
 ## Import

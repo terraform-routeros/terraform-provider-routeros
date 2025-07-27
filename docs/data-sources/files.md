@@ -26,6 +26,7 @@ Read-Only:
 - `contents` (String)
 - `creation_time` (String)
 - `id` (String)
+- `last_modified` (String)
 - `name` (String)
 - `package_architecture` (String)
 - `package_built_time` (String)

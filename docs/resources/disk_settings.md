@@ -20,7 +20,7 @@ resource "routeros_disk_settings" "test" {
 - `auto_media_sharing` (Boolean) Enables media dynamically when new disk/partition item is added in '/disk'.
 - `auto_smb_sharing` (Boolean) Enables dynamic SMB shares when new disk/partition item is added in '/disk'.
 - `auto_smb_user` (String) Default value for smb-sharing/smb-user setting, when new disk/partition item is added in '/disk'.
-- `default_mount_point_template` (String) TBD by MikroTik support.
+- `default_mount_point_template` (String) Sets the default mount point template for each item added in `/disk`.
 
 ### Read-Only
 
