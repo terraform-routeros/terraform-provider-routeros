@@ -32,6 +32,10 @@ func DatasourceFiles() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"last_modified": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
