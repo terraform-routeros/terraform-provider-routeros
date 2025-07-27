@@ -11,6 +11,9 @@ import (
 // ResourceIPTFTPSettings https://wiki.mikrotik.com/Manual:IP/TFTP
 func ResourceIpTFTPSettings() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
+		MetaResourcePath: PropResourcePath("/ip/tftp/settings"),
+		MetaId:           PropId(Name),
+
 		"max_block_size": {
 			Type:     schema.TypeInt,
 			Optional: true,
@@ -21,12 +24,12 @@ func ResourceIpTFTPSettings() *schema.Resource {
 		},
 	}
 	return &schema.Resource{
-		CreateContext: DefaultCreate(resSchema),
-		ReadContext:   DefaultRead(resSchema),
-		UpdateContext: DefaultUpdate(resSchema),
-		DeleteContext: DefaultDelete(resSchema),
+		CreateContext: DefaultSystemCreate(resSchema),
+		ReadContext:   DefaultSystemRead(resSchema),
+		UpdateContext: DefaultSystemUpdate(resSchema),
+		DeleteContext: DefaultSystemDelete(resSchema),
 		Importer: &schema.ResourceImporter{
-			StateContext: schema.ImportStatePassthroughContext,
+			StateContext: ImportStateCustomContext(resSchema),
 		},
 
 		Schema: resSchema,

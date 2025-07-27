@@ -24,6 +24,7 @@ func ResourceIpTFTP() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/tftp"),
 		MetaId:           PropId(Id),
+		MetaSkipFields:   PropSkipFields("hits"),
 
 		"allow": {
 			Type:             schema.TypeBool,
@@ -43,14 +44,8 @@ func ResourceIpTFTP() *schema.Resource {
 			Description: "If set, server will allow sequence number to roll over when " +
 				"maximum value is reached. This is used to enable large " +
 				"downloads using TFTP server.",
-			Default: false,
 		},
 		KeyDisabled: PropDisabledRw,
-		"hits": {
-			Type:        schema.TypeInt,
-			Computed:    true,
-			Description: "How many times this access rule entry has been used.",
-		},
 		"ip_addresses": {
 			Type: schema.TypeSet,
 			Elem: &schema.Schema{
@@ -104,7 +99,7 @@ func ResourceIpTFTP() *schema.Resource {
 		UpdateContext: DefaultUpdate(resSchema),
 		DeleteContext: DefaultDelete(resSchema),
 		Importer: &schema.ResourceImporter{
-			StateContext: schema.ImportStatePassthroughContext,
+			StateContext: ImportStateCustomContext(resSchema),
 		},
 
 		Schema: resSchema,
