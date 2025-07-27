@@ -9,7 +9,8 @@ import (
 	"auto-smb-sharing": "false",
 	"auto-smb-user": "guest",
 	"auto-media-sharing": "false",
-	"auto-media-interface": "lo"
+	"auto-media-interface": "lo",
+	"default-mount-point-template": "[slot]"
 }
 */
 
@@ -46,7 +47,7 @@ func ResourceDiskSettings() *schema.Resource {
 		"default_mount_point_template": {
 			Type:             schema.TypeString,
 			Optional:         true,
-			Description:      "TBD by MikroTik support.",
+			Description:      "Sets the default mount point template for each item added in `/disk`.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 	}
