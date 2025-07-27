@@ -7,7 +7,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-const testDiskSettingsTaskMinVersion = "7.14"
+const testDiskSettingsTaskMinVersion = "7.17"
 const testDiskSettingsTask = "routeros_disk_settings.test"
 
 func TestAccDiskSettingsTest_basic(t *testing.T) {
