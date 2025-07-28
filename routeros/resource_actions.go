@@ -255,6 +255,35 @@ func ResourceRead(ctx context.Context, s map[string]*schema.Schema, d *schema.Re
 	return MikrotikResourceDataToTerraform((*res)[0], s, d)
 }
 
+// ResourceReadFilter Reading some information about one specific resource with additional filters.
+func ResourceReadFilter(ctx context.Context, s map[string]*schema.Schema, d *schema.ResourceData, m interface{}, filters map[string]interface{}) diag.Diagnostics {
+	metadata := GetMetadata(s)
+
+	// Convert filters to []string format using buildReadFilter
+	filterStrings := buildReadFilter(filters)
+
+	// Add the ID filter to ensure we get the specific resource only if ID is not empty
+	if d.Id() != "" {
+		filterStrings = append(filterStrings, fmt.Sprintf("%s=%s", metadata.IdType.String(), d.Id()))
+	}
+
+	res, err := ReadItemsFiltered(filterStrings, metadata.Path, m.(Client))
+	if err != nil {
+		ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgGet, err))
+		return diag.FromErr(err)
+	}
+
+	// Resource not found.
+	if len(*res) == 0 {
+		d.SetId("")
+		return nil
+	}
+
+	d.SetId((*res)[0].GetID(metadata.IdType))
+
+	return MikrotikResourceDataToTerraform((*res)[0], s, d)
+}
+
 // ResourceUpdate Updating the resource in accordance with the TF Schema.
 func ResourceUpdate(ctx context.Context, s map[string]*schema.Schema, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	item, metadata := TerraformResourceDataToMikrotik(s, d)

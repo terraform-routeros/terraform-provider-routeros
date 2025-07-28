@@ -38,6 +38,12 @@ func DefaultRead(s map[string]*schema.Schema) schema.ReadContextFunc {
 	}
 }
 
+func DefaultReadFiltered(s map[string]*schema.Schema, filters map[string]interface{}) schema.ReadContextFunc {
+	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+		return ResourceReadFilter(ctx, s, d, m, filters)
+	}
+}
+
 func DefaultUpdate(s map[string]*schema.Schema) schema.UpdateContextFunc {
 	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 		return ResourceUpdate(ctx, s, d, m)
