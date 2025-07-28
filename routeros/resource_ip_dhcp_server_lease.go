@@ -176,7 +176,7 @@ func ResourceDhcpServerLease() *schema.Resource {
 		Description: "Creates a DHCP lease on the mikrotik device.",
 
 		CreateContext: DefaultCreate(resSchema),
-		ReadContext:   DefaultRead(resSchema),
+		ReadContext:   DefaultReadFiltered(resSchema, map[string]interface{}{"dynamic": "no"}),
 		UpdateContext: DefaultUpdate(resSchema),
 		DeleteContext: DefaultDelete(resSchema),
 		Importer: &schema.ResourceImporter{
