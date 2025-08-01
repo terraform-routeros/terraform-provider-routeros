@@ -32,6 +32,7 @@ func ResourceContainer() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/container"),
 		MetaId:           PropId(Id),
+		MetaSkipFields:   PropSkipFields("running"),
 
 		"arch": {
 			Type:        schema.TypeString,
@@ -122,14 +123,23 @@ func ResourceContainer() *schema.Resource {
 			},
 		},
 		"root_dir": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Description: "Used to save container store outside main memory",
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Used to save container store outside main memory",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"running": {
+			Type:         schema.TypeBool,
+			Optional:     true,
+			Description:  "Container state.",
+			Default:      true,
+			ExactlyOneOf: []string{"start_on_boot"},
 		},
 		"start_on_boot": {
-			Type:        schema.TypeBool,
-			Optional:    true,
-			Description: "Start the container on boot",
+			Type:         schema.TypeBool,
+			Optional:     true,
+			Description:  "Start the container on boot",
+			ExactlyOneOf: []string{"running"},
 		},
 		"status": {
 			Type:        schema.TypeString,
@@ -186,11 +196,15 @@ func ResourceContainer() *schema.Resource {
 
 			registryUrl, ok := (*res)[0]["registry-url"]
 			if !ok {
-				return diag.Diagnostics{
-					diag.Diagnostic{
-						Severity: diag.Error,
-						Summary:  "The `registry-url` was not found in the response",
-					},
+				// Key name for an unspecified registry.
+				registryUrl, ok = (*res)[0]["assumed-registry-url"]
+				if !ok {
+					return diag.Diagnostics{
+						diag.Diagnostic{
+							Severity: diag.Error,
+							Summary:  "The `registry-url` was not found in the response",
+						},
+					}
 				}
 			}
 
@@ -207,6 +221,8 @@ func ResourceContainer() *schema.Resource {
 			tag = strings.TrimLeft(tag, ":/")
 
 			d.Set("remote_image", strings.TrimPrefix(tag, registryUrl))
+
+			d.Set("running", d.Get("status").(string) == "running")
 		}
 
 		return nil
@@ -219,7 +235,9 @@ func ResourceContainer() *schema.Resource {
 			return diags
 		}
 
-		startContainer(ctx, resSchema, d, m)
+		if d.Get("running").(bool) {
+			startContainer(ctx, resSchema, d, m)
+		}
 
 		return ResourceRead(ctx, resSchema, d, m)
 	}
@@ -232,7 +250,9 @@ func ResourceContainer() *schema.Resource {
 		if diags.HasError() {
 			return diags
 		}
-		startContainer(ctx, resSchema, d, m)
+		if d.Get("running").(bool) {
+			startContainer(ctx, resSchema, d, m)
+		}
 
 		return ResourceRead(ctx, resSchema, d, m)
 	}
