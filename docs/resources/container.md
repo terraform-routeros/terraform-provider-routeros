@@ -34,6 +34,7 @@ resource "routeros_container" "busybox" {
 - `mounts` (Set of String) Mounts from /container/mounts/ sub-menu to be used with this container
 - `remote_image` (String) The container image name to be installed if an external registry is used (configured under /container/config set registry-url=...)
 - `root_dir` (String) Used to save container store outside main memory
+- `running` (Boolean) Container state.
 - `start_on_boot` (Boolean) Start the container on boot
 - `stop_signal` (String) Signal to stop the container.
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))

@@ -1,3 +1,9 @@
+## [1.86.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.86.0...v1.86.1) (2025-08-01)
+
+### Bug Fixes
+
+* **container:** Add a reaction to the start/stop of a container from outside TF ([c46d5e6](https://github.com/terraform-routeros/terraform-provider-routeros/commit/c46d5e61a40234a72e57f16e992078cd33ed10d5)), closes [#793](https://github.com/terraform-routeros/terraform-provider-routeros/issues/793)
+
 ## [1.86.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.85.4...v1.86.0) (2025-07-27)
 
 ### Features
