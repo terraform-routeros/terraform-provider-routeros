@@ -1,3 +1,9 @@
+## [1.86.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.86.1...v1.86.2) (2025-08-04)
+
+### Bug Fixes
+
+* **container:** Remove mutually exclusive attributes ([d879a0c](https://github.com/terraform-routeros/terraform-provider-routeros/commit/d879a0c69b415a2e0ecc01071224f57555dba0de)), closes [#793](https://github.com/terraform-routeros/terraform-provider-routeros/issues/793)
+
 ## [1.86.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.86.0...v1.86.1) (2025-08-01)
 
 ### Bug Fixes
