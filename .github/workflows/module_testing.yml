@@ -34,7 +34,7 @@ jobs:
           done
 
       - name: Check out code into the Go module directory
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Cache restore
         uses: actions/cache/restore@v4
