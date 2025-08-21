@@ -196,7 +196,7 @@ func ResourceInterfaceWireless() *schema.Resource {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Description: "Defines set of used data rates, channel frequencies and widths.",
-			ValidateFunc: validation.StringInSlice([]string{"2ghz-b", "2ghz-b/g", "2ghz-b/g/n", "2ghz-onlyg",
+			ValidateFunc: validation.StringInSlice([]string{"2ghz-b", "2ghz-b/g", "2ghz-b/g/n", "2ghz-g/n", "2ghz-onlyg",
 				"2ghz-onlyn", "5ghz-a", "5ghz-a/n", "5ghz-onlyn", "5ghz-a/n/ac", "5ghz-onlyac", "5ghz-n/ac"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
