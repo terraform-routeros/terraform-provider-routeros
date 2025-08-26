@@ -204,7 +204,7 @@ func ResourceIpHotspotUserProfile() *schema.Resource {
 			DiffSuppressFunc: TimeEqual,
 		},
 		"shared_users": {
-			Type:             schema.TypeInt,
+			Type:             schema.TypeString, // Maybe "unlimited".
 			Optional:         true,
 			Description:      "Allowed number of simultaneously logged in users with the same HotSpot username.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
