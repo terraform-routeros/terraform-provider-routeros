@@ -48,7 +48,7 @@ resource "routeros_ip_hotspot_user_profile" "test" {
 - `queue_type` (String)
 - `rate_limit` (String) Simple dynamic queue is created for user, once it logs in to the HotSpot. Rate-limitation is configured in the following form [rx-rate[/tx-rate] [rx-burst-rate[/tx-burst-rate] [rx-burst-threshold[/tx-burst-threshold] [rx-burst-time[/tx-burst-time] [priority] [rx-rate-min[/tx-rate-min]]]]. For example, to set 1M download, 512k upload for the client, rate-limit=512k/1M.
 - `session_timeout` (String) Allowed session time for client. After this time, the user is logged out unconditionally.
-- `shared_users` (Number) Allowed number of simultaneously logged in users with the same HotSpot username.
+- `shared_users` (String) Allowed number of simultaneously logged in users with the same HotSpot username.
 - `status_autorefresh` (String) HotSpot status page autorefresh interval.
 - `transparent_proxy` (Boolean) Use transparent HTTP proxy for the authorized users of this profile.
 

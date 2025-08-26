@@ -1,3 +1,10 @@
+## [1.86.3](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.86.2...v1.86.3) (2025-08-26)
+
+### Bug Fixes
+
+* **interface_veth:** Add support for multiple addresses on the interface ([c6a656f](https://github.com/terraform-routeros/terraform-provider-routeros/commit/c6a656facc05a34f4cbbbb2fbba320e465cdfdd0)), closes [#804](https://github.com/terraform-routeros/terraform-provider-routeros/issues/804)
+* **wireless:** Support 2ghz-g/n band specification ([1647d25](https://github.com/terraform-routeros/terraform-provider-routeros/commit/1647d2574b8bfaf02598dde26ab470233409c8f0))
+
 ## [1.86.2](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.86.1...v1.86.2) (2025-08-04)
 
 ### Bug Fixes

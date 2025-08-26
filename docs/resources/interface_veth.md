@@ -20,7 +20,7 @@ resource "routeros_interface_veth" "test" {
 
 ### Optional
 
-- `address` (String) IP address.
+- `address` (Set of String) Ip address.
 - `comment` (String)
 - `disabled` (Boolean)
 - `gateway` (String) Gateway IP address.

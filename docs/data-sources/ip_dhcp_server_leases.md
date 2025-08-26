@@ -30,6 +30,7 @@ Read-Only:
 - `address` (String)
 - `address_lists` (String)
 - `age` (String)
+- `allow_dual_stack_queue` (Boolean)
 - `blocked` (Boolean)
 - `class_id` (String)
 - `client_id` (String)
