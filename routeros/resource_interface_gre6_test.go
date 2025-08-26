@@ -39,7 +39,7 @@ func testAccInterfaceGre6Config() string {
 
 resource "routeros_interface_veth" "veth_v6" {
   name    = "veth_v6"
-  address = "2a02::1/64"
+  address = ["2a02::1/64"]
 }
 
 resource "routeros_interface_gre6" "gre_v6" {

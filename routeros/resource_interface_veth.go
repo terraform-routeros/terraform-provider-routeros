@@ -24,10 +24,13 @@ func ResourceInterfaceVeth() *schema.Resource {
 		MetaId:           PropId(Id),
 
 		"address": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Description:  "IP address.",
-			ValidateFunc: validation.IsCIDR,
+			Type:        schema.TypeSet,
+			Optional:    true,
+			Description: "Ip address.",
+			Elem: &schema.Schema{
+				Type:         schema.TypeString,
+				ValidateFunc: validation.IsCIDR,
+			},
 		},
 		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
