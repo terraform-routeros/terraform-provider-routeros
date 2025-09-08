@@ -1,0 +1,1 @@
+terraform import routeros_interface_detect_internet.test .
