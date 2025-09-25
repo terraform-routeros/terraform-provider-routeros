@@ -8,6 +8,16 @@
 
 * **ipv6-firewall:** Wrong allowed values for `reject_with` field ([392ea04](https://github.com/terraform-routeros/terraform-provider-routeros/commit/392ea04e6e4894d105e043c54d9e8e4272c306ba)), closes [#810](https://github.com/terraform-routeros/terraform-provider-routeros/issues/810)
 
+## [1.87.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.86.3...v1.87.0) (2025-09-25)
+
+### Features
+
+* **detect-internet:** Add new resource `routeros_interface_detect_internet` ([92aaa08](https://github.com/terraform-routeros/terraform-provider-routeros/commit/92aaa0832a95a55cc4d3b9fb9dfcc410d09d4b95)), closes [#808](https://github.com/terraform-routeros/terraform-provider-routeros/issues/808)
+
+### Bug Fixes
+
+* **ipv6-firewall:** Wrong allowed values for `reject_with` field ([392ea04](https://github.com/terraform-routeros/terraform-provider-routeros/commit/392ea04e6e4894d105e043c54d9e8e4272c306ba)), closes [#810](https://github.com/terraform-routeros/terraform-provider-routeros/issues/810)
+
 ## [1.86.3](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.86.2...v1.86.3) (2025-08-26)
 
 ### Bug Fixes
