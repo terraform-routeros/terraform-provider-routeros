@@ -282,8 +282,8 @@ func ResourceIPv6FirewallFilter() *schema.Resource {
 			Optional:    true,
 			Description: "Specifies ICMP error to be sent back if the packet is rejected. Applicable if action=reject.",
 			ValidateFunc: validation.StringInSlice([]string{
-				"icmp-admin-prohibited", "icmp-net-prohibited", "icmp-protocol-unreachable", "icmp-host-prohibited",
-				"icmp-network-unreachable", "tcp-reset", "icmp-host-unreachable", "icmp-port-unreachable",
+				"icmp-address-unreachable", "icmp-admin-prohibited", "icmp-err-src-routing-header", "icmp-headers-too-long",
+				"icmp-no-route", "icmp-not-neighbour", "icmp-port-unreachable", "tcp-reset",
 			}, false),
 		},
 		// Was removed? No information.
