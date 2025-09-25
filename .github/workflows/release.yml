@@ -60,7 +60,7 @@ jobs:
         if: steps.release.outputs.new_release_published == 'true'
         uses: actions/setup-go@v6
         with:
-          go-version: 1.21
+          go-version: 1.24
 
       - name: Run GoReleaser
         if: steps.release.outputs.new_release_published == 'true'
