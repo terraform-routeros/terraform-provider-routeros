@@ -130,6 +130,7 @@ func Provider() *schema.Provider {
 			"routeros_ip_firewall_addr_list":           ResourceIPFirewallAddrList(),
 			"routeros_ip_firewall_connection_tracking": ResourceIPConnectionTracking(),
 			"routeros_ip_firewall_filter":              ResourceIPFirewallFilter(),
+			"routeros_ip_firewall_layer7_protocol":     ResourceIpFirewallLayer7Protocol(),
 			"routeros_ip_firewall_mangle":              ResourceIPFirewallMangle(),
 			"routeros_ip_firewall_nat":                 ResourceIPFirewallNat(),
 			"routeros_ip_firewall_raw":                 ResourceIPFirewallRaw(),
