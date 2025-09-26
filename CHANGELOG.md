@@ -1,3 +1,9 @@
+## [1.88.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.87.0...v1.88.0) (2025-09-26)
+
+### Features
+
+* **firewall:** Add new resource `routeros_ip_firewall_layer7_protocol` ([6e49323](https://github.com/terraform-routeros/terraform-provider-routeros/commit/6e49323b5c9fe12f164e7d8e45873a6e4aab6cc0)), closes [#817](https://github.com/terraform-routeros/terraform-provider-routeros/issues/817)
+
 ## [1.87.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.86.3...v1.87.0) (2025-09-25)
 
 ### Features
