@@ -7,9 +7,15 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
+const testBgpEvpnMinVersion = "7.20"
 const testBgpEvpn = "routeros_routing_bgp_evpn.test"
 
 func TestAccBgpEvpnTest_basic(t *testing.T) {
+	if !testCheckMinVersion(t, testBgpEvpnMinVersion) {
+		t.Logf("Test skipped, the minimum required version is %v", testBgpEvpnMinVersion)
+		return
+	}
+
 	t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {

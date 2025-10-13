@@ -7,9 +7,15 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
+const testBgpInstanceMinVersion = "7.20"
 const testRoutingBgpInstance = "routeros_routing_bgp_instance.test"
 
 func TestAccRoutingBgpInstanceTest_basic(t *testing.T) {
+	if !testCheckMinVersion(t, testBgpInstanceMinVersion) {
+		t.Logf("Test skipped, the minimum required version is %v", testBgpInstanceMinVersion)
+		return
+	}
+
 	t.Parallel()
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
