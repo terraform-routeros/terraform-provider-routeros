@@ -300,8 +300,8 @@ func Provider() *schema.Provider {
 			"routeros_file": ResourceFile(),
 
 			// Routing
-			"routeros_routing_bgp_connection":       ResourceRoutingBGPConnection(),
-			"routeros_routing_bgp_template":         ResourceRoutingBGPTemplate(),
+			"routeros_routing_bgp_connection":       ResourceRoutingBgpConnection(),
+			"routeros_routing_bgp_template":         ResourceRoutingBgpTemplate(),
 			"routeros_routing_filter_rule":          ResourceRoutingFilterRule(),
 			"routeros_routing_igmp_proxy_interface": ResourceRoutingIgmpProxyInterface(),
 			"routeros_routing_table":                ResourceRoutingTable(),

@@ -6,55 +6,67 @@ import (
 )
 
 /*
-{
-	".about": "invalid value '0.0.0.0' of 'router-id'",
-	".id": "*2",
-	"add-path-out": "all",
-	"address-families": "ip,ipv6,l2vpn,l2vpn-cisco,vpnv4",
-	"as": "65000",
-	"as-override": "true",
-	"cisco-vpls-nlri-len-fmt": "auto-bits",
-	"cluster-id": "0.0.0.0",
-	"comment": "tmpl",
-	"disabled": "false",
-	"hold-time": "infinity",
-	"inactive": "true",
-	"input.accept-communities": "",
-	"input.accept-ext-communities": "",
-	"input.accept-large-communities": "",
-	"input.accept-nlri": "",
-	"input.accept-unknown": "",
-	"input.affinity": "0",
-	"input.allow-as": "0",
-	"input.filter": "",
-	"input.ignore-as-path-len": "true",
-	"keepalive-time": "1s",
-	"multihop": "true",
-	"name": "temp1",
-	"nexthop-choice": "default",
-	"output.affinity": "0",
-	"output.default-originate": "never",
-	"output.default-prepend": "0",
-	"output.filter-chain": "",
-	"output.filter-select": "",
-	"output.keep-sent-attributes": "true",
-	"output.network": "",
-	"output.no-client-to-client-reflection": "true",
-	"output.no-early-cut": "true",
-	"output.redistribute": "connected,static,rip,ospf,bgp,vpn,dhcp,fantasy,modem,copy",
-	"remove-private-as": "true",
-	"router-id": "0.0.0.0",
-	"routing-table": "main",
-	"templates": "default",
-	"use-bfd": "true",
-	"vrf": "main"
- }
+     {
+    ".id": "*1",
+    "add-path-out": "none",
+    "address-families": "ip",
+    "as": "65521/1",
+    "as-override": "true",
+    "cisco-vpls-nlri-len-fmt": "auto-bits",
+    "cluster-id": "0.0.0.0",
+    "connect": "true",
+    "disabled": "false",
+    "hold-time": "infinity",
+    "inactive": "false",
+    "input.accept-communities": "",
+    "input.accept-ext-communities": "",
+    "input.accept-large-communities": "",
+    "input.accept-nlri": "",
+    "input.accept-unknown": "",
+    "input.affinity": "alone",
+    "input.allow-as": "0",
+    "input.filter": "",
+    "input.ignore-as-path-len": "true",
+    "input.limit-process-routes-ipv4": "5",
+    "input.limit-process-routes-ipv6": "5",
+    "keepalive-time": "3m",
+    "listen": "true",
+    "local.address": "127.0.0.1",
+    "local.port": "22334",
+    "local.role": "ibgp",
+    "local.ttl": "3",
+    "multihop": "true",
+    "name": "bgp1",
+    "nexthop-choice": "default",
+    "output.affinity": "alone",
+    "output.default-originate": "never",
+    "output.default-prepend": "1",
+    "output.filter-chain": "",
+    "output.filter-select": "",
+    "output.keep-sent-attributes": "true",
+    "output.network": "",
+    "output.no-client-to-client-reflection": "false",
+    "output.no-early-cut": "true",
+    "output.redistribute": "rip,bgp",
+    "remote.address": "0.0.0.0/32",
+    "remote.allowed-as": "1111",
+    "remote.port": "11223",
+    "remote.ttl": "3",
+    "remove-private-as": "true",
+    "router-id": "0.0.0.1",
+    "routing-table": "main",
+    "save-to": "bgp.dump",
+    "tcp-md5-key": "poipoipoipoipoi",
+    "templates": "test-template",
+    "use-bfd": "true",
+    "vrf": "main"
+  }
 */
 
-// https://help.mikrotik.com/docs/display/ROS/
-func ResourceRoutingBGPTemplate() *schema.Resource {
+// https://help.mikrotik.com/docs/display/ROS/BGP#BGP-ConnectionMenu
+func ResourceRoutingBgpConnection() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
-		MetaResourcePath: PropResourcePath("/routing/bgp/template"),
+		MetaResourcePath: PropResourcePath("/routing/bgp/connection"),
 		MetaId:           PropId(Id),
 
 		"add_path_out": {
@@ -81,13 +93,6 @@ func ResourceRoutingBGPTemplate() *schema.Resource {
 				"format: confederation_as/as . For example, if your AS is 34 and your confederation AS is " +
 				"43, then as configuration should be as =43/34.",
 		},
-		"as_override": {
-			Type:     schema.TypeBool,
-			Optional: true,
-			Description: "If set, then all instances of the remote peer's AS number in the BGP AS-PATH attribute " +
-				"are replaced with the local AS number before sending a route update to that peer. " +
-				"Happens before routing filters and prepending.",
-		},
 		"cisco_vpls_nlri_len_fmt": {
 			Type:         schema.TypeString,
 			Optional:     true,
@@ -105,9 +110,13 @@ func ResourceRoutingBGPTemplate() *schema.Resource {
 			ValidateFunc: validation.IsIPv4Address,
 		},
 		KeyComment:  PropCommentRw,
-		KeyDefault:  PropDefaultRo,
 		KeyDisabled: PropDisabledRw,
-		// hold-time ( time[3s..1h] | infinity ; Default: 3m )
+		"connect": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Default:     true,
+			Description: "Whether to allow the router to initiate the connection.",
+		},
 		"hold_time": {
 			Type:     schema.TypeString,
 			Optional: true,
@@ -120,6 +129,10 @@ func ResourceRoutingBGPTemplate() *schema.Resource {
 				"is lower than any other value) infinity - never expire the connection and never send " +
 				"keepalive messages.",
 		},
+		"inactive": {
+			Type:     schema.TypeBool,
+			Computed: true,
+		},
 		"input": {
 			Type:        schema.TypeList,
 			Optional:    true,
@@ -127,7 +140,7 @@ func ResourceRoutingBGPTemplate() *schema.Resource {
 			MaxItems:    1,
 			Elem: &schema.Resource{
 				Schema: map[string]*schema.Schema{
-					"accept_comunities": {
+					"accept_communities": {
 						Type:     schema.TypeString,
 						Optional: true,
 						Description: "A quick way to filter incoming updates with specific communities. It allows filtering " +
@@ -146,7 +159,7 @@ func ResourceRoutingBGPTemplate() *schema.Resource {
 							"/routing route table as 'not active, filtered'. Changes to be applied required session " +
 							"refresh.",
 					},
-					"accept_large_comunities": {
+					"accept_large_communities": {
 						Type:     schema.TypeString,
 						Optional: true,
 						Description: "A quick way to filter incoming updates with specific large communities. It allows " +
@@ -281,6 +294,66 @@ func ResourceRoutingBGPTemplate() *schema.Resource {
 			Description:      "How long to keep the BGP session open after the last received 'keepalive' message.",
 			DiffSuppressFunc: TimeEqual,
 		},
+		"listen": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Default:     true,
+			Description: "Whether to listen for incoming connections.",
+		},
+		"local": {
+			Type:        schema.TypeList,
+			Optional:    true,
+			Description: "A group of parameters associated with BGP input.",
+			MaxItems:    1,
+			Elem: &schema.Resource{
+				Schema: map[string]*schema.Schema{
+					"address": {
+						Type:        schema.TypeString,
+						Optional:    true,
+						Description: "Local connection IPv4/6 address.",
+					},
+					"default_address": {
+						Type:        schema.TypeString,
+						Computed:    true,
+						Description: "",
+					},
+					"port": {
+						Type:         schema.TypeInt,
+						Optional:     true,
+						Default:      179,
+						Description:  "Local connection port.",
+						ValidateFunc: Validation64k,
+					},
+					"role": {
+						Type:     schema.TypeString,
+						Required: true,
+						Description: "BGP role, in most common scenarios it should be set to iBGP or eBGP. More " +
+							"information on BGP roles can be found in the corresponding [RFC draft]" +
+							"(https://datatracker.ietf.org/doc/draft-ietf-idr-bgp-open-policy/?include_text=1)",
+						ValidateFunc: validation.StringInSlice(
+							[]string{
+								"ebgp",
+								"ebgp-customer",
+								"ebgp-peer",
+								"ebgp-provider",
+								"ebgp-rs",
+								"ebgp-rs-client",
+								"ibgp",
+								"ibgp-rr",
+								"ibgp-rr-client",
+							},
+							false,
+						),
+					},
+					"ttl": {
+						Type:         schema.TypeInt,
+						Optional:     true,
+						Description:  "Time To Live (hop limit) that will be recorded in sent TCP packets.",
+						ValidateFunc: validation.IntBetween(1, 255),
+					},
+				},
+			},
+		},
 		"multihop": {
 			Type:     schema.TypeBool,
 			Optional: true,
@@ -293,7 +366,7 @@ func ResourceRoutingBGPTemplate() *schema.Resource {
 				"of the routes installed from this peer; routes from multi-hop or IBGP peers resolve " +
 				"their next-hops through IGP routes by default.",
 		},
-		KeyName: PropName("Name of the BGP template."),
+		KeyName: PropName("Name of the BGP connection."),
 		"nexthop_choice": {
 			Type:     schema.TypeString,
 			Optional: true,
@@ -327,6 +400,14 @@ func ResourceRoutingBGPTemplate() *schema.Resource {
 							"performance on single-core even possibly on multicore devices with small amount of " +
 							"cores) input - run output in the same process as input (can be set only for output " +
 							"affinity).",
+					},
+					"as_override": {
+						Type:     schema.TypeBool,
+						Optional: true,
+						Description: "If set, then all instances of the remote peer's AS number in the BGP AS-PATH attribute " +
+							"are replaced with the local AS number before sending a route update to that peer. " +
+							"Happens before routing filters and prepending.",
+						DiffSuppressFunc: AlwaysPresentNotUserProvided,
 					},
 					"default_originate": {
 						Type:         schema.TypeString,
@@ -388,15 +469,58 @@ func ResourceRoutingBGPTemplate() *schema.Resource {
 							"bgp", "connected", "bgp-mpls-vpn", "dhcp", "fantasy", "modem", "ospf", "rip", "static", "vpn",
 						}, false, false),
 					},
+					"remove_private_as": {
+						Type:     schema.TypeBool,
+						Optional: true,
+						Description: "If set, then the BGP AS-PATH attribute is removed before sending out route updates if " +
+							"the attribute contains only private AS numbers. The removal process happens before " +
+							"routing filters are applied and before the local, AS number is prepended to the AS path.",
+						DiffSuppressFunc: AlwaysPresentNotUserProvided,
+					},
 				},
 			},
 		},
-		"remove_private_as": {
-			Type:     schema.TypeBool,
-			Optional: true,
-			Description: "If set, then the BGP AS-PATH attribute is removed before sending out route updates if " +
-				"the attribute contains only private AS numbers. The removal process happens before " +
-				"routing filters are applied and before the local, AS number is prepended to the AS path.",
+		"remote": {
+			Type:        schema.TypeList,
+			Optional:    true,
+			Description: "A group of parameters associated with BGP input.",
+			MaxItems:    1,
+			Elem: &schema.Resource{
+				Schema: map[string]*schema.Schema{
+					"address": {
+						Type:        schema.TypeString,
+						Optional:    true,
+						Description: "Remote IPv4/6 address used to connect and/or listen to.",
+					},
+					"allowed_as": {
+						Type:     schema.TypeString,
+						Optional: true,
+						Description: "List of remote AS numbers that are allowed to connect. Useful for dynamic peer " +
+							"configuration.",
+					},
+					"as": {
+						Type:     schema.TypeString,
+						Optional: true,
+						Description: "Remote AS number. If not specified BGP will determine remote AS automatically " +
+							"from the OPEN message.",
+					},
+					"port": {
+						Type:         schema.TypeInt,
+						Optional:     true,
+						Description:  "Local connection port.",
+						Default:      179,
+						ValidateFunc: Validation64k,
+					},
+					"ttl": {
+						Type:     schema.TypeInt,
+						Optional: true,
+						Description: "Acceptable minimum Time To Live, the hop limit for this TCP connection. For " +
+							"example, if 'ttl=255' then only single-hop neighbors will be able to establish the " +
+							"connection. This property only affects EBGP peers.",
+						ValidateFunc: validation.IntBetween(1, 255),
+					},
+				},
+			},
 		},
 		"router_id": {
 			Type:     schema.TypeString,
@@ -419,11 +543,17 @@ func ResourceRoutingBGPTemplate() *schema.Resource {
 				"purposes. Pcap files in this format can also be loaded to create virtual BGP peers to " +
 				"recreate conditions that happened at the time when packet capture was running.",
 		},
+		"tcp_md5_key": {
+			Type:      schema.TypeString,
+			Optional:  true,
+			Sensitive: true,
+			Description: "The key used to authenticate the connection with TCP MD5 signature as described in RFC 2385. " +
+				"If not specified, authentication is not used.",
+		},
 		"templates": {
-			Type:     schema.TypeSet,
-			Optional: true,
-			Description: "List of template names from which to inherit parameters. Useful feature, to easily " +
-				"configure groups with overlapping configuration options.",
+			Type:        schema.TypeSet,
+			Optional:    true,
+			Description: "List of the template names, to inherit parameters from. Useful for dynamic BGP peers.",
 			Elem: &schema.Schema{
 				Type: schema.TypeString,
 			},
