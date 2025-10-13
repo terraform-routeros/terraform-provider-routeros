@@ -22,6 +22,11 @@ func ResourceIpCloud() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/cloud"),
 		MetaId:           PropId(Id),
+		// https://help.mikrotik.com/docs/spaces/ROS/pages/197984280/Back+To+Home
+		MetaSkipFields: PropSkipFields("vpn_dns_name", "vpn_port",
+			"vpn_status", "vpn_relay_rtts", "vpn_relay_ipv", "vpn_relay_ipv", "vpn_relay_codes", "vpn_relay_addressess",
+			"vpn_relay_addressess_ipv", "vpn_private_key", "vpn_public_key", "vpn_peer_private_key", "vpn_peer_public_key",
+			"vpn_interface", "vpn_wireguard_client_config", "vpn_wireguard_client_config_qrcode"),
 
 		// https://help.mikrotik.com/docs/display/ROS/Back+To+Home
 		"back_to_home_vpn": {
@@ -95,6 +100,13 @@ func ResourceIpCloud() *schema.Resource {
 				"is no NTP or SNTP client enabled. If set to no, then IP/Cloud service will never update " +
 				"the device's clock. If update-time is set to yes, Clock will be updated even when " +
 				"ddns-enabled is set to no.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"vpn_prefer_relay_code": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "You can enter relay code that will be preferred for BTH connection, if not set, relay with " +
+				"smallest RTT will be chosen.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"warning": {
