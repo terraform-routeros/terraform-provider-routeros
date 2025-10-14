@@ -33,6 +33,11 @@ func ResourceIPv6DhcpClient() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/ipv6/dhcp-client"),
 		MetaId:           PropId(Id),
 
+		"accept_prefix_without_address": {
+			Type:             schema.TypeBool,
+			Optional:         true,
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"add_default_route": {
 			Type:        schema.TypeBool,
 			Optional:    true,
@@ -57,6 +62,18 @@ func ResourceIPv6DhcpClient() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyComment: PropCommentRw,
+		"custom_iana_id": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Allow to specify custom IANA ID.",
+			DiffSuppressFunc: HexEqual,
+		},
+		"custom_iapd_id": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Allow to specify custom IAPD ID.",
+			DiffSuppressFunc: HexEqual,
+		},
 		"default_route_distance": {
 			Type:             schema.TypeInt,
 			Optional:         true,
