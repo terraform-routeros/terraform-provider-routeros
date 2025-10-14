@@ -1,3 +1,9 @@
+## [1.88.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.88.0...v1.88.1) (2025-10-14)
+
+### Bug Fixes
+
+* **cloud:** Missing fields at the `routeros_ip_cloud resource` ([ada8ea0](https://github.com/terraform-routeros/terraform-provider-routeros/commit/ada8ea0a750366dbfc2f0a98a8ffcef9dcb476c4)), closes [#820](https://github.com/terraform-routeros/terraform-provider-routeros/issues/820)
+
 ## [1.88.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.87.0...v1.88.0) (2025-09-26)
 
 ### Features
