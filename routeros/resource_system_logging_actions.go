@@ -162,6 +162,7 @@ func ResourceSystemLoggingAction() *schema.Resource {
 			ValidateFunc:     validation.StringInSlice([]string{"disk", "echo", "email", "memory", "remote"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		KeyVrf: PropVrfRw,
 	}
 
 	resCreate := func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
