@@ -20,8 +20,9 @@ import (
 // https://help.mikrotik.com/docs/display/ROS/Container
 func ResourceInterfaceVeth() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
-		MetaResourcePath: PropResourcePath("/interface/veth"),
-		MetaId:           PropId(Id),
+		MetaResourcePath:   PropResourcePath("/interface/veth"),
+		MetaId:             PropId(Id),
+		MetaSetUnsetFields: PropSetUnsetFields("mac_address"),
 
 		"address": {
 			Type:        schema.TypeSet,
@@ -34,6 +35,12 @@ func ResourceInterfaceVeth() *schema.Resource {
 		},
 		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
+		"dhcp": {
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Description:      "",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"gateway": {
 			Type:         schema.TypeString,
 			Optional:     true,
@@ -46,8 +53,9 @@ func ResourceInterfaceVeth() *schema.Resource {
 			Description:  "Gateway IPv6 address.",
 			ValidateFunc: validation.IsIPv6Address,
 		},
-		KeyName:    PropName("Interface name."),
-		KeyRunning: PropRunningRo,
+		KeyMacAddress: PropMacAddressRw("MAC address.", false),
+		KeyName:       PropName("Interface name."),
+		KeyRunning:    PropRunningRo,
 	}
 
 	return &schema.Resource{

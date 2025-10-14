@@ -69,6 +69,15 @@ func ResourceIPConnectionTracking() *schema.Resource {
 			ValidateFunc:     ValidationTime,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"liberal_tcp_tracking": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "Enables or disables liberal TCP connection tracking by toggling the kernel parameter " +
+				"nf_conntrack_tcp_be_liberal. When set to `yes`, the system mark only out of window RST segments as INVALID." +
+				"\n\n`Enabling this setting may allow malformed packets that would otherwise be considered invalid by the " +
+				"firewall's connection-state matcher. This can increase exposure to certain evasion techniques. This " +
+				"property should be enabled only when troubleshooting or working around known issues.`",
+		},
 		"loose_tcp_tracking": {
 			Type:             schema.TypeString,
 			Optional:         true,

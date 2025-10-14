@@ -78,7 +78,15 @@ func ResourceWifi() *schema.Resource {
 		},
 		KeyComment:     PropCommentRw,
 		KeyDefaultName: PropDefaultNameRo("The interface's default name."),
-		KeyDisabled:    PropDisabledRw,
+		"deprioritize_unii_3_4": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "Whether to assign lower priority to channels with a control frequency of 5720 or 5825-5885 " +
+				"MHz. These channels are unsupported by some client devices, making their automatic selection " +
+				"undesirable. Defaults to `yes` in ETSI regulatory domains, elsewhere to `no`.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		KeyDisabled: PropDisabledRw,
 		"disable_running_check": {
 			Type:             schema.TypeBool,
 			Optional:         true,

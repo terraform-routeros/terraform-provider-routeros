@@ -72,7 +72,16 @@ func ResourceDhcpClient() *schema.Resource {
 			Description: "The IP address of the DHCP server.",
 		},
 		KeyDisabled: PropDisabledRw,
-		KeyDynamic:  PropDynamicRo,
+		"dscp": {
+			Type:     schema.TypeInt,
+			Optional: true,
+			Description: "Sets the DSCP (Differentiated Services Code Point) value for outgoing DHCP client packets. " +
+				"This value is part of the IP header and is used to indicate the desired Quality of Service (QoS) " +
+				"level for network traffic.",
+			ValidateFunc:     validation.IntBetween(0, 63),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		KeyDynamic: PropDynamicRo,
 		"expires_after": {
 			Type:        schema.TypeString,
 			Computed:    true,
@@ -114,6 +123,15 @@ func ResourceDhcpClient() *schema.Resource {
 			Type:     schema.TypeString,
 			Computed: true,
 		},
+		"use_broadcast": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Whether to set broadcast bit in DHCPDISCOVER and DHCPREQUEST messages." +
+				"\n    -  `always` - broadcast bit is set always" +
+				"\n    -  `both` - broadcast bit is set only first 15 seconds" +
+				"\n    -  `never` - broadcast bit is not set",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"use_peer_dns": {
 			Type:     schema.TypeBool,
 			Optional: true,
@@ -133,6 +151,16 @@ func ResourceDhcpClient() *schema.Resource {
 			Optional: true,
 			Description: "Allow the server to send Reconfigure messages to clients, prompting them to renew or " +
 				"update their configuration without waiting for their lease to expire.",
+		},
+		"vlan_priority": {
+			Type:     schema.TypeInt,
+			Optional: true,
+			Description: "If the DHCP client is running on a VLAN interface (`/interface/vlan`), you can specify the " +
+				"Priority Code Point (PCP) value. PCP is a 3-bit field in the VLAN header used to mark the priority of " +
+				"packets within a VLAN, allowing traffic to be prioritized accordingly. This setting applies only to " +
+				"VLAN interfaces and affects the priority of outgoing DHCP client packets.",
+			ValidateFunc:     validation.IntBetween(0, 7),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 	}
 	return &schema.Resource{

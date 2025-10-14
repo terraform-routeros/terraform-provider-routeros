@@ -1,4 +1,4 @@
-resource "routeros_bgp_template" "test" {
+resource "routeros_routing_bgp_template" "test" {
   name = "test-template"
   as   = 65521
   input {

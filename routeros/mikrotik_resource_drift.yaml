@@ -20,3 +20,10 @@
   /routing/bgp/template:
     - tf: address_families
       mt: afi
+7.20:
+  /interface/vxlan:
+    - tf: vrf
+      mt: vtep-vrf
+  /container:
+    - tf: envlist
+      mt: envlists

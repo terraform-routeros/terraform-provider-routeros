@@ -48,7 +48,17 @@ func ResourceInterfaceVxlan() *schema.Resource {
 		KeyArp:        PropArpRw,
 		KeyArpTimeout: PropArpTimeoutRw,
 		KeyComment:    PropCommentRw,
-		KeyDisabled:   PropDisabledRw,
+		"checksum": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "Setting controls whether a UDP checksum is calculated in the transmitted outer VXLAN packets:" +
+				"\n    - `no` - the UDP checksum is set to zero in transmitted outer packets. This also allows receiving " +
+				"VXLAN packets over IPv6 that have a zero UDP checksum." +
+				"\n    - `yes` - the UDP checksum is calculated in transmitted outer packets." +
+				"\nIf hardware offloading is used for packet transmission, this setting is ignored, and the behavior " +
+				"defaults to sending packets with a zero UDP checksum.",
+		},
+		KeyDisabled: PropDisabledRw,
 		"dont_fragment": {
 			Type:     schema.TypeString,
 			Optional: true,
@@ -86,6 +96,13 @@ func ResourceInterfaceVxlan() *schema.Resource {
 			Description: "Interface name used for multicast forwarding. This property requires specifying the group " +
 				"setting.",
 		},
+		"learning": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "Setting controls whether inner source MAC addresses and remote VTEP IP/IPv6 addresses " +
+				"are learned dynamically from received packets.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"local_address": {
 			Type:     schema.TypeString,
 			Optional: true,
@@ -116,6 +133,18 @@ func ResourceInterfaceVxlan() *schema.Resource {
 			Optional:         true,
 			Description:      "Used UDP port number.",
 			ValidateFunc:     Validation64k,
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"rem_csum": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Changes the Remote Checksum Offload (RCO) settings for VXLAN interface. RCO is a " +
+				"technique for eliding the inner checksum of an encapsulated datagram, allowing the outer checksum " +
+				"to be offloaded by network driver. It does, however, involve a change to the encapsulation protocols, " +
+				"which the receiver must also support. For this reason, it is disabled by default and setting is " +
+				"available to ensure compatibility with systems that rely on this feature.\n" +
+				"If hardware offloading is used, this setting is ignored, and the behavior defaults to `none`.",
+			ValidateFunc:     validation.StringInSlice([]string{"both", "none", "rx", "tx"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"vni": {
