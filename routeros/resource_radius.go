@@ -61,6 +61,12 @@ func ResourceRadius() *schema.Resource {
 			Description:  "An option specifies the protocol to use when communicating with the RADIUS Server.",
 			ValidateFunc: validation.StringInSlice([]string{"radsec", "udp"}, false),
 		},
+		"radsec_timeout": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Timeout after which the request should be resent over RadSec protocol.",
+			DiffSuppressFunc: TimeEqual,
+		},
 		"realm": {
 			Type:        schema.TypeString,
 			Optional:    true,

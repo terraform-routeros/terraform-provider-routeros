@@ -18,6 +18,13 @@ import (
   }
 */
 
+/*
+	14.10.2025
+	In version 7.20, RSA key generation has been moved to a separate submenu /ip/ipsec/key/rsa.
+	I think MT plans to add support for keys other than RSA.
+	So for now, we will leave this resource unchanged to avoid making another fix that breaks the logic of the program.
+*/
+
 // https://help.mikrotik.com/docs/display/ROS/IPsec#IPsec-Keys
 func ResourceIpIpsecKey() *schema.Resource {
 	resSchema := map[string]*schema.Schema{

@@ -46,6 +46,18 @@ func ResourceToolNetwatch() *schema.Resource {
 			Optional:    true,
 			Description: "Script to execute on the event of probe state change `OK` --> `fail`.",
 		},
+		"early_failure_detection": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "Netwatch will not wait to finish all the packets to be processed to change probe status if " +
+				"it is already known that host will be considered as `down`.",
+		},
+		"early_success_detection": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "Netwatch will not wait to finish all the packets to be processed to change probe status if " +
+				"it is already known that host will be considered as `up`.",
+		},
 		"host": {
 			Type:     schema.TypeString,
 			Required: true,

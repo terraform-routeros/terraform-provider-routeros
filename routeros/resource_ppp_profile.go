@@ -30,6 +30,7 @@ import (
 */
 
 // https://help.mikrotik.com/docs/display/ROS/PPP+AAA#PPPAAA-UserProfiles
+// https://help.mikrotik.com/docs/spaces/ROS/pages/132350049/PPP+AAA
 func ResourcePPPProfile() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ppp/profile"),
@@ -92,11 +93,22 @@ func ResourcePPPProfile() *schema.Resource {
 		},
 		KeyComment: PropCommentRw,
 		KeyDefault: PropDefaultRo,
+		"dhcpv6_lease_time": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Lease time can be set starting from 7.20ab202, by default time is set to 1d.",
+			DiffSuppressFunc: TimeEqual,
+		},
 		"dhcpv6_pd_pool": {
 			Type:     schema.TypeString,
 			Optional: true,
 			Description: "Name of the IPv6 pool which will be used by dynamically created DHCPv6-PD server when " +
 				"client connects. [Read more >>](https://wiki.mikrotik.com/wiki/Manual:IPv6_PD_over_PPP)",
+		},
+		"dhcpv6_use_radius": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Description: "pecifies value for `use-radius` option selected for dynamically generated DHCPv6 PD servers.",
 		},
 		"dns_server": {
 			Type:        schema.TypeSet,
@@ -205,6 +217,13 @@ func ResourcePPPProfile() *schema.Resource {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Description: "Assign prefix from IPv6 pool to the client and install corresponding IPv6 route.",
+		},
+		"remote_ipv6_prefix_reuse": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "If `remote-ipv6-prefix-pool` is specified and includes single `/64`prefix, then prefix can " +
+				"be used only for a single PPP client for RADVD configuration. When this option is set to value `yes`, the " +
+				"same prefix can be reused between all the clients using this PPP profile.",
 		},
 		"session_timeout": {
 			Type:             schema.TypeString,

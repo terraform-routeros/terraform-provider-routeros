@@ -52,7 +52,23 @@ func ResourceInterfaceVrrp() *schema.Resource {
 			ValidateFunc:     validation.StringInSlice([]string{"ah", "none", "simple"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
-		KeyComment:  PropCommentRw,
+		KeyComment: PropCommentRw,
+		"connection_tracking_mode": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Specifies the mode for connection tracking synchronization. This setting is only relevant " +
+				"when `sync-connection-tracking=yes` is enabled.",
+			ValidateFunc:     validation.StringInSlice([]string{"active-active", "passive-active"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"connection_tracking_port": {
+			Type:     schema.TypeInt,
+			Optional: true,
+			Description: "Specifies UDP port for connection tracking synchronization. This setting is only relevant " +
+				"when `sync-connection-tracking=yes` is enabled.",
+			ValidateFunc:     validation.IsPortNumber,
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		KeyDisabled: PropDisabledRw,
 		"group_authority": {
 			Type:     schema.TypeString,
@@ -107,7 +123,7 @@ func ResourceInterfaceVrrp() *schema.Resource {
 			Computed: true,
 		},
 		KeyMacAddress: PropMacAddressRo,
-		KeyMtu:        PropMtuRw(),
+		KeyMtu:        PropL2MtuRo,
 		KeyName:       PropNameForceNewRw,
 		"on_fail": {
 			Type:        schema.TypeString,

@@ -92,6 +92,14 @@ func ResourceWifiConfiguration() *schema.Resource {
 			ValidateDiagFunc: ValidationMapKeyNames,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"deprioritize_unii_3_4": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "Whether to assign lower priority to channels with a control frequency of 5720 or 5825-5885 " +
+				"MHz. These channels are unsupported by some client devices, making their automatic selection " +
+				"undesirable. Defaults to `yes` in ETSI regulatory domains, elsewhere to `no`.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		KeyDisabled: PropDisabledRw,
 		"dtim_period": {
 			Type:         schema.TypeInt,

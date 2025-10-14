@@ -5,7 +5,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
 
-// ResourceDhcpServerNetwork https://wiki.mikrotik.com/wiki/Manual:IP/DHCP_Server#Networks
+// ResourceDhcpServerNetwork https://help.mikrotik.com/docs/spaces/ROS/pages/24805500/DHCP#DHCP-Network
 func ResourceDhcpServerNetwork() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/dhcp-server/network"),
@@ -86,6 +86,11 @@ func ResourceDhcpServerNetwork() *schema.Resource {
 			Description:  "The IP address of the next server to use in bootstrap.",
 			ValidateFunc: validation.IsIPv4Address,
 		},
+		"ntp_none": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Description: "If set, then DHCP Server will not pass NTP servers configured on the router to the DHCP clients.",
+		},
 		"ntp_server": {
 			Type:     schema.TypeList,
 			Optional: true,
@@ -116,11 +121,11 @@ func ResourceDhcpServerNetwork() *schema.Resource {
 			StateContext: schema.ImportStatePassthroughContext,
 		},
 
-		Schema: resSchema,
+		Schema:        resSchema,
 		SchemaVersion: 1,
 		StateUpgraders: []schema.StateUpgrader{
 			{
-				Type: ResourceDhcpServerNetworkV0().CoreConfigSchema().ImpliedType(),
+				Type:    ResourceDhcpServerNetworkV0().CoreConfigSchema().ImpliedType(),
 				Upgrade: stateMigrationScalarToList("caps_manager", "dhcp_option", "dns_server", "ntp_server", "wins_server"),
 				Version: 0,
 			},

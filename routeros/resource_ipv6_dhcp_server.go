@@ -67,6 +67,14 @@ func ResourceIpv6DhcpServer() *schema.Resource {
 			Description: "DUID value.",
 		},
 		KeyDynamic: PropDynamicRo,
+		"ignore_ia_na_bindings": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "Do not reply to DHCPv6 address requests and process only prefixes. Without this setting even " +
+				"if server does not have address-pool configured, it has to respond to client that there is no address " +
+				"available for the client. That can lead up to the situation when DHCPv6 client requests address and " +
+				"prefix in a loop.",
+		},
 		"insert_queue_before": {
 			Type:     schema.TypeString,
 			Optional: true,
