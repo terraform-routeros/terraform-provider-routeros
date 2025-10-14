@@ -272,6 +272,11 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 					}
 					fieldName = SnakeToKebab(mikrotikKebabName + "." + fieldName)
 
+					// Serialization of sets.
+					if fieldSchema.Type == schema.TypeSet {
+						value = ListToString(value.(*schema.Set).List())
+					}
+
 					switch value := value.(type) {
 					case string:
 						item[fieldName] = value
@@ -528,6 +533,33 @@ func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Sch
 						}
 					case schema.TypeBool:
 						v = BoolFromMikrotikJSON(mikrotikValue)
+					case schema.TypeSet:
+						var nl []interface{} // Nested list.
+
+						for _, v := range strings.Split(mikrotikValue, ",") {
+							switch s[terraformSnakeName].Elem.(*schema.Resource).Schema[subFieldSnakeName].Elem.(*schema.Schema).Type {
+							case schema.TypeFloat:
+								f, err := strconv.ParseFloat(v, 64)
+								if err != nil {
+									diags = diag.Errorf("%v for '%v' field", err, terraformSnakeName)
+									continue
+								}
+								nl = append(nl, f)
+
+							case schema.TypeInt:
+								i, err := strconv.Atoi(v)
+								if err != nil {
+									diags = diag.Errorf("%v for '%v' field", err, terraformSnakeName)
+									continue
+								}
+								nl = append(nl, i)
+
+							default:
+								nl = append(nl, v)
+							}
+						}
+
+						v = nl
 					}
 
 					if err != nil {

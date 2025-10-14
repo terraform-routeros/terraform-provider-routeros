@@ -1,4 +1,4 @@
-resource "routeros_bgp_connection" "test" {
+resource "routeros_routing_bgp_connection" "test" {
   name         = "neighbor-test"
   as           = "65550/5"
   as_override  = true
