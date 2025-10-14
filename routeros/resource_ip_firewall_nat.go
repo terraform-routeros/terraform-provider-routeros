@@ -353,6 +353,27 @@ func ResourceIPFirewallNat() *schema.Resource {
 			Description:  "Matches source MAC address of the packet.",
 			ValidateFunc: validation.IsMACAddress,
 		},
+		// https://help.mikrotik.com/docs/spaces/ROS/pages/343244851/Socksify
+		"socks5_port": {
+			Type:             schema.TypeInt,
+			Optional:         true,
+			Description:      "Listening port of the SOCKS5 proxy server.",
+			ValidateFunc:     validation.IsPortNumber,
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"socks5_server": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "IP address of the SOCKS5 proxy server. (only IPv4 addresses are supported)",
+			ValidateFunc:     validation.IsIPv4Address,
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"socksify_service": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Name of existing socksify service.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"tcp_mss": {
 			Type:        schema.TypeString,
 			Optional:    true,
