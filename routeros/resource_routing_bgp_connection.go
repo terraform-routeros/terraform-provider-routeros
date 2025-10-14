@@ -64,6 +64,7 @@ import (
 */
 
 // https://help.mikrotik.com/docs/display/ROS/BGP#BGP-ConnectionMenu
+// https://help.mikrotik.com/docs/spaces/ROS/pages/331612228/routing+bgp
 func ResourceRoutingBgpConnection() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/routing/bgp/connection"),
@@ -108,6 +109,7 @@ func ResourceRoutingBgpConnection() *schema.Resource {
 				"looping. Note that normally there is only one route reflector in a cluster; in this " +
 				"case, 'cluster-id' does not need to be configured and BGP router ID is used instead.",
 			ValidateFunc: validation.IsIPv4Address,
+			Deprecated:   DeprecatedInfo("7.20"),
 		},
 		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
@@ -188,7 +190,7 @@ func ResourceRoutingBgpConnection() *schema.Resource {
 							"reject prefixes which means that it will still eat memory and will be visible in " +
 							"/routing route table as 'not active, filtered'. Changes to be applied required session " +
 							"refresh.",
-						Deprecated: "Since ROS v7.19",
+						Deprecated: DeprecatedInfo("7.19"),
 					},
 					// affinity (afi | alone | instance | main | remote-as | vrf; Default: )
 					// May be "0"
@@ -248,6 +250,15 @@ func ResourceRoutingBgpConnection() *schema.Resource {
 							"to be applied required session refresh.",
 						DiffSuppressFunc: AlwaysPresentNotUserProvided,
 					},
+					"filter_nlri": {
+						Type:     schema.TypeString,
+						Optional: true,
+						Description: "Name of the filter chain that will filter incoming IPv4/IPv6 NLRIs directly before " +
+							"they are  stored in memory, that way significantly reducing memory usage. Regular input filter " +
+							"chain can only reject prefixes which means that it will still eat memory and will be visible in " +
+							"`/routing route` table as `not active, filtered`. Changes to be applied required session restart.",
+						DiffSuppressFunc: AlwaysPresentNotUserProvided,
+					},
 					"filter_unknown": {
 						Type:     schema.TypeString,
 						Optional: true,
@@ -262,6 +273,7 @@ func ResourceRoutingBgpConnection() *schema.Resource {
 						Type:        schema.TypeBool,
 						Optional:    true,
 						Description: "Whether to ignore the AS_PATH attribute in the BGP route selection algorithm",
+						Deprecated:  DeprecatedInfo("7.20"),
 					},
 					// FIXME ROS 7.8: 'unknown parameter input.limit-nlri-diversity'
 					// "limit_nlri_diversity": {
@@ -286,6 +298,12 @@ func ResourceRoutingBgpConnection() *schema.Resource {
 					},
 				},
 			},
+		},
+		"instance": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Name of the instance this VPN is assigned to.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"keepalive_time": {
 			Type:             schema.TypeString,
@@ -528,6 +546,7 @@ func ResourceRoutingBgpConnection() *schema.Resource {
 			Description: "BGP Router ID to be used. Use the ID from the /routing/router-id configuration by " +
 				"specifying the reference name, or set the ID directly by specifying IP. Equal " +
 				"router-ids are also used to group peers into one instance.",
+			Deprecated: DeprecatedInfo("7.20"),
 		},
 		"routing_table": {
 			Type:        schema.TypeString,
