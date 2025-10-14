@@ -24,3 +24,6 @@
   /interface/vxlan:
     - tf: vrf
       mt: vtep-vrf
+  /container:
+    - tf: envlist
+      mt: envlists
