@@ -70,6 +70,9 @@ resource "routeros_ip_firewall_nat" "rule" {
 - `randomise_ports` (Boolean) Randomize to which public port connections will be mapped.
 - `routing_mark` (String) Matches packets marked by mangle facility with particular routing mark.
 - `same_not_by_dst` (Boolean) Specifies whether to take into account or not destination IP address when selecting a new source IP address. Applicable if action=same
+- `socks5_port` (Number) Listening port of the SOCKS5 proxy server.
+- `socks5_server` (String) IP address of the SOCKS5 proxy server. (only IPv4 addresses are supported)
+- `socksify_service` (String) Name of existing socksify service.
 - `src_address` (String) Matches packets which source is equal to specified IP or falls into a specified IP range.
 - `src_address_list` (String) Matches source address of a packet against user-defined address list.
 - `src_address_type` (String) Matches source address type.

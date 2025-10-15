@@ -22,9 +22,11 @@ resource "routeros_interface_veth" "test" {
 
 - `address` (Set of String) Ip address.
 - `comment` (String)
+- `dhcp` (Boolean)
 - `disabled` (Boolean)
 - `gateway` (String) Gateway IP address.
 - `gateway6` (String) Gateway IPv6 address.
+- `mac_address` (String) MAC address.
 
 ### Read-Only
 

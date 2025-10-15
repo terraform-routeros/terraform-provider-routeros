@@ -36,6 +36,7 @@
 - `syslog_facility` (String) SYSLOG facility, applicable if `action=remote`.
 - `syslog_severity` (String) Severity level indicator defined in RFC 3164, applicable if `action=remote`.
 - `syslog_time_format` (String) SYSLOG time format (`bsd-syslog` or `iso8601`).
+- `vrf` (String) The VRF table this resource operates on.
 
 ### Read-Only
 

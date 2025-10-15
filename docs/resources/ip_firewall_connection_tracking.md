@@ -32,6 +32,9 @@ resource "routeros_ip_firewall_connection_tracking" "data" {
 				          See the list of affected features. Starting from v6.0rc2 default value is auto. This means that connection tracing is disabled until at least one firewall rule is added.
 - `generic_timeout` (String) Timeout for all other connection entries
 - `icmp_timeout` (String) ICMP connection timeout
+- `liberal_tcp_tracking` (Boolean) Enables or disables liberal TCP connection tracking by toggling the kernel parameter nf_conntrack_tcp_be_liberal. When set to `yes`, the system mark only out of window RST segments as INVALID.
+
+`Enabling this setting may allow malformed packets that would otherwise be considered invalid by the firewall's connection-state matcher. This can increase exposure to certain evasion techniques. This property should be enabled only when troubleshooting or working around known issues.`
 - `loose_tcp_tracking` (String) Disable picking up already established connections
 - `tcp_close_timeout` (String) No documentation
 - `tcp_close_wait_timeout` (String) No documentation

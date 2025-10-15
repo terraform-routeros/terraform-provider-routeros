@@ -30,6 +30,7 @@ resource "routeros_ip_dhcp_server_network" "dhcp_server_network" {
 - `gateway` (String) The default gateway to be used by DHCP Client.
 - `netmask` (Number) The actual network mask is to be used by the DHCP client. If set to '0' - netmask from network address will be used.
 - `next_server` (String) The IP address of the next server to use in bootstrap.
+- `ntp_none` (Boolean) If set, then DHCP Server will not pass NTP servers configured on the router to the DHCP clients.
 - `ntp_server` (List of String) The DHCP client will use these as the default NTP servers. Two NTP servers can be specified to be used by the DHCP client as primary and secondary NTP servers
 - `wins_server` (List of String) The Windows DHCP client will use these as the default WINS servers. Two WINS servers can be specified to be used by the DHCP client as primary and secondary WINS servers
 

@@ -26,6 +26,10 @@ resource "routeros_interface_vxlan" "test" {
   * proxy-arp - the router performs proxy ARP on the interface and sends replies to other interfaces
   * reply-only - the interface will only reply to requests originated from matching IP address/MAC address combinations which are entered as static entries in the ARP table. No dynamic entries will be automatically stored in the ARP table. Therefore for communications to be successful, a valid static entry must already exist.
 - `arp_timeout` (String) ARP timeout is time how long ARP record is kept in ARP table after no packets are received from IP. Value auto equals to the value of arp-timeout in IP/Settings, default is 30s. Can use postfix `ms`, `s`, `m`, `h`, `d` for milliseconds, seconds, minutes, hours or days. If no postfix is set then seconds (s) is used.
+- `checksum` (Boolean) Setting controls whether a UDP checksum is calculated in the transmitted outer VXLAN packets:
+    - `no` - the UDP checksum is set to zero in transmitted outer packets. This also allows receiving VXLAN packets over IPv6 that have a zero UDP checksum.
+    - `yes` - the UDP checksum is calculated in transmitted outer packets.
+If hardware offloading is used for packet transmission, this setting is ignored, and the behavior defaults to sending packets with a zero UDP checksum.
 - `comment` (String)
 - `disabled` (Boolean)
 - `dont_fragment` (String) The Don't Fragment (DF) flag controls whether a packet can be broken into smaller packets, called fragments, before being sent over a network. When configuring VXLAN, this setting determines the presence of the DF flag on the outer IPv4 header and can control packet fragmentation if the encapsulated packet exceeds the outgoing interface MTU. This setting has three options:
@@ -34,11 +38,14 @@ resource "routeros_interface_vxlan" "test" {
   * inherit - The DF flag on the outer IPv4 header is based on the inner IPv4 DF flag. If the inner IPv4 header has the DF flag set, the outer IPv4 header will also have it set. If the packet exceeds the outgoing interface's MTU and DF is set, it will be dropped. If the inner packet is non-IP, the outer IPv4 header will not have the DF flag set and packets can be fragmented. If the inner packet is IPv6, the outer IPv4 header will always set the DF flag and packets cannot be fragmented. Note that when VXLAN uses IPv6 underlay, this setting does not have any effect and is treated the same as disabled. The setting is available since RouterOS version 7.8.
 - `group` (String) When specified, a multicast group address can be used to forward broadcast, unknown-unicast, and multicast traffic between VTEPs. This property requires specifying the interface setting. The interface will use IGMP or MLD to join the specified multicast group, make sure to add the necessary PIM and IGMP/MDL configuration. When this property is set, the vteps-ip-version automatically gets updated to the used multicast IP version.
 - `interface` (String) Interface name used for multicast forwarding. This property requires specifying the group setting.
+- `learning` (Boolean) Setting controls whether inner source MAC addresses and remote VTEP IP/IPv6 addresses are learned dynamically from received packets.
 - `local_address` (String) Specifies the local source address for the VXLAN interface. If not set, one IP address of the egress interface will be selected as a source address for VXLAN packets. When the property is set, the vteps-ip-version automatically gets updated to the used local IP version. The setting is available since RouterOS version 7.7.
 - `mac_address` (String) Static MAC address of the interface. A randomly generated MAC address will be assigned when not specified.
 - `max_fdb_size` (Number) Limits the maximum number of MAC addresses that VXLAN can store in the forwarding database (FDB).
 - `mtu` (String) Layer3 Maximum transmission unit ('auto', 0 .. 65535)
 - `port` (Number) Used UDP port number.
+- `rem_csum` (String) Changes the Remote Checksum Offload (RCO) settings for VXLAN interface. RCO is a technique for eliding the inner checksum of an encapsulated datagram, allowing the outer checksum to be offloaded by network driver. It does, however, involve a change to the encapsulation protocols, which the receiver must also support. For this reason, it is disabled by default and setting is available to ensure compatibility with systems that rely on this feature.
+If hardware offloading is used, this setting is ignored, and the behavior defaults to `none`.
 - `vni` (Number) VXLAN Network Identifier (VNI).
 - `vrf` (String) The VRF table this resource operates on.
 - `vteps_ip_version` (String) Used IP protocol version for statically configured VTEPs. The RouterOS VXLAN interface does not support dual-stack, any configured remote VTEPs with the opposite IP version will be ignored. When multicast group or local-address properties are set, the vteps-ip-version automatically gets updated to the used IP version. The setting is available since RouterOS version 7.6.

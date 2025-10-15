@@ -1,3 +1,31 @@
+## [1.89.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.88.1...v1.89.0) (2025-10-15)
+
+### Features
+
+* Add support for EVPN-related resources ([bc250cb](https://github.com/terraform-routeros/terraform-provider-routeros/commit/bc250cbcc50eb1bcfcf49e587dbf0ccf7054a55c)), closes [#825](https://github.com/terraform-routeros/terraform-provider-routeros/issues/825)
+* **bfd:** Add new resource `routeros_routing_bfd_configuration` ([2d88357](https://github.com/terraform-routeros/terraform-provider-routeros/commit/2d88357667e8898cd2d5bba45b4d4abd4e77e061)), closes [#829](https://github.com/terraform-routeros/terraform-provider-routeros/issues/829)
+* Update `routeros_container` to ROS 7.20 ([8f10b7e](https://github.com/terraform-routeros/terraform-provider-routeros/commit/8f10b7ec13a01538bb85ac8549cd6d5dcebf41fa))
+* Update `routeros_dhcp_server_network` to ROS 7.20 ([489e7e0](https://github.com/terraform-routeros/terraform-provider-routeros/commit/489e7e04f35681ab748e48b75fee21bd9514ec0d))
+* Update `routeros_interface_veth` to ROS 7.20 ([d90e281](https://github.com/terraform-routeros/terraform-provider-routeros/commit/d90e28154a9518b2f6ce6752be531b0cd7e20de9)), closes [#826](https://github.com/terraform-routeros/terraform-provider-routeros/issues/826)
+* Update `routeros_interface_vrrp` to ROS 7.20 ([0065b69](https://github.com/terraform-routeros/terraform-provider-routeros/commit/0065b69ef3b141abcd7b0766971621f141da30b5))
+* Update `routeros_interface_vxlan` to ROS 7.20 ([638e781](https://github.com/terraform-routeros/terraform-provider-routeros/commit/638e781630ed41e977e931e309e04253c28f8903))
+* Update `routeros_ip_dhcp_client` to ROS 7.20 ([8e2f838](https://github.com/terraform-routeros/terraform-provider-routeros/commit/8e2f8381837934961a9646b67ca51bed56f407f8))
+* Update `routeros_ip_firewall_connection_tracking` to ROS 7.20 ([1b3c77d](https://github.com/terraform-routeros/terraform-provider-routeros/commit/1b3c77d8181ad5746af1202b51a04a849c150194))
+* Update `routeros_ip_firewall_nat` to ROS 7.20 ([ce43460](https://github.com/terraform-routeros/terraform-provider-routeros/commit/ce43460b5e13aeb0b2ae3709e4c5fbeffcf03bdf))
+* Update `routeros_ipv6_dhcp_client` to ROS 7.20 ([f91acba](https://github.com/terraform-routeros/terraform-provider-routeros/commit/f91acba91e82e3ef57fd2eaf23f4cc1936405d0e))
+* Update `routeros_ipv6_dhcp_server` to ROS 7.20 ([f11a08b](https://github.com/terraform-routeros/terraform-provider-routeros/commit/f11a08b2258043877db8c0c4bfd3291e1272a57a))
+* Update `routeros_ppp_profile` to ROS 7.20 ([bacdbfe](https://github.com/terraform-routeros/terraform-provider-routeros/commit/bacdbfe4eb44f96bde84ef24d318137dc85f5e4c))
+* Update `routeros_radius` to ROS 7.20 ([42a8c7e](https://github.com/terraform-routeros/terraform-provider-routeros/commit/42a8c7e1b523e6dbea404bff38b8255785c9ce38))
+* Update `routeros_system_logging_action` to ROS 7.20 ([8d4543f](https://github.com/terraform-routeros/terraform-provider-routeros/commit/8d4543fd78edf4fae2cf411d91ad384f885171dc))
+* Update `routeros_tool_netwatch` to ROS 7.20 ([837ebab](https://github.com/terraform-routeros/terraform-provider-routeros/commit/837ebab5a5ae206a3c46b920423b0b17a389cf40))
+* Update `routeros_wifi_channel` to ROS 7.20 ([11ef93c](https://github.com/terraform-routeros/terraform-provider-routeros/commit/11ef93c8587aaf65bdb59296e7fd081f6d6a88e9))
+* Update `routeros_wifi_configuration` to ROS 7.20 ([0a1614f](https://github.com/terraform-routeros/terraform-provider-routeros/commit/0a1614ff664f209cb882fd6507b783f544014770))
+* Update `routeros_wifi` to ROS 7.20 ([61e821f](https://github.com/terraform-routeros/terraform-provider-routeros/commit/61e821f87dea7e4d5d3b403825551f1a30028b6e))
+
+### Bug Fixes
+
+* **capsman_interface:** Added processing of the `configuration.config` parameter and an extended resource import function ([e18ca7a](https://github.com/terraform-routeros/terraform-provider-routeros/commit/e18ca7a6bf25e8808897b54f8b801792da484c4b)), closes [#828](https://github.com/terraform-routeros/terraform-provider-routeros/issues/828)
+
 ## [1.88.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.88.0...v1.88.1) (2025-10-14)
 
 ### Bug Fixes

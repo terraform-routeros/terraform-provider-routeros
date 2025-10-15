@@ -33,6 +33,8 @@ resource "routeros_tool_netwatch" "test" {
 - `disabled` (Boolean)
 - `dns_server` (String) The DNS server that the probe should send its requests to, if not specified it will use the value from `/ip dns`.
 - `down_script` (String) Script to execute on the event of probe state change `OK` --> `fail`.
+- `early_failure_detection` (Boolean) Netwatch will not wait to finish all the packets to be processed to change probe status if it is already known that host will be considered as `down`.
+- `early_success_detection` (Boolean) Netwatch will not wait to finish all the packets to be processed to change probe status if it is already known that host will be considered as `up`.
 - `http_code_max` (Number) Response in the range [http-code-min , http-code-max] is a probe pass/OK; outside - a probe fail. See [mozilla-http-status](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) or [rfc7231](https://datatracker.ietf.org/doc/html/rfc7231#section-6).
 - `http_code_min` (Number) OK/fail criteria for HTTP response code.
 - `interval` (String) The time interval between probe tests.

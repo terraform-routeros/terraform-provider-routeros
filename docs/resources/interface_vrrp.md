@@ -30,11 +30,12 @@ resource "routeros_interface_vrrp" "interface_vrrp" {
 - `arp_timeout` (String) ARP timeout is time how long ARP record is kept in ARP table after no packets are received from IP. Value auto equals to the value of arp-timeout in IP/Settings, default is 30s. Can use postfix `ms`, `s`, `m`, `h`, `d` for milliseconds, seconds, minutes, hours or days. If no postfix is set then seconds (s) is used.
 - `authentication` (String) Authentication method to use for VRRP advertisement packets.
 - `comment` (String)
+- `connection_tracking_mode` (String) Specifies the mode for connection tracking synchronization. This setting is only relevant when `sync-connection-tracking=yes` is enabled.
+- `connection_tracking_port` (Number) Specifies UDP port for connection tracking synchronization. This setting is only relevant when `sync-connection-tracking=yes` is enabled.
 - `disabled` (Boolean)
 - `group_authority` (String) Allows combining multiple VRRP interfaces to maintain the same VRRP status within the group. `group_authority` was previously called `group_master`, `group_master` is kept for compatibility with scripts, but if both are set only `group_authority` will be taken into account.
 - `group_master` (String) Allows combining multiple VRRP interfaces to maintain the same VRRP status within the group. `group_authority` was previously called `group_master`, `group_master` is kept for compatibility with scripts, but if both are set only `group_authority` will be taken into account.
 - `interval` (String) VRRP update interval in seconds. Defines how often master sends advertisement packets.
-- `mtu` (String) Layer3 Maximum transmission unit ('auto', 0 .. 65535)
 - `on_backup` (String) Script to execute when the node is switched to the backup state.
 - `on_fail` (String) Script to execute when the node fails.
 - `on_master` (String) Script to execute when the node is switched to master state.
@@ -52,6 +53,7 @@ resource "routeros_interface_vrrp" "interface_vrrp" {
 - `id` (String) The ID of this resource.
 - `invalid` (Boolean)
 - `mac_address` (String) Current mac address.
+- `mtu` (Number) Layer2 Maximum transmission unit. [See](https://wiki.mikrotik.com/wiki/Maximum_Transmission_Unit_on_RouterBoards).
 - `running` (Boolean)
 
 ## Import

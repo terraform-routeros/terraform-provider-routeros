@@ -37,6 +37,7 @@ resource "routeros_wifi" "wifi1" {
 - `comment` (String)
 - `configuration` (Map of String) Configuration inline settings.
 - `datapath` (Map of String) Datapath inline settings.
+- `deprioritize_unii_3_4` (Boolean) Whether to assign lower priority to channels with a control frequency of 5720 or 5825-5885 MHz. These channels are unsupported by some client devices, making their automatic selection undesirable. Defaults to `yes` in ETSI regulatory domains, elsewhere to `no`.
 - `disable_running_check` (Boolean) An option to set the running property to true if it is not disabled.
 - `disabled` (Boolean)
 - `interworking` (Map of String) Interworking inline settings.

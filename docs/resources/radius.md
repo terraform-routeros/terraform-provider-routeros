@@ -27,6 +27,7 @@ resource "routeros_radius" "user_manager" {
 - `disabled` (Boolean)
 - `domain` (String) Microsoft Windows domain of client passed to RADIUS servers that require domain validation.
 - `protocol` (String) An option specifies the protocol to use when communicating with the RADIUS Server.
+- `radsec_timeout` (String) Timeout after which the request should be resent over RadSec protocol.
 - `realm` (String) Explicitly stated realm (user domain), so the users do not have to provide proper ISP domain name in the user name.
 - `require_message_auth` (String) An option whether to require `Message-Authenticator` in received Access-Accept/Challenge/Reject messages.
 - `secret` (String, Sensitive) The shared secret to access the RADIUS server.

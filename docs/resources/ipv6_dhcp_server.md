@@ -39,6 +39,7 @@ resource "routeros_ipv6_dhcp_server" "test" {
 - `comment` (String)
 - `dhcp_option` (Set of String) Add additional DHCP options from option list.
 - `disabled` (Boolean)
+- `ignore_ia_na_bindings` (Boolean) Do not reply to DHCPv6 address requests and process only prefixes. Without this setting even if server does not have address-pool configured, it has to respond to client that there is no address available for the client. That can lead up to the situation when DHCPv6 client requests address and prefix in a loop.
 - `insert_queue_before` (String) Specify where to place dynamic simple queue entries for static DCHP leases with a rate-limit parameter set.
 - `lease_time` (String) The time that a client may use the assigned address. The client will try to renew this address after half of this time and will request a new address after the time limit expires.
 - `parent_queue` (String) A dynamically created queue for this lease will be configured as a child queue of the specified parent queue.
