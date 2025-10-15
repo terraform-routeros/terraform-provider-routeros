@@ -42,7 +42,8 @@
                     "package.json",
                     "package-lock.json",
                     "CHANGELOG.md",
-                    "docs"
+                    "docs",
+                    "routeros/mikrotik_resource_drift.go"
                 ],
                 "message": "chore(release): ${nextRelease.version}"
             }
