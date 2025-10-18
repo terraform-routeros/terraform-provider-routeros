@@ -9,6 +9,7 @@ import (
     ".id": "*1",
     "RSA":"true",
     "bits":"2048",
+	"fingerprint": "SHA256:ABCD..."
     "key-owner":"admin",
     "key-type":"rsa",
     "user":"admin"
@@ -54,6 +55,11 @@ func ResourceUserSshKeys() *schema.Resource {
 			Type:        schema.TypeString,
 			Computed:    true,
 			Description: "SSH key owner",
+		},
+		"fingerprint": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "SSH key fingerprint",
 		},
 	}
 

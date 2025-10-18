@@ -25,6 +25,7 @@ resource "routeros_system_user_sshkeys" "test" {
 ### Read-Only
 
 - `bits` (Number) key length
+- `fingerprint` (String) SSH key fingerprint
 - `id` (String) The ID of this resource.
 - `key_owner` (String) SSH key owner
 - `key_type` (String) key type
