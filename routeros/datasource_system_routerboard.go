@@ -23,6 +23,10 @@ func DatasourceSystemRouterboard() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/system/routerboard"),
 		MetaId:           PropId(Id),
 
+		"board_name": {
+			Type:     schema.TypeString,
+			Computed: true,
+		},
 		"current_firmware": {
 			Type:     schema.TypeString,
 			Computed: true,
