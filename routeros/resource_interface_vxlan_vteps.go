@@ -20,7 +20,12 @@ func ResourceInterfaceVxlanVteps() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/interface/vxlan/vteps"),
 		MetaId:           PropId(Id),
 
-		KeyComment:   PropCommentRw,
+		KeyComment:  PropCommentRw,
+		KeyDisabled: PropDisabledRw,
+		"hw_offloaded": {
+			Type:     schema.TypeBool,
+			Computed: true,
+		},
 		KeyInterface: PropInterfaceRw,
 		"port": {
 			Type:             schema.TypeInt,

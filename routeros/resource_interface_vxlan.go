@@ -90,12 +90,21 @@ func ResourceInterfaceVxlan() *schema.Resource {
 				"multicast IP version.",
 			ValidateFunc: validation.StringInSlice([]string{"IPv4", "IPv6"}, false),
 		},
+		"hw": {
+			Type:     schema.TypeBool,
+			Computed: true,
+		},
+		"hw_offloaded": {
+			Type:     schema.TypeBool,
+			Computed: true,
+		},
 		"interface": {
 			Type:     schema.TypeString,
 			Optional: true,
 			Description: "Interface name used for multicast forwarding. This property requires specifying the group " +
 				"setting.",
 		},
+		KeyL2Mtu: PropL2MtuRo,
 		"learning": {
 			Type:     schema.TypeBool,
 			Optional: true,
@@ -111,14 +120,11 @@ func ResourceInterfaceVxlan() *schema.Resource {
 				"the vteps-ip-version automatically gets updated to the used local IP version. The setting is available " +
 				"since RouterOS version 7.7.",
 		},
-		"mac_address": {
-			Type:     schema.TypeString,
-			Optional: true,
-			Description: "Static MAC address of the interface. A randomly generated MAC address will be assigned when " +
-				"not specified.",
-			ValidateFunc:     validation.IsMACAddress,
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
-		},
+		KeyLoopProtect:             PropLoopProtectRw,
+		KeyLoopProtectDisableTime:  PropLoopProtectDisableTimeRw,
+		KeyLoopProtectSendInterval: PropLoopProtectSendIntervalRw,
+		KeyLoopProtectStatus:       PropLoopProtectStatusRo,
+		KeyMacAddress:              PropMacAddressRw("Static MAC address of the interface. A randomly generated MAC address will be assigned when not specified.", false),
 		"max_fdb_size": {
 			Type:     schema.TypeInt,
 			Optional: true,
@@ -126,8 +132,9 @@ func ResourceInterfaceVxlan() *schema.Resource {
 				"(FDB).",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
-		KeyMtu:  PropMtuRw(),
-		KeyName: PropName("Name of the interface."),
+		KeyMtu:     PropMtuRw(),
+		KeyName:    PropName("Name of the interface."),
+		KeyRunning: PropRunningRo,
 		"port": {
 			Type:             schema.TypeInt,
 			Optional:         true,
@@ -146,6 +153,10 @@ func ResourceInterfaceVxlan() *schema.Resource {
 				"If hardware offloading is used, this setting is ignored, and the behavior defaults to `none`.",
 			ValidateFunc:     validation.StringInSlice([]string{"both", "none", "rx", "tx"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"ttl": {
+			Type:     schema.TypeString,
+			Computed: true,
 		},
 		"vni": {
 			Type:             schema.TypeInt,
