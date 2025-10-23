@@ -102,6 +102,10 @@ func ResourceRadius() *schema.Resource {
 			Description:  "Source IPv4/IPv6 address of the packets sent to the RADIUS server.",
 			ValidateFunc: validation.IsIPAddress,
 		},
+		"status": {
+			Type:     schema.TypeString,
+			Computed: true,
+		},
 		"timeout": {
 			Type:             schema.TypeString,
 			Optional:         true,
