@@ -701,7 +701,7 @@ var (
 		}
 	}
 
-	timeControlWords = []string{"immediately", "infinity"}
+	timeControlWords = []string{"immediately", "infinity", "none"}
 
 	timeEqual = func(k, old, new string, d *schema.ResourceData, baseUnits time.Duration) bool {
 		if old == "" {
