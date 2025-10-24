@@ -32,12 +32,24 @@ func ResourceContainer() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/container"),
 		MetaId:           PropId(Id),
-		MetaSkipFields:   PropSkipFields("running"),
+		MetaSkipFields:   PropSkipFields("running", "starting", "stopped", "passed_devs", "stopping", "extracting", "config_json"),
 
 		"arch": {
 			Type:        schema.TypeString,
 			Computed:    true,
 			Description: "The architecture of the container image",
+		},
+		"auto_restart_interval": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Specify an interval at which Container will be restarted on Container failure.",
+			DiffSuppressFunc: TimeEqual,
+		},
+		"check_certificate": {
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Description:      "Enables trust chain validation from local certificate store.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"cmd": {
 			Type:        schema.TypeString,
@@ -45,6 +57,15 @@ func ResourceContainer() *schema.Resource {
 			Description: "The main purpose of a CMD is to provide defaults for an executing container. These defaults can include an executable, or they can omit the executable, in which case you must specify an ENTRYPOINT instruction as well.",
 		},
 		KeyComment: PropCommentRw,
+		"devices": {
+			Type:        schema.TypeSet,
+			Optional:    true,
+			Description: "Passes through physical device to the container.",
+			Elem: &schema.Schema{
+				Type: schema.TypeString,
+			},
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"dns": {
 			Type:        schema.TypeString,
 			Optional:    true,
@@ -85,6 +106,12 @@ func ResourceContainer() *schema.Resource {
 			Type:        schema.TypeBool,
 			Optional:    true,
 			Description: "if set to yes, all container-generated output will be shown in the RouterOS log",
+		},
+		"memory_high": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "RAM usage limit in bytes for a specific container (string value).",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"mounts": {
 			Type:        schema.TypeSet,
