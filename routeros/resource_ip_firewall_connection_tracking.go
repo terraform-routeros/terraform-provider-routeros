@@ -24,6 +24,8 @@ import (
     "tcp-time-wait-timeout": "1m",
     "tcp-unacked-timeout": "5m",
     "total-entries": "87",
+	"total-ip4-entries: "499",
+    "total-ip6-entries: "1",
     "udp-stream-timeout": "3m",
     "udp-timeout": "10s"
 }
@@ -35,7 +37,7 @@ func ResourceIPConnectionTracking() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/firewall/connection/tracking"),
 		MetaId:           PropId(Name),
-		MetaSkipFields:   PropSkipFields("total_entries"),
+		MetaSkipFields:   PropSkipFields("total_entries", "total_ip4_entries", "total_ip6_entries"),
 
 		"active_ipv4": {
 			Type:        schema.TypeBool,
