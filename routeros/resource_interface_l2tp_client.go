@@ -147,6 +147,12 @@ func ResourceInterfaceL2tpClient() *schema.Resource {
 			Description:      "Specifies which PPP profile configuration will be used when establishing the tunnel.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"random_source_port": {
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Description:      "",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		KeyRunning: PropRunningRo,
 		"src_address": {
 			Type:        schema.TypeString,
