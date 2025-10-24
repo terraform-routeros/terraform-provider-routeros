@@ -178,6 +178,12 @@ func ResourceRoutingOspfInterfaceTemplate() *schema.Resource {
 			Description: "A non-backbone area the two routers have in common over which the virtual link will " +
 				"be established.",
 		},
+		"use_bfd": {
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Description:      "Whether to use the BFD protocol for faster connection state detection.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 	}
 
 	return &schema.Resource{
