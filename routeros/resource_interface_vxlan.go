@@ -92,7 +92,7 @@ func ResourceInterfaceVxlan() *schema.Resource {
 		},
 		"hw": {
 			Type:     schema.TypeBool,
-			Computed: true,
+			Optional: true,
 		},
 		"hw_offloaded": {
 			Type:     schema.TypeBool,
