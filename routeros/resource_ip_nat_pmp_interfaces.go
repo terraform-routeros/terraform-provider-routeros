@@ -22,7 +22,7 @@ func ResourceNatPmpInterfaces() *schema.Resource {
 		"interface": {
 			Type:        schema.TypeString,
 			Required:    true,
-			Description: "Interface name on which NAT-PMP will be running.",
+			Description: "Interface name on which PMP will be running on",
 		},
 		"type": {
 			Type:     schema.TypeString,
