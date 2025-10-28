@@ -142,6 +142,8 @@ func Provider() *schema.Provider {
 			"routeros_ip_hotspot_user_profile":         ResourceIpHotspotUserProfile(),
 			"routeros_ip_hotspot_walled_garden":        ResourceIpHotspotWalledGarden(),
 			"routeros_ip_hotspot_walled_garden_ip":     ResourceIpHotspotWalledGardenIp(),
+			"routeros_ip_nat_pmp":                      ResourceNatPmpSettings(),
+			"routeros_ip_nat_pmp_interfaces":           ResourceNatPmpInterfaces(),
 			"routeros_ip_neighbor_discovery_settings":  ResourceIpNeighborDiscoverySettings(),
 			"routeros_ip_pool":                         ResourceIPPool(),
 			"routeros_ip_route":                        ResourceIPRoute(),
