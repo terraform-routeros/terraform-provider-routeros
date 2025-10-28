@@ -10,6 +10,11 @@ import (
 const testNatPmpInterfaces = "routeros_ip_nat_pmp_interfaces.test"
 
 func TestAccNatPmpInterfacesTest_basic(t *testing.T) {
+	if !testCheckMinVersion(t, testNatPmpMinVersion) {
+		t.Logf("Test skipped, the minimum required version is %v", testNatPmpMinVersion)
+		return
+	}
+
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{

@@ -7,9 +7,15 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
+const testNatPmpMinVersion = "7.13"
 const testNatPmpSettings = "routeros_ip_nat_pmp.test"
 
 func TestAccNatPmpSettingsTest_basic(t *testing.T) {
+	if !testCheckMinVersion(t, testNatPmpMinVersion) {
+		t.Logf("Test skipped, the minimum required version is %v", testNatPmpMinVersion)
+		return
+	}
+
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{
