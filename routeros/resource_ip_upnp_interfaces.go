@@ -22,7 +22,7 @@ func ResourceUPNPInterfaces() *schema.Resource {
 		"interface": {
 			Type:        schema.TypeString,
 			Required:    true,
-			Description: "Interface name on which uPnP will be running.",
+			Description: "Interface name on which UPnP will be running.",
 		},
 		"type": {
 			Type:     schema.TypeString,
