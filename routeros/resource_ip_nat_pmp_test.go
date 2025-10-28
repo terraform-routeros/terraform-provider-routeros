@@ -48,7 +48,7 @@ func testAccNatPmpSettingsConfig(b bool) string {
 	return fmt.Sprintf(`%v
 
 resource "routeros_ip_nat_pmp" "test" {
-	enabled                          = %v
+	enabled = %v
 }
 `, providerConfig, b)
 }
