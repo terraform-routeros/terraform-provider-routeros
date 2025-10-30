@@ -117,21 +117,21 @@ func ResourceInterfaceEthernetSwitch() *schema.Resource {
 		// },
 		"not_learned": {
 			Type:     schema.TypeBool,
-			Optional: false,
+			Optional: true,
 			Default:     false,
 			Description: "Feature only MT Know",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"custom_drop_packet": {
 			Type:     schema.TypeBool,
-			Optional: false,
+			Optional: true,
 			Default:     false,
 			Description: "Feature only MT Know",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"qos_hw_offloading": {
 			Type:     schema.TypeBool,
-			Optional: false,
+			Optional: true,
 			Default:     false,
 			Description: "QOS hardware offload",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
@@ -145,7 +145,7 @@ func ResourceInterfaceEthernetSwitch() *schema.Resource {
 		},
 		"rspan_ingress_vlan_id": {
 			Type:     schema.TypeInt,
-			Optional: false,
+			Optional: true,
 			Default:     1,
 			Description: "RSPAN ingress VLAN Id",
 			ValidateFunc:     validation.IntBetween(1, 4094),
@@ -153,7 +153,7 @@ func ResourceInterfaceEthernetSwitch() *schema.Resource {
 		},
 		"rspan_egress_vlan_id": {
 			Type:     schema.TypeInt,
-			Optional: false,
+			Optional: true,
 			Default:     1,
 			Description: "RSPAN egress VLAN Id",
 			ValidateFunc:     validation.IntBetween(1, 4094),
