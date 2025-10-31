@@ -4,10 +4,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
-// ResourceUPNPInterfaces https://help.mikrotik.com/docs/display/ROS/UPnP
-func ResourceUPNPInterfaces() *schema.Resource {
+// ResourceNatPmpInterfaces https://help.mikrotik.com/docs/display/ROS/NAT-PMP
+func ResourceNatPmpInterfaces() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
-		MetaResourcePath:   PropResourcePath("/ip/upnp/interfaces"),
+		MetaResourcePath:   PropResourcePath("/ip/nat-pmp/interfaces"),
 		MetaId:             PropId(Id),
 		MetaSetUnsetFields: PropSetUnsetFields("type"),
 
@@ -22,12 +22,12 @@ func ResourceUPNPInterfaces() *schema.Resource {
 		"interface": {
 			Type:        schema.TypeString,
 			Required:    true,
-			Description: "Interface name on which UPnP will be running.",
+			Description: "Interface name on which PMP will be running on",
 		},
 		"type": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Description: "UPnP interface type:" +
+			Description: "NAT-PMP interface type:" +
 				"\n  * external - the interface a global IP address is assigned to" +
 				"\n  * internal - router's local interface the clients are connected to",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
