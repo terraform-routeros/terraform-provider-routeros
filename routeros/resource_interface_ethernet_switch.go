@@ -80,7 +80,7 @@ func ResourceInterfaceEthernetSwitch() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/ethernet/switch"),
 		MetaId:           PropId(Id),
-		MetaSkipFields: PropSkipFields("switch_id", "driver_rx_byte", "driver_rx_packet", "driver_tx_byte", "driver_tx_packet",
+		MetaSkipFields: PropSkipFields("not_learned","custom_drop_packet","switch_id", "driver_rx_byte", "driver_rx_packet", "driver_tx_byte", "driver_tx_packet",
 			"rx_align_error", "rx_broadcast", "rx_bytes", "rx_carrier_error", "rx_code_error", "rx_control", "rx_drop",
 			"rx_fcs_error", "rx_fragment", "rx_jabber", "rx_length_error", "rx_multicast", "rx_packet", "rx_pause",
 			"rx_too_long", "rx_too_short", "rx_unknown_op", "tx_broadcast", "tx_bytes", "tx_control", "tx_deferred",
@@ -115,33 +115,15 @@ func ResourceInterfaceEthernetSwitch() *schema.Resource {
 		// 		"88E6190 switch chips. Mirrored packets from mirror-egress (see the property in port menu) will be " +
 		// 		"sent to the selected port.",
 		// },
-		"not_learned": {
-			Type:     schema.TypeBool,
-			Optional: true,
-			Default:     false,
-			Description: "Feature only MT Know",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
-		},
-		"custom_drop_packet": {
-			Type:     schema.TypeBool,
-			Optional: true,
-			Default:     false,
-			Description: "Feature only MT Know",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
-		},
 		"qos_hw_offloading": {
 			Type:     schema.TypeBool,
 			Optional: true,
-			Default:     false,
-			Description: "QOS hardware offload",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			Description: "qos-hw-offloading (yes | no; Default: no) Allows enabling QoS for the given switch chip (if the latter supports QoS).",
 		},
 		"rspan": {
 			Type:     schema.TypeBool,
 			Optional: false,
-			Default:     false,
-			Description: "RSPAN Toggle",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			Description: "Rrspan (no | yes; Default: no) Enables Remote Switch Port Analyzer (RSPAN) feature on mirror-target. Traffic marked for ingress or egress mirroring is carried over a specified remote analyzer VLAN - rspan-egress-vlan-id and rspan-ingress-vlan-id.",
 		},
 		"rspan_ingress_vlan_id": {
 			Type:     schema.TypeInt,
