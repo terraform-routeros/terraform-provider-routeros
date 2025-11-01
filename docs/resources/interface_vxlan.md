@@ -37,9 +37,13 @@ If hardware offloading is used for packet transmission, this setting is ignored,
   * enabled - the DF flag is always set on the outer IPv4 header, which means that packets will not be fragmented and will be dropped if they exceed the outgoing interface's MTU. This also avoids packet fragmentation when VXLAN uses IPv6 underlay.
   * inherit - The DF flag on the outer IPv4 header is based on the inner IPv4 DF flag. If the inner IPv4 header has the DF flag set, the outer IPv4 header will also have it set. If the packet exceeds the outgoing interface's MTU and DF is set, it will be dropped. If the inner packet is non-IP, the outer IPv4 header will not have the DF flag set and packets can be fragmented. If the inner packet is IPv6, the outer IPv4 header will always set the DF flag and packets cannot be fragmented. Note that when VXLAN uses IPv6 underlay, this setting does not have any effect and is treated the same as disabled. The setting is available since RouterOS version 7.8.
 - `group` (String) When specified, a multicast group address can be used to forward broadcast, unknown-unicast, and multicast traffic between VTEPs. This property requires specifying the interface setting. The interface will use IGMP or MLD to join the specified multicast group, make sure to add the necessary PIM and IGMP/MDL configuration. When this property is set, the vteps-ip-version automatically gets updated to the used multicast IP version.
+- `hw` (Boolean)
 - `interface` (String) Interface name used for multicast forwarding. This property requires specifying the group setting.
 - `learning` (Boolean) Setting controls whether inner source MAC addresses and remote VTEP IP/IPv6 addresses are learned dynamically from received packets.
 - `local_address` (String) Specifies the local source address for the VXLAN interface. If not set, one IP address of the egress interface will be selected as a source address for VXLAN packets. When the property is set, the vteps-ip-version automatically gets updated to the used local IP version. The setting is available since RouterOS version 7.7.
+- `loop_protect` (String)
+- `loop_protect_disable_time` (String)
+- `loop_protect_send_interval` (String)
 - `mac_address` (String) Static MAC address of the interface. A randomly generated MAC address will be assigned when not specified.
 - `max_fdb_size` (Number) Limits the maximum number of MAC addresses that VXLAN can store in the forwarding database (FDB).
 - `mtu` (String) Layer3 Maximum transmission unit ('auto', 0 .. 65535)
@@ -52,7 +56,12 @@ If hardware offloading is used, this setting is ignored, and the behavior defaul
 
 ### Read-Only
 
+- `hw_offloaded` (Boolean)
 - `id` (String) The ID of this resource.
+- `l2mtu` (Number) Layer2 Maximum transmission unit. [See](https://wiki.mikrotik.com/wiki/Maximum_Transmission_Unit_on_RouterBoards).
+- `loop_protect_status` (String)
+- `running` (Boolean)
+- `ttl` (String)
 
 ## Import
 Import is supported using the following syntax:

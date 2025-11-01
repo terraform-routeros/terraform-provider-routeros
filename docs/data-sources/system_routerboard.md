@@ -14,6 +14,7 @@ data "routeros_system_routerboard" "data" {}
 
 ### Read-Only
 
+- `board_name` (String)
 - `current_firmware` (String)
 - `factory_firmware` (String)
 - `firmware_type` (String)

@@ -24,11 +24,13 @@ resource "routeros_interface_vxlan_vteps" "test" {
 ### Optional
 
 - `comment` (String)
+- `disabled` (Boolean)
 - `port` (Number) Used UDP port number.
 - `remote_ip` (String) The IPv4 or IPv6 destination address of remote VTEP.
 
 ### Read-Only
 
+- `hw_offloaded` (Boolean)
 - `id` (String) The ID of this resource.
 
 ## Import

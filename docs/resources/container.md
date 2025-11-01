@@ -22,8 +22,11 @@ resource "routeros_container" "busybox" {
 
 ### Optional
 
+- `auto_restart_interval` (String) Specify an interval at which Container will be restarted on Container failure.
+- `check_certificate` (Boolean) Enables trust chain validation from local certificate store.
 - `cmd` (String) The main purpose of a CMD is to provide defaults for an executing container. These defaults can include an executable, or they can omit the executable, in which case you must specify an ENTRYPOINT instruction as well.
 - `comment` (String)
+- `devices` (Set of String) Passes through physical device to the container.
 - `dns` (String) Set custom DNS servers
 - `domain_name` (String) Container NIS domain name
 - `entrypoint` (String) An ENTRYPOINT allows to specify executable to run when starting container. Example: /bin/sh
@@ -31,6 +34,7 @@ resource "routeros_container" "busybox" {
 - `file` (String) container *tar.gz tarball if the container is imported from a file
 - `hostname` (String) Container host name
 - `logging` (Boolean) if set to yes, all container-generated output will be shown in the RouterOS log
+- `memory_high` (String) RAM usage limit in bytes for a specific container (string value).
 - `mounts` (Set of String) Mounts from /container/mounts/ sub-menu to be used with this container
 - `remote_image` (String) The container image name to be installed if an external registry is used (configured under /container/config set registry-url=...)
 - `root_dir` (String) Used to save container store outside main memory

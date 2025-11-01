@@ -23,6 +23,10 @@ resource "routeros_interface_ethernet_switch" "sw0" {
 - `mirror_egress_target` (String) Selects a single mirroring egress target port, only available on 88E6393X, 88E6191X and 88E6190 switch chips. Mirrored packets from `mirror-egress` (see the property in port menu) will be sent to the selected port.
 - `mirror_source` (String) Selects a single mirroring source port. Ingress and egress traffic will be sent to the mirror-target port. Note that mirror-target port has to belong to the same switch (see which port belongs to which switch in /interface ethernet menu).
 - `mirror_target` (String) Selects a single mirroring target port. Mirrored packets from mirror-source and mirror (see the property in rule and host table) will be sent to the selected port.
+- `qos_hw_offloading` (Boolean) Allows enabling QoS for the given switch chip (if the latter supports QoS).
+- `rspan` (Boolean) Enables Remote Switch Port Analyzer (RSPAN) feature on mirror-target. Traffic marked for ingress or egress mirroring is carried over a specified remote analyzer VLAN - `rspan-egress-vlan-id` and `rspan-ingress-vlan-id`.
+- `rspan_egress_vlan_id` (Number) RSPAN egress VLAN Id.
+- `rspan_ingress_vlan_id` (Number) RSPAN ingress VLAN Id.
 - `switch_id` (String) Switch-chip id. Default .id = *0
 
 ### Read-Only

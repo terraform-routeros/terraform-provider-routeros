@@ -44,6 +44,7 @@ resource "routeros_routing_ospf_interface_template" "test_routing_ospf_interface
 - `retransmit_interval` (String) Time interval the lost link state advertisement will be resent.
 - `transmit_delay` (String) Link-state transmit delay is the estimated time it takes to transmit a link-state update packet on the interface.
 - `type` (String) The OSPF network type on this interface.
+- `use_bfd` (Boolean) Whether to use the BFD protocol for faster connection state detection.
 - `vlink_neighbor_id` (String) Specifies the router-id of the neighbor which should be connected over the virtual link.
 - `vlink_transit_area` (String) A non-backbone area the two routers have in common over which the virtual link will be established.
 

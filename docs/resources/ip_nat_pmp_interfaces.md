@@ -1,12 +1,12 @@
-# routeros_ip_upnp_interfaces (Resource)
+# routeros_ip_nat_pmp_interfaces (Resource)
 
 
 ## Example Usage
 ```terraform
-resource "routeros_ip_upnp_interfaces" "test" {
-  interface          = "ether1"
-  type               = "external"
-  forced_external_ip = "0.0.0.0"
+resource "routeros_ip_nat_pmp_interfaces" "test" {
+  interface = "ether1"
+  type      = "external"
+  forced_ip = "0.0.0.0"
 }
 ```
 
@@ -15,13 +15,13 @@ resource "routeros_ip_upnp_interfaces" "test" {
 
 ### Required
 
-- `interface` (String) Interface name on which UPnP will be running.
+- `interface` (String) Interface name on which PMP will be running on
 
 ### Optional
 
 - `disabled` (Boolean)
 - `forced_ip` (String) Allow specifying what public IP to use if the external interface has more than one IP available.
-- `type` (String) UPnP interface type:
+- `type` (String) NAT-PMP interface type:
   * external - the interface a global IP address is assigned to
   * internal - router's local interface the clients are connected to
 
@@ -34,6 +34,6 @@ resource "routeros_ip_upnp_interfaces" "test" {
 Import is supported using the following syntax:
 ```shell
 #The ID can be found via API or the terminal
-#The command for the terminal is -> :put [/ip/upnp/interfaces get [print show-ids]]
-terraform import routeros_ip_upnp_interfaces.test '*1'
+#The command for the terminal is -> :put [/ip/nat-pmp/interfaces get [print show-ids]]
+terraform import routeros_ip_nat_pmp_interfaces.test '*1'
 ```

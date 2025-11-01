@@ -1,3 +1,25 @@
+## [1.90.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.89.0...v1.90.0) (2025-11-01)
+
+### Features
+
+* **ip nat-pmp:** add examples ([174f0d1](https://github.com/terraform-routeros/terraform-provider-routeros/commit/174f0d158ec28ade47069ffe4fefad5198f5ba8f))
+* **ip nat-pmp:** add resources ([3eaf59b](https://github.com/terraform-routeros/terraform-provider-routeros/commit/3eaf59b41dd56a20e2c09c0fa27d3083b95a4fff))
+* **ospf area range:** Add new resource `routeros_routing_ospf_area_range` ([a336bd3](https://github.com/terraform-routeros/terraform-provider-routeros/commit/a336bd373908ac9f977a5462245470660f085cfa)), closes [#841](https://github.com/terraform-routeros/terraform-provider-routeros/issues/841)
+* update routeros_interface_ethernet to ROS 7.20 ([87dcd1f](https://github.com/terraform-routeros/terraform-provider-routeros/commit/87dcd1fb7b079f42908fe5d84320fce3aa538263))
+* update routeros_ip_firewall_connection_tracking to ROS 7.20 ([d2bc43c](https://github.com/terraform-routeros/terraform-provider-routeros/commit/d2bc43c74b8bf6b5375cceedd8fb4b53e8a86e1c))
+* update routeros_system_user_sshkeys to ROS 7.20 ([2f28d7b](https://github.com/terraform-routeros/terraform-provider-routeros/commit/2f28d7b5f94aa6b634db1d717e6c38ea4cb4dc27))
+
+### Bug Fixes
+
+* **container:** Add missing attributes ([9b78f48](https://github.com/terraform-routeros/terraform-provider-routeros/commit/9b78f48e12a4d681b3e114568a873742caa31aed)), closes [#839](https://github.com/terraform-routeros/terraform-provider-routeros/issues/839)
+* **contaner envs:** Change attribute `name` to `list` ([e004f90](https://github.com/terraform-routeros/terraform-provider-routeros/commit/e004f90339deeeb691b7c5cdbf41f64689652cdb)), closes [#856](https://github.com/terraform-routeros/terraform-provider-routeros/issues/856)
+* **interface l2tp client:** Add a new attribute `random_source_port` ([fc1c511](https://github.com/terraform-routeros/terraform-provider-routeros/commit/fc1c5119dcbb3335b5b329ef273d2b84b240367f)), closes [#836](https://github.com/terraform-routeros/terraform-provider-routeros/issues/836)
+* **ip nat-pmp interfaces:** fix property name ([46f95cf](https://github.com/terraform-routeros/terraform-provider-routeros/commit/46f95cf80d07679b5193d4dcc83b61a9cd0a1e19))
+* **ip nat-pmp:** set min version for tests ([fa74e8a](https://github.com/terraform-routeros/terraform-provider-routeros/commit/fa74e8a5dbb3a4560f2e0f2b3d76d8bbba0e5dcf))
+* **ip upnp:** typos ([fca8ff7](https://github.com/terraform-routeros/terraform-provider-routeros/commit/fca8ff7c8687513df7cf35db37df1121a1204348))
+* **ospf interface template:** Add a new attribute `use-bfd` ([5a9b850](https://github.com/terraform-routeros/terraform-provider-routeros/commit/5a9b850b3dba817603356691d84e0af4972e9b0c)), closes [#837](https://github.com/terraform-routeros/terraform-provider-routeros/issues/837)
+* **pppoe client:** Add a new attribute `host-uniq` ([01379db](https://github.com/terraform-routeros/terraform-provider-routeros/commit/01379dbb56740dfcfd4a16b13e418008bc72b00f)), closes [#846](https://github.com/terraform-routeros/terraform-provider-routeros/issues/846)
+
 ## [1.89.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.88.1...v1.89.0) (2025-10-15)
 
 ### Features

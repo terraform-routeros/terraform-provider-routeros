@@ -40,6 +40,7 @@ resource "routeros_interface_l2tp_client" "test" {
 - `mrru` (String) Maximum packet size that can be received on the link. If a packet is bigger than tunnel MTU, it will be split into multiple packets, allowing full size IP or Ethernet packets to be sent over the tunnel.
 - `password` (String, Sensitive) Password used for authentication.
 - `profile` (String) Specifies which PPP profile configuration will be used when establishing the tunnel.
+- `random_source_port` (Boolean)
 - `src_address` (String) Specify source address.
 - `use_ipsec` (Boolean) When this option is enabled, dynamic IPSec peer configuration and policy (transport mode) is added to encapsulate L2TP connection into IPSec tunnel. Multiple L2tp/ipsec clients behind the same NAT will not work in this mode. To achieve such scenario, disable use-ipsec and set static policies for clients with enabled `tunnel=yes`, `level=unique` settings.
 - `use_peer_dns` (String) To use peer dns.

@@ -38,6 +38,7 @@ resource "routeros_radius" "user_manager" {
 ### Read-Only
 
 - `id` (String) The ID of this resource.
+- `status` (String)
 
 ## Import
 Import is supported using the following syntax:
