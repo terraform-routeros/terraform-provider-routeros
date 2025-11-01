@@ -146,7 +146,7 @@ func ResourceInterfaceEthernetSwitch() *schema.Resource {
 		},
 		"rspan": {
 			Type:     schema.TypeBool,
-			Optional: false,
+			Optional: true,
 			Description: "Enables Remote Switch Port Analyzer (RSPAN) feature on mirror-target. Traffic marked for " +
 				"ingress or egress mirroring is carried over a specified remote analyzer VLAN - `rspan-egress-vlan-id` " +
 				"and `rspan-ingress-vlan-id`.",
