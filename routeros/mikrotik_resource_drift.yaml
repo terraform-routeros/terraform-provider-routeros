@@ -27,3 +27,6 @@
   /container:
     - tf: envlist
       mt: envlists
+  /container/envs:
+    - tf: name
+      mt: list
