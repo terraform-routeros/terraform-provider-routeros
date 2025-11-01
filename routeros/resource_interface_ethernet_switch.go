@@ -87,7 +87,7 @@ func ResourceInterfaceEthernetSwitch() *schema.Resource {
 			"tx_drop", "tx_excessive_collision", "tx_excessive_deferred", "tx_fcs_error", "tx_fragment", "tx_jabber",
 			"tx_late_collision", "tx_multicast", "tx_multiple_collision", "tx_packet", "tx_pause", "tx_rx_1024_1518",
 			"tx_rx_128_255", "tx_rx_1519_max", "tx_rx_256_511", "tx_rx_512_1023", "tx_rx_64", "tx_rx_65_127",
-			"tx_single_collision", "tx_too_long", "tx_too_short", "tx_total_collision"),
+			"tx_single_collision", "tx_too_long", "tx_too_short", "tx_total_collision", "not_learned", "custom_drop_packet"),
 
 		"cpu_flow_control": {
 			Type:     schema.TypeBool,
@@ -139,6 +139,32 @@ func ResourceInterfaceEthernetSwitch() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyName: PropName("Name of the switch."),
+		"qos_hw_offloading": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Description: "Allows enabling QoS for the given switch chip (if the latter supports QoS).",
+		},
+		"rspan": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "Enables Remote Switch Port Analyzer (RSPAN) feature on mirror-target. Traffic marked for " +
+				"ingress or egress mirroring is carried over a specified remote analyzer VLAN - `rspan-egress-vlan-id` " +
+				"and `rspan-ingress-vlan-id`.",
+		},
+		"rspan_ingress_vlan_id": {
+			Type:             schema.TypeInt,
+			Optional:         true,
+			Description:      "RSPAN ingress VLAN Id.",
+			ValidateFunc:     validation.IntBetween(1, 4094),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"rspan_egress_vlan_id": {
+			Type:             schema.TypeInt,
+			Optional:         true,
+			Description:      "RSPAN egress VLAN Id.",
+			ValidateFunc:     validation.IntBetween(1, 4094),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"switch_id": {
 			Type:        schema.TypeString,
 			Optional:    true,
