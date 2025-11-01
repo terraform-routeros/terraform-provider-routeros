@@ -28,6 +28,18 @@ func main() {
 	password := os.Getenv("ROS_PASSWORD")
 	host := os.Getenv("ROS_IP_ADDRESS")
 
+	if username == "" {
+		username = "admin"
+	}
+
+	if host == "" {
+		if l := len(os.Args); l > 0 {
+			host = os.Args[l-1]
+		} else {
+			log.Fatal("The IP address of the router must be set")
+		}
+	}
+
 	var err error
 	var client *routeros.Client
 	for i := 0; i < 12; i++ {
