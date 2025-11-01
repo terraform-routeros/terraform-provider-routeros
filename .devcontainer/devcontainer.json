@@ -1,0 +1,15 @@
+{
+	"name": "Go",
+	"image": "mcr.microsoft.com/devcontainers/go:2-1.24-bookworm",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"golang.go"
+			]
+		}
+	},
+	"mounts": [
+		"source=${env:HOME}${env:USERPROFILE}/.config,target=/home/vscode/.config,type=bind",
+		"source=${env:HOME}${env:USERPROFILE}/.terraform.d,target=/home/vscode/.terraform.d,type=bind"
+	]
+}
