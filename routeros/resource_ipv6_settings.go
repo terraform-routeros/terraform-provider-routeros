@@ -1,6 +1,7 @@
 package routeros
 
 import (
+	"regexp"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
@@ -56,6 +57,13 @@ func ResourceIpv6Settings() *schema.Resource {
 				"address using stateless address configuration.",
 			ValidateFunc:     validation.StringInSlice([]string{"no", "yes", "yes-if-forwarding-disabled"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"accept_router_advertisements_on": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Accept router advertisement (RA) messages. If enabled, the router will be able to get the " +
+				"address using stateless address configuration on specified or specific interfaces",
+			ValidateFunc: validation.StringMatch(regexp.MustCompile(`^[a-zA-Z0-9:._-]{2,255}$`),"must be 2 to 255 characters and contain only letters, numbers, or :._-"),
 		},
 		"disable_ipv6": {
 			Type:        schema.TypeBool,

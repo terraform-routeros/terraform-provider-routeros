@@ -88,6 +88,16 @@ func ResourceDhcpServer() *schema.Resource {
 			Optional:    true,
 			Description: "Use custom set of DHCP options defined in option sets menu.",
 		},
+		"dynamic_lease_identifiers": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Dynamic lease identifier",
+		},
+		"support_broadband_tr101": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Description: "Support broadband TR101",
+		},
 		KeyDisabled: PropDisabledRw,
 		KeyDynamic:  PropDynamicRo,
 		"insert_queue_before": {

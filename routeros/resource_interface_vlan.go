@@ -38,6 +38,11 @@ func ResourceInterfaceVlan() *schema.Resource {
 			Optional: true,
 			Default:  false,
 		},
+		"hw_offloaded": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Default:  false,
+		},
 		"vlan_id": {
 			Type:     schema.TypeInt,
 			Required: true,
