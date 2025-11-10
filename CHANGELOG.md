@@ -1,3 +1,9 @@
+## [1.91.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.90.0...v1.91.0) (2025-11-10)
+
+### Features
+
+* **devcontainer:** add initial setup ([b4f9922](https://github.com/terraform-routeros/terraform-provider-routeros/commit/b4f992205736fee359f057b357f9c66cee3aa23f))
+
 ## [1.90.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.89.0...v1.90.0) (2025-11-01)
 
 ### Features
