@@ -36,12 +36,10 @@ func ResourceInterfaceVlan() *schema.Resource {
 		"use_service_tag": {
 			Type:     schema.TypeBool,
 			Optional: true,
-			Default:  false,
 		},
 		KeyHwOffloaded: {
 			Type:     schema.TypeBool,
 			Optional: true,
-			Default:  false,
 		},
 		"vlan_id": {
 			Type:     schema.TypeInt,
