@@ -72,11 +72,7 @@ func ResourceIPRoute() *schema.Resource {
 			Description: "Array of IP addresses or interface names. Specifies which host or interface packets should " +
 				"be sent to (IP | interface | IP%interface | IP@table[, IP | string, [..]]).",
 		},
-		"hw_offloaded": {
-			Type:        schema.TypeBool,
-			Computed:    true,
-			Description: "Indicates whether the route is eligible to be hardware offloaded on supported hardware.",
-		},
+		KeyHwOffloaded: PropHwOffloadedRo,
 		"immediate_gw": {
 			Type:        schema.TypeString,
 			Computed:    true,
