@@ -54,11 +54,7 @@ func ResourceIPAddress() *schema.Resource {
 			Computed:    true,
 			Description: "Whether address belongs to an interface which is a slave port to some other master interface",
 		},
-		"vrf": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Description: "Bind this IP address to VRF",
-		},
+		KeyVrf: PropVrfRw,
 	}
 	return &schema.Resource{
 		CreateContext: DefaultCreate(resSchema),
