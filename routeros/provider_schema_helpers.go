@@ -39,6 +39,7 @@ const (
 	KeyDscp                    = "dscp"
 	KeyEnabled                 = "enabled"
 	KeyFilter                  = "filter"
+	KeyHwOffloaded             = "hw_offloaded"
 	KeyInactive                = "inactive"
 	KeyInterface               = "interface"
 	KeyInvalid                 = "invalid"
@@ -310,6 +311,11 @@ var (
 		Elem:             schema.TypeString,
 		Description:      "Additional request filtering options.",
 		ValidateDiagFunc: ValidationMapKeyNames,
+	}
+	PropHwOffloadedRo = &schema.Schema{
+		Type:        schema.TypeBool,
+		Computed:    true,
+		Description: "Indicates whether the route is eligible to be hardware offloaded on supported hardware.",
 	}
 	PropInactiveRo = &schema.Schema{
 		Type:     schema.TypeBool,
