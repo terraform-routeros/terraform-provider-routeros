@@ -28,6 +28,27 @@ func ResourceInterfaceMacVlan() *schema.Resource {
 				"the same parent interface.",
 			ValidateFunc: validation.StringInSlice([]string{"private", "bridge"}, true),
 		},
+		"mtu": {
+			Type:     schema.TypeInt,
+			Optional: true,
+			Default:  1500,
+			Description: "Set MTU for MACVLAN interface",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			ValidateFunc:     validation.IntBetween(1500, 18432),
+		},
+		"loop_protect_status": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Loop protect status",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			ValidateFunc: validation.StringInSlice([]string{"yes", "no"}, true),
+		},
+		"running": {
+			Type:     schema.TypeBool,
+			Optional: true,
+			Description: "MACVLAN is status",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		KeyMacAddress: PropMacAddressRw(
 			`Static MAC address of the interface. A randomly generated MAC address will be assigned when not specified.`,
 			false,
