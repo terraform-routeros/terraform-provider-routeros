@@ -20,7 +20,7 @@ var (
 	// (/interface ethernet) set ([ find default-name=ether1 ] disable-running-check=no)
 	// (/ip service) set (api-ssl) (certificate=ssl)
 	reSystemResources = regexp.MustCompile(`(?m)^(/.*?)\sset\s(?:([\w-]+)\s)?(.*?)[\r\n]+`)
-	reAttributes      = regexp.MustCompile(`\S+=\S+`)
+	reAttributes      = regexp.MustCompile(`\S+=(?:[^ "]+|"[^"]+")+`)
 	// .id=*1;available=101;name=dhcp;ranges=192.168.88.100-192.168.88.200;total=101;used=0
 	reId = regexp.MustCompile(`\.id=(\S+?);`)
 
@@ -283,6 +283,12 @@ func GetAttributes(provider *schema.Provider, resourceName, attributes string) (
 			switch schemaAttr.Type {
 			case schema.TypeString:
 				// key=value => key = "value"
+				if len(attrVaule) > 0 && attrVaule[0] == '"' {
+					attrVaule = attrVaule[1:]
+				}
+				if len(attrVaule) > 0 && attrVaule[len(attrVaule)-1] == '"' {
+					attrVaule = attrVaule[:len(attrVaule)-1]
+				}
 				attrVaule = `"` + attrVaule + `"`
 			case schema.TypeBool:
 				// key=yes => key = true

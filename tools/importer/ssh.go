@@ -67,6 +67,7 @@ func GetMikrotikConfig(conn *SshConnection) (string, error) {
 func GetResourceId(conn *SshConnection, path string, requiredFields []string) string {
 	var id string
 	for _, filter := range requiredFields {
+		log.Info("Searching for ", filter, " in ", path)
 		res, err := conn.Run(fmt.Sprintf(":put [%v get [ find %v ]]", path, filter))
 		if err != nil {
 			continue
@@ -74,7 +75,7 @@ func GetResourceId(conn *SshConnection, path string, requiredFields []string) st
 
 		ss := reId.FindStringSubmatch(res)
 		if len(ss) != 2 {
-			log.Error("Id not found")
+			log.Error("Id not found for field ", filter)
 			continue
 		}
 
@@ -82,7 +83,7 @@ func GetResourceId(conn *SshConnection, path string, requiredFields []string) st
 	}
 
 	if id == "" {
-		log.Error("Id not found")
+		log.Error("Id not found for ", requiredFields)
 		return "?"
 	}
 
