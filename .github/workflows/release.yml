@@ -42,7 +42,7 @@ jobs:
 
       - name: Release
         id: release
-        uses: cycjimmy/semantic-release-action@v5
+        uses: cycjimmy/semantic-release-action@v6
         with:
           extra_plugins: |
             "@semantic-release/changelog@6.0.2"
