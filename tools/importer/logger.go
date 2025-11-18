@@ -15,6 +15,7 @@ func NewLogger(ctx context.Context) (*logrus.Logger, context.Context) {
 		DisableQuote:     true,
 		DisableTimestamp: true,
 	})
+	log.SetLevel(logrus.DebugLevel)
 	// log.SetReportCaller(true)
 	return log, ContextWithLogger(ctx, log)
 }

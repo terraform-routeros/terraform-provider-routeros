@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"strings"
 
 	"golang.org/x/crypto/ssh"
 )
@@ -66,20 +67,39 @@ func GetMikrotikConfig(conn *SshConnection) (string, error) {
 
 func GetResourceId(conn *SshConnection, path string, requiredFields []string) string {
 	var id string
-	for _, filter := range requiredFields {
-		log.Info("Searching for ", filter, " in ", path)
-		res, err := conn.Run(fmt.Sprintf(":put [%v get [ find %v ]]", path, filter))
+	var filter = strings.Join(requiredFields, " ")
+	log.Debug("Searching id in ", path, " with command: ", fmt.Sprintf(":put [%v get [ find %v ]]", path, filter))
+	res, err := conn.Run(fmt.Sprintf(":put [%v get [ find %v ]]", path, filter))
+	if err != nil {
+		log.Error("Error running command: ", err)
+		return "?"
+	}
+
+	ss := reId.FindStringSubmatch(res)
+	log.Debug("ss is ", ss)
+	if len(ss) == 2 {
+		id = ss[1]
+		log.Info("Found id ", id, " for ", filter)
+		return id
+	} else {
+		// Let's try with dynamic=no
+		log.Debug("Searching id in ", path, " with command: ", fmt.Sprintf(":put [%v get [ find %v dynamic=no ]]", path, filter))
+		res, err := conn.Run(fmt.Sprintf(":put [%v get [ find %v dynamic=no ]]", path, filter))
 		if err != nil {
-			continue
+			log.Error("Error running command: ", err)
+			return "?"
 		}
 
 		ss := reId.FindStringSubmatch(res)
-		if len(ss) != 2 {
-			log.Error("Id not found for field ", filter)
-			continue
+		log.Debug("ss is ", ss)
+		if len(ss) == 2 {
+			id = ss[1]
+			log.Info("Found id ", id, " for ", filter)
+			return id
+		} else {
+			log.Warn("Id not found for field ", filter)
 		}
 
-		id = ss[1]
 	}
 
 	if id == "" {
