@@ -506,7 +506,8 @@ func PropMtuRw() *schema.Schema {
 
 			return nil
 		},
-		Description: "Layer3 Maximum transmission unit ('auto', 0 .. 65535)",
+		Description: "Layer3 Maximum transmission unit ('auto', 0 .. 65535). Look for the exact minimum value in " +
+			"the MikroTik documentation",
 	}
 }
 
