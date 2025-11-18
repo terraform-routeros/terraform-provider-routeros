@@ -36,7 +36,7 @@ resource "routeros_interface_w60g" "test" {
 - `mac_address` (String) MAC address of the radio interface.
 - `mdmg_fix` (Boolean) Experimental feature working only on wAP60Gx3 devices, providing better point to multi point stability in some cases.
 - `mode` (String) Operation mode.
-- `mtu` (String) Layer3 Maximum transmission unit ('auto', 0 .. 65535)
+- `mtu` (String) Layer3 Maximum transmission unit ('auto', 0 .. 65535). Look for the exact minimum value in the MikroTik documentation
 - `password` (String, Sensitive) Password used for AES encryption.
 - `put_stations_in_bridge` (String) Put newly created station device interfaces in this bridge.
 - `region` (String) Parameter to limit frequency use.

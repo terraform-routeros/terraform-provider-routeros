@@ -1,3 +1,9 @@
+## [1.92.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.92.0...v1.92.1) (2025-11-18)
+
+### Bug Fixes
+
+* routeros_interface_macvlan add missing attributes ([#865](https://github.com/terraform-routeros/terraform-provider-routeros/issues/865)) ([5b21944](https://github.com/terraform-routeros/terraform-provider-routeros/commit/5b21944a2ff183e8029b63ef468493bbcf1fa0ad))
+
 ## [1.92.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.91.0...v1.92.0) (2025-11-18)
 
 ### Features

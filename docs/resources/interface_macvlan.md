@@ -34,15 +34,18 @@ resource "routeros_interface_macvlan" "test" {
 - `loop_protect` (String)
 - `loop_protect_disable_time` (String)
 - `loop_protect_send_interval` (String)
+- `loop_protect_status` (Boolean) Loop protect status
 - `mac_address` (String) Static MAC address of the interface. A randomly generated MAC address will be assigned when not specified.
 - `mode` (String) Sets MACVLAN interface mode:
   *	private - does not allow communication between MACVLAN instances on the same parent interface.
   * bridge - allows communication between MACVLAN instances on the same parent interface.
+- `mtu` (String) Layer3 Maximum transmission unit ('auto', 0 .. 65535). Look for the exact minimum value in the MikroTik documentation
 
 ### Read-Only
 
 - `id` (String) The ID of this resource.
 - `l2mtu` (Number) Layer2 Maximum transmission unit. [See](https://wiki.mikrotik.com/wiki/Maximum_Transmission_Unit_on_RouterBoards).
+- `running` (Boolean)
 
 ## Import
 Import is supported using the following syntax:

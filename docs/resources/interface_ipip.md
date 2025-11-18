@@ -28,7 +28,7 @@ resource "routeros_interface_ipip" "ipip_hq" {
 - `ipsec_secret` (String, Sensitive) When secret is specified, router adds dynamic IPsec peer to remote-address with pre-shared key and policy (by default phase2 uses sha1/aes128cbc).
 - `keepalive` (String) Tunnel keepalive parameter sets the time interval in which the tunnel running flag will remain even if the remote end of tunnel goes down. If configured time,retries fail, interface running flag is removed. Parameters are written in following format: `KeepaliveInterval,KeepaliveRetries` where `KeepaliveInterval` is time interval and `KeepaliveRetries` - number of retry attempts. `KeepaliveInterval` is integer 0..4294967295
 - `local_address` (String) Source address of the tunnel packets, local on the router.
-- `mtu` (String) Layer3 Maximum transmission unit ('auto', 0 .. 65535)
+- `mtu` (String) Layer3 Maximum transmission unit ('auto', 0 .. 65535). Look for the exact minimum value in the MikroTik documentation
 - `remote_address` (String) IP address of the remote end of the tunnel.
 
 ### Read-Only

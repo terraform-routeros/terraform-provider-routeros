@@ -41,7 +41,7 @@ resource "routeros_interface_eoip" "eoip_tunnel1" {
 - `loop_protect` (String)
 - `loop_protect_disable_time` (String)
 - `loop_protect_send_interval` (String)
-- `mtu` (String) Layer3 Maximum transmission unit ('auto', 0 .. 65535)
+- `mtu` (String) Layer3 Maximum transmission unit ('auto', 0 .. 65535). Look for the exact minimum value in the MikroTik documentation
 - `remote_address` (String) IP address of the remote end of the tunnel.
 - `tunnel_id` (Number) Unique tunnel identifier, which must match the other side of the tunnel.
 

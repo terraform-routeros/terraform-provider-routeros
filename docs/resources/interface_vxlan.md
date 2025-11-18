@@ -46,7 +46,7 @@ If hardware offloading is used for packet transmission, this setting is ignored,
 - `loop_protect_send_interval` (String)
 - `mac_address` (String) Static MAC address of the interface. A randomly generated MAC address will be assigned when not specified.
 - `max_fdb_size` (Number) Limits the maximum number of MAC addresses that VXLAN can store in the forwarding database (FDB).
-- `mtu` (String) Layer3 Maximum transmission unit ('auto', 0 .. 65535)
+- `mtu` (String) Layer3 Maximum transmission unit ('auto', 0 .. 65535). Look for the exact minimum value in the MikroTik documentation
 - `port` (Number) Used UDP port number.
 - `rem_csum` (String) Changes the Remote Checksum Offload (RCO) settings for VXLAN interface. RCO is a technique for eliding the inner checksum of an encapsulated datagram, allowing the outer checksum to be offloaded by network driver. It does, however, involve a change to the encapsulation protocols, which the receiver must also support. For this reason, it is disabled by default and setting is available to ensure compatibility with systems that rely on this feature.
 If hardware offloading is used, this setting is ignored, and the behavior defaults to `none`.
