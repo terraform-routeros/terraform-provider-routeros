@@ -1,3 +1,9 @@
+## [1.92.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.91.0...v1.92.0) (2025-11-18)
+
+### Features
+
+* Add attributes to resouce ip_dhcp_server,interface_vlan … ([#861](https://github.com/terraform-routeros/terraform-provider-routeros/issues/861)) ([a88d0e1](https://github.com/terraform-routeros/terraform-provider-routeros/commit/a88d0e1ce67ca8ca3594fdacb1b710f5f01a64ed))
+
 ## [1.91.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.90.0...v1.91.0) (2025-11-10)
 
 ### Features

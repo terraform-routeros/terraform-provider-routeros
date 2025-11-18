@@ -15,6 +15,7 @@ resource "routeros_ipv6_settings" "settings" {
 
 - `accept_redirects` (String) Whether to accept ICMP redirect messages. Typically should be enabled on the host and disabled on routers.
 - `accept_router_advertisements` (String) Accept router advertisement (RA) messages. If enabled, the router will be able to get the address using stateless address configuration.
+- `accept_router_advertisements_on` (String) Accept router advertisement (RA) messages. If enabled, the router will be able to get the address using stateless address configuration on specified or specific interfaces
 - `allow_fast_path` (Boolean) Allows Fast Path.
 - `disable_ipv6` (Boolean) Enable/disable system wide IPv6 settings (prevents LL address generation).
 - `disable_link_local_address` (Boolean) Disable automatic link-local address generation for non-VPN interfaces. This can be used when manually configured link-local addresses are being used.

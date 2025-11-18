@@ -56,7 +56,7 @@ If hardware offloading is used, this setting is ignored, and the behavior defaul
 
 ### Read-Only
 
-- `hw_offloaded` (Boolean)
+- `hw_offloaded` (Boolean) Indicates whether the route is eligible to be hardware offloaded on supported hardware.
 - `id` (String) The ID of this resource.
 - `l2mtu` (Number) Layer2 Maximum transmission unit. [See](https://wiki.mikrotik.com/wiki/Maximum_Transmission_Unit_on_RouterBoards).
 - `loop_protect_status` (String)

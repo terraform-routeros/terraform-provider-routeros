@@ -32,6 +32,7 @@ resource "routeros_interface_vlan" "interface_vlan" {
 - `arp_timeout` (String) ARP timeout is time how long ARP record is kept in ARP table after no packets are received from IP. Value auto equals to the value of arp-timeout in IP/Settings, default is 30s. Can use postfix `ms`, `s`, `m`, `h`, `d` for milliseconds, seconds, minutes, hours or days. If no postfix is set then seconds (s) is used.
 - `comment` (String)
 - `disabled` (Boolean)
+- `hw_offloaded` (Boolean)
 - `loop_protect` (String)
 - `loop_protect_disable_time` (String)
 - `loop_protect_send_interval` (String)

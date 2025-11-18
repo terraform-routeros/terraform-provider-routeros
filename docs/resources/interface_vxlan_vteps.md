@@ -30,7 +30,7 @@ resource "routeros_interface_vxlan_vteps" "test" {
 
 ### Read-Only
 
-- `hw_offloaded` (Boolean)
+- `hw_offloaded` (Boolean) Indicates whether the route is eligible to be hardware offloaded on supported hardware.
 - `id` (String) The ID of this resource.
 
 ## Import

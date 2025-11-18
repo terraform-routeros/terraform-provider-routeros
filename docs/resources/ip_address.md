@@ -23,6 +23,7 @@ resource "routeros_ip_address" "address" {
 - `comment` (String)
 - `disabled` (Boolean)
 - `network` (String) IP address for the network. For point-to-point links it should be the address of the remote end. Starting from v5RC6 this parameter is configurable only for addresses with /32 netmask (point to point links)
+- `vrf` (String) The VRF table this resource operates on.
 
 ### Read-Only
 
