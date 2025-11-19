@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"regexp"
+	"slices"
 	"strings"
 	"time"
 
@@ -22,7 +23,8 @@ var (
 	reSystemResources = regexp.MustCompile(`(?m)^(/.*?)\sset\s(?:([\w-]+)\s)?(.*?)[\r\n]+`)
 	reAttributes      = regexp.MustCompile(`\S+=(?:[^ "]+|"[^"]+")+`)
 	// .id=*1;available=101;name=dhcp;ranges=192.168.88.100-192.168.88.200;total=101;used=0
-	reId = regexp.MustCompile(`\.id=(\S+?);`)
+	reId      = regexp.MustCompile(`\.id=(\S+?);`)
+	rePrintId = regexp.MustCompile(`(?m)^(\*[0-9a-f]+)\s`)
 
 	resourceTempate = `resource "%v" "%v" {
   %v
@@ -87,6 +89,9 @@ func main() {
 	// ip-pool: N, interface-wireguard: N, ...
 	var hclNames = make(map[string]int)
 
+	// Bool TF -> MT Replacer
+	mtYesNo := strings.NewReplacer("=true", "=yes", "=false", "=no")
+
 	// /interface wireguard >>> add <<< listen-port=1829 mtu=1420 name=wg1
 	for _, ss := range reUserResources.FindAllStringSubmatch(config, -1) {
 		// "/interface wireguard", "listen-port=1829 mtu=1420 name=wg1"
@@ -104,7 +109,20 @@ func main() {
 		fmt.Fprintf(resHcl, resourceTempate, hclSection.ResourceName, hclSection.HCLName, strings.Join(hclAttributes, "\n  "))
 
 		// Import script
-		id := GetResourceId(conn, path, required)
+		var id string
+		switch hclSection.ResourceName {
+		case "routeros_ip_firewall_filter", "routeros_ip_firewall_mangle", "routeros_ip_firewall_nat", "routeros_ip_firewall_raw":
+			fallthrough
+		case "routeros_ipv6_firewall_filter", "routeros_ipv6_firewall_mangle", "routeros_ipv6_firewall_nat":
+			filter := slices.Clone(hclAttributes)
+			for i, v := range filter {
+				filter[i] = mtYesNo.Replace(strings.ReplaceAll(v, " ", ""))
+			}
+			id = GetResourceId(conn, path, filter)
+		default:
+			id = GetResourceId(conn, path, required)
+		}
+
 		fmt.Fprintf(resImport, "terraform import %v.%v %v\n", hclSection.ResourceName, hclSection.HCLName, id)
 	}
 
@@ -190,11 +208,11 @@ func GetResourceSection(hclNames map[string]int, providerResources map[string][]
 	// /ip/pool => routeros_ip_pool
 	resNames, ok := providerResources[path]
 	if !ok {
-		return nil, fmt.Errorf("No resource was found for '%v' path", path)
+		return nil, fmt.Errorf("no resource was found for '%v' path", path)
 	}
 
 	if len(resNames) == 0 {
-		return nil, fmt.Errorf("Path '%v' exists, but no resource name was found for it", path)
+		return nil, fmt.Errorf("path '%v' exists, but no resource name was found for it", path)
 	}
 
 	// Several resources can have the same path.
