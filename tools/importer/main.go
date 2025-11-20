@@ -111,12 +111,24 @@ func main() {
 		// Import script
 		var id string
 		switch hclSection.ResourceName {
+		case "routeros_ip_address":
+			fallthrough
 		case "routeros_ip_firewall_filter", "routeros_ip_firewall_mangle", "routeros_ip_firewall_nat", "routeros_ip_firewall_raw":
 			fallthrough
 		case "routeros_ipv6_firewall_filter", "routeros_ipv6_firewall_mangle", "routeros_ipv6_firewall_nat":
-			filter := slices.Clone(hclAttributes)
-			for i, v := range filter {
-				filter[i] = mtYesNo.Replace(strings.ReplaceAll(v, " ", ""))
+			var filter []string
+			filter_list := slices.Clone(hclAttributes)
+			for _, filter_value := range filter_list {
+				// Remove surnumerous spaces from HCL attributes
+				filter_value = mtYesNo.Replace(strings.ReplaceAll(filter_value, " ", ""))
+				// Split key and value
+				filter_split := strings.Split(filter_value, "=")
+				// Exclude Comments and logPrefix which will never match since we removed spaces
+				if filter_split[0] != "comment" && filter_split[0] != "log_prefix" {
+					// Format HCLAttributes key and values to comply with Mikrotik syntax and properly rebuild filter_value
+					filter_value = routeros.SnakeToKebab(filter_split[0]) + "=" + mtYesNo.Replace(filter_split[1])
+					filter = append(filter, mtYesNo.Replace(strings.ReplaceAll(filter_value, " ", "")))
+				}
 			}
 			id = GetResourceId(conn, path, filter)
 		default:
@@ -139,7 +151,7 @@ func main() {
 		// routeros_ip_service
 		hclSection, err := GetResourceSection(hclNames, providerResources, path)
 		if err != nil {
-			log.Print(err)
+			log.Error(err)
 			continue
 		}
 
@@ -147,6 +159,14 @@ func main() {
 		case "routeros_ip_service":
 			// Add the Required attribute
 			attributes += " numbers=" + name
+		case "routeros_routing_bgp_template":
+			fallthrough
+		case "routeros_interface_lte_apn":
+			fallthrough
+		case "routeros_ip_ipsec_profile":
+			fallthrough
+		case "routeros_system_user_group":
+			attributes += " name=" + name
 		}
 
 		hclAttributes, required := GetAttributes(provider, hclSection.ResourceName, attributes)
@@ -289,7 +309,7 @@ func GetAttributes(provider *schema.Provider, resourceName, attributes string) (
 			// }
 			schemaAttr, ok := resource.Schema[attrName]
 			if !ok {
-				log.Warnf("Attribute '%v' not found", attrName)
+				log.Warnf("Attribute '%v' not found for resource '%v' in provider schema", attrName, resourceName)
 				continue
 			}
 
