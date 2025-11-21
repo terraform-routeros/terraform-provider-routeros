@@ -113,9 +113,17 @@ func main() {
 		switch hclSection.ResourceName {
 		case "routeros_ip_address":
 			fallthrough
+		case "routeros_ip_dhcp_server_network":
+			fallthrough
 		case "routeros_ip_firewall_filter", "routeros_ip_firewall_mangle", "routeros_ip_firewall_nat", "routeros_ip_firewall_raw":
 			fallthrough
 		case "routeros_ipv6_firewall_filter", "routeros_ipv6_firewall_mangle", "routeros_ipv6_firewall_nat":
+			fallthrough
+		case "routeros_ip_dns_record":
+			fallthrough
+		case "routeros_ip_route":
+			fallthrough
+		case "routeros_wifi_provisioning":
 			var filter []string
 			filter_list := slices.Clone(hclAttributes)
 			for _, filter_value := range filter_list {
@@ -124,7 +132,18 @@ func main() {
 				// Split key and value
 				filter_split := strings.Split(filter_value, "=")
 				// Exclude Comments and logPrefix which will never match since we removed spaces
-				if filter_split[0] != "comment" && filter_split[0] != "log_prefix" {
+				if filter_split[0] != "comment" &&
+					filter_split[0] != "log_prefix" &&
+					// Hack for /ip/dhcp-server-network entries which are comma separated list in Mikrotik
+					filter_split[0] != "ntp_server" &&
+					filter_split[0] != "dns_server" &&
+					// Hack for /ip/dns/static entry which is stored as integer in Mikrotik
+					filter_split[0] != "ttl" &&
+					// Hack for /ip/route blackhole which have enpty gateway
+					(filter_split[0] != "gateway" || filter_split[1] == "?") &&
+					// Hack for /interface/wifi/provisioning where supported-bands and slave-configurations are lists
+					filter_split[0] != "supported_bands" &&
+					filter_split[0] != "slave_configurations" {
 					// Format HCLAttributes key and values to comply with Mikrotik syntax and properly rebuild filter_value
 					filter_value = routeros.SnakeToKebab(filter_split[0]) + "=" + mtYesNo.Replace(filter_split[1])
 					filter = append(filter, mtYesNo.Replace(strings.ReplaceAll(filter_value, " ", "")))
@@ -174,8 +193,21 @@ func main() {
 
 		switch hclSection.ResourceName {
 		case "routeros_interface_ethernet":
+			var filter []string
+			for _, filter_value := range required {
+				// Remove surnumerous spaces from HCL attributes
+				filter_value = mtYesNo.Replace(strings.ReplaceAll(filter_value, " ", ""))
+				// Split key and value
+				filter_split := strings.Split(filter_value, "=")
+				// Exclude Comments and logPrefix which will never match since we removed spaces
+				if filter_split[0] != "factory_name" {
+					// Format HCLAttributes key and values to comply with Mikrotik syntax and properly rebuild filter_value
+					filter_value = routeros.SnakeToKebab(filter_split[0]) + "=" + mtYesNo.Replace(filter_split[1])
+					filter = append(filter, mtYesNo.Replace(strings.ReplaceAll(filter_value, " ", "")))
+				}
+			}
 			// Get Id
-			name = GetResourceId(conn, path, required)
+			name = GetResourceId(conn, path, filter)
 		}
 
 		// HCL file
