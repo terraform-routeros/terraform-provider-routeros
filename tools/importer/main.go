@@ -169,6 +169,7 @@ func main() {
 			attributes += " name=" + name
 		}
 
+		log.Debug("Attributes for path ", path, " are: ", attributes)
 		hclAttributes, required := GetAttributes(provider, hclSection.ResourceName, attributes)
 
 		switch hclSection.ResourceName {
@@ -288,11 +289,11 @@ func GetAttributes(provider *schema.Provider, resourceName, attributes string) (
 			// default-name=ether1
 			pp := strings.Split(p, "=")
 			// default_name, ether1
-			attrName, attrVaule := routeros.KebabToSnake(pp[0]), pp[1]
+			attrName, attrValue := routeros.KebabToSnake(pp[0]), pp[1]
 			if attrs, ok := TransformMap[resourceName+":"+attrName]; ok {
 				for _, name := range attrs {
 					// + factory_name=ether1, + name=ether1
-					pairs = append(pairs, fmt.Sprintf("%v=%v", name, attrVaule))
+					pairs = append(pairs, fmt.Sprintf("%v=%v", name, attrValue))
 				}
 			}
 		}
@@ -300,7 +301,7 @@ func GetAttributes(provider *schema.Provider, resourceName, attributes string) (
 		for _, p := range pairs {
 			// default-name=ether1
 			pp := strings.Split(p, "=")
-			attrName, attrVaule := routeros.KebabToSnake(pp[0]), pp[1]
+			attrName, attrValue := routeros.KebabToSnake(pp[0]), pp[1]
 
 			// "default_name" : {
 			// 		Type:        schema.TypeString,
@@ -321,27 +322,27 @@ func GetAttributes(provider *schema.Provider, resourceName, attributes string) (
 			switch schemaAttr.Type {
 			case schema.TypeString:
 				// key=value => key = "value"
-				if len(attrVaule) > 0 && attrVaule[0] == '"' {
-					attrVaule = attrVaule[1:]
+				if len(attrValue) > 0 && attrValue[0] == '"' {
+					attrValue = attrValue[1:]
 				}
-				if len(attrVaule) > 0 && attrVaule[len(attrVaule)-1] == '"' {
-					attrVaule = attrVaule[:len(attrVaule)-1]
+				if len(attrValue) > 0 && attrValue[len(attrValue)-1] == '"' {
+					attrValue = attrValue[:len(attrValue)-1]
 				}
-				attrVaule = `"` + attrVaule + `"`
+				attrValue = `"` + attrValue + `"`
 			case schema.TypeBool:
 				// key=yes => key = true
-				attrVaule = routeros.BoolFromMikrotikJSONStr(attrVaule)
+				attrValue = routeros.BoolFromMikrotikJSONStr(attrValue)
 			case schema.TypeSet, schema.TypeList:
 				// key=a,b,c => key = ["a", "b", "c"]
 				switch schemaAttr.Elem.(*schema.Schema).Type {
 				case schema.TypeString:
-					attrVaule = `["` + strings.Join(strings.Split(attrVaule, ","), `", "`) + `"]`
+					attrValue = `["` + strings.Join(strings.Split(attrValue, ","), `", "`) + `"]`
 				default:
-					attrVaule = `[` + strings.Join(strings.Split(attrVaule, ","), `,`) + `]`
+					attrValue = `[` + strings.Join(strings.Split(attrValue, ","), `,`) + `]`
 				}
 			}
 			// Add padding
-			hclAttributes = append(hclAttributes, fmt.Sprintf("%v%v = %v", attrName, strings.Repeat(" ", maxNameLength-len(attrName)), attrVaule))
+			hclAttributes = append(hclAttributes, fmt.Sprintf("%v%v = %v", attrName, strings.Repeat(" ", maxNameLength-len(attrName)), attrValue))
 
 			// Remove the Required field from the general list
 			if schemaAttr.Required {
