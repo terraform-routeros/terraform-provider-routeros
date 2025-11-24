@@ -70,6 +70,7 @@ func GetMikrotikConfig(conn *SshConnection) (string, error) {
 func GetResourceId(conn *SshConnection, path string, requiredFields []string) string {
 	var id string
 	var filter = strings.Join(requiredFields, " ")
+
 	cmd := fmt.Sprintf(":put [%v get [ find %v ]]", path, filter)
 	log.Debug("Searching id in ", path, " with command: ", cmd)
 	res, err := conn.Run(cmd)
@@ -109,7 +110,7 @@ func GetResourceId(conn *SshConnection, path string, requiredFields []string) st
 		ss := strings.SplitN(v, "=", 2)
 		proplist = append(proplist, ss[0])
 	}
-	cmd = fmt.Sprintf("%v print show-ids proplist=%v where %v dynamic=no", path, strings.Join(proplist, ","), filter)
+	cmd = fmt.Sprintf("%v print show-ids where %v dynamic=no", path, filter)
 	log.Debug("Searching id in ", path, " with command: ", cmd)
 	res, err = conn.Run(cmd)
 	if err != nil {

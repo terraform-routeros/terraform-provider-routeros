@@ -111,6 +111,8 @@ func main() {
 		// Import script
 		var id string
 		switch hclSection.ResourceName {
+		case "routeros_interface_bridge_filter":
+			fallthrough
 		case "routeros_ip_address":
 			fallthrough
 		case "routeros_ip_dhcp_server_network":
@@ -177,12 +179,8 @@ func main() {
 		switch hclSection.ResourceName {
 		case "routeros_ip_service":
 			// Add the Required attribute
-			attributes += " numbers=" + name
+			attributes += " name=" + name + " numbers=" + name
 		case "routeros_routing_bgp_template":
-			fallthrough
-		case "routeros_interface_lte_apn":
-			fallthrough
-		case "routeros_ip_ipsec_profile":
 			fallthrough
 		case "routeros_system_user_group":
 			attributes += " name=" + name
@@ -192,15 +190,79 @@ func main() {
 		hclAttributes, required := GetAttributes(provider, hclSection.ResourceName, attributes)
 
 		switch hclSection.ResourceName {
+		// Skip folowwing resources as they don't have IDs
+		case "routeros_capsman_manager":
+			fallthrough
+		case "routeros_interface_wifi_capsman":
+			fallthrough
+		case "routeros_ip_cloud":
+			fallthrough
+		case "routeros_ip_dns":
+			fallthrough
+		case "routeros_ip_ssh_server":
+			fallthrough
+		case "routeros_ip_upnp":
+			fallthrough
+		case "routeros_system_clock":
+			fallthrough
+		case "routeros_system_identity":
+			fallthrough
+		case "routeros_system_logging":
+			fallthrough
+		case "routeros_system_ntp_client":
+			fallthrough
+		case "routeros_system_ntp_server":
+			fallthrough
+		case "routeros_system_routerboard_settings":
+			fallthrough
+		case "routeros_tool_bandwidth_server":
+			fallthrough
+		case "routeros_tool_mac_server":
+			fallthrough
+		case "routeros_tool_mac_server_winbox":
+			fallthrough
+		case "routeros_tool_mac_server_ping":
+			fallthrough
+		case "routeros_tool_sniffer":
+			fallthrough
+		case "routeros_wifi_capsman":
+			log.Infof("Skipping resource %v which has no ID", hclSection.ResourceName)
+			continue
+		// Get ID for specific use cases
 		case "routeros_interface_ethernet":
+			fallthrough
+		case "routeros_interface_lte_apn":
+			fallthrough
+		case "routeros_interface_wireless_security_profiles":
+			fallthrough
+		case "routeros_ip_ipsec_proposal":
+			fallthrough
+		case "routeros_ip_service":
 			var filter []string
-			for _, filter_value := range required {
+			filter_list := slices.Clone(hclAttributes)
+			for _, filter_value := range filter_list {
 				// Remove surnumerous spaces from HCL attributes
 				filter_value = mtYesNo.Replace(strings.ReplaceAll(filter_value, " ", ""))
 				// Split key and value
 				filter_split := strings.Split(filter_value, "=")
 				// Exclude Comments and logPrefix which will never match since we removed spaces
-				if filter_split[0] != "factory_name" {
+				// Hack for /ip service which entries have name and not numbers as on Terraform side
+				if filter_split[0] == "numbers" {
+					filter_split[0] = "name"
+				}
+				// Hack for /ip ipsec proposal where name is default and not "." as on Terraform side
+				if filter_split[0] == "name" && (filter_split[1] == "." || filter_split[1] == "\"?\"") {
+					filter_split[1] = "default"
+				}
+				if filter_split[0] != "factory_name" &&
+					// Hack for /ip/service entries with address as list
+					filter_split[0] != "address" &&
+					// Hack for /ip ipsec proposal with enc-algorithms as list
+					filter_split[0] != "enc_algorithms" &&
+					// Hack for /interface/ethernet entries with comment since we removed spaces
+					filter_split[0] != "comment" &&
+					// Hack for /ip/service entries with unknown port
+					(filter_split[0] != "port" && filter_split[1] != "?") {
 					// Format HCLAttributes key and values to comply with Mikrotik syntax and properly rebuild filter_value
 					filter_value = routeros.SnakeToKebab(filter_split[0]) + "=" + mtYesNo.Replace(filter_split[1])
 					filter = append(filter, mtYesNo.Replace(strings.ReplaceAll(filter_value, " ", "")))
@@ -208,6 +270,9 @@ func main() {
 			}
 			// Get Id
 			name = GetResourceId(conn, path, filter)
+			// Get ID for default use case
+		default:
+			name = GetResourceId(conn, path, required)
 		}
 
 		// HCL file
