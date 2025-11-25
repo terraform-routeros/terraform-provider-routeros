@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"os"
 	"regexp"
-	"slices"
 	"strings"
 	"time"
 
@@ -21,10 +20,9 @@ var (
 	// (/interface ethernet) set ([ find default-name=ether1 ] disable-running-check=no)
 	// (/ip service) set (api-ssl) (certificate=ssl)
 	reSystemResources = regexp.MustCompile(`(?m)^(/.*?)\sset\s(?:([\w-]+)\s)?(.*?)[\r\n]+`)
-	reAttributes      = regexp.MustCompile(`\S+=(?:[^ "]+|"[^"]+")+`)
+	reAttributes      = regexp.MustCompile(`\S+=\S+`)
 	// .id=*1;available=101;name=dhcp;ranges=192.168.88.100-192.168.88.200;total=101;used=0
-	reId      = regexp.MustCompile(`\.id=(\S+?);`)
-	rePrintId = regexp.MustCompile(`(?m)^(\*[0-9a-f]+)\s`)
+	reId = regexp.MustCompile(`\.id=(\S+?);`)
 
 	resourceTempate = `resource "%v" "%v" {
   %v
@@ -89,9 +87,6 @@ func main() {
 	// ip-pool: N, interface-wireguard: N, ...
 	var hclNames = make(map[string]int)
 
-	// Bool TF -> MT Replacer
-	mtYesNo := strings.NewReplacer("=true", "=yes", "=false", "=no")
-
 	// /interface wireguard >>> add <<< listen-port=1829 mtu=1420 name=wg1
 	for _, ss := range reUserResources.FindAllStringSubmatch(config, -1) {
 		// "/interface wireguard", "listen-port=1829 mtu=1420 name=wg1"
@@ -109,53 +104,7 @@ func main() {
 		fmt.Fprintf(resHcl, resourceTempate, hclSection.ResourceName, hclSection.HCLName, strings.Join(hclAttributes, "\n  "))
 
 		// Import script
-		var id string
-		switch hclSection.ResourceName {
-		case "routeros_interface_bridge_filter":
-			fallthrough
-		case "routeros_ip_address":
-			fallthrough
-		case "routeros_ip_dhcp_server_network":
-			fallthrough
-		case "routeros_ip_firewall_filter", "routeros_ip_firewall_mangle", "routeros_ip_firewall_nat", "routeros_ip_firewall_raw":
-			fallthrough
-		case "routeros_ipv6_firewall_filter", "routeros_ipv6_firewall_mangle", "routeros_ipv6_firewall_nat":
-			fallthrough
-		case "routeros_ip_dns_record":
-			fallthrough
-		case "routeros_ip_route":
-			fallthrough
-		case "routeros_wifi_provisioning":
-			var filter []string
-			filter_list := slices.Clone(hclAttributes)
-			for _, filter_value := range filter_list {
-				// Remove surnumerous spaces from HCL attributes
-				filter_value = mtYesNo.Replace(strings.ReplaceAll(filter_value, " ", ""))
-				// Split key and value
-				filter_split := strings.Split(filter_value, "=")
-				// Exclude Comments and logPrefix which will never match since we removed spaces
-				if filter_split[0] != "comment" &&
-					filter_split[0] != "log_prefix" &&
-					// Hack for /ip/dhcp-server-network entries which are comma separated list in Mikrotik
-					filter_split[0] != "ntp_server" &&
-					filter_split[0] != "dns_server" &&
-					// Hack for /ip/dns/static entry which is stored as integer in Mikrotik
-					filter_split[0] != "ttl" &&
-					// Hack for /ip/route blackhole which have enpty gateway
-					(filter_split[0] != "gateway" || filter_split[1] == "?") &&
-					// Hack for /interface/wifi/provisioning where supported-bands and slave-configurations are lists
-					filter_split[0] != "supported_bands" &&
-					filter_split[0] != "slave_configurations" {
-					// Format HCLAttributes key and values to comply with Mikrotik syntax and properly rebuild filter_value
-					filter_value = routeros.SnakeToKebab(filter_split[0]) + "=" + mtYesNo.Replace(filter_split[1])
-					filter = append(filter, mtYesNo.Replace(strings.ReplaceAll(filter_value, " ", "")))
-				}
-			}
-			id = GetResourceId(conn, path, filter)
-		default:
-			id = GetResourceId(conn, path, required)
-		}
-
+		id := GetResourceId(conn, path, required)
 		fmt.Fprintf(resImport, "terraform import %v.%v %v\n", hclSection.ResourceName, hclSection.HCLName, id)
 	}
 
@@ -172,106 +121,21 @@ func main() {
 		// routeros_ip_service
 		hclSection, err := GetResourceSection(hclNames, providerResources, path)
 		if err != nil {
-			log.Error(err)
+			log.Print(err)
 			continue
 		}
 
 		switch hclSection.ResourceName {
 		case "routeros_ip_service":
 			// Add the Required attribute
-			attributes += " name=" + name + " numbers=" + name
-		case "routeros_routing_bgp_template":
-			fallthrough
-		case "routeros_system_user_group":
-			attributes += " name=" + name
+			attributes += " numbers=" + name
 		}
 
-		log.Debug("Attributes for path ", path, " are: ", attributes)
 		hclAttributes, required := GetAttributes(provider, hclSection.ResourceName, attributes)
 
 		switch hclSection.ResourceName {
-		// Skip folowwing resources as they don't have IDs
-		case "routeros_capsman_manager":
-			fallthrough
-		case "routeros_interface_wifi_capsman":
-			fallthrough
-		case "routeros_ip_cloud":
-			fallthrough
-		case "routeros_ip_dns":
-			fallthrough
-		case "routeros_ip_ssh_server":
-			fallthrough
-		case "routeros_ip_upnp":
-			fallthrough
-		case "routeros_system_clock":
-			fallthrough
-		case "routeros_system_identity":
-			fallthrough
-		case "routeros_system_logging":
-			fallthrough
-		case "routeros_system_ntp_client":
-			fallthrough
-		case "routeros_system_ntp_server":
-			fallthrough
-		case "routeros_system_routerboard_settings":
-			fallthrough
-		case "routeros_tool_bandwidth_server":
-			fallthrough
-		case "routeros_tool_mac_server":
-			fallthrough
-		case "routeros_tool_mac_server_winbox":
-			fallthrough
-		case "routeros_tool_mac_server_ping":
-			fallthrough
-		case "routeros_tool_sniffer":
-			fallthrough
-		case "routeros_wifi_capsman":
-			log.Infof("Skipping resource %v which has no ID", hclSection.ResourceName)
-			continue
-		// Get ID for specific use cases
 		case "routeros_interface_ethernet":
-			fallthrough
-		case "routeros_interface_lte_apn":
-			fallthrough
-		case "routeros_interface_wireless_security_profiles":
-			fallthrough
-		case "routeros_ip_ipsec_proposal":
-			fallthrough
-		case "routeros_ip_service":
-			var filter []string
-			filter_list := slices.Clone(hclAttributes)
-			for _, filter_value := range filter_list {
-				// Remove surnumerous spaces from HCL attributes
-				filter_value = mtYesNo.Replace(strings.ReplaceAll(filter_value, " ", ""))
-				// Split key and value
-				filter_split := strings.Split(filter_value, "=")
-				// Exclude Comments and logPrefix which will never match since we removed spaces
-				// Hack for /ip service which entries have name and not numbers as on Terraform side
-				if filter_split[0] == "numbers" {
-					filter_split[0] = "name"
-				}
-				// Hack for /ip ipsec proposal where name is default and not "." as on Terraform side
-				if filter_split[0] == "name" && (filter_split[1] == "." || filter_split[1] == "\"?\"") {
-					filter_split[1] = "default"
-				}
-				if filter_split[0] != "factory_name" &&
-					// Hack for /ip/service entries with address as list
-					filter_split[0] != "address" &&
-					// Hack for /ip ipsec proposal with enc-algorithms as list
-					filter_split[0] != "enc_algorithms" &&
-					// Hack for /interface/ethernet entries with comment since we removed spaces
-					filter_split[0] != "comment" &&
-					// Hack for /ip/service entries with unknown port
-					(filter_split[0] != "port" && filter_split[1] != "?") {
-					// Format HCLAttributes key and values to comply with Mikrotik syntax and properly rebuild filter_value
-					filter_value = routeros.SnakeToKebab(filter_split[0]) + "=" + mtYesNo.Replace(filter_split[1])
-					filter = append(filter, mtYesNo.Replace(strings.ReplaceAll(filter_value, " ", "")))
-				}
-			}
 			// Get Id
-			name = GetResourceId(conn, path, filter)
-			// Get ID for default use case
-		default:
 			name = GetResourceId(conn, path, required)
 		}
 
@@ -326,11 +190,11 @@ func GetResourceSection(hclNames map[string]int, providerResources map[string][]
 	// /ip/pool => routeros_ip_pool
 	resNames, ok := providerResources[path]
 	if !ok {
-		return nil, fmt.Errorf("no resource was found for '%v' path", path)
+		return nil, fmt.Errorf("No resource was found for '%v' path", path)
 	}
 
 	if len(resNames) == 0 {
-		return nil, fmt.Errorf("path '%v' exists, but no resource name was found for it", path)
+		return nil, fmt.Errorf("Path '%v' exists, but no resource name was found for it", path)
 	}
 
 	// Several resources can have the same path.
@@ -386,11 +250,11 @@ func GetAttributes(provider *schema.Provider, resourceName, attributes string) (
 			// default-name=ether1
 			pp := strings.Split(p, "=")
 			// default_name, ether1
-			attrName, attrValue := routeros.KebabToSnake(pp[0]), pp[1]
+			attrName, attrVaule := routeros.KebabToSnake(pp[0]), pp[1]
 			if attrs, ok := TransformMap[resourceName+":"+attrName]; ok {
 				for _, name := range attrs {
 					// + factory_name=ether1, + name=ether1
-					pairs = append(pairs, fmt.Sprintf("%v=%v", name, attrValue))
+					pairs = append(pairs, fmt.Sprintf("%v=%v", name, attrVaule))
 				}
 			}
 		}
@@ -398,7 +262,7 @@ func GetAttributes(provider *schema.Provider, resourceName, attributes string) (
 		for _, p := range pairs {
 			// default-name=ether1
 			pp := strings.Split(p, "=")
-			attrName, attrValue := routeros.KebabToSnake(pp[0]), pp[1]
+			attrName, attrVaule := routeros.KebabToSnake(pp[0]), pp[1]
 
 			// "default_name" : {
 			// 		Type:        schema.TypeString,
@@ -407,7 +271,7 @@ func GetAttributes(provider *schema.Provider, resourceName, attributes string) (
 			// }
 			schemaAttr, ok := resource.Schema[attrName]
 			if !ok {
-				log.Warnf("Attribute '%v' not found for resource '%v' in provider schema", attrName, resourceName)
+				log.Warnf("Attribute '%v' not found", attrName)
 				continue
 			}
 
@@ -419,27 +283,21 @@ func GetAttributes(provider *schema.Provider, resourceName, attributes string) (
 			switch schemaAttr.Type {
 			case schema.TypeString:
 				// key=value => key = "value"
-				if len(attrValue) > 0 && attrValue[0] == '"' {
-					attrValue = attrValue[1:]
-				}
-				if len(attrValue) > 0 && attrValue[len(attrValue)-1] == '"' {
-					attrValue = attrValue[:len(attrValue)-1]
-				}
-				attrValue = `"` + attrValue + `"`
+				attrVaule = `"` + attrVaule + `"`
 			case schema.TypeBool:
 				// key=yes => key = true
-				attrValue = routeros.BoolFromMikrotikJSONStr(attrValue)
+				attrVaule = routeros.BoolFromMikrotikJSONStr(attrVaule)
 			case schema.TypeSet, schema.TypeList:
 				// key=a,b,c => key = ["a", "b", "c"]
 				switch schemaAttr.Elem.(*schema.Schema).Type {
 				case schema.TypeString:
-					attrValue = `["` + strings.Join(strings.Split(attrValue, ","), `", "`) + `"]`
+					attrVaule = `["` + strings.Join(strings.Split(attrVaule, ","), `", "`) + `"]`
 				default:
-					attrValue = `[` + strings.Join(strings.Split(attrValue, ","), `,`) + `]`
+					attrVaule = `[` + strings.Join(strings.Split(attrVaule, ","), `,`) + `]`
 				}
 			}
 			// Add padding
-			hclAttributes = append(hclAttributes, fmt.Sprintf("%v%v = %v", attrName, strings.Repeat(" ", maxNameLength-len(attrName)), attrValue))
+			hclAttributes = append(hclAttributes, fmt.Sprintf("%v%v = %v", attrName, strings.Repeat(" ", maxNameLength-len(attrName)), attrVaule))
 
 			// Remove the Required field from the general list
 			if schemaAttr.Required {
