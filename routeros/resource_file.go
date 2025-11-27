@@ -67,7 +67,34 @@ func ResourceFile() *schema.Resource {
 		CreateContext: DefaultCreate(resSchema),
 		ReadContext:   DefaultRead(resSchema),
 		UpdateContext: DefaultUpdate(resSchema),
-		DeleteContext: DefaultDelete(resSchema),
+		DeleteContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+			metadata := GetMetadata(resSchema)
+
+			id, err := dynamicIdLookup(metadata.IdType, metadata.Path, m.(Client), d)
+			if err != nil {
+				if err != errorNoLongerExists {
+					ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgDelete, err))
+					return diag.FromErr(err)
+				}
+
+				// We inform the user that the resource no longer exists.
+				d.SetId("")
+				return diag.Diagnostics{
+					diag.Diagnostic{
+						Severity: diag.Warning,
+						Summary:  errorNoLongerExists.Error(),
+					},
+				}
+			}
+
+			if diags := fileDelete(ctx, id, m); diags.HasError() {
+				ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgDelete, err))
+				return diags
+			}
+
+			d.SetId("")
+			return nil
+		},
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -100,7 +127,22 @@ func fileCreate(ctx context.Context, name, contents string, m interface{}) (id s
 }
 
 func fileDelete(ctx context.Context, id string, m interface{}) diag.Diagnostics {
-	if err := DeleteItem(&ItemId{Id, id}, "/file", m.(Client)); err != nil {
+	if id == "" {
+		return diag.FromErr(errEmptyId)
+	}
+
+	url := &URL{Path: "/file"}
+
+	var data MikrotikItem
+
+	if m.(Client).GetTransport() == TransportREST {
+		url.Path += "/remove"
+		data = MikrotikItem{".id": id}
+	} else {
+		url.Query = []string{"=.id=" + id}
+	}
+
+	if err := m.(Client).SendRequest(crudRemove, url, data, nil); err != nil {
 		ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgDelete, err))
 		return diag.FromErr(err)
 	}
