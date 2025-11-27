@@ -1,3 +1,14 @@
+## [1.93.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.92.1...v1.93.0) (2025-11-27)
+
+### Features
+
+* **tools:** Add a router configuration importer ([5c10e4a](https://github.com/terraform-routeros/terraform-provider-routeros/commit/5c10e4a2b4db62af848db4ee8e19784c503a84db))
+
+### Bug Fixes
+
+* **file:** Permission denied for existing files ([f08077c](https://github.com/terraform-routeros/terraform-provider-routeros/commit/f08077cc31dfdbed6d16f3d621a0cb69caf26944)), closes [#812](https://github.com/terraform-routeros/terraform-provider-routeros/issues/812)
+* Missing attribute from various places ([badf405](https://github.com/terraform-routeros/terraform-provider-routeros/commit/badf405f161305006a62a2684ac4899e2fdee646)), closes [#860](https://github.com/terraform-routeros/terraform-provider-routeros/issues/860)
+
 ## [1.92.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.92.0...v1.92.1) (2025-11-18)
 
 ### Bug Fixes

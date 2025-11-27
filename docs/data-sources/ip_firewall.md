@@ -124,7 +124,7 @@ Read-Only:
 - `log_prefix` (String)
 - `new_connection_mark` (String)
 - `new_dscp` (Number)
-- `new_mss` (Number)
+- `new_mss` (String)
 - `new_packet_mark` (String)
 - `new_priority` (String)
 - `new_routing_mark` (String)
@@ -217,6 +217,8 @@ Read-Only:
 - `random` (Number)
 - `routing_mark` (String)
 - `same_not_by_dst` (Boolean)
+- `socks5_port` (String)
+- `socks5_server` (String)
 - `src_address` (String)
 - `src_address_list` (String)
 - `src_address_type` (String)
@@ -239,6 +241,7 @@ Optional:
 Read-Only:
 
 - `action` (String)
+- `address_list` (String)
 - `address_list_timeout` (String)
 - `bytes` (Number)
 - `chain` (String)

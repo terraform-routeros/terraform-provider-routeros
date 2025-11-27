@@ -63,7 +63,7 @@ Read-Only:
 - `log_prefix` (String)
 - `new_connection_mark` (String)
 - `new_dscp` (Number)
-- `new_mss` (Number)
+- `new_mss` (String)
 - `new_packet_mark` (String)
 - `new_priority` (String)
 - `new_routing_mark` (String)
