@@ -18,6 +18,10 @@ func getIPFirewallFilterSchema() *schema.Schema {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
+				"address_list": {
+					Type:     schema.TypeString,
+					Computed: true,
+				},
 				"address_list_timeout": {
 					Type:     schema.TypeString,
 					Computed: true,

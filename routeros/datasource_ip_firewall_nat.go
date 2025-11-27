@@ -220,6 +220,14 @@ func getIPFirewallNatSchema() *schema.Schema {
 					Type:     schema.TypeBool,
 					Computed: true,
 				},
+				"socks5_port": {
+					Type:     schema.TypeString,
+					Computed: true,
+				},
+				"socks5_server": {
+					Type:     schema.TypeString,
+					Computed: true,
+				},
 				"src_address": {
 					Type:     schema.TypeString,
 					Computed: true,
