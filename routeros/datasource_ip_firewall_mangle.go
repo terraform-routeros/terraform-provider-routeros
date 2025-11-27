@@ -177,7 +177,7 @@ func getIPFirewallMangleSchema() *schema.Schema {
 					Computed: true,
 				},
 				"new_mss": {
-					Type:     schema.TypeInt,
+					Type:     schema.TypeString,
 					Computed: true,
 				},
 				"new_packet_mark": {
