@@ -90,7 +90,7 @@ func main() {
 	var hclNames = make(map[string]int)
 
 	// Bool TF -> MT Replacer
-	mtYesNo := strings.NewReplacer("=true", "=yes", "=false", "=no")
+	mtYesNo := strings.NewReplacer("true", "yes", "false", "no")
 
 	// /interface wireguard >>> add <<< listen-port=1829 mtu=1420 name=wg1
 	for _, ss := range reUserResources.FindAllStringSubmatch(config, -1) {
@@ -129,15 +129,15 @@ func main() {
 			var filter []string
 			filter_list := slices.Clone(hclAttributes)
 			for _, filter_value := range filter_list {
-				// Remove surnumerous spaces from HCL attributes
-				filter_value = mtYesNo.Replace(strings.ReplaceAll(filter_value, " ", ""))
 				// Split key and value
 				filter_split := strings.Split(filter_value, "=")
-				// Exclude Comments and logPrefix which will never match since we removed spaces
-				if filter_split[0] != "comment" &&
-					filter_split[0] != "log_prefix" &&
-					// Hack for /ip/dhcp-server-network entries which are comma separated list in Mikrotik
-					filter_split[0] != "ntp_server" &&
+				log.Debug("filter_split is ", filter_split)
+				// Remove surnumerous spaces from HCL attributes keys
+				filter_split[0] = strings.ReplaceAll(filter_split[0], " ", "")
+				// Replace true and false with yes and no from HCL attributes values
+				filter_split[1] = strings.TrimSpace(filter_split[1])
+				// Hack for /ip/dhcp-server-network entries which are comma separated list in Mikrotik
+				if filter_split[0] != "ntp_server" &&
 					filter_split[0] != "dns_server" &&
 					// Hack for /ip/dns/static entry which is stored as integer in Mikrotik
 					filter_split[0] != "ttl" &&
@@ -148,7 +148,7 @@ func main() {
 					filter_split[0] != "slave_configurations" {
 					// Format HCLAttributes key and values to comply with Mikrotik syntax and properly rebuild filter_value
 					filter_value = routeros.SnakeToKebab(filter_split[0]) + "=" + mtYesNo.Replace(filter_split[1])
-					filter = append(filter, mtYesNo.Replace(strings.ReplaceAll(filter_value, " ", "")))
+					filter = append(filter, filter_value)
 				}
 			}
 			id = GetResourceId(conn, path, filter)
@@ -241,11 +241,13 @@ func main() {
 			var filter []string
 			filter_list := slices.Clone(hclAttributes)
 			for _, filter_value := range filter_list {
-				// Remove surnumerous spaces from HCL attributes
-				filter_value = mtYesNo.Replace(strings.ReplaceAll(filter_value, " ", ""))
 				// Split key and value
 				filter_split := strings.Split(filter_value, "=")
-				// Exclude Comments and logPrefix which will never match since we removed spaces
+				log.Debug("filter_split is ", filter_split)
+				// Remove surnumerous spaces from HCL attributes keys
+				filter_split[0] = strings.ReplaceAll(filter_split[0], " ", "")
+				// Replace true and false with yes and no from HCL attributes values
+				filter_split[1] = strings.TrimSpace(filter_split[1])
 				// Hack for /ip service which entries have name and not numbers as on Terraform side
 				if filter_split[0] == "numbers" {
 					filter_split[0] = "name"
@@ -259,13 +261,11 @@ func main() {
 					filter_split[0] != "address" &&
 					// Hack for /ip ipsec proposal with enc-algorithms as list
 					filter_split[0] != "enc_algorithms" &&
-					// Hack for /interface/ethernet entries with comment since we removed spaces
-					filter_split[0] != "comment" &&
 					// Hack for /ip/service entries with unknown port
 					(filter_split[0] != "port" && filter_split[1] != "?") {
 					// Format HCLAttributes key and values to comply with Mikrotik syntax and properly rebuild filter_value
 					filter_value = routeros.SnakeToKebab(filter_split[0]) + "=" + mtYesNo.Replace(filter_split[1])
-					filter = append(filter, mtYesNo.Replace(strings.ReplaceAll(filter_value, " ", "")))
+					filter = append(filter, filter_value)
 				}
 			}
 			// Get Id
@@ -353,7 +353,7 @@ func GetResourceSection(hclNames map[string]int, providerResources map[string][]
 
 // routeros_interface_ethernet default_name=ether1 ===> factory_name=ether1, name=ether1
 var TransformMap = map[string][]string{
-	"routeros_interface_ethernet:default_name": []string{"factory_name", "name"},
+	"routeros_interface_ethernet:default_name": {"factory_name", "name"},
 }
 
 // The function returns a slice of attributes in HCL format and a slice of Required fields.

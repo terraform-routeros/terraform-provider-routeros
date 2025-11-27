@@ -104,28 +104,6 @@ func GetResourceId(conn *SshConnection, path string, requiredFields []string) st
 		return id
 	}
 
-	// print
-	var proplist []string
-	for _, v := range requiredFields {
-		ss := strings.SplitN(v, "=", 2)
-		proplist = append(proplist, ss[0])
-	}
-	cmd = fmt.Sprintf("%v print show-ids where %v dynamic=no", path, filter)
-	log.Debug("Searching id in ", path, " with command: ", cmd)
-	res, err = conn.Run(cmd)
-	if err != nil {
-		log.Error("Error running command: ", err)
-		return "?"
-	}
-
-	ss = rePrintId.FindStringSubmatch(res)
-	log.Debug("ss is ", ss)
-	if len(ss) == 2 {
-		id = ss[1]
-		log.Info("Found id ", id, " for ", filter)
-		return id
-	}
-
 	if id == "" {
 		log.Warnf("Id not found for %v (filter: %v)", requiredFields, filter)
 		return "?"
