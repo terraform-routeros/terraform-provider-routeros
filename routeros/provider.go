@@ -396,6 +396,12 @@ func Provider() *schema.Provider {
 			"routeros_queue_simple": ResourceQueueSimple(),
 			"routeros_queue_tree":   ResourceQueueTree(),
 			"routeros_queue_type":   ResourceQueueType(),
+
+			// Hardware devices
+			"routeros_interface_ethernet_switch_crs":                          ResourceInterfaceEthernetSwitchCrs(),
+			"routeros_interface_ethernet_switch_crs_egress_vlan_tag":          ResourceInterfaceEthernetSwitchCrsEgressVlanTag(),
+			"routeros_interface_ethernet_switch_crs_egress_vlan_translation":  ResourceInterfaceEthernetSwitchCrsEgressVlanTranslation(),
+			"routeros_interface_ethernet_switch_crs_ingress_vlan_translation": ResourceInterfaceEthernetSwitchCrsIngressVlanTranslation(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"routeros_files":                   DatasourceFiles(),
