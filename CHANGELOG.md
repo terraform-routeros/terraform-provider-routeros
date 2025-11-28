@@ -1,3 +1,13 @@
+## [1.94.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.93.0...v1.94.0) (2025-11-28)
+
+### Features
+
+* **CRS:** Add resources to support the switch in CRS1xx and CRS2xx series devices ([5b1cd8e](https://github.com/terraform-routeros/terraform-provider-routeros/commit/5b1cd8e57741f802b8685924846b6948539c6c1c))
+
+### Bug Fixes
+
+* **CRS:** Add missing attribute ([c5ebaf5](https://github.com/terraform-routeros/terraform-provider-routeros/commit/c5ebaf5b6a84a6a46b2aeb2fc22c1b8b13c02705))
+
 ## [1.93.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.92.1...v1.93.0) (2025-11-27)
 
 ### Features
