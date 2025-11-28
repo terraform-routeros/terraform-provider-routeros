@@ -119,12 +119,11 @@ func ResourceInterfaceEthernetSwitchCrsIngressVlanTranslation() *schema.Resource
 			ValidateFunc:     validation.StringInSlice([]string{"any", "priority-tagged-or-tagged", "tagged", "untagged-or-tagged"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
-		// "swap_vids": {
-		// 	Type:             schema.TypeBool,
-		// 	Optional:         true,
-		// 	Description:      "",
-		// 	DiffSuppressFunc: AlwaysPresentNotUserProvided,
-		// },
+		"swap_vids": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "",
+		},
 	}
 
 	return &schema.Resource{

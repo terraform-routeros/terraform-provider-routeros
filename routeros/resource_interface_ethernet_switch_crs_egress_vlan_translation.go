@@ -82,17 +82,6 @@ func ResourceInterfaceEthernetSwitchCrsEgressVlanTranslation() *schema.Resource 
 			},
 			Description: "Matching switch ports for VLAN translation rule.",
 		},
-		"protocol": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Description:  "Matching Ethernet protocol (only for Ingress VLAN Translation).",
-			ValidateFunc: validation.StringInSlice([]string{"protocols"}, false),
-		},
-		"sa_learning": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Description: "Enables or disables source MAC learning after VLAN translation (only for Ingress VLAN Translation).",
-		},
 		"service_dei": {
 			Type:             schema.TypeString,
 			Optional:         true,
@@ -118,12 +107,11 @@ func ResourceInterfaceEthernetSwitchCrsEgressVlanTranslation() *schema.Resource 
 			ValidateFunc:     validation.StringInSlice([]string{"any", "priority-tagged-or-tagged", "tagged", "untagged-or-tagged"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
-		// "swap_vids": {
-		// 	Type:             schema.TypeBool,
-		// 	Optional:         true,
-		// 	Description:      "",
-		// 	DiffSuppressFunc: AlwaysPresentNotUserProvided,
-		// },
+		"swap_vids": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "",
+		},
 	}
 
 	return &schema.Resource{
