@@ -57,6 +57,16 @@ func ResourceWifiAccessList() *schema.Resource {
 			Optional: true,
 			Description: "Interface name to compare with an interface to which the client actually connects to.",
 		},
+		"last_logged_in": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "Last time this client logged in.",
+		},
+		"last_logged_out": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "Last time this client logged out.",
+		},
 		"mac_address": {
 			Type:         schema.TypeString,
 			Optional:     true,
@@ -67,6 +77,11 @@ func ResourceWifiAccessList() *schema.Resource {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Description: "MAC address mask to apply when comparing clients' addresses.",
+		},
+		"match_count": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "Number of times this entry was matched.",
 		},
 		KeyPlaceBefore: PropPlaceBefore,
 		"passphrase": {

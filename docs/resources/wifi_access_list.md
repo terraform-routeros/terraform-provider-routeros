@@ -36,6 +36,9 @@ resource "routeros_wifi_access_list" "radius" {
 ### Read-Only
 
 - `id` (String) The ID of this resource.
+- `last_logged_in` (String) Last time this client logged in.
+- `last_logged_out` (String) Last time this client logged out.
+- `match_count` (Number) Number of times this entry was matched.
 
 ## Import
 Import is supported using the following syntax:
