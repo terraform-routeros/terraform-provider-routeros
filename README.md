@@ -81,6 +81,23 @@ required_providers {
 }
 ```
 - Clean your providers, init and apply
+- Alternatively, you can edit/create ~/.terraformrc add add a provider installation block like:
+```hcl
+provider_installation {
+  dev_overrides {
+     "terraform-routeros/routeros" = "/path/to/your/git/clone"
+  }
+
+  direct {
+  }
+}
+```
+
+and then build the provider using
+```
+go build -o terraform-provider-routeros *.go
+```
+in order for Terraform to find it.
 
 ### Fixing RouterOS property drift
 

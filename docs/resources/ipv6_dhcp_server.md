@@ -6,15 +6,23 @@
 resource "routeros_ipv6_pool" "pool-0" {
   name          = "test-pool-0"
   prefix        = "2001:db8:40::/48"
+  prefix_length = 128
+}
+
+resource "routeros_ipv6_pool" "pool-1" {
+  name          = "test-pool-1"
+  prefix        = "2001:db8:12::/48"
   prefix_length = 64
 }
 
 resource "routeros_ipv6_dhcp_server" "test" {
-  address_pool = routeros_ipv6_pool.pool-0.name
-  interface    = "bridge"
-  lease_time   = "1m"
-  name         = "test-dhcpv6"
-  preference   = 128
+  address_pool  = routeros_ipv6_pool.pool-0.name
+  prefix_pool   = routeros_ipv6_pool.pool-1.name
+  interface     = "bridge"
+  lease_time    = "1m"
+  name          = "test-dhcpv6"
+  preference    = 128
+  address_lists = ["dhcp-clients"]
 }
 ```
 
@@ -23,12 +31,13 @@ resource "routeros_ipv6_dhcp_server" "test" {
 
 ### Required
 
-- `address_pool` (String) IPv6 pool, from which to take IPv6 prefix for the clients.
 - `interface` (String) The interface on which server will be running.
 - `name` (String) Reference name.
 
 ### Optional
 
+- `address_lists` (Set of String) List of firewall address lists to which the allocated addresses and prefixes will be added.
+- `address_pool` (String) IPv6 pool, from which to take IPv6 address for the clients. The prefix length of the pool must be /128.
 - `allow_dual_stack_queue` (Boolean) Creates a single simple queue entry for both IPv4 and IPv6 addresses, and uses the MAC address and DUID for identification. Requires IPv6 DHCP Server to have this option enabled as well to work properly.
 - `binding_script` (String) A script that will be executed after binding is assigned or de-assigned. Internal `global` variables that can be used in the script:
     - bindingBound - set to `1` if bound, otherwise set to `0`
@@ -44,9 +53,11 @@ resource "routeros_ipv6_dhcp_server" "test" {
 - `lease_time` (String) The time that a client may use the assigned address. The client will try to renew this address after half of this time and will request a new address after the time limit expires.
 - `parent_queue` (String) A dynamically created queue for this lease will be configured as a child queue of the specified parent queue.
 - `preference` (Number)
+- `prefix_pool` (String) IPv6 pool, from which to take IPv6 prefix for the clients.
 - `rapid_commit` (Boolean)
 - `route_distance` (Number) Distance of the route.
 - `use_radius` (Boolean) Whether to use RADIUS server.
+- `use_reconfigure` (Boolean) Allow the server to send Reconfigure messages to clients.
 
 ### Read-Only
 
