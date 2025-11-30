@@ -1,16 +1,20 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"context"
+	"flag"
 	"fmt"
 	"os"
 	"regexp"
 	"slices"
 	"strings"
+	"syscall"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/sirupsen/logrus"
 	"github.com/terraform-routeros/terraform-provider-routeros/routeros"
 )
 
@@ -23,14 +27,8 @@ var (
 	reSystemResources = regexp.MustCompile(`(?m)^(/.*?)\sset\s(?:([\w-]+)\s)?(.*?)[\r\n]+`)
 	reAttributes      = regexp.MustCompile(`\S+=(?:[^ "]+|"[^"]+")+`)
 	// .id=*1;available=101;name=dhcp;ranges=192.168.88.100-192.168.88.200;total=101;used=0
-	reId      = regexp.MustCompile(`\.id=(\S+?);`)
-	rePrintId = regexp.MustCompile(`(?m)^(\*[0-9a-f]+)\s`)
+	reId = regexp.MustCompile(`\.id=(\S+?);`)
 
-	resourceTempate = `resource "%v" "%v" {
-  %v
-}
-  
-`
 	providerTemplate = `terraform {
   required_providers {
     routeros = {
@@ -48,12 +46,37 @@ provider "routeros" {
 }
 
 `
+
+	importTemplate = `import {
+  to = "%v.%v"
+  id = "%v"
+}
+`
+	resourceTempate = `resource "%v" "%v" {
+  %v
+}
+
+`
 )
 
 func main() {
+	host := flag.String("host", "192.168.180.171", "Mikrotik host")
+	user := flag.String("user", "admin", "Mikrotik user")
+	password := flag.String("password", "", "Mikrotik password")
+	logLevel := flag.String("loglevel", "info", "Log level (debug, info, warn, error, fatal, panic)")
+	flag.Parse()
+	level, err := logrus.ParseLevel(*logLevel)
+	if err != nil {
+		fmt.Println("Invalid log level specified:", err)
+		os.Exit(1)
+	}
+	log.SetLevel(level)
 
-	resHcl := bytes.NewBufferString(fmt.Sprintf(providerTemplate, "192.168.180.171", "admin"))
-	resImport := bytes.NewBuffer(nil)
+	if *password == "" {
+		*password = getPassword("Enter Mikrotik password: ")
+	}
+	// Prepare buffer for HCL file
+	resHcl := bytes.NewBufferString(fmt.Sprintf(providerTemplate, *host, *user))
 
 	provider := routeros.NewProvider()
 
@@ -67,7 +90,7 @@ func main() {
 		providerResources[path] = append(providerResources[path], k)
 	}
 
-	conn, err := NewSsh("192.168.180.171:22", "admin", "1")
+	conn, err := NewSsh(fmt.Sprintf("%v:22", *host), *user, *password)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -106,7 +129,6 @@ func main() {
 
 		// HCL file
 		hclAttributes, required := GetAttributes(provider, hclSection.ResourceName, attributes)
-		fmt.Fprintf(resHcl, resourceTempate, hclSection.ResourceName, hclSection.HCLName, strings.Join(hclAttributes, "\n  "))
 
 		// Import script
 		var id string
@@ -156,7 +178,9 @@ func main() {
 			id = GetResourceId(conn, path, required)
 		}
 
-		fmt.Fprintf(resImport, "terraform import %v.%v %v\n", hclSection.ResourceName, hclSection.HCLName, id)
+		// HCL file
+		fmt.Fprintf(resHcl, importTemplate, hclSection.ResourceName, hclSection.HCLName, id)
+		fmt.Fprintf(resHcl, resourceTempate, hclSection.ResourceName, hclSection.HCLName, strings.Join(hclAttributes, "\n"))
 	}
 
 	// /interface ethernet >>>set<<< [ find default-name=ether1 ] disable-running-check=no
@@ -276,33 +300,18 @@ func main() {
 		}
 
 		// HCL file
-		fmt.Fprintf(resHcl, resourceTempate, hclSection.ResourceName, hclSection.HCLName, strings.Join(hclAttributes, "\n  "))
-		// Import script
-		fmt.Fprintf(resImport, "terraform import %v.%v %v\n", hclSection.ResourceName, hclSection.HCLName, name)
+		fmt.Fprintf(resHcl, importTemplate, hclSection.ResourceName, hclSection.HCLName, name)
+		fmt.Fprintf(resHcl, resourceTempate, hclSection.ResourceName, hclSection.HCLName, strings.Join(hclAttributes, "\n"))
 	}
 
-	baseName := fmt.Sprintf("autoimport-%v", time.Now().Format("20060102-1504"))
-
 	// HCL file
+	baseName := fmt.Sprintf("autoimport-%v", time.Now().Format("20060102-1504"))
 	tfFile, err := os.OpenFile(baseName+".tf", os.O_CREATE|os.O_TRUNC|os.O_RDWR, os.ModePerm)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer tfFile.Close()
-
 	_, err = resHcl.WriteTo(tfFile)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// Import script
-	importFile, err := os.OpenFile(baseName+".sh", os.O_CREATE|os.O_TRUNC|os.O_RDWR, os.ModePerm)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer importFile.Close()
-
-	_, err = resImport.WriteTo(importFile)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -369,18 +378,8 @@ func GetAttributes(provider *schema.Provider, resourceName, attributes string) (
 		}
 	}
 
-	// Padding
-	var maxNameLength = 0
-
 	// default-name=ether1
 	if pairs := reAttributes.FindAllString(attributes, -1); len(pairs) > 0 {
-		// Get the longest length of attribute names
-		for _, p := range pairs {
-			pp := strings.Split(p, "=")
-			if len(pp[0]) > maxNameLength {
-				maxNameLength = len(pp[0])
-			}
-		}
 
 		for _, p := range pairs {
 			// default-name=ether1
@@ -439,7 +438,7 @@ func GetAttributes(provider *schema.Provider, resourceName, attributes string) (
 				}
 			}
 			// Add padding
-			hclAttributes = append(hclAttributes, fmt.Sprintf("%v%v = %v", attrName, strings.Repeat(" ", maxNameLength-len(attrName)), attrValue))
+			hclAttributes = append(hclAttributes, fmt.Sprintf("%v = %v", attrName, attrValue))
 
 			// Remove the Required field from the general list
 			if schemaAttr.Required {
@@ -455,8 +454,59 @@ func GetAttributes(provider *schema.Provider, resourceName, attributes string) (
 		if attrType == schema.TypeString {
 			value = `"?"`
 		}
-		hclAttributes = append(hclAttributes, fmt.Sprintf(`%v%v = %v`, attrName, strings.Repeat(" ", maxNameLength-len(attrName)), value))
+		hclAttributes = append(hclAttributes, fmt.Sprintf(`%v = %v`, attrName, value))
 	}
 
 	return
+}
+
+func getPassword(prompt string) string {
+	fmt.Print(prompt)
+
+	// Common settings and variables for both stty calls.
+	attrs := syscall.ProcAttr{
+		Dir:   "",
+		Env:   []string{},
+		Files: []uintptr{os.Stdin.Fd(), os.Stdout.Fd(), os.Stderr.Fd()},
+		Sys:   nil}
+	var ws syscall.WaitStatus
+
+	// Disable echoing.
+	pid, err := syscall.ForkExec(
+		"/bin/stty",
+		[]string{"stty", "-echo"},
+		&attrs)
+	if err != nil {
+		panic(err)
+	}
+
+	// Wait for the stty process to complete.
+	_, err = syscall.Wait4(pid, &ws, 0, nil)
+	if err != nil {
+		panic(err)
+	}
+
+	// Echo is disabled, now grab the data.
+	reader := bufio.NewReader(os.Stdin)
+	text, err := reader.ReadString('\n')
+	if err != nil {
+		panic(err)
+	}
+
+	// Re-enable echo.
+	pid, err = syscall.ForkExec(
+		"/bin/stty",
+		[]string{"stty", "echo"},
+		&attrs)
+	if err != nil {
+		panic(err)
+	}
+
+	// Wait for the stty process to complete.
+	_, err = syscall.Wait4(pid, &ws, 0, nil)
+	if err != nil {
+		panic(err)
+	}
+
+	return strings.TrimSpace(text)
 }
