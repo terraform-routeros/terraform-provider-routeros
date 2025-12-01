@@ -7,10 +7,15 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
+const testIpv6DhcpServerMinVersion = "7.20"
 const testIpv6DhcpServer = "routeros_ipv6_dhcp_server.test"
 
 func TestAccIpv6DhcpServerTest_basic(t *testing.T) {
-	// t.Parallel()
+	if !testCheckMinVersion(t, testIpv6DhcpServerMinVersion) {
+		t.Logf("Test skipped, the minimum required version is %v", testIpv6DhcpServerMinVersion)
+		return
+	}
+
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{
