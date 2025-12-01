@@ -45,14 +45,14 @@ func testAccIpv6DhcpServerConfig() string {
 
 resource "routeros_ipv6_pool" "pool-0" {
   name          = "test-pool-0"
-  prefix        = "2001:db8:40::/48"
+  prefix        = "2001:db8:40::/65"
   prefix_length = 128
 }
 
 resource "routeros_ipv6_pool" "pool-1" {
   name          = "test-pool-1"
-  prefix        = "2001:db8:12::/48"
-  prefix_length = 63 # Up to 63bit prefix blocks are supported
+  prefix        = "2001:db8:12::/65"
+  prefix_length = 128
 }
 
 resource "routeros_ipv6_dhcp_server" "test" {
