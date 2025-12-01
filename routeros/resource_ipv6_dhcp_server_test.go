@@ -52,7 +52,7 @@ resource "routeros_ipv6_pool" "pool-0" {
 resource "routeros_ipv6_pool" "pool-1" {
   name          = "test-pool-1"
   prefix        = "2001:db8:12::/48"
-  prefix_length = 64
+  prefix_length = 63 # Up to 63bit prefix blocks are supported
 }
 
 resource "routeros_ipv6_dhcp_server" "test" {
