@@ -399,6 +399,7 @@ func Provider() *schema.Provider {
 
 			// Hardware devices
 			"routeros_interface_ethernet_switch_crs":                          ResourceInterfaceEthernetSwitchCrs(),
+			"routeros_interface_ethernet_switch_crs_vlan":                     ResourceInterfaceEthernetSwitchCrsVlan(),
 			"routeros_interface_ethernet_switch_crs_egress_vlan_tag":          ResourceInterfaceEthernetSwitchCrsEgressVlanTag(),
 			"routeros_interface_ethernet_switch_crs_egress_vlan_translation":  ResourceInterfaceEthernetSwitchCrsEgressVlanTranslation(),
 			"routeros_interface_ethernet_switch_crs_ingress_vlan_translation": ResourceInterfaceEthernetSwitchCrsIngressVlanTranslation(),
