@@ -23,10 +23,10 @@ func ResourceIpCloud() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/ip/cloud"),
 		MetaId:           PropId(Id),
 		// https://help.mikrotik.com/docs/spaces/ROS/pages/197984280/Back+To+Home
-		MetaSkipFields: PropSkipFields("vpn_dns_name", "vpn_port",
-			"vpn_status", "vpn_relay_rtts", "vpn_relay_ipv", "vpn_relay_ipv", "vpn_relay_codes", "vpn_relay_addressess",
-			"vpn_relay_addressess_ipv", "vpn_private_key", "vpn_public_key", "vpn_peer_private_key", "vpn_peer_public_key",
-			"vpn_interface", "vpn_wireguard_client_config", "vpn_wireguard_client_config_qrcode"),
+		MetaSkipFields: PropSkipFields("vpn_dns_name", "vpn_interface", "vpn_peer_private_key", "vpn_peer_public_key",
+			"vpn_port", "vpn_private_key", "vpn_public_key", "vpn_relay_addressess", "vpn_relay_addressess_ipv6",
+			"vpn_relay_codes", "vpn_relay_ipv4_status", "vpn_relay_ipv6_status", "vpn_relay_regions", "vpn_relay_rtts",
+			"vpn_status", "vpn_wireguard_client_config", "vpn_wireguard_client_config_qrcode"),
 
 		// https://help.mikrotik.com/docs/display/ROS/Back+To+Home
 		"back_to_home_vpn": {
