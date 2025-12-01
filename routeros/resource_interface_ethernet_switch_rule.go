@@ -171,13 +171,7 @@ func ResourceInterfaceEthernetSwitchRule() *schema.Resource {
 				"Atheros8316, Atheros8327, QCA8337, 88E6393X switch chips).",
 			ValidateFunc: validation.StringInSlice([]string{"not-present", "present"}, false),
 		},
-		"vlan_id": {
-			Type:             schema.TypeInt,
-			Optional:         true,
-			Description:      "Matching VLAN ID (the property only applies to the Atheros8316, Atheros8327, QCA8337, 88E6393X switch chips).",
-			ValidateFunc:     validation.IntBetween(0, 4095),
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
-		},
+		KeyVlanId: PropVlanIdRw("Matching VLAN ID (the property only applies to the Atheros8316, Atheros8327, QCA8337, 88E6393X switch chips).", false),
 		"vlan_priority": {
 			Type:         schema.TypeInt,
 			Optional:     true,

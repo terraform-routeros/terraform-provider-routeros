@@ -34,10 +34,10 @@ func ResourceWifiAccessList() *schema.Resource {
 		MetaId:           PropId(Id),
 
 		"action": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Default:     "accept",
-			Description: "An action to take when a client matches.",
+			Type:         schema.TypeString,
+			Optional:     true,
+			Default:      "accept",
+			Description:  "An action to take when a client matches.",
 			ValidateFunc: validation.StringInSlice([]string{"accept", "reject", "query-radius"}, false),
 		},
 		"allow_signal_out_of_range": {
@@ -50,11 +50,11 @@ func ResourceWifiAccessList() *schema.Resource {
 			Optional:    true,
 			Description: "An option that specifies whether to deny forwarding data between clients connected to the same interface.",
 		},
-		KeyComment: PropCommentRw,
+		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
 		"interface": {
-			Type:     schema.TypeString,
-			Optional: true,
+			Type:        schema.TypeString,
+			Optional:    true,
 			Description: "Interface name to compare with an interface to which the client actually connects to.",
 		},
 		"mac_address": {
@@ -85,8 +85,8 @@ func ResourceWifiAccessList() *schema.Resource {
 			Description: "The range in which the client signal must fall.",
 		},
 		"ssid_regexp": {
-			Type:     schema.TypeString,
-			Optional: true,
+			Type:        schema.TypeString,
+			Optional:    true,
 			Description: "The regular expression to compare the actual SSID the client connects to.",
 		},
 		"time": {
@@ -94,12 +94,7 @@ func ResourceWifiAccessList() *schema.Resource {
 			Optional:    true,
 			Description: "Time of the day and days of the week when the rule is applicable.",
 		},
-		"vlan_id": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Description:  "VLAN ID to use for VLAN tagging or `none`.",
-			ValidateFunc: validation.IntBetween(1, 4094),
-		},
+		KeyVlanId: PropVlanIdRw("VLAN ID to use for VLAN tagging or `none`.", false),
 	}
 
 	return &schema.Resource{

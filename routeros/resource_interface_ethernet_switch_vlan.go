@@ -2,7 +2,6 @@ package routeros
 
 import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
 
 /*
@@ -45,13 +44,7 @@ func ResourceInterfaceEthernetSwitchVlan() *schema.Resource {
 			Required:    true,
 			Description: "Name of the switch for which the respective VLAN entry is intended for.",
 		},
-		"vlan_id": {
-			Type:             schema.TypeInt,
-			Optional:         true,
-			Description:      "The VLAN ID for certain switch port configurations.",
-			ValidateFunc:     validation.IntBetween(0, 4094),
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
-		},
+		KeyVlanId: PropVlanIdRw("The VLAN ID for certain switch port configurations.", false),
 	}
 
 	return &schema.Resource{

@@ -112,13 +112,7 @@ func ResourceInterfaceWirelessAccessList() *schema.Resource {
 				"ends. Both start and end time is expressed as time since midnight, 00:00. Rule will match only during " +
 				"specified days of the week. Ex: \"3h3m-5h,mon,tue,wed,thu,fri\"",
 		},
-		"vlan_id": {
-			Type:             schema.TypeInt,
-			Optional:         true,
-			Description:      "VLAN ID to use if doing VLAN tagging.",
-			ValidateFunc:     validation.IntBetween(0, 4094),
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
-		},
+		KeyVlanId: PropVlanIdRw("VLAN ID to use if doing VLAN tagging.", false),
 		"vlan_mode": {
 			Type:             schema.TypeString,
 			Optional:         true,

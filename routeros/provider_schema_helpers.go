@@ -58,6 +58,7 @@ const (
 	KeyRemoteAddress           = "remote_address"
 	KeyRunning                 = "running"
 	KeyVrf                     = "vrf"
+	KeyVlanId                  = "vlan_id"
 )
 
 // PropResourcePath Resource path property.
@@ -196,11 +197,27 @@ func PropMacAddressRw(description string, required bool) *schema.Schema {
 	}
 	return mac
 }
+
 func PropDefaultNameRo(description string) *schema.Schema {
 	return &schema.Schema{
 		Type:        schema.TypeString,
 		Computed:    true,
 		Description: description,
+	}
+}
+
+func PropVlanIdRw(description string, required bool) *schema.Schema {
+	var ds schema.SchemaDiffSuppressFunc
+	if !required {
+		ds = AlwaysPresentNotUserProvided
+	}
+	return &schema.Schema{
+		Type:             schema.TypeInt,
+		Optional:         !required,
+		Required:         required,
+		Description:      description,
+		ValidateFunc:     validation.IntBetween(0, 4094),
+		DiffSuppressFunc: ds,
 	}
 }
 

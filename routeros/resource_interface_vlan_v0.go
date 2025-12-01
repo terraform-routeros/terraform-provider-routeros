@@ -29,7 +29,7 @@ func ResourceInterfaceVlanV0() *schema.Resource {
 				Optional: true,
 				Default:  false,
 			},
-			"vlan_id": {
+			KeyVlanId: {
 				Type:     schema.TypeInt,
 				Required: true,
 			},

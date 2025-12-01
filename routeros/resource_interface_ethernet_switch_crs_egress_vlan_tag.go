@@ -2,7 +2,6 @@ package routeros
 
 import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
 
 /*
@@ -33,12 +32,7 @@ func ResourceInterfaceEthernetSwitchCrsEgressVlanTag() *schema.Resource {
 			},
 			Description: "Ports that are tagged in egress.",
 		},
-		"vlan_id": {
-			Type:         schema.TypeInt,
-			Optional:     true,
-			Description:  "VLAN ID which is tagged in egress.",
-			ValidateFunc: validation.IntBetween(1, 4095),
-		},
+		KeyVlanId: PropVlanIdRw("VLAN ID which is tagged in egress.", false),
 	}
 
 	return &schema.Resource{
