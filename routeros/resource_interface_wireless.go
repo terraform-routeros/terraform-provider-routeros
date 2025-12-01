@@ -826,13 +826,7 @@ func ResourceInterfaceWireless() *schema.Resource {
 				" also triggers update of these values.This is proprietary extension.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
-		"vlan_id": {
-			Type:             schema.TypeInt,
-			Optional:         true,
-			Description:      "VLAN ID to use if doing VLAN tagging.",
-			ValidateFunc:     validation.IntBetween(0, 4094),
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
-		},
+		KeyVlanId: PropVlanIdRw("VLAN ID to use if doing VLAN tagging.", false),
 		"vlan_mode": {
 			Type:             schema.TypeString,
 			Optional:         true,

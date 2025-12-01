@@ -41,10 +41,7 @@ func ResourceInterfaceVlan() *schema.Resource {
 			Type:     schema.TypeBool,
 			Optional: true,
 		},
-		"vlan_id": {
-			Type:     schema.TypeInt,
-			Required: true,
-		},
+		KeyVlanId: PropVlanIdRw("Virtual LAN identifier or tag that is used to distinguish VLANs. Must be equal for all computers that belong to the same VLAN.", false),
 	}
 
 	return &schema.Resource{

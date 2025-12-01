@@ -73,12 +73,7 @@ func ResourceInterfaceEthernetSwitchHost() *schema.Resource {
 			Required:    true,
 			Description: "Name of the switch to which the MAC address is going to be assigned to.",
 		},
-		"vlan_id": {
-			Type:             schema.TypeString,
-			Optional:         true,
-			Description:      "VLAN ID for the statically added MAC address entry.",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
-		},
+		KeyVlanId: PropVlanIdRw("VLAN ID for the statically added MAC address entry.", false),
 	}
 
 	return &schema.Resource{

@@ -352,12 +352,7 @@ func ResourceInterfaceBridgeFilter() *schema.Resource {
 			Description:  "Matches the MAC protocol type encapsulated in the VLAN frame.",
 			ValidateFunc: Validation64k,
 		},
-		"vlan_id": {
-			Type:         schema.TypeInt,
-			Optional:     true,
-			Description:  "Matches the VLAN identifier field.",
-			ValidateFunc: validation.IntBetween(0, 4095),
-		},
+		KeyVlanId: PropVlanIdRw("Matches the VLAN identifier field.", false),
 		"vlan_priority": {
 			Type:         schema.TypeInt,
 			Optional:     true,

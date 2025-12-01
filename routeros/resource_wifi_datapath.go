@@ -60,11 +60,7 @@ func ResourceWifiDatapath() *schema.Resource {
 			ValidateFunc:     validation.StringInSlice([]string{"on-cap", "on-capsman"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
-		"vlan_id": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Description: "Default VLAN ID to assign to client devices connecting to this interface.",
-		},
+		KeyVlanId: PropVlanIdRw("Default VLAN ID to assign to client devices connecting to this interface.", false),
 	}
 
 	return &schema.Resource{

@@ -51,13 +51,9 @@ func ResourceWifiSecurityMultiPassphrase() *schema.Resource {
 				"Not compatible with WPA3-PSK.",
 			ValidateFunc: validation.StringLenBetween(8, 64),
 		},
-		"vlan_id": {
-			Type:     schema.TypeString,
-			Optional: true,
-			Description: "Vlan-id that will be assigned to clients using this passphrase Only supported on wifi-qcom " +
-				"interfaces, if wifi-qcom-ac AP has a client that uses a passphrase that has vlan-id associated with " +
-				"it, the client will not be able to join.",
-		},
+		KeyVlanId: PropVlanIdRw("vlan-id that will be assigned to clients using this passphrase Only supported on wifi-qcom "+
+			"interfaces, if wifi-qcom-ac AP has a client that uses a passphrase that has vlan-id associated with "+
+			"it, the client will not be able to join.", false),
 	}
 
 	return &schema.Resource{
