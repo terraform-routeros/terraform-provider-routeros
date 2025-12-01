@@ -1,3 +1,13 @@
+## [1.95.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.94.0...v1.95.0) (2025-12-01)
+
+### Features
+
+* **CRS:** Add new resource `routeros_interface_ethernet_switch_crs_vlan` ([83672bb](https://github.com/terraform-routeros/terraform-provider-routeros/commit/83672bba634efb90e74f4cac7cf643b2dfa7aded)), closes [#873](https://github.com/terraform-routeros/terraform-provider-routeros/issues/873)
+
+### Bug Fixes
+
+* **ip-cloud:** Fix the names of skipped attributes ([863f474](https://github.com/terraform-routeros/terraform-provider-routeros/commit/863f4746052be622e360ec6a20ee8cbd65dbf1bd)), closes [#879](https://github.com/terraform-routeros/terraform-provider-routeros/issues/879)
+
 ## [1.94.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.93.0...v1.94.0) (2025-11-28)
 
 ### Features

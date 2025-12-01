@@ -6,23 +6,15 @@
 resource "routeros_ipv6_pool" "pool-0" {
   name          = "test-pool-0"
   prefix        = "2001:db8:40::/48"
-  prefix_length = 128
-}
-
-resource "routeros_ipv6_pool" "pool-1" {
-  name          = "test-pool-1"
-  prefix        = "2001:db8:12::/48"
   prefix_length = 64
 }
 
 resource "routeros_ipv6_dhcp_server" "test" {
-  address_pool  = routeros_ipv6_pool.pool-0.name
-  prefix_pool   = routeros_ipv6_pool.pool-1.name
-  interface     = "bridge"
-  lease_time    = "1m"
-  name          = "test-dhcpv6"
-  preference    = 128
-  address_lists = ["dhcp-clients"]
+  address_pool = routeros_ipv6_pool.pool-0.name
+  interface    = "bridge"
+  lease_time   = "1m"
+  name         = "test-dhcpv6"
+  preference   = 128
 }
 ```
 
@@ -36,8 +28,8 @@ resource "routeros_ipv6_dhcp_server" "test" {
 
 ### Optional
 
-- `address_lists` (Set of String) List of firewall address lists to which the allocated addresses and prefixes will be added.
-- `address_pool` (String) IPv6 pool, from which to take IPv6 address for the clients. The prefix length of the pool must be /128.
+- `address_lists` (Set of String) Firewall address lists to which the allocated addresses and prefixes will be added if the lease is bound.
+- `address_pool` (String) IPv6 pool, from which to take IPv6 address for the clients. The prefix length of the pool must be 128.
 - `allow_dual_stack_queue` (Boolean) Creates a single simple queue entry for both IPv4 and IPv6 addresses, and uses the MAC address and DUID for identification. Requires IPv6 DHCP Server to have this option enabled as well to work properly.
 - `binding_script` (String) A script that will be executed after binding is assigned or de-assigned. Internal `global` variables that can be used in the script:
     - bindingBound - set to `1` if bound, otherwise set to `0`

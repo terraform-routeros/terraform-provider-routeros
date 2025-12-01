@@ -31,7 +31,7 @@ resource "routeros_wifi_access_list" "radius" {
 - `signal_range` (String) The range in which the client signal must fall.
 - `ssid_regexp` (String) The regular expression to compare the actual SSID the client connects to.
 - `time` (String) Time of the day and days of the week when the rule is applicable.
-- `vlan_id` (String) VLAN ID to use for VLAN tagging or `none`.
+- `vlan_id` (Number) VLAN ID to use for VLAN tagging or `none`.
 
 ### Read-Only
 

@@ -19,7 +19,6 @@ resource "routeros_interface_vlan" "interface_vlan" {
 - `name` (String) Changing the name of this resource will force it to be recreated.
 	> The links of other configuration properties to this resource may be lost!
 	> Changing the name of the resource outside of a Terraform will result in a loss of control integrity for that resource!
-- `vlan_id` (Number)
 
 ### Optional
 
@@ -39,6 +38,7 @@ resource "routeros_interface_vlan" "interface_vlan" {
 - `mtu` (String) Layer3 Maximum transmission unit ('auto', 0 .. 65535). Look for the exact minimum value in the MikroTik documentation
 - `mvrp` (Boolean) Specifies whether this VLAN should declare its attributes through Multiple VLAN Registration Protocol (MVRP) as an applicant (available since RouterOS 7.15). It can be used to register the VLAN with connected bridges that support MVRP. This property only has an effect when use-service-tag is disabled.
 - `use_service_tag` (Boolean)
+- `vlan_id` (Number) Virtual LAN identifier or tag that is used to distinguish VLANs. Must be equal for all computers that belong to the same VLAN.
 
 ### Read-Only
 

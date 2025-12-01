@@ -23,7 +23,7 @@ resource "routeros_wifi_security_multi_passphrase" "test" {
 - `expires` (String) The expiration date and time for passphrase specified in this entry, doesn't affect the whole group. Once the date is reached, existing clients using this passphrase will be disconnected, and new clients will not be able to connect using it. If not set, passphrase can be used indefinetly.
 - `isolation` (Boolean) Determines whether the client device using this passphrase is isolated from other clients on AP. Traffic from an isolated client will not be forwarded to other clients and unicast traffic from a non-isolated client will not be forwarded to an isolated one.
 - `passphrase` (String, Sensitive) The passphrase to use for PSK authentication types. Multiple users can use the same passphrase. Not compatible with WPA3-PSK.
-- `vlan_id` (String) Vlan-id that will be assigned to clients using this passphrase Only supported on wifi-qcom interfaces, if wifi-qcom-ac AP has a client that uses a passphrase that has vlan-id associated with it, the client will not be able to join.
+- `vlan_id` (Number) vlan-id that will be assigned to clients using this passphrase Only supported on wifi-qcom interfaces, if wifi-qcom-ac AP has a client that uses a passphrase that has vlan-id associated with it, the client will not be able to join.
 
 ### Read-Only
 
