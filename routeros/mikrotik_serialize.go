@@ -258,7 +258,7 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 
 				for fieldName, value := range list {
 					// "output.0.affinity"
-					filedNameInState := fmt.Sprintf("%v.%v.%v", terraformSnakeName, 0, fieldName)
+					fieldNameInState := fmt.Sprintf("%v.%v.%v", terraformSnakeName, 0, fieldName)
 					fieldSchema := terraformMetadata.Elem.(*schema.Resource).Schema[fieldName]
 
 					// Skip all read-only properties.
@@ -266,8 +266,8 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 						continue
 					}
 
-					if fieldSchema.Optional && !d.HasChange(filedNameInState) &&
-						isEmpty(filedNameInState, fieldSchema, d, ctyList.GetAttr(fieldName)) {
+					if fieldSchema.Optional && !d.HasChange(fieldNameInState) &&
+						isEmpty(fieldNameInState, fieldSchema, d, ctyList.GetAttr(fieldName)) {
 						continue
 					}
 					fieldName = SnakeToKebab(mikrotikKebabName + "." + fieldName)

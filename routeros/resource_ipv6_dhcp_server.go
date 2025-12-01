@@ -33,9 +33,18 @@ func ResourceIpv6DhcpServer() *schema.Resource {
 
 		"address_pool": {
 			Type:             schema.TypeString,
-			Required:         true,
-			Description:      "IPv6 pool, from which to take IPv6 prefix for the clients.",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			Optional:         true,
+			Description:      "IPv6 pool, from which to take IPv6 address for the clients. The prefix length of the pool " +
+				"must be 128.",
+			AtLeastOneOf:     []string{"address_pool", "prefix_pool"},
+		},
+		"address_lists": {
+			Type:        schema.TypeSet,
+			Optional:    true,
+			Description: "Firewall address lists to which the allocated addresses and prefixes will be added if the lease is bound.",
+			Elem: &schema.Schema{
+				Type: schema.TypeString,
+			},
 		},
 		"allow_dual_stack_queue": {
 			Type:     schema.TypeBool,
@@ -108,6 +117,12 @@ func ResourceIpv6DhcpServer() *schema.Resource {
 			Description:      "",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"prefix_pool": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "IPv6 pool, from which to take IPv6 prefix for the clients.",
+			AtLeastOneOf:     []string{"address_pool", "prefix_pool"},
+		},
 		"rapid_commit": {
 			Type:             schema.TypeBool,
 			Optional:         true,
@@ -125,6 +140,11 @@ func ResourceIpv6DhcpServer() *schema.Resource {
 			Type:        schema.TypeBool,
 			Optional:    true,
 			Description: "Whether to use RADIUS server.",
+		},
+		"use_reconfigure": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Description: "Allow the server to send Reconfigure messages to clients.",
 		},
 	}
 
