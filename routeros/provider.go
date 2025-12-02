@@ -307,6 +307,7 @@ func Provider() *schema.Provider {
 			"routeros_routing_bgp_evpn":             ResourceRoutingBgpEvpn(),
 			"routeros_routing_bgp_instance":         ResourceRoutingBgpInstance(),
 			"routeros_routing_bgp_template":         ResourceRoutingBgpTemplate(),
+			"routeros_routing_bgp_vpn":              ResourceRoutingBgpVpn(),
 			"routeros_routing_filter_rule":          ResourceRoutingFilterRule(),
 			"routeros_routing_igmp_proxy_interface": ResourceRoutingIgmpProxyInterface(),
 			"routeros_routing_table":                ResourceRoutingTable(),
