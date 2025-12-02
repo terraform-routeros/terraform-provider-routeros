@@ -230,6 +230,11 @@ func ResourceInterfaceEthernetSwitchCrs() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyName: PropName("Name of the switch."),
+		"type": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "Switch-chip type.",
+		},
 		"override_existing_when_ufdb_full": {
 			Type:     schema.TypeBool,
 			Optional: true,
