@@ -31,6 +31,7 @@ resource "routeros_interface_ethernet_switch_crs_vlan" "test" {
 
 ### Read-Only
 
+- `dynamic` (Boolean) Configuration item created by software, not by management interface. It is not exported, and cannot be directly modified.
 - `id` (String) The ID of this resource.
 
 ## Import

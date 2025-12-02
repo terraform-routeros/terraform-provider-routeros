@@ -49,6 +49,7 @@ resource "routeros_interface_ethernet_switch_crs" "sw0" {
 ### Read-Only
 
 - `id` (String) The ID of this resource.
+- `type` (String) Switch-chip type.
 
 ## Import
 Import is supported using the following syntax:

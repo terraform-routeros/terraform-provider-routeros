@@ -1,3 +1,13 @@
+## [1.96.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.95.0...v1.96.0) (2025-12-02)
+
+### Features
+
+* **bgp-vpn:** Add new resource `routeros_routing_bgp_vpn` ([97a8755](https://github.com/terraform-routeros/terraform-provider-routeros/commit/97a8755cd4b7a70e440c12f07d80ff973370d2da)), closes [#884](https://github.com/terraform-routeros/terraform-provider-routeros/issues/884)
+
+### Bug Fixes
+
+* **CRS:** Add lost attributes ([ce50482](https://github.com/terraform-routeros/terraform-provider-routeros/commit/ce50482e0ddeb8d7ff62215bf77cfd7ee7b66b60))
+
 ## [1.95.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.94.0...v1.95.0) (2025-12-01)
 
 ### Features
