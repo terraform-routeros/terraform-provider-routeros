@@ -16,6 +16,7 @@ func ResourceInterfaceEthernetSwitchCrsVlan() *schema.Resource {
 
 		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
+		KeyDynamic:  PropDynamicRo,
 		"flood": {
 			Type:     schema.TypeBool,
 			Optional: true,
