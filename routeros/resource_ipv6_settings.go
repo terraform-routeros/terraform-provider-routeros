@@ -146,7 +146,7 @@ func ResourceIpv6Settings() *schema.Resource {
 		DeleteContext: DefaultSystemDelete(resSchema),
 
 		Importer: &schema.ResourceImporter{
-			StateContext: ImportStateCustomContext(resSchema),
+			StateContext: schema.ImportStatePassthroughContext,
 		},
 
 		Schema: resSchema,

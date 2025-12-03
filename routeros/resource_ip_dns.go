@@ -195,9 +195,6 @@ func ResourceDns() *schema.Resource {
 			d.SetId("")
 			return nil
 		},
-		Importer: &schema.ResourceImporter{
-			StateContext: ImportStateCustomContext(resSchema),
-		},
 
 		Schema:        resSchema,
 		SchemaVersion: 1,
