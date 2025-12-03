@@ -1,3 +1,9 @@
+## [1.97.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.96.0...v1.97.0) (2025-12-03)
+
+### Features
+
+* **import:** Add import by resource identity ([bb91838](https://github.com/terraform-routeros/terraform-provider-routeros/commit/bb9183896be818adf467e29cdf839173a39a590f)), closes [#751](https://github.com/terraform-routeros/terraform-provider-routeros/issues/751) [#887](https://github.com/terraform-routeros/terraform-provider-routeros/issues/887)
+
 ## [1.96.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.95.0...v1.96.0) (2025-12-02)
 
 ### Features
