@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-const testIpDhcpServerOptionSets = "routeros_ip_dhcp_server_option_set.test_option_set"
+const testIpDhcpServerOptionSets = "routeros_ip_dhcp_server_option_sets.test_option_set"
 
 func TestAccIpDhcpServerNetworkOptionSet_basic(t *testing.T) {
 	for _, name := range testNames {
@@ -17,7 +17,7 @@ func TestAccIpDhcpServerNetworkOptionSet_basic(t *testing.T) {
 					testSetTransportEnv(t, name)
 				},
 				ProviderFactories: testAccProviderFactories,
-				CheckDestroy:      testCheckResourceDestroy("/ip/dhcp-server/option/sets", "routeros_ip_dhcp_server_option_set"),
+				CheckDestroy:      testCheckResourceDestroy("/ip/dhcp-server/option/sets", "routeros_ip_dhcp_server_option_sets"),
 				Steps: []resource.TestStep{
 					{
 						Config: testAccIpDhcpServerOptionSetsConfig(),
