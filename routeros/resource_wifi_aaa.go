@@ -35,7 +35,7 @@ func ResourceWifiAaa() *schema.Resource {
 			Optional:    true,
 			Description: "Format of the `Calling-Station-Id` RADIUS attribute.",
 		},
-		KeyComment: PropCommentRw,
+		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
 		"interim_update": {
 			Type:        schema.TypeString,
@@ -73,7 +73,7 @@ func ResourceWifiAaa() *schema.Resource {
 		DeleteContext: DefaultDelete(resSchema),
 
 		Importer: &schema.ResourceImporter{
-			StateContext: schema.ImportStatePassthroughContext,
+			StateContext: ImportStateCustomContext(resSchema),
 		},
 
 		Schema: resSchema,

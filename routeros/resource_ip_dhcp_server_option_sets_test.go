@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-const testIpDhcpServerOptionSet = "routeros_ip_dhcp_server_option_set.test_option_set"
+const testIpDhcpServerOptionSets = "routeros_ip_dhcp_server_option_set.test_option_set"
 
 func TestAccIpDhcpServerNetworkOptionSet_basic(t *testing.T) {
 	for _, name := range testNames {
@@ -20,11 +20,11 @@ func TestAccIpDhcpServerNetworkOptionSet_basic(t *testing.T) {
 				CheckDestroy:      testCheckResourceDestroy("/ip/dhcp-server/option/sets", "routeros_ip_dhcp_server_option_set"),
 				Steps: []resource.TestStep{
 					{
-						Config: testAccIpDhcpServerOptionSetConfig(),
+						Config: testAccIpDhcpServerOptionSetsConfig(),
 						Check: resource.ComposeTestCheckFunc(
-							testResourcePrimaryInstanceId(testIpDhcpServerOptionSet),
-							resource.TestCheckResourceAttr(testIpDhcpServerOptionSet, "name", "test-opt-set"),
-							resource.TestCheckResourceAttr(testIpDhcpServerOptionSet, "options", "test-opt1,test-opt2"),
+							testResourcePrimaryInstanceId(testIpDhcpServerOptionSets),
+							resource.TestCheckResourceAttr(testIpDhcpServerOptionSets, "name", "test-opt-set"),
+							resource.TestCheckResourceAttr(testIpDhcpServerOptionSets, "options", "test-opt1,test-opt2"),
 						),
 					},
 				},
@@ -34,7 +34,7 @@ func TestAccIpDhcpServerNetworkOptionSet_basic(t *testing.T) {
 	}
 }
 
-func testAccIpDhcpServerOptionSetConfig() string {
+func testAccIpDhcpServerOptionSetsConfig() string {
 	return providerConfig + `
 resource "routeros_ip_dhcp_server_option" "test_option_1" {
 	code    = 77
@@ -48,7 +48,7 @@ resource "routeros_ip_dhcp_server_option" "test_option_2" {
     value   = "s'10.10.10.22'"
   }
 
-resource "routeros_ip_dhcp_server_option_set" "test_option_set" {
+resource "routeros_ip_dhcp_server_option_sets" "test_option_set" {
 	name      = "test-opt-set"
     options   = join(",", [routeros_ip_dhcp_server_option.test_option_1.name, routeros_ip_dhcp_server_option.test_option_2.name])
   }

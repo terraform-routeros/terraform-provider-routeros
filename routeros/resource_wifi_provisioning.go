@@ -54,15 +54,15 @@ func ResourceWifiProvisioning() *schema.Resource {
 			Description: "Regular expression to match radios by router identity.",
 		},
 		"master_configuration": {
-			Type:        schema.TypeString,
-			Optional:    true,
+			Type:     schema.TypeString,
+			Optional: true,
 			Description: "If action specifies to create interfaces, then a new master interface with its configuration " +
 				"set to this configuration profile will be created.",
 		},
 		"name_format": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Description:  "Specify the format of the CAP interface name creation.",
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Specify the format of the CAP interface name creation.",
 		},
 		"radio_mac": {
 			Type:             schema.TypeString,
@@ -88,7 +88,7 @@ func ResourceWifiProvisioning() *schema.Resource {
 			Type:     schema.TypeList,
 			Optional: true,
 			Elem: &schema.Schema{
-				Type: schema.TypeString,
+				Type:         schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"2ghz-ax", "2ghz-g", "2ghz-n", "5ghz-a", "5ghz-ac", "5ghz-ax", "5ghz-n"}, false),
 			},
 			Description: "Match CAPs by supported modes.",
@@ -103,7 +103,7 @@ func ResourceWifiProvisioning() *schema.Resource {
 		DeleteContext: DefaultDelete(resSchema),
 
 		Importer: &schema.ResourceImporter{
-			StateContext: schema.ImportStatePassthroughContext,
+			StateContext: ImportStateCustomContext(resSchema),
 		},
 
 		Schema: resSchema,

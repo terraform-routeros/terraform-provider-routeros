@@ -591,7 +591,7 @@ func ResourceSystemCertificate() *schema.Resource {
 		DeleteContext: resDelete,
 
 		Importer: &schema.ResourceImporter{
-			StateContext: schema.ImportStatePassthroughContext,
+			StateContext: ImportStateCustomContext(resSchema),
 		},
 
 		Schema: resSchema,

@@ -122,7 +122,7 @@ func Provider() *schema.Provider {
 			"routeros_ip_dhcp_server_lease":            ResourceDhcpServerLease(),
 			"routeros_ip_dhcp_server_option":           ResourceDhcpServerOption(),
 			"routeros_ip_dhcp_server_option_matcher":   ResourceDhcpServerOptionMatcher(),
-			"routeros_ip_dhcp_server_option_set":       ResourceDhcpServerOptionSet(),
+			"routeros_ip_dhcp_server_option_sets":      ResourceDhcpServerOptionSets(),
 			"routeros_ip_dns":                          ResourceDns(),
 			"routeros_ip_dns_adlist":                   ResourceDnsAdlist(),
 			"routeros_ip_dns_forwarders":               ResourceIpDnsForwarders(),
@@ -245,6 +245,8 @@ func Provider() *schema.Provider {
 			"routeros_vrrp":           ResourceInterfaceVrrp(),
 			"routeros_wireguard":      ResourceInterfaceWireguard(),
 			"routeros_wireguard_peer": ResourceInterfaceWireguardPeer(),
+			// Aliases for backward compatibility
+			"routeros_ip_dhcp_server_option_set": ResourceDhcpServerOptionSets(),
 
 			// System Objects
 			"routeros_disk_settings":                   ResourceDiskSettings(),
