@@ -59,9 +59,9 @@ func ResourceZerotierInterface() *schema.Resource {
 		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
 		"disable_running_check": {
-			Type:            schema.TypeBool,
-			Optional:        true,
-			Description:     "An option to force the `running` property to true.",
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Description:      "An option to force the `running` property to true.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"dhcp": {
@@ -107,7 +107,7 @@ func ResourceZerotierInterface() *schema.Resource {
 		DeleteContext: DefaultDelete(resSchema),
 
 		Importer: &schema.ResourceImporter{
-			StateContext: schema.ImportStatePassthroughContext,
+			StateContext: ImportStateCustomContext(resSchema),
 		},
 
 		Schema: resSchema,

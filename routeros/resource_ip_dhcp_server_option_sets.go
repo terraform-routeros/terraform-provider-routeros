@@ -15,7 +15,7 @@ import (
 */
 
 // ResourceDhcpServerOption https://wiki.mikrotik.com/wiki/Manual:IP/DHCP_Server
-func ResourceDhcpServerOptionSet() *schema.Resource {
+func ResourceDhcpServerOptionSets() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/dhcp-server/option/sets"),
 		MetaId:           PropId(Id),
@@ -39,7 +39,7 @@ func ResourceDhcpServerOptionSet() *schema.Resource {
 		UpdateContext: DefaultUpdate(resSchema),
 		DeleteContext: DefaultDelete(resSchema),
 		Importer: &schema.ResourceImporter{
-			StateContext: schema.ImportStatePassthroughContext,
+			StateContext: ImportStateCustomContext(resSchema),
 		},
 
 		Schema: resSchema,

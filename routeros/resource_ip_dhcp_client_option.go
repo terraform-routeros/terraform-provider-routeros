@@ -21,17 +21,15 @@ func ResourceDhcpClientOption() *schema.Resource {
 		},
 		"value": {
 			Type:        schema.TypeString,
-			Optional:     true,
+			Optional:    true,
 			Description: "The dhcp-client option",
 		},
-		"raw_value":
-		{
+		"raw_value": {
 			Type:        schema.TypeString,
-			Optional:     true,
-			Computed:     true,
+			Optional:    true,
+			Computed:    true,
 			Description: "raw_value is computed from value.",
 		},
-
 	}
 	return &schema.Resource{
 		CreateContext: DefaultCreate(resSchema),
@@ -39,7 +37,7 @@ func ResourceDhcpClientOption() *schema.Resource {
 		UpdateContext: DefaultUpdate(resSchema),
 		DeleteContext: DefaultDelete(resSchema),
 		Importer: &schema.ResourceImporter{
-			StateContext: schema.ImportStatePassthroughContext,
+			StateContext: ImportStateCustomContext(resSchema),
 		},
 
 		Schema: resSchema,

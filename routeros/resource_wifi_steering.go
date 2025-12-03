@@ -21,9 +21,9 @@ func ResourceWifiSteering() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/interface/wifi/steering"),
 		MetaId:           PropId(Id),
 
-		KeyComment: PropCommentRw,
+		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
-		KeyName: PropName("Name of the steering profile."),
+		KeyName:     PropName("Name of the steering profile."),
 		"neighbor_group": {
 			Type:        schema.TypeList,
 			Optional:    true,
@@ -50,7 +50,7 @@ func ResourceWifiSteering() *schema.Resource {
 		DeleteContext: DefaultDelete(resSchema),
 
 		Importer: &schema.ResourceImporter{
-			StateContext: schema.ImportStatePassthroughContext,
+			StateContext: ImportStateCustomContext(resSchema),
 		},
 
 		Schema: resSchema,
