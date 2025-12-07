@@ -36,6 +36,7 @@ func ResourceWifi() *schema.Resource {
 		MetaId:           PropId(Id),
 		MetaTransformSet: PropTransformSet("aaa.config: aaa", "channel.config: channel", "configuration.config: configuration",
 			"datapath.config: datapath", "interworking.config: interworking", "security.config: security", "steering.config: steering"),
+		MetaNoInherited:  PropNoInherited(ParamConfig),
 
 		"aaa": {
 			Type:             schema.TypeMap,
@@ -43,7 +44,6 @@ func ResourceWifi() *schema.Resource {
 			Elem:             &schema.Schema{Type: schema.TypeString},
 			Description:      "AAA inline settings.",
 			ValidateDiagFunc: ValidationMapKeyNames,
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyArp:        PropArpRw,
 		KeyArpTimeout: PropArpTimeoutRw,
@@ -58,7 +58,6 @@ func ResourceWifi() *schema.Resource {
 			Elem:             &schema.Schema{Type: schema.TypeString},
 			Description:      "Channel inline settings.",
 			ValidateDiagFunc: ValidationMapKeyNames,
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"configuration": {
 			Type:             schema.TypeMap,
@@ -66,7 +65,6 @@ func ResourceWifi() *schema.Resource {
 			Elem:             &schema.Schema{Type: schema.TypeString},
 			Description:      "Configuration inline settings.",
 			ValidateDiagFunc: ValidationMapKeyNames,
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"datapath": {
 			Type:             schema.TypeMap,
@@ -74,7 +72,6 @@ func ResourceWifi() *schema.Resource {
 			Elem:             &schema.Schema{Type: schema.TypeString},
 			Description:      "Datapath inline settings.",
 			ValidateDiagFunc: ValidationMapKeyNames,
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyComment:     PropCommentRw,
 		KeyDefaultName: PropDefaultNameRo("The interface's default name."),
@@ -104,7 +101,6 @@ func ResourceWifi() *schema.Resource {
 			Elem:             &schema.Schema{Type: schema.TypeString},
 			Description:      "Interworking inline settings.",
 			ValidateDiagFunc: ValidationMapKeyNames,
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyL2Mtu: PropL2MtuRw,
 		"mac_address": {
@@ -147,7 +143,6 @@ func ResourceWifi() *schema.Resource {
 			Elem:             &schema.Schema{Type: schema.TypeString},
 			Description:      "Security inline settings.",
 			ValidateDiagFunc: ValidationMapKeyNames,
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"steering": {
 			Type:             schema.TypeMap,
@@ -155,7 +150,6 @@ func ResourceWifi() *schema.Resource {
 			Elem:             &schema.Schema{Type: schema.TypeString},
 			Description:      "Steering inline settings.",
 			ValidateDiagFunc: ValidationMapKeyNames,
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 	}
 

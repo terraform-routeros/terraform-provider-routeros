@@ -143,7 +143,7 @@ func ResourceRoutingTable() *schema.Resource {
 				}
 			}
 
-			id, err := dynamicIdLookup(metadata.IdType, metadata.Path, m.(Client), d)
+			id, err := dynamicIdLookup(metadata.IdType, metadata.Path, m.(Client), d, metadata)
 			if err != nil {
 				// There is nothing to update, because resource id not found
 				// or some other error.
