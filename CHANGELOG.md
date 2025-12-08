@@ -1,3 +1,9 @@
+## [1.98.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.97.0...v1.98.0) (2025-12-08)
+
+### Features
+
+* **traffic-flow:** Add new resources around traffic flow ([07b839e](https://github.com/terraform-routeros/terraform-provider-routeros/commit/07b839e95b72f6d6c47206688ab9e882488d6ecd)), closes [#890](https://github.com/terraform-routeros/terraform-provider-routeros/issues/890)
+
 ## [1.97.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.96.0...v1.97.0) (2025-12-03)
 
 ### Features
