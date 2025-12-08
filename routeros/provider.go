@@ -361,6 +361,9 @@ func Provider() *schema.Provider {
 			"routeros_tool_mac_server_ping":    ResourceToolMacServerPing(),
 			"routeros_tool_netwatch":           ResourceToolNetwatch(),
 			"routeros_tool_sniffer":            ResourceToolSniffer(),
+			"routeros_ip_traffic_flow":         ResourceIpTrafficFlow(),
+			"routeros_ip_traffic_flow_target":  ResourceIpTrafficFlowTarget(),
+			"routeros_ip_traffic_flow_ipfix":   ResourceIpTrafficFlowIpfix(),
 
 			// User Manager
 			"routeros_user_manager_advanced":           ResourceUserManagerAdvanced(),
