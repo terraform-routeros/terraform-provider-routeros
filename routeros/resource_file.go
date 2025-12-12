@@ -70,7 +70,7 @@ func ResourceFile() *schema.Resource {
 		DeleteContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 			metadata := GetMetadata(resSchema)
 
-			id, err := dynamicIdLookup(metadata.IdType, metadata.Path, m.(Client), d)
+			id, err := dynamicIdLookup(metadata.IdType, metadata.Path, m.(Client), d, metadata)
 			if err != nil {
 				if err != errorNoLongerExists {
 					ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgDelete, err))
