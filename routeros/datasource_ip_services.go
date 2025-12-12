@@ -32,7 +32,15 @@ func DatasourceIPServices() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"connection": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"disabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"dynamic": {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
@@ -67,7 +75,10 @@ func datasourceIPServicesRead(ctx context.Context, d *schema.ResourceData, m int
 	s := DatasourceIPServices().Schema
 	path := s[MetaResourcePath].Default.(string)
 
-	res, err := ReadItemsFiltered(buildReadFilter(d.Get(KeyFilter).(map[string]interface{})), path, m.(Client))
+	var filter = d.Get(KeyFilter).(map[string]interface{})
+	filter["dynamic"] = "false"
+
+	res, err := ReadItemsFiltered(buildReadFilter(filter), path, m.(Client))
 	if err != nil {
 		return diag.FromErr(err)
 	}

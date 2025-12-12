@@ -36,7 +36,9 @@ Read-Only:
 
 - `address` (String)
 - `certificate` (String)
+- `connection` (Boolean)
 - `disabled` (Boolean)
+- `dynamic` (Boolean)
 - `id` (String)
 - `invalid` (String)
 - `name` (String)
