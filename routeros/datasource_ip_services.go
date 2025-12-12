@@ -116,12 +116,20 @@ func DatasourceIPServices() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"max_sessions": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 						"port": {
 							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"proto": {
+							Type:     schema.TypeString,
 							Computed: true,
 						},
 						"tls_version": {

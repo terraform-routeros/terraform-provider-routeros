@@ -64,8 +64,10 @@ Read-Only:
 - `dynamic` (Boolean)
 - `id` (String)
 - `invalid` (String)
+- `max_sessions` (Number)
 - `name` (String)
 - `port` (Number)
+- `proto` (String)
 - `tls_version` (String)
 - `vrf` (String)
 
