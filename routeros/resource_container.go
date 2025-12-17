@@ -174,6 +174,7 @@ func ResourceContainer() *schema.Resource {
 		"stop_signal": {
 			Type:        schema.TypeString,
 			Optional:    true,
+			Default:     "15-SIGTERM",
 			Description: "Signal to stop the container.",
 		},
 		"tag": {
