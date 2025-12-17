@@ -26,10 +26,10 @@ func ResourceContainerConfig() *schema.Resource {
 			Optional:    true,
 			Description: "Specifies the password for authentication (starting from ROS 7.8)",
 		},
-		"ram_high": {
+		"memory_high": {
 			Type:        schema.TypeString,
 			Optional:    true,
-			Default:     "0",
+			Default:     "unlimited",
 			Description: "RAM usage limit. (0 for unlimited)",
 		},
 		"tmpdir": {
