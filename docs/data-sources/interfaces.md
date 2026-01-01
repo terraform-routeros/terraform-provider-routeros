@@ -28,6 +28,7 @@ Read-Only:
 - `default_name` (String)
 - `disabled` (Boolean)
 - `dynamic` (Boolean)
+- `fp_rps_drop` (Number)
 - `id` (String)
 - `inactive` (Boolean)
 - `l2mtu` (Number)
@@ -40,5 +41,6 @@ Read-Only:
 - `running` (Boolean)
 - `slave` (Boolean)
 - `type` (String)
+- `vrf` (String)
 
 

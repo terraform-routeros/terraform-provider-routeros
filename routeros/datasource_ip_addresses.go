@@ -57,6 +57,10 @@ func DatasourceIPAddresses() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						KeyVrf: {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},

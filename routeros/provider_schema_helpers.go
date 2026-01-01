@@ -482,6 +482,11 @@ var (
 		Type:     schema.TypeBool,
 		Computed: true,
 	}
+	PropVrfRo = &schema.Schema{
+		Type:        schema.TypeString,
+		Description: "The VRF table this resource operates on.",
+		Computed:    true,
+	}
 	PropVrfRw = &schema.Schema{
 		Type:             schema.TypeString,
 		Optional:         true,
