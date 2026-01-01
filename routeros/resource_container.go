@@ -113,7 +113,7 @@ func ResourceContainer() *schema.Resource {
 			Description:      "RAM usage limit in bytes for a specific container (string value).",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
-		"mounts": {
+		"mountlists": {
 			Type:        schema.TypeSet,
 			Optional:    true,
 			Elem:        &schema.Schema{Type: schema.TypeString},
