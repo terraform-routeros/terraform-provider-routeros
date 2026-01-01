@@ -32,6 +32,10 @@ func DatasourceInterfaces() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"comment": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"default_name": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -40,12 +44,12 @@ func DatasourceInterfaces() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
-						"comment": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
 						"disabled": {
 							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"fp_rps_drop": {
+							Type:     schema.TypeInt,
 							Computed: true,
 						},
 						"inactive": {
@@ -90,6 +94,10 @@ func DatasourceInterfaces() *schema.Resource {
 							Computed: true,
 						},
 						"type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"vrf": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},

@@ -34,12 +34,19 @@ func ResourceInterfaceVeth() *schema.Resource {
 			},
 		},
 		KeyComment:  PropCommentRw,
+		"container_mac_address": PropMacAddressRw("Container MAC address", false),
 		KeyDisabled: PropDisabledRw,
 		"dhcp": {
 			Type:             schema.TypeBool,
 			Optional:         true,
 			Description:      "",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"dhcp_address": {
+			Type:         schema.TypeString,
+			Optional:     true,
+			Description:  "DHCP IP address.",
+			ValidateFunc: validation.IsIPv4Address,
 		},
 		"gateway": {
 			Type:         schema.TypeString,

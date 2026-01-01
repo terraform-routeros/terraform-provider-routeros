@@ -56,6 +56,15 @@ func ResourceContainer() *schema.Resource {
 			Optional:    true,
 			Description: "The main purpose of a CMD is to provide defaults for an executing container. These defaults can include an executable, or they can omit the executable, in which case you must specify an ENTRYPOINT instruction as well.",
 		},
+		"cpu_list": {
+			Type:        schema.TypeString,
+			Optional:    true,
+		},
+		"cpu_usage": {
+			Type:        schema.TypeFloat,
+			Computed:    true,
+			Description: "Current CPU usage percentage",
+		},
 		KeyComment: PropCommentRw,
 		"devices": {
 			Type:        schema.TypeSet,
@@ -97,15 +106,40 @@ func ResourceContainer() *schema.Resource {
 			Optional:    true,
 			Description: "Container host name",
 		},
+		"hosts": {
+			Type:     schema.TypeString,
+			Optional: true,
+		},
+		"image_id": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "SHA of image in use",
+		},
 		"interface": {
 			Type:        schema.TypeString,
 			Required:    true,
 			Description: "veth interface to be used with the container",
 		},
+		"layer_dir": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Computed:    true,
+			Description: "Override container config layer dir",
+		},
+		"layers": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "List of layer dir names for this container image",
+		},
 		"logging": {
 			Type:        schema.TypeBool,
 			Optional:    true,
 			Description: "if set to yes, all container-generated output will be shown in the RouterOS log",
+		},
+		"memory_current": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "Current RAM usage by the container.",
 		},
 		"memory_high": {
 			Type:             schema.TypeString,
@@ -113,7 +147,7 @@ func ResourceContainer() *schema.Resource {
 			Description:      "RAM usage limit in bytes for a specific container (string value).",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
-		"mounts": {
+		"mountlists": {
 			Type:        schema.TypeSet,
 			Optional:    true,
 			Elem:        &schema.Schema{Type: schema.TypeString},
@@ -175,6 +209,11 @@ func ResourceContainer() *schema.Resource {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Description: "Signal to stop the container.",
+		},
+		"stop_time": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"tag": {
 			Type:        schema.TypeString,
