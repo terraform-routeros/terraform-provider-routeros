@@ -92,6 +92,10 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 			Type:     schema.TypeString,
 			Computed: true,
 		},
+		"actual_path_cost": {
+			Type:     schema.TypeInt,
+			Computed: true,
+		},
 		"auto_isolate": {
 			Type:     schema.TypeBool,
 			Optional: true,
