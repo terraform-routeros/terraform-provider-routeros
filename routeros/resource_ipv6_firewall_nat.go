@@ -113,9 +113,10 @@ func ResourceIPv6FirewallNat() *schema.Resource {
 			ValidateFunc: validation.IntBetween(0, 63),
 		},
 		"dst_address": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Description: "Matches packets which destination is equal to specified IP or falls into specified IP range.",
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Matches packets which destination is equal to specified IP or falls into specified IP range.",
+			DiffSuppressFunc: ImplicitSingleHostCIDR6,
 		},
 		"dst_address_list": {
 			Type:        schema.TypeString,
@@ -285,9 +286,10 @@ func ResourceIPv6FirewallNat() *schema.Resource {
 			Description: "Matches packets marked by mangle facility with particular routing mark.",
 		},
 		"src_address": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Description: "Matches packets which source is equal to specified IP or falls into a specified IP range.",
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Matches packets which source is equal to specified IP or falls into a specified IP range.",
+			DiffSuppressFunc: ImplicitSingleHostCIDR6,
 		},
 		"src_address_list": {
 			Type:        schema.TypeString,
