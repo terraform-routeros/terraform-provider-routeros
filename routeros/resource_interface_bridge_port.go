@@ -184,9 +184,9 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 		"frame_types": {
 			Type:     schema.TypeString,
 			Optional: true,
+			Default:  "admit-all",
 			Description: "Specifies allowed ingress frame types on a bridge port. " +
 				"This property only has effect when vlan-filtering is set to yes.",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 			ValidateFunc: validation.StringInSlice([]string{"admit-all",
 				"admit-only-untagged-and-priority-tagged",
 				"admit-only-vlan-tagged"}, false),

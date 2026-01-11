@@ -228,8 +228,8 @@ func ResourceIPFirewallFilter() *schema.Resource {
 		"log": {
 			Type:             schema.TypeBool,
 			Optional:         true,
+			Default:          false,
 			Description:      "Add a message to the system log.",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"log_prefix": {
 			Type:     schema.TypeString,
