@@ -26,8 +26,31 @@ resource "routeros_ip_service" "router-disabled" {
 
 ### Read-Only
 
+- `dynamic_services` (List of Object) (see [below for nested schema](#nestedatt--dynamic_services))
 - `id` (String) The ID of this resource.
 - `services` (List of Object) (see [below for nested schema](#nestedatt--services))
+
+<a id="nestedatt--dynamic_services"></a>
+### Nested Schema for `dynamic_services`
+
+Read-Only:
+
+- `address` (String)
+- `certificate` (String)
+- `connection` (Boolean)
+- `disabled` (Boolean)
+- `dynamic` (Boolean)
+- `id` (String)
+- `invalid` (String)
+- `local` (String)
+- `max_sessions` (Number)
+- `name` (String)
+- `port` (Number)
+- `proto` (String)
+- `remote` (String)
+- `tls_version` (String)
+- `vrf` (String)
+
 
 <a id="nestedatt--services"></a>
 ### Nested Schema for `services`
@@ -36,11 +59,15 @@ Read-Only:
 
 - `address` (String)
 - `certificate` (String)
+- `connection` (Boolean)
 - `disabled` (Boolean)
+- `dynamic` (Boolean)
 - `id` (String)
 - `invalid` (String)
+- `max_sessions` (Number)
 - `name` (String)
 - `port` (Number)
+- `proto` (String)
 - `tls_version` (String)
 - `vrf` (String)
 
