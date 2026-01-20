@@ -10,11 +10,11 @@ resource "routeros_ip_ipsec_peer" "test" {
 }
 
 resource "routeros_ip_ipsec_identity" "test" {
-  auth-method     = "eap"
+  auth_method     = "eap"
   certificate     = ""
-  eap-methods     = "eap-mschapv2"
-  generate-policy = "port-strict"
-  mode-config     = routeros_ip_ipsec_mode_config.test.name
+  eap_methods     = "eap-mschapv2"
+  generate_policy = "port-strict"
+  mode_config     = routeros_ip_ipsec_mode_config.test.name
   peer            = routeros_ip_ipsec_peer.test.name
   username        = "support@mikrotik.com"
   password        = "secret"
