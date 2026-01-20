@@ -867,6 +867,17 @@ var (
 	}
 )
 
+// ImplicitSingleHostCIDR is a DiffSuppressFunc function that prevents a configuration such as `192.168.1.2/32`
+// constantly planning a diff against a parameter read as `192.168.1.2` (i.e. without a prefix length) where
+// the ROS API omits it for single hosts. ImplicitSingleHostCIDR should only be used where ROS does otherwise
+// admit a prefix length, i.e. `192.168.1.2/24` would both write and read back as such for the same parameter.
+func ImplicitSingleHostCIDR4(k, old, new string, d *schema.ResourceData) bool {
+	return new == old + "/32"
+}
+func ImplicitSingleHostCIDR6(k, old, new string, d *schema.ResourceData) bool {
+	return new == old + "/128"
+}
+
 func buildReadFilter(m map[string]interface{}) []string {
 	var res []string
 
