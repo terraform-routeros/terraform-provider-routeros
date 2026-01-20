@@ -9,6 +9,7 @@ func ResourceContainerConfig() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/container/config"),
 		MetaId:           PropId(Name),
+		MetaSkipFields:   PropSkipFields("assumed_registry_url", "memory_current"),
 
 		"registry_url": {
 			Type:        schema.TypeString,
@@ -26,11 +27,11 @@ func ResourceContainerConfig() *schema.Resource {
 			Optional:    true,
 			Description: "Specifies the password for authentication (starting from ROS 7.8)",
 		},
-		"memory_high": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Default:     "unlimited",
-			Description: "RAM usage limit. (0 for unlimited)",
+		"ram_high": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "RAM usage limit.",
+			DiffSuppressFunc: BytesEqual,
 		},
 		"tmpdir": {
 			Type:        schema.TypeString,
