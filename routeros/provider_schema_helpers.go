@@ -738,7 +738,7 @@ var (
 
 		// #447 routeros_ip_dhcp_server_config.store_leases_disk == "immediately"
 		// routeros_ipv6_nd_prefix.preferred_lifetime == "infinity"
-		if slices.Contains(timeControlWords, old) || slices.Contains(timeControlWords, old) {
+		if slices.Contains(timeControlWords, old) || slices.Contains(timeControlWords, new) {
 			return old == new
 		}
 
