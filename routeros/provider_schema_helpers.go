@@ -22,6 +22,7 @@ const (
 	MetaSkipFields     = "___skip___"
 	MetaSetUnsetFields = "___unset___"
 	MetaDropByValue    = "___drop_val___"
+	MetaNoInherited    = "___no_inherited___"
 )
 
 const (
@@ -59,6 +60,10 @@ const (
 	KeyRunning                 = "running"
 	KeyVrf                     = "vrf"
 	KeyVlanId                  = "vlan_id"
+)
+
+const (
+	ParamConfig                = "config"
 )
 
 // PropResourcePath Resource path property.
@@ -144,6 +149,19 @@ func PropSetUnsetFields(s ...string) *schema.Schema {
 		Optional:    true,
 		Default:     toQuotedCommaSeparatedString(s...),
 		Description: "<em>A set of fields that require setting/unsetting. This is an internal service field, setting a value is not required.</em>",
+		DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+			return true
+		},
+	}
+}
+
+// PropNoInherited property.
+func PropNoInherited(p string) *schema.Schema {
+	return &schema.Schema{
+		Type:        schema.TypeString,
+		Optional:    true,
+		Default:     p,
+		Description: "<em>Extra print parameter to suppress embedding inherited values.</em>",
 		DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
 			return true
 		},

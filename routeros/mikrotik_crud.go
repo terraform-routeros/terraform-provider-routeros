@@ -64,6 +64,40 @@ func ReadItems(id *ItemId, resourcePath string, c Client) (*[]MikrotikItem, erro
 	return &res, err
 }
 
+// A variant of ReadItems which suppresses returning inherited attributes, like using "print config" instead of plain
+// "print" for wifi interfaces
+func ReadItemsNoInherit(id *ItemId, resourcePath string, c Client, inheritField string) (*[]MikrotikItem, error) {
+	// id can be empty.
+
+	if resourcePath == "" {
+		return nil, errEmptyPath
+	}
+
+	url := &URL{Path: resourcePath}
+
+	// If the 'id' is nil, then this is a Datasource reading (resource Path only).
+	if id != nil {
+		// REST: prevent 404 'Not Found' error by direct resource request (/interface/vlan/*39).
+		// Error occurs when a resource has been deleted outside terraform control.
+		// But in the case below we have an empty [] or non-empty array [{...}].
+
+		// /interface/vlan?.id=*39
+		url.Query = []string{"?" + id.Type.String() + "=" + id.Value}
+	}
+
+	if c.GetTransport() == TransportAPI {
+		url.Query = append(url.Query, "=" + inheritField + "=")
+	} else {
+		// FIXME: This does not appear to work over the REST API
+		// url.Query = append(url.Query, inheritField + "=")
+	}
+
+	var res []MikrotikItem
+	err := c.SendRequest(crudRead, url, nil, &res)
+
+	return &res, err
+}
+
 func ReadItemsFiltered(filter []string, resourcePath string, c Client) (*[]MikrotikItem, error) {
 	if resourcePath == "" {
 		return nil, errEmptyPath
