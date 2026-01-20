@@ -865,9 +865,48 @@ var (
 
 		return true
 	}
+
+	BytesEqual = func(k, old, new string, d *schema.ResourceData) bool {
+		if old == "" {
+			return false
+		}
+
+		if AlwaysPresentNotUserProvided(k, old, new, d) {
+			return true
+		}
+
+		if slices.Contains([]string{"unlimited"}, old) || slices.Contains([]string{"unlimited"}, new) {
+			return old == new
+		}
+
+		// Compare values 64M/64M <> 67108864/67108864 or 64M <> 67108864:
+		oldSet := strings.FieldsFunc(old, split)
+		newSet := strings.FieldsFunc(new, split)
+		if len(oldSet) != len(newSet) {
+			return false
+		}
+
+		for i, _ := range oldSet {
+			o, err := ParseByteValues(oldSet[i])
+			if err != nil {
+				panic("[BytesEqual] parse 'old' value error: " + err.Error())
+			}
+
+			n, err := ParseByteValues(newSet[i])
+			if err != nil {
+				panic("[BytesEqual] parse 'new' value error: " + err.Error())
+			}
+
+			if o != n {
+				return false
+			}
+		}
+
+		return true
+	}
 )
 
-func buildReadFilter(m map[string]interface{}) []string {
+func buildReadFilter(m map[string]any) []string {
 	var res []string
 
 	for fieldName, fieldValue := range m {
