@@ -9,6 +9,7 @@ func init() {
     driftAttributeSlice.Add("7.19", "/routing/bgp/connection", "address_families", "afi")
     driftAttributeSlice.Add("7.19", "/routing/bgp/template", "address_families", "afi")
     driftAttributeSlice.Add("7.20", "/container", "envlist", "envlists")
+    driftAttributeSlice.Add("7.20", "/container/config", "ram_high", "memory-high")
     driftAttributeSlice.Add("7.20", "/container/envs", "name", "list")
     driftAttributeSlice.Add("7.20", "/interface/vxlan", "vrf", "vtep-vrf")
     driftAttributeSlice.SortDesc()
