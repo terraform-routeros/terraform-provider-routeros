@@ -18,7 +18,7 @@ resource "routeros_container_config" "config" {
 
 - `layer_dir` (String) Container layers directory.
 - `password` (String, Sensitive) Specifies the password for authentication (starting from ROS 7.8)
-- `ram_high` (String) RAM usage limit. (0 for unlimited)
+- `ram_high` (String) RAM usage limit.
 - `registry_url` (String) External registry url from where the container will be downloaded.
 - `tmpdir` (String) Container extraction directory.
 - `username` (String) Specifies the username for authentication (starting from ROS 7.8)

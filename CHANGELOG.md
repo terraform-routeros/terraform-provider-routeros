@@ -1,3 +1,14 @@
+## [1.99.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.98.0...v1.99.0) (2026-01-21)
+
+### Features
+
+* **helpers:** Add a helper to compare values specified in bytes ([5f711f4](https://github.com/terraform-routeros/terraform-provider-routeros/commit/5f711f48173f8fef9f9709462ff76af881778681))
+
+### Bug Fixes
+
+* **container-config:** Add drift to the `ram_high` attribute ([f5cd755](https://github.com/terraform-routeros/terraform-provider-routeros/commit/f5cd7555fa11165f317172725d1cafe530c7fb10))
+* **timeEqual:** Correct verification parameters ([e2f9696](https://github.com/terraform-routeros/terraform-provider-routeros/commit/e2f969686e89ac4e8fdb51c99d07d9c78341d5f9))
+
 ## [1.98.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.97.0...v1.98.0) (2025-12-08)
 
 ### Features
