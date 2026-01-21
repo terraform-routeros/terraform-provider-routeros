@@ -117,7 +117,6 @@ func ResourceDns() *schema.Resource {
 			Elem: &schema.Schema{
 				Type: schema.TypeString,
 			},
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"query_server_timeout": {
 			Type:     schema.TypeString,

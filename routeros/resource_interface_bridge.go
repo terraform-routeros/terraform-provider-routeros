@@ -104,12 +104,11 @@ func ResourceInterfaceBridge() *schema.Resource {
 		"ingress_filtering": {
 			Type:     schema.TypeBool,
 			Optional: true,
+			Default:  true,
 			Description: "Enables or disables VLAN ingress filtering, which checks if the ingress port is a member " +
 				"of the received VLAN ID in the bridge VLAN table. Should be used with frame-types to specify if " +
 				"the ingress traffic should be tagged or untagged. This property only has effect when " +
 				"vlan-filtering is set to yes.",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
-			RequiredWith:     []string{"vlan_filtering"},
 		},
 		KeyL2Mtu: PropL2MtuRo,
 		"last_member_interval": {
@@ -238,11 +237,11 @@ func ResourceInterfaceBridge() *schema.Resource {
 		"pvid": {
 			Type:     schema.TypeInt,
 			Optional: true,
+			Default:  1,
 			Description: "Port VLAN ID (pvid) specifies which VLAN the untagged ingress traffic is assigned to. " +
 				"It applies e.g. to frames sent from bridge IP and destined to a bridge port. " +
 				"This property only has effect when vlan-filtering is set to yes.",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
-			ValidateFunc:     validation.IntBetween(1, 4094),
+			ValidateFunc: validation.IntBetween(1, 4094),
 		},
 		"querier_interval": {
 			Type:     schema.TypeString,
@@ -311,10 +310,10 @@ func ResourceInterfaceBridge() *schema.Resource {
 			ValidateFunc:     validation.IntBetween(1, 10),
 		},
 		"vlan_filtering": {
-			Type:             schema.TypeBool,
-			Optional:         true,
-			Description:      "Globally enables or disables VLAN functionality for bridge.",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Default:     false,
+			Description: "Globally enables or disables VLAN functionality for bridge.",
 		},
 		// Some properties are not implemented, see: https://wiki.mikrotik.com/wiki/Manual:Interface/Bridge
 	}
