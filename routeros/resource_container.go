@@ -90,10 +90,17 @@ func ResourceContainer() *schema.Resource {
 			Optional:    true,
 			Description: "An ENTRYPOINT allows to specify executable to run when starting container. Example: /bin/sh",
 		},
-		"envlist": {
-			Type:        schema.TypeString,
+		"env": {
+			Type:        schema.TypeSet,
+			Elem:        &schema.Schema{Type: schema.TypeString},
 			Optional:    true,
-			Description: "list of environmental variables (configured under /container envs ) to be used with container",
+			Description: "list of environmental variables (in the form `key=val`) to be used with container",
+		},
+		"envlists": {
+			Type:        schema.TypeSet,
+			Elem:        &schema.Schema{Type: schema.TypeString},
+			Optional:    true,
+			Description: "list of environmental variables lists (configured under /container envs) to be used with container",
 		},
 		"file": {
 			Type:         schema.TypeString,
@@ -147,11 +154,18 @@ func ResourceContainer() *schema.Resource {
 			Description:      "RAM usage limit in bytes for a specific container (string value).",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+	    "mount": {
+			Type:        schema.TypeSet,
+			Elem:        &schema.Schema{Type: schema.TypeString},
+			Optional:    true,
+			Description: "Mounts (in the form `/src:/mnt:rw`) to be used with this container",
+		},
+
 		"mountlists": {
 			Type:        schema.TypeSet,
 			Optional:    true,
 			Elem:        &schema.Schema{Type: schema.TypeString},
-			Description: "Mounts from /container/mounts/ sub-menu to be used with this container",
+			Description: "Mount lists from /container/mounts/ sub-menu to be used with this container",
 		},
 		"name": {
 			Type:        schema.TypeString,

@@ -31,14 +31,16 @@ resource "routeros_container" "busybox" {
 - `dns` (String) Set custom DNS servers
 - `domain_name` (String) Container NIS domain name
 - `entrypoint` (String) An ENTRYPOINT allows to specify executable to run when starting container. Example: /bin/sh
-- `envlist` (String) list of environmental variables (configured under /container envs ) to be used with container
+- `env` (Set of String) list of environmental variables (in the form `key=val`) to be used with container
+- `envlists` (Set of String) list of environmental variables lists (configured under /container envs) to be used with container
 - `file` (String) container *tar.gz tarball if the container is imported from a file
 - `hostname` (String) Container host name
 - `hosts` (String)
 - `layer_dir` (String) Override container config layer dir
 - `logging` (Boolean) if set to yes, all container-generated output will be shown in the RouterOS log
 - `memory_high` (String) RAM usage limit in bytes for a specific container (string value).
-- `mountlists` (Set of String) Mounts from /container/mounts/ sub-menu to be used with this container
+- `mount` (Set of String) Mounts (in the form `/src:/mnt:rw`) to be used with this container
+- `mountlists` (Set of String) Mount lists from /container/mounts/ sub-menu to be used with this container
 - `remote_image` (String) The container image name to be installed if an external registry is used (configured under /container/config set registry-url=...)
 - `root_dir` (String) Used to save container store outside main memory
 - `running` (Boolean) Container state.
