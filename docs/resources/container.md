@@ -41,6 +41,7 @@ resource "routeros_container" "busybox" {
 - `memory_high` (String) RAM usage limit in bytes for a specific container (string value).
 - `mount` (Set of String) Mounts (in the form `/src:/mnt:rw`) to be used with this container
 - `mountlists` (Set of String) Mount lists from /container/mounts/ sub-menu to be used with this container
+- `name` (String) Assign a name to the container
 - `remote_image` (String) The container image name to be installed if an external registry is used (configured under /container/config set registry-url=...)
 - `root_dir` (String) Used to save container store outside main memory
 - `running` (Boolean) Container state.
@@ -59,7 +60,6 @@ resource "routeros_container" "busybox" {
 - `image_id` (String) SHA of image in use
 - `layers` (String) List of layer dir names for this container image
 - `memory_current` (Number) Current RAM usage by the container.
-- `name` (String) Assign a name to the container
 - `os` (String) The OS of the container image
 - `status` (String) The status of the container
 - `tag` (String) The tag of the container image

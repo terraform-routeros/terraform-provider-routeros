@@ -169,6 +169,7 @@ func ResourceContainer() *schema.Resource {
 		},
 		"name": {
 			Type:        schema.TypeString,
+			Optional:    true,
 			Computed:    true,
 			Description: "Assign a name to the container",
 		},
