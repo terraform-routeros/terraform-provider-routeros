@@ -21,6 +21,7 @@ resource "routeros_container_envs" "test_envs" {
 
 ### Optional
 
+- `disabled` (Boolean) Whether the env var is disabled.
 
 ### Read-Only
 

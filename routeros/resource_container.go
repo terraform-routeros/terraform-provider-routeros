@@ -56,6 +56,15 @@ func ResourceContainer() *schema.Resource {
 			Optional:    true,
 			Description: "The main purpose of a CMD is to provide defaults for an executing container. These defaults can include an executable, or they can omit the executable, in which case you must specify an ENTRYPOINT instruction as well.",
 		},
+		"cpu_list": {
+			Type:        schema.TypeString,
+			Optional:    true,
+		},
+		"cpu_usage": {
+			Type:        schema.TypeFloat,
+			Computed:    true,
+			Description: "Current CPU usage percentage",
+		},
 		KeyComment: PropCommentRw,
 		"devices": {
 			Type:        schema.TypeSet,
@@ -81,10 +90,17 @@ func ResourceContainer() *schema.Resource {
 			Optional:    true,
 			Description: "An ENTRYPOINT allows to specify executable to run when starting container. Example: /bin/sh",
 		},
-		"envlist": {
-			Type:        schema.TypeString,
+		"env": {
+			Type:        schema.TypeSet,
+			Elem:        &schema.Schema{Type: schema.TypeString},
 			Optional:    true,
-			Description: "list of environmental variables (configured under /container envs ) to be used with container",
+			Description: "list of environmental variables (in the form `key=val`) to be used with container",
+		},
+		"envlists": {
+			Type:        schema.TypeSet,
+			Elem:        &schema.Schema{Type: schema.TypeString},
+			Optional:    true,
+			Description: "list of environmental variables lists (configured under /container envs) to be used with container",
 		},
 		"file": {
 			Type:         schema.TypeString,
@@ -97,15 +113,40 @@ func ResourceContainer() *schema.Resource {
 			Optional:    true,
 			Description: "Container host name",
 		},
+		"hosts": {
+			Type:     schema.TypeString,
+			Optional: true,
+		},
+		"image_id": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "SHA of image in use",
+		},
 		"interface": {
 			Type:        schema.TypeString,
 			Required:    true,
 			Description: "veth interface to be used with the container",
 		},
+		"layer_dir": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Computed:    true,
+			Description: "Override container config layer dir",
+		},
+		"layers": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "List of layer dir names for this container image",
+		},
 		"logging": {
 			Type:        schema.TypeBool,
 			Optional:    true,
 			Description: "if set to yes, all container-generated output will be shown in the RouterOS log",
+		},
+		"memory_current": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "Current RAM usage by the container.",
 		},
 		"memory_high": {
 			Type:             schema.TypeString,
@@ -113,14 +154,22 @@ func ResourceContainer() *schema.Resource {
 			Description:      "RAM usage limit in bytes for a specific container (string value).",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
-		"mounts": {
+	    "mount": {
+			Type:        schema.TypeSet,
+			Elem:        &schema.Schema{Type: schema.TypeString},
+			Optional:    true,
+			Description: "Mounts (in the form `/src:/mnt:rw`) to be used with this container",
+		},
+
+		"mountlists": {
 			Type:        schema.TypeSet,
 			Optional:    true,
 			Elem:        &schema.Schema{Type: schema.TypeString},
-			Description: "Mounts from /container/mounts/ sub-menu to be used with this container",
+			Description: "Mount lists from /container/mounts/ sub-menu to be used with this container",
 		},
 		"name": {
 			Type:        schema.TypeString,
+			Optional:    true,
 			Computed:    true,
 			Description: "Assign a name to the container",
 		},
@@ -176,6 +225,11 @@ func ResourceContainer() *schema.Resource {
 			Optional:    true,
 			Default:     "15-SIGTERM",
 			Description: "Signal to stop the container.",
+		},
+		"stop_time": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"tag": {
 			Type:        schema.TypeString,

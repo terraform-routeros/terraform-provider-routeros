@@ -22,7 +22,9 @@ resource "routeros_interface_veth" "test" {
 
 - `address` (Set of String) Ip address.
 - `comment` (String)
-- `dhcp` (Boolean)
+- `container_mac_address` (String) Container MAC address
+- `dhcp` (Boolean) Whether to create a dynamic DHCP client for this interface.
+- `dhcp_address` (String) DHCP IP address.
 - `disabled` (Boolean)
 - `gateway` (String) Gateway IP address.
 - `gateway6` (String) Gateway IPv6 address.
