@@ -25,6 +25,9 @@ resource "routeros_ip_ssh_server" "test" {
   * both - Allow both local and remote forwarding methods.
 - `host_key_size` (Number) RSA key size when host key is being regenerated.
 - `host_key_type` (String) Select host key type.
+- `publickey_authentication_options` (String) Sets public key authentication options.
+The touch-required option causes public key authentication using a FIDO authenticator algorithm to always require the signature to attest that a physically present user explicitlyconfirmed the authentication (usually by touching the authenticator).
+The verify-required option requires a FIDO key signature attest that the user was verified, e.g. via a PIN.
 - `strong_crypto` (Boolean) Use stronger encryption.
 
 ### Read-Only
