@@ -33,3 +33,7 @@
   /container/envs:
     - tf: name
       mt: list
+7.21:
+  /ip/ssh:
+    - tf: always-allow-password-login
+      mt: password-authentication
