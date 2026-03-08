@@ -183,3 +183,43 @@ func Test_toQuotedCommaSeparatedString(t *testing.T) {
 		})
 	}
 }
+
+func TestImplicitSingleHostCIDR4(t *testing.T) {
+	type args struct {
+		old string
+		new string
+	}
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		{
+			"Single host pseudo-match",
+			args{"192.168.1.2", "192.168.1.2/32"},
+			true, // diff suppress
+		},
+		{
+			"Subnet match",
+			args{"172.34.45.67/24", "172.34.45.67/24"},
+			false, // no diff suppress
+		},
+		{
+			"Single host mismatch",
+			args{"192.168.1.2", "192.168.3.4/32"},
+			false, // no diff suppress
+		},
+		{
+			"Subnet mismatch",
+			args{"172.34.45.67/24", "10.1.2.3/24"},
+			false, // no diff suppress
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := ImplicitSingleHostCIDR4("", tt.args.old, tt.args.new, nil); got != tt.want {
+				t.Errorf("ImplicitSingleHostCIDR4() suppress diff = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
