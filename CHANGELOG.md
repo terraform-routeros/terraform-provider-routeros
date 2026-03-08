@@ -1,3 +1,9 @@
+## [1.99.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.99.0...v1.99.1) (2026-03-08)
+
+### Bug Fixes
+
+* **ipsec:** add IPSec missing algorithms ([3600b74](https://github.com/terraform-routeros/terraform-provider-routeros/commit/3600b744274239c8a19434f3538a04130bf79a38))
+
 ## [1.99.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.98.0...v1.99.0) (2026-01-21)
 
 ### Features
