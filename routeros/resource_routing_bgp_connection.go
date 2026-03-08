@@ -67,8 +67,9 @@ import (
 // https://help.mikrotik.com/docs/spaces/ROS/pages/331612228/routing+bgp
 func ResourceRoutingBgpConnection() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
-		MetaResourcePath: PropResourcePath("/routing/bgp/connection"),
-		MetaId:           PropId(Id),
+		MetaResourcePath:   PropResourcePath("/routing/bgp/connection"),
+		MetaId:             PropId(Id),
+		MetaSetUnsetFields: PropSetUnsetFields("hold_time", "keepalive_time"),
 
 		"add_path_out": {
 			Type:         schema.TypeString,
