@@ -82,6 +82,11 @@ func ResourceSystemRouterboardSettings() *schema.Resource {
 			ValidateFunc:     validation.StringInSlice([]string{"power-save", "regular"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"disable_pci": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Description: "Specific setting for devices with the MT7621 chip. Allows disabling PCI.",
+		},
 		"enable_jumper_reset": {
 			Type:             schema.TypeBool,
 			Optional:         true,
