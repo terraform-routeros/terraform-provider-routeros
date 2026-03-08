@@ -27,6 +27,9 @@
   /container:
     - tf: envlist
       mt: envlists
+  /container/config:
+    - tf: ram_high
+      mt: memory-high
   /container/envs:
     - tf: name
       mt: list

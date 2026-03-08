@@ -55,3 +55,54 @@ func ParseBitValues(s string) (uint64, error) {
 	// We do not control overflow on multiplication!
 	return d * unit, nil
 }
+
+var byteUnitMap = map[byte]uint64{
+	'K': 1 << 10,
+	'M': 1 << 20,
+	'G': 1 << 30,
+	'T': 1 << 40,
+	'P': 1 << 50,
+	'E': 1 << 60,
+}
+
+func ParseByteValues(s string) (uint64, error) {
+	var unit uint64 = 1
+
+	// Special case: if all that is left is "0", this is zero.
+	if s == "0" {
+		return 0, nil
+	}
+	if s == "" {
+		return 0, fmt.Errorf(`bytes: invalid value "%v"`, s)
+	}
+
+	// Cut 'Bps'.
+	// if l := len(s); l > 4 && s[l-3:] == "Bps" {
+	// 	s = s[:l-3]
+	// }
+
+	// Verifying the value.
+	for i := 0; i < len(s); i++ {
+		if s[i] < '0' || s[i] > '9' {
+			// The last symbol.
+			if i == len(s)-1 {
+				var ok bool
+				unit, ok = byteUnitMap[s[i]]
+				if !ok {
+					return 0, fmt.Errorf(`bytes: unknown unit "%v" in value "%v"`, s[i], s)
+				}
+				s = s[:i]
+			} else {
+				return 0, fmt.Errorf(`bytes: invalid value "%v"`, s)
+			}
+		}
+	}
+
+	d, err := strconv.ParseUint(s, 10, 64)
+	if err != nil {
+		return 0, fmt.Errorf(`bytes: invalid value "%v"`, s)
+	}
+
+	// We do not control overflow on multiplication!
+	return d * unit, nil
+}

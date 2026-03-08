@@ -37,7 +37,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Cache restore
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             ~/.cache/go-build
