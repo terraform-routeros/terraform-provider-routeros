@@ -44,9 +44,9 @@ func ResourceIpIpsecProposal() *schema.Resource {
 			Description: "Allowed algorithms and key lengths to use for SAs.",
 			Elem: &schema.Schema{
 				Type: schema.TypeString,
-				ValidateFunc: validation.StringInSlice([]string{"null", "des", "3des", "aes-128-cbc", "aes-128-cbc",
+				ValidateFunc: validation.StringInSlice([]string{"null", "des", "3des", "aes-128-cbc", "aes-128-ctr",
 					"aes-128-gcm", "aes-192-cbc", "aes-192-ctr", "aes-192-gcm", "aes-256-cbc", "aes-256-ctr", "aes-256-gcm",
-					"blowfish", "camellia-128", "camellia-192", "camellia-256", "twofish"}, false),
+					"blowfish", "camellia-128", "camellia-192", "camellia-256", "twofish", "chacha20poly1305"}, false),
 			},
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
