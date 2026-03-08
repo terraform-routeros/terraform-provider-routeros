@@ -1,6 +1,8 @@
 package routeros
 
 import (
+	"strings"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
@@ -22,7 +24,6 @@ func ResourceInterfaceVeth() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath:   PropResourcePath("/interface/veth"),
 		MetaId:             PropId(Id),
-		MetaSetUnsetFields: PropSetUnsetFields("mac_address"),
 
 		"address": {
 			Type:        schema.TypeSet,
@@ -53,9 +54,21 @@ func ResourceInterfaceVeth() *schema.Resource {
 			Description:  "Gateway IPv6 address.",
 			ValidateFunc: validation.IsIPv6Address,
 		},
-		KeyMacAddress: PropMacAddressRw("MAC address.", false),
-		KeyName:       PropName("Interface name."),
-		KeyRunning:    PropRunningRo,
+		KeyMacAddress: {
+			Type:         schema.TypeString,
+			Description:  "MAC address.",
+			Optional:     true,
+			Computed:     true,
+			ValidateFunc: validation.IsMACAddress,
+			DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+				if old != "" && d.GetRawConfig().GetAttr(k).IsNull() {
+					return true
+				}
+				return strings.EqualFold(old, new)
+			},
+		},
+		KeyName:    PropName("Interface name."),
+		KeyRunning: PropRunningRo,
 	}
 
 	return &schema.Resource{
