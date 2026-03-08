@@ -96,7 +96,7 @@ func ResourceToolSniffer() *schema.Resource {
 			Description: "Up to 16 IP destination addresses used as a filter.",
 			Elem: &schema.Schema{
 				Type:         schema.TypeString,
-				ValidateFunc: validation.IsIPv4Address,
+				ValidateFunc: validation.IsCIDR,
 			},
 			MaxItems: 16,
 		},
@@ -106,7 +106,7 @@ func ResourceToolSniffer() *schema.Resource {
 			Description: "Up to 16 IPv6 destination addresses used as a filter.",
 			Elem: &schema.Schema{
 				Type:         schema.TypeString,
-				ValidateFunc: validation.IsIPv6Address,
+				ValidateFunc: validation.IsCIDR,
 			},
 			MaxItems: 16,
 		},
@@ -136,7 +136,7 @@ func ResourceToolSniffer() *schema.Resource {
 			Description: "Up to 16 IP addresses used as a filter.",
 			Elem: &schema.Schema{
 				Type:         schema.TypeString,
-				ValidateFunc: validation.IsIPv4Address,
+				ValidateFunc: validation.IsCIDR,
 			},
 			MaxItems: 16,
 		},
@@ -146,7 +146,7 @@ func ResourceToolSniffer() *schema.Resource {
 			Description: "Up to 16 IPv6 addresses used as a filter.",
 			Elem: &schema.Schema{
 				Type:         schema.TypeString,
-				ValidateFunc: validation.IsIPv6Address,
+				ValidateFunc: validation.IsCIDR,
 			},
 			MaxItems: 16,
 		},
@@ -264,7 +264,7 @@ func ResourceToolSniffer() *schema.Resource {
 			Description: "Up to 16 IP source addresses used as a filter.",
 			Elem: &schema.Schema{
 				Type:         schema.TypeString,
-				ValidateFunc: validation.IsIPv4Address,
+				ValidateFunc: validation.IsCIDR,
 			},
 			MaxItems: 16,
 		},
@@ -274,7 +274,7 @@ func ResourceToolSniffer() *schema.Resource {
 			Description: "Up to 16 IPv6 source addresses used as a filter.",
 			Elem: &schema.Schema{
 				Type:         schema.TypeString,
-				ValidateFunc: validation.IsIPv6Address,
+				ValidateFunc: validation.IsCIDR,
 			},
 			MaxItems: 16,
 		},
