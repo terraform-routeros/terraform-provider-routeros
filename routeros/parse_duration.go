@@ -23,6 +23,16 @@ func ParseDuration(s string, baseUnits time.Duration) (time.Duration, error) {
 	orig := s
 	var d int64
 
+	// 1d 00:00:00
+	if ss := strings.SplitN(s, " ", 2); len(ss) > 1 {
+		res, err := ParseDuration(ss[1], baseUnits)
+		if err != nil {
+			return 0, err
+		}
+		d += int64(res)
+		s = ss[0]
+	}
+
 	// Special case: if all that is left is "0", this is zero.
 	if s == "0" {
 		return 0, nil
