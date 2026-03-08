@@ -68,7 +68,7 @@ jobs:
           ROS_IP_ADDRESS: 127.0.0.1
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@v4
 
       - name: Run client tests
         run: go test -timeout 30m -v ./routeros
