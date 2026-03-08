@@ -15,12 +15,7 @@ func ResourceContainerMounts() *schema.Resource {
 			Computed:    true,
 			Description: "ID for the mount",
 		},
-		"disabled": {
-			Type:             schema.TypeBool,
-			Optional:         true,
-			Description:      "Whether the mount is disabled",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
-		},
+		KeyDisabled: PropDisabledRw,
 		"list": {
 			Type:        schema.TypeString,
 			Required:    true,

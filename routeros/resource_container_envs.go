@@ -10,12 +10,7 @@ func ResourceContainerEnvs() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/container/envs"),
 		MetaId:           PropId(Id),
 
-		"disabled": {
-			Type:             schema.TypeBool,
-			Optional:         true,
-			Default:          false,
-			Description:      "Whether the env var is disabled.",
-		},
+		KeyDisabled: PropDisabledRw,
 		"name": {
 			Type:        schema.TypeString,
 			Required:    true,
