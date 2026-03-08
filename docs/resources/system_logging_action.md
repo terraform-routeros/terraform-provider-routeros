@@ -43,4 +43,11 @@
 - `default` (Boolean) It's the default item.
 - `id` (String) The ID of this resource.
 
+## Import
+Import is supported using the following syntax:
+```shell
+# The ID can be found via API or the terminal
+# The command for the terminal is -> :put [/system/logging/action get [print show-ids]]
 
+terraform import routeros_system_logging_action.disk "*1"
+```
