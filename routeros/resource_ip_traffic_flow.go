@@ -23,12 +23,11 @@ func ResourceIpTrafficFlow() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/ip/traffic-flow"),
 		MetaId:           PropId(Id),
 
-		"interfaces": {
-			Type:     schema.TypeString,
-			Optional: true,
-			Description: "Names of those interfaces will be used to gather statistics for traffic-flow. To specify more " +
-				"than one interface, separate them with a comma.",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		"active_flow_timeout": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Maximum life-time of a flow.",
+			DiffSuppressFunc: TimeEqual,
 		},
 		"cache_entries": {
 			Type:             schema.TypeString,
@@ -36,12 +35,7 @@ func ResourceIpTrafficFlow() *schema.Resource {
 			Description:      "Number of flows which can be in router's memory simultaneously.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
-		"active_flow_timeout": {
-			Type:             schema.TypeString,
-			Optional:         true,
-			Description:      "Maximum life-time of a flow.",
-			DiffSuppressFunc: TimeEqual,
-		},
+		KeyEnabled: PropEnabled("Enable/Disable Traffic-Flow system"),
 		"inactive_flow_timeout": {
 			Type:     schema.TypeString,
 			Optional: true,
@@ -49,6 +43,13 @@ func ResourceIpTrafficFlow() *schema.Resource {
 				"this timeout, then traffic-flow will send a packet out as a new flow. If this timeout is too small it " +
 				"can create a significant amount of flows and overflow the buffer.",
 			DiffSuppressFunc: TimeEqual,
+		},
+		"interfaces": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Names of those interfaces will be used to gather statistics for traffic-flow. To specify more " +
+				"than one interface, separate them with a comma.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"packet_sampling": {
 			Type:        schema.TypeBool,
