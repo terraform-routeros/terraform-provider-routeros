@@ -65,6 +65,17 @@ func ResourceIpSSHServer() *schema.Resource {
 			ValidateFunc:     validation.StringInSlice([]string{"rsa", "ed25519"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"publickey_authentication_options": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Sets public key authentication options." +
+				"\nThe touch-required option causes public key authentication using a FIDO authenticator " +
+				"algorithm to always require the signature to attest that a physically present user explicitly" +
+				"confirmed the authentication (usually by touching the authenticator)." +
+				"\nThe verify-required option requires a FIDO key signature attest that the user was verified, e.g. via a PIN.",
+			ValidateFunc:     validation.StringInSlice([]string{"none", "touch-required", "verify-required"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"strong_crypto": {
 			Type:         schema.TypeBool,
 			Optional:     true,

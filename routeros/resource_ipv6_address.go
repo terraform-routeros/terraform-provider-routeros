@@ -153,6 +153,7 @@ func ResourceIPv6Address() *schema.Resource {
 			Computed:    true,
 			Description: "Whether address belongs to an interface which is a slave port to some other master interface",
 		},
+		KeyVrf: PropVrfRw,
 	}
 	return &schema.Resource{
 		CreateContext: DefaultCreate(resSchema),
