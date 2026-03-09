@@ -11,21 +11,21 @@ import (
   "authentication": "mschap2,mschap1",
   "default-profile": "default-encryption",
   "mrru": "disabled",
-	"max-mru": "1450",
+  "max-mru": "1450",
   "keepalive-timeout": "30",
   "max-mtu": "1450",
   "use-ipsec": "false",
-	"ipsec-secret": "",
-	"accept-proto-version", "all",
+  "ipsec-secret": "",
+  "accept-proto-version", "all",
   "accept-pseudowire-type": "all",
-	"allow-fast-path": "false",
-	"caller-id-type": "ip-address",
-	"max-sessions": "unlimited",
-	"one-session-per-host": "false",
-	"l2tpv3-circuit-id": "",
-	"l2tpv3-cookie-length", "0",
-	"l2tpv3-digest-hash", "md5",
-	"l2tpv3-ether-interface-list": ""
+  "allow-fast-path": "false",
+  "caller-id-type": "ip-address",
+  "max-sessions": "unlimited",
+  "one-session-per-host": "false",
+  "l2tpv3-circuit-id": "",
+  "l2tpv3-cookie-length", "0",
+  "l2tpv3-digest-hash", "md5",
+  "l2tpv3-ether-interface-list": ""
 }
 */
 
