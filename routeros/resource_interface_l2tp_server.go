@@ -8,7 +8,7 @@ import (
 /*
 {
   "enabled": "false",
-  "authentication": "mschap1,mschap2",
+  "authentication": "mschap2,mschap1",
   "default-profile": "default-encryption",
   "mrru": "disabled",
 	"max-mru": "1450",
@@ -43,7 +43,7 @@ func ResourceInterfaceL2tpServer() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 			Elem: &schema.Schema{
 				Type:         schema.TypeString,
-				Default:      "all",
+				Default:      "mschap2,mschap1",
 				ValidateFunc: validation.StringInSlice([]string{"mschap2", "mschap1", "chap", "pap"}, false),
 			},
 		},
