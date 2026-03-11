@@ -16,15 +16,17 @@ resource "routeros_container_mounts" "caddyfile" {
 ### Required
 
 - `dst` (String) Specifies destination path of the mount, which points to defined location in container
-- `name` (String) Name of the mount.
+- `list` (String) Mount list this mount is for
 - `src` (String) Specifies source path of the mount, which points to a RouterOS location
 
 ### Optional
 
+- `disabled` (Boolean) Whether the mount is disabled
+- `read_only` (Boolean) Whether to mount read-only
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
+- `id` (String) ID for the mount
 
 ## Import
 Import is supported using the following syntax:

@@ -26,21 +26,28 @@ resource "routeros_container" "busybox" {
 - `check_certificate` (Boolean) Enables trust chain validation from local certificate store.
 - `cmd` (String) The main purpose of a CMD is to provide defaults for an executing container. These defaults can include an executable, or they can omit the executable, in which case you must specify an ENTRYPOINT instruction as well.
 - `comment` (String)
+- `cpu_list` (String)
 - `devices` (Set of String) Passes through physical device to the container.
 - `dns` (String) Set custom DNS servers
 - `domain_name` (String) Container NIS domain name
 - `entrypoint` (String) An ENTRYPOINT allows to specify executable to run when starting container. Example: /bin/sh
-- `envlist` (String) list of environmental variables (configured under /container envs ) to be used with container
+- `env` (Set of String) list of environmental variables (in the form `key=val`) to be used with container
+- `envlists` (Set of String) list of environmental variables lists (configured under /container envs) to be used with container
 - `file` (String) container *tar.gz tarball if the container is imported from a file
 - `hostname` (String) Container host name
+- `hosts` (String)
+- `layer_dir` (String) Override container config layer dir
 - `logging` (Boolean) if set to yes, all container-generated output will be shown in the RouterOS log
 - `memory_high` (String) RAM usage limit in bytes for a specific container (string value).
-- `mounts` (Set of String) Mounts from /container/mounts/ sub-menu to be used with this container
+- `mount` (Set of String) Mounts (in the form `/src:/mnt:rw`) to be used with this container
+- `mountlists` (Set of String) Mount lists from /container/mounts/ sub-menu to be used with this container
+- `name` (String) Assign a name to the container
 - `remote_image` (String) The container image name to be installed if an external registry is used (configured under /container/config set registry-url=...)
 - `root_dir` (String) Used to save container store outside main memory
 - `running` (Boolean) Container state.
 - `start_on_boot` (Boolean) Start the container on boot
 - `stop_signal` (String) Signal to stop the container.
+- `stop_time` (String)
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 - `user` (String) Sets the username used
 - `workdir` (String) The working directory for cmd entrypoint
@@ -48,8 +55,11 @@ resource "routeros_container" "busybox" {
 ### Read-Only
 
 - `arch` (String) The architecture of the container image
+- `cpu_usage` (Number) Current CPU usage percentage
 - `id` (String) The ID of this resource.
-- `name` (String) Assign a name to the container
+- `image_id` (String) SHA of image in use
+- `layers` (String) List of layer dir names for this container image
+- `memory_current` (Number) Current RAM usage by the container.
 - `os` (String) The OS of the container image
 - `status` (String) The status of the container
 - `tag` (String) The tag of the container image

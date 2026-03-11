@@ -33,5 +33,6 @@ Read-Only:
 - `invalid` (Boolean)
 - `network` (String)
 - `slave` (Boolean)
+- `vrf` (String)
 
 

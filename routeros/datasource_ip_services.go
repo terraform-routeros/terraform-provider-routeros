@@ -36,6 +36,10 @@ func DatasourceIPServices() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						"container": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"disabled": {
 							Type:     schema.TypeBool,
 							Computed: true,
@@ -58,6 +62,10 @@ func DatasourceIPServices() *schema.Resource {
 						},
 						"name": {
 							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"netns": {
+							Type:     schema.TypeInt,
 							Computed: true,
 						},
 						"port": {

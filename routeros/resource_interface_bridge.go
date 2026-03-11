@@ -316,6 +316,7 @@ func ResourceInterfaceBridge() *schema.Resource {
 			Description:      "Globally enables or disables VLAN functionality for bridge.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		KeyVrf: PropVrfRw,
 		// Some properties are not implemented, see: https://wiki.mikrotik.com/wiki/Manual:Interface/Bridge
 	}
 
