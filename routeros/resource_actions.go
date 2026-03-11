@@ -15,11 +15,20 @@ type DataValidateFunc func(d *schema.ResourceData) diag.Diagnostics
 
 var errorNoLongerExists = errors.New("resource no longer exists")
 
+func wrappedReadItems(id *ItemId, resourcePath string, c Client, metadata *MikrotikItemMetadata) (*[]MikrotikItem, error) {
+	if metadata != nil {
+		if field, ok := metadata.Meta[MetaNoInherited]; ok {
+			return ReadItemsNoInherit(id, resourcePath, c, field)
+		}
+	}
+	return ReadItems(id, resourcePath, c)
+}
+
 // Dynamic resource ID lookup to save us from situations where we are trying to delete a resource
 // that has been destroyed outside of Terraform. Always returns only the internal Mikrotik id!
-func dynamicIdLookup(idType IdType, path string, c Client, d *schema.ResourceData) (string, error) {
+func dynamicIdLookup(idType IdType, path string, c Client, d *schema.ResourceData, metadata *MikrotikItemMetadata) (string, error) {
 	// Dynamic lookup id.
-	res, err := ReadItems(&ItemId{idType, d.Id()}, path, c)
+	res, err := wrappedReadItems(&ItemId{idType, d.Id()}, path, c, metadata)
 	if err != nil {
 		// API/REST client error.
 		return "", err
@@ -70,7 +79,7 @@ func ResourceCreate(ctx context.Context, s map[string]*schema.Schema, d *schema.
 	// Some resources may return an empty array as a response when executing commands other than 'create'.
 	// For these cases, we will try to find the created element by name (if available).
 	if res.GetID(Id) == "" && item[KeyName] != "" {
-		items, err := ReadItems(&ItemId{Name, item[KeyName]}, metadata.Path, m.(Client))
+		items, err := wrappedReadItems(&ItemId{Name, item[KeyName]}, metadata.Path, m.(Client), metadata)
 		if err != nil {
 			return diag.FromErr(err)
 		}
@@ -104,7 +113,7 @@ func ResourceCreate(ctx context.Context, s map[string]*schema.Schema, d *schema.
 
 	// We ask for information again in the case of API.
 	if m.(Client).GetTransport() == TransportAPI {
-		r, err := ReadItems(&ItemId{Id, res.GetID(Id)}, metadata.Path, m.(Client))
+		r, err := wrappedReadItems(&ItemId{Id, res.GetID(Id)}, metadata.Path, m.(Client), metadata)
 		if err != nil {
 			ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgPut, err))
 			return diag.FromErr(err)
@@ -238,7 +247,8 @@ func ResourceCreateAndWait(ctx context.Context, s map[string]*schema.Schema, d *
 func ResourceRead(ctx context.Context, s map[string]*schema.Schema, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	metadata := GetMetadata(s)
 
-	res, err := ReadItems(&ItemId{metadata.IdType, d.Id()}, metadata.Path, m.(Client))
+	res, err := wrappedReadItems(&ItemId{metadata.IdType, d.Id()}, metadata.Path, m.(Client), metadata)
+
 	if err != nil {
 		ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgGet, err))
 		return diag.FromErr(err)
@@ -261,7 +271,7 @@ func ResourceUpdate(ctx context.Context, s map[string]*schema.Schema, d *schema.
 
 	// d.Id() can be the name of a resource or its identifier.
 	// Mikrotik only operates on resource ID!
-	id, err := dynamicIdLookup(metadata.IdType, metadata.Path, m.(Client), d)
+	id, err := dynamicIdLookup(metadata.IdType, metadata.Path, m.(Client), d, metadata)
 	if err != nil {
 		// There is nothing to update, because resource id not found
 		// or some other error.
@@ -282,7 +292,7 @@ func ResourceUpdate(ctx context.Context, s map[string]*schema.Schema, d *schema.
 func ResourceDelete(ctx context.Context, s map[string]*schema.Schema, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	metadata := GetMetadata(s)
 
-	id, err := dynamicIdLookup(metadata.IdType, metadata.Path, m.(Client), d)
+	id, err := dynamicIdLookup(metadata.IdType, metadata.Path, m.(Client), d, metadata)
 	if err != nil {
 		if err != errorNoLongerExists {
 			ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgDelete, err))

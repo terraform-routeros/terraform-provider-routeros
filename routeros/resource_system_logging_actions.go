@@ -169,7 +169,7 @@ func ResourceSystemLoggingAction() *schema.Resource {
 		switch d.Get("name").(string) {
 		case "disk", "echo", "memory", "remote":
 			d.SetId(d.Get("name").(string))
-			id, err := dynamicIdLookup(Name, resSchema[MetaResourcePath].Default.(string), m.(Client), d)
+			id, err := dynamicIdLookup(Name, resSchema[MetaResourcePath].Default.(string), m.(Client), d, nil)
 			if err != nil {
 				ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgPatch, err))
 				return diag.FromErr(err)
