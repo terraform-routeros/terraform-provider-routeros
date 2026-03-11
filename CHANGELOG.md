@@ -1,3 +1,21 @@
+## [1.100.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.99.1...v1.100.0) (2026-03-11)
+
+### Features
+
+* Implement resource_interface_l2tp_server ([decbbd5](https://github.com/terraform-routeros/terraform-provider-routeros/commit/decbbd5f450320b6357d9dd4c59cff4893370184)), closes [#952](https://github.com/terraform-routeros/terraform-provider-routeros/issues/952)
+
+### Bug Fixes
+
+* Add attributes to ipv6_address and ip_ssh_server [7.21] ([5698c77](https://github.com/terraform-routeros/terraform-provider-routeros/commit/5698c77e97555ebe3f29cbcec304f178738d2e35)), closes [#935](https://github.com/terraform-routeros/terraform-provider-routeros/issues/935)
+* always-allow-password-login rename [7.21] ([bc06c3f](https://github.com/terraform-routeros/terraform-provider-routeros/commit/bc06c3f227fc13795c2c480458222044ef7f9bfd))
+* Fix continual +/32 diffs, where ROS reads back without ([aed2eb4](https://github.com/terraform-routeros/terraform-provider-routeros/commit/aed2eb4a917284118728ffe74cd690eea260da5c)), closes [#916](https://github.com/terraform-routeros/terraform-provider-routeros/issues/916)
+* **interface_ethernet_switch_port:** Add the hw offloading attribute ([2892320](https://github.com/terraform-routeros/terraform-provider-routeros/commit/2892320bf1748319b1b810cfc928f488b353d836)), closes [#895](https://github.com/terraform-routeros/terraform-provider-routeros/issues/895)
+* **queue_tree:** Fix the resource "routeros_queue_tree" crashes when refreshing state ([15869a0](https://github.com/terraform-routeros/terraform-provider-routeros/commit/15869a040a5d4327beebedd4045b05bb1164bc36)), closes [#925](https://github.com/terraform-routeros/terraform-provider-routeros/issues/925)
+* **routing_bgp_connections:** Unable to unset bgp connection keepalive time ([d2d3a82](https://github.com/terraform-routeros/terraform-provider-routeros/commit/d2d3a8260c9e4070bde01fa76c73cec67a9c8cce)), closes [#904](https://github.com/terraform-routeros/terraform-provider-routeros/issues/904)
+* **system_routerboard:** Field 'disable_pci' not found in the schema (7.20.6) ([45a8f99](https://github.com/terraform-routeros/terraform-provider-routeros/commit/45a8f992756356d45206682d442a4d5fc8d18d06)), closes [#902](https://github.com/terraform-routeros/terraform-provider-routeros/issues/902)
+* **tool_sniffer:** routeros_tool_sniffer filter_ip_address field must support CIDR ([9d57561](https://github.com/terraform-routeros/terraform-provider-routeros/commit/9d57561c0cbfddeb7196661636478592f4329bcc)), closes [#938](https://github.com/terraform-routeros/terraform-provider-routeros/issues/938)
+* **traffic_flow:** Add the missing `enable` attribute ([e97e918](https://github.com/terraform-routeros/terraform-provider-routeros/commit/e97e9187fbdab147a8602313f6b39f8146af7993)), closes [#890](https://github.com/terraform-routeros/terraform-provider-routeros/issues/890)
+
 ## [1.99.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.99.0...v1.99.1) (2026-03-08)
 
 ### Bug Fixes
