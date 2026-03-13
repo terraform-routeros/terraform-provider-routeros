@@ -1,3 +1,9 @@
+## [1.100.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.99.1...v1.100.0) (2026-03-13)
+
+### Features
+
+* **routing-id:** Add new resource `routeros_routing_id`
+
 ## [1.99.1](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.99.0...v1.99.1) (2026-03-08)
 
 ### Bug Fixes
