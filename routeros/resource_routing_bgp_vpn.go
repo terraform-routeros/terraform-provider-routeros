@@ -93,7 +93,7 @@ func ResourceRoutingBgpVpn() *schema.Resource {
 		KeyInactive: PropInactiveRo,
 		"instance": {
 			Type:        schema.TypeString,
-			Optional:    true,
+			Required:    true,
 			Description: "Name of the instance this VPN is assigned to.",
 		},
 		"label_allocation_policy": {
