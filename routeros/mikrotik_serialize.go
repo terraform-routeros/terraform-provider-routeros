@@ -156,6 +156,9 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 			case MetaTransformSet, MetaSkipFields, MetaSetUnsetFields, MetaDropByValue:
 				continue
 			default:
+				if meta.Meta == nil {
+					meta.Meta = make(map[string]string)
+				}
 				meta.Meta[terraformSnakeName] = terraformMetadata.Default.(string)
 			}
 			continue
