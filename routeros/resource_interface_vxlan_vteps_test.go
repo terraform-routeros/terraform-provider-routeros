@@ -41,6 +41,7 @@ func testAccInterfaceVxlanVtepsConfig() string {
 resource "routeros_interface_vxlan" "test-2" {
   name = "vxlan2-test"
   vni  = 11
+  hw   = true
 }
 
 resource "routeros_interface_vxlan_vteps" "test" {
