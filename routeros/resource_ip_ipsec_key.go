@@ -23,12 +23,15 @@ import (
 	In version 7.20, RSA key generation has been moved to a separate submenu /ip/ipsec/key/rsa.
 	I think MT plans to add support for keys other than RSA.
 	So for now, we will leave this resource unchanged to avoid making another fix that breaks the logic of the program.
+
+	16.03.2026
+	As of version 7.20, the old API path does not work anymore, so we have to change the resource to use the new path.
 */
 
 // https://help.mikrotik.com/docs/display/ROS/IPsec#IPsec-Keys
 func ResourceIpIpsecKey() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
-		MetaResourcePath: PropResourcePath("/ip/ipsec/key"),
+		MetaResourcePath: PropResourcePath("/ip/ipsec/key/rsa"),
 		MetaId:           PropId(Id),
 		MetaSkipFields:   PropSkipFields("private_key", "rsa"),
 

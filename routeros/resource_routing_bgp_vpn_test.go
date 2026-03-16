@@ -26,6 +26,7 @@ func TestAccRoutingBgpVpnTest_basic(t *testing.T) {
 						Check: resource.ComposeTestCheckFunc(
 							testResourcePrimaryInstanceId(testRoutingBgpVpn),
 							resource.TestCheckResourceAttr(testRoutingBgpVpn, "disabled", "false"),
+							resource.TestCheckResourceAttr(testRoutingBgpVpn, "instance", "bgp-instance-1"),
 							resource.TestCheckResourceAttr(testRoutingBgpVpn, "label_allocation_policy", "per-vrf"),
 							resource.TestCheckResourceAttr(testRoutingBgpVpn, "name", "bgp-mpls-vpn-test"),
 							resource.TestCheckResourceAttr(testRoutingBgpVpn, "route_distinguisher", "1.2.3.4:1"),
@@ -41,6 +42,11 @@ func TestAccRoutingBgpVpnTest_basic(t *testing.T) {
 func testAccRoutingBgpVpnConfig() string {
 	return fmt.Sprintf(`%v
 
+resource "routeros_routing_bgp_instance" "test" {
+	as   = "65000"
+	name = "bgp-instance-1"
+}
+
 resource "routeros_routing_bgp_vpn" "test" {
   disabled = false
   export {
@@ -50,6 +56,7 @@ resource "routeros_routing_bgp_vpn" "test" {
   import {
     route_targets = ["1:2"]
   }
+	instance                = resource.routeros_routing_bgp_instance.test.name
   label_allocation_policy = "per-vrf"
   name                    = "bgp-mpls-vpn-test"
   route_distinguisher     = "1.2.3.4:1"

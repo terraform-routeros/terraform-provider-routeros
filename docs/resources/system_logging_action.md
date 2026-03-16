@@ -13,7 +13,6 @@
 
 ### Optional
 
-- `bsd_syslog` (Boolean, Deprecated) Whether to use bsd-syslog as defined in RFC 3164.
 - `cef_event_delimiter` (String) Option helps remote syslog to distinguish between individual events within sent batch
 - `disk_file_count` (Number) Specifies number of files used to store log messages, applicable only if `action=disk`.
 - `disk_file_name` (String) Name of the file used to store log messages, applicable only if `action=disk`.

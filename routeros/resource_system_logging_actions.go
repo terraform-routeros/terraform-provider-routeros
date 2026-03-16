@@ -31,12 +31,6 @@ func ResourceSystemLoggingAction() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/system/logging/action"),
 		MetaId:           PropId(Id),
 
-		"bsd_syslog": {
-			Type:        schema.TypeBool,
-			Optional:    true,
-			Description: `Whether to use bsd-syslog as defined in RFC 3164.`,
-			Deprecated:  DeprecatedInfo("7.18"),
-		},
 		"cef_event_delimiter": {
 			Type:             schema.TypeString,
 			Optional:         true,

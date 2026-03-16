@@ -30,7 +30,6 @@ func TestAccOpenVPNServerTest_basic(t *testing.T) {
 						Check: resource.ComposeTestCheckFunc(
 							testResourcePrimaryInstanceId(testOpenVPNServer),
 							testResourcePrimaryInstanceId(testInterfaceOpenVPNServer),
-							resource.TestCheckResourceAttr(testOpenVPNServer, "id", "interface.ovpn-server.server"),
 							resource.TestCheckResourceAttr(testInterfaceOpenVPNServer, "name", "ovpn-in1"),
 							resource.TestCheckResourceAttr(testInterfaceOpenVPNServer, "user", "user1"),
 						),
@@ -66,7 +65,7 @@ func testAccOpenVPNServerConfig() string {
 	  }
 	  
 	  resource "routeros_ovpn_server" "server" {
-		enabled          = false
+		disabled         = true
 		certificate      = routeros_system_certificate.ovpn_server_crt.name
 		auth             = ["sha256", "sha512"]
 		redirect_gateway = ["def1", "ipv6"]

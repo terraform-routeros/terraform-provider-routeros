@@ -18,9 +18,11 @@ jobs:
         experimental: [false]
         os: [ubuntu-latest]
         routeros_version:
-          - "7.12"
-          - "7.15"
-          - "7.16"
+          - "7.18"
+          - "7.19"
+          - "7.20"
+          # - "7.21"
+          # - "7.22"
 
     steps:
       - name: Container check

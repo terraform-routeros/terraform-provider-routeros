@@ -37,7 +37,7 @@ func ResourceIpCloud() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"ddns_enabled": {
-			Type:     schema.TypeString,
+			Type:     schema.TypeBool,
 			Optional: true,
 			Description: "If set to yes, then the device will send an encrypted message to the MikroTik's Cloud " +
 				"server. The server will then decrypt the message and verify that the sender is an " +

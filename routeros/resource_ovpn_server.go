@@ -77,7 +77,11 @@ func ResourceOpenVPNServer() *schema.Resource {
 			Default:     false,
 			Description: "Specifies if IPv6 IP tunneling mode should be possible with this OVPN server.",
 		},
-		KeyEnabled: PropEnabled("Defines whether the OVPN server is enabled or not."),
+		KeyDisabled: {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Description: "Defines whether the OVPN server is disabled or not.",
+		},
 		"ipv6_prefix_len": {
 			Type:     schema.TypeInt,
 			Optional: true,
@@ -192,11 +196,11 @@ func ResourceOpenVPNServer() *schema.Resource {
 	}
 
 	return &schema.Resource{
-		Description:   `##### *<span style="color:red">This resource requires a minimum version of RouterOS 7.8!</span>*`,
-		CreateContext: DefaultSystemCreate(resSchema),
-		ReadContext:   DefaultSystemRead(resSchema),
-		UpdateContext: DefaultSystemUpdate(resSchema),
-		DeleteContext: DefaultSystemDelete(resSchema),
+		Description:   `##### *<span style="color:red">This resource requires a minimum version of RouterOS 7.17!</span>*`,
+		CreateContext: DefaultCreate(resSchema),
+		ReadContext:   DefaultRead(resSchema),
+		UpdateContext: DefaultUpdate(resSchema),
+		DeleteContext: DefaultDelete(resSchema),
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
