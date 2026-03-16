@@ -28,12 +28,12 @@ func TestAccSystemClockTest_basic(t *testing.T) {
 func makeSteps(name string) (res []resource.TestStep) {
 	params := map[string]map[string]string{
 		"API": {
-			"date":           `2024-05-15`,
+			"date":           `2027-05-15`,
 			"time":           `17:58:11`,
 			"time_zone_name": `EST`,
 		},
 		"REST": {
-			"date":           `2024-05-17`,
+			"date":           `2027-05-17`,
 			"time":           `18:58:11`,
 			"time_zone_name": `UTC`,
 		},
