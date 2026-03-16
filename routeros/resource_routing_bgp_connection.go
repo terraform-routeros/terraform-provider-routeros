@@ -270,7 +270,7 @@ func ResourceRoutingBgpConnection() *schema.Resource {
 		},
 		"instance": {
 			Type:             schema.TypeString,
-			Optional:         true,
+			Optional:         false,
 			Description:      "Name of the instance this VPN is assigned to.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
