@@ -30,7 +30,6 @@ func TestAccOpenVPNServerTest_basic(t *testing.T) {
 						Check: resource.ComposeTestCheckFunc(
 							testResourcePrimaryInstanceId(testOpenVPNServer),
 							testResourcePrimaryInstanceId(testInterfaceOpenVPNServer),
-							resource.TestCheckResourceAttr(testOpenVPNServer, "id", "interface.ovpn-server.server"),
 							resource.TestCheckResourceAttr(testInterfaceOpenVPNServer, "name", "ovpn-in1"),
 							resource.TestCheckResourceAttr(testInterfaceOpenVPNServer, "user", "user1"),
 						),
