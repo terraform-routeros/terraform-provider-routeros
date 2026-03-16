@@ -42,7 +42,7 @@ resource "routeros_ppp_secret" "test" {
 }
 
 resource "routeros_ovpn_server" "server" {
-  enabled         = true
+  disabled        = false
   certificate     = routeros_system_certificate.ovpn_server_crt.name
   auth            = ["sha256", "sha512"]
   tls_version     = "only-1.2"
@@ -67,7 +67,7 @@ resource "routeros_interface_ovpn_server" "user1" {
 - `cipher` (Set of String) Allowed ciphers.
 - `default_profile` (String) Default profile to use.
 - `enable_tun_ipv6` (Boolean) Specifies if IPv6 IP tunneling mode should be possible with this OVPN server.
-- `enabled` (Boolean) Defines whether the OVPN server is enabled or not.
+- `disabled` (Boolean) Defines whether the OVPN server is disabled or not.
 - `ipv6_prefix_len` (Number) Length of IPv6 prefix for IPv6 address which will be used when generating OVPN interface on the server side.
 - `keepalive_timeout` (String) Defines  the time period (in seconds) after which the router is starting to send  keepalive packets every second. If no traffic and no keepalive  responses have come for that period of time (i.e. 2 *  keepalive-timeout), not responding client is proclaimed disconnected
 - `mac_address` (String) Automatically generated MAC address of the server.
