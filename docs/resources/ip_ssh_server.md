@@ -15,7 +15,6 @@ resource "routeros_ip_ssh_server" "test" {
 
 ### Optional
 
-- `allow_none_crypto` (Boolean) Whether to allow connection if cryptographic algorithms are set to none.
 - `always_allow_password_login` (Boolean) Whether to allow password login at the same time when public key authorization is configured for a user.
 - `ciphers` (String) Allow to configure SSH ciphers.
 - `forwarding_enabled` (String) Allows to control which SSH forwarding method to allow:

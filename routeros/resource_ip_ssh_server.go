@@ -7,7 +7,6 @@ import (
 
 /*
 {
-  "allow-none-crypto": "false",
   "always-allow-password-login": "false",
   "forwarding-enabled": "no",
   "host-key-size": "2048",
@@ -21,12 +20,6 @@ func ResourceIpSSHServer() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/ip/ssh"),
 		MetaId:           PropId(Id),
 
-		"allow_none_crypto": {
-			Type:         schema.TypeBool,
-			Optional:     true,
-			Description:  "Whether to allow connection if cryptographic algorithms are set to none.",
-			ExactlyOneOf: []string{"allow_none_crypto", "strong_crypto"},
-		},
 		"always_allow_password_login": {
 			Type:     schema.TypeBool,
 			Optional: true,
@@ -77,10 +70,9 @@ func ResourceIpSSHServer() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"strong_crypto": {
-			Type:         schema.TypeBool,
-			Optional:     true,
-			Description:  "Use stronger encryption.",
-			ExactlyOneOf: []string{"allow_none_crypto", "strong_crypto"},
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Description: "Use stronger encryption.",
 		},
 	}
 
