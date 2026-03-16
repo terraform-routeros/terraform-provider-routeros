@@ -36,7 +36,7 @@ resource "routeros_ip_dhcp_server" "server" {
 - `delay_threshold` (String) If secs field in DHCP packet is smaller than delay-threshold, then this packet is ignored. If set to none - there is no threshold (all DHCP packets are processed).
 - `dhcp_option_set` (String) Use custom set of DHCP options defined in option sets menu.
 - `disabled` (Boolean)
-- `dynamic_lease_identifiers` (String) Dynamic lease identifier
+- `dynamic_lease_identifiers` (Set of String) Dynamic lease identifier
 - `insert_queue_before` (String) Specify where to place dynamic simple queue entries for static DCHP leases with rate-limit parameter set.
 - `lease_script` (String) A script that will be executed after a lease is assigned or de-assigned.
 - `lease_time` (String) The time that a client may use the assigned address. The client will try to renew this address after half of this time and will request a new address after the time limit expires.

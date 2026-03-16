@@ -366,6 +366,12 @@ func ResourceSystemCertificate() *schema.Resource {
 			Description:      "SANs (subject alternative names).",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"trust_store": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Built-in trust store elements to enable.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"trusted": {
 			Type:             schema.TypeBool,
 			Optional:         true,
