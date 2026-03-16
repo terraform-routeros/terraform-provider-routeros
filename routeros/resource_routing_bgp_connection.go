@@ -13,7 +13,6 @@ import (
     "as": "65521/1",
     "as-override": "true",
     "cisco-vpls-nlri-len-fmt": "auto-bits",
-    "cluster-id": "0.0.0.0",
     "connect": "true",
     "disabled": "false",
     "hold-time": "infinity",
@@ -22,11 +21,9 @@ import (
     "input.accept-ext-communities": "",
     "input.accept-large-communities": "",
     "input.accept-nlri": "",
-    "input.accept-unknown": "",
     "input.affinity": "alone",
     "input.allow-as": "0",
     "input.filter": "",
-    "input.ignore-as-path-len": "true",
     "input.limit-process-routes-ipv4": "5",
     "input.limit-process-routes-ipv6": "5",
     "keepalive-time": "3m",
@@ -53,7 +50,6 @@ import (
     "remote.port": "11223",
     "remote.ttl": "3",
     "remove-private-as": "true",
-    "router-id": "0.0.0.1",
     "routing-table": "main",
     "save-to": "bgp.dump",
     "tcp-md5-key": "poipoipoipoipoi",
@@ -100,17 +96,6 @@ func ResourceRoutingBgpConnection() *schema.Resource {
 			Optional:     true,
 			Description:  "VPLS NLRI length format type. Used for compatibility with Cisco VPLS.",
 			ValidateFunc: validation.StringInSlice([]string{"auto-bits", "auto-bytes", "bits", "bytes"}, false),
-		},
-		"cluster_id": {
-			Type:     schema.TypeString,
-			Optional: true,
-			Description: "In case this instance is a route reflector: the cluster ID of the router reflector " +
-				"cluster to this instance belongs. This attribute helps to recognize routing updates " +
-				"that come from another route reflector in this cluster and avoid routing information " +
-				"looping. Note that normally there is only one route reflector in a cluster; in this " +
-				"case, 'cluster-id' does not need to be configured and BGP router ID is used instead.",
-			ValidateFunc: validation.IsIPv4Address,
-			Deprecated:   DeprecatedInfo("7.20"),
 		},
 		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
@@ -181,17 +166,6 @@ func ResourceRoutingBgpConnection() *schema.Resource {
 							"chain can only reject prefixes which means that it will still eat memory and will be " +
 							"visible in /routing route table as 'not active, filtered'. Changes to be applied " +
 							"required session restart.",
-					},
-					"accept_unknown": {
-						Type:     schema.TypeString,
-						Optional: true,
-						Description: "A quick way to filter incoming updates with specific 'unknown' attributes. It allows " +
-							"filtering incoming messages directly before they are even parsed and stored in memory, " +
-							"that way significantly reducing memory usage. Regular input filter chain can only " +
-							"reject prefixes which means that it will still eat memory and will be visible in " +
-							"/routing route table as 'not active, filtered'. Changes to be applied required session " +
-							"refresh.",
-						Deprecated: DeprecatedInfo("7.19"),
 					},
 					// affinity (afi | alone | instance | main | remote-as | vrf; Default: )
 					// May be "0"
@@ -269,12 +243,6 @@ func ResourceRoutingBgpConnection() *schema.Resource {
 							"still eat memory and will be visible in /routing route table as \"not active, filtered\". Changes " +
 							"to be applied required session refresh.",
 						DiffSuppressFunc: AlwaysPresentNotUserProvided,
-					},
-					"ignore_as_path_len": {
-						Type:        schema.TypeBool,
-						Optional:    true,
-						Description: "Whether to ignore the AS_PATH attribute in the BGP route selection algorithm",
-						Deprecated:  DeprecatedInfo("7.20"),
 					},
 					// FIXME ROS 7.8: 'unknown parameter input.limit-nlri-diversity'
 					// "limit_nlri_diversity": {
@@ -540,14 +508,6 @@ func ResourceRoutingBgpConnection() *schema.Resource {
 					},
 				},
 			},
-		},
-		"router_id": {
-			Type:     schema.TypeString,
-			Optional: true,
-			Description: "BGP Router ID to be used. Use the ID from the /routing/router-id configuration by " +
-				"specifying the reference name, or set the ID directly by specifying IP. Equal " +
-				"router-ids are also used to group peers into one instance.",
-			Deprecated: DeprecatedInfo("7.20"),
 		},
 		"routing_table": {
 			Type:        schema.TypeString,
