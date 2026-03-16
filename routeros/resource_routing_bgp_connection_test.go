@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-const testBGPConnectionMinVersion = "7.12"
+const testBGPConnectionMinVersion = "7.20"
 const testBGPConnectionAddress = "routeros_routing_bgp_connection.test"
 
 func TestAccBGPConnectionTest_basic(t *testing.T) {
@@ -40,6 +40,11 @@ func TestAccBGPConnectionTest_basic(t *testing.T) {
 
 func testAccBGPConnectionConfig() string {
 	return providerConfig + `
+resource "routeros_routing_bgp_instance" "test" {
+	as   = "65000"
+	name = "bgp-instance-1"
+}
+
 resource "routeros_routing_bgp_connection" "test" {
 	add_path_out            = "none"
 	address_families        = "ip"
@@ -58,6 +63,7 @@ resource "routeros_routing_bgp_connection" "test" {
 		limit_process_routes_ipv4 = 5
 		limit_process_routes_ipv6 = 2
 	}
+	instance = routeros_routing_bgp_instance.test.name
 	keepalive_time = "4m"
 	listen         = true
 	local {
