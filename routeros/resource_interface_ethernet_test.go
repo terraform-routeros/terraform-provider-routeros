@@ -47,7 +47,7 @@ func TestAccInterfaceEthernetTest_basic(t *testing.T) {
 
 							// read only properties. #slave and #switch are not returned from the virtual switch
 							// so we can add assertions.
-							resource.TestCheckResourceAttr(testInterfaceEthernetAddress, "running", "false"),
+							resource.TestCheckResourceAttr(testInterfaceEthernetAddress, "default_name", "ether2"),
 						),
 					},
 				},
