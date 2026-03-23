@@ -72,8 +72,8 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Type:     schema.TypeString,
 			Optional: true,
 			Description: `
-				Advertised speed and duplex modes for Ethernet interfaces over twisted pair, 
-				only applies when auto-negotiation is enabled. Advertising higher speeds than 
+				Advertised speed and duplex modes for Ethernet interfaces over twisted pair,
+				only applies when auto-negotiation is enabled. Advertising higher speeds than
 				the actual interface supported speed will have no effect, multiple options are allowed.`,
 			// ValidateFunc: validation.StringMatch(
 			// 	regexp.MustCompile(`^[0-9\.]+(M|G)-(full|half|base\w+(-\w+)?)$`),
@@ -94,7 +94,7 @@ func ResourceInterfaceEthernet() *schema.Resource {
 		"bandwidth": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Description: `Sets max rx/tx bandwidth in kbps that will be handled by an interface. TX limit is supported on all Atheros switch-chip ports. 
+			Description: `Sets max rx/tx bandwidth in kbps that will be handled by an interface. TX limit is supported on all Atheros switch-chip ports.
 				RX limit is supported only on Atheros8327/QCA8337 switch-chip ports.`,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
@@ -108,7 +108,7 @@ func ResourceInterfaceEthernet() *schema.Resource {
 		"combo_mode": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Description: `When auto mode is selected, the port that was first connected will establish the link. In case this link fails, the other port will try to establish a new link. If both ports are connected at the same time (e.g. after reboot), 
+			Description: `When auto mode is selected, the port that was first connected will establish the link. In case this link fails, the other port will try to establish a new link. If both ports are connected at the same time (e.g. after reboot),
 				the priority will be the SFP/SFP+ port. When sfp mode is selected, the interface will only work through SFP/SFP+ cage.
 				When copper mode is selected, the interface will only work through RJ45 Ethernet port.`,
 			ValidateFunc:     validation.StringInSlice([]string{"auto", "copper", "sfp"}, false),
@@ -217,7 +217,10 @@ func ResourceInterfaceEthernet() *schema.Resource {
 			Type:         schema.TypeString,
 			Optional:     true,
 			Description:  "An address to monitor.",
-			ValidateFunc: validation.IsIPAddress,
+			ValidateFunc: validation.Any(
+				validation.IsIPAddress,
+				validation.IsMACAddress,
+			),
 			RequiredWith: []string{"power_cycle_ping_enabled"},
 		},
 		"power_cycle_ping_timeout": {
@@ -284,8 +287,8 @@ func ResourceInterfaceEthernet() *schema.Resource {
 		"tx_flow_control": {
 			Type:     schema.TypeString,
 			Optional: true,
-			Description: `When set to on, the port will generate pause frames to the upstream device to temporarily stop the packet transmission. 
-					Pause frames are only generated when some routers output interface is congested and packets cannot be transmitted anymore. 
+			Description: `When set to on, the port will generate pause frames to the upstream device to temporarily stop the packet transmission.
+					Pause frames are only generated when some routers output interface is congested and packets cannot be transmitted anymore.
 					Auto is the same as on except when auto-negotiation=yes flow control status is resolved by taking into account what other end advertises.`,
 			ValidateFunc:     validation.StringInSlice([]string{"on", "off", "auto"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
