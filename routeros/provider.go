@@ -108,6 +108,19 @@ func Provider() *schema.Provider {
 				Description:  "HTTP Client Timeout",
 				ValidateFunc: validation.IntAtLeast(5),
 			},
+			"bulk_read_refresh": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				DefaultFunc: schema.MultiEnvDefaultFunc(
+					[]string{"ROS_BULK_READ_REFRESH"},
+					false,
+				),
+				Description: "When true, Terraform state refresh fetches each resource path in a single bulk " +
+					"GET and serves subsequent per-id reads from an in-memory cache invalidated on writes. " +
+					"Speeds up plans over large resource sets (e.g. thousands of DNS records) by an order " +
+					"of magnitude. Opt-in; default false preserves the traditional per-id filtered GET " +
+					"behavior (env: ROS_BULK_READ_REFRESH).",
+			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
 

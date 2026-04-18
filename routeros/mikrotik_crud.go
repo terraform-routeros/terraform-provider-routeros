@@ -24,6 +24,7 @@ func CreateItem(ctx context.Context, item MikrotikItem, resourcePath string, c C
 	}
 
 	var crud = crudCreate
+	invalidationPath := resourcePath
 
 	if cm := ctxGetCrudMethod(ctx); cm != crudUnknown {
 		crud = cm
@@ -35,6 +36,11 @@ func CreateItem(ctx context.Context, item MikrotikItem, resourcePath string, c C
 
 	res := MikrotikItem{}
 	err := c.SendRequest(crud, &URL{Path: resourcePath}, item, &res)
+	if err == nil {
+		if cache := c.GetBulkCache(); cache != nil {
+			cache.Invalidate(invalidationPath)
+		}
+	}
 
 	return res, err
 }
@@ -44,6 +50,37 @@ func ReadItems(id *ItemId, resourcePath string, c Client) (*[]MikrotikItem, erro
 
 	if resourcePath == "" {
 		return nil, errEmptyPath
+	}
+
+	// Bulk-read cache fast path. Only kicks in for .id lookups on a managed
+	// resource when the provider has "bulk_read_refresh" enabled. Datasource
+	// reads (id==nil) and name-based lookups fall through to the original
+	// filtered GET so their semantics are unchanged.
+	if id != nil && id.Type == Id {
+		if cache := c.GetBulkCache(); cache != nil {
+			if item, itemFound, pathCached := cache.Lookup(resourcePath, id.Value); pathCached {
+				if itemFound {
+					return &[]MikrotikItem{item}, nil
+				}
+				return &[]MikrotikItem{}, nil
+			}
+			all, err := cache.DoBulkFetch(resourcePath, func() ([]MikrotikItem, error) {
+				var items []MikrotikItem
+				if err := c.SendRequest(crudRead, &URL{Path: resourcePath}, nil, &items); err != nil {
+					return nil, err
+				}
+				return items, nil
+			})
+			if err != nil {
+				return nil, err
+			}
+			for _, it := range all {
+				if it.GetID(Id) == id.Value {
+					return &[]MikrotikItem{it}, nil
+				}
+			}
+			return &[]MikrotikItem{}, nil
+		}
 	}
 
 	url := &URL{Path: resourcePath}
@@ -93,6 +130,8 @@ func UpdateItem(id *ItemId, resourcePath string, item MikrotikItem, c Client) (M
 		return nil, errEmptyPath
 	}
 
+	invalidationPath := resourcePath
+
 	if c.GetTransport() == TransportREST {
 		// /interface/vlan/*39
 		resourcePath += "/" + id.Value
@@ -102,6 +141,11 @@ func UpdateItem(id *ItemId, resourcePath string, item MikrotikItem, c Client) (M
 
 	res := MikrotikItem{}
 	err := c.SendRequest(crudUpdate, &URL{Path: resourcePath}, item, &res)
+	if err == nil {
+		if cache := c.GetBulkCache(); cache != nil {
+			cache.Invalidate(invalidationPath)
+		}
+	}
 
 	return res, err
 }
@@ -114,6 +158,7 @@ func DeleteItem(id *ItemId, resourcePath string, c Client) error {
 		return errEmptyPath
 	}
 
+	invalidationPath := resourcePath
 	url := &URL{Path: resourcePath}
 
 	if c.GetTransport() == TransportREST {
@@ -127,5 +172,11 @@ func DeleteItem(id *ItemId, resourcePath string, c Client) error {
 		url.Query = []string{"=.id=" + id.Value}
 	}
 
-	return c.SendRequest(crudDelete, url, nil, &MikrotikItem{})
+	err := c.SendRequest(crudDelete, url, nil, &MikrotikItem{})
+	if err == nil {
+		if cache := c.GetBulkCache(); cache != nil {
+			cache.Invalidate(invalidationPath)
+		}
+	}
+	return err
 }
