@@ -21,6 +21,9 @@ type Client interface {
 	GetExtraParams() *ExtraParams
 	GetTransport() TransportType
 	SendRequest(method crudMethod, url *URL, item MikrotikItem, result interface{}) error
+	// GetBulkCache returns the opt-in per-path read cache or nil when the
+	// "bulk_read_refresh" provider attribute is disabled.
+	GetBulkCache() *BulkReadCache
 }
 
 type crudMethod int
@@ -119,6 +122,11 @@ func NewClient(ctx context.Context, d *schema.ResourceData) (interface{}, diag.D
 		ColorizedMessage(ctx, INFO, "RouterOS from env: "+RouterOSVersion)
 	}
 
+	var cache *BulkReadCache
+	if d.Get("bulk_read_refresh").(bool) {
+		cache = NewBulkReadCache()
+	}
+
 	if transport == TransportAPI {
 		api := &ApiClient{
 			ctx:       ctx,
@@ -129,6 +137,7 @@ func NewClient(ctx context.Context, d *schema.ResourceData) (interface{}, diag.D
 			extra: &ExtraParams{
 				SuppressSysODelWarn: d.Get("suppress_syso_del_warn").(bool),
 			},
+			bulkCache: cache,
 		}
 
 		if useTLS {
@@ -166,6 +175,7 @@ func NewClient(ctx context.Context, d *schema.ResourceData) (interface{}, diag.D
 		extra: &ExtraParams{
 			SuppressSysODelWarn: d.Get("suppress_syso_del_warn").(bool),
 		},
+		bulkCache: cache,
 	}
 
 	rest.Client = &http.Client{

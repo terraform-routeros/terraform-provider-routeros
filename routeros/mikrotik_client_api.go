@@ -16,6 +16,7 @@ type ApiClient struct {
 	Password  string
 	Transport TransportType
 	extra     *ExtraParams
+	bulkCache *BulkReadCache
 	*routeros.Client
 }
 
@@ -44,6 +45,10 @@ func (c *ApiClient) GetExtraParams() *ExtraParams {
 
 func (c *ApiClient) GetTransport() TransportType {
 	return c.Transport
+}
+
+func (c *ApiClient) GetBulkCache() *BulkReadCache {
+	return c.bulkCache
 }
 
 func (c *ApiClient) SendRequest(method crudMethod, url *URL, item MikrotikItem, result interface{}) error {

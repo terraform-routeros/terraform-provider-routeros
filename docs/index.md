@@ -62,6 +62,7 @@ resource "routeros_interface_gre" "gre_hq" {
 
 ### Optional
 
+- `bulk_read_refresh` (Boolean) When true, Terraform state refresh fetches each resource path in a single bulk GET and serves subsequent per-id reads from an in-memory cache invalidated on writes. Speeds up plans over large resource sets (e.g. thousands of DNS records) by an order of magnitude when most records on a path are managed by Terraform. Can slow down plans on configs that manage only a handful of records on a path populated by many unmanaged entries, because each bulk fetch returns the full path. Opt-in; default false preserves the traditional per-id filtered GET behavior (env: ROS_BULK_READ_REFRESH).
 - `ca_certificate` (String) Path to MikroTik's certificate authority file (env: ROS_CA_CERTIFICATE | MIKROTIK_CA_CERTIFICATE).
 - `insecure` (Boolean) Whether to verify the SSL certificate or not (env: ROS_INSECURE | MIKROTIK_INSECURE).
 - `password` (String, Sensitive) Password for the MikroTik user (env: ROS_PASSWORD | MIKROTIK_PASSWORD).

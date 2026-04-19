@@ -18,6 +18,7 @@ type RestClient struct {
 	Password  string
 	Transport TransportType
 	extra     *ExtraParams
+	bulkCache *BulkReadCache
 	*http.Client
 }
 
@@ -52,6 +53,10 @@ func (c *RestClient) GetExtraParams() *ExtraParams {
 
 func (c *RestClient) GetTransport() TransportType {
 	return c.Transport
+}
+
+func (c *RestClient) GetBulkCache() *BulkReadCache {
+	return c.bulkCache
 }
 
 func (c *RestClient) SendRequest(method crudMethod, url *URL, item MikrotikItem, result interface{}) error {
