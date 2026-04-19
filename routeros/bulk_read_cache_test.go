@@ -77,13 +77,13 @@ func TestBulkReadCache_Invalidate(t *testing.T) {
 func TestBulkReadCache_DoBulkFetch_CoalescesConcurrentCallers(t *testing.T) {
 	c := NewBulkReadCache()
 	const workers = 50
-	var fetchCount int64
+	var fetchCount atomic.Int64
 	response := []MikrotikItem{{".id": "*1", "name": "only"}}
 
 	fetchStarted := make(chan struct{})
 	release := make(chan struct{})
 	fetch := func() ([]MikrotikItem, error) {
-		atomic.AddInt64(&fetchCount, 1)
+		fetchCount.Add(1)
 		close(fetchStarted)
 		<-release
 		return response, nil
@@ -93,30 +93,26 @@ func TestBulkReadCache_DoBulkFetch_CoalescesConcurrentCallers(t *testing.T) {
 	results := make([]MikrotikItem, workers)
 
 	// Worker 0 starts the fetch and blocks inside it.
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
+	wg.Go(func() {
 		items, err := c.DoBulkFetch("/ip/dns/static", fetch)
 		if err != nil {
 			t.Errorf("worker 0: %v", err)
 			return
 		}
 		results[0] = items[0]
-	}()
+	})
 
 	<-fetchStarted
 
-	wg.Add(workers - 1)
 	for i := 1; i < workers; i++ {
-		go func(i int) {
-			defer wg.Done()
+		wg.Go(func() {
 			items, err := c.DoBulkFetch("/ip/dns/static", fetch)
 			if err != nil {
 				t.Errorf("worker %d: %v", i, err)
 				return
 			}
 			results[i] = items[0]
-		}(i)
+		})
 	}
 
 	// Give the late workers time to enter DoBulkFetch before we release.
@@ -126,7 +122,7 @@ func TestBulkReadCache_DoBulkFetch_CoalescesConcurrentCallers(t *testing.T) {
 	close(release)
 	wg.Wait()
 
-	if got := atomic.LoadInt64(&fetchCount); got != 1 {
+	if got := fetchCount.Load(); got != 1 {
 		t.Errorf("fetch invoked %d times, want 1 (singleflight must coalesce)", got)
 	}
 	for i, item := range results {
@@ -151,10 +147,9 @@ func TestBulkReadCache_DoBulkFetch_InvalidateMidFetch_DiscardsStaleSnapshot(t *t
 	// First fetch: starts, we Invalidate() before it returns, then it returns
 	// the stale snapshot. populateIfFresh must reject it; DoBulkFetch must
 	// observe errStaleBulkFetch internally and retry at the new generation.
-	var attempts int64
+	var attempts atomic.Int64
 	items, err := c.DoBulkFetch(path, func() ([]MikrotikItem, error) {
-		n := atomic.AddInt64(&attempts, 1)
-		if n == 1 {
+		if attempts.Add(1) == 1 {
 			// Simulate a concurrent writer bumping the generation mid-fetch.
 			c.Invalidate(path)
 			return []MikrotikItem{{".id": "*stale"}}, nil
@@ -165,8 +160,8 @@ func TestBulkReadCache_DoBulkFetch_InvalidateMidFetch_DiscardsStaleSnapshot(t *t
 	if err != nil {
 		t.Fatalf("DoBulkFetch err = %v", err)
 	}
-	if atomic.LoadInt64(&attempts) != 2 {
-		t.Errorf("fetch attempts = %d, want 2 (first stale, retry fresh)", attempts)
+	if got := attempts.Load(); got != 2 {
+		t.Errorf("fetch attempts = %d, want 2 (first stale, retry fresh)", got)
 	}
 	if len(items) != 2 || items[0][".id"] != "*fresh-1" {
 		t.Errorf("items = %v, want the fresh post-invalidate snapshot", items)
@@ -191,47 +186,39 @@ func TestBulkReadCache_DoBulkFetch_ConcurrentInvalidateDoesNotStrand(t *testing.
 
 	release := make(chan struct{})
 	firstStarted := make(chan struct{})
-	var once sync.Once
-	var attempts int64
+	var attempts atomic.Int64
 
 	fetch := func() ([]MikrotikItem, error) {
-		n := atomic.AddInt64(&attempts, 1)
-		if n == 1 {
-			once.Do(func() { close(firstStarted) })
+		if attempts.Add(1) == 1 {
+			close(firstStarted)
 			<-release // block first fetch until the writer arrives
 			return []MikrotikItem{{".id": "*old"}}, nil
 		}
 		return []MikrotikItem{{".id": "*old"}, {".id": "*new"}}, nil
 	}
 
-	var readerItems []MikrotikItem
-	var readerErr error
-	readerDone := make(chan struct{})
-	go func() {
-		defer close(readerDone)
+	var wg sync.WaitGroup
+	var readerItems, writerItems []MikrotikItem
+	var readerErr, writerErr error
+
+	wg.Go(func() {
 		readerItems, readerErr = c.DoBulkFetch(path, fetch)
-	}()
+	})
 
 	<-firstStarted
 	// Writer invalidates (as a real CreateItem would after a successful write)
 	// then issues its post-write read. This must not be served the pre-write
 	// snapshot from the in-flight reader's fetch.
 	c.Invalidate(path)
-	var writerItems []MikrotikItem
-	var writerErr error
-	writerDone := make(chan struct{})
-	go func() {
-		defer close(writerDone)
+	wg.Go(func() {
 		writerItems, writerErr = c.DoBulkFetch(path, fetch)
-	}()
+	})
 
 	// Give the writer time to enter DoBulkFetch and pick its generation before
 	// we unblock the original (stale) fetch.
 	time.Sleep(50 * time.Millisecond)
 	close(release)
-
-	<-readerDone
-	<-writerDone
+	wg.Wait()
 
 	if readerErr != nil {
 		t.Fatalf("reader err = %v", readerErr)

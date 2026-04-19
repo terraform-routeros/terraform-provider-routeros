@@ -269,10 +269,8 @@ func TestReadItems_CacheEnabled_ParallelCallsCoalesceToOneBulkGet(t *testing.T) 
 	// count, which is what the feature promises.
 	const workers = 100
 	var wg sync.WaitGroup
-	wg.Add(workers)
-	for i := 0; i < workers; i++ {
-		go func(i int) {
-			defer wg.Done()
+	for i := range workers {
+		wg.Go(func() {
 			id := fmt.Sprintf("*%d", i)
 			res, err := ReadItems(&ItemId{Id, id}, "/ip/dns/static", fc)
 			if err != nil {
@@ -282,7 +280,7 @@ func TestReadItems_CacheEnabled_ParallelCallsCoalesceToOneBulkGet(t *testing.T) 
 			if len(*res) != 1 || (*res)[0]["seq"] != fmt.Sprintf("%d", i) {
 				t.Errorf("worker %d got %v", i, *res)
 			}
-		}(i)
+		})
 	}
 	wg.Wait()
 

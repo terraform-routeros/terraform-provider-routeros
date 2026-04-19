@@ -21,7 +21,7 @@ provider "routeros" {
 func testAccBulkReadDnsRecordsConfig(providerBlock string, count int) string {
 	var b strings.Builder
 	b.WriteString(providerBlock)
-	for i := 0; i < count; i++ {
+	for i := range count {
 		fmt.Fprintf(&b, `
 resource "routeros_dns_record" "bulk_%d" {
 	address = "127.0.0.1"

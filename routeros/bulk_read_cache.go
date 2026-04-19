@@ -98,7 +98,7 @@ func (c *BulkReadCache) currentGen(path string) uint64 {
 // discarded (errStaleBulkFetch) and the caller retries at the new generation;
 // writers therefore do not wait on a stale in-flight fetch.
 func (c *BulkReadCache) DoBulkFetch(path string, fetch func() ([]MikrotikItem, error)) ([]MikrotikItem, error) {
-	for attempt := 0; attempt < maxBulkFetchAttempts; attempt++ {
+	for range maxBulkFetchAttempts {
 		startGen := c.currentGen(path)
 		key := path + ":" + strconv.FormatUint(startGen, 10)
 		v, err, _ := c.group.Do(key, func() (any, error) {
