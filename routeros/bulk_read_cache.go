@@ -35,6 +35,9 @@ type BulkReadCache struct {
 // discarded. DoBulkFetch catches this sentinel internally and retries.
 var errStaleBulkFetch = errors.New("bulk read: cache invalidated during fetch")
 
+// maxBulkFetchAttempts bounds the stale-retry loop. Each retry requires a
+// distinct intervening Invalidate to race the fetch, so 8 is well above any
+// realistic write storm and keeps a pathological case from hanging.
 const maxBulkFetchAttempts = 8
 
 func NewBulkReadCache() *BulkReadCache {
@@ -86,7 +89,6 @@ func (c *BulkReadCache) Invalidate(path string) {
 	c.mu.Unlock()
 }
 
-// currentGen returns the path's current generation under read lock.
 func (c *BulkReadCache) currentGen(path string) uint64 {
 	c.mu.RLock()
 	defer c.mu.RUnlock()

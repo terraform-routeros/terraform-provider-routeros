@@ -135,26 +135,19 @@ func TestBulkReadCache_DoBulkFetch_CoalescesConcurrentCallers(t *testing.T) {
 	}
 }
 
-// TestBulkReadCache_DoBulkFetch_InvalidateMidFetch_DiscardsStaleSnapshot
-// regression-guards the cache/invalidation race: if Invalidate runs while a
-// bulk fetch is in flight, the fetched (pre-invalidate) items must not be
-// committed to the cache, otherwise concurrent writers would later read a
-// snapshot that predates their own writes and see their new ids as missing.
+// A bulk fetch that returns after a concurrent Invalidate must not commit its
+// pre-write snapshot to the cache, or concurrent writers would later see their
+// new ids as missing.
 func TestBulkReadCache_DoBulkFetch_InvalidateMidFetch_DiscardsStaleSnapshot(t *testing.T) {
 	c := NewBulkReadCache()
 	const path = "/ip/dns/static"
 
-	// First fetch: starts, we Invalidate() before it returns, then it returns
-	// the stale snapshot. populateIfFresh must reject it; DoBulkFetch must
-	// observe errStaleBulkFetch internally and retry at the new generation.
 	var attempts atomic.Int64
 	items, err := c.DoBulkFetch(path, func() ([]MikrotikItem, error) {
 		if attempts.Add(1) == 1 {
-			// Simulate a concurrent writer bumping the generation mid-fetch.
 			c.Invalidate(path)
 			return []MikrotikItem{{".id": "*stale"}}, nil
 		}
-		// The retry observes the post-invalidate generation and fetches fresh.
 		return []MikrotikItem{{".id": "*fresh-1"}, {".id": "*fresh-2"}}, nil
 	})
 	if err != nil {
@@ -175,11 +168,8 @@ func TestBulkReadCache_DoBulkFetch_InvalidateMidFetch_DiscardsStaleSnapshot(t *t
 	}
 }
 
-// TestBulkReadCache_DoBulkFetch_ConcurrentInvalidateDoesNotStrand
-// exercises the worst case for singleflight coalescing: a bulk fetch is
-// in-flight when a writer invalidates and then reads its own new id. The
-// writer must not get the pre-write snapshot that the in-flight fetch would
-// otherwise produce.
+// Writer must not get the in-flight reader's pre-write snapshot via singleflight
+// coalescing: its post-Invalidate DoBulkFetch must trigger a fresh fetch.
 func TestBulkReadCache_DoBulkFetch_ConcurrentInvalidateDoesNotStrand(t *testing.T) {
 	c := NewBulkReadCache()
 	const path = "/ip/dns/static"

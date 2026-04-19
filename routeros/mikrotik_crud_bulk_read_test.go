@@ -263,10 +263,9 @@ func TestReadItems_CacheEnabled_ParallelCallsCoalesceToOneBulkGet(t *testing.T) 
 	}
 	fc.bulkItems["/ip/dns/static"] = items
 
-	// The fake's SendRequest is fast so singleflight may not coalesce every
-	// call — caching correctness is the real contract. We assert the weaker
-	// invariant that the number of bulk GETs is bounded far below the worker
-	// count, which is what the feature promises.
+	// The in-memory fake is too fast for singleflight to coalesce every call, so
+	// we assert the weaker invariant the feature actually promises: bulk GETs
+	// are bounded far below the worker count.
 	const workers = 100
 	var wg sync.WaitGroup
 	for i := range workers {
@@ -284,9 +283,6 @@ func TestReadItems_CacheEnabled_ParallelCallsCoalesceToOneBulkGet(t *testing.T) 
 	}
 	wg.Wait()
 
-	// With a fast in-memory fake, singleflight may not coalesce every single
-	// call — but the number of bulk GETs must be small and bounded (far less
-	// than one per worker). Caching correctness is the real contract.
 	got := fc.bulkReadCount("/ip/dns/static")
 	if got >= workers {
 		t.Errorf("bulk GET calls = %d, want far fewer than %d (cache must amortize)", got, workers)

@@ -52,10 +52,7 @@ func ReadItems(id *ItemId, resourcePath string, c Client) (*[]MikrotikItem, erro
 		return nil, errEmptyPath
 	}
 
-	// Bulk-read cache fast path. Only kicks in for .id lookups on a managed
-	// resource when the provider has "bulk_read_refresh" enabled. Datasource
-	// reads (id==nil) and name-based lookups fall through to the original
-	// filtered GET so their semantics are unchanged.
+	// Datasource reads (id==nil) and name-type lookups keep original semantics.
 	if id != nil && id.Type == Id {
 		if cache := c.GetBulkCache(); cache != nil {
 			if item, itemFound, pathCached := cache.Lookup(resourcePath, id.Value); pathCached {
@@ -158,7 +155,6 @@ func DeleteItem(id *ItemId, resourcePath string, c Client) error {
 		return errEmptyPath
 	}
 
-	invalidationPath := resourcePath
 	url := &URL{Path: resourcePath}
 
 	if c.GetTransport() == TransportREST {
@@ -175,7 +171,7 @@ func DeleteItem(id *ItemId, resourcePath string, c Client) error {
 	err := c.SendRequest(crudDelete, url, nil, &MikrotikItem{})
 	if err == nil {
 		if cache := c.GetBulkCache(); cache != nil {
-			cache.Invalidate(invalidationPath)
+			cache.Invalidate(resourcePath)
 		}
 	}
 	return err
