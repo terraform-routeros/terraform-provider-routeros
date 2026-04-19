@@ -118,8 +118,10 @@ func Provider() *schema.Provider {
 				Description: "When true, Terraform state refresh fetches each resource path in a single bulk " +
 					"GET and serves subsequent per-id reads from an in-memory cache invalidated on writes. " +
 					"Speeds up plans over large resource sets (e.g. thousands of DNS records) by an order " +
-					"of magnitude. Opt-in; default false preserves the traditional per-id filtered GET " +
-					"behavior (env: ROS_BULK_READ_REFRESH).",
+					"of magnitude when most records on a path are managed by Terraform. Can slow down plans " +
+					"on configs that manage only a handful of records on a path populated by many unmanaged " +
+					"entries, because each bulk fetch returns the full path. Opt-in; default false preserves " +
+					"the traditional per-id filtered GET behavior (env: ROS_BULK_READ_REFRESH).",
 			},
 		},
 		ResourcesMap: map[string]*schema.Resource{
