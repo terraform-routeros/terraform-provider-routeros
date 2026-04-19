@@ -1,6 +1,8 @@
 package routeros
 
 import (
+	"errors"
+	"strconv"
 	"sync"
 
 	"golang.org/x/sync/singleflight"
@@ -13,17 +15,33 @@ import (
 // The cache is opt-in via the provider-level "bulk_read_refresh" attribute. It
 // is populated on the first ReadItems call for a path and invalidated on any
 // successful Create/Update/Delete that targets that path.
+//
+// Concurrency model: a per-path generation counter is bumped by Invalidate.
+// DoBulkFetch captures the generation at fetch-start and refuses to populate
+// if it changed mid-flight, so writes that race with a bulk fetch cannot
+// leave the cache holding a pre-write snapshot. Singleflight keys embed the
+// generation, so writers that bump the generation do not coalesce with an
+// already-in-flight stale fetch.
 type BulkReadCache struct {
 	mu    sync.RWMutex
 	items map[string]map[string]MikrotikItem
+	gen   map[string]uint64
 
-	// group coalesces concurrent bulk fetches for the same path so that N
-	// parallel Read calls trigger exactly one network round-trip.
 	group singleflight.Group
 }
 
+// errStaleBulkFetch signals that Invalidate ran while a bulk fetch was in
+// flight, so the fetched items predate the concurrent write and must be
+// discarded. DoBulkFetch catches this sentinel internally and retries.
+var errStaleBulkFetch = errors.New("bulk read: cache invalidated during fetch")
+
+const maxBulkFetchAttempts = 8
+
 func NewBulkReadCache() *BulkReadCache {
-	return &BulkReadCache{items: map[string]map[string]MikrotikItem{}}
+	return &BulkReadCache{
+		items: map[string]map[string]MikrotikItem{},
+		gen:   map[string]uint64{},
+	}
 }
 
 // Lookup reports whether a bulk fetch for path has been done (pathCached) and,
@@ -40,41 +58,66 @@ func (c *BulkReadCache) Lookup(path, id string) (item MikrotikItem, itemFound bo
 	return item, itemFound, true
 }
 
-// populate replaces the cache entry for path with the provided items, indexed
-// by their RouterOS .id. Items without a .id are skipped defensively.
-func (c *BulkReadCache) populate(path string, items []MikrotikItem) {
+// populateIfFresh replaces the cache entry for path only when the generation
+// observed at fetch-start still matches. Returns true on successful populate.
+func (c *BulkReadCache) populateIfFresh(path string, items []MikrotikItem, startGen uint64) bool {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	if c.gen[path] != startGen {
+		return false
+	}
 	bucket := make(map[string]MikrotikItem, len(items))
 	for _, it := range items {
 		if id := it.GetID(Id); id != "" {
 			bucket[id] = it
 		}
 	}
-	c.mu.Lock()
 	c.items[path] = bucket
-	c.mu.Unlock()
+	return true
 }
 
-// Invalidate drops the cache entry for path. Safe to call on unknown paths.
+// Invalidate drops the cache entry for path and bumps its generation so any
+// concurrently in-flight bulk fetch observes the change and refuses to populate
+// a stale snapshot. Safe to call on unknown paths.
 func (c *BulkReadCache) Invalidate(path string) {
 	c.mu.Lock()
 	delete(c.items, path)
+	c.gen[path]++
 	c.mu.Unlock()
 }
 
-// DoBulkFetch runs fetch at most once per concurrent burst of callers for the
-// same path (singleflight semantics). Used by ReadItems to avoid thundering-herd
-// bulk GETs during parallel refresh.
+// currentGen returns the path's current generation under read lock.
+func (c *BulkReadCache) currentGen(path string) uint64 {
+	c.mu.RLock()
+	defer c.mu.RUnlock()
+	return c.gen[path]
+}
+
+// DoBulkFetch runs fetch at most once per concurrent burst of callers at the
+// same generation. If Invalidate runs during the fetch, the snapshot is
+// discarded (errStaleBulkFetch) and the caller retries at the new generation;
+// writers therefore do not wait on a stale in-flight fetch.
 func (c *BulkReadCache) DoBulkFetch(path string, fetch func() ([]MikrotikItem, error)) ([]MikrotikItem, error) {
-	v, err, _ := c.group.Do(path, func() (any, error) {
-		items, err := fetch()
+	for attempt := 0; attempt < maxBulkFetchAttempts; attempt++ {
+		startGen := c.currentGen(path)
+		key := path + ":" + strconv.FormatUint(startGen, 10)
+		v, err, _ := c.group.Do(key, func() (any, error) {
+			items, err := fetch()
+			if err != nil {
+				return nil, err
+			}
+			if !c.populateIfFresh(path, items, startGen) {
+				return nil, errStaleBulkFetch
+			}
+			return items, nil
+		})
+		if errors.Is(err, errStaleBulkFetch) {
+			continue
+		}
 		if err != nil {
 			return nil, err
 		}
-		c.populate(path, items)
-		return items, nil
-	})
-	if err != nil {
-		return nil, err
+		return v.([]MikrotikItem), nil
 	}
-	return v.([]MikrotikItem), nil
+	return nil, errors.New("bulk read: cache repeatedly invalidated during fetch, aborting")
 }

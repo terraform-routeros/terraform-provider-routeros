@@ -2,8 +2,6 @@ package routeros
 
 import (
 	"fmt"
-	"io"
-	"net/http"
 	"strings"
 	"testing"
 
@@ -69,13 +67,9 @@ func TestAccDnsRecord_BulkReadRefresh_Roundtrip(t *testing.T) {
 
 func TestAccDnsRecord_BulkReadRefresh_DetectsExternalDelete(t *testing.T) {
 	// Confirms the cache does not mask out-of-band deletions. The test
-	// deletes a record directly via the REST API between steps and asserts
-	// that the next plan surfaces the drift so Terraform recreates it.
+	// deletes a record directly via the active transport between steps and
+	// asserts that the next plan surfaces the drift so Terraform recreates it.
 	for _, name := range testNames {
-		if !strings.Contains(name, "REST") {
-			// The out-of-band delete helper uses the REST API.
-			continue
-		}
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{
 				PreCheck: func() {
@@ -103,8 +97,11 @@ func TestAccDnsRecord_BulkReadRefresh_DetectsExternalDelete(t *testing.T) {
 	}
 }
 
-// deleteDnsRecordOutOfBand issues a DELETE directly against the REST API,
-// bypassing Terraform. Used to simulate external drift.
+// deleteDnsRecordOutOfBand deletes the backing RouterOS record through the
+// provider's active transport (REST or native API) without going through the
+// DeleteItem CRUD helper that would invalidate the bulk cache. The direct
+// SendRequest call mirrors how a sibling Terraform config or admin would
+// mutate the router externally.
 func deleteDnsRecordOutOfBand(resourceName string) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
 		rs, ok := s.RootModule().Resources[resourceName]
@@ -115,26 +112,17 @@ func deleteDnsRecordOutOfBand(resourceName string) resource.TestCheckFunc {
 		if id == "" {
 			return fmt.Errorf("%s: empty id", resourceName)
 		}
-		client, ok := testAccProvider.Meta().(*RestClient)
+		client, ok := testAccProvider.Meta().(Client)
 		if !ok {
-			return fmt.Errorf("out-of-band delete only supports REST transport")
+			return fmt.Errorf("provider meta is not a routeros.Client: %T", testAccProvider.Meta())
 		}
-		url := fmt.Sprintf("%s/rest/ip/dns/static/%s", client.HostURL, id)
-		req, err := http.NewRequest(http.MethodDelete, url, nil)
-		if err != nil {
-			return err
+		url := &URL{Path: "/ip/dns/static"}
+		if client.GetTransport() == TransportREST {
+			url.Path += "/" + id
+		} else {
+			url.Query = []string{"=.id=" + id}
 		}
-		req.SetBasicAuth(client.Username, client.Password)
-		res, err := client.Do(req)
-		if err != nil {
-			return err
-		}
-		defer func() { _ = res.Body.Close() }()
-		body, _ := io.ReadAll(res.Body)
-		if res.StatusCode >= 400 {
-			return fmt.Errorf("out-of-band DELETE %s: status=%d body=%s", url, res.StatusCode, body)
-		}
-		return nil
+		return client.SendRequest(crudDelete, url, nil, &MikrotikItem{})
 	}
 }
 

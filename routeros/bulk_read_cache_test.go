@@ -22,9 +22,18 @@ func TestBulkReadCache_Lookup_EmptyCache(t *testing.T) {
 	}
 }
 
+// primeCache populates the cache via a synchronous DoBulkFetch so tests can
+// set up cache state without duplicating the production populate path.
+func primeCache(t *testing.T, c *BulkReadCache, path string, items []MikrotikItem) {
+	t.Helper()
+	if _, err := c.DoBulkFetch(path, func() ([]MikrotikItem, error) { return items, nil }); err != nil {
+		t.Fatalf("primeCache: %v", err)
+	}
+}
+
 func TestBulkReadCache_PopulateAndLookup_Hit(t *testing.T) {
 	c := NewBulkReadCache()
-	c.populate("/ip/dns/static", []MikrotikItem{
+	primeCache(t, c, "/ip/dns/static", []MikrotikItem{
 		{".id": "*1", "name": "alpha"},
 		{".id": "*2", "name": "beta"},
 	})
@@ -42,7 +51,7 @@ func TestBulkReadCache_PopulateAndLookup_Hit(t *testing.T) {
 
 func TestBulkReadCache_PopulateAndLookup_MissOnKnownPath(t *testing.T) {
 	c := NewBulkReadCache()
-	c.populate("/ip/dns/static", []MikrotikItem{{".id": "*1"}})
+	primeCache(t, c, "/ip/dns/static", []MikrotikItem{{".id": "*1"}})
 	item, itemFound, pathCached := c.Lookup("/ip/dns/static", "*999")
 	if !pathCached {
 		t.Errorf("pathCached = false, want true (path was populated)")
@@ -57,7 +66,7 @@ func TestBulkReadCache_PopulateAndLookup_MissOnKnownPath(t *testing.T) {
 
 func TestBulkReadCache_Invalidate(t *testing.T) {
 	c := NewBulkReadCache()
-	c.populate("/ip/dns/static", []MikrotikItem{{".id": "*1"}})
+	primeCache(t, c, "/ip/dns/static", []MikrotikItem{{".id": "*1"}})
 	c.Invalidate("/ip/dns/static")
 	_, _, pathCached := c.Lookup("/ip/dns/static", "*1")
 	if pathCached {
@@ -127,6 +136,121 @@ func TestBulkReadCache_DoBulkFetch_CoalescesConcurrentCallers(t *testing.T) {
 	}
 	if _, found, _ := c.Lookup("/ip/dns/static", "*1"); !found {
 		t.Errorf("cache was not populated after DoBulkFetch")
+	}
+}
+
+// TestBulkReadCache_DoBulkFetch_InvalidateMidFetch_DiscardsStaleSnapshot
+// regression-guards the cache/invalidation race: if Invalidate runs while a
+// bulk fetch is in flight, the fetched (pre-invalidate) items must not be
+// committed to the cache, otherwise concurrent writers would later read a
+// snapshot that predates their own writes and see their new ids as missing.
+func TestBulkReadCache_DoBulkFetch_InvalidateMidFetch_DiscardsStaleSnapshot(t *testing.T) {
+	c := NewBulkReadCache()
+	const path = "/ip/dns/static"
+
+	// First fetch: starts, we Invalidate() before it returns, then it returns
+	// the stale snapshot. populateIfFresh must reject it; DoBulkFetch must
+	// observe errStaleBulkFetch internally and retry at the new generation.
+	var attempts int64
+	items, err := c.DoBulkFetch(path, func() ([]MikrotikItem, error) {
+		n := atomic.AddInt64(&attempts, 1)
+		if n == 1 {
+			// Simulate a concurrent writer bumping the generation mid-fetch.
+			c.Invalidate(path)
+			return []MikrotikItem{{".id": "*stale"}}, nil
+		}
+		// The retry observes the post-invalidate generation and fetches fresh.
+		return []MikrotikItem{{".id": "*fresh-1"}, {".id": "*fresh-2"}}, nil
+	})
+	if err != nil {
+		t.Fatalf("DoBulkFetch err = %v", err)
+	}
+	if atomic.LoadInt64(&attempts) != 2 {
+		t.Errorf("fetch attempts = %d, want 2 (first stale, retry fresh)", attempts)
+	}
+	if len(items) != 2 || items[0][".id"] != "*fresh-1" {
+		t.Errorf("items = %v, want the fresh post-invalidate snapshot", items)
+	}
+	// Cache must hold only the fresh items; the stale *stale id must not leak.
+	if _, found, _ := c.Lookup(path, "*stale"); found {
+		t.Errorf("cache holds stale *stale — populate ran despite Invalidate")
+	}
+	if _, found, _ := c.Lookup(path, "*fresh-1"); !found {
+		t.Errorf("cache missing *fresh-1 — retry did not populate")
+	}
+}
+
+// TestBulkReadCache_DoBulkFetch_ConcurrentInvalidateDoesNotStrand
+// exercises the worst case for singleflight coalescing: a bulk fetch is
+// in-flight when a writer invalidates and then reads its own new id. The
+// writer must not get the pre-write snapshot that the in-flight fetch would
+// otherwise produce.
+func TestBulkReadCache_DoBulkFetch_ConcurrentInvalidateDoesNotStrand(t *testing.T) {
+	c := NewBulkReadCache()
+	const path = "/ip/dns/static"
+
+	release := make(chan struct{})
+	firstStarted := make(chan struct{})
+	var once sync.Once
+	var attempts int64
+
+	fetch := func() ([]MikrotikItem, error) {
+		n := atomic.AddInt64(&attempts, 1)
+		if n == 1 {
+			once.Do(func() { close(firstStarted) })
+			<-release // block first fetch until the writer arrives
+			return []MikrotikItem{{".id": "*old"}}, nil
+		}
+		return []MikrotikItem{{".id": "*old"}, {".id": "*new"}}, nil
+	}
+
+	var readerItems []MikrotikItem
+	var readerErr error
+	readerDone := make(chan struct{})
+	go func() {
+		defer close(readerDone)
+		readerItems, readerErr = c.DoBulkFetch(path, fetch)
+	}()
+
+	<-firstStarted
+	// Writer invalidates (as a real CreateItem would after a successful write)
+	// then issues its post-write read. This must not be served the pre-write
+	// snapshot from the in-flight reader's fetch.
+	c.Invalidate(path)
+	var writerItems []MikrotikItem
+	var writerErr error
+	writerDone := make(chan struct{})
+	go func() {
+		defer close(writerDone)
+		writerItems, writerErr = c.DoBulkFetch(path, fetch)
+	}()
+
+	// Give the writer time to enter DoBulkFetch and pick its generation before
+	// we unblock the original (stale) fetch.
+	time.Sleep(50 * time.Millisecond)
+	close(release)
+
+	<-readerDone
+	<-writerDone
+
+	if readerErr != nil {
+		t.Fatalf("reader err = %v", readerErr)
+	}
+	if writerErr != nil {
+		t.Fatalf("writer err = %v", writerErr)
+	}
+	// Both callers must ultimately see the post-invalidate snapshot that
+	// contains *new. The writer would silently miss its own resource otherwise.
+	for _, items := range [][]MikrotikItem{readerItems, writerItems} {
+		var sawNew bool
+		for _, it := range items {
+			if it[".id"] == "*new" {
+				sawNew = true
+			}
+		}
+		if !sawNew {
+			t.Errorf("got %v, want a snapshot containing *new (post-invalidate state)", items)
+		}
 	}
 }
 
