@@ -15,6 +15,7 @@ import (
   {
     ".id": "*0",
     ".nextid": "*1",
+    "actual-path-cost": "10",
     "auto-isolate": "false",
     "bpdu-guard": "false",
     "bridge": "bridge",
@@ -91,6 +92,11 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 		"nextid": {
 			Type:     schema.TypeString,
 			Computed: true,
+		},
+		"actual_path_cost": {
+			Type:        schema.TypeInt,
+			Computed:    true,
+			Description: "Shows the actual port path-cost. Either manually applied or automatically determined based on the interface speed and the port-cost-mode setting.",
 		},
 		"auto_isolate": {
 			Type:     schema.TypeBool,
