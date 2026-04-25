@@ -91,7 +91,11 @@ func ResourceDhcpServer() *schema.Resource {
 		"dynamic_lease_identifiers": {
 			Type:        schema.TypeString,
 			Optional:    true,
-			Description: "Dynamic lease identifier",
+			Computed:    true,
+			Description: "Dynamic lease identifier. RouterOS requires at least one identifier on modify, " +
+				"so this field is preserved (DiffSuppressed) when not set in user config — clearing it " +
+				"would cause apply to error with \"at least one dynamic lease identifier should be specified\".",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"support_broadband_tr101": {
 			Type:        schema.TypeBool,
