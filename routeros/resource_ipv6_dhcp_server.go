@@ -120,8 +120,10 @@ func ResourceIpv6DhcpServer() *schema.Resource {
 		"prefix_pool": {
 			Type:             schema.TypeString,
 			Optional:         true,
+			Computed:         true,
 			Description:      "IPv6 pool, from which to take IPv6 prefix for the clients.",
 			AtLeastOneOf:     []string{"address_pool", "prefix_pool"},
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"rapid_commit": {
 			Type:             schema.TypeBool,
