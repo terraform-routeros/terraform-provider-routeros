@@ -54,7 +54,13 @@ func ResourceIPAddress() *schema.Resource {
 			Computed:    true,
 			Description: "Whether address belongs to an interface which is a slave port to some other master interface",
 		},
-		KeyVrf: PropVrfRw,
+		// vrf is read-only here: RouterOS 7.21+ rejects writes to it on
+		// /ip address rows tied to interfaces that don't carry a VRF
+		// concept (notably WireGuard interfaces, where SET-with-vrf=main
+		// errors with "unknown parameter vrf"). Surfacing it as Computed
+		// keeps the field readable in state without sending it back on
+		// updates. Closes #944.
+		KeyVrf: PropVrfRo,
 	}
 	return &schema.Resource{
 		CreateContext: DefaultCreate(resSchema),

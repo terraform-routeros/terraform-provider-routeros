@@ -488,6 +488,11 @@ var (
 		Description:      "The VRF table this resource operates on.",
 		DiffSuppressFunc: AlwaysPresentNotUserProvided,
 	}
+	PropVrfRo = &schema.Schema{
+		Type:        schema.TypeString,
+		Computed:    true,
+		Description: "The VRF table this resource operates on.",
+	}
 )
 
 // PropMtuRw MTU value can be integer or 'auto'.
