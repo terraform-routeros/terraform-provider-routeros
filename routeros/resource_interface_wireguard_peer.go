@@ -21,6 +21,18 @@ func ResourceInterfaceWireguardPeer() *schema.Resource {
 				// ValidateFunc: ValidationIpAddress,
 			},
 		},
+		"client_allowed_address": {
+			Type:     schema.TypeList,
+			Optional: true,
+			Description: "List of CIDRs used on the client side to set up routes. Use 0.0.0.0/0 or ::/0 to route all " +
+				"traffic through the WireGuard tunnel, or specify individual CIDRs to route only specific traffic. " +
+				"If omitted, the QR code will configure the tunnel as the default route when importing via QR code.",
+			Elem: &schema.Schema{
+				Type: schema.TypeString,
+				// ValidateFunc: ValidationIpAddress,
+			},
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"client_address": {
 			Type:     schema.TypeString,
 			Optional: true,
