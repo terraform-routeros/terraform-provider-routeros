@@ -56,7 +56,7 @@ func ResourceUserManagerUser() *schema.Resource {
 			Description: "The password of the user for session authentication.",
 		},
 		"shared_users": {
-			Type:        schema.TypeInt,
+			Type:        schema.TypeString, // Maybe "unlimited"
 			Optional:    true,
 			Default:     1,
 			Description: "The total amount of sessions the user can simultaneously establish.",
