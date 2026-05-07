@@ -175,6 +175,8 @@ func NewClient(ctx context.Context, d *schema.ResourceData) (interface{}, diag.D
 		Timeout: time.Duration(d.Get("rest_timeout").(int)) * time.Second,
 		Transport: &http.Transport{
 			TLSClientConfig: &tlsConf,
+			// http.DefaultTransport sets this, allows us to use proxies as set in env vars.
+			Proxy: http.ProxyFromEnvironment,
 		},
 	}
 
