@@ -21,6 +21,7 @@ resource "routeros_routing_bgp_instance" "test" {
 - `comment` (String)
 - `disabled` (Boolean)
 - `ignore_as_path_len` (Boolean) Whether to ignore the `AS_PATH` attribute in the BGP route selection algorithm. Works on input.
+- `multipath` (Boolean) Whether to install multiple equal-cost BGP paths. Available in RouterOS starting from version 7.22.
 - `router_id` (String) BGP Router ID to be used. Use the ID from the `/routing/router-id` configuration by specifying the reference name, or set the ID directly by specifying IP.Equal router-ids are also used to group peers into one instance.
 - `routing_table` (String) Name of the routing table, to install routes in.
 - `vrf` (String) Name of the VRF BGP connections operates on. By default always use the `main` routing table.

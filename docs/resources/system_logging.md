@@ -18,6 +18,7 @@ resource "routeros_system_logging" "log_snmp_disk" {
 
 ### Optional
 
+- `comment` (String)
 - `disabled` (Boolean)
 - `prefix` (String) prefix added at the beginning of log messages
 - `regex` (String) Regex which will be used in order to match or not match message. If the regex is not matched, then even if topic is configured to be logged, but log message does not match regex, action will not be performed.

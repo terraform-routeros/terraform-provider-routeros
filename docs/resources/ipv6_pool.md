@@ -20,6 +20,7 @@ resource "routeros_ipv6_pool" "test" {
 
 ### Optional
 
+- `from_pool` (String) Name of another IPv6 pool from which this pool takes its prefix. Available in RouterOS starting from version 7.22.
 - `prefix` (String) Ipv6 address prefix.
 
 ### Read-Only

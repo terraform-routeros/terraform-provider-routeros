@@ -30,6 +30,7 @@ resource "routeros_ipv6_nd_prefix" "test" {
 
 ### Read-Only
 
+- `dhcp6_pd_preferred` (Boolean) Whether the prefix is currently preferred for DHCPv6 PD. Available in RouterOS starting from version 7.22.
 - `id` (String) The ID of this resource.
 - `invalid` (Boolean)
 
