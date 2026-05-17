@@ -24,10 +24,17 @@ func ResourceIpv6Pool() *schema.Resource {
 
 		KeyDynamic: PropDynamicRo,
 		KeyName:    PropName("Descriptive name of the pool."),
+		"from_pool": {
+			Type:         schema.TypeString,
+			Optional:     true,
+			Description:  "Name of another IPv6 pool from which this pool takes its prefix. Available in RouterOS starting from version 7.22.",
+			AtLeastOneOf: []string{"prefix", "from_pool"},
+		},
 		"prefix": {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Ipv6 address prefix.",
+			AtLeastOneOf:     []string{"prefix", "from_pool"},
 			ValidateFunc:     validation.IsCIDR,
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},

@@ -167,6 +167,11 @@ func ResourceRoutingBgpTemplate() *schema.Resource {
 							"visible in /routing route table as 'not active, filtered'. Changes to be applied " +
 							"required session restart.",
 					},
+					"add_path": {
+						Type:        schema.TypeString,
+						Optional:    true,
+						Description: "Accepted additional paths grouped by address family. Available in RouterOS starting from version 7.22.",
+					},
 					"accept_unknown": {
 						Type:     schema.TypeString,
 						Optional: true,
@@ -338,6 +343,11 @@ func ResourceRoutingBgpTemplate() *schema.Resource {
 							"performance on single-core even possibly on multicore devices with small amount of " +
 							"cores) input - run output in the same process as input (can be set only for output " +
 							"affinity).",
+					},
+					"add_path": {
+						Type:        schema.TypeString,
+						Optional:    true,
+						Description: "Advertised additional paths grouped by address family. Available in RouterOS starting from version 7.22.",
 					},
 					"default_originate": {
 						Type:         schema.TypeString,

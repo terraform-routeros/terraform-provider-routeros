@@ -45,6 +45,11 @@ func ResourceRoutingBgpInstance() *schema.Resource {
 		},
 		KeyInactive: PropInactiveRo,
 		KeyName:     PropName("Instance name."),
+		"multipath": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Description: "Whether to install multiple equal-cost BGP paths. Available in RouterOS starting from version 7.22.",
+		},
 		"router_id": {
 			Type:     schema.TypeString,
 			Optional: true,

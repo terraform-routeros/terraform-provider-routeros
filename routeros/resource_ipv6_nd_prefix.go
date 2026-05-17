@@ -42,7 +42,12 @@ func ResourceIpv6NdPrefix() *schema.Resource {
 				"prefix information is silently ignored.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
-		KeyComment:  PropCommentRw,
+		KeyComment: PropCommentRw,
+		"dhcp6_pd_preferred": {
+			Type:        schema.TypeBool,
+			Computed:    true,
+			Description: "Whether the prefix is currently preferred for DHCPv6 PD. Available in RouterOS starting from version 7.22.",
+		},
 		KeyDisabled: PropDisabledRw,
 		KeyInterface: {
 			Type:        schema.TypeString,

@@ -39,6 +39,7 @@ func ResourceSystemLogging() *schema.Resource {
 			Required:    true,
 			Description: "specifies one of the system default actions or user specified action listed in actions menu",
 		},
+		KeyComment:  PropCommentRw,
 		KeyDefault:  PropDefaultRo,
 		KeyDisabled: PropDisabledRw,
 		KeyInvalid:  PropInvalidRo,

@@ -75,6 +75,12 @@ func ResourceWifiCap() *schema.Resource {
 			Optional:    true,
 			Description: "Lock CAP to the first CAPsMAN it connects to.",
 		},
+		"mld_datapath": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Computed:    true,
+			Description: "Datapath used for multi-link operation. Available in RouterOS starting from version 7.22.3.",
+		},
 		"locked_caps_man_common_name": {
 			Type:        schema.TypeString,
 			Computed:    true,
