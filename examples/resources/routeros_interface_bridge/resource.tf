@@ -3,7 +3,7 @@ resource "routeros_interface_bridge" "bridge" {
   vlan_filtering = true
 }
 
-# RouterOS 7.22+ MLAG is managed directly on the bridge resource.
+# RouterOS 7.22+ MLAG example.
 resource "routeros_interface_bridge" "mlag_bridge" {
   name           = "bridge1"
   vlan_filtering = true

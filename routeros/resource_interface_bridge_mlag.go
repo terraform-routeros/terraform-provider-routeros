@@ -87,8 +87,8 @@ func ResourceInterfaceBridgeMlag() *schema.Resource {
 	}
 
 	return &schema.Resource{
-		Description: "Use `routeros_bridge_mlag` only with RouterOS versions before 7.22. " +
-			"On RouterOS 7.22 and newer, manage MLAG through the `mlag_heartbeat`, `mlag_peer_port`, and `mlag_priority` attributes on `routeros_interface_bridge`.",
+		Description: "Legacy MLAG resource for RouterOS versions before 7.22. " +
+			"Use the `mlag_heartbeat`, `mlag_peer_port`, and `mlag_priority` attributes on `routeros_interface_bridge` for RouterOS 7.22 and newer.",
 		CreateContext: DefaultValidateCreate(resSchema, validateLegacyMlag),
 		ReadContext:   readLegacyMlag,
 		UpdateContext: DefaultValidateUpdate(resSchema, validateLegacyMlag),
