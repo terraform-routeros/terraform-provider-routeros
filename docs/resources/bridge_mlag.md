@@ -1,8 +1,9 @@
 # routeros_bridge_mlag (Resource)
-
+Legacy MLAG resource for RouterOS versions before 7.22. Use the `mlag_heartbeat`, `mlag_peer_port`, and `mlag_priority` attributes on `routeros_interface_bridge` for RouterOS 7.22 and newer.
 
 ## Example Usage
 ```terraform
+# RouterOS versions before 7.22.
 resource "routeros_bridge_mlag" "mlag" {
   bridge    = "bridge1"
   peer_port = "stack-link"

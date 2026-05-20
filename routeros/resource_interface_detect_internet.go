@@ -37,6 +37,14 @@ func ResourceInterfaceDetectInternet() *schema.Resource {
 			Description:      "Interfaces with state Lan will be dynamically added to this list.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"request_interval": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Computed:         true,
+			Description:      "How often Detect Internet checks each monitored interface. Available in RouterOS starting from version 7.22.",
+			DiffSuppressFunc: TimeEqual,
+			ValidateFunc:     ValidationTime,
+		},
 		"wan_interface_list": {
 			Type:             schema.TypeString,
 			Optional:         true,

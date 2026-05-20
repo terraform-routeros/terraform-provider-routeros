@@ -94,6 +94,7 @@ func ResourceDhcpClient() *schema.Resource {
 		},
 		KeyInterface: PropInterfaceRw,
 		KeyInvalid:   PropInvalidRo,
+		KeyName:      PropNameOptional("Name of the DHCP client. Available in RouterOS starting from version 7.22."),
 		"primary_dns": {
 			Type:        schema.TypeString,
 			Computed:    true,

@@ -1,6 +1,9 @@
 package routeros
 
 import (
+	"context"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
@@ -48,10 +51,47 @@ func ResourceInterfaceBridgeMlag() *schema.Resource {
 		},
 	}
 
+	validateLegacyMlag := func(*schema.ResourceData) diag.Diagnostics {
+		atLeast722, err := routerOSVersionAtLeast("7.22")
+		if err != nil {
+			return diag.FromErr(err)
+		}
+
+		if atLeast722 {
+			return diag.Errorf("routeros_bridge_mlag is only supported before RouterOS 7.22; manage MLAG with routeros_interface_bridge mlag_* attributes on RouterOS 7.22 and newer")
+		}
+
+		return nil
+	}
+
+	readLegacyMlag := func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+		diags := DefaultSystemRead(resSchema)(ctx, d, m)
+		if diags.HasError() {
+			return diags
+		}
+
+		atLeast722, err := routerOSVersionAtLeast("7.22")
+		if err != nil {
+			return diag.FromErr(err)
+		}
+
+		if atLeast722 {
+			diags = append(diags, diag.Diagnostic{
+				Severity: diag.Warning,
+				Summary:  "routeros_bridge_mlag is legacy on RouterOS 7.22 and newer",
+				Detail:   "Manage MLAG through routeros_interface_bridge mlag_* attributes and migrate off routeros_bridge_mlag on RouterOS 7.22 and newer.",
+			})
+		}
+
+		return diags
+	}
+
 	return &schema.Resource{
-		CreateContext: DefaultSystemCreate(resSchema),
-		ReadContext:   DefaultSystemRead(resSchema),
-		UpdateContext: DefaultSystemUpdate(resSchema),
+		Description: "Legacy MLAG resource for RouterOS versions before 7.22. " +
+			"Use the `mlag_heartbeat`, `mlag_peer_port`, and `mlag_priority` attributes on `routeros_interface_bridge` for RouterOS 7.22 and newer.",
+		CreateContext: DefaultValidateCreate(resSchema, validateLegacyMlag),
+		ReadContext:   readLegacyMlag,
+		UpdateContext: DefaultValidateUpdate(resSchema, validateLegacyMlag),
 		DeleteContext: DefaultSystemDelete(resSchema),
 
 		Importer: &schema.ResourceImporter{

@@ -19,6 +19,7 @@ resource "routeros_interface_detect_internet" "test" {
 - `detect_interface_list` (String) All interfaces in the list will be monitored by Detect Internet.
 - `internet_interface_list` (String) Interfaces with state Internet will be dynamically added to this list.
 - `lan_interface_list` (String) Interfaces with state Lan will be dynamically added to this list.
+- `request_interval` (String) How often Detect Internet checks each monitored interface. Available in RouterOS starting from version 7.22.
 - `wan_interface_list` (String) Interfaces with state Wan will be dynamically added to this list.
 
 ### Read-Only

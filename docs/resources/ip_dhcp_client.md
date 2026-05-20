@@ -26,6 +26,7 @@ resource "routeros_ip_dhcp_client" "client" {
 - `dhcp_options` (String) Options that are sent to the DHCP server.
 - `disabled` (Boolean)
 - `dscp` (Number) Sets the DSCP (Differentiated Services Code Point) value for outgoing DHCP client packets. This value is part of the IP header and is used to indicate the desired Quality of Service (QoS) level for network traffic.
+- `name` (String) Name of the DHCP client. Available in RouterOS starting from version 7.22.
 - `script` (String) A script.
 - `use_broadcast` (String) Whether to set broadcast bit in DHCPDISCOVER and DHCPREQUEST messages.
     -  `always` - broadcast bit is set always

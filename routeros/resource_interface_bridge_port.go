@@ -423,6 +423,13 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 				"This property only has effect when dhcp-snooping is set to yes.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"trusted_ra": {
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Computed:         true,
+			Description:      "Whether to trust IPv6 Router Advertisements received on this port. Available in RouterOS starting from version 7.22.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"unknown_multicast_flood": {
 			Type:             schema.TypeBool,
 			Optional:         true,

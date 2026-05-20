@@ -1,6 +1,7 @@
 package routeros
 
 import (
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
@@ -213,6 +214,26 @@ func ResourceInterfaceBridge() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyName: PropNameForceNewRw,
+		"mlag_heartbeat": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Computed:         true,
+			Description:      "Bridge-level MLAG heartbeat interval. Available in RouterOS starting from version 7.22.",
+			DiffSuppressFunc: TimeEqual,
+		},
+		"mlag_peer_port": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Computed:    true,
+			Description: "Bridge-level MLAG peer port. Available in RouterOS starting from version 7.22.",
+		},
+		"mlag_priority": {
+			Type:             schema.TypeInt,
+			Optional:         true,
+			Computed:         true,
+			Description:      "Bridge-level MLAG priority. Available in RouterOS starting from version 7.22.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"port_cost_mode": {
 			Type:             schema.TypeString,
 			Optional:         true,
@@ -272,6 +293,12 @@ func ResourceInterfaceBridge() *schema.Resource {
 			RequiredWith:     []string{"igmp_snooping", "multicast_querier"},
 		},
 		KeyRunning: PropRunningRo,
+		"ra_guard": {
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Description:      "Whether to enable IPv6 Router Advertisement guard on the bridge. Available in RouterOS starting from version 7.22.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"region_name": {
 			Type:        schema.TypeString,
 			Optional:    true,
@@ -319,10 +346,29 @@ func ResourceInterfaceBridge() *schema.Resource {
 		// Some properties are not implemented, see: https://wiki.mikrotik.com/wiki/Manual:Interface/Bridge
 	}
 
+	validateBridgeMlag := func(d *schema.ResourceData) diag.Diagnostics {
+		for _, field := range []string{"mlag_heartbeat", "mlag_peer_port", "mlag_priority"} {
+			if !d.GetRawConfig().GetAttr(field).IsNull() {
+				atLeast722, err := routerOSVersionAtLeast("7.22")
+				if err != nil {
+					return diag.FromErr(err)
+				}
+
+				if !atLeast722 {
+					return diag.Errorf("bridge MLAG attributes require RouterOS 7.22 or newer; use routeros_bridge_mlag on older RouterOS versions")
+				}
+
+				break
+			}
+		}
+
+		return nil
+	}
+
 	return &schema.Resource{
-		CreateContext: DefaultCreate(resSchema),
+		CreateContext: DefaultValidateCreate(resSchema, validateBridgeMlag),
 		ReadContext:   DefaultRead(resSchema),
-		UpdateContext: DefaultUpdate(resSchema),
+		UpdateContext: DefaultValidateUpdate(resSchema, validateBridgeMlag),
 		DeleteContext: DefaultDelete(resSchema),
 
 		Importer: &schema.ResourceImporter{

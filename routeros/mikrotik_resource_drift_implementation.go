@@ -2,11 +2,8 @@ package routeros
 
 import (
 	"cmp"
-	"fmt"
 	"log"
 	"slices"
-	"strconv"
-	"strings"
 )
 
 var driftAttributeSlice driftObjects
@@ -84,29 +81,6 @@ func (do *driftObjects) GetDriftMap(ros, resName string, reverse bool) (res map[
 				}
 			}
 		}
-	}
-	return
-}
-
-// Parse RouterOS version.
-
-func parseRouterOSVersion(ros string) (version uint64, err error) {
-	for i, p := range strings.Split(ros, ".") {
-		var u uint64
-		if u, err = strconv.ParseUint(p, 10, 64); err != nil {
-			err = fmt.Errorf("RouterOS version parts parsing error, %v", err)
-			return
-		} else {
-			version += u << ((2 - i) * 8)
-		}
-
-		if i > 3 {
-			break
-		}
-	}
-
-	if version == 0 {
-		err = fmt.Errorf("RouterOS version parsing error, version is zero")
 	}
 	return
 }

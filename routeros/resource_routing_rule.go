@@ -35,6 +35,13 @@ func ResourceRoutingRule() *schema.Resource {
 			ValidateFunc:     validation.StringInSlice([]string{"drop", "lookup", "lookup-only-in-table", "unreachable"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"chain": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Computed:         true,
+			Description:      "Name of the routing decision chain where the rule is inserted. Available in RouterOS starting from version 7.22.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		KeyComment: PropCommentRw,
 		"dst_address": {
 			Type:        schema.TypeString,
@@ -59,6 +66,11 @@ func ResourceRoutingRule() *schema.Resource {
 			Optional:    true,
 			Description: "Match specific routing mark.",
 		},
+		"realm": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Routing realm to match. Available in RouterOS starting from version 7.22.",
+		},
 		"src_address": {
 			Type:        schema.TypeString,
 			Optional:    true,
@@ -69,6 +81,11 @@ func ResourceRoutingRule() *schema.Resource {
 			Optional:         true,
 			Description:      "Name of the routing table to use for lookup.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		KeyVrf: {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "VRF to match. Available in RouterOS starting from version 7.22.",
 		},
 	}
 

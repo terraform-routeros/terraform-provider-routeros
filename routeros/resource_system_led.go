@@ -24,6 +24,12 @@ func ResourceSystemLed() *schema.Resource {
 
 		KeyDefault:  PropDefaultRo,
 		KeyDisabled: PropDisabledRw,
+		"color": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Computed:    true,
+			Description: "LED color. Available in RouterOS starting from version 7.22.3.",
+		},
 		"interface": {
 			Type:             schema.TypeString,
 			Optional:         true,

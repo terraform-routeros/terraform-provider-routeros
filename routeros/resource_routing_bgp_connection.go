@@ -182,6 +182,11 @@ func ResourceRoutingBgpConnection() *schema.Resource {
 							"visible in /routing route table as 'not active, filtered'. Changes to be applied " +
 							"required session restart.",
 					},
+					"add_path": {
+						Type:        schema.TypeString,
+						Optional:    true,
+						Description: "Accepted additional paths grouped by address family. Available in RouterOS starting from version 7.22.",
+					},
 					"accept_unknown": {
 						Type:     schema.TypeString,
 						Optional: true,
@@ -427,6 +432,11 @@ func ResourceRoutingBgpConnection() *schema.Resource {
 							"are replaced with the local AS number before sending a route update to that peer. " +
 							"Happens before routing filters and prepending.",
 						DiffSuppressFunc: AlwaysPresentNotUserProvided,
+					},
+					"add_path": {
+						Type:        schema.TypeString,
+						Optional:    true,
+						Description: "Advertised additional paths grouped by address family. Available in RouterOS starting from version 7.22.",
 					},
 					"default_originate": {
 						Type:         schema.TypeString,
