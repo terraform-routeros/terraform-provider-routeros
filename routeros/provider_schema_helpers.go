@@ -275,6 +275,12 @@ var (
 		Optional:         true,
 		DiffSuppressFunc: AlwaysPresentNotUserProvided,
 	}
+	PropDisabledRo = &schema.Schema{
+		Type:     schema.TypeBool,
+		Computed: true,
+		Description: "Whether the resource is disabled. Since this value is read-only, the disablement is the result" +
+			"something outside of the resource's direct control",
+	}
 	PropDefaultRo = &schema.Schema{
 		Type:        schema.TypeBool,
 		Computed:    true,
@@ -911,10 +917,10 @@ var (
 // the ROS API omits it for single hosts. ImplicitSingleHostCIDR should only be used where ROS does otherwise
 // admit a prefix length, i.e. `192.168.1.2/24` would both write and read back as such for the same parameter.
 func ImplicitSingleHostCIDR4(k, old, new string, d *schema.ResourceData) bool {
-	return new == old + "/32"
+	return new == old+"/32"
 }
 func ImplicitSingleHostCIDR6(k, old, new string, d *schema.ResourceData) bool {
-	return new == old + "/128"
+	return new == old+"/128"
 }
 
 func buildReadFilter(m map[string]any) []string {

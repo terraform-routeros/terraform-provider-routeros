@@ -18,7 +18,6 @@ func ResourceArp() *schema.Resource {
 		//  * Host Name
 		//  * Status (this may just be a meta field)
 
-		// TODO: Investigate the CLI command parameters.
 		"address": {
 			Type:        schema.TypeString,
 			Optional:    false,
@@ -42,38 +41,36 @@ func ResourceArp() *schema.Resource {
 		// Read Only Properties
 		"complete": {
 			Type:        schema.TypeBool,
-			Optional:    false,
+			Computed:    true,
 			Description: "This flag is included in ARP entries when the ARP status is: permanent, reachable, stale, probe, or delay.",
 		},
+		// TODO: If an ARP entry was added by the DHCP server, then it shouldn't exist within Terraform - since this could result in a conflict. If this is the case, should we error in some way?
 		"dhcp": {
 			Type:        schema.TypeBool,
-			Optional:    false,
+			Computed:    true,
 			Description: "Whether the ARP entry is added by a DHCP server.",
 		},
-		"disabled": {
+		KeyDisabled: PropDisabledRo,
+		KeyDynamic: {
 			Type:        schema.TypeBool,
-			Optional:    false,
-			Description: "Whether the ARP entry is disabled",
-		},
-		"dynamic": {
-			Type:        schema.TypeBool,
-			Optional:    false,
+			Computed:    true,
 			Description: "Whether the entry is dynamically created",
 		},
-		"invalid": {
+		KeyInvalid: {
 			Type:        schema.TypeBool,
-			Optional:    false,
+			Computed:    true,
 			Description: "Whether the entry is not valid",
 		},
 		"status": {
 			Type:        schema.TypeString,
-			Optional:    false,
+			Computed:    true,
 			Description: "Shows the state of the ARP entry. This can be: delay, failed, incomplete, permanent, permanent, reachable, or stale.",
 		},
+		// NOTE: The documentation shows this as capitalised - so I opted against using KeyVrf.
 		"VRF": {
 			Type:        schema.TypeString,
-			Optional:    false,
-			Description: "\tIndicates which VRF this ARP entry is associated with.",
+			Computed:    true,
+			Description: "Indicates which VRF this ARP entry is associated with.",
 		},
 	}
 
