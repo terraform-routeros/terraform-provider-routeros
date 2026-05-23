@@ -23,6 +23,26 @@ func ResourceArp() *schema.Resource {
 		//  * Status (this may just be a meta field)
 
 		// TODO: Investigate the CLI command parameters.
+		"address": {
+			Type:        schema.TypeString,
+			Optional:    false,
+			Description: "IP address to be mapped",
+		},
+		"interface": {
+			Type:        schema.TypeString,
+			Optional:    false,
+			Description: "",
+		},
+		"mac_address": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "The MAC address that the IP will be mapped to. Defaults to 00:00:00:00:00:00",
+		},
+		"published": {
+			Type:        schema.TypeString,
+			Optional:    false,
+			Description: "Static proxy-arp entry for individual IP addresses. When an ARP query is received for the specific IP address, the device will respond with its own MAC address. No need to set proxy-arp on the interface itself for all the MAC addresses to be proxied. The interface will respond to an ARP request only when the device has an active route towards the destination.",
+		},
 	}
 
 	return &schema.Resource{
