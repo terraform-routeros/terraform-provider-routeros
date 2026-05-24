@@ -15,18 +15,8 @@ func ResourceArp() *schema.Resource {
 			Optional:    false,
 			Description: "IP address to be mapped.",
 		},
-		// TODO: Switch to KeyInterface/PropInterfaceRw
-		"interface": {
-			Type:        schema.TypeString,
-			Optional:    false,
-			Description: "Interface name the IP address is assigned to.",
-		},
-		// TODO: Switch to KeyMacAddress/PropMacAddressRW
-		"mac_address": {
-			Type:        schema.TypeString,
-			Optional:    true,
-			Description: "The MAC address that the IP will be mapped to. Defaults to 00:00:00:00:00:00.",
-		},
+		KeyInterface:  PropInterfaceRw,
+		KeyMacAddress: PropMacAddressRw("The MAC address that the IP will be mapped to. Defaults to 00:00:00:00:00:00.", false),
 		"published": {
 			Type:        schema.TypeBool,
 			Optional:    true,
