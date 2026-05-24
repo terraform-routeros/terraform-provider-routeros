@@ -10,24 +10,18 @@ func ResourceArp() *schema.Resource {
 		// This aligns with the ARP sub-menu - which is at "/ip arp".
 		MetaResourcePath: PropResourcePath("/ip/arp"),
 		MetaId:           PropId(Id),
-
-		// TODO: Investigate which items in WinBox directly correspond to the API/CLI commands:
-		//  * Enabled
-		//  * Comment
-		//  * Bridge Port
-		//  * Host Name
-		//  * Status (this may just be a meta field)
-
 		"address": {
 			Type:        schema.TypeString,
 			Optional:    false,
 			Description: "IP address to be mapped.",
 		},
+		// TODO: Switch to KeyInterface/PropInterfaceRw
 		"interface": {
 			Type:        schema.TypeString,
 			Optional:    false,
 			Description: "Interface name the IP address is assigned to.",
 		},
+		// TODO: Switch to KeyMacAddress/PropMacAddressRW
 		"mac_address": {
 			Type:        schema.TypeString,
 			Optional:    true,
@@ -38,7 +32,7 @@ func ResourceArp() *schema.Resource {
 			Optional:    true,
 			Description: "Static proxy-arp entry for individual IP addresses. When an ARP query is received for the specific IP address, the device will respond with its own MAC address. No need to set proxy-arp on the interface itself for all the MAC addresses to be proxied. The interface will respond to an ARP request only when the device has an active route towards the destination.",
 		},
-		// Read Only Properties
+		// Read-only properties
 		"complete": {
 			Type:        schema.TypeBool,
 			Computed:    true,
@@ -66,7 +60,7 @@ func ResourceArp() *schema.Resource {
 			Computed:    true,
 			Description: "Shows the state of the ARP entry. This can be: delay, failed, incomplete, permanent, permanent, reachable, or stale.",
 		},
-		// NOTE: The documentation shows this as capitalised - so I opted against using KeyVrf.
+		// NOTE: The documentation shows this as capitalised - so I opted against using the KeyVrf constant (which is lowercase).
 		"VRF": {
 			Type:        schema.TypeString,
 			Computed:    true,
