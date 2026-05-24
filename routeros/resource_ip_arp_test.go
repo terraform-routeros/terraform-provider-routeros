@@ -37,8 +37,8 @@ func ipArpConfig() string {
 	return providerConfig + `
 resource "routeros_ip_arp" "test_arp" {
 	name	    = "192.168.88.128"
-	interface   = "bridge"
-	mac_address = "CA:FE:BA:BE"
+	interface   = "bridge1"
+	mac_address = "00:CA:FE:BA:BE:00"
     published   = true
 }
 `

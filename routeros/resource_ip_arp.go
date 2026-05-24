@@ -10,13 +10,9 @@ func ResourceArp() *schema.Resource {
 		// This aligns with the ARP sub-menu - which is at "/ip arp".
 		MetaResourcePath: PropResourcePath("/ip/arp"),
 		MetaId:           PropId(Id),
-		"address": {
-			Type:        schema.TypeString,
-			Optional:    false,
-			Description: "IP address to be mapped.",
-		},
-		KeyInterface:  PropInterfaceRw,
-		KeyMacAddress: PropMacAddressRw("The MAC address that the IP will be mapped to. Defaults to 00:00:00:00:00:00.", false),
+		KeyAddress:       PropIpv4Address("IP address to be mapped.", true),
+		KeyInterface:     PropInterfaceRw,
+		KeyMacAddress:    PropMacAddressRw("The MAC address that the IP will be mapped to. Defaults to 00:00:00:00:00:00.", false),
 		"published": {
 			Type:        schema.TypeBool,
 			Optional:    true,
@@ -50,8 +46,7 @@ func ResourceArp() *schema.Resource {
 			Computed:    true,
 			Description: "Shows the state of the ARP entry. This can be: delay, failed, incomplete, permanent, permanent, reachable, or stale.",
 		},
-		// NOTE: The documentation shows this as capitalised - so I opted against using the KeyVrf constant (which is lowercase).
-		"VRF": {
+		KeyVrf: {
 			Type:        schema.TypeString,
 			Computed:    true,
 			Description: "Indicates which VRF this ARP entry is associated with.",
