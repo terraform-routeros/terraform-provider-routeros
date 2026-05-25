@@ -26,6 +26,7 @@ const (
 
 const (
 	KeyActualMtu               = "actual_mtu"
+	KeyAddress                 = "address"
 	KeyAllowFastPath           = "allow_fast_path"
 	KeyArp                     = "arp"
 	KeyArpTimeout              = "arp_timeout"
@@ -221,6 +222,21 @@ func PropVlanIdRw(description string, required bool) *schema.Schema {
 	}
 }
 
+// PropIpv4Address builds a struct that can be used to define a writeable IPv4 field.
+func PropIpv4Address(description string, required bool) *schema.Schema {
+	ipv4 := &schema.Schema{
+		Type:         schema.TypeString,
+		Description:  description,
+		ValidateFunc: validation.IsIPv4Address,
+	}
+	if required {
+		ipv4.Required = true
+	} else {
+		ipv4.Optional = true
+	}
+	return ipv4
+}
+
 // Schema properties.
 var (
 	PropActualMtuRo = &schema.Schema{
@@ -274,6 +290,12 @@ var (
 		Type:             schema.TypeBool,
 		Optional:         true,
 		DiffSuppressFunc: AlwaysPresentNotUserProvided,
+	}
+	PropDisabledRo = &schema.Schema{
+		Type:     schema.TypeBool,
+		Computed: true,
+		Description: "Whether the resource is disabled. Since this value is read-only, the disablement is the result" +
+			"something outside of the resource's direct control",
 	}
 	PropDefaultRo = &schema.Schema{
 		Type:        schema.TypeBool,
@@ -911,10 +933,10 @@ var (
 // the ROS API omits it for single hosts. ImplicitSingleHostCIDR should only be used where ROS does otherwise
 // admit a prefix length, i.e. `192.168.1.2/24` would both write and read back as such for the same parameter.
 func ImplicitSingleHostCIDR4(k, old, new string, d *schema.ResourceData) bool {
-	return new == old + "/32"
+	return new == old+"/32"
 }
 func ImplicitSingleHostCIDR6(k, old, new string, d *schema.ResourceData) bool {
-	return new == old + "/128"
+	return new == old+"/128"
 }
 
 func buildReadFilter(m map[string]any) []string {
