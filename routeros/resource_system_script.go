@@ -54,7 +54,7 @@ func ResourceSystemScript() *schema.Resource {
 			Elem: &schema.Schema{
 				Type: schema.TypeString,
 				ValidateFunc: validation.StringInSlice([]string{"ftp", "reboot", "read", "write", "policy", "test",
-					"password", "sniff", "sensitive"}, false),
+					"password", "sniff", "sensitive", "romon", "dude"}, false),
 			},
 			Description: `List of applicable policies:
 	* ftp - Policy that grants full rights to log in remotely via FTP, to read/write/erase files and to transfer files from/to the router. Should be used together with read/write policies.  
