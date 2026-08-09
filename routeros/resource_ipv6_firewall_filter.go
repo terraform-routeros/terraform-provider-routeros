@@ -25,6 +25,11 @@ func ResourceIPv6FirewallFilter() *schema.Resource {
 				"jump", "log", "passthrough", "reject", "return",
 			}, false),
 		},
+		"address_list": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: "Name of the address list used in 'add-dst-to-address-list' and 'add-src-to-address-list' actions.",
+		},
 		// Mikrotik v7.7 response - 400: 'Bad Request' (invalid time value for argument address-list-timeout)
 		// request body:  {"action":"drop","address-list-timeout":"none-dynamic", ...}
 		// The default value is empty and the field is Computed.

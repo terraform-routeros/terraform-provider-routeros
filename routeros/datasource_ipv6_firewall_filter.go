@@ -18,6 +18,10 @@ func getIPv6FirewallFilterSchema() *schema.Schema {
 					Type:     schema.TypeString,
 					Computed: true,
 				},
+				"address_list": {
+					Type:     schema.TypeString,
+					Computed: true,
+				},
 				"bytes": {
 					Type:     schema.TypeInt,
 					Computed: true,
