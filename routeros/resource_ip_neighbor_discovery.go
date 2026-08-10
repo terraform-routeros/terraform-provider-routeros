@@ -104,6 +104,8 @@ func ResourceIpNeighborDiscoverySettings() *schema.Resource {
 			},
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"add_dns_entries": PropAddDnsEntriesRo,
+		"lldp_med":        PropLldpMedRo,
 	}
 
 	return &schema.Resource{

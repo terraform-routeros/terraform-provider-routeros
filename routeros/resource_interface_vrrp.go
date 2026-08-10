@@ -124,6 +124,7 @@ func ResourceInterfaceVrrp() *schema.Resource {
 		},
 		KeyMacAddress: PropMacAddressRo,
 		KeyMtu:        PropL2MtuRo,
+		KeyMaster:        PropMasterRo,
 		KeyName:       PropNameForceNewRw,
 		"on_fail": {
 			Type:        schema.TypeString,

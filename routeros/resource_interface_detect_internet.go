@@ -43,6 +43,7 @@ func ResourceInterfaceDetectInternet() *schema.Resource {
 			Description:      "Interfaces with state Wan will be dynamically added to this list.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"request_interval": PropRequestIntervalRo,
 	}
 
 	return &schema.Resource{

@@ -93,6 +93,7 @@ func ResourceDhcpClient() *schema.Resource {
 			Description: "The IP address of the gateway which is assigned by DHCP server.",
 		},
 		KeyInterface: PropInterfaceRw,
+	KeyDhcpClientName:   PropDhcpClientNameRo,
 		KeyInvalid:   PropInvalidRo,
 		"primary_dns": {
 			Type:        schema.TypeString,

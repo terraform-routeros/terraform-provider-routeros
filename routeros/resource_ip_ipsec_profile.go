@@ -83,6 +83,7 @@ func ResourceIpIpsecProfile() *schema.Resource {
 			DiffSuppressFunc: TimeEqual,
 		},
 		KeyName: PropName(""),
+		"ppk":              PropPpkRo,
 		"nat_traversal": {
 			Type:     schema.TypeBool,
 			Optional: true,

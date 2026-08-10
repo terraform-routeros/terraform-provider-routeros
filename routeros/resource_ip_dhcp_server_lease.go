@@ -90,6 +90,8 @@ func ResourceDhcpServerLease() *schema.Resource {
 			Optional:    true,
 			Description: "If specified, must match DHCP 'client identifier' option of the request.",
 		},
+		"active_agent_circuit_id":  PropActiveAgentCircuitIdRo,
+		"active_agent_remote_id":   PropActiveAgentRemoteIdRo,
 		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,
 		"dhcp_option": {
