@@ -488,6 +488,103 @@ var (
 		Description:      "The VRF table this resource operates on.",
 		DiffSuppressFunc: AlwaysPresentNotUserProvided,
 	}
+	// RouterOS 7.x runtime state fields — read-only, returned by API but not configurable
+	PropActualPathCostRo = &schema.Schema{
+		Type:        schema.TypeInt,
+		Computed:    true,
+		Description: "Computed spanning tree path cost, returned by the device.",
+	}
+	PropActiveAgentCircuitIdRo = &schema.Schema{
+		Type:        schema.TypeString,
+		Computed:    true,
+		Description: "Active DHCP relay circuit ID, returned by the device.",
+	}
+	PropActiveAgentRemoteIdRo = &schema.Schema{
+		Type:        schema.TypeString,
+		Computed:    true,
+		Description: "Active DHCP relay remote ID, returned by the device.",
+	}
+	PropAddDnsEntriesRo = &schema.Schema{
+		Type:        schema.TypeBool,
+		Computed:    true,
+		Description: "Whether DNS entries are being added (neighbor discovery), returned by the device.",
+	}
+	PropAddDnsEntriesSuffixRo = &schema.Schema{
+		Type:        schema.TypeString,
+		Computed:    true,
+		Description: "DNS suffix added to DHCP lease entries, returned by the device.",
+	}
+	PropDhcpv6SnoopingRo = &schema.Schema{
+		Type:        schema.TypeString,
+		Computed:    true,
+		Description: "DHCPv6 snooping status, returned by the device.",
+	}
+	PropLldpMedRo = &schema.Schema{
+		Type:        schema.TypeBool,
+		Computed:    true,
+		Description: "LLDP-MED status, returned by the device.",
+	}
+	PropMlagHeartbeatRo = &schema.Schema{
+		Type:        schema.TypeString,
+		Computed:    true,
+		Description: "MLAG heartbeat interval, returned by the device.",
+	}
+	PropMlagPeerPortRo = &schema.Schema{
+		Type:        schema.TypeString,
+		Computed:    true,
+		Description: "MLAG peer port, returned by the device.",
+	}
+	PropMlagPriorityRo = &schema.Schema{
+		Type:        schema.TypeString,
+		Computed:    true,
+		Description: "MLAG priority, returned by the device.",
+	}
+	PropManagedRo = &schema.Schema{
+		Type:        schema.TypeBool,
+		Computed:    true,
+		Description: "Bridge managed status, returned by the device.",
+	}
+	PropMasterRo = &schema.Schema{
+		Type:        schema.TypeBool,
+		Computed:    true,
+		Description: "Whether this VRRP instance is currently the master, returned by the device.",
+	}
+	PropPpkRo = &schema.Schema{
+		Type:        schema.TypeString,
+		Computed:    true,
+		Description: "IPsec pre-shared key status, returned by the device.",
+	}
+	PropPpkSecretRo = &schema.Schema{
+		Type:        schema.TypeString,
+		Computed:    true,
+		Sensitive:   true,
+		Description: "IPsec pre-shared key secret, returned by the device.",
+	}
+	PropRaGuardRo = &schema.Schema{
+		Type:        schema.TypeString,
+		Computed:    true,
+		Description: "Router Advertisement guard status, returned by the device.",
+	}
+	PropRequestIntervalRo = &schema.Schema{
+		Type:        schema.TypeString,
+		Computed:    true,
+		Description: "Interface detect request interval, returned by the device.",
+	}
+	PropTrustedDhcpv6Ro = &schema.Schema{
+		Type:        schema.TypeBool,
+		Computed:    true,
+		Description: "Whether DHCPv6 is trusted on this bridge port, returned by the device.",
+	}
+	PropTrustedRaRo = &schema.Schema{
+		Type:        schema.TypeBool,
+		Computed:    true,
+		Description: "Whether Router Advertisements are trusted on this bridge port, returned by the device.",
+	}
+	PropDhcpClientNameRo = &schema.Schema{
+		Type:        schema.TypeString,
+		Computed:    true,
+		Description: "DHCP client name assigned by the server, returned by the device.",
+	}
 )
 
 // PropMtuRw MTU value can be integer or 'auto'.

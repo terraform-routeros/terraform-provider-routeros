@@ -107,6 +107,7 @@ func ResourceDhcpServer() *schema.Resource {
 		},
 		KeyInterface: PropInterfaceRw,
 		KeyInvalid:   PropInvalidRo,
+	KeyAddDnsEntriesSuffix: PropAddDnsEntriesSuffixRo,
 		"lease_script": {
 			Type:        schema.TypeString,
 			Optional:    true,

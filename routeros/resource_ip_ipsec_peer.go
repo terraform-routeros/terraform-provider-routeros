@@ -51,6 +51,7 @@ func ResourceIpIpsecPeer() *schema.Resource {
 			Description: "Routers local address on which Phase 1 should be bounded to.",
 		},
 		KeyName: PropName("Peer name."),
+		"ppk_secret":       PropPpkSecretRo,
 		"passive": {
 			Type:     schema.TypeBool,
 			Optional: true,

@@ -216,6 +216,9 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 			Description: "Switch chip used by the port.",
 		},
 		KeyInactive: PropInactiveRo,
+		KeyActualPathCost:  PropActualPathCostRo,
+		KeyTrustedDhcpv6:   PropTrustedDhcpv6Ro,
+		KeyTrustedRa:       PropTrustedRaRo,
 		"ingress_filtering": {
 			Type:     schema.TypeBool,
 			Optional: true,
