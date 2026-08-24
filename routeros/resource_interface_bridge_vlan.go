@@ -35,9 +35,6 @@ func ResourceInterfaceBridgeVlan() *schema.Resource {
 			Description: "The bridge interface which the respective VLAN entry is intended for.",
 		},
 		KeyComment: PropCommentRw,
-		// RouterOS reports the live membership of the VLAN entry in link-up order,
-		// so any port flap or reboot re-orders the list without changing its
-		// contents. A set keeps that re-ordering out of the state.
 		"current_tagged": {
 			Type:     schema.TypeSet,
 			Computed: true,
