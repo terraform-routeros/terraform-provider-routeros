@@ -36,18 +36,20 @@ func ResourceInterfaceBridgeVlan() *schema.Resource {
 		},
 		KeyComment: PropCommentRw,
 		"current_tagged": {
-			Type:     schema.TypeList,
+			Type:     schema.TypeSet,
 			Computed: true,
 			Elem: &schema.Schema{
 				Type: schema.TypeString,
 			},
+			Description: "The ports that currently egress this VLAN entry tagged.",
 		},
 		"current_untagged": {
-			Type:     schema.TypeList,
+			Type:     schema.TypeSet,
 			Computed: true,
 			Elem: &schema.Schema{
 				Type: schema.TypeString,
 			},
+			Description: "The ports that currently egress this VLAN entry untagged.",
 		},
 		KeyDisabled: PropDisabledRw,
 		KeyDynamic:  PropDynamicRo,

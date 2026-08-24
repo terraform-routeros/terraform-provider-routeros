@@ -49,8 +49,8 @@ resource "routeros_interface_bridge_vlan" "bridge_vlan" {
 
 ### Read-Only
 
-- `current_tagged` (List of String)
-- `current_untagged` (List of String)
+- `current_tagged` (Set of String) The ports that currently egress this VLAN entry tagged.
+- `current_untagged` (Set of String) The ports that currently egress this VLAN entry untagged.
 - `dynamic` (Boolean) Configuration item created by software, not by management interface. It is not exported, and cannot be directly modified.
 - `id` (String) The ID of this resource.
 
