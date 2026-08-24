@@ -1,3 +1,10 @@
+## Unreleased
+
+### Features
+
+* **switch-qos:** Add switch-chip QoS resources for CRS3xx/CRS5xx: `routeros_interface_ethernet_switch_qos_profile`, `routeros_interface_ethernet_switch_qos_map_ip`, `routeros_interface_ethernet_switch_qos_port`, `routeros_interface_ethernet_switch_qos_tx_manager_queue`
+* **queue-interface:** Add resource `routeros_queue_interface`
+
 ## [1.100.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.99.1...v1.100.0) (2026-03-13)
 
 ### Features
