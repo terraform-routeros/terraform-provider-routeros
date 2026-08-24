@@ -85,8 +85,11 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/bridge/port"),
 		MetaId:           PropId(Id),
-		MetaSkipFields: PropSkipFields("debug_info", "discard_transitions", "forward_transitions", "port_number",
-			"rx_bpdu", "rx_tc", "topology_changes", "tx_bpdu", "tx_tc"),
+		// `last_topology_change` is a free-running "time since" timer, like the
+		// transition/BPDU counters beside it: it advances on its own and would
+		// otherwise report out-of-band drift on every refresh.
+		MetaSkipFields: PropSkipFields("debug_info", "discard_transitions", "forward_transitions",
+			"last_topology_change", "port_number", "rx_bpdu", "rx_tc", "topology_changes", "tx_bpdu", "tx_tc"),
 
 		"nextid": {
 			Type:     schema.TypeString,
@@ -232,11 +235,6 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 			Description: "Path cost to the interface for MSTI0 inside a region. This property only has effect when " +
 				"protocol-mode is set to mstp.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
-		},
-		"last_topology_change": {
-			Type:        schema.TypeString,
-			Computed:    true,
-			Description: "Last topology change timer, records time since the last change.",
 		},
 		"learn": {
 			Type:             schema.TypeString,

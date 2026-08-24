@@ -63,7 +63,6 @@ resource "routeros_interface_bridge_port" "bridge_port" {
 - `hw_offload_group` (String) Switch chip used by the port.
 - `id` (String) The ID of this resource.
 - `inactive` (Boolean)
-- `last_topology_change` (String) Last topology change timer, records time since the last change.
 - `learning` (Boolean) Shows whether the port is capable of learning MAC addresses.
 - `nextid` (String)
 - `point_to_point_port` (Boolean) Whether the port is connected to a bridge port using full-duplex (true) or half-duplex (false).
