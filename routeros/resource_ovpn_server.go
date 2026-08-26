@@ -34,6 +34,7 @@ func ResourceOpenVPNServer() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/ovpn-server/server"),
 		MetaId:           PropId(Id),
+		MetaSkipFields:   PropSkipFields("name", "disabled", "inactive", "push_routes_ipv6", "user_auth_method", "vrf"),
 
 		"auth": {
 			Type:     schema.TypeSet,

@@ -10,11 +10,22 @@ func ResourceDhcpServer() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/dhcp-server"),
 		MetaId:           PropId(Id),
-
 		"add_arp": {
 			Type:        schema.TypeBool,
 			Optional:    true,
 			Description: "Whether to add dynamic ARP entry. ",
+		},
+		"add_dns_entries": {
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Description:      "Add local DNS entries for leases.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"add_dns_entries_suffix": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Suffix for the local DNS entries created for leases.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"address_pool": {
 			Type:     schema.TypeString,

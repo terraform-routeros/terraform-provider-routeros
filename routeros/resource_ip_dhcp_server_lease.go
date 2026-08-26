@@ -10,6 +10,7 @@ func ResourceDhcpServerLease() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/dhcp-server/lease"),
 		MetaId:           PropId(Id),
+		MetaSkipFields:   PropSkipFields("active_agent_circuit_id", "active_agent_remote_id"),
 
 		"active_address": {
 			Type:        schema.TypeString,

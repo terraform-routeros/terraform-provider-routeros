@@ -37,3 +37,7 @@
   /ip/ssh:
     - tf: always-allow-password-login
       mt: password-authentication
+7.24:
+  /ip/service:
+    - tf: address
+      mt: available-from

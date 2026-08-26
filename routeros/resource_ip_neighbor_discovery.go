@@ -19,6 +19,7 @@ func ResourceIpNeighborDiscoverySettings() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/neighbor/discovery-settings"),
 		MetaId:           PropId(Id),
+		MetaSkipFields:   PropSkipFields("add_dns_entries", "add_dns_entries_suffix", "dying_gasp", "lldp_med"),
 
 		"discover_interface_list": {
 			Type:             schema.TypeString,

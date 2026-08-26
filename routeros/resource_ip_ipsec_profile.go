@@ -27,6 +27,7 @@ func ResourceIpIpsecProfile() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/ip/ipsec/profile"),
 		MetaId:           PropId(Id),
 
+		KeyDefault: PropDefaultRo,
 		"dh_group": {
 			Type:        schema.TypeSet,
 			Optional:    true,
@@ -98,6 +99,12 @@ func ResourceIpIpsecProfile() *schema.Resource {
 			Optional:     true,
 			Description:  "",
 			ValidateFunc: validation.StringInSlice([]string{"auto", "sha1", "sha256", "sha384", "sha512"}, false),
+		},
+		"ppk": {
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Description:      "Use post-quantum pre-shared keys.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"proposal_check": {
 			Type:     schema.TypeString,

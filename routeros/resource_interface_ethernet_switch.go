@@ -87,7 +87,10 @@ func ResourceInterfaceEthernetSwitch() *schema.Resource {
 			"tx_drop", "tx_excessive_collision", "tx_excessive_deferred", "tx_fcs_error", "tx_fragment", "tx_jabber",
 			"tx_late_collision", "tx_multicast", "tx_multiple_collision", "tx_packet", "tx_pause", "tx_rx_1024_1518",
 			"tx_rx_128_255", "tx_rx_1519_max", "tx_rx_256_511", "tx_rx_512_1023", "tx_rx_64", "tx_rx_65_127",
-			"tx_single_collision", "tx_too_long", "tx_too_short", "tx_total_collision", "not_learned", "custom_drop_packet"),
+			"tx_single_collision", "tx_too_long", "tx_too_short", "tx_total_collision", "not_learned", "custom_drop_packet",
+			"rx_64", "rx_65_127", "rx_128_255", "rx_256_511", "rx_512_1023", "rx_1024_1518", "rx_1519_max",
+			"tx_64", "tx_65_127", "tx_128_255", "tx_256_511", "tx_512_1023", "tx_1024_1518", "tx_1519_max",
+			"tx_collision", "tx_underrun"),
 
 		"cpu_flow_control": {
 			Type:     schema.TypeBool,
