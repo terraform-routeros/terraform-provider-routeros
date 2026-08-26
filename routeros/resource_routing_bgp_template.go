@@ -56,6 +56,7 @@ func ResourceRoutingBgpTemplate() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/routing/bgp/template"),
 		MetaId:           PropId(Id),
+		MetaSkipFields:   PropSkipFields("output.add_path"),
 
 		"add_path_out": {
 			Type:         schema.TypeString,

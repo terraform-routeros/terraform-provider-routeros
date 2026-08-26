@@ -36,7 +36,8 @@ func ResourceIpSettings() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/ip/settings"),
 		MetaId:           PropId(Id),
 		MetaSkipFields: PropSkipFields("ipv4_fast_path_active", "ipv4_fast_path_bytes", "ipv4_fast_path_packets",
-			"ipv4_fasttrack_active", "ipv4_fasttrack_bytes", "ipv4_fasttrack_packets"),
+			"ipv4_fasttrack_active", "ipv4_fasttrack_bytes", "ipv4_fasttrack_packets",
+			"ipv4_fragment_time", "ipv4_high_fragment_thresh"),
 
 		"accept_redirects": {
 			Type:     schema.TypeBool,

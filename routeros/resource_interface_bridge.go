@@ -10,6 +10,7 @@ func ResourceInterfaceBridge() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/bridge"),
 		MetaId:           PropId(Id),
+		MetaSkipFields:   PropSkipFields("dhcpv6_snooping", "managed", "mlag_heartbeat", "mlag_peer_port", "mlag_priority", "ra_guard"),
 
 		KeyActualMtu: PropActualMtuRo,
 		"add_dhcp_option82": {

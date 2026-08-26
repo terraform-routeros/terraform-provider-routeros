@@ -29,6 +29,7 @@ resource "routeros_ip_ipsec_profile" "test" {
 - `lifebytes` (Number) Phase 1 lifebytes is used only as administrative value which is added to proposal. Used in cases if remote peer requires specific lifebytes value to establish phase 1.
 - `lifetime` (String) Phase 1 lifetime: specifies how long the SA will be valid.
 - `nat_traversal` (Boolean) Use Linux NAT-T mechanism to solve IPsec incompatibility with NAT routers between IPsec peers. This can only be used with ESP protocol (AH is not supported by design, as it signs the complete packet, including the IP header, which is changed by NAT, rendering AH signature invalid). The method encapsulates IPsec ESP traffic into UDP streams in order to overcome some minor issues that made ESP incompatible with NAT.
+- `ppk` (Boolean) Use post-quantum pre-shared keys.
 - `prf_algorithm` (String)
 - `proposal_check` (String) Phase 2 lifetime check logic:
   * claim - take shortest of proposed and configured lifetimes and notify initiator about it
@@ -38,6 +39,7 @@ resource "routeros_ip_ipsec_profile" "test" {
 
 ### Read-Only
 
+- `default` (Boolean) It's the default item.
 - `id` (String) The ID of this resource.
 
 ## Import

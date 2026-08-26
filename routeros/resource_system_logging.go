@@ -33,6 +33,7 @@ func ResourceSystemLogging() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/system/logging"),
 		MetaId:           PropId(Id),
+		MetaSkipFields:   PropSkipFields("managed"),
 
 		"action": {
 			Type:        schema.TypeString,

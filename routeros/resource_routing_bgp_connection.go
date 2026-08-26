@@ -69,6 +69,7 @@ func ResourceRoutingBgpConnection() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath:   PropResourcePath("/routing/bgp/connection"),
 		MetaId:             PropId(Id),
+		MetaSkipFields:     PropSkipFields("output.add_path"),
 		MetaSetUnsetFields: PropSetUnsetFields("hold_time", "keepalive_time"),
 
 		"add_path_out": {
