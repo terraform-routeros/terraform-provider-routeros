@@ -2,6 +2,7 @@ package routeros
 
 import (
 	"fmt"
+	"log"
 	"regexp"
 	"slices"
 	"strconv"
@@ -381,7 +382,8 @@ var (
 			o := strings.Split(old, ",")
 			n := strings.Split(new, ",")
 			if len(o) != 2 || len(n) != 2 {
-				panic(fmt.Sprintf("[Keepalive] wrong keepalive format, old: '%v', new: '%v'", old, new))
+				log.Printf("[WARN] [Keepalive] unexpected format, old: '%v', new: '%v'; not suppressing the diff", old, new)
+				return false
 			}
 
 			// Compare keepalive retries.
@@ -392,12 +394,14 @@ var (
 			// Compare keepalive intervals.
 			oDuration, err := ParseDuration(o[0], time.Second)
 			if err != nil {
-				panic("[Keepalive] parse 'old' duration error: " + err.Error())
+				log.Printf("[WARN] [Keepalive] parse 'old' duration error: %v; not suppressing the diff", err)
+				return false
 			}
 
 			nDuration, err := ParseDuration(n[0], time.Second)
 			if err != nil {
-				panic("[Keepalive] parse 'new' duration error: " + err.Error())
+				log.Printf("[WARN] [Keepalive] parse 'new' duration error: %v; not suppressing the diff", err)
+				return false
 			}
 
 			return oDuration.Seconds() == nDuration.Seconds()
@@ -752,12 +756,14 @@ var (
 		for i, _ := range oldSet {
 			o, err := ParseDuration(oldSet[i], baseUnits)
 			if err != nil {
-				panic("[TimeEquall] parse 'old' duration error: " + err.Error())
+				log.Printf("[WARN] [TimeEquall] parse 'old' duration error: %v; not suppressing the diff", err)
+				return false
 			}
 
 			n, err := ParseDuration(newSet[i], baseUnits)
 			if err != nil {
-				panic("[TimeEquall] parse 'new' duration error: " + err.Error())
+				log.Printf("[WARN] [TimeEquall] parse 'new' duration error: %v; not suppressing the diff", err)
+				return false
 			}
 
 			if o != n {
@@ -783,12 +789,14 @@ var (
 
 		iOld, err = strconv.ParseInt(old, 0, 64)
 		if err != nil {
-			panic("[HexEqual] 'old' number parse error: " + err.Error())
+			log.Printf("[WARN] [HexEqual] 'old' number parse error: %v; not suppressing the diff", err)
+			return false
 		}
 
 		iNew, err = strconv.ParseInt(new, 0, 64)
 		if err != nil {
-			panic("[HexEqual] 'new' number parse error: " + err.Error())
+			log.Printf("[WARN] [HexEqual] 'new' number parse error: %v; not suppressing the diff", err)
+			return false
 		}
 
 		return iOld == iNew
@@ -850,12 +858,14 @@ var (
 		for i, _ := range oldSet {
 			o, err := ParseBitValues(oldSet[i])
 			if err != nil {
-				panic("[BitsEqual] parse 'old' value error: " + err.Error())
+				log.Printf("[WARN] [BitsEqual] parse 'old' value error: %v; not suppressing the diff", err)
+				return false
 			}
 
 			n, err := ParseBitValues(newSet[i])
 			if err != nil {
-				panic("[BitsEqual] parse 'new' value error: " + err.Error())
+				log.Printf("[WARN] [BitsEqual] parse 'new' value error: %v; not suppressing the diff", err)
+				return false
 			}
 
 			if o != n {
@@ -889,12 +899,14 @@ var (
 		for i, _ := range oldSet {
 			o, err := ParseByteValues(oldSet[i])
 			if err != nil {
-				panic("[BytesEqual] parse 'old' value error: " + err.Error())
+				log.Printf("[WARN] [BytesEqual] parse 'old' value error: %v; not suppressing the diff", err)
+				return false
 			}
 
 			n, err := ParseByteValues(newSet[i])
 			if err != nil {
-				panic("[BytesEqual] parse 'new' value error: " + err.Error())
+				log.Printf("[WARN] [BytesEqual] parse 'new' value error: %v; not suppressing the diff", err)
+				return false
 			}
 
 			if o != n {
