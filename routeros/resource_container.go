@@ -196,10 +196,35 @@ func ResourceContainer() *schema.Resource {
 	}
 
 	resRead := func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-		// Run DefaultRead.
-		diags := ResourceRead(ctx, resSchema, d, m)
+		metadata := GetMetadata(resSchema)
+
+		res, err := ReadItems(&ItemId{metadata.IdType, d.Id()}, metadata.Path, m.(Client))
+		if err != nil {
+			ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgGet, err))
+			return diag.FromErr(err)
+		}
+
+		// Resource not found.
+		if len(*res) == 0 {
+			d.SetId("")
+			return nil
+		}
+
+		item := (*res)[0]
+		d.SetId(item.GetID(metadata.IdType))
+
+		diags := MikrotikResourceDataToTerraform(item, resSchema, d)
 		if diags.HasError() {
 			return diags
+		}
+
+		// The `running` field is excluded from the default read (MetaSkipFields), so the state is
+		// synchronized here. RouterOS returns the container state in the `running` field ("true"/"false"),
+		// older versions returned a `status` field instead.
+		if v, ok := item["running"]; ok {
+			d.Set("running", BoolFromMikrotikJSON(v))
+		} else {
+			d.Set("running", item["status"] == "running")
 		}
 
 		tag, ok := d.Get("tag").(string)
@@ -247,8 +272,6 @@ func ResourceContainer() *schema.Resource {
 			tag = strings.TrimLeft(tag, ":/")
 
 			d.Set("remote_image", strings.TrimPrefix(tag, registryUrl))
-
-			d.Set("running", d.Get("status").(string) == "running")
 		}
 
 		return nil
