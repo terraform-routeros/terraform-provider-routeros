@@ -29,7 +29,7 @@ resource "routeros_routing_bgp_template" "test" {
 
 ### Optional
 
-- `add_path_out` (String)
+- `add_path_out` (String, Deprecated) Advertise additional paths. The parameter was removed in RouterOS v7.22 and is only sent to the router when explicitly configured.
 - `address_families` (String) List of address families about which this peer will exchange routing information. The remote peer must support (they usually do) BGP capabilities optional parameter to negotiate any other families than IP.
 - `as_override` (Boolean) If set, then all instances of the remote peer's AS number in the BGP AS-PATH attribute are replaced with the local AS number before sending a route update to that peer. Happens before routing filters and prepending.
 - `cisco_vpls_nlri_len_fmt` (String) VPLS NLRI length format type. Used for compatibility with Cisco VPLS.
