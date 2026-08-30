@@ -58,11 +58,13 @@ func ResourceRoutingBgpTemplate() *schema.Resource {
 		MetaId:           PropId(Id),
 
 		"add_path_out": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Description:  "",
-			Default:      "none",
-			ValidateFunc: validation.StringInSlice([]string{"all", "none"}, false),
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Advertise additional paths. The parameter was removed in RouterOS v7.22 and is only sent " +
+				"to the router when explicitly configured.",
+			ValidateFunc:     validation.StringInSlice([]string{"all", "none"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			Deprecated:       DeprecatedInfo("7.22"),
 		},
 		"address_families": {
 			Type:     schema.TypeString,
@@ -449,6 +451,14 @@ func ResourceRoutingBgpTemplate() *schema.Resource {
 	}
 
 	return &schema.Resource{
+		SchemaVersion: 1,
+		StateUpgraders: []schema.StateUpgrader{
+			{
+				Type:    (&schema.Resource{Schema: resSchema}).CoreConfigSchema().ImpliedType(),
+				Upgrade: stateMigrationClearInjectedDefault("add_path_out", "none"),
+				Version: 0,
+			},
+		},
 		Description: "> [!WARNING] Using this resource you may happen unexpected behavior, for example, some of the attributes " +
 			"may not be removable after adding them to the TF configuration. Please report this to GitHub and it " +
 			"may be possible to fix it. Use the resource at your own risk as it is!",

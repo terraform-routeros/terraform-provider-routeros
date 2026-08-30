@@ -72,11 +72,13 @@ func ResourceRoutingBgpConnection() *schema.Resource {
 		MetaSetUnsetFields: PropSetUnsetFields("hold_time", "keepalive_time"),
 
 		"add_path_out": {
-			Type:         schema.TypeString,
-			Optional:     true,
-			Description:  "",
-			Default:      "none",
-			ValidateFunc: validation.StringInSlice([]string{"all", "none"}, false),
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Advertise additional paths. The parameter was removed in RouterOS v7.22 and is only sent " +
+				"to the router when explicitly configured.",
+			ValidateFunc:     validation.StringInSlice([]string{"all", "none"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			Deprecated:       DeprecatedInfo("7.22"),
 		},
 		"address_families": {
 			Type:     schema.TypeString,
@@ -597,6 +599,17 @@ func ResourceRoutingBgpConnection() *schema.Resource {
 
 		Importer: &schema.ResourceImporter{
 			StateContext: ImportStateCustomContext(resSchema),
+		},
+
+		// The schema shape is unchanged between v0 and v1, only the schema-injected
+		// 'add_path_out' default is dropped from previously recorded states.
+		SchemaVersion: 1,
+		StateUpgraders: []schema.StateUpgrader{
+			{
+				Type:    (&schema.Resource{Schema: resSchema}).CoreConfigSchema().ImpliedType(),
+				Upgrade: stateMigrationClearInjectedDefault("add_path_out", "none"),
+				Version: 0,
+			},
 		},
 
 		Schema: resSchema,
