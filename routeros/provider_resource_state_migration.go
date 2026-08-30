@@ -36,6 +36,19 @@ func stateMigrationNameToId(resourcePath string) schema.StateUpgradeFunc {
 	}
 }
 
+// stateMigrationClearInjectedDefault resets an attribute to an empty string if the state contains the given
+// value. It is used to drop an obsolete schema-injected default from previously recorded states so that the
+// attribute is no longer serialized unless it is explicitly configured.
+func stateMigrationClearInjectedDefault(key, value string) schema.StateUpgradeFunc {
+	return func(ctx context.Context, rawState map[string]interface{}, m interface{}) (map[string]interface{}, error) {
+		if rawState[key] == value {
+			rawState[key] = ""
+		}
+
+		return rawState, nil
+	}
+}
+
 func stateMigrationScalarToList(keys ...string) schema.StateUpgradeFunc {
 	return func(ctx context.Context, rawState map[string]interface{}, m interface{}) (map[string]interface{}, error) {
 		for _, key := range keys {
