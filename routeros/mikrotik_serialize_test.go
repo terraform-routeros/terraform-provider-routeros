@@ -60,6 +60,9 @@ var (
 )
 
 func Test_mikrotikResourceDataToTerraform(t *testing.T) {
+	originalVersion := RouterOSVersion
+	RouterOSVersion = "7.24.4"
+	t.Cleanup(func() { RouterOSVersion = originalVersion })
 
 	testItem := MikrotikItem{".id": "*39", "string": "string12345", "float": "0.01", "int": "10", "bool": "true"}
 
@@ -82,6 +85,9 @@ func Test_mikrotikResourceDataToTerraform(t *testing.T) {
 }
 
 func Test_terraformResourceDataToMikrotik(t *testing.T) {
+	originalVersion := RouterOSVersion
+	RouterOSVersion = "7.24.4"
+	t.Cleanup(func() { RouterOSVersion = originalVersion })
 
 	expected := MikrotikItem{"string": "string12345", "float": "0.01", "int": "10", "bool": "yes"}
 
@@ -100,6 +106,9 @@ func Test_terraformResourceDataToMikrotik(t *testing.T) {
 }
 
 func Test_mikrotikResourceDataToTerraformDatasource(t *testing.T) {
+	originalVersion := RouterOSVersion
+	RouterOSVersion = "7.24.4"
+	t.Cleanup(func() { RouterOSVersion = originalVersion })
 	testItems := []MikrotikItem{
 		{"string": "string12345", "float": "0.01", "int": "10", "bool": "yes"},
 		{"string": "12345string", "float": "0.02", "int": "20", "bool": "no"},

@@ -332,11 +332,13 @@ func TerraformResourceDataToMikrotik(s map[string]*schema.Schema, d *schema.Reso
 
 	}
 
+	versionedWriteFields(item, meta.Path, d)
 	return item, meta
 }
 
 // MikrotikResourceDataToTerraform Unmarshal Mikrotik resource (incoming data: JSON, etc.) to TF resource schema.
 func MikrotikResourceDataToTerraform(item MikrotikItem, s map[string]*schema.Schema, d *schema.ResourceData) diag.Diagnostics {
+	item = versionedReadFields(item, s[MetaResourcePath].Default.(string), d)
 	var diags diag.Diagnostics
 	var err error
 	var transformSet map[string]string
