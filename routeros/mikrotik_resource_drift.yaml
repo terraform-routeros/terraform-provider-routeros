@@ -37,3 +37,16 @@
   /ip/ssh:
     - tf: always-allow-password-login
       mt: password-authentication
+7.24:
+  /ip/service:
+    - tf: address
+      mt: available-from
+  /interface/dot1x/server:
+    - tf: reauth_timeout
+      mt: reauth-period
+  /system/resource:
+    - tf: factory_software
+      mt: minimum-version
+  /system/routerboard:
+    - tf: factory_firmware
+      mt: minimum-firmware
