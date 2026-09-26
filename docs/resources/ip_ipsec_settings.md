@@ -15,6 +15,7 @@ resource "routeros_ip_ipsec_settings" "test" {
 ### Optional
 
 - `accounting` (Boolean) Whether to send RADIUS accounting requests to a RADIUS server. Applicable if EAP Radius (`auth-method=eap-radius`) or pre-shared key with XAuth authentication method (`auth-method=pre-shared-key-xauth`) is used.
+- `ddos_cookie_threshold` (Number) Threshold for activating IPsec DDoS cookies.
 - `interim_update` (String) The interval between each consecutive RADIUS accounting Interim update. Accounting must be enabled.
 - `xauth_use_radius` (Boolean) Whether to use Radius client for XAuth users or not. Property is only applicable to peers using the IKEv1 exchange mode.
 

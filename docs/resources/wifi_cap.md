@@ -21,6 +21,8 @@ resource "routeros_wifi_cap" "settings" {
 - `discovery_interfaces` (Set of String) List of interfaces over which CAP should attempt to discover CAPs Manager.
 - `enabled` (Boolean) Disable or enable the CAP functionality.
 - `lock_to_caps_man` (Boolean) Lock CAP to the first CAPsMAN it connects to.
+- `mld_datapath` (String) Datapath profile for multi-link interfaces.
+- `mld_static` (Boolean) Create static multi-link interfaces.
 - `slaves_datapath` (String) Name of the bridge interface the CAP will be added to.
 - `slaves_static` (Boolean) An option that creates static virtual interfaces.
 

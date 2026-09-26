@@ -20,14 +20,17 @@ resource "routeros_routing_rule" "test" {
   * lookup - perform a lookup in routing tables.
   * lookup-only-in-table - perform lookup only in the specified routing table (see table parameter).
   * unreachable - generate ICMP unreachable message and send it back to the source.
+- `chain` (String) Routing rule chain.
 - `comment` (String)
 - `disabled` (Boolean)
 - `dst_address` (String) The destination address of the packet to match.
 - `interface` (String) Incoming interface to match.
 - `min_prefix` (Number) Equivalent to Linux IP rule `suppress_prefixlength`. For example to suppress the default route in the routing decision set the value to 0.
+- `realm` (Number) Routing realm to match.
 - `routing_mark` (String) Match specific routing mark.
 - `src_address` (String) The source address of the packet to match.
 - `table` (String) Name of the routing table to use for lookup.
+- `vrf` (Boolean) Whether this rule applies to VRF routing.
 
 ### Read-Only
 

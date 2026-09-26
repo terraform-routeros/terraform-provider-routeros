@@ -44,6 +44,8 @@ resource "routeros_wifi" "wifi1" {
 - `l2mtu` (Number) Layer2 Maximum transmission unit. [See](https://wiki.mikrotik.com/wiki/Maximum_Transmission_Unit_on_RouterBoards).
 - `mac_address` (String) MAC address (BSSID) to use for the interface.
 - `master_interface` (String) The corresponding master interface of the virtual one.
+- `mld_interface` (String) Multi-link interface associated with this WiFi interface.
+- `mld_name` (String) Name of the multi-link device.
 - `mtu` (Number) Layer3 maximum transmission unit
 - `security` (Map of String) Security inline settings.
 - `steering` (Map of String) Steering inline settings.

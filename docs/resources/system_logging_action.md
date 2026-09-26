@@ -13,12 +13,16 @@
 
 ### Optional
 
+- `add_topics_string` (Boolean) Include logging topics in the message.
 - `bsd_syslog` (Boolean, Deprecated) Whether to use bsd-syslog as defined in RFC 3164.
 - `cef_event_delimiter` (String) Option helps remote syslog to distinguish between individual events within sent batch
+- `check_certificate` (Boolean) Validate the certificate of the remote TLS logging server.
+- `comment` (String)
 - `disk_file_count` (Number) Specifies number of files used to store log messages, applicable only if `action=disk`.
 - `disk_file_name` (String) Name of the file used to store log messages, applicable only if `action=disk`.
 - `disk_lines_per_file` (Number) Specifies maximum size of file in lines, applicable only if `action=disk`.
 - `disk_stop_on_full` (Boolean) Whether to stop to save log messages to disk after the specified disk-lines-per-file and disk-file-count number is reached, applicable only if `action=disk`.
+- `email_cc` (Set of String) Additional email recipients.
 - `email_start_tls` (Boolean) Whether to use tls when sending email, applicable only if `action=email`.
 - `email_to` (String) Email address where logs are sent, applicable only if `action=email`.
 - `memory_lines` (Number) Number of records in local memory buffer, applicable only if `action=memory`.
@@ -32,6 +36,7 @@
     - **syslog** - logs are sent in BSD-syslog format.
 - `remote_port` (Number) Remote logging server's UDP port, applicable if `action=remote`.
 - `remote_protocol` (String) Protocol for remote logging messages.
+- `script` (String) Script executed by the script logging target.
 - `src_address` (String) Source address used when sending packets to remote server, applicable if `action=remote`.
 - `syslog_facility` (String) SYSLOG facility, applicable if `action=remote`.
 - `syslog_severity` (String) Severity level indicator defined in RFC 3164, applicable if `action=remote`.
@@ -42,12 +47,6 @@
 
 - `default` (Boolean) It's the default item.
 - `id` (String) The ID of this resource.
+- `managed` (Boolean) Whether this logging action is managed by RouterOS.
 
-## Import
-Import is supported using the following syntax:
-```shell
-# The ID can be found via API or the terminal
-# The command for the terminal is -> :put [/system/logging/action get [print show-ids]]
 
-terraform import routeros_system_logging_action.disk "*1"
-```

@@ -20,7 +20,7 @@ resource "routeros_routing_id" "test" {
 ### Optional
 
 - `comment` (String)
-- `disabled` (Boolean) ID reference is not used.
+- `disabled` (Boolean)
 - `router_id` (String) Parameter to explicitly set the Router ID. If not specified, it can be elected from one of the configured IP addresses on the router.
 - `select_dynamic_id` (String) States what IP addresses to use for ID election.
 - `select_from_vrf` (String) VRF from which to select IP addresses for the ID election.

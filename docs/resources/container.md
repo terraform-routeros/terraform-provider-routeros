@@ -35,12 +35,19 @@ resource "routeros_container" "busybox" {
 - `hostname` (String) Container host name
 - `logging` (Boolean) if set to yes, all container-generated output will be shown in the RouterOS log
 - `memory_high` (String) RAM usage limit in bytes for a specific container (string value).
+- `memory_max` (String) Hard memory limit in bytes. Available since RouterOS 7.23.
 - `mounts` (Set of String) Mounts from /container/mounts/ sub-menu to be used with this container
+- `privileged` (Boolean) Run the container in privileged mode. Available since RouterOS 7.24.
 - `remote_image` (String) The container image name to be installed if an external registry is used (configured under /container/config set registry-url=...)
+- `restart_interval` (String) Delay between restart attempts. Available since RouterOS 7.23.
+- `restart_max_count` (Number) Maximum number of restart attempts. Available since RouterOS 7.23.
+- `restart_policy` (String) Restart policy: no, always, or on-failure. Available since RouterOS 7.23.
 - `root_dir` (String) Used to save container store outside main memory
 - `running` (Boolean) Container state.
 - `start_on_boot` (Boolean) Start the container on boot
+- `stop_on_unhealthy` (Boolean) Stop the container when its health check fails. Available since RouterOS 7.23.
 - `stop_signal` (String) Signal to stop the container.
+- `swap_max` (String) Maximum swap usage in bytes. Available since RouterOS 7.24.
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 - `user` (String) Sets the username used
 - `workdir` (String) The working directory for cmd entrypoint

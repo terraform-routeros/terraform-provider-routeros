@@ -17,6 +17,7 @@ resource "routeros_ip_traffic_flow" "test" {
 
 - `active_flow_timeout` (String) Maximum life-time of a flow.
 - `cache_entries` (String) Number of flows which can be in router's memory simultaneously.
+- `enabled` (Boolean) Enable/Disable Traffic-Flow system
 - `inactive_flow_timeout` (String) How long to keep the flow active, if it is idle. If a connection does not see any packet within this timeout, then traffic-flow will send a packet out as a new flow. If this timeout is too small it can create a significant amount of flows and overflow the buffer.
 - `interfaces` (String) Names of those interfaces will be used to gather statistics for traffic-flow. To specify more than one interface, separate them with a comma.
 - `packet_sampling` (Boolean) Enable or disable packet sampling feature.

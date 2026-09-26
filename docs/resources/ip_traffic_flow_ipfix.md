@@ -26,7 +26,7 @@ resource "routeros_ip_traffic_flow_ipfix" "test" {
 - `igmp_type` (String) Type of Internet Group Management Protocol operation.
 - `in_interface` (String) Interface through which packets of the flow are received.
 - `ip_header_length` (String) Length of the IP header.
-- `ip_total_lenght` (String) Length of the IP packet in bytes.
+- `ip_total_length` (String) Length of the IP packet in bytes.
 - `ipv6_flow_label` (String) Label field from an IPv6 header, used to classify flows.
 - `is_multicast` (String) Indicates whether the flow is a multicast flow.
 - `last_forwarded` (String) Timestamp of the last packet forwarded in a flow.

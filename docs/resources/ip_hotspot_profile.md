@@ -26,6 +26,7 @@ resource "routeros_ip_hotspot_profile" "test" {
 - `http_cookie_lifetime` (String) HTTP cookie validity time, the option is related to cookie HotSpot login method.
 - `http_proxy` (String) Address and port of the proxy server for HotSpot service, when default value is used all request are resolved by the local `/ip proxy`.
 - `https_redirect` (Boolean) Whether to redirect unauthenticated user to hotspot login page, if he is visiting a https:// url. Since certificate domain name will mismatch, often this leads to errors, so you can set this parameter to `no` and all https requests will simply be rejected and user will have to visit a http page.
+- `install_hotspot_queue` (Boolean) Install the hotspot queue when the profile is applied.
 - `login_by` (Set of String) Used HotSpot authentication method
  * mac-cookie - enables login by mac cookie method.
  * cookie - may only be used with other HTTP authentication method. HTTP cookie is generated, when user authenticates in HotSpot for the first time. User is not asked for the login/password and authenticated automatically, until cookie-lifetime is active.
@@ -54,6 +55,7 @@ resource "routeros_ip_hotspot_profile" "test" {
 
 ### Read-Only
 
+- `default` (Boolean) It's the default item.
 - `id` (String) The ID of this resource.
 
 ## Import

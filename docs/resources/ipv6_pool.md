@@ -20,6 +20,8 @@ resource "routeros_ipv6_pool" "test" {
 
 ### Optional
 
+- `comment` (String)
+- `from_pool` (String) Parent IPv6 pool from which to allocate this pool prefix.
 - `prefix` (String) Ipv6 address prefix.
 
 ### Read-Only

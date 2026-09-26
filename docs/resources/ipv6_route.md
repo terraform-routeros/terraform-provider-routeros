@@ -34,6 +34,7 @@ resource "routeros_ipv6_route" "a_route" {
 ### Read-Only
 
 - `active` (Boolean) A flag indicates whether the route is elected as Active and eligible to be added to the FIB.
+- `connect` (Boolean) Whether this is a connected route.
 - `dynamic` (Boolean) Configuration item created by software, not by management interface. It is not exported, and cannot be directly modified.
 - `ecmp` (Boolean) A flag indicates whether the route is added as an Equal-Cost Multi-Path route in the FIB.
 - `hw_offloaded` (Boolean) Indicates whether the route is eligible to be hardware offloaded on supported hardware.

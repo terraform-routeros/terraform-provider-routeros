@@ -26,6 +26,7 @@ resource "routeros_ip_hotspot_user" "test" {
 - `limit_bytes_total` (Number) (limit-bytes-in+limit-bytes-out). User is disconnected from HotSpot after the limit is reached.
 - `limit_uptime` (Number) Uptime limit for the HotSpot client, user is disconnected from HotSpot as soon as uptime is reached.
 - `mac_address` (Number) Client is allowed to login only from the specified MAC-address. If value is 00:00:00:00:00:00, any mac address is allowed.
+- `otp_secret` (String, Sensitive) Secret used for one-time password authentication.
 - `password` (String, Sensitive) User password.
 - `profile` (String) User profile configured in `/ip hotspot user profile`.
 - `routes` (String) Routes added to HotSpot gateway when client is connected. The route format dst-address gateway metric (for example, `192.168.1.0/24 192.168.0.1 1`).

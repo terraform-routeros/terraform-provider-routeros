@@ -35,6 +35,7 @@ resource "routeros_ip_vrf" "test_vrf_a" {
 
 ### Read-Only
 
+- `builtin` (Boolean) Whether this VRF is built in (the default main VRF).
 - `id` (String) The ID of this resource.
 
 ## Import

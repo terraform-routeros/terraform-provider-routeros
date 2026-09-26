@@ -44,6 +44,8 @@ resource "routeros_interface_bridge_port" "bridge_port" {
 - `restricted_tcn` (Boolean) Disable topology change notification (TCN) sending on a port, used by STP to forbid network topology changes to propagate. This property only has effect when protocol-mode is set to mstp.
 - `tag_stacking` (Boolean) Forces all packets to be treated as untagged packets. Packets on ingress port will be tagged with another VLAN tag regardless if a VLAN tag already exists, packets will be tagged with a VLAN ID that matches the pvid value and will use EtherType that is specified in ether-type. This property only has effect when vlan-filtering is set to yes.
 - `trusted` (Boolean) When enabled, it allows to forward DHCP packets towards DHCP server through this port. Mainly used to limit unauthorized servers to provide malicious information for users. This property only has effect when dhcp-snooping is set to yes.
+- `trusted_dhcpv6` (Boolean) Trust DHCPv6 server messages received on this port when DHCPv6 snooping is enabled on the bridge. Available since RouterOS 7.23.
+- `trusted_ra` (Boolean) Allow IPv6 Router Advertisements from this port when RA guard is enabled on the bridge. Available since RouterOS 7.22.
 - `unknown_multicast_flood` (Boolean) When enabled, bridge floods unknown multicast traffic to all bridge egress ports.
 - `unknown_unicast_flood` (Boolean) When enabled, bridge floods unknown unicast traffic to all bridge egress ports.
 

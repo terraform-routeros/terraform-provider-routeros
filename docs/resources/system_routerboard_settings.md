@@ -22,6 +22,7 @@ resource "routeros_system_routerboard_settings" "settings" {
 - `boot_protocol` (String) Boot protocol to use. Possible values: `bootp`, `dhcp`.
 - `cpu_frequency` (String) An option to change the CPU frequency of the device.
 - `cpu_mode` (String) An option whether to enter CPU suspend mode in HTL instruction. Possible values: `power-save`, `regular`.
+- `disable_pci` (Boolean) Specific setting for devices with the MT7621 chip. Allows disabling PCI.
 - `enable_jumper_reset` (Boolean) An option to enable reset via the onboard jumper.
 - `enter_setup_on` (String) An option to set which key will cause the BIOS to enter configuration mode during boot delay. Possible values: `any-key`, `delete-key`.
 - `force_backup_booter` (Boolean) An option to use the backup RouterBOOT.

@@ -17,9 +17,11 @@ resource "routeros_container_config" "config" {
 ### Optional
 
 - `layer_dir` (String) Container layers directory.
+- `memory_max` (String) Global hard memory limit for containers in bytes. Available since RouterOS 7.23.
 - `password` (String, Sensitive) Specifies the password for authentication (starting from ROS 7.8)
 - `ram_high` (String) RAM usage limit.
 - `registry_url` (String) External registry url from where the container will be downloaded.
+- `swap_max` (String) Global container swap limit in bytes. Available since RouterOS 7.24.
 - `tmpdir` (String) Container extraction directory.
 - `username` (String) Specifies the username for authentication (starting from ROS 7.8)
 

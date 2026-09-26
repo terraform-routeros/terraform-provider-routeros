@@ -8,6 +8,7 @@
 
 ### Optional
 
+- `certificate_verification` (Boolean) Validate the SMTP server certificate when TLS is enabled.
 - `from` (String) Name or email address that will be shown as a receiver.
 - `password` (String, Sensitive) Password used for authenticating to an SMTP server.
 - `port` (String) SMTP server's port.

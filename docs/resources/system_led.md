@@ -15,6 +15,7 @@ resource "routeros_system_led" "sfp1" {
 
 ### Optional
 
+- `color` (String) LED color on devices that support configurable colors.
 - `disabled` (Boolean)
 - `interface` (String) An option to set the interface to which the LED is connected.
 - `leds` (List of String) An option to set the LED name.

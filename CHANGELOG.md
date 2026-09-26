@@ -1,3 +1,29 @@
+## [Unreleased]
+
+### Features
+
+* **routeros-7.24.4:** Add compatibility with RouterOS 7.22, 7.23 and 7.24 (field renames via drift, version-aware field value conversions for bridge DHCP option-82 and BGP add-path)
+* **keymat-provider:** Add new resource `routeros_system_keymat_provider`
+* **routing-settings:** Add new resource `routeros_routing_settings`
+* **interface-bridge:** Add `mlag_heartbeat`, `mlag_peer_port`, `mlag_priority`, `ra_guard`, `dhcp_agent_circuit_id`, `dhcp_agent_remote_id`, `dhcpv6_snooping`, `dhcpv6_agent_circuit_id`, `dhcpv6_agent_remote_id`, `querier_uses_bridge_address` and `managed`
+* **interface-bridge-port:** Add `trusted_ra` and `trusted_dhcpv6`
+* **container:** Add `restart_policy`, `restart_interval`, `restart_max_count`, `stop_on_unhealthy`, `memory_max`, `swap_max`, `privileged`; container config `memory_max`, `swap_max`; container envs `disabled`
+* **bgp:** Add `output.add_path`, `input.add_path`, `attr_error_handling`, `multipath`, `vpnv6`/`evpn` address families
+* **dhcp:** Add `add_dns_entries`/`add_dns_entries_suffix` to dhcp-server and neighbor discovery; add `name` to dhcp-client
+* **logging:** Add `comment` to logging rules and actions; add `add_topics_string`, `check_certificate`, `email_cc`, `script`, `tls` protocol and `script` target
+* **wifi:** Add MLD fields, `afc`/`preamble_puncturing` on channel, new bands and widths, multi-link provisioning
+* **misc:** Add fields to vrrp, detect-internet, ipsec settings, ipv6 address/pool/nd-prefix, routing rule, system scheduler, system led, hotspot user `otp_secret`, ip settings fragment tuning, `drop` action for mangle
+
+### Bug Fixes
+
+* **interface-bridge-port:** Convert STP `priority` to hexadecimal form required by RouterOS 7.24
+* **logging-action:** Stop sending removed `bsd-syslog` parameter on RouterOS 7.24+
+* **bgp:** Stop sending deprecated `cluster-id`, `router-id` and `input.ignore-as-path-len` parameters on RouterOS 7.20+
+* **ip-dhcp-server:** Make `dynamic_lease_identifiers` computed
+* **interface-vxlan:** Make `hw` computed
+* **ip-cloud:** Normalize `ddns_enabled`/`update_time` yes-no/true-false value representation
+* **traffic-flow:** Fix misspelled `ip_total_length` field
+
 ## [1.100.0](https://github.com/terraform-routeros/terraform-provider-routeros/compare/v1.99.1...v1.100.0) (2026-03-13)
 
 ### Features

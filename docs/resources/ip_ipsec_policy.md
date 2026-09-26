@@ -49,6 +49,7 @@ resource "routeros_ip_ipsec_policy" "policy" {
 ### Read-Only
 
 - `active` (Boolean)
+- `default` (Boolean) It's the default item.
 - `dynamic` (Boolean) Configuration item created by software, not by management interface. It is not exported, and cannot be directly modified.
 - `id` (String) The ID of this resource.
 - `invalid` (Boolean)
