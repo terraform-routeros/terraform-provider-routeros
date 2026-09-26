@@ -16,6 +16,11 @@ func ResourceIPv6Route() *schema.Resource {
 			Computed:    true,
 			Description: "A flag indicates whether the route is elected as Active and eligible to be added to the FIB.",
 		},
+		"connect": {
+			Type:        schema.TypeBool,
+			Computed:    true,
+			Description: "Whether this is a connected route.",
+		},
 		// If the parameter is present in the request, the MT automatically marks the route as a blackhole.
 		// To solve this problem, let's remove the default value and the parameter will be present in the query
 		// only when explicitly specified in the configuration.

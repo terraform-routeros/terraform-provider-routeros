@@ -13,6 +13,12 @@ func ResourceIpIpsecSettings() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/ipsec/settings"),
 		MetaId:           PropId(Id),
+		"ddos_cookie_threshold": {
+			Type:        schema.TypeInt,
+			Optional:    true,
+			Computed:    true,
+			Description: "Threshold for activating IPsec DDoS cookies.",
+		},
 
 		"accounting": {
 			Type:     schema.TypeBool,

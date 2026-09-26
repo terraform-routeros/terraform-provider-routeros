@@ -61,7 +61,8 @@ func ResourceRoutingBgpTemplate() *schema.Resource {
 			Type:         schema.TypeString,
 			Optional:     true,
 			Description:  "",
-			Default:      "none",
+			Computed:     true,
+			Deprecated:   "Use output.add_path on RouterOS 7.22 and later.",
 			ValidateFunc: validation.StringInSlice([]string{"all", "none"}, false),
 		},
 		"address_families": {
@@ -71,7 +72,7 @@ func ResourceRoutingBgpTemplate() *schema.Resource {
 			Description: "List of address families about which this peer will exchange routing information. The " +
 				"remote peer must support (they usually do) BGP capabilities optional parameter to " +
 				"negotiate any other families than IP.",
-			ValidateDiagFunc: ValidationMultiValInSlice([]string{"ip", "ipv6", "l2vpn", "l2vpn-cisco", "vpnv4"}, false, false),
+			ValidateDiagFunc: ValidationMultiValInSlice([]string{"ip", "ipv6", "l2vpn", "l2vpn-cisco", "vpnv4", "vpnv6", "evpn"}, false, false),
 		},
 		"as": {
 			Type:     schema.TypeString,
@@ -128,6 +129,20 @@ func ResourceRoutingBgpTemplate() *schema.Resource {
 			MaxItems:    1,
 			Elem: &schema.Resource{
 				Schema: map[string]*schema.Schema{
+					"add_path": {
+						Type:        schema.TypeSet,
+						Optional:    true,
+						Computed:    true,
+						Elem:        &schema.Schema{Type: schema.TypeString, ValidateFunc: validation.StringInSlice([]string{"ip", "ipv6"}, false)},
+						Description: "Address families for BGP Add-Path. Available since RouterOS 7.22.",
+					},
+					"attr_error_handling": {
+						Type:         schema.TypeString,
+						Optional:     true,
+						Computed:     true,
+						ValidateFunc: validation.StringInSlice([]string{"default", "revised"}, false),
+						Description:  "BGP attribute error handling mode. Available since RouterOS 7.22.",
+					},
 					"accept_comunities": {
 						Type:     schema.TypeString,
 						Optional: true,
@@ -167,19 +182,6 @@ func ResourceRoutingBgpTemplate() *schema.Resource {
 							"visible in /routing route table as 'not active, filtered'. Changes to be applied " +
 							"required session restart.",
 					},
-					"accept_unknown": {
-						Type:     schema.TypeString,
-						Optional: true,
-						Description: "A quick way to filter incoming updates with specific 'unknown' attributes. It allows " +
-							"filtering incoming messages directly before they are even parsed and stored in memory, " +
-							"that way significantly reducing memory usage. Regular input filter chain can only " +
-							"reject prefixes which means that it will still eat memory and will be visible in " +
-							"/routing route table as 'not active, filtered'. Changes to be applied required session " +
-							"refresh.",
-						Deprecated: DeprecatedInfo("7.19"),
-					},
-					// affinity (afi | alone | instance | main | remote-as | vrf; Default: )
-					// May be "0"
 					"affinity": {
 						Type:     schema.TypeString,
 						Optional: true,
@@ -255,12 +257,6 @@ func ResourceRoutingBgpTemplate() *schema.Resource {
 							"to be applied required session refresh.",
 						DiffSuppressFunc: AlwaysPresentNotUserProvided,
 					},
-					"ignore_as_path_len": {
-						Type:        schema.TypeBool,
-						Optional:    true,
-						Description: "Whether to ignore the AS_PATH attribute in the BGP route selection algorithm",
-						Deprecated:  DeprecatedInfo("7.20"),
-					},
 					// FIXME ROS 7.8: 'unknown parameter input.limit-nlri-diversity'
 					// "limit_nlri_diversity": {
 					// 	Type:     schema.TypeInt,
@@ -325,6 +321,14 @@ func ResourceRoutingBgpTemplate() *schema.Resource {
 			MaxItems:    1,
 			Elem: &schema.Resource{
 				Schema: map[string]*schema.Schema{
+					"add_path": {
+						Type:          schema.TypeSet,
+						Optional:      true,
+						Computed:      true,
+						Elem:          &schema.Schema{Type: schema.TypeString, ValidateFunc: validation.StringInSlice([]string{"ip", "ipv6"}, false)},
+						ConflictsWith: []string{"add_path_out"},
+						Description:   "Address families for BGP Add-Path. Available since RouterOS 7.22.",
+					},
 					// May be "0" ?!?
 					// affinity (afi | alone | instance | main | remote-as | vrf; Default: )
 					"affinity": {

@@ -87,6 +87,18 @@ func ResourceInterfaceBridgePort() *schema.Resource {
 		MetaId:           PropId(Id),
 		MetaSkipFields: PropSkipFields("debug_info", "discard_transitions", "forward_transitions", "port_number",
 			"rx_bpdu", "rx_tc", "topology_changes", "tx_bpdu", "tx_tc"),
+		"trusted_ra": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Computed:    true,
+			Description: "Allow IPv6 Router Advertisements from this port when RA guard is enabled on the bridge. Available since RouterOS 7.22.",
+		},
+		"trusted_dhcpv6": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Computed:    true,
+			Description: "Trust DHCPv6 server messages received on this port when DHCPv6 snooping is enabled on the bridge. Available since RouterOS 7.23.",
+		},
 
 		"nextid": {
 			Type:     schema.TypeString,

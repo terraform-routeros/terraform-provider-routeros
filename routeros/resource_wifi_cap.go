@@ -26,6 +26,18 @@ func ResourceWifiCap() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/wifi/cap"),
 		MetaId:           PropId(Name),
+		"mld_datapath": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Computed:    true,
+			Description: "Datapath profile for multi-link interfaces.",
+		},
+		"mld_static": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Computed:    true,
+			Description: "Create static multi-link interfaces.",
+		},
 
 		"caps_man_addresses": {
 			Type:     schema.TypeList,

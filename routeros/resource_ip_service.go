@@ -36,6 +36,7 @@ func ResourceIpService() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/service"),
 		MetaId:           PropId(Name),
+		MetaSkipFields:   PropSkipFields("connection", "local", "remote"),
 
 		"address": {
 			Type:        schema.TypeString,

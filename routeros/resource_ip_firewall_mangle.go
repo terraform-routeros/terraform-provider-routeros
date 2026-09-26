@@ -39,7 +39,7 @@ func ResourceIPFirewallMangle() *schema.Resource {
 			Required:    true,
 			Description: "Action to take if a packet is matched by the rule.",
 			ValidateFunc: validation.StringInSlice([]string{
-				"accept", "add-dst-to-address-list", "add-src-to-address-list", "change-dscp", "change-mss",
+				"accept", "drop", "add-dst-to-address-list", "add-src-to-address-list", "change-dscp", "change-mss",
 				"change-ttl", "clear-df", "fasttrack-connection", "jump", "log", "mark-connection", "mark-packet",
 				"mark-routing", "passthrough", "return", "route", "set-priority", "sniff-pc", "sniff-tzsp",
 				"strip-ipv4-options",

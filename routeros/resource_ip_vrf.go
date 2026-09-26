@@ -9,6 +9,11 @@ func ResourceIPVrf() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/vrf"),
 		MetaId:           PropId(Id),
+		"builtin": {
+			Type:        schema.TypeBool,
+			Computed:    true,
+			Description: "Whether this VRF is built in (the default main VRF).",
+		},
 
 		KeyDisabled: PropDisabledRw,
 		KeyComment:  PropCommentRw,

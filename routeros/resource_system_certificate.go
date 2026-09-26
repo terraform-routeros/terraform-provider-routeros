@@ -372,6 +372,12 @@ func ResourceSystemCertificate() *schema.Resource {
 			Description:      "If set to yes certificate is included 'in trusted certificate chain'.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
+		"trust_store": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Description:      "Specifies which store to use for the trusted certificate chain: all, built-in, kernel, pki, or a numeric value.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"unit": {
 			Type:             schema.TypeString,
 			Optional:         true,

@@ -24,6 +24,12 @@ func ResourceIpv6NdPrefix() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ipv6/nd/prefix"),
 		MetaId:           PropId(Id),
+		"dhcp6_pd_preferred": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Computed:    true,
+			Description: "Advertise that DHCPv6 prefix delegation is preferred (RFC 9762).",
+		},
 
 		"6to4_interface": {
 			Type:     schema.TypeString,

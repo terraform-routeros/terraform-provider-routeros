@@ -23,8 +23,27 @@ import (
 // https://help.mikrotik.com/docs/display/ROS/Policy+Routing
 func ResourceRoutingRule() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
-		MetaResourcePath: PropResourcePath("/routing/rule"),
-		MetaId:           PropId(Id),
+		MetaResourcePath:   PropResourcePath("/routing/rule"),
+		MetaId:             PropId(Id),
+		MetaSetUnsetFields: PropSetUnsetFields("vrf"),
+		"chain": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Computed:    true,
+			Description: "Routing rule chain.",
+		},
+		"realm": {
+			Type:        schema.TypeInt,
+			Optional:    true,
+			Computed:    true,
+			Description: "Routing realm to match.",
+		},
+		"vrf": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Computed:    true,
+			Description: "Whether this rule applies to VRF routing.",
+		},
 
 		"action": {
 			Type:     schema.TypeString,
@@ -32,7 +51,7 @@ func ResourceRoutingRule() *schema.Resource {
 			Description: "An action to take on the matching packet:\n  * drop - silently drop the packet.\n  * lookup - perform a " +
 				"lookup in routing tables.\n  * lookup-only-in-table - perform lookup only in the specified routing table " +
 				"(see table parameter).\n  * unreachable - generate ICMP unreachable message and send it back to the source.",
-			ValidateFunc:     validation.StringInSlice([]string{"drop", "lookup", "lookup-only-in-table", "unreachable"}, false),
+			ValidateFunc:     validation.StringInSlice([]string{"drop", "lookup", "lookup-only-in-table", "unreachable", "mangle"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyComment: PropCommentRw,

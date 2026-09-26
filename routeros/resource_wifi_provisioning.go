@@ -26,6 +26,20 @@ func ResourceWifiProvisioning() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/wifi/provisioning"),
 		MetaId:           PropId(Id),
+		"multi_link_mode": {
+			Type:         schema.TypeString,
+			Optional:     true,
+			Computed:     true,
+			Description:  "Multi-link provisioning mode: auto, disabled, master, or all.",
+			ValidateFunc: validation.StringInSlice([]string{"auto", "disabled", "master", "all"}, false),
+		},
+		"supported_hw_caps": {
+			Type:        schema.TypeSet,
+			Optional:    true,
+			Computed:    true,
+			Description: "Hardware capabilities required for the provisioning rule to match.",
+			Elem:        &schema.Schema{Type: schema.TypeString},
+		},
 
 		"action": {
 			Type:        schema.TypeString,

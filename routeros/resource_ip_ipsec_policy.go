@@ -36,6 +36,7 @@ func ResourceIpIpsecPolicy() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/ip/ipsec/policy"),
 		MetaId:           PropId(Id),
 		MetaSkipFields:   PropSkipFields("ph2_count", "ph2_state", "sa_dst_address", "sa_src_address"),
+		KeyDefault:       PropDefaultRo,
 
 		"action": {
 			Type:     schema.TypeString,

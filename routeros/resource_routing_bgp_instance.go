@@ -19,6 +19,12 @@ func ResourceRoutingBgpInstance() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/routing/bgp/instance"),
 		MetaId:           PropId(Id),
+		"multipath": {
+			Type:        schema.TypeInt,
+			Optional:    true,
+			Computed:    true,
+			Description: "Maximum number of BGP ECMP routes to install.",
+		},
 
 		"as": {
 			Type:     schema.TypeString,

@@ -18,9 +18,16 @@ import (
 // https://help.mikrotik.com/docs/display/ROS/IP+Pools#IPPools-IPv6Pool
 func ResourceIpv6Pool() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
+		KeyComment:       PropCommentRw,
 		MetaResourcePath: PropResourcePath("/ipv6/pool"),
 		MetaId:           PropId(Id),
 		MetaSkipFields:   PropSkipFields("expire_time"),
+		"from_pool": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Computed:    true,
+			Description: "Parent IPv6 pool from which to allocate this pool prefix.",
+		},
 
 		KeyDynamic: PropDynamicRo,
 		KeyName:    PropName("Descriptive name of the pool."),

@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
 
 /*
@@ -30,6 +31,13 @@ func ResourceIPv6Address() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ipv6/address"),
 		MetaId:           PropId(Id),
+		"from_pool_policy": {
+			ValidateFunc: validation.StringInSlice([]string{"recommended", "strict", "without-acquire"}, false),
+			Type:         schema.TypeString,
+			Optional:     true,
+			Computed:     true,
+			Description:  "Policy used to select the IPv6 prefix from the pool. Available since RouterOS 7.23.",
+		},
 
 		"address": {
 			Type:     schema.TypeString,

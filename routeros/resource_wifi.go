@@ -36,6 +36,18 @@ func ResourceWifi() *schema.Resource {
 		MetaId:           PropId(Id),
 		MetaTransformSet: PropTransformSet("aaa.config: aaa", "channel.config: channel", "configuration.config: configuration",
 			"datapath.config: datapath", "interworking.config: interworking", "security.config: security", "steering.config: steering"),
+		"mld_interface": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Computed:    true,
+			Description: "Multi-link interface associated with this WiFi interface.",
+		},
+		"mld_name": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Computed:    true,
+			Description: "Name of the multi-link device.",
+		},
 
 		"aaa": {
 			Type:             schema.TypeMap,

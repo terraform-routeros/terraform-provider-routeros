@@ -42,6 +42,12 @@ func ResourceInterfaceVrrp() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/vrrp"),
 		MetaId:           PropId(Id),
+		"v3_checksum_as_v2": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Computed:    true,
+			Description: "Use the VRRPv2 checksum calculation for VRRPv3 compatibility. Available since RouterOS 7.24.",
+		},
 
 		KeyArp:        PropArpRw,
 		KeyArpTimeout: PropArpTimeoutRw,

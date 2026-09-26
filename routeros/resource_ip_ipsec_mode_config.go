@@ -23,6 +23,7 @@ func ResourceIpIpsecModeConfig() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/ipsec/mode-config"),
 		MetaId:           PropId(Id),
+		KeyDefault:       PropDefaultRo,
 
 		"address": {
 			Type:          schema.TypeString,

@@ -37,6 +37,18 @@ func ResourceIpSettings() *schema.Resource {
 		MetaId:           PropId(Id),
 		MetaSkipFields: PropSkipFields("ipv4_fast_path_active", "ipv4_fast_path_bytes", "ipv4_fast_path_packets",
 			"ipv4_fasttrack_active", "ipv4_fasttrack_bytes", "ipv4_fasttrack_packets"),
+		"ipv4_fragment_time": {
+			Type:        schema.TypeInt,
+			Optional:    true,
+			Computed:    true,
+			Description: "Maximum lifetime of IPv4 fragments awaiting reassembly, in seconds. Available since RouterOS 7.23.",
+		},
+		"ipv4_high_fragment_thresh": {
+			Type:        schema.TypeInt,
+			Optional:    true,
+			Computed:    true,
+			Description: "Maximum memory in bytes used by IPv4 fragment reassembly queues. Available since RouterOS 7.23.",
+		},
 
 		"accept_redirects": {
 			Type:     schema.TypeBool,

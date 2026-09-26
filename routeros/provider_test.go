@@ -121,10 +121,18 @@ func testSetTransportEnv(t *testing.T, testName string) {
 	host := reHost.FindStringSubmatch(os.Getenv("ROS_HOSTURL"))
 	switch {
 	case strings.Contains(testName, "API"):
+		if endpoint := os.Getenv("ROS_API_HOSTURL"); endpoint != "" {
+			t.Setenv("ROS_HOSTURL", endpoint)
+			return
+		}
 		if err := os.Setenv("ROS_HOSTURL", "apis://"+host[1]); err != nil {
 			t.Error(err)
 		}
 	case strings.Contains(testName, "REST"):
+		if endpoint := os.Getenv("ROS_REST_HOSTURL"); endpoint != "" {
+			t.Setenv("ROS_HOSTURL", endpoint)
+			return
+		}
 		if err := os.Setenv("ROS_HOSTURL", "https://"+host[1]); err != nil {
 			t.Error(err)
 		}

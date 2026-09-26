@@ -10,6 +10,18 @@ func ResourceDhcpServer() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/dhcp-server"),
 		MetaId:           PropId(Id),
+		"add_dns_entries": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Computed:    true,
+			Description: "Create local DNS entries for DHCP leases. Available since RouterOS 7.23.",
+		},
+		"add_dns_entries_suffix": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Computed:    true,
+			Description: "Suffix appended to host names in local DNS entries created from DHCP leases. Available since RouterOS 7.23.",
+		},
 
 		"add_arp": {
 			Type:        schema.TypeBool,
@@ -91,6 +103,7 @@ func ResourceDhcpServer() *schema.Resource {
 		"dynamic_lease_identifiers": {
 			Type:        schema.TypeString,
 			Optional:    true,
+			Computed:    true,
 			Description: "Dynamic lease identifier",
 		},
 		"support_broadband_tr101": {

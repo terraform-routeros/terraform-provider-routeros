@@ -12,6 +12,12 @@ func ResourceSystemScheduler() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/system/scheduler"),
 		MetaId:           PropId(Id),
+		"days": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Computed:    true,
+			Description: "Days of the week on which the task may run, such as mon,wed,fri, or always. Available since RouterOS 7.24.",
+		},
 
 		KeyComment:  PropCommentRw,
 		KeyDisabled: PropDisabledRw,

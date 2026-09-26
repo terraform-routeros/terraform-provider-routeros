@@ -904,6 +904,14 @@ var (
 
 		return true
 	}
+
+	YesNoTrueFalseEqual = func(k, old, new string, d *schema.ResourceData) bool {
+		if old == new {
+			return true
+		}
+		return (old == "yes" && new == "true") || (old == "true" && new == "yes") ||
+			(old == "no" && new == "false") || (old == "false" && new == "no")
+	}
 )
 
 // ImplicitSingleHostCIDR is a DiffSuppressFunc function that prevents a configuration such as `192.168.1.2/32`

@@ -1,6 +1,7 @@
 package routeros
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -39,25 +40,34 @@ func TestAccBGPConnectionTest_basic(t *testing.T) {
 }
 
 func testAccBGPConnectionConfig() string {
-	return providerConfig + `
+	instance := ""
+	bgpInstance := ""
+	if current, err := parseRouterOSVersion(RouterOSVersion); err == nil && current >= 7<<16|20<<8 {
+		instance = "\n\tinstance     = routeros_routing_bgp_instance.test.name"
+		bgpInstance = `
+resource "routeros_routing_bgp_instance" "test" {
+  as   = "65000"
+  name = "bgp-instance-1"
+}
+`
+	}
+	return providerConfig + fmt.Sprintf(`%v
 resource "routeros_routing_bgp_connection" "test" {
 	add_path_out            = "none"
 	address_families        = "ip"
-	as                      = "65550/5"
+	as                      = "65550"
 	cisco_vpls_nlri_len_fmt = "auto-bits"
 	cluster_id              = "0.0.0.0"
 	connect                 = true
-	hold_time               = "infinity"
+	hold_time               = "infinity"%v
 	input {
 		accept_communities        = "111"
 		accept_ext_communities    = "222"
 		accept_large_communities  = "444"
 		accept_nlri               = ""
-		accept_unknown            = ""
 		affinity                  = "alone"
 		allow_as                  = "0"
 		filter                    = ""
-		ignore_as_path_len        = true
 		limit_process_routes_ipv4 = 5
 		limit_process_routes_ipv6 = 2
 	}
@@ -100,6 +110,6 @@ resource "routeros_routing_bgp_connection" "test" {
 	templates     = []
 	use_bfd       = "true"
 	vrf           = "main"
-}	  
-`
+}
+`, bgpInstance, instance)
 }

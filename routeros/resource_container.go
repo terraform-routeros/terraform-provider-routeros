@@ -32,7 +32,52 @@ func ResourceContainer() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/container"),
 		MetaId:           PropId(Id),
-		MetaSkipFields:   PropSkipFields("running", "starting", "stopped", "passed_devs", "stopping", "extracting", "config_json"),
+		MetaSkipFields:   PropSkipFields("running", "starting", "stopped", "passed_devs", "stopping", "extracting", "config_json", "restart_count", "memory_current", "swap_current", "container_size", "data_size", "default_dns"),
+		"restart_policy": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Computed:    true,
+			Description: "Restart policy: no, always, or on-failure. Available since RouterOS 7.23.",
+		},
+		"restart_interval": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Computed:         true,
+			Description:      "Delay between restart attempts. Available since RouterOS 7.23.",
+			DiffSuppressFunc: TimeEqual,
+		},
+		"restart_max_count": {
+			Type:        schema.TypeInt,
+			Optional:    true,
+			Computed:    true,
+			Description: "Maximum number of restart attempts. Available since RouterOS 7.23.",
+		},
+		"stop_on_unhealthy": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Computed:    true,
+			Description: "Stop the container when its health check fails. Available since RouterOS 7.23.",
+		},
+		"memory_max": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Computed:         true,
+			Description:      "Hard memory limit in bytes. Available since RouterOS 7.23.",
+			DiffSuppressFunc: BytesEqual,
+		},
+		"swap_max": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Computed:         true,
+			Description:      "Maximum swap usage in bytes. Available since RouterOS 7.24.",
+			DiffSuppressFunc: BytesEqual,
+		},
+		"privileged": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Computed:    true,
+			Description: "Run the container in privileged mode. Available since RouterOS 7.24.",
+		},
 
 		"arch": {
 			Type:        schema.TypeString,

@@ -9,7 +9,21 @@ func ResourceContainerConfig() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/container/config"),
 		MetaId:           PropId(Name),
-		MetaSkipFields:   PropSkipFields("assumed_registry_url", "memory_current"),
+		MetaSkipFields:   PropSkipFields("assumed_registry_url", "memory_current", "swap_current"),
+		"memory_max": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Computed:         true,
+			Description:      "Global hard memory limit for containers in bytes. Available since RouterOS 7.23.",
+			DiffSuppressFunc: BytesEqual,
+		},
+		"swap_max": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Computed:         true,
+			Description:      "Global container swap limit in bytes. Available since RouterOS 7.24.",
+			DiffSuppressFunc: BytesEqual,
+		},
 
 		"registry_url": {
 			Type:        schema.TypeString,

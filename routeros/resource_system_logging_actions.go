@@ -28,8 +28,34 @@ import (
 // ResourceSystemLoggingActions https://help.mikrotik.com/docs/display/ROS/Log#Log-Actions
 func ResourceSystemLoggingAction() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
+		KeyComment:       PropCommentRw,
 		MetaResourcePath: PropResourcePath("/system/logging/action"),
 		MetaId:           PropId(Id),
+		"add_topics_string": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Computed:    true,
+			Description: "Include logging topics in the message.",
+		},
+		"check_certificate": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Computed:    true,
+			Description: "Validate the certificate of the remote TLS logging server.",
+		},
+		"email_cc": {
+			Type:        schema.TypeSet,
+			Optional:    true,
+			Computed:    true,
+			Description: "Additional email recipients.",
+			Elem:        &schema.Schema{Type: schema.TypeString},
+		},
+		"script": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Computed:    true,
+			Description: "Script executed by the script logging target.",
+		},
 
 		"bsd_syslog": {
 			Type:        schema.TypeBool,
@@ -44,6 +70,11 @@ func ResourceSystemLoggingAction() *schema.Resource {
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyDefault: PropDefaultRo,
+		"managed": {
+			Type:        schema.TypeBool,
+			Computed:    true,
+			Description: "Whether this logging action is managed by RouterOS.",
+		},
 		"disk_file_count": {
 			Type:             schema.TypeInt,
 			Optional:         true,
@@ -122,7 +153,7 @@ func ResourceSystemLoggingAction() *schema.Resource {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Protocol for remote logging messages.",
-			ValidateFunc:     validation.StringInSlice([]string{"tcp", "udp"}, false),
+			ValidateFunc:     validation.StringInSlice([]string{"tcp", "udp", "tls"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"src_address": {
@@ -159,7 +190,7 @@ func ResourceSystemLoggingAction() *schema.Resource {
 			Type:             schema.TypeString,
 			Required:         true,
 			Description:      "Storage facility or target of log messages.",
-			ValidateFunc:     validation.StringInSlice([]string{"disk", "echo", "email", "memory", "remote"}, false),
+			ValidateFunc:     validation.StringInSlice([]string{"disk", "echo", "email", "memory", "remote", "script"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		KeyVrf: PropVrfRw,

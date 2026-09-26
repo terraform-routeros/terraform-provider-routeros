@@ -21,6 +21,12 @@ func ResourceSystemLed() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/system/leds"),
 		MetaId:           PropId(Id),
+		"color": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Computed:    true,
+			Description: "LED color on devices that support configurable colors.",
+		},
 
 		KeyDefault:  PropDefaultRo,
 		KeyDisabled: PropDisabledRw,

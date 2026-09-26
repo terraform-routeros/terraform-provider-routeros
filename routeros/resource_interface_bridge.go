@@ -8,13 +8,52 @@ import (
 // ResourceInterfaceBridge https://wiki.mikrotik.com/wiki/Manual:Interface/Bridge
 func ResourceInterfaceBridge() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
-		MetaResourcePath: PropResourcePath("/interface/bridge"),
-		MetaId:           PropId(Id),
+		MetaResourcePath:   PropResourcePath("/interface/bridge"),
+		MetaId:             PropId(Id),
+		MetaSetUnsetFields: PropSetUnsetFields("dhcp_agent_circuit_id", "dhcp_agent_remote_id", "dhcpv6_agent_circuit_id", "dhcpv6_agent_remote_id"),
+		"dhcp_agent_circuit_id": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Computed:    true,
+			Description: "DHCP Option 82 Circuit ID template. Supports $(INTERFACE), $(VID), $(BRIDGEMAC), and $(HOSTNAME). Available since RouterOS 7.23.",
+		},
+		"dhcp_agent_remote_id": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Computed:    true,
+			Description: "DHCP Option 82 Remote ID template. Supports $(BRIDGEMAC), $(HOSTNAME), $(INTERFACE), and $(VID). Available since RouterOS 7.23.",
+		},
+		"dhcpv6_agent_circuit_id": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Computed:    true,
+			Description: "DHCPv6 Option 18 Interface ID template. Available since RouterOS 7.23.",
+		},
+		"dhcpv6_agent_remote_id": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Computed:    true,
+			Description: "DHCPv6 Option 37 Remote ID template. Available since RouterOS 7.23.",
+		},
+		"dhcpv6_snooping": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Computed:    true,
+			Description: "Enable DHCPv6 snooping on the bridge. Available since RouterOS 7.23.",
+		},
+		"querier_uses_bridge_address": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Computed:    true,
+			Description: "Use the bridge IP address as the source of IGMP queries. Available since RouterOS 7.24.",
+		},
 
 		KeyActualMtu: PropActualMtuRo,
 		"add_dhcp_option82": {
-			Type:     schema.TypeBool,
-			Optional: true,
+			Deprecated:    "Use dhcp_agent_circuit_id and dhcp_agent_remote_id on RouterOS 7.23 and later.",
+			ConflictsWith: []string{"dhcp_agent_circuit_id", "dhcp_agent_remote_id"},
+			Type:          schema.TypeBool,
+			Optional:      true,
 			Description: "Whether to add DHCP Option-82 information (Agent Remote ID and Agent Circuit ID) to DHCP " +
 				"packets. Can be used together with Option-82 capable DHCP server to assign IP addresses and implement " +
 				"policies. This property only has effect when dhcp-snooping is set to yes.",
@@ -132,6 +171,11 @@ func ResourceInterfaceBridge() *schema.Resource {
 			RequiredWith:     []string{"igmp_snooping"},
 		},
 		KeyMacAddress: PropMacAddressRo,
+		"managed": {
+			Type:        schema.TypeBool,
+			Computed:    true,
+			Description: "Whether RouterOS reports the bridge as managed.",
+		},
 		"max_hops": {
 			Type:     schema.TypeInt,
 			Optional: true,
@@ -162,6 +206,26 @@ func ResourceInterfaceBridge() *schema.Resource {
 				"report is not received on a certain port. This property only has effect when igmp-snooping is set to yes.",
 			DiffSuppressFunc: TimeEqual,
 			RequiredWith:     []string{"igmp_snooping"},
+		},
+		"mlag_heartbeat": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Computed:         true,
+			Description:      "Interval between MLAG peer heartbeat messages (`1s` to `10s`), or `none` to disable heartbeats. Available since RouterOS 7.22.",
+			DiffSuppressFunc: TimeEqual,
+		},
+		"mlag_peer_port": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Computed:    true,
+			Description: "Ethernet or bonding interface used for MLAG peer communication. Set to `none` to disable MLAG. Available since RouterOS 7.22.",
+		},
+		"mlag_priority": {
+			Type:         schema.TypeInt,
+			Optional:     true,
+			Computed:     true,
+			Description:  "Priority for selecting the primary MLAG node (0 to 128). Lower values take precedence; ties are resolved by the lowest bridge MAC address. Available since RouterOS 7.22.",
+			ValidateFunc: validation.IntBetween(0, 128),
 		},
 		"mld_version": {
 			Type:     schema.TypeInt,
@@ -270,6 +334,12 @@ func ResourceInterfaceBridge() *schema.Resource {
 				"report. This property only has effect when igmp-snooping and multicast-querier is set to yes.",
 			DiffSuppressFunc: TimeEqual,
 			RequiredWith:     []string{"igmp_snooping", "multicast_querier"},
+		},
+		"ra_guard": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Computed:    true,
+			Description: "Discard IPv6 Router Advertisements received on untrusted bridge ports. Available since RouterOS 7.22.",
 		},
 		KeyRunning: PropRunningRo,
 		"region_name": {

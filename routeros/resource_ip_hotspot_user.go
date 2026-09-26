@@ -34,6 +34,13 @@ func ResourceIpHotspotUser() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/ip/hotspot/user"),
 		MetaId:           PropId(Id),
 		MetaSkipFields:   PropSkipFields("bytes_in", "bytes_out", "packets_in", "packets_out", "uptime"),
+		"otp_secret": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Computed:    true,
+			Description: "Secret used for one-time password authentication.",
+			Sensitive:   true,
+		},
 
 		"address": {
 			Type:     schema.TypeInt,

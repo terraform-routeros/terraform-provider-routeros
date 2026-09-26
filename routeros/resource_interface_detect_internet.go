@@ -18,6 +18,13 @@ func ResourceInterfaceDetectInternet() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/detect-internet"),
 		MetaId:           PropId(Id),
+		"request_interval": {
+			Type:             schema.TypeString,
+			Optional:         true,
+			Computed:         true,
+			Description:      "Interval between interface status checks.",
+			DiffSuppressFunc: TimeEqual,
+		},
 
 		"detect_interface_list": {
 			Type:             schema.TypeString,

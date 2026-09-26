@@ -33,6 +33,7 @@ func ResourceSystemLogging() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/system/logging"),
 		MetaId:           PropId(Id),
+		KeyComment:       PropCommentRw,
 
 		"action": {
 			Type:        schema.TypeString,
@@ -42,6 +43,11 @@ func ResourceSystemLogging() *schema.Resource {
 		KeyDefault:  PropDefaultRo,
 		KeyDisabled: PropDisabledRw,
 		KeyInvalid:  PropInvalidRo,
+		"managed": {
+			Type:        schema.TypeBool,
+			Computed:    true,
+			Description: "Whether this logging rule is managed by RouterOS.",
+		},
 		"prefix": {
 			Type:        schema.TypeString,
 			Optional:    true,

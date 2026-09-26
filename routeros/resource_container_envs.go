@@ -9,6 +9,7 @@ func ResourceContainerEnvs() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/container/envs"),
 		MetaId:           PropId(Id),
+		KeyDisabled:      PropDisabledRw,
 
 		"name": {
 			Type:        schema.TypeString,

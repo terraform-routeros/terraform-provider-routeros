@@ -19,6 +19,30 @@ func ResourceIpNeighborDiscoverySettings() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/neighbor/discovery-settings"),
 		MetaId:           PropId(Id),
+		"add_dns_entries": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Computed:    true,
+			Description: "Create local DNS entries for discovered neighbors. Available since RouterOS 7.23.",
+		},
+		"add_dns_entries_suffix": {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Computed:    true,
+			Description: "Suffix appended to discovered neighbor names in local DNS entries. Available since RouterOS 7.23.",
+		},
+		"lldp_med": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Computed:    true,
+			Description: "Enable LLDP Media Endpoint Discovery. Available since RouterOS 7.23.",
+		},
+		"dying_gasp": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Computed:    true,
+			Description: "Send a neighbor discovery packet with a zero TTL before a graceful shutdown or reboot. Available since RouterOS 7.24.",
+		},
 
 		"discover_interface_list": {
 			Type:             schema.TypeString,

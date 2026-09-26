@@ -30,6 +30,14 @@ func ResourceIpHotspotProfile() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/ip/hotspot/profile"),
 		MetaId:           PropId(Id),
 
+		KeyDefault: PropDefaultRo,
+		"install_hotspot_queue": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Computed:    true,
+			Description: "Install the hotspot queue when the profile is applied.",
+		},
+
 		"dns_name": {
 			Type:     schema.TypeString,
 			Optional: true,

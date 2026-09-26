@@ -124,7 +124,7 @@ func ResourceIpTrafficFlowIpfix() *schema.Resource {
 			Description:      "Length of the IP header.",
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
-		"ip_total_lenght": {
+		"ip_total_length": {
 			Type:             schema.TypeString,
 			Optional:         true,
 			Description:      "Length of the IP packet in bytes.",

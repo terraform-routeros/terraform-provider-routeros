@@ -26,6 +26,13 @@ func ResourceIpIpsecProfile() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/ip/ipsec/profile"),
 		MetaId:           PropId(Id),
+		KeyDefault:       PropDefaultRo,
+		"ppk": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Computed:    true,
+			Description: "Whether to use the Postquantum Preshared Keys (PPK) feature.",
+		},
 
 		"dh_group": {
 			Type:        schema.TypeSet,

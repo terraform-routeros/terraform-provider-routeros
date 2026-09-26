@@ -39,12 +39,14 @@ func ResourceIpCloud() *schema.Resource {
 		"ddns_enabled": {
 			Type:     schema.TypeString,
 			Optional: true,
+			Computed: true,
 			Description: "If set to yes, then the device will send an encrypted message to the MikroTik's Cloud " +
 				"server. The server will then decrypt the message and verify that the sender is an " +
 				"authentic MikroTik device. If all is OK, then the MikroTik's Cloud server will create a " +
 				"DDNS record for this device and send a response to the device. Every minute the IP/Cloud " +
 				"service on the router will check if WAN IP address matches the one sent to MikroTik's " +
 				"Cloud server and will send encrypted update to cloud server if IP address changes.",
+			DiffSuppressFunc: YesNoTrueFalseEqual,
 		},
 		"ddns_update_interval": {
 			Type:     schema.TypeString,
@@ -96,11 +98,12 @@ func ResourceIpCloud() *schema.Resource {
 		"update_time": {
 			Type:     schema.TypeString,
 			Optional: true,
+			Computed: true,
 			Description: "If set to yes then router clock will be set to time, provided by cloud server IF there " +
 				"is no NTP or SNTP client enabled. If set to no, then IP/Cloud service will never update " +
 				"the device's clock. If update-time is set to yes, Clock will be updated even when " +
 				"ddns-enabled is set to no.",
-			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+			DiffSuppressFunc: YesNoTrueFalseEqual,
 		},
 		"vpn_prefer_relay_code": {
 			Type:     schema.TypeString,

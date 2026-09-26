@@ -23,13 +23,25 @@ func ResourceWifiChannel() *schema.Resource {
 	resSchema := map[string]*schema.Schema{
 		MetaResourcePath: PropResourcePath("/interface/wifi/channel"),
 		MetaId:           PropId(Id),
+		"afc": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Computed:    true,
+			Description: "Enable automated frequency coordination where supported.",
+		},
+		"preamble_puncturing": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Computed:    true,
+			Description: "Enable preamble puncturing on supported radios. Available since RouterOS 7.24.",
+		},
 
 		"band": {
 			Type:        schema.TypeString,
 			Optional:    true,
 			Description: "Frequency band and wireless standard that will be used by the AP. ",
 			ValidateFunc: validation.StringInSlice([]string{"2ghz-g", "2ghz-n", "2ghz-ax", "5ghz-a", "5ghz-ac", "5ghz-ax",
-				"5ghz-an", "5ghz-n"}, false),
+				"5ghz-an", "5ghz-n", "5ghz-be", "2ghz-be", "6ghz-ax", "6ghz-be"}, false),
 		},
 		KeyComment: PropCommentRw,
 		"deprioritize_unii_3_4": {
@@ -89,7 +101,7 @@ func ResourceWifiChannel() *schema.Resource {
 			Type:         schema.TypeString,
 			Optional:     true,
 			Description:  "Channel width.",
-			ValidateFunc: validation.StringInSlice([]string{"20mhz", "20/40mhz", "20/40mhz-Ce", "20/40mhz-eC", "20/40/80mhz", "20/40/80+80mhz", "20/40/80/160mhz"}, false),
+			ValidateFunc: validation.StringInSlice([]string{"20mhz", "20/40mhz", "20/40mhz-Ce", "20/40mhz-eC", "20/40/80mhz", "20/40/80+80mhz", "20/40/80/160mhz", "20/40/80/160/320mhz"}, false),
 		},
 	}
 

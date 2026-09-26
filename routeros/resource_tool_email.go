@@ -23,6 +23,12 @@ func ResourceToolEmail() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/tool/e-mail"),
 		MetaId:           PropId(Id),
 
+		"certificate_verification": {
+			Type:        schema.TypeBool,
+			Optional:    true,
+			Computed:    true,
+			Description: "Validate the SMTP server certificate when TLS is enabled.",
+		},
 		"from": {
 			Type:             schema.TypeString,
 			Optional:         true,
