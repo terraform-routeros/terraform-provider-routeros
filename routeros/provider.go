@@ -258,6 +258,7 @@ func Provider() *schema.Provider {
 			"routeros_certificate_scep_server":         ResourceCertificateScepServer(),
 			"routeros_system_clock":                    ResourceSystemClock(),
 			"routeros_system_identity":                 ResourceSystemIdentity(),
+			"routeros_system_keymat_provider":          ResourceSystemKeymatProvider(),
 			"routeros_system_led":                      ResourceSystemLed(),
 			"routeros_system_led_settings":             ResourceSystemLedSettings(),
 			"routeros_system_logging":                  ResourceSystemLogging(),
@@ -316,6 +317,7 @@ func Provider() *schema.Provider {
 			"routeros_routing_igmp_proxy_interface": ResourceRoutingIgmpProxyInterface(),
 			"routeros_routing_table":                ResourceRoutingTable(),
 			"routeros_routing_rule":                 ResourceRoutingRule(),
+			"routeros_routing_settings":             ResourceRoutingSettings(),
 
 			// OSPF
 			"routeros_routing_ospf_instance":           ResourceRoutingOspfInstance(),
