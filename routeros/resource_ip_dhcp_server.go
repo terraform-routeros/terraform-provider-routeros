@@ -1,6 +1,9 @@
 package routeros
 
 import (
+	"context"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
@@ -158,8 +161,10 @@ func ResourceDhcpServer() *schema.Resource {
 	}
 	return &schema.Resource{
 		CreateContext: DefaultCreate(resSchema),
-		ReadContext:   DefaultRead(resSchema),
-		UpdateContext: DefaultUpdate(resSchema),
+		ReadContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+			return ReadDhcpServer(ctx, resSchema, d, m)
+		},
+		UpdateContext: UpdateDhcpServer(resSchema),
 		DeleteContext: DefaultDelete(resSchema),
 		Importer: &schema.ResourceImporter{
 			StateContext: ImportStateCustomContext(resSchema),
