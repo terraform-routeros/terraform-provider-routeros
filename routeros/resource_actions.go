@@ -278,6 +278,41 @@ func ResourceUpdate(ctx context.Context, s map[string]*schema.Schema, d *schema.
 	return MikrotikResourceDataToTerraform(res, s, d)
 }
 
+// UpdateIPAddress omits VRF from PATCH requests unless it is explicitly
+// changed. RouterOS versions that reject VRF on /ip/address updates must not
+// receive the value merely because it was returned during refresh.
+func UpdateIPAddress(s map[string]*schema.Schema) schema.UpdateContextFunc {
+	return func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+		item, metadata := IPAddressUpdateItem(s, d)
+
+		id, err := dynamicIdLookup(metadata.IdType, metadata.Path, m.(Client), d)
+		if err != nil {
+			ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgPatch, err))
+			return diag.FromErr(err)
+		}
+
+		res, err := UpdateItem(&ItemId{Id, id}, metadata.Path, item, m.(Client))
+		if err != nil {
+			ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgPatch, err))
+			return diag.FromErr(err)
+		}
+
+		return MikrotikResourceDataToTerraform(res, s, d)
+	}
+}
+
+func IPAddressUpdateItem(s map[string]*schema.Schema, d *schema.ResourceData) (MikrotikItem, *MikrotikItemMetadata) {
+	item, metadata := TerraformResourceDataToMikrotik(s, d)
+	filterIPAddressUpdateItem(item, d.HasChange(KeyVrf))
+	return item, metadata
+}
+
+func filterIPAddressUpdateItem(item MikrotikItem, vrfChanged bool) {
+	if !vrfChanged {
+		delete(item, KeyVrf)
+	}
+}
+
 // ResourceDelete Deleting the resource.
 func ResourceDelete(ctx context.Context, s map[string]*schema.Schema, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	metadata := GetMetadata(s)

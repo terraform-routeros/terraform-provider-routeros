@@ -59,7 +59,7 @@ func ResourceIPAddress() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: DefaultCreate(resSchema),
 		ReadContext:   DefaultRead(resSchema),
-		UpdateContext: DefaultUpdate(resSchema),
+		UpdateContext: UpdateIPAddress(resSchema),
 		DeleteContext: DefaultDelete(resSchema),
 		Importer: &schema.ResourceImporter{
 			StateContext: ImportStateCustomContext(resSchema),
