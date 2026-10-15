@@ -61,7 +61,7 @@ func ResourceToolNetwatch() *schema.Resource {
 		"host": {
 			Type:     schema.TypeString,
 			Required: true,
-			Description: "The IP address of the server to be probed. Formats:" +
+			Description: "The IP address of the server to be probed (for `type=dns`, the DNS name to resolve). Formats:" +
 				"\n  * ipv4" +
 				"\n  * ipv4@vrf" +
 				"\n  * ipv6 " +
@@ -111,9 +111,11 @@ func ResourceToolNetwatch() *schema.Resource {
 				"\n  *  icmp - (ping-style) series of ICMP request-response with statistics" +
 				"\n  *  tcp-conn - test TCP connection (3-way handshake) to a server specified by IP and port" +
 				"\n  *  http-get - do an HTTP Get request and test for a range of correct replies" +
+				"\n  *  https-get - do an HTTPS Get request and test for a range of correct replies" +
+				"\n  *  dns - do a DNS query for `host` against `dns_server`, using `record_type` (RouterOS 7.16+)" +
 				"\n  *  simple - simplified ICMP probe, with fewer options than **ICMP** type, used for backward " +
 				"compatibility with the older Netwatch version",
-			ValidateFunc:     validation.StringInSlice([]string{"icmp", "tcp-conn", "http-get", "simple"}, false),
+			ValidateFunc:     validation.StringInSlice([]string{"icmp", "tcp-conn", "http-get", "https-get", "dns", "simple"}, false),
 			DiffSuppressFunc: AlwaysPresentNotUserProvided,
 		},
 		"up_script": {

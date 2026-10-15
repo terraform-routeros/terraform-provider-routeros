@@ -59,3 +59,87 @@ resource "routeros_tool_netwatch" "test" {
 }
 `, providerConfig)
 }
+
+// dns-server and record-type are unknown parameters on 7.15
+const testToolNetwatchDnsMinVersion = "7.16"
+
+func TestAccToolNetwatchTest_dns(t *testing.T) {
+	if !testCheckMinVersion(t, testToolNetwatchDnsMinVersion) {
+		t.Logf("Test skipped, the minimum required version is %v", testToolNetwatchDnsMinVersion)
+		return
+	}
+
+	for _, name := range testNames {
+		t.Run(name, func(t *testing.T) {
+			resource.Test(t, resource.TestCase{
+				PreCheck: func() {
+					testAccPreCheck(t)
+					testSetTransportEnv(t, name)
+				},
+				ProviderFactories: testAccProviderFactories,
+				Steps: []resource.TestStep{
+					{
+						Config: testAccToolNetwatchDnsConfig(),
+						Check: resource.ComposeTestCheckFunc(
+							testResourcePrimaryInstanceId(testToolNetwatch),
+							resource.TestCheckResourceAttr(testToolNetwatch, "type", "dns"),
+							resource.TestCheckResourceAttr(testToolNetwatch, "host", "google.com"),
+							resource.TestCheckResourceAttr(testToolNetwatch, "dns_server", "8.8.8.8"),
+							resource.TestCheckResourceAttr(testToolNetwatch, "record_type", "A"),
+						),
+					},
+				},
+			})
+		})
+	}
+}
+
+func TestAccToolNetwatchTest_httpsGet(t *testing.T) {
+	for _, name := range testNames {
+		t.Run(name, func(t *testing.T) {
+			resource.Test(t, resource.TestCase{
+				PreCheck: func() {
+					testAccPreCheck(t)
+					testSetTransportEnv(t, name)
+				},
+				ProviderFactories: testAccProviderFactories,
+				Steps: []resource.TestStep{
+					{
+						Config: testAccToolNetwatchHttpsConfig(),
+						Check: resource.ComposeTestCheckFunc(
+							testResourcePrimaryInstanceId(testToolNetwatch),
+							resource.TestCheckResourceAttr(testToolNetwatch, "type", "https-get"),
+							resource.TestCheckResourceAttr(testToolNetwatch, "host", "1.1.1.1"),
+							resource.TestCheckResourceAttr(testToolNetwatch, "port", "443"),
+						),
+					},
+				},
+			})
+		})
+	}
+}
+
+func testAccToolNetwatchDnsConfig() string {
+	return fmt.Sprintf(`%v
+resource "routeros_tool_netwatch" "test" {
+  name        = "watch-google-dns"
+  type        = "dns"
+  host        = "google.com"
+  dns_server  = "8.8.8.8"
+  record_type = "A"
+  interval    = "30s"
+}
+`, providerConfig)
+}
+
+func testAccToolNetwatchHttpsConfig() string {
+	return fmt.Sprintf(`%v
+resource "routeros_tool_netwatch" "test" {
+  name     = "watch-cloudflare-https"
+  type     = "https-get"
+  host     = "1.1.1.1"
+  port     = 443
+  interval = "30s"
+}
+`, providerConfig)
+}
