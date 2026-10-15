@@ -60,7 +60,15 @@ resource "routeros_tool_netwatch" "test" {
 `, providerConfig)
 }
 
-func TestAccToolNetwatchTest_probeTypes(t *testing.T) {
+// dns-server and record-type are unknown parameters on 7.15
+const testToolNetwatchDnsMinVersion = "7.16"
+
+func TestAccToolNetwatchTest_dns(t *testing.T) {
+	if !testCheckMinVersion(t, testToolNetwatchDnsMinVersion) {
+		t.Logf("Test skipped, the minimum required version is %v", testToolNetwatchDnsMinVersion)
+		return
+	}
+
 	for _, name := range testNames {
 		t.Run(name, func(t *testing.T) {
 			resource.Test(t, resource.TestCase{
@@ -80,6 +88,22 @@ func TestAccToolNetwatchTest_probeTypes(t *testing.T) {
 							resource.TestCheckResourceAttr(testToolNetwatch, "record_type", "A"),
 						),
 					},
+				},
+			})
+		})
+	}
+}
+
+func TestAccToolNetwatchTest_httpsGet(t *testing.T) {
+	for _, name := range testNames {
+		t.Run(name, func(t *testing.T) {
+			resource.Test(t, resource.TestCase{
+				PreCheck: func() {
+					testAccPreCheck(t)
+					testSetTransportEnv(t, name)
+				},
+				ProviderFactories: testAccProviderFactories,
+				Steps: []resource.TestStep{
 					{
 						Config: testAccToolNetwatchHttpsConfig(),
 						Check: resource.ComposeTestCheckFunc(

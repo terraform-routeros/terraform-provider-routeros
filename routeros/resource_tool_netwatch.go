@@ -112,7 +112,7 @@ func ResourceToolNetwatch() *schema.Resource {
 				"\n  *  tcp-conn - test TCP connection (3-way handshake) to a server specified by IP and port" +
 				"\n  *  http-get - do an HTTP Get request and test for a range of correct replies" +
 				"\n  *  https-get - do an HTTPS Get request and test for a range of correct replies" +
-				"\n  *  dns - do a DNS query for `host` against `dns_server`, using `record_type`" +
+				"\n  *  dns - do a DNS query for `host` against `dns_server`, using `record_type` (RouterOS 7.16+)" +
 				"\n  *  simple - simplified ICMP probe, with fewer options than **ICMP** type, used for backward " +
 				"compatibility with the older Netwatch version",
 			ValidateFunc:     validation.StringInSlice([]string{"icmp", "tcp-conn", "http-get", "https-get", "dns", "simple"}, false),
