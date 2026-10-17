@@ -31,6 +31,7 @@ resource "routeros_interface_bonding" "test" {
     - **active** - ports actively initiate LACP communication, regardless of the partner's LACP mode (i.e, it "speaks" even if the partner is silent)
     - **passive** - ports only respond to LACP messages and do not initiate them unless the partner is in active mode (i.e., it "listens" and responds only if spoken to).
 - `lacp_rate` (String) LinkAggregation Control Protocol rate specifies how often to exchange withLACPDUs between bonding peers. Used to determine whether a link is up orother changes have occurred in the network. LACP tries to adapt tothese changes providing failover.
+- `lacp_system_priority` (Number) Specifies the LACP system priority used for LACP negotiations.
 - `lacp_user_key` (Number) Specifiesthe upper 10 bits of the port key. The lower 6 bits are automaticallyassigned based on individual port link speed and duplex. The setting isavailable only since RouterOS v7.3.
 - `link_monitoring` (String) Method to use for monitoring the link (whether it is up or down) arp - uses Address Resolution Protocol to determine whether the remote interface is reachable mii - uses Media Independent Interface to determine link status. Link status determination relies on the device driver. none - no method for link monitoring is used. Note: some bonding modes require specific link monitoring to work properly.
 - `mii_interval` (String) How often to monitor the link for failures (the parameter used only if link-monitoring is mii)

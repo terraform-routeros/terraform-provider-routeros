@@ -23,6 +23,16 @@ func ResourceToolEmail() *schema.Resource {
 		MetaResourcePath: PropResourcePath("/tool/e-mail"),
 		MetaId:           PropId(Id),
 
+		"certificate_verification": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Whether the server's TLS certificate is validated:" +
+				"\n  * no - encrypts the connection but does not check the server's certificate" +
+				"\n  * yes - validates the certificate chain against the local store, including the server name" +
+				"\n  * yes-without-crl - validates the certificate without checking the revocation list",
+			ValidateFunc:     validation.StringInSlice([]string{"no", "yes", "yes-without-crl"}, false),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"from": {
 			Type:             schema.TypeString,
 			Optional:         true,

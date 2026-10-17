@@ -44,6 +44,7 @@ resource "routeros_interface_vrrp" "interface_vrrp" {
 - `priority` (Number) Priority of VRRP node used in Master election algorithm. A higher number means higher priority. `255` is reserved for the router that owns VR IP and `0` is reserved for the Master router to indicate that it is releasing responsibility.
 - `remote_address` (String) Specifies the remote address of the other VRRP router for syncing connection tracking. If not set, the system autodetects the remote address via VRRP. The remote address is used only if `sync_connection_tracking = true`.Sync connection tracking uses UDP port 8275.
 - `sync_connection_tracking` (Boolean) Synchronize connection tracking entries from Master to Backup device.
+- `v3_checksum_as_v2` (Boolean) Compute the VRRPv3 checksum the way VRRPv2 does, for peers that omit the IPv4 pseudo-header. Valid only if the version is 3. Available since RouterOS 7.24.
 - `v3_protocol` (String) A protocol that will be used by VRRPv3. Valid only if the version is 3.
 - `version` (Number) Which VRRP version to use.
 - `vrid` (Number) Virtual Router identifier. Each Virtual router must have a unique id number.
