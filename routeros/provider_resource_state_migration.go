@@ -3,7 +3,6 @@ package routeros
 import (
 	"context"
 	"fmt"
-	"reflect"
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -39,22 +38,26 @@ func stateMigrationNameToId(resourcePath string) schema.StateUpgradeFunc {
 func stateMigrationScalarToList(keys ...string) schema.StateUpgradeFunc {
 	return func(ctx context.Context, rawState map[string]interface{}, m interface{}) (map[string]interface{}, error) {
 		for _, key := range keys {
-			if rawState[key] == nil {
-				continue
-			}
+			switch value := rawState[key].(type) {
+			case nil:
+				// Attribute absent from the recorded state.
+			case []interface{}:
+				// Already migrated.
+			case string:
+				if value == "" {
+					rawState[key] = []interface{}{}
+					break
+				}
 
-			value := reflect.ValueOf(rawState[key])
-			if value.IsZero() {
-				rawState[key] = []interface{}{}
+				parts := strings.Split(value, ",")
+				list := make([]interface{}, 0, len(parts))
+				for _, part := range parts {
+					list = append(list, strings.TrimSpace(part))
+				}
+				rawState[key] = list
+			default:
+				rawState[key] = []interface{}{value}
 			}
-
-			if reflect.ValueOf(value).Kind() == reflect.String {
-				rawState[key] = strings.Split(rawState[key].(string), ",")
-			}
-
-			slice := reflect.MakeSlice(reflect.SliceOf(value.Type()), 0, 1)
-			reflect.Append(slice, value)
-			rawState[key] = slice.Interface()
 		}
 
 		return rawState, nil
