@@ -24,8 +24,10 @@ resource "routeros_ipv6_pool" "test" {
 
 ### Read-Only
 
+- `actual_prefix` (String) The prefix the pool actually hands out, which differs from `prefix` when `from-pool` is used.
 - `dynamic` (Boolean) Configuration item created by software, not by management interface. It is not exported, and cannot be directly modified.
 - `id` (String) The ID of this resource.
+- `inactive` (Boolean) Whether the pool currently has no prefix to hand out.
 
 ## Import
 Import is supported using the following syntax:

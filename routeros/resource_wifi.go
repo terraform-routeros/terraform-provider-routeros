@@ -52,6 +52,11 @@ func ResourceWifi() *schema.Resource {
 			Computed:    true,
 			Description: "A flag whether the interface is currently available for the WiFi manager.",
 		},
+		"cap": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "Identity of the CAP this interface is provisioned by, as reported by the WiFi manager.",
+		},
 		"channel": {
 			Type:             schema.TypeMap,
 			Optional:         true,

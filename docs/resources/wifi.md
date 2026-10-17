@@ -51,6 +51,7 @@ resource "routeros_wifi" "wifi1" {
 ### Read-Only
 
 - `bound` (Boolean) A flag whether the interface is currently available for the WiFi manager.
+- `cap` (String) Identity of the CAP this interface is provisioned by, as reported by the WiFi manager.
 - `default_name` (String) The interface's default name.
 - `id` (String) The ID of this resource.
 - `inactive` (Boolean) A flag whether the interface is currently inactive.

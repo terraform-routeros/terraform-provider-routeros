@@ -73,6 +73,15 @@ func ResourceInterfaceEthernetSwitchPort() *schema.Resource {
 			"driver_tx_byte", "driver_rx_packet", "driver_rx_byte", "driver_tx_packet", "tx_carrier_sense_error",
 			"rx_jabber", "tx_rx_65_127", "tx_rx_512_1023", "rx_unicast", "tx_fcs_error", "tx_rx_128_255", "tx_unicast",
 			"tx_rx_1024_max", "tx_rx_256_511", "rx_error_events", "tx_rx_64",
+			"tx_packet", "tx_drop_packet", "tx_drop_byte",
+			"tx_queue0_byte", "tx_queue0_packet", "tx_queue1_byte", "tx_queue1_packet",
+			"tx_queue2_byte", "tx_queue2_packet", "tx_queue3_byte", "tx_queue3_packet",
+			"tx_queue4_byte", "tx_queue4_packet", "tx_queue5_byte", "tx_queue5_packet",
+			"tx_queue6_byte", "tx_queue6_packet", "tx_queue7_byte", "tx_queue7_packet",
+			"tx_drop_queue0_byte", "tx_drop_queue0_packet", "tx_drop_queue1_byte", "tx_drop_queue1_packet",
+			"tx_drop_queue2_byte", "tx_drop_queue2_packet", "tx_drop_queue3_byte", "tx_drop_queue3_packet",
+			"tx_drop_queue4_byte", "tx_drop_queue4_packet", "tx_drop_queue5_byte", "tx_drop_queue5_packet",
+			"tx_drop_queue6_byte", "tx_drop_queue6_packet", "tx_drop_queue7_byte", "tx_drop_queue7_packet",
 		),
 
 		"default_vlan_id": {

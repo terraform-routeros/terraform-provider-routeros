@@ -22,8 +22,18 @@ func ResourceIpv6Pool() *schema.Resource {
 		MetaId:           PropId(Id),
 		MetaSkipFields:   PropSkipFields("expire_time"),
 
+		"actual_prefix": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "The prefix the pool actually hands out, which differs from `prefix` when `from-pool` is used.",
+		},
 		KeyDynamic: PropDynamicRo,
-		KeyName:    PropName("Descriptive name of the pool."),
+		"inactive": {
+			Type:        schema.TypeBool,
+			Computed:    true,
+			Description: "Whether the pool currently has no prefix to hand out.",
+		},
+		KeyName: PropName("Descriptive name of the pool."),
 		"prefix": {
 			Type:             schema.TypeString,
 			Optional:         true,
