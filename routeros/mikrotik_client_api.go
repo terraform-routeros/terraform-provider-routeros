@@ -98,6 +98,21 @@ func (c *ApiClient) SendRequest(method crudMethod, url *URL, item MikrotikItem, 
 			*r = append(*r, m)
 		}
 
+		// Some commands (e.g. 'print count-only' or 'print count-only' via a
+		// raw command) return no '!re' rows and attach their result to the
+		// trailing '!done' sentence instead (e.g. '=ret=5'). Surface it as a
+		// single row so slice-typed results still get the value. This
+		// mirrors the REST transport, which wraps a single JSON object
+		// response into a one-element array (see isJsonArray in
+		// mikrotik_client_rest.go).
+		if len(resp.Re) == 0 && resp.Done != nil && len(resp.Done.Map) > 0 {
+			m := MikrotikItem{}
+			for k, v := range resp.Done.Map {
+				m[k] = v
+			}
+			*r = append(*r, m)
+		}
+
 		// !done @ [] is empty...
 	default:
 		panic("[SendRequest] type " + reflect.TypeOf(result).String() + " is not supported for API response unmarshaling.")
