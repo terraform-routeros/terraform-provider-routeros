@@ -1,8 +1,10 @@
 package routeros
 
 import (
+	"context"
 	"regexp"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
@@ -352,7 +354,15 @@ func ResourceIPv6FirewallFilter() *schema.Resource {
 	return &schema.Resource{
 		CreateContext: DefaultCreate(resSchema),
 		ReadContext:   DefaultRead(resSchema),
-		UpdateContext: DefaultUpdate(resSchema),
+		UpdateContext: func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+			skip := resSchema[MetaSkipFields].Default.(string)
+			resSchema[MetaSkipFields].Default = skip + `,"place_before"`
+			defer func() {
+				resSchema[MetaSkipFields].Default = skip
+			}()
+
+			return ResourceUpdate(ctx, resSchema, d, m)
+		},
 		DeleteContext: DefaultDelete(resSchema),
 		Importer: &schema.ResourceImporter{
 			StateContext: ImportStateCustomContext(resSchema),
