@@ -413,6 +413,7 @@ func Provider() *schema.Provider {
 			"routeros_interface_ethernet_switch_crs_ingress_vlan_translation": ResourceInterfaceEthernetSwitchCrsIngressVlanTranslation(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
+			"routeros_api_command":             DatasourceApiCommand(),
 			"routeros_files":                   DatasourceFiles(),
 			"routeros_interfaces":              DatasourceInterfaces(),
 			"routeros_interface_bridge_filter": DatasourceInterfaceBridgeFilter(),

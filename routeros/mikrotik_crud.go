@@ -85,6 +85,32 @@ func ReadItemsFiltered(filter []string, resourcePath string, c Client) (*[]Mikro
 	return &res, err
 }
 
+// ReadItemsRaw is like ReadItemsFiltered, but additionally allows passing raw
+// command arguments (item) alongside the filter words, e.g. 'count-only'.
+// It backs the generic 'routeros_api_command' data source, which lets
+// Terraform run arbitrary '.../print'-style commands against any menu path
+// on either the REST or the classic API transport.
+func ReadItemsRaw(filter []string, item MikrotikItem, resourcePath string, c Client) (*[]MikrotikItem, error) {
+	if resourcePath == "" {
+		return nil, errEmptyPath
+	}
+
+	// Filter format: name=value
+	// REST query: name=value; name=value
+	// API  query: ?=name=value; ?=name=value
+	if c.GetTransport() == TransportAPI {
+		for i, s := range filter {
+			filter[i] = "?=" + s
+		}
+	}
+	url := &URL{Path: resourcePath, Query: filter}
+
+	var res []MikrotikItem
+	err := c.SendRequest(crudRead, url, item, &res)
+
+	return &res, err
+}
+
 func UpdateItem(id *ItemId, resourcePath string, item MikrotikItem, c Client) (MikrotikItem, error) {
 	if id.Value == "" {
 		return nil, errEmptyId
