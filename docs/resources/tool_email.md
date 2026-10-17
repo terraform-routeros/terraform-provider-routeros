@@ -8,6 +8,10 @@
 
 ### Optional
 
+- `certificate_verification` (String) Whether the server's TLS certificate is validated:
+  * no - encrypts the connection but does not check the server's certificate
+  * yes - validates the certificate chain against the local store, including the server name
+  * yes-without-crl - validates the certificate without checking the revocation list
 - `from` (String) Name or email address that will be shown as a receiver.
 - `password` (String, Sensitive) Password used for authenticating to an SMTP server.
 - `port` (String) SMTP server's port.

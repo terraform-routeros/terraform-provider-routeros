@@ -21,6 +21,7 @@ resource "routeros_system_user_sshkeys" "test" {
 ### Optional
 
 - `comment` (String)
+- `info` (String) Free-text label for the key.
 
 ### Read-Only
 

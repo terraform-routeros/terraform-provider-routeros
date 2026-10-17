@@ -105,6 +105,13 @@ func ResourceInterfaceBonding() *schema.Resource {
 				"occurred in the network. LACP tries to adapt tothese changes providing failover.",
 			ValidateFunc: validation.StringInSlice([]string{"1sec", "30secs"}, false),
 		},
+		"lacp_system_priority": {
+			Type:             schema.TypeInt,
+			Optional:         true,
+			Description:      "Specifies the LACP system priority used for LACP negotiations.",
+			ValidateFunc:     validation.IntBetween(0, 65535),
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"lacp_user_key": {
 			Type:     schema.TypeInt,
 			Optional: true,

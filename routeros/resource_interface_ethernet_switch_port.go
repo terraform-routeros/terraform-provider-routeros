@@ -104,6 +104,24 @@ func ResourceInterfaceEthernetSwitchPort() *schema.Resource {
 			Description: "Whether to send ingress packet copy to the `mirror-ingress-target` port, only available on " +
 				"88E6393X, 88E6191X and 88E6190 switch chips.",
 		},
+		"limit_broadcasts": {
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Description:      "Restrict broadcast traffic on the port to `storm-rate`. Only available on CRS Prestera switch chips.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"limit_unknown_multicasts": {
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Description:      "Restrict unknown multicast traffic on the port to `storm-rate`. Only available on CRS Prestera switch chips.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
+		"limit_unknown_unicasts": {
+			Type:             schema.TypeBool,
+			Optional:         true,
+			Description:      "Restrict unknown unicast traffic on the port to `storm-rate`. Only available on CRS Prestera switch chips.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"mirror_ingress_target": {
 			Type:     schema.TypeString,
 			Optional: true,
@@ -113,6 +131,14 @@ func ResourceInterfaceEthernetSwitchPort() *schema.Resource {
 		},
 		KeyName:    PropName("Port name."),
 		KeyRunning: PropRunningRo,
+		"storm_rate": {
+			Type:     schema.TypeString,
+			Optional: true,
+			Description: "Amount of broadcast, unknown multicast and/or unknown unicast traffic the port accepts, " +
+				"as a percentage of the link speed. Applies to the traffic classes enabled with `limit-broadcasts`, " +
+				"`limit-unknown-multicasts` and `limit-unknown-unicasts`. Only available on CRS Prestera switch chips.",
+			DiffSuppressFunc: AlwaysPresentNotUserProvided,
+		},
 		"switch": {
 			Type:        schema.TypeString,
 			Computed:    true,
