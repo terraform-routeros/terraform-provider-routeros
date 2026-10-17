@@ -123,8 +123,13 @@ func ResourceInterfaceVrrp() *schema.Resource {
 			Computed: true,
 		},
 		KeyMacAddress: PropMacAddressRo,
-		KeyMtu:        PropL2MtuRo,
-		KeyName:       PropNameForceNewRw,
+		"master": {
+			Type:        schema.TypeBool,
+			Computed:    true,
+			Description: "Whether the VRRP interface is currently in the master state.",
+		},
+		KeyMtu:  PropL2MtuRo,
+		KeyName: PropNameForceNewRw,
 		"on_fail": {
 			Type:        schema.TypeString,
 			Optional:    true,
