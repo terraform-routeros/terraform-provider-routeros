@@ -53,6 +53,7 @@ resource "routeros_interface_vrrp" "interface_vrrp" {
 - `id` (String) The ID of this resource.
 - `invalid` (Boolean)
 - `mac_address` (String) Current mac address.
+- `master` (Boolean) Whether the VRRP interface is currently in the master state.
 - `mtu` (Number) Layer2 Maximum transmission unit. [See](https://wiki.mikrotik.com/wiki/Maximum_Transmission_Unit_on_RouterBoards).
 - `running` (Boolean)
 
