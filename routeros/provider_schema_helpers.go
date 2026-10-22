@@ -294,7 +294,7 @@ var (
 	PropDisabledRo = &schema.Schema{
 		Type:     schema.TypeBool,
 		Computed: true,
-		Description: "Whether the resource is disabled. Since this value is read-only, the disablement is the result" +
+		Description: "Whether the resource is disabled. Since this value is read-only, the disablement is the result " +
 			"something outside of the resource's direct control",
 	}
 	PropDefaultRo = &schema.Schema{
@@ -771,7 +771,7 @@ var (
 			return false
 		}
 
-		for i, _ := range oldSet {
+		for i := range oldSet {
 			o, err := ParseDuration(oldSet[i], baseUnits)
 			if err != nil {
 				panic("[TimeEquall] parse 'old' duration error: " + err.Error())
@@ -869,7 +869,7 @@ var (
 			return false
 		}
 
-		for i, _ := range oldSet {
+		for i := range oldSet {
 			o, err := ParseBitValues(oldSet[i])
 			if err != nil {
 				panic("[BitsEqual] parse 'old' value error: " + err.Error())
@@ -908,7 +908,7 @@ var (
 			return false
 		}
 
-		for i, _ := range oldSet {
+		for i := range oldSet {
 			o, err := ParseByteValues(oldSet[i])
 			if err != nil {
 				panic("[BytesEqual] parse 'old' value error: " + err.Error())

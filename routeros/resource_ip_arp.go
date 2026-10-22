@@ -61,9 +61,7 @@ func ResourceArp() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			StateContext: ImportStateCustomContext(resSchema),
 		},
-
 		SchemaVersion: 1,
-
-		Schema: resSchema,
+		Schema:        resSchema,
 	}
 }

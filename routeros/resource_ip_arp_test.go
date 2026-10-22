@@ -28,7 +28,6 @@ func TestAccIpArpTest(t *testing.T) {
 					},
 				},
 			})
-
 		})
 	}
 }
