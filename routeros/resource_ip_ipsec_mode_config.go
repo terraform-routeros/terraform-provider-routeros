@@ -12,7 +12,7 @@ import (
     "address-prefix-length": "24",
     "name": "cfg1",
     "responder": "true",
-    "split-dns": "1.1.1.1",
+    "split-dns": "example.com",
     "split-include": "0.0.0.0/0",
     "system-dns": "true"
   }
@@ -65,8 +65,7 @@ func ResourceIpIpsecModeConfig() *schema.Resource {
 			Optional:    true,
 			Description: "List of DNS names that will be resolved using a system-dns=yes or static-dns= setting.",
 			Elem: &schema.Schema{
-				Type:         schema.TypeString,
-				ValidateFunc: validation.IsIPv4Address,
+				Type: schema.TypeString,
 			},
 		},
 		"split_include": {
