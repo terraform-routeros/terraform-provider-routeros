@@ -25,6 +25,10 @@ import (
     "status": "stopped",
     "workdir": "/opt/adguardhome/work"
   }
+
+  RouterOS 7.2x has no "status"; the state comes as flags that are only present while true:
+  "stopped", "starting", "running", "stopping". While the image is pulled and extracted REST sends
+  none of them, only ".about": "extracting layer 2/5 66%/9.00M" (observed on 7.25).
 */
 
 // https://help.mikrotik.com/docs/display/ROS/Container#Container-Properties
@@ -169,7 +173,7 @@ func ResourceContainer() *schema.Resource {
 		"status": {
 			Type:        schema.TypeString,
 			Computed:    true,
-			Description: "The status of the container",
+			Description: "The status of the container: `pulling`, `extracting`, `starting`, `running`, `stopping` or `stopped`.",
 		},
 		"stop_signal": {
 			Type:        schema.TypeString,
@@ -196,11 +200,37 @@ func ResourceContainer() *schema.Resource {
 	}
 
 	resRead := func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-		// Run DefaultRead.
-		diags := ResourceRead(ctx, resSchema, d, m)
+		metadata := GetMetadata(resSchema)
+
+		res, err := ReadItems(&ItemId{metadata.IdType, d.Id()}, metadata.Path, m.(Client))
+		if err != nil {
+			ColorizedDebug(ctx, fmt.Sprintf(ErrorMsgGet, err))
+			return diag.FromErr(err)
+		}
+
+		// Resource not found.
+		if len(*res) == 0 {
+			d.SetId("")
+			return nil
+		}
+
+		item := (*res)[0]
+		d.SetId(item.GetID(metadata.IdType))
+
+		diags := MikrotikResourceDataToTerraform(item, resSchema, d)
 		if diags.HasError() {
 			return diags
 		}
+
+		// The `running` field is excluded from the default read (MetaSkipFields), so the state is
+		// synchronized here. RouterOS returns the container state in the `running` field ("true"/"false"),
+		// older versions returned a `status` field instead.
+		if v, ok := item["running"]; ok {
+			d.Set("running", BoolFromMikrotikJSON(v))
+		} else {
+			d.Set("running", item["status"] == "running")
+		}
+		d.Set("status", containerState(item))
 
 		tag, ok := d.Get("tag").(string)
 		if ok && tag != "" {
@@ -247,8 +277,6 @@ func ResourceContainer() *schema.Resource {
 			tag = strings.TrimLeft(tag, ":/")
 
 			d.Set("remote_image", strings.TrimPrefix(tag, registryUrl))
-
-			d.Set("running", d.Get("status").(string) == "running")
 		}
 
 		return nil
@@ -262,14 +290,21 @@ func ResourceContainer() *schema.Resource {
 		}
 
 		if d.Get("running").(bool) {
-			startContainer(ctx, resSchema, d, m)
+			if diags := startContainer(ctx, resSchema, d, m, d.Timeout(schema.TimeoutCreate)); diags.HasError() {
+				return diags
+			}
 		}
 
-		return ResourceRead(ctx, resSchema, d, m)
+		return resRead(ctx, d, m)
 	}
 
 	resUpdate := func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-		stopContainer(ctx, resSchema, d, m)
+		timeout := d.Timeout(schema.TimeoutUpdate)
+
+		// RouterOS only accepts changes on a stopped container, so every update restarts it.
+		if diags := stopContainer(ctx, resSchema, d, m, timeout); diags.HasError() {
+			return diags
+		}
 
 		// Run DefaultUpdate.
 		diags := ResourceUpdate(ctx, resSchema, d, m)
@@ -277,15 +312,19 @@ func ResourceContainer() *schema.Resource {
 			return diags
 		}
 		if d.Get("running").(bool) {
-			startContainer(ctx, resSchema, d, m)
+			if diags := startContainer(ctx, resSchema, d, m, timeout); diags.HasError() {
+				return diags
+			}
 		}
 
-		return ResourceRead(ctx, resSchema, d, m)
+		return resRead(ctx, d, m)
 	}
 
 	resDelete := func(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-		// Stop container
-		stopContainer(ctx, resSchema, d, m)
+		// RouterOS refuses to remove a running container.
+		if diags := stopContainer(ctx, resSchema, d, m, d.Timeout(schema.TimeoutDelete)); diags.HasError() {
+			return diags
+		}
 
 		// Run DefaultDelete.
 		return ResourceDelete(ctx, resSchema, d, m)
@@ -305,106 +344,103 @@ func ResourceContainer() *schema.Resource {
 
 		Timeouts: &schema.ResourceTimeout{
 			Create: schema.DefaultTimeout(10 * time.Minute),
+			Update: schema.DefaultTimeout(10 * time.Minute),
 			Delete: schema.DefaultTimeout(1 * time.Minute),
 		},
 	}
 }
 
-func startContainer(ctx context.Context, s map[string]*schema.Schema, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	stopStateConf := &retry.StateChangeConf{
-		Pending: []string{"pulling", "extracting"},
-		Target:  []string{"stopped"},
-		Refresh: func() (result interface{}, state string, err error) {
-			metadata := GetMetadata(s)
+// containerState maps a container item to pulling, extracting, starting, running, stopping or
+// stopped, from `status` (7.1x) or the state flags (7.2x, see the sample at the top of the file).
+func containerState(item MikrotikItem) string {
+	if status, ok := item["status"]; ok && status != "" {
+		return status
+	}
+	for _, flag := range []string{"extracting", "starting", "stopping", "running", "stopped"} {
+		if BoolFromMikrotikJSON(item[flag]) {
+			return flag
+		}
+	}
+	return "pulling"
+}
 
+var containerTransientStates = []string{"pulling", "extracting", "starting", "stopping"}
+
+// waitForContainerState polls the container until its state is one of targets and returns that
+// state. States in pending keep the poll going, anything else is an error.
+func waitForContainerState(ctx context.Context, s map[string]*schema.Schema, d *schema.ResourceData, m interface{},
+	pending, targets []string, timeout time.Duration) (string, error) {
+	metadata := GetMetadata(s)
+	conf := &retry.StateChangeConf{
+		Pending: pending,
+		Target:  targets,
+		Refresh: func() (interface{}, string, error) {
 			res, err := ReadItems(&ItemId{metadata.IdType, d.Id()}, metadata.Path, m.(Client))
 			if err != nil {
-				return res, (*res)[0]["status"], err
+				return nil, "", err
 			}
-
-			return res, (*res)[0]["status"], nil
+			if len(*res) == 0 {
+				return nil, "", fmt.Errorf("container %s not found", d.Id())
+			}
+			return res, containerState((*res)[0]), nil
 		},
-		Timeout: d.Timeout(schema.TimeoutCreate),
+		Timeout: timeout,
 	}
-	_, err := stopStateConf.WaitForStateContext(ctx)
+	res, err := conf.WaitForStateContext(ctx)
 	if err != nil {
-		err = fmt.Errorf("error waiting for container instance (%s) to be pulled: %s", d.Id(), err)
-		return diag.FromErr(err)
+		return "", err
 	}
+	return containerState((*res.(*[]MikrotikItem))[0]), nil
+}
 
-	item := MikrotikItem{"number": d.Id()}
-
-	// Start container
-	var resUrl = &URL{
-		Path: s[MetaResourcePath].Default.(string),
-	}
+// sendContainerCommand runs /container/<command> for this container. The item is addressed by
+// `.id` on both transports, like /system/script/run; RouterOS 7.2x REST rejects `number`.
+func sendContainerCommand(s map[string]*schema.Schema, d *schema.ResourceData, m interface{}, crud crudMethod, command string) error {
+	resUrl := &URL{Path: s[MetaResourcePath].Default.(string)}
 	if m.(Client).GetTransport() == TransportREST {
-		resUrl.Path += "/start"
+		resUrl.Path += "/" + command
+	}
+	return m.(Client).SendRequest(crud, resUrl, MikrotikItem{Id.String(): d.Id()}, nil)
+}
+
+// startContainer waits for the image to be pulled and extracted, then starts the container
+// unless it is already running.
+func startContainer(ctx context.Context, s map[string]*schema.Schema, d *schema.ResourceData, m interface{}, timeout time.Duration) diag.Diagnostics {
+	state, err := waitForContainerState(ctx, s, d, m, containerTransientStates, []string{"stopped", "running"}, timeout)
+	if err != nil {
+		return diag.FromErr(fmt.Errorf("error waiting for container instance (%s) to be pulled: %s", d.Id(), err))
+	}
+	if state == "running" {
+		return nil
 	}
 
-	err = m.(Client).SendRequest(crudStart, resUrl, item, nil)
-	if err != nil {
+	if err := sendContainerCommand(s, d, m, crudStart, "start"); err != nil {
 		return diag.FromErr(err)
 	}
 
-	startStateConf := &retry.StateChangeConf{
-		Pending: []string{"stopped"},
-		Target:  []string{"running"},
-		Refresh: func() (result interface{}, state string, err error) {
-			metadata := GetMetadata(s)
-
-			res, err := ReadItems(&ItemId{metadata.IdType, d.Id()}, metadata.Path, m.(Client))
-			if err != nil {
-				return res, (*res)[0]["status"], err
-			}
-
-			return res, (*res)[0]["status"], nil
-		},
-		Timeout: d.Timeout(schema.TimeoutCreate),
+	if _, err := waitForContainerState(ctx, s, d, m, []string{"stopped", "starting"}, []string{"running"}, timeout); err != nil {
+		return diag.FromErr(fmt.Errorf("error waiting for container instance (%s) to be started: %s", d.Id(), err))
 	}
-	_, err = startStateConf.WaitForStateContext(ctx)
-	if err != nil {
-		err = fmt.Errorf("error waiting for container instance (%s) to be started: %s", d.Id(), err)
-		return diag.FromErr(err)
-	}
-
 	return nil
 }
 
-func stopContainer(ctx context.Context, s map[string]*schema.Schema, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	item := MikrotikItem{"number": d.Id()}
-
-	var resUrl = &URL{
-		Path: s[MetaResourcePath].Default.(string),
-	}
-	if m.(Client).GetTransport() == TransportREST {
-		resUrl.Path += "/stop"
-	}
-
-	err := m.(Client).SendRequest(crudStop, resUrl, item, nil)
+// stopContainer stops the container and waits until RouterOS reports it stopped. A container that
+// is not running is left alone, RouterOS rejects stop for it.
+func stopContainer(ctx context.Context, s map[string]*schema.Schema, d *schema.ResourceData, m interface{}, timeout time.Duration) diag.Diagnostics {
+	state, err := waitForContainerState(ctx, s, d, m, containerTransientStates, []string{"stopped", "running"}, timeout)
 	if err != nil {
+		return diag.FromErr(fmt.Errorf("error waiting for container instance (%s) to settle: %s", d.Id(), err))
+	}
+	if state != "running" {
+		return nil
+	}
+
+	if err := sendContainerCommand(s, d, m, crudStop, "stop"); err != nil {
 		return diag.FromErr(err)
 	}
 
-	stopStateConf := &retry.StateChangeConf{
-		Pending: []string{"stopping"},
-		Target:  []string{"stopped"},
-		Refresh: func() (result interface{}, state string, err error) {
-			metadata := GetMetadata(s)
-
-			res, err := ReadItems(&ItemId{metadata.IdType, d.Id()}, metadata.Path, m.(Client))
-			if err != nil {
-				return res, (*res)[0]["status"], err
-			}
-
-			return res, (*res)[0]["status"], nil
-		},
-		Timeout: d.Timeout(schema.TimeoutDelete),
-	}
-	_, err = stopStateConf.WaitForStateContext(ctx)
-	if err != nil {
-		err = fmt.Errorf("error waiting for container instance (%s) to be stopped: %s", d.Id(), err)
-		return diag.FromErr(err)
+	if _, err := waitForContainerState(ctx, s, d, m, []string{"running", "stopping"}, []string{"stopped"}, timeout); err != nil {
+		return diag.FromErr(fmt.Errorf("error waiting for container instance (%s) to be stopped: %s", d.Id(), err))
 	}
 	return nil
 }
