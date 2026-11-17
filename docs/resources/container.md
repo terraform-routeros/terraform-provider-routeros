@@ -51,7 +51,7 @@ resource "routeros_container" "busybox" {
 - `id` (String) The ID of this resource.
 - `name` (String) Assign a name to the container
 - `os` (String) The OS of the container image
-- `status` (String) The status of the container
+- `status` (String) The status of the container: `pulling`, `extracting`, `starting`, `running`, `stopping` or `stopped`.
 - `tag` (String) The tag of the container image
 
 <a id="nestedblock--timeouts"></a>
@@ -61,6 +61,7 @@ Optional:
 
 - `create` (String)
 - `delete` (String)
+- `update` (String)
 
 ## Import
 Import is supported using the following syntax:
