@@ -6,6 +6,48 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
+func TestSshKeyDiffSuppress(t *testing.T) {
+	cases := []struct {
+		name string
+		old  string
+		new  string
+		want bool
+	}{
+		{
+			name: "same key without comment (RouterOS 7.25+)",
+			old:  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFSFXHv7eSqu8G9TPobMwVsEsaBRT6x6XDzPHWBsw9Ht",
+			new:  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFSFXHv7eSqu8G9TPobMwVsEsaBRT6x6XDzPHWBsw9Ht oxidized@fog.k8s",
+			want: true,
+		},
+		{
+			name: "same key with different comment",
+			old:  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFSFXHv7eSqu8G9TPobMwVsEsaBRT6x6XDzPHWBsw9Ht old@host",
+			new:  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFSFXHv7eSqu8G9TPobMwVsEsaBRT6x6XDzPHWBsw9Ht new@host",
+			want: true,
+		},
+		{
+			name: "different key material",
+			old:  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFSFXHv7eSqu8G9TPobMwVsEsaBRT6x6XDzPHWBsw9Ht",
+			new:  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDifferentKeyMaterialHere oxidized@fog.k8s",
+			want: false,
+		},
+		{
+			name: "different key type",
+			old:  "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCy",
+			new:  "ssh-ed25519 AAAAB3NzaC1yc2EAAAADAQABAAABgQCy",
+			want: false,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			if got := sshKeyDiffSuppress("key", tc.old, tc.new, nil); got != tc.want {
+				t.Fatalf("sshKeyDiffSuppress() = %v, want %v", got, tc.want)
+			}
+		})
+	}
+}
+
 const testUserAddress2 = "routeros_system_user_sshkeys.test"
 
 func TestUserSshKeyTest_basic(t *testing.T) {
