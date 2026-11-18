@@ -31,6 +31,10 @@ func dynamicIdLookup(idType IdType, path string, c Client, d *schema.ResourceDat
 		return "", errorNoLongerExists
 	}
 
+	if err := validateUserResourceIdentity(path, *res, d); err != nil {
+		return "", err
+	}
+
 	return (*res)[0].GetID(Id), nil
 }
 
@@ -248,6 +252,10 @@ func ResourceRead(ctx context.Context, s map[string]*schema.Schema, d *schema.Re
 	if len(*res) == 0 {
 		d.SetId("")
 		return nil
+	}
+
+	if err := validateUserResourceIdentity(metadata.Path, *res, d); err != nil {
+		return diag.FromErr(err)
 	}
 
 	d.SetId((*res)[0].GetID(metadata.IdType))
