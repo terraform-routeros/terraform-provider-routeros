@@ -1,8 +1,19 @@
 package routeros
 
 import (
+	"strings"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
+
+func sshKeyDiffSuppress(k, old, new string, d *schema.ResourceData) bool {
+	oldFields := strings.Fields(old)
+	newFields := strings.Fields(new)
+	if len(oldFields) >= 2 && len(newFields) >= 2 {
+		return oldFields[0] == newFields[0] && oldFields[1] == newFields[1]
+	}
+	return old == new
+}
 
 /*
   {
@@ -30,11 +41,12 @@ func ResourceUserSshKeys() *schema.Resource {
 		},
 		KeyComment: PropCommentRw,
 		"key": {
-			Type:        schema.TypeString,
-			Required:    true,
-			ForceNew:    true,
-			Sensitive:   true,
-			Description: "key",
+			Type:             schema.TypeString,
+			Required:         true,
+			ForceNew:         true,
+			Sensitive:        true,
+			DiffSuppressFunc: sshKeyDiffSuppress,
+			Description:      "key",
 		},
 		"rsa": {
 			Type:        schema.TypeBool,
@@ -54,7 +66,12 @@ func ResourceUserSshKeys() *schema.Resource {
 		"key_owner": {
 			Type:        schema.TypeString,
 			Computed:    true,
-			Description: "SSH key owner",
+			Description: "SSH key owner (RouterOS < 7.25)",
+		},
+		"info": {
+			Type:        schema.TypeString,
+			Computed:    true,
+			Description: "SSH key comment/info (RouterOS >= 7.25)",
 		},
 		"fingerprint": {
 			Type:        schema.TypeString,
